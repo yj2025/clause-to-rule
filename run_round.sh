@@ -1,19 +1,23 @@
 #!/usr/bin/env bash
 # 라운드 하나를 돌린다. 라운드 간 조건이 우연히 달라지지 않게 한 곳에 묶어 둔다.
 #
-#   ./run_round.sh v2
+#   ./run_round.sh v3          탐색 라운드 (1회차, 약 25분)
+#   ./run_round.sh v3 3        확인 라운드 (3회차, 약 70~120분)
+#
+# 조문 셋 중 둘은 3회가 글자까지 같다 (v1 실측 65%). 탐색은 1회차로 충분하고,
+# 처방이 먹은 것으로 보일 때만 3회차로 확인한다.
 #
 # 바뀌어도 되는 것은 지문(prompt.py)뿐이다. 코퍼스·회차·온도·토큰 예산을
 # 여기서 고정한다. 이 값을 바꾸면 그 라운드는 앞 라운드와 비교할 수 없다.
 set -euo pipefail
 
-VER="${1:?사용법: ./run_round.sh <버전>  (예: v2)}"
+VER="${1:?사용법: ./run_round.sh <버전> [회차]  (예: v3 또는 v3 3)}"
+RUNS="${2:-1}"
 ROOT="/workspace/personal_workplace_CHO/model/M2-2"
 PY="/workspace/.venv/bin/python"
 export HF_HOME="/workspace/personal_workplace_CHO/.hf_cache"
 
 CORPUS="data/corpus.json"
-RUNS=3
 TEMP=0.1
 MAXTOK=3072
 
