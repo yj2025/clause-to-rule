@@ -48,6 +48,22 @@ def pick_dtype():
     return torch.bfloat16 if major >= 8 else torch.float16
 
 
+def _release():
+    """조문 사이에 캐시를 비운다.
+
+    긴 조문의 KV 캐시를 할당자가 계속 쥐고 있으면 예약이 카드를 다 채운다.
+    v2 에서 32.5GB / 여유 1.1GB 까지 갔다. 비우는 비용은 조문당 1초 미만이다.
+    """
+    try:
+        import gc
+        import torch
+        gc.collect()
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+    except Exception:
+        pass
+
+
 def load_model(name=MODEL):
     """(tokenizer, model). transformers 4.51 이상이어야 Qwen3 tokenizer 를 읽는다."""
     from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -155,6 +171,7 @@ def main(argv=None):
         got = run_clause(tok, model, c, runs=a.runs, temperature=a.temperature,
                          allow_retry=not a.no_retry, max_new_tokens=a.max_new_tokens)
         recs += got
+        _release()
         res, free, other = gpu_mem()
         print(f"진행 {i}/{len(clauses)} [{c['id']}] "
               f"시도{sum(x['n_attempts'] for x in got)} "
