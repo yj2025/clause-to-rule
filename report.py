@@ -21,7 +21,8 @@ import validate as V
 from scoring import score
 
 KEYS = ("json_ok", "schema_ok", "catalog_ok", "quote_ok", "exec_ok")
-SYM = "①②③④⑤"
+SYMS = "①②③④⑤"
+SYM = dict(zip(KEYS, SYMS))
 NAME = ("JSON 파싱", "스키마 적합", "카탈로그 준수", "quote 원문 일치", "실행 가능")
 
 
@@ -93,7 +94,7 @@ def gates(recs, texts, base=None):
     print("-" * 50)
     for i, k in enumerate(KEYS):
         a, b = _rate(recs, "first", k), _rate(recs, "final", k)
-        print(f"{SYM[i]} {NAME[i]:<19}{a:>7.1f}%{b:>9.1f}%{b - a:>+7.1f}p")
+        print(f"{SYMS[i]} {NAME[i]:<19}{a:>7.1f}%{b:>9.1f}%{b - a:>+7.1f}p")
 
     if base:
         # 같은 (조문, 회차) 만 비교한다. 코퍼스가 달라지면 그냥 비교하면 안 된다.
@@ -107,13 +108,32 @@ def gates(recs, texts, base=None):
         for i, k in enumerate(KEYS):
             a, b = _rate(A, "final", k), _rate(B, "final", k)
             mark = "" if abs(b - a) >= 4.0 else "  (노이즈 안)"
-            print(f"{SYM[i]} {NAME[i]:<19}{a:>7.1f}%{b:>7.1f}%{b - a:>+7.1f}p{mark}")
+            print(f"{SYMS[i]} {NAME[i]:<19}{a:>7.1f}%{b:>7.1f}%{b - a:>+7.1f}p{mark}")
         print(f"⑦ {'빈 배열':<19}{_empty_rate(A):>7.1f}%{_empty_rate(B):>7.1f}%"
               f"{_empty_rate(B) - _empty_rate(A):>+7.1f}p")
         print("\n노이즈 바닥은 ±2~4p 다 (§9). 그 안의 변화는 판정하지 않는다.")
 
     none = sum(1 for x in recs if not isinstance((x.get("output") or {}).get("rules"), list))
     print(f"⑦ 빈 배열 (별도 축)      {'':>7} {_empty_rate(recs):>8.1f}%")
+
+    # 재시도가 결과를 망가뜨린 회차 — 1차에 통과한 관문을 최종에서 잃었나
+    regress = [x for x in recs
+               if any(x["first"][k] and not x["final"][k] for k in KEYS)]
+    tries = sum(x["n_attempts"] - 1 for x in recs)
+    print(f"\n재시도 {tries}회 · 결과를 망가뜨린 회차 {len(regress)}건", end="")
+    if regress:
+        lost = collections.Counter(k for x in regress for k in KEYS
+                                   if x["first"][k] and not x["final"][k])
+        print("  잃은 관문 " + " · ".join(f"{SYM[k]} {v}" for k, v in lost.items()))
+    else:
+        print()
+
+    # 몇 번째 시도가 채택됐나 (v6 부터)
+    if any("n_best" in x for x in recs):
+        c = collections.Counter(x.get("n_best", 1) for x in recs)
+        helped = sum(v for k, v in c.items() if k > 1)
+        print(f"채택된 시도 " + " · ".join(f"{k}번째 {v}" for k, v in sorted(c.items()))
+              + f"   재시도가 이긴 회차 {helped}건")
     print(f"\n무출력 {none}건 · 생성 호출 {sum(x['n_attempts'] for x in recs)}회 "
           f"· 재시도 없이 통과 {sum(1 for x in recs if x['n_attempts'] == 1)}건 "
           f"· 잘림 {sum(bool(x.get('truncated')) for x in recs)}건")
