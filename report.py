@@ -78,16 +78,26 @@ def per_clause(recs, texts, worst=8):
     for cid, rs in by.items():
         ok = sum(1 for x in rs if all(x["final"][k] for k in KEYS))
         nr = [x["final"].get("n_rules", 0) for x in rs]
-        rows.append((ok / len(rs), cid, len(rs), ok, nr))
+        tr = sum(bool(x.get("truncated")) for x in rs)
+        none = sum(1 for x in rs
+                   if not isinstance((x.get("output") or {}).get("rules"), list))
+        rows.append((ok / len(rs), cid, len(rs), ok, nr, tr, none))
     rows.sort()
     print(f"\n조문별 — ①~⑤ 전부 통과한 회차 (낮은 순 {worst}개)")
-    print(f"{'조문':<16}{'회차':>5}{'전부통과':>9}{'rule 수':>12}")
-    print("-" * 46)
-    for r, cid, n, ok, nr in rows[:worst]:
-        print(f"{cid:<16}{n:>5}{ok:>6}/{n:<3}{str(nr):>12}")
+    print(f"{'조문':<16}{'회차':>5}{'전부통과':>9}{'rule 수':>13}{'잘림':>6}{'무출력':>7}")
+    print("-" * 60)
+    for r, cid, n, ok, nr, tr, none in rows[:worst]:
+        print(f"{cid:<16}{n:>5}{ok:>6}/{n:<3}{str(nr):>13}{tr:>6}{none:>7}")
     steady = sum(1 for r, *_ in rows if r == 1.0)
     print(f"\n항상 통과하는 조문 {steady} / {len(rows)} · "
           f"한 번도 못 넘는 조문 {sum(1 for r, *_ in rows if r == 0.0)}")
+
+    # 잘림과 무출력이 한 조문에 몰리는지 — 부록 A.3 이 그 이야기다
+    hot = [(cid, tr, none) for _, cid, _, _, _, tr, none in rows if tr or none]
+    if hot:
+        print(f"\n잘림·무출력이 난 조문 {len(hot)}개")
+        for cid, tr, none in sorted(hot, key=lambda x: -(x[1] + x[2]))[:6]:
+            print(f"  {cid:<16}잘림 {tr} · 무출력 {none}")
 
 
 def meaning(recs):
