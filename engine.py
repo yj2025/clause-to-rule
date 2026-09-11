@@ -230,6 +230,9 @@ def evaluate(node, ctx, env=None):
         return tv_not(evaluate(arg[0] if isinstance(arg, list) else arg, ctx, env))
 
     if op == "exists":
+        if not isinstance(arg, dict):
+            raise DslError(f'exists: 객체를 기대했으나 {type(arg).__name__} 이 옴. '
+                           f'올바른 형태: {{"exists": {{"event": …, "within": …}}}}')
         win = _window(arg["within"], ctx, env) if "within" in arg else None
         if "within" in arg and win is None:
             return TV.U
@@ -271,4 +274,8 @@ def evaluate_rules(rules, ctx):
             out.append(Judgement(rid, value, eff))
         except DslError as e:
             out.append(Judgement(rid, TV.U, eff, error=str(e)))
+        except Exception as e:
+            # 생성물 때문에 채점기가 죽으면 안 된다. 못 본 형태는 실행 실패로 센다.
+            out.append(Judgement(rid, TV.U, eff,
+                                 error=f"{type(e).__name__}: {e}"))
     return out

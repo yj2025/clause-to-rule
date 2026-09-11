@@ -234,3 +234,35 @@ def test_every_catalog_operator_is_reachable():
         except Exception:
             pass
     assert unknown == []
+
+
+# ── 생성물이 이상해도 죽지 않는다 ───────────────────────────────────────
+@pytest.mark.parametrize("bad", [
+    {"exists": []},
+    {"exists": "DEPOSIT"},
+    {"exists": 3},
+    {"and": "x"},
+    {"or": 1},
+    {"==": {"a": 1}},
+    {"not": []},
+    {">=": [{"count_events": []}, 1]},
+    {"exists": {"event": "DEPOSIT", "within": []}},
+    {"exists": {"event": "DEPOSIT", "within": {"month_range": "x"}}},
+])
+def test_malformed_condition_never_crashes(bad):
+    r = {"rule_id": "R", "source": {"quote": "x"}, "condition": bad,
+         "effect": {"type": "RATE_ADD", "value": 1.0, "unit": "%p"}}
+    j = evaluate_rules([r], C)[0]
+    assert j.status == "ERROR" and j.error
+
+
+def test_exists_with_list_names_the_right_shape():
+    with pytest.raises(DslError, match="exists: 객체를 기대했으나 list"):
+        evaluate({"exists": []}, C)
+
+
+def test_scoring_survives_malformed_generation(profiles=None):
+    from scoring import outcome
+    bad = [{"rule_id": "R", "source": {"quote": "x"},
+            "condition": {"exists": []}, "effect": {"type": "DISQUALIFY"}}]
+    assert outcome(bad, C, "SUM", 0.1)
