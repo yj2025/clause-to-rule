@@ -1,0 +1,172 @@
+"""한 라운드의 지표를 한 장으로.
+
+    python report.py results/results_v20.json [--baseline results/....json]
+
+①~⑤ 는 검증기가, ⑦ 은 빈 배열 축이, ⑥ 은 gold 가 낸다. 셋을 따로 읽어야 한다 —
+하나가 무너질 때 나머지가 같이 0 이 되면 어느 축이 움직였는지 못 읽는다.
+
+군 평균만 보지 말 것. 조문 하나가 군 전체를 흔들 수 있다 (부록 A.2).
+그래서 조문별 표를 같이 찍는다.
+"""
+
+import argparse
+import collections
+import json
+import sys
+from pathlib import Path
+
+import analyze
+import gold
+import validate as V
+from scoring import score
+
+KEYS = ("json_ok", "schema_ok", "catalog_ok", "quote_ok", "exec_ok")
+SYM = "①②③④⑤"
+NAME = ("JSON 파싱", "스키마 적합", "카탈로그 준수", "quote 원문 일치", "실행 가능")
+
+
+def _rate(recs, phase, key):
+    return analyze.rate(recs, phase, key) if recs else 0.0
+
+
+def _empty_rate(recs):
+    n = sum(1 for x in recs
+            if isinstance((x.get("output") or {}).get("rules"), list)
+            and not x["output"]["rules"])
+    return n / len(recs) * 100 if recs else 0.0
+
+
+def gates(recs, texts, base=None):
+    print(f"레코드 {len(recs)}건 · 조문 {len({x['clause_id'] for x in recs})}개 "
+          f"· 회차 {max(x['run'] for x in recs) + 1}회\n")
+    print(f"{'지표':<22}{'1차':>8}{'재시도후':>10}{'개선':>8}")
+    print("-" * 50)
+    for i, k in enumerate(KEYS):
+        a, b = _rate(recs, "first", k), _rate(recs, "final", k)
+        print(f"{SYM[i]} {NAME[i]:<19}{a:>7.1f}%{b:>9.1f}%{b - a:>+7.1f}p")
+
+    if base:
+        # 같은 (조문, 회차) 만 비교한다. 코퍼스가 달라지면 그냥 비교하면 안 된다.
+        key = lambda x: (x["clause_id"], x["run"])
+        common = {key(x) for x in base} & {key(x) for x in recs}
+        A = [x for x in base if key(x) in common]
+        B = [x for x in recs if key(x) in common]
+        print(f"\n기준 대비 (공통 {len(common)}건)")
+        print(f"{'지표':<22}{'기준':>8}{'이번':>8}{'변화':>8}")
+        print("-" * 50)
+        for i, k in enumerate(KEYS):
+            a, b = _rate(A, "final", k), _rate(B, "final", k)
+            mark = "" if abs(b - a) >= 4.0 else "  (노이즈 안)"
+            print(f"{SYM[i]} {NAME[i]:<19}{a:>7.1f}%{b:>7.1f}%{b - a:>+7.1f}p{mark}")
+        print(f"⑦ {'빈 배열':<19}{_empty_rate(A):>7.1f}%{_empty_rate(B):>7.1f}%"
+              f"{_empty_rate(B) - _empty_rate(A):>+7.1f}p")
+        print("\n노이즈 바닥은 ±2~4p 다 (§9). 그 안의 변화는 판정하지 않는다.")
+
+    none = sum(1 for x in recs if not isinstance((x.get("output") or {}).get("rules"), list))
+    print(f"⑦ 빈 배열 (별도 축)      {'':>7} {_empty_rate(recs):>8.1f}%")
+    print(f"\n무출력 {none}건 · 생성 호출 {sum(x['n_attempts'] for x in recs)}회 "
+          f"· 재시도 없이 통과 {sum(1 for x in recs if x['n_attempts'] == 1)}건 "
+          f"· 잘림 {sum(bool(x.get('truncated')) for x in recs)}건")
+
+
+def per_clause(recs, texts, worst=8):
+    """조문별. 군 평균을 처방의 효과로 읽지 않기 위한 표다."""
+    by = collections.defaultdict(list)
+    for x in recs:
+        by[x["clause_id"]].append(x)
+    rows = []
+    for cid, rs in by.items():
+        ok = sum(1 for x in rs if all(x["final"][k] for k in KEYS))
+        nr = [x["final"].get("n_rules", 0) for x in rs]
+        rows.append((ok / len(rs), cid, len(rs), ok, nr))
+    rows.sort()
+    print(f"\n조문별 — ①~⑤ 전부 통과한 회차 (낮은 순 {worst}개)")
+    print(f"{'조문':<16}{'회차':>5}{'전부통과':>9}{'rule 수':>12}")
+    print("-" * 46)
+    for r, cid, n, ok, nr in rows[:worst]:
+        print(f"{cid:<16}{n:>5}{ok:>6}/{n:<3}{str(nr):>12}")
+    steady = sum(1 for r, *_ in rows if r == 1.0)
+    print(f"\n항상 통과하는 조문 {steady} / {len(rows)} · "
+          f"한 번도 못 넘는 조문 {sum(1 for r, *_ in rows if r == 0.0)}")
+
+
+def meaning(recs):
+    """⑥ — 섞인 갈래와 무출력 제외 갈래를 같이 찍는다 (부록 A.3)."""
+    tpl = {p.stem: json.loads(p.read_text("utf-8"))
+           for p in sorted(Path("data/gold").glob("*.json"))
+           if not p.name.startswith("_")}
+    if not tpl:
+        print("\n⑥ — gold 가 없다")
+        return
+    prod = json.loads(Path("data/gold/_product.json").read_text("utf-8"))
+    agg, base, P = prod["aggregation"], prod["base_rate"], gold.profiles()
+
+    by = collections.defaultdict(list)
+    for x in recs:
+        by[x["clause_id"]].append(x)
+
+    print(f"\n⑥ 실행 결과 일치 — gold {len(tpl)}개 · 프로필 {len(P)}개")
+    print(f"{'조문':<16}{'회차':>5}{'섞인갈래':>10}{'무출력제외':>12}{'검토':>6}")
+    print("-" * 52)
+    mixed, clean = {}, {}
+    for cid, g in sorted(tpl.items()):
+        rs = by.get(cid) or []
+        if not rs:
+            continue
+        ms, cs = [], []
+        for x in rs:
+            got = (x.get("output") or {}).get("rules")
+            s = score(g.get("rules") or [], got if isinstance(got, list) else [],
+                      agg, P, base)["rate"]
+            ms.append(s)
+            if isinstance(got, list):
+                cs.append(s)
+        mixed[cid], clean[cid] = ms, cs
+        c = f"{sum(cs) / len(cs) * 100:.1f}%" if cs else "무출력뿐"
+        print(f"{cid:<16}{len(rs):>5}{sum(ms) / len(ms) * 100:>9.1f}%{c:>12}"
+              f"{'✓' if g.get('reviewed') else '초안':>6}")
+    print("-" * 52)
+    print(f"{'전체 (조문 가중)':<16}{'':>5}{gold.clause_weighted(mixed) * 100:>9.1f}%"
+          f"{gold.clause_weighted({k: v for k, v in clean.items() if v}) * 100:>11.1f}%")
+    if not all(g.get("reviewed") for g in tpl.values()):
+        print("\n⚠ 검토되지 않은 gold 가 있다. 이 ⑥ 은 기준선이 아니라 파이프라인 점검용이다.")
+
+
+def forms(recs, baseline=None):
+    tables = [("이번", analyze.forms(recs))]
+    if baseline:
+        tables.insert(0, ("기준", analyze.forms(baseline)))
+    names = sorted({k for _, c in tables for k in c})
+    if not names:
+        print("\n틀린 형태 — 없음")
+        return
+    w = max(len(n) for n in names) + 2
+    print(f"\n틀린 형태 (지표가 안 움직여도 이건 움직인다)")
+    print(f"{'형태':<{w}}" + "".join(f"{n:>10}" for n, _ in tables))
+    print("-" * (w + 10 * len(tables)))
+    for name in names:
+        print(f"{name:<{w}}" + "".join(f"{c.get(name, 0):>10}" for _, c in tables))
+    print(f"{'합계':<{w}}" + "".join(f"{sum(c.values()):>10}" for _, c in tables))
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser()
+    ap.add_argument("results")
+    ap.add_argument("--clauses", default="data/corpus.json")
+    ap.add_argument("--baseline")
+    a = ap.parse_args(argv)
+
+    recs = json.loads(Path(a.results).read_text("utf-8"))
+    texts = {c["id"]: c["text"] for c in json.loads(Path(a.clauses).read_text("utf-8"))}
+    base = json.loads(Path(a.baseline).read_text("utf-8")) if a.baseline else None
+
+    print(f"=== {Path(a.results).name} ===\n")
+    gates(recs, texts, base)
+    per_clause(recs, texts)
+    meaning(recs)
+    forms(recs, base)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

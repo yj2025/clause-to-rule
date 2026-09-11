@@ -1,0 +1,26 @@
+{
+ "clause_id": "KBYY-S2-R04",
+ "label": "자동전환",
+ "reviewed": false,
+ "note": "복원 초안. 사람 검토 필요. UNSUPPORTED 로 판정 — 조건(만 19세 도달, KB국민ONE통장 보유)은 customer.age / customer.has_product 로 옮길 수 있으나 효과가 '다른 상품으로 자동전환'이고 상품 전환 effect 는 카탈로그 확장 대기 4건에 들어 있어 없다. REQUIRE 나 DISQUALIFY 로 옮기면 실행 결과가 달라지므로(REQUIRE 는 통장명을 값으로 실어 other_effects 로 새어 나가고 DISQUALIFY 는 우대금리를 지운다) 억지 대응하지 않았다. 조문에 전환 대상이 둘(만 19세 → KB국민ONE통장 / 이미 보유 시 → KB종합통장)이라 옮길 효과도 둘이어서 rule 2개로 나눴다. 조건은 UNSUPPORTED 관례대로 {} 로 비워 두었고, 확장이 들어오면 01 은 {\"==\": [{\"var\": \"customer.age\"}, 19]} (매년 첫 영업일 기준 '연령이 만 19세인 경우'라 >= 가 아니라 == 가 맞다), 02 는 그 조건에 {\"==\": [{\"var\": \"customer.has_product\"}, true]} 를 and 로 묶는 형태가 된다. 빈 배열이 아닌 이유: 옮길 조건도 효과도 분명히 있다.",
+ "rules": [
+  {
+   "rule_id": "KBYY-S2-R04-01",
+   "status": "UNSUPPORTED",
+   "label": "만 19세 도달 시 KB국민ONE통장으로 자동전환",
+   "source": {
+    "quote": "매년 첫 영업일에 가입자의 연령이 만 19세인 경우 「KB국민ONE통장」으로 자동전환"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "KBYY-S2-R04-02",
+   "status": "UNSUPPORTED",
+   "label": "KB국민ONE통장 기보유 시 KB종합통장으로 자동전환",
+   "source": {
+    "quote": "단, KB국민ONE통장을 이미 보유하고 있는 경우에는 「KB종합통장」으로 자동전환"
+   },
+   "condition": {}
+  }
+ ]
+}

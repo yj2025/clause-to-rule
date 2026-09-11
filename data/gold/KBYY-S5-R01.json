@@ -1,0 +1,17 @@
+{
+ "clause_id": "KBYY-S5-R01",
+ "label": "KB생활 서비스란?",
+ "reviewed": false,
+ "note": "복원 초안. 사람 검토 필요. 서비스 정의와 참조 안내뿐이다. 면제조건·면제대상은 KBYY-S5-R02(Ⅰ), KBYY-S5-R03(Ⅱ) 에 있고 여기에는 조건식으로 옮길 조건이 없다. '수수료면제 잔여횟수 이월 불가' 만 실질 규칙인데 이월을 표현할 effect 가 카탈로그에 없어 UNSUPPORTED 로 둔다. 도식(예시)과 '예시는 참고 사항' 은 rule 로 만들지 않았다.",
+ "rules": [
+  {
+   "rule_id": "KBYY-S5-R01-01",
+   "status": "UNSUPPORTED",
+   "label": "면제 잔여횟수 이월 불가",
+   "source": {
+    "quote": "수수료면제 잔여횟수는 이월되지 않습니다"
+   },
+   "condition": {}
+  }
+ ]
+}

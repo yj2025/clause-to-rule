@@ -1,0 +1,494 @@
+{
+ "clause_id": "KBYY-S5-R03",
+ "label": "KB생활 서비스Ⅱ",
+ "reviewed": false,
+ "note": "복원 초안. 사람 검토 필요. 면제조건은 '전월 중' 기본실적 하나 이상 AND 추가실적 하나 이상 → AND(OR, OR). 기본실적 없이 추가실적만 있으면 면제 불가라는 ※ 는 이 AND 로 이미 표현된다(예시 문장은 rule 로 만들지 않았다). 면제대상 표 6행이 각각 rule 이고 빈 면제횟수 칸 2개는 윗행의 '제한없음'(UNLIMITED)을 물려받는다. 값은 제한없음=UNLIMITED, 월 10회=10, 월 5회=5. 수수료 면제는 FEE_WAIVE 다. 근사 2곳: (1) 급여이체 '건별 50만원 이상' 금액 조건은 DSL 에 금액 필터가 없어 exists SALARY_TRANSFER 로만 옮겼다. (2) 가맹점결제(카드 가맹점대금 입금실적)에 딱 맞는 이벤트가 없어 DEPOSIT(입금)으로 옮겼다. 주1)~주5) 의 세부 인정기준과 SMS 월정액형 한정(주5)은 옮길 수단이 없어 조건에 반영하지 않았다.",
+ "rules": [
+  {
+   "rule_id": "KBYY-S5-R03-01",
+   "status": "OK",
+   "label": "전자금융 이체수수료 면제(제한없음)",
+   "source": {
+    "quote": "전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른은행으로 보낼 때) | 제한없음"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "and": [
+     {
+      "or": [
+       {
+        "exists": {
+         "event": "CARD_USAGE",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "AUTO_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     },
+     {
+      "or": [
+       {
+        "exists": {
+         "event": "SALARY_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "DEPOSIT",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "PENSION_RECEIPT",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "EBANK_TRANSFER",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBYY-S5-R03-02",
+   "status": "OK",
+   "label": "자동화기기 시간외출금수수료 면제(제한없음)",
+   "source": {
+    "quote": "KB국민은행 자동화기기 시간외출금수수료"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "and": [
+     {
+      "or": [
+       {
+        "exists": {
+         "event": "CARD_USAGE",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "AUTO_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     },
+     {
+      "or": [
+       {
+        "exists": {
+         "event": "SALARY_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "DEPOSIT",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "PENSION_RECEIPT",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "ATM_WITHDRAW_AFTER_HOURS",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBYY-S5-R03-03",
+   "status": "OK",
+   "label": "납부자자동이체 수수료 면제(제한없음)",
+   "source": {
+    "quote": "납부자자동이체(타행자동이체포함)수수료"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "and": [
+     {
+      "or": [
+       {
+        "exists": {
+         "event": "CARD_USAGE",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "AUTO_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     },
+     {
+      "or": [
+       {
+        "exists": {
+         "event": "SALARY_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "DEPOSIT",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "PENSION_RECEIPT",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "AUTO_DEBIT",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBYY-S5-R03-04",
+   "status": "OK",
+   "label": "자동화기기 이체수수료 면제(월 10회)",
+   "source": {
+    "quote": "KB국민은행 자동화기기 이체수수료(다른은행으로 보낼 때) | 월 10회"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "and": [
+     {
+      "or": [
+       {
+        "exists": {
+         "event": "CARD_USAGE",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "AUTO_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     },
+     {
+      "or": [
+       {
+        "exists": {
+         "event": "SALARY_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "DEPOSIT",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "PENSION_RECEIPT",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "ATM_TRANSFER",
+    "value": 10
+   }
+  },
+  {
+   "rule_id": "KBYY-S5-R03-05",
+   "status": "OK",
+   "label": "타행 자동화기기 출금수수료 면제(월 5회)",
+   "source": {
+    "quote": "다른 은행 자동화기기주4) 출금수수료 | 월 5회"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "and": [
+     {
+      "or": [
+       {
+        "exists": {
+         "event": "CARD_USAGE",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "AUTO_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     },
+     {
+      "or": [
+       {
+        "exists": {
+         "event": "SALARY_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "DEPOSIT",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "PENSION_RECEIPT",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "OTHER_BANK_ATM_WITHDRAW",
+    "value": 5
+   }
+  },
+  {
+   "rule_id": "KBYY-S5-R03-06",
+   "status": "OK",
+   "label": "입출금내역 SMS/FAX 통지수수료 면제(제한없음)",
+   "source": {
+    "quote": "입출금내역 SMS/FAX 통지수수료주5) | 제한없음"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "and": [
+     {
+      "or": [
+       {
+        "exists": {
+         "event": "CARD_USAGE",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "AUTO_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     },
+     {
+      "or": [
+       {
+        "exists": {
+         "event": "SALARY_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "DEPOSIT",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "PENSION_RECEIPT",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "SMS_NOTICE",
+    "value": "UNLIMITED"
+   }
+  }
+ ]
+}

@@ -1,0 +1,57 @@
+{
+ "clause_id": "KBYY-S2-R01",
+ "label": "가입대상",
+ "reviewed": false,
+ "note": "복원 초안. 사람 검토 필요. 가입대상(만 19세 미만)은 '미만이 아니면 가입 불가' 로 뒤집어 DISQUALIFY 로 옮겼다 — 경계는 < 19 이고 == 19 가 아니다(만 19세는 가입 불가). '실명의 개인' 은 표현 수단이 없어 rule-02 의 UNSUPPORTED 에 함께 둔다. 1인 1계좌는 customer.has_product 로 옮겼으나 '「KB Young Youth 청소년통장」을 포함하여' 라는 타 상품 합산 부분은 변수가 없어 담지 못했다 — 검토 포인트.",
+ "rules": [
+  {
+   "rule_id": "KBYY-S2-R01-01",
+   "status": "OK",
+   "label": "만 19세 미만이 아니면 가입 불가",
+   "source": {
+    "quote": "만 19세 미만 실명의 개인"
+   },
+   "condition": {
+    "not": {
+     "<": [
+      {
+       "var": "customer.age"
+      },
+      19
+     ]
+    }
+   },
+   "effect": {
+    "type": "DISQUALIFY"
+   }
+  },
+  {
+   "rule_id": "KBYY-S2-R01-02",
+   "status": "UNSUPPORTED",
+   "label": "개인사업자·서류미제출 임의단체·공동명의 가입 불가 — 명의 유형 변수 없음",
+   "source": {
+    "quote": "※ 개인사업자 및 서류미제출 임의단체, 공동명의 가입 불가"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "KBYY-S2-R01-03",
+   "status": "OK",
+   "label": "이미 이 상품을 보유하면 가입 불가 (1인 1계좌)",
+   "source": {
+    "quote": "※「KB Young Youth 청소년통장」을 포함하여 1인 1계좌"
+   },
+   "condition": {
+    "==": [
+     {
+      "var": "customer.has_product"
+     },
+     true
+    ]
+   },
+   "effect": {
+    "type": "DISQUALIFY"
+   }
+  }
+ ]
+}

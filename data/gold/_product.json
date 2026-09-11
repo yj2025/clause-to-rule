@@ -1,0 +1,21 @@
+{
+ "product": "KB Young Youth 통장",
+ "document": "KB Young Youth 통장 상품설명서.txt",
+ "document_sha256": "28b3f70c667327d62ea008640fcb48bd6cc34ef5bba78913950f4122b001aac4",
+ "base_rate": 0.1,
+ "special_rate": 1.9,
+ "max_rate": 2.0,
+ "aggregation": "SUM",
+ "reserved_cap": 1000000,
+ "fee_waiver_truth": {
+  "EBANK_TRANSFER": "UNLIMITED",
+  "ATM_WITHDRAW_AFTER_HOURS": "UNLIMITED",
+  "AUTO_DEBIT": "UNLIMITED",
+  "ATM_TRANSFER": 10,
+  "OTHER_BANK_ATM_WITHDRAW": 5,
+  "SMS_NOTICE": "UNLIMITED"
+ },
+ "note": "base_rate·special_rate 는 상품설명서 본문(연 0.1% / 연 1.9%)에서 읽었다.",
+ "document_chars": 9108,
+ "source": "/workspace/database/outputs/KBKookmin/Deposit/20260818/text/"
+}

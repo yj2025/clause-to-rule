@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+logs/
+results/*.json
+!results/results_kbyy_v3.PARTIAL-20clauses.json

@@ -1,0 +1,164 @@
+{
+ "clause_id": "KBYY-S5-R02",
+ "label": "KB생활 서비스Ⅰ",
+ "reviewed": false,
+ "note": "복원 초안. 사람 검토 필요. 면제조건은 '전월 중' 기본실적 하나 이상 → let 으로 전월 1일~말일 창을 묶었다. 기본실적 2행 = KB카드결제(CARD_USAGE) · 공과금이체(AUTO_TRANSFER) 의 OR. 면제대상 표 3행이 각각 rule 이고 빈 면제횟수 칸은 윗행의 '제한없음'(UNLIMITED)을 물려받는다. 수수료 면제는 FEE_WAIVE 이며 LIMIT_AMOUNT 0원이 아니다. 면제기간(이번 달 11일~다음달 10일)은 효과의 적용 구간이라 별도 rule 로 세지 않았다. 신규·전환 후 무조건 면제는 기준일이 특정 날짜 구간 안에 있는지를 묻는데, 창(window)은 이벤트의 within 자리에만 쓸 수 있어 조건식으로 옮길 수단이 없다 → UNSUPPORTED.",
+ "rules": [
+  {
+   "rule_id": "KBYY-S5-R02-01",
+   "status": "OK",
+   "label": "전자금융 이체수수료 면제(제한없음)",
+   "source": {
+    "quote": "전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른은행으로 보낼 때) | 제한없음"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "or": [
+     {
+      "exists": {
+       "event": "CARD_USAGE",
+       "within": {
+        "ref": "$window"
+       }
+      }
+     },
+     {
+      "exists": {
+       "event": "AUTO_TRANSFER",
+       "within": {
+        "ref": "$window"
+       }
+      }
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "EBANK_TRANSFER",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBYY-S5-R02-02",
+   "status": "OK",
+   "label": "자동화기기 시간외출금수수료 면제(제한없음)",
+   "source": {
+    "quote": "KB국민은행 자동화기기 시간외출금수수료"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "or": [
+     {
+      "exists": {
+       "event": "CARD_USAGE",
+       "within": {
+        "ref": "$window"
+       }
+      }
+     },
+     {
+      "exists": {
+       "event": "AUTO_TRANSFER",
+       "within": {
+        "ref": "$window"
+       }
+      }
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "ATM_WITHDRAW_AFTER_HOURS",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBYY-S5-R02-03",
+   "status": "OK",
+   "label": "납부자자동이체 수수료 면제(제한없음)",
+   "source": {
+    "quote": "납부자자동이체(타행자동이체포함)수수료"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "or": [
+     {
+      "exists": {
+       "event": "CARD_USAGE",
+       "within": {
+        "ref": "$window"
+       }
+      }
+     },
+     {
+      "exists": {
+       "event": "AUTO_TRANSFER",
+       "within": {
+        "ref": "$window"
+       }
+      }
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "AUTO_DEBIT",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBYY-S5-R02-04",
+   "status": "UNSUPPORTED",
+   "label": "신규(전환)일부터 다음 다음 달 10일까지 무조건 면제",
+   "source": {
+    "quote": "이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
+   },
+   "condition": {}
+  }
+ ]
+}

@@ -1,0 +1,162 @@
+"""출력 스키마와 few-shot 예시.
+
+few-shot 이 틀린 형태를 가르치면 모델은 그대로 따라 한다. 그래서 이 파일의
+예시는 §4 에서 검증기 넷에 태운다 — 통과하지 못하면 그게 버그다.
+"""
+
+import catalog
+
+# ── JSON 스키마 ─────────────────────────────────────────────────────────
+_OPERAND = {
+    "anyOf": [
+        {"type": ["string", "number", "boolean", "null"]},
+        {"type": "object", "properties": {"var": {"type": "string"}},
+         "required": ["var"], "additionalProperties": False},
+        {"type": "object", "properties": {"ref": {"type": "string"}},
+         "required": ["ref"], "additionalProperties": False},
+        {"type": "object", "minProperties": 1, "maxProperties": 1},
+    ]
+}
+
+_CONDITION = {
+    "type": "object",
+    "maxProperties": 1,
+    "description": "키가 하나인 객체. and/or 는 배열을, 비교는 피연산자 2개를 받는다. "
+                   "빈 객체는 조건 없음(항상 적용)이고 UNSUPPORTED 에만 쓴다.",
+}
+
+_ANCHOR = {
+    "type": "object",
+    "properties": {
+        "anchor": {"type": "string", "enum": sorted(catalog.VARIABLES)},
+        "offset_months": {"type": "integer"},
+        "day": {"anyOf": [{"enum": ["first", "last"]}, {"type": "integer"}]},
+    },
+    "required": ["anchor"],
+    "additionalProperties": False,
+}
+
+_WINDOW = {
+    "type": "object",
+    "properties": {
+        "month_range": {
+            "type": "object",
+            "properties": {"from": _ANCHOR, "to": _ANCHOR},
+            "required": ["from", "to"],
+            "additionalProperties": False,
+        }
+    },
+    "required": ["month_range"],
+    "additionalProperties": False,
+}
+
+_EFFECT = {
+    "type": "object",
+    "properties": {
+        "type": {"enum": sorted(catalog.EFFECTS)},
+        "value": {"type": ["number", "string", "boolean"]},
+        "unit": {"enum": list(catalog.UNITS)},
+        "target": {"enum": sorted(catalog.FEES)},
+        "applies_to": {"enum": list(catalog.APPLIES_TO)},
+    },
+    "required": ["type"],
+    "additionalProperties": False,
+}
+
+_RULE = {
+    "type": "object",
+    "properties": {
+        "rule_id": {"type": "string"},
+        "status": {"enum": ["OK", "UNSUPPORTED"]},
+        "label": {"type": "string"},
+        "source": {
+            "type": "object",
+            "properties": {"quote": {"type": "string"}},
+            "required": ["quote"],
+            "additionalProperties": False,
+        },
+        "let": {"type": "object", "additionalProperties": _WINDOW},
+        "guard": _CONDITION,
+        "condition": _CONDITION,
+        "effect": _EFFECT,
+    },
+    "required": ["rule_id", "source", "condition"],
+    "additionalProperties": False,
+    # status 가 UNSUPPORTED 면 옮길 effect 가 없다. 그 경우만 effect 를 뺄 수 있다.
+    "anyOf": [
+        {"required": ["effect"]},
+        {"properties": {"status": {"const": "UNSUPPORTED"}}, "required": ["status"]},
+    ],
+}
+
+SCHEMA = {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {"rules": {"type": "array", "items": _RULE}},
+    "required": ["rules"],
+    "additionalProperties": False,
+}
+
+# ── few-shot ────────────────────────────────────────────────────────────
+# 이 예시 하나가 창(let), 가드, 개월 수 세기, 단위를 한 번에 보여준다.
+FEWSHOT_CLAUSE = (
+    "적금 가입월 1일부터 만기월의 전전월 마지막일까지 급여이체가 발생한 월이 "
+    "총 6개월 이상인 경우 연 1.0%p의 우대금리를 제공합니다. "
+    "단, 중도해지 시에는 우대금리가 적용되지 않습니다."
+)
+
+FEWSHOT_OUTPUT = {
+    "rules": [
+        {
+            "rule_id": "R-EX-01",
+            "status": "OK",
+            "label": "급여이체 우대금리",
+            "source": {
+                "quote": "급여이체가 발생한 월이 총 6개월 이상인 경우 "
+                         "연 1.0%p의 우대금리를 제공합니다"
+            },
+            "let": {
+                "window": {
+                    "month_range": {
+                        "from": {"anchor": "contract.start_date",
+                                 "offset_months": 0, "day": "first"},
+                        "to": {"anchor": "contract.maturity_date",
+                               "offset_months": -2, "day": "last"},
+                    }
+                }
+            },
+            "guard": {"==": [{"var": "contract.termination_type"}, "MATURITY"]},
+            "condition": {
+                ">=": [{"count_distinct_months": {"event": "SALARY_TRANSFER",
+                                                  "within": {"ref": "$window"}}}, 6]
+            },
+            "effect": {"type": "RATE_ADD", "value": 1.0,
+                       "unit": "%p", "applies_to": "BASE_RATE"},
+        }
+    ]
+}
+
+# 표현할 수 없는 조문은 빈 배열이 정답이다 (§9 10번).
+# 예시 1~3 이 전부 rule 을 내놓는 형태여서 모델이 본 빈 배열이 하나도 없었다.
+FEWSHOT_EMPTY_CLAUSE = "이 통장은 「예금자보호법」에 따라 보호됩니다."
+FEWSHOT_EMPTY_OUTPUT = {"rules": []}
+
+# 표현 수단이 없을 때의 탈출구. 가르치기 전에 검증기부터 막았다 (§9 11번).
+FEWSHOT_UNSUPPORTED_CLAUSE = "영업점장이 필요하다고 인정하는 경우 한도를 달리 정할 수 있습니다."
+FEWSHOT_UNSUPPORTED_OUTPUT = {
+    "rules": [
+        {
+            "rule_id": "R-EX-99",
+            "status": "UNSUPPORTED",
+            "label": "영업점장 재량",
+            "source": {"quote": "영업점장이 필요하다고 인정하는 경우"},
+            "condition": {},
+        }
+    ]
+}
+
+FEWSHOTS = (
+    (FEWSHOT_CLAUSE, FEWSHOT_OUTPUT),
+    (FEWSHOT_EMPTY_CLAUSE, FEWSHOT_EMPTY_OUTPUT),
+    (FEWSHOT_UNSUPPORTED_CLAUSE, FEWSHOT_UNSUPPORTED_OUTPUT),
+)
