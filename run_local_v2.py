@@ -108,12 +108,18 @@ def parse_json(raw):
 
 def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
                max_new_tokens=MAX_NEW_TOKENS, batch_size=1, max_attempts=3):
-    """조문 하나를 runs 회 생성한다. 각 회차가 레코드 하나다."""
+    """조문 하나를 runs 회 생성한다. 각 회차가 레코드 하나다.
+
+    `raw_first` 와 `raw_last` 를 둘 다 남긴다. 재시도가 결과를 **망가뜨린** 경우
+    마지막 출력이 어떻게 깨졌는지 봐야 원인을 가릴 수 있다. 채점과 무관한
+    로깅이므로 지표의 뜻은 바뀌지 않는다.
+    """
     out = []
     for run in range(runs):
         user = build_user_prompt(clause["text"], clause["id"])
         first = final = None
         output, raw_first, truncated, attempts, errors = None, None, False, 0, []
+        raw_last = None
 
         for attempt in range(max_attempts if allow_retry else 1):
             attempts += 1
@@ -121,6 +127,7 @@ def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
             truncated = truncated or trunc
             if raw_first is None:
                 raw_first = raw
+            raw_last = raw
             parsed = parse_json(raw)
             marks = validate.score_record(parsed, clause["text"])
             if first is None:
@@ -137,7 +144,8 @@ def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
         out.append({"clause_id": clause["id"], "run": run, "n_attempts": attempts,
                     "first": _marks(first), "final": _marks(final),
                     "errors": errors, "output": output,
-                    "raw_first": raw_first, "truncated": truncated})
+                    "raw_first": raw_first, "raw_last": raw_last,
+                    "truncated": truncated})
     return out
 
 
