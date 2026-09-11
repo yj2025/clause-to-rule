@@ -29,6 +29,56 @@ def _rate(recs, phase, key):
     return analyze.rate(recs, phase, key) if recs else 0.0
 
 
+def unsupported_stats(recs):
+    """⑧ — UNSUPPORTED 를 얼마나 쓰나.
+
+    UNSUPPORTED rule 은 `condition` 이 {} 라 이름이 없고, 그래서 ③ 카탈로그 준수를
+    **공짜로 통과한다.** UNSUPPORTED 를 늘리도록 가르치는 처방은 뜻이 좋아지지
+    않아도 ③ 을 올릴 수 있다. 유실된 기록 §9 11번 — "새 탈출구를 열 때는 채점을
+    먼저 막는다" — 가 그 자리다.
+
+    ⑥ 도 UNSUPPORTED 와 빈 배열을 못 가른다(둘 다 실행 결과가 같다).
+    그래서 이 축이 없으면 회피를 볼 방법이 아예 없다.
+
+    반환: rule 단위 비율, 조문(레코드) 단위 분포
+    """
+    rules = unsup = 0
+    kind = collections.Counter()
+    for x in recs:
+        rs = (x.get("output") or {}).get("rules")
+        if not isinstance(rs, list):
+            kind["무출력"] += 1
+            continue
+        rs = [r for r in rs if isinstance(r, dict)]
+        u = sum(1 for r in rs if r.get("status") == "UNSUPPORTED")
+        rules += len(rs)
+        unsup += u
+        if not rs:
+            kind["빈 배열"] += 1
+        elif u == len(rs):
+            kind["UNSUPPORTED 뿐"] += 1
+        elif u:
+            kind["섞임"] += 1
+        else:
+            kind["OK 뿐"] += 1
+    return {"rule": rules, "unsup": unsup,
+            "rate": unsup / rules * 100 if rules else 0.0, "kind": kind}
+
+
+def gate8(recs, base=None):
+    a = unsupported_stats(recs)
+    print(f"\n⑧ UNSUPPORTED 사용 (③ 을 회피로 딸 수 있는 경로다)")
+    line = f"  rule 단위 {a['unsup']}/{a['rule']} = {a['rate']:.1f}%"
+    if base:
+        b = unsupported_stats(base)
+        line += f"   (기준 {b['rate']:.1f}% · {a['rate'] - b['rate']:+.1f}p)"
+    print(line)
+    print(f"  레코드 단위 " + " · ".join(f"{k} {v}" for k, v in a["kind"].most_common()))
+    if base:
+        b = unsupported_stats(base)
+        print(f"  기준        " + " · ".join(f"{k} {v}" for k, v in b["kind"].most_common()))
+
+
 def _empty_rate(recs):
     n = sum(1 for x in recs
             if isinstance((x.get("output") or {}).get("rules"), list)
@@ -173,6 +223,7 @@ def main(argv=None):
     print(f"=== {Path(a.results).name} ===\n")
     gates(recs, texts, base)
     per_clause(recs, texts)
+    gate8(recs, base)
     meaning(recs)
     forms(recs, base)
     return 0

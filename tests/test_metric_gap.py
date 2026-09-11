@@ -88,3 +88,58 @@ def test_neutrality_is_checked_across_every_profile():
     first = gold.profiles()[0][1]
     assert first["customer"]["age"] == 17          # 첫 프로필에서는 안 걸린다
     assert gold.outcome_neutral(narrow) is False   # 그래도 변별력은 있다
+
+
+# ── ⑧ UNSUPPORTED 사용 축 ───────────────────────────────────────────────
+import report
+
+
+def _rec(rules):
+    return {"clause_id": "X", "run": 0, "output": None if rules is None else {"rules": rules}}
+
+
+OK = {"rule_id": "R", "status": "OK", "condition": {},
+      "effect": {"type": "RATE_ADD", "value": 1.0, "unit": "%p"}}
+UN = {"rule_id": "R", "status": "UNSUPPORTED", "condition": {}}
+
+
+def test_unsupported_rate_of_all_ok():
+    assert report.unsupported_stats([_rec([OK, OK])])["rate"] == 0.0
+
+
+def test_unsupported_rate_of_all_unsupported():
+    assert report.unsupported_stats([_rec([UN, UN])])["rate"] == 100.0
+
+
+def test_unsupported_rate_is_per_rule():
+    assert report.unsupported_stats([_rec([OK, UN, UN, UN])])["rate"] == 75.0
+
+
+def test_empty_output_contributes_no_rules():
+    assert report.unsupported_stats([_rec([])])["rule"] == 0
+
+
+def test_no_rules_anywhere_is_zero_not_a_crash():
+    assert report.unsupported_stats([_rec(None), _rec([])])["rate"] == 0.0
+
+
+@pytest.mark.parametrize("rules,want", [
+    ([OK], "OK 뿐"), ([UN], "UNSUPPORTED 뿐"),
+    ([OK, UN], "섞임"), ([], "빈 배열"), (None, "무출력"),
+])
+def test_record_kind(rules, want):
+    assert report.unsupported_stats([_rec(rules)])["kind"][want] == 1
+
+
+def test_garbage_rules_are_ignored():
+    assert report.unsupported_stats([_rec(["문자열", None, OK])])["rule"] == 1
+
+
+def test_the_axis_exists_before_the_treatment_that_needs_it():
+    """v5 후보(섞인 예시)는 UNSUPPORTED 를 늘려 ③ 을 공짜로 딸 수 있다.
+
+    탈출구를 열기 전에 그것을 세는 축부터 세운다 (§9 11번).
+    """
+    gamed = report.unsupported_stats([_rec([UN, UN, UN])])
+    honest = report.unsupported_stats([_rec([OK, OK, OK])])
+    assert gamed["rate"] > honest["rate"]
