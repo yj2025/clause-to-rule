@@ -153,20 +153,38 @@ FEWSHOT_EMPTY_OUTPUT = {"rules": []}
 # quote 는 머리줄과 다음 줄에 걸치고 기호를 그대로 안고 간다. 줄이 바뀐 자리만
 # 띄어쓰기로 잇는다 — 채점은 공백만 무시한다. quote 안에 진짜 줄바꿈을 넣으면
 # JSON 문자열 이스케이프를 새로 가르치게 되어 ① 을 흔들 수 있다.
+# 한 조문 안에서 **일부만** UNSUPPORTED 로 두는 장면을 보여준다.
+#
+# v2 실측: ③ 를 처음 못 넘는 34건 중 이름을 지어낸 16건은 전부 "rule 1~5개 중
+# 위반은 1~2개" 형태이고, 그 위반 rule 만 UNSUPPORTED 로 바꾸면 16/16 이 통과한다.
+# 모델은 UNSUPPORTED 를 이미 많이 쓴다(rule 250개 중 77개). 부족한 것은 선택지가
+# 아니라 **쪼개는 형태**다 — 138건 중 섞인 출력은 10건뿐이었다.
+#
+# 조판은 v4 에서 바꾼 것을 그대로 둔다. 이 라운드에서 더하는 것은 OK rule 하나뿐이다.
 FEWSHOT_UNSUPPORTED_CLAUSE = (
     "[한도 예외]\n"
     "▪ \u201c영업점장\u201d이 필요하다고 인정하는 경우 한도를 달리 정할 수 있습니다.\n"
+    "▪ 가입금액이 1천만원 이상인 경우 연 0.2%p의 우대금리를 제공합니다.\n"
     "※ 이 경우의 한도는 영업점에 고시한 바에 따릅니다."
 )
 FEWSHOT_UNSUPPORTED_OUTPUT = {
     "rules": [
         {
-            "rule_id": "R-EX-99",
+            "rule_id": "R-EX-99-01",
             "status": "UNSUPPORTED",
-            "label": "영업점장 재량",
+            "label": "영업점장 재량 — 옮길 수단이 목록에 없다",
             "source": {"quote": "[한도 예외] ▪ \u201c영업점장\u201d이 필요하다고 인정하는 경우"},
             "condition": {},
-        }
+        },
+        {
+            "rule_id": "R-EX-99-02",
+            "status": "OK",
+            "label": "가입금액 우대금리",
+            "source": {"quote": "가입금액이 1천만원 이상인 경우 연 0.2%p의 우대금리를 제공합니다"},
+            "condition": {">=": [{"var": "contract.amount"}, 10000000]},
+            "effect": {"type": "RATE_ADD", "value": 0.2,
+                       "unit": "%p", "applies_to": "BASE_RATE"},
+        },
     ]
 }
 
