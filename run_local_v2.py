@@ -8,7 +8,7 @@
 조문 하나가 5,016초를 먹은 것을 빼서 계산해야 하고, 남의 점유가 안 찍히면
 GPU 경합 가설을 확인할 수 없다 (부록 A.6).
 
-    python run_local_v2.py --out results/results_kbyy_v20.json --runs 9
+    python run_local_v2.py --out results/results_v1.json --runs 3
 """
 
 import argparse

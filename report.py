@@ -1,6 +1,6 @@
 """한 라운드의 지표를 한 장으로.
 
-    python report.py results/results_v20.json [--baseline results/....json]
+    python report.py results/results_v1.json [--baseline results/....json]
 
 ①~⑤ 는 검증기가, ⑦ 은 빈 배열 축이, ⑥ 은 gold 가 낸다. 셋을 따로 읽어야 한다 —
 하나가 무너질 때 나머지가 같이 0 이 되면 어느 축이 움직였는지 못 읽는다.
