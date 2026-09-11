@@ -101,14 +101,25 @@ def build_user_prompt(clause_text, clause_id=None, fewshot_indent=1):
             f"{head}[조문]\n{clause_text}\n\n[출력]")
 
 
-def build_retry_prompt(clause_text, bad_output, errors, clause_id=None):
+def build_retry_prompt(clause_text, bad_output, errors, clause_id=None,
+                      fewshot_indent=1):
     """검증에 걸린 출력을 고쳐 달라는 프롬프트.
 
     오류 메시지는 프롬프트의 일부다. 메시지가 좋아지자 재시도 기여가
     +10.8p 에서 +36.0p 로 커졌고 생성 호출은 257 에서 211 회로 줄었다 (§6.3).
+
+    **되돌려 주는 출력도 들여쓴다.** 압축본을 보여주면 모델이 중괄호 깊이를
+    놓친다는 것은 `_fewshot_block` 에서 이미 쟀다. 재시도 프롬프트는 그 압축본을
+    [출력] 바로 앞 — 모델이 생성 직전에 보는 가장 가까운 자리 — 에 놓는
+    마지막 한 곳이었다. 예시는 들여쓰기로 보여주고 정작 흉내 낼 대상은 한 줄로
+    준 셈이다.
+
+    v2 실측: 재시도 94회 중 결과가 나빠진 8회가 **전부** 되돌려 준 JSON 의
+    중첩깊이 8 이상 구간에 몰렸다 (깊이 8 미만 54회는 0건).
     """
     listed = "\n".join(f"  - {e}" for e in errors[:8])
-    return (f"{build_user_prompt(clause_text, clause_id)}\n"
-            f"{json.dumps(bad_output, ensure_ascii=False)}\n\n"
+    shown = json.dumps(bad_output, ensure_ascii=False, indent=fewshot_indent)
+    return (f"{build_user_prompt(clause_text, clause_id, fewshot_indent)}\n"
+            f"{shown}\n\n"
             f"[위 출력의 문제]\n{listed}\n\n"
             f"문제만 고쳐서 JSON 을 다시 낸다. 고칠 필요 없는 rule 은 그대로 둔다.\n\n[출력]")
