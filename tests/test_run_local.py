@@ -45,3 +45,100 @@ def test_marks_of_none_is_all_false():
 
 def test_max_new_tokens_default():
     assert R.MAX_NEW_TOKENS == 3072
+
+
+# ── 자기수정 루프가 결과를 망가뜨리지 않는다 ────────────────────────────
+import run_local_v2 as R
+
+
+def _m(**kw):
+    base = dict(json_ok=False, schema_ok=False, catalog_ok=False,
+                quote_ok=False, exec_ok=False)
+    base.update(kw)
+    return base
+
+
+def test_score_of_counts_gates():
+    assert R._score_of(_m(json_ok=True, schema_ok=True)) == 2
+
+
+def test_score_of_none_is_zero():
+    assert R._score_of(None) == 0
+
+
+def test_score_of_all_gates():
+    assert R._score_of(_m(**{k: True for k in R.GATES})) == 5
+
+
+def test_gates_match_the_validator():
+    from validate import score_record
+    marks = score_record({"rules": []}, "조문")
+    assert all(k in marks for k in R.GATES)
+
+
+class _FakeTok:
+    def apply_chat_template(self, conv, **kw):
+        return "x"
+
+    def __call__(self, text, **kw):
+        return {"input_ids": [[0]]}
+
+
+def _run_with(outputs, monkeypatch, clause_text="만 19세 미만"):
+    """_generate 가 정해진 출력을 차례로 내도록 바꿔 끼운다."""
+    seq = list(outputs)
+
+    def fake(tok, model, user, temperature, max_new_tokens):
+        return (seq.pop(0), False)
+
+    monkeypatch.setattr(R, "_generate", fake)
+    clause = {"id": "T-01", "text": clause_text}
+    return R.run_clause(None, None, clause, runs=1)[0]
+
+
+GOOD = ('{"rules": [{"rule_id": "R", "status": "OK", '
+        '"source": {"quote": "만 19세 미만"}, '
+        '"condition": {"<": [{"var": "customer.age"}, 19]}, '
+        '"effect": {"type": "DISQUALIFY"}}]}')
+BROKEN = '{"rules": [{"rule_id": "R"'          # 파싱 실패
+WEAK = '{"rules": [{"rule_id": "R", "source": {"quote": "없는 문장"}, ' \
+       '"condition": {}, "effect": {"type": "DISQUALIFY"}}]}'
+
+
+def test_a_good_first_attempt_stops_the_loop(monkeypatch):
+    r = _run_with([GOOD, BROKEN], monkeypatch)
+    assert r["n_attempts"] == 1 and r["final"]["exec_ok"]
+
+
+def test_a_worse_retry_is_not_accepted(monkeypatch):
+    # 1차가 4관문, 재시도가 파싱 실패 — 1차를 낸다
+    r = _run_with([WEAK, BROKEN, BROKEN], monkeypatch)
+    assert r["final"]["json_ok"] is True
+    assert r["n_best"] == 1
+
+
+def test_a_better_retry_is_accepted(monkeypatch):
+    r = _run_with([WEAK, GOOD], monkeypatch)
+    assert r["final"]["quote_ok"] is True and r["n_best"] == 2
+
+
+def test_a_tie_keeps_the_earlier_attempt(monkeypatch):
+    # 같은 관문 수면 앞의 것을 쓴다 — 재시도가 포기 선언으로 갈아타는 것을 막는다
+    r = _run_with([WEAK, WEAK, WEAK], monkeypatch)
+    assert r["n_best"] == 1
+
+
+def test_first_is_always_the_first_attempt(monkeypatch):
+    r = _run_with([WEAK, GOOD], monkeypatch)
+    assert r["first"]["quote_ok"] is False and r["final"]["quote_ok"] is True
+
+
+def test_raw_first_and_last_are_both_kept(monkeypatch):
+    r = _run_with([WEAK, GOOD], monkeypatch)
+    assert r["raw_first"] == WEAK and r["raw_last"] == GOOD
+
+
+def test_retry_can_never_lose_a_gate(monkeypatch):
+    for seq in ([GOOD, BROKEN], [WEAK, BROKEN, BROKEN], [WEAK, WEAK, BROKEN]):
+        r = _run_with(list(seq), monkeypatch)
+        assert R._score_of(r["final"]) >= R._score_of(r["first"])

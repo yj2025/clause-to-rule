@@ -106,20 +106,38 @@ def parse_json(raw):
         return None
 
 
+GATES = ("json_ok", "schema_ok", "catalog_ok", "quote_ok", "exec_ok")
+
+
+def _score_of(marks):
+    """시도 하나가 통과한 관문 수. 자기수정 루프가 무엇을 더 나은 것으로 볼지다."""
+    return sum(1 for k in GATES if marks and marks[k])
+
+
 def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
                max_new_tokens=MAX_NEW_TOKENS, batch_size=1, max_attempts=3):
     """조문 하나를 runs 회 생성한다. 각 회차가 레코드 하나다.
 
-    `raw_first` 와 `raw_last` 를 둘 다 남긴다. 재시도가 결과를 **망가뜨린** 경우
-    마지막 출력이 어떻게 깨졌는지 봐야 원인을 가릴 수 있다. 채점과 무관한
-    로깅이므로 지표의 뜻은 바뀌지 않는다.
+    **시도 중 가장 나은 것을 낸다. 마지막 것이 아니다.**
+
+    옛 구현은 마지막 시도를 그대로 냈다. 그래서 재시도가 결과를 **망가뜨릴** 수
+    있었다 — v2 에서 재시도 94회 중 8회가 그랬고, 1차에 통과했던 관문을 잃었다.
+    고치라고 물었는데 더 나빠진 답을 받아들일 이유가 없다.
+
+    동점이면 **먼저 나온 시도**를 쓴다. 재시도가 관문 수를 안 바꾸면서 rule 을
+    포기 선언으로 갈아치우는 경로가 있는데(v3 에서 ⑧ 이 26.3% → 43.8%),
+    동점 시 앞을 택하면 그 갈아타기가 채택되지 않는다.
+
+    `raw_first` 와 `raw_last` 를 둘 다 남긴다. `n_best` 가 몇 번째 시도를 냈는지다.
+    채점 기준(`validate`)은 건드리지 않는다 — 고르는 방식만 바뀐다.
     """
     out = []
     for run in range(runs):
         user = build_user_prompt(clause["text"], clause["id"])
-        first = final = None
-        output, raw_first, truncated, attempts, errors = None, None, False, 0, []
-        raw_last = None
+        first = None
+        raw_first = raw_last = None
+        truncated, attempts = False, 0
+        best = None          # (관문 수, 시도번호, marks, output, errors)
 
         for attempt in range(max_attempts if allow_retry else 1):
             attempts += 1
@@ -132,17 +150,22 @@ def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
             marks = validate.score_record(parsed, clause["text"])
             if first is None:
                 first = marks
-            output, final = parsed, marks
-            errors = marks["errors"]
-            if marks["schema_ok"] and marks["catalog_ok"] and \
-               marks["quote_ok"] and marks["exec_ok"]:
+
+            got = _score_of(marks)
+            if best is None or got > best[0]:
+                best = (got, attempts, marks, parsed, marks["errors"])
+
+            if got == len(GATES):
                 break
             if not allow_retry or parsed is None:
                 break
-            user = build_retry_prompt(clause["text"], parsed, errors, clause["id"])
+            user = build_retry_prompt(clause["text"], parsed, marks["errors"],
+                                      clause["id"])
 
+        _, n_best, marks, output, errors = best
         out.append({"clause_id": clause["id"], "run": run, "n_attempts": attempts,
-                    "first": _marks(first), "final": _marks(final),
+                    "n_best": n_best,
+                    "first": _marks(first), "final": _marks(marks),
                     "errors": errors, "output": output,
                     "raw_first": raw_first, "raw_last": raw_last,
                     "truncated": truncated})
