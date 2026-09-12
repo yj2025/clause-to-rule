@@ -93,3 +93,15 @@ def test_v6_beats_v1_on_composition(root):
     a = compose.compare(json.loads((root / "results/results_v1.json").read_text("utf-8")))
     b = compose.compare(json.loads((root / "results/results_v6.json").read_text("utf-8")))
     assert b["rate"] > a["rate"]
+
+
+def test_the_axis_is_noisy_within_a_round(root):
+    """⑩ 은 조문 30개를 합쳐 한 값을 낸다 — 표본이 사실상 1 이다.
+
+    1회차 판정선이 ±15~18p 라서, 1회차 라운드의 ⑩ 변화는 대부분 판정 불가다.
+    """
+    import os, json, statistics
+    os.chdir(root)
+    d = json.loads((root / "results/results_v7.json").read_text("utf-8"))
+    vals = [compose.compare(d, r)["rate"] for r in (0, 1, 2)]
+    assert statistics.pstdev(vals) > 5.0
