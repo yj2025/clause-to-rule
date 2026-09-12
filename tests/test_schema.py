@@ -129,3 +129,28 @@ def test_fewshot_guard_excludes_early_termination():
 
 def test_fewshot_rate_value_is_a_number():
     assert isinstance(FEWSHOT_OUTPUT["rules"][0]["effect"]["value"], (int, float))
+
+
+def test_the_first_fewshot_shows_disqualify():
+    """v14 실측 — DISQUALIFY 가 생성물의 17.8% 인데 예시에는 0번 나왔다.
+
+    본 적 없는 도구라 "막히면 밀어 넣는 자리" 가 됐다.
+    """
+    st = [r["effect"]["type"] for r in FEWSHOT_OUTPUT["rules"] if "effect" in r]
+    assert "DISQUALIFY" in st
+
+
+def test_disqualify_sits_next_to_a_guard():
+    """'이 rule 만 안 쓴다'(guard)와 '자격 자체가 없다'(DISQUALIFY)의 차이."""
+    rs = FEWSHOT_OUTPUT["rules"]
+    assert any("guard" in r for r in rs)
+    assert any((r.get("effect") or {}).get("type") == "DISQUALIFY" for r in rs)
+
+
+def test_the_example_does_not_teach_a_reversed_age_rule():
+    """코퍼스는 '만 19세 미만이 가입 대상' 이다. 예시가 반대면 베끼기가 섞인다."""
+    import json
+    body = json.dumps(FEWSHOT_OUTPUT, ensure_ascii=False)
+    dq = [r for r in FEWSHOT_OUTPUT["rules"]
+          if (r.get("effect") or {}).get("type") == "DISQUALIFY"]
+    assert dq and "customer.age" not in json.dumps(dq, ensure_ascii=False)
