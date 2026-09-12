@@ -80,6 +80,24 @@ def gate8(recs, base=None):
         print(f"  기준        " + " · ".join(f"{k} {v}" for k, v in b["kind"].most_common()))
 
 
+def gate9(recs, texts, base=None):
+    """⑨ 근거 — 생성물의 수가 조문에 있나."""
+    import grounding
+    a = grounding.audit(recs, texts)
+    if not a["checked"]:
+        return
+    print(f"\n⑨ 근거 없는 수 (은행 금리를 발명하는 것은 가장 비싼 오류다)")
+    line = (f"  수치 effect {a['checked']}개 중 근거 없는 것 "
+            f"{a['invented']}개 = {a['rate']:.1f}%")
+    if base:
+        b = grounding.audit(base, texts)
+        line += f"   (기준 {b['rate']:.1f}% · {a['rate'] - b['rate']:+.1f}p)"
+    print(line)
+    if a["by_clause"]:
+        print("  " + " · ".join(f"{c} {n}" for c, n in a["by_clause"].most_common(6)))
+    print("  ①~⑤ 는 값의 출처를 묻지 않는다. ⑥ 도 발화하지 않는 창작은 못 잡는다.")
+
+
 def _empty_rate(recs):
     n = sum(1 for x in recs
             if isinstance((x.get("output") or {}).get("rules"), list)
@@ -244,6 +262,7 @@ def main(argv=None):
     gates(recs, texts, base)
     per_clause(recs, texts)
     gate8(recs, base)
+    gate9(recs, texts, base)
     meaning(recs)
     forms(recs, base)
     return 0
