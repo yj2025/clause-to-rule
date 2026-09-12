@@ -61,11 +61,13 @@ def test_gold_rules_are_collected(root):
     assert rules and all(c.startswith("KBYY") for c in used)
 
 
-def test_product_filter_excludes_others(root):
+def test_product_filter_splits_the_two_products(root):
     import os
     os.chdir(root)
-    _, used = compose._gold_rules("KBONE")
-    assert used == []          # KBONE 에는 gold 가 없다 — 감사가 지적한 구멍
+    _, kbyy = compose._gold_rules("KBYY")
+    _, kbone = compose._gold_rules("KBONE")
+    assert kbyy and kbone                       # 감사가 지적한 구멍을 메웠다
+    assert not (set(kbyy) & set(kbone))
 
 
 def test_missing_output_is_reported(root):
@@ -73,7 +75,7 @@ def test_missing_output_is_reported(root):
     os.chdir(root)
     recs = json.loads((root / "results/results_v1.json").read_text("utf-8"))
     got = compose.compare(recs, run=0)
-    assert "missing" in got and got["total"] == 128
+    assert "missing" in got and got["total"] == 256
 
 
 def test_composed_rate_is_a_percentage(root):

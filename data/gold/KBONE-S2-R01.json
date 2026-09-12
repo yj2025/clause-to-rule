@@ -1,0 +1,36 @@
+{
+ "clause_id": "KBONE-S2-R01",
+ "label": "가입대상",
+ "reviewed": false,
+ "note": "복원 초안. 사람 검토 필요. 일부 UNSUPPORTED. (1) '1인 1계좌' 는 customer.has_product 로 그대로 옮겨 DISQUALIFY 했다 — KBYY-S2-R01-03 과 같은 형태다. KBYY 와 달리 '「…」을 포함하여' 같은 타 상품 합산 문구가 없어 이 조문은 has_product 하나로 온전히 담긴다. (2) '실명의 개인' 은 명의 유형(실명 개인 / 개인사업자 / 임의단체)을 가리킬 변수가 카탈로그에 없어 UNSUPPORTED 로 뗐다 — KBYY-S2-R01-02 와 같은 자리다. 다만 뜻은 KBYY 와 반대다: KBYY 는 개인사업자·임의단체 '가입 불가' 였는데 이 조문은 '포함'(가입 가능)이라 가입대상을 넓히는 단서다. 그래서 DISQUALIFY 를 붙이면 뜻이 정반대로 뒤집힌다 — effect 없이 UNSUPPORTED 로 둔 이유가 그것이다. 나이 조건은 이 조문에 없다(KBYY 의 '만 19세 미만' 을 여기로 옮겨 오면 조문에 없는 수를 쓰는 것이다, 함정 1).",
+ "rules": [
+  {
+   "rule_id": "KBONE-S2-R01-01",
+   "status": "OK",
+   "label": "이미 이 상품을 보유하면 가입 불가 (1인 1계좌)",
+   "source": {
+    "quote": "▪ 실명의 개인(1인 1계좌)"
+   },
+   "condition": {
+    "==": [
+     {
+      "var": "customer.has_product"
+     },
+     true
+    ]
+   },
+   "effect": {
+    "type": "DISQUALIFY"
+   }
+  },
+  {
+   "rule_id": "KBONE-S2-R01-02",
+   "status": "UNSUPPORTED",
+   "label": "실명의 개인(개인사업자·관련서류 미제출 임의단체 포함) — 명의 유형 변수 없음",
+   "source": {
+    "quote": "▪ 실명의 개인(1인 1계좌) ※ 개인사업자 및 관련서류 미제출 임의단체 포함"
+   },
+   "condition": {}
+  }
+ ]
+}

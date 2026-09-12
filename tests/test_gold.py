@@ -4,7 +4,7 @@ import gold
 
 
 def test_profile_count(profiles):
-    assert len(profiles) == 128
+    assert len(profiles) == 256
 
 
 def test_profile_count_is_the_product_of_axes(profiles):

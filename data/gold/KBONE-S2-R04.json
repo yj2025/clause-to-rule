@@ -1,0 +1,7 @@
+{
+ "clause_id": "KBONE-S2-R04",
+ "label": "기본이율 (2025.01.13 기준, 세금공제 전)",
+ "reviewed": false,
+ "note": "복원 초안. 사람 검토 필요. 빈 배열 — KBYY-S2-R06 과 같은 판단이다. 연 0.10% 는 이미 _product.json 의 base_rate(0.1) 이고 resolver 가 Resolution 의 출발값으로 깔아 준다. RATE_ADD 0.10 을 적으면 0.1 이 두 번 더해지고, RATE_OVERRIDE 0.10 을 적으면 min=max=0.1 로 다른 조문의 우대(특별)금리를 통째로 지운다 — 기본이율을 OVERRIDE 로 적는 것이 이 프로젝트가 실측한 함정 2 다. ※ 줄 '결산일 현재 영업점에 고시한 예금과목별 기본이율 적용' 도 그 base_rate 가 무엇인지를 말하는 문장이라 따로 옮길 effect 가 없다. 사람이 정해야 할 분기점: 이 ※ 줄을 '외부 고시값 참조' 로 보고 UNSUPPORTED 로 뗄 수도 있다(RECOVERY.md 가 KBYY-S2-R06 에 대해 남긴 미결 항목과 같은 자리다). ⑥ 점수는 어느 쪽이든 같고 ⑦ 에서만 갈린다. 지금은 먼저 만든 KBYY-S2-R06 gold 와 맞춰 빈 배열로 둔다.",
+ "rules": []
+}

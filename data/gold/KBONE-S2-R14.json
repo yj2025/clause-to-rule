@@ -1,0 +1,17 @@
+{
+ "clause_id": "KBONE-S2-R14",
+ "label": "양도 및 담보제공",
+ "reviewed": false,
+ "note": "복원 초안. 사람 검토 필요. UNSUPPORTED 1개. '담보제공 불가능'은 금지라는 효과가 분명하지만 담보제공(질권설정)을 가리킬 변수·이벤트가 카탈로그에 없고 '특정 거래만 금지'를 담을 effect 도 없다. DISQUALIFY 를 조건 없이 달면 모든 고객이 예금 자격을 잃어 뜻이 뒤집힌다 — KBYY-S2-R16(질권설정)에서 이미 같은 판단을 했고 그대로 따랐다. '양도 가능'은 제약이 아니라 허용 서술이라 옮길 효과가 없어 rule 을 만들지 않았다(KBYY-S2-R02 '제한없음'과 같은 취급). 빈 배열이 아닌 이유: 금지 효과가 하나 분명히 있고, 그것을 옮기지 못했다는 사실 자체를 남겨야 한다. 카탈로그가 넓어져 '거래유형별 금지' effect(예: PROHIBIT(target=PLEDGE))가 생기면 condition 은 {} 그대로(무조건 금지)이고 effect 만 붙는 형태가 된다.",
+ "rules": [
+  {
+   "rule_id": "KBONE-S2-R14-01",
+   "status": "UNSUPPORTED",
+   "label": "담보제공 불가 — 담보제공을 가리킬 변수도 '거래 금지' effect 도 없음",
+   "source": {
+    "quote": "▪ 담보제공 불가능"
+   },
+   "condition": {}
+  }
+ ]
+}

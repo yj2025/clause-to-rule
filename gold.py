@@ -27,10 +27,14 @@ import validate
 from scoring import score
 
 GOLD_DIR = Path("data/gold")
-CLAUSES = Path("data/clauses.json")
+
+# 코퍼스를 먼저 본다. 예전에는 KBYY 전용 파일만 봐서 **KBONE gold 는 ④ 검사가
+# 통째로 건너뛰어졌다** — 인용문이 틀려도 "통과" 로 찍혔다.
+CLAUSES = Path("data/corpus.json")
+CLAUSES_FALLBACK = Path("data/clauses.json")
 
 # ── 프로필 축 ───────────────────────────────────────────────────────────
-# 축 7개 × 2값 = 128 프로필. 축을 늘리면 곱으로 늘어난다.
+# 축 8개 × 2값 = 256 프로필. 축을 늘리면 곱으로 늘어난다.
 #
 # 두 축이 이 상품의 핵심이다.
 #   basic  기본실적 — 카드결제 · 공과금이체
@@ -43,6 +47,10 @@ CLAUSES = Path("data/clauses.json")
 AXES = {
     "age":         [17, 19],
     "balance":     [0, 1_000_000],
+    # 이 상품에 이미 계좌가 있나. "1인 1계좌" 조항 셋이 이 축에서만 발동한다.
+    # 없을 때는 항상 False 라 그 rule 들이 프로필 어디서도 안 걸렸고,
+    # 정상 rule 인데 ⑥ 변별력이 0 이었다.
+    "has_product": [False, True],
     "basic":       [0, 1],
     "channel":     ["BRANCH", "MOBILE"],
     "extra":       [0, 1],
@@ -77,7 +85,7 @@ def _ctx(combo):
 
     return {
         "customer": {"age": combo["age"], "is_youth": combo["age"] < 19,
-                     "has_product": False, "is_first_deposit": False},
+                     "has_product": combo["has_product"], "is_first_deposit": False},
         "account": {"balance": combo["balance"],
                     "reserved_amount": combo["reserved"]},
         "contract": {"base_rate": 0.1, "channel": combo["channel"],
@@ -161,7 +169,8 @@ def drop_empty_runs(runs):
 
 # ── 명령 ────────────────────────────────────────────────────────────────
 def _clauses():
-    return {c["id"]: c for c in json.loads(CLAUSES.read_text("utf-8"))}
+    p = CLAUSES if CLAUSES.exists() else CLAUSES_FALLBACK
+    return {c["id"]: c for c in json.loads(p.read_text("utf-8"))}
 
 
 def _product():
@@ -258,8 +267,11 @@ def cmd_status():
 
 def cmd_check():
     cl, tpl, bad = _clauses(), _templates(), 0
+    skipped = []
     for cid, v in sorted(tpl.items()):
         errs = validate.check_schema({"rules": v.get("rules") or []})
+        if cid not in cl:
+            skipped.append(cid)          # 조문을 못 찾으면 ④ 를 못 잰다. 숨기지 않는다
         for r in v.get("rules") or []:
             errs += validate.check_catalog(r)
             errs += validate.check_executable(r)
@@ -270,6 +282,9 @@ def cmd_check():
         for e in errs[:3]:
             print(f"      {e}")
     print(f"\n검증 실패 {bad} / {len(tpl)}")
+    if skipped:
+        print(f"⚠ 조문 원문을 못 찾아 ④ 를 건너뛴 gold {len(skipped)}개: "
+              f"{', '.join(skipped)}")
     return bad
 
 
