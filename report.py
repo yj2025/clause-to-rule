@@ -128,6 +128,51 @@ def gate12(recs):
     print("  ⑥ 은 빈 배열과 UNSUPPORTED 를 못 가른다. 이 축은 선언을 본다.")
 
 
+def with_rules(recs):
+    """rule 을 하나라도 낸 회차만. 생성물이 이상해도 죽지 않는다."""
+    out = []
+    for x in recs:
+        o = x.get("output")
+        rs = o.get("rules") if isinstance(o, dict) else None
+        if isinstance(rs, list) and rs:
+            out.append(x)
+    return out
+
+
+def gates_on_rules(recs, base=None):
+    """③④⑤ 를 **rule 이 있는 회차만으로** 다시 잰다.
+
+    빈 배열은 검사할 이름도, 인용문도, 실행할 것도 없어서 ③④⑤ 가 자동 실패다.
+    **gold 가 빈 배열인 조문에서 모델이 정답을 내도 벌점을 받는다** (v10 에서
+    `KBYY-S2-R06` 과 `KBONE-S2-R04` 가 그랬다).
+
+    그래서 ①~⑤ 는 **rule 을 많이 낼수록 유리한 축**이다. 과생성이 형식 지표를 올린다.
+    이 갈래는 그 편향을 뺀 값이다. 부록 A.3 의 "무출력 제외 갈래" 와 같은 방식이다.
+
+    **기존 ①~⑤ 를 바꾸지 않는다.** 나란히 찍는다.
+    """
+    R = with_rules(recs)
+    if not R:
+        return
+    print(f"\n③④⑤ 를 rule 있는 회차만으로 ({len(R)}/{len(recs)}건)")
+    print(f"{'지표':<22}{'전체':>9}{'rule 있는 것만':>14}{'차이':>8}")
+    print("-" * 54)
+    for i, k in enumerate(KEYS):
+        if k in ("json_ok", "schema_ok"):
+            continue
+        a, b = _rate(recs, "final", k), _rate(R, "final", k)
+        print(f"{SYMS[i]} {NAME[i]:<19}{a:>8.1f}%{b:>13.1f}%{b - a:>+7.1f}p")
+    if base:
+        B = with_rules(base)
+        if B:
+            print(f"\n{'':<22}{'기준':>9}{'이번':>14}{'변화':>8}")
+            for i, k in enumerate(KEYS):
+                if k in ("json_ok", "schema_ok"):
+                    continue
+                a, b = _rate(B, "final", k), _rate(R, "final", k)
+                print(f"{SYMS[i]} {NAME[i]:<19}{a:>8.1f}%{b:>13.1f}%{b - a:>+7.1f}p")
+
+
 def _empty_rate(recs):
     n = sum(1 for x in recs
             if isinstance((x.get("output") or {}).get("rules"), list)
@@ -291,6 +336,7 @@ def main(argv=None):
     print(f"=== {Path(a.results).name} ===\n")
     gates(recs, texts, base)
     per_clause(recs, texts)
+    gates_on_rules(recs, base)
     gate8(recs, base)
     gate9(recs, texts, base)
     gate11(recs, texts)
