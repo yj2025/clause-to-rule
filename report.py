@@ -81,8 +81,14 @@ def gate8(recs, base=None):
 
 
 def gate9(recs, texts, base=None):
-    """⑨ 근거 — 생성물의 수가 조문에 있나."""
+    """⑨ 근거 — 생성물의 수가 조문에 있나.
+
+    **첫 회차로 맞춰 잰다.** 회차 수가 다른 라운드를 그냥 비교하면 틀린다 —
+    3회차 라운드와 1회차 라운드의 분모가 세 배 다르다. 이 축은 분모가 작아
+    (수치 effect 만 센다) 그 차이가 크게 나온다.
+    """
     import grounding
+    recs = [x for x in recs if x["run"] == 0]
     a = grounding.audit(recs, texts)
     if not a["checked"]:
         return
@@ -90,7 +96,7 @@ def gate9(recs, texts, base=None):
     line = (f"  수치 effect {a['checked']}개 중 근거 없는 것 "
             f"{a['invented']}개 = {a['rate']:.1f}%")
     if base:
-        b = grounding.audit(base, texts)
+        b = grounding.audit([x for x in base if x["run"] == 0], texts)
         line += f"   (기준 {b['rate']:.1f}% · {a['rate'] - b['rate']:+.1f}p)"
     print(line)
     if a["by_clause"]:

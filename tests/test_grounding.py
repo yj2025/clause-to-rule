@@ -120,3 +120,19 @@ def test_every_fewshot_value_is_grounded():
     for clause, out in FEWSHOTS:
         for r in out["rules"]:
             assert G.check_rule(r, clause) == [], f"{r['rule_id']} 가 근거 축에 걸린다"
+
+
+def test_the_axis_is_compared_on_matched_runs(root):
+    """회차 수가 다른 라운드를 그냥 비교하면 틀린다.
+
+    v1 은 3회차 138건, v9 이후는 1회차 46건이다. 같은 표에 나란히 놓으면
+    분모가 세 배 다른 값을 견주게 된다. 이 축은 분모가 작아 차이가 크게 나온다.
+    """
+    import json
+    import report
+    d = json.loads((root / "results/results_v1.json").read_text("utf-8"))
+    texts = {c["id"]: c["text"] for c in
+             json.loads((root / "data/corpus.json").read_text("utf-8"))}
+    whole = G.audit(d, texts)["rate"]
+    first = G.audit([x for x in d if x["run"] == 0], texts)["rate"]
+    assert whole != first          # 실제로 다르다
