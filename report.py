@@ -173,6 +173,18 @@ def gates_on_rules(recs, base=None):
                 print(f"{SYMS[i]} {NAME[i]:<19}{a:>8.1f}%{b:>13.1f}%{b - a:>+7.1f}p")
 
 
+def gate13(recs):
+    """⑬ 지어낸 코드 — 카탈로그에 없는 개념을 문자열에 담았나."""
+    import invent
+    a = invent.audit([x for x in recs if x["run"] == 0])
+    if not a["checked"]:
+        return
+    print(f"\n⑬ 지어낸 코드 — 문자열 값 {a['checked']}개 중 {a['bad']}개 = {a['rate']:.1f}%")
+    if a["names"]:
+        print("  " + " · ".join(f"{k} {v}" for k, v in a["names"].most_common(6)))
+    print("  v12 부터 ③ 에 물린다. 그 전 라운드는 이 경로로 관문을 통과했다.")
+
+
 def _empty_rate(recs):
     n = sum(1 for x in recs
             if isinstance((x.get("output") or {}).get("rules"), list)
@@ -341,6 +353,7 @@ def main(argv=None):
     gate9(recs, texts, base)
     gate11(recs, texts)
     gate12(recs)
+    gate13(recs)
     meaning(recs)
     forms(recs, base)
     return 0
