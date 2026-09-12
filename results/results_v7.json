@@ -502,5 +502,98 @@
   "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R02\",\n   \"status\": \"OK\",\n   \"label\": \"제한없음\",\n   \"source\": {\n    \"quote\": \"제한없음\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
   "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"제한없음\",\n   \"source\": {\n    \"quote\": \"제한없음\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
   "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R03",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "output": {
+   "rules": []
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R03",
+  "run": 1,
+  "n_attempts": 3,
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "output": {
+   "rules": []
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R03",
+  "run": 2,
+  "n_attempts": 3,
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "output": {
+   "rules": []
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false
  }
 ]
