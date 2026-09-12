@@ -1,0 +1,194 @@
+[
+ {
+  "clause_id": "KBYY-S1-P01",
+  "run": 0,
+  "n_attempts": 1,
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S1-P01-01",
+     "status": "OK",
+     "label": "Youth 고객 대상 상품",
+     "source": {
+      "quote": "상품특징 : 계좌 안의 계좌 '저금통'으로 특별우대금리와 수수료면제 서비스를 제공하는 만 19세 미만 Youth 고객 맞춤 입출금이 자유로운 예금"
+     },
+     "condition": {
+      "==": [
+       {
+        "var": "customer.is_youth"
+       },
+       true
+      ]
+     },
+     "effect": {
+      "type": "REQUIRE",
+      "value": "YOUTH_ACCOUNT"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S1-P01-01\",\n   \"status\": \"OK\",\n   \"label\": \"Youth 고객 대상 상품\",\n   \"source\": {\n    \"quote\": \"상품특징 : 계좌 안의 계좌 '저금통'으로 특별우대금리와 수수료면제 서비스를 제공하는 만 19세 미만 Youth 고객 맞춤 입출금이 자유로운 예금\"\n   },\n   \"condition\": {\n    \"==\": [\n     {\n      \"var\": \"customer.is_youth\"\n     },\n     true\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"YOUTH_ACCOUNT\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S1-P01-01\",\n   \"status\": \"OK\",\n   \"label\": \"Youth 고객 대상 상품\",\n   \"source\": {\n    \"quote\": \"상품특징 : 계좌 안의 계좌 '저금통'으로 특별우대금리와 수수료면제 서비스를 제공하는 만 19세 미만 Youth 고객 맞춤 입출금이 자유로운 예금\"\n   },\n   \"condition\": {\n    \"==\": [\n     {\n      \"var\": \"customer.is_youth\"\n     },\n     true\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"YOUTH_ACCOUNT\"\n   }\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R01",
+  "run": 0,
+  "n_attempts": 1,
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S2-R01-01",
+     "status": "OK",
+     "label": "청소년 고객 가입 조건",
+     "source": {
+      "quote": "만 19세 미만 실명의 개인"
+     },
+     "condition": {
+      "and": [
+       {
+        "<=": [
+         {
+          "var": "customer.age"
+         },
+         19
+        ]
+       },
+       {
+        "==": [
+         {
+          "var": "customer.is_youth"
+         },
+         true
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "REQUIRE",
+      "value": "REAL_NAME"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R01-01\",\n   \"status\": \"OK\",\n   \"label\": \"청소년 고객 가입 조건\",\n   \"source\": {\n    \"quote\": \"만 19세 미만 실명의 개인\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"<=\": [\n       {\n        \"var\": \"customer.age\"\n       },\n       19\n      ]\n     },\n     {\n      \"==\": [\n       {\n        \"var\": \"customer.is_youth\"\n       },\n       true\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"REAL_NAME\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R01-01\",\n   \"status\": \"OK\",\n   \"label\": \"청소년 고객 가입 조건\",\n   \"source\": {\n    \"quote\": \"만 19세 미만 실명의 개인\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"<=\": [\n       {\n        \"var\": \"customer.age\"\n       },\n       19\n      ]\n     },\n     {\n      \"==\": [\n       {\n        \"var\": \"customer.is_youth\"\n       },\n       true\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"REAL_NAME\"\n   }\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R02",
+  "run": 0,
+  "n_attempts": 2,
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S2-R02",
+     "status": "OK",
+     "label": "신규금액 제한없음",
+     "source": {
+      "quote": "제한없음"
+     },
+     "condition": {},
+     "effect": {
+      "type": "LIMIT_AMOUNT",
+      "value": "UNLIMITED"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R02\",\n   \"status\": \"OK\",\n   \"label\": \"신규금액 제한없음\",\n   \"source\": {\n    \"quote\": \"제한없음\"\n   },\n   \"effect\": {\n    \"type\": \"LIMIT_AMOUNT\",\n    \"value\": \"UNLIMITED\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R02\",\n   \"status\": \"OK\",\n   \"label\": \"신규금액 제한없음\",\n   \"source\": {\n    \"quote\": \"제한없음\"\n   },\n   \"condition\": {},\n   \"effect\": {\n    \"type\": \"LIMIT_AMOUNT\",\n    \"value\": \"UNLIMITED\"\n   }\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R03",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "output": {
+   "rules": []
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false
+ }
+]
