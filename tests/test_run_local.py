@@ -59,15 +59,15 @@ def _m(**kw):
 
 
 def test_score_of_counts_gates():
-    assert R._score_of(_m(json_ok=True, schema_ok=True)) == 2
+    assert R._score_of(_m(json_ok=True, schema_ok=True))[0] == 2
 
 
 def test_score_of_none_is_zero():
-    assert R._score_of(None) == 0
+    assert R._score_of(None)[0] == 0
 
 
 def test_score_of_all_gates():
-    assert R._score_of(_m(**{k: True for k in R.GATES})) == 5
+    assert R._score_of(_m(**{k: True for k in R.GATES}))[0] == 5
 
 
 def test_gates_match_the_validator():
@@ -141,4 +141,36 @@ def test_raw_first_and_last_are_both_kept(monkeypatch):
 def test_retry_can_never_lose_a_gate(monkeypatch):
     for seq in ([GOOD, BROKEN], [WEAK, BROKEN, BROKEN], [WEAK, WEAK, BROKEN]):
         r = _run_with(list(seq), monkeypatch)
-        assert R._score_of(r["final"]) >= R._score_of(r["first"])
+        assert R._score_of(r["final"])[0] >= R._score_of(r["first"])[0]
+
+
+# ── v13: 관문 수가 같으면 오류가 적은 쪽 ────────────────────────────────
+def test_score_is_a_pair():
+    assert isinstance(R._score_of(_m(json_ok=True)), tuple)
+
+
+def test_more_gates_beats_fewer_errors():
+    a = R._score_of({**_m(json_ok=True, schema_ok=True), "errors": ["e"] * 9})
+    b = R._score_of({**_m(json_ok=True), "errors": []})
+    assert a > b
+
+
+def test_fewer_errors_wins_a_gate_tie():
+    """v12 에서 막혔던 자리 — 고쳤는데 관문 수가 같아 채택이 안 됐다."""
+    a = R._score_of({**_m(json_ok=True), "errors": ["e", "e", "e"]})
+    b = R._score_of({**_m(json_ok=True), "errors": ["e"]})
+    assert b > a
+
+
+def test_none_scores_lowest():
+    assert R._score_of(None)[0] <= R._score_of(_m())[0]
+
+
+def test_a_retry_that_only_reduces_errors_is_accepted(monkeypatch):
+    # 관문 수는 같고 오류만 준 재시도가 채택된다
+    WORSE = ('{"rules": [{"rule_id": "R", "source": {"quote": "없는 문장"}, '
+             '"condition": {"nope": 1}, "effect": {"type": "GIVE_GIFT"}}]}')
+    BETTER = ('{"rules": [{"rule_id": "R", "source": {"quote": "없는 문장"}, '
+              '"condition": {}, "effect": {"type": "DISQUALIFY"}}]}')
+    r = _run_with([WORSE, BETTER, BETTER], monkeypatch)
+    assert r["n_best"] == 2

@@ -110,8 +110,20 @@ GATES = ("json_ok", "schema_ok", "catalog_ok", "quote_ok", "exec_ok")
 
 
 def _score_of(marks):
-    """시도 하나가 통과한 관문 수. 자기수정 루프가 무엇을 더 나은 것으로 볼지다."""
-    return sum(1 for k in GATES if marks and marks[k])
+    """시도 하나를 견주는 열쇠. 앞에 올수록 세다.
+
+    (통과한 관문 수, 오류가 적은 것)
+
+    **관문 수만으로는 부족하다.** v12 에서 확인했다 — 재시도가 지어낸 코드를
+    고쳤는데 관문 수가 그대로라 "동점이면 앞" 규칙에 걸려 채택되지 않았다.
+    네 건 전부 그랬다. 앞 처방이 뒤 처방의 천장이 된 것이다.
+
+    관문 수가 같으면 **오류가 적은 쪽**을 고른다. 같은 관문을 통과했어도
+    위반이 셋인 것과 하나인 것은 다르다.
+    """
+    if not marks:
+        return (0, 0)
+    return (sum(1 for k in GATES if marks[k]), -len(marks.get("errors") or []))
 
 
 def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
@@ -155,7 +167,7 @@ def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
             if best is None or got > best[0]:
                 best = (got, attempts, marks, parsed, marks["errors"])
 
-            if got == len(GATES):
+            if got[0] == len(GATES):
                 break
             if not allow_retry or parsed is None:
                 break
