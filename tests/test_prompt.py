@@ -43,8 +43,9 @@ def test_user_prompt_contains_examples():
     assert "[예시 1 · 조문]" in build_user_prompt(CLAUSE)
 
 
-def test_user_prompt_shows_an_empty_array_example():
-    assert '"rules": []' in build_user_prompt(CLAUSE)
+def test_user_prompt_shows_a_fee_waiver_example():
+    """일곱 라운드 동안 UNLIMITED 를 한 번도 안 썼다 — 장면이 없었다."""
+    assert '"UNLIMITED"' in build_user_prompt(CLAUSE)
 
 
 def test_fewshot_json_is_indented():
@@ -80,8 +81,16 @@ def test_user_prompt_lists_fee_targets_for_fee_clauses():
     assert "EBANK_TRANSFER" in build_user_prompt(CLAUSE)
 
 
-def test_user_prompt_omits_fee_targets_otherwise():
-    assert "EBANK_TRANSFER" not in build_user_prompt("만 19세 미만 고객")
+def test_fee_names_leak_only_through_the_example():
+    """예시에 수수료 장면을 넣은 대가다. 어휘 목록은 여전히 조문별로 추려진다.
+
+    안 쓸 이름을 보여주면 그 이름을 쓴다 — 이 프로젝트가 실측한 함정이라
+    누출 크기를 테스트로 고정한다. 예시 안에서 대상당 한 번씩만 나와야 한다.
+    """
+    p = build_user_prompt("만 19세 미만 고객")
+    assert "[면제 대상]" not in p                    # 어휘 목록에는 안 실린다
+    assert p.count("EBANK_TRANSFER") == 1            # 예시 안에서만
+    assert "OTHER_BANK_ATM_WITHDRAW" not in p        # 예시에 없는 대상은 안 샌다
 
 
 def test_user_prompt_lists_every_effect():

@@ -43,8 +43,30 @@ def test_first_fewshot_shows_a_rule():
     assert FEWSHOT_OUTPUT["rules"]
 
 
-def test_second_fewshot_is_an_empty_array():
-    assert FEWSHOT_EMPTY_OUTPUT == {"rules": []}
+def test_second_fewshot_shows_the_fee_table():
+    """일곱 라운드 동안 FEE_WAIVE rule 62개에서 UNLIMITED 가 0개였다.
+
+    카탈로그에 있고 스키마도 허용하는데 모델이 그 장면을 못 봤다.
+    """
+    vals = [r["effect"]["value"] for r in FEWSHOT_EMPTY_OUTPUT["rules"]]
+    assert "UNLIMITED" in vals
+
+
+def test_second_fewshot_shows_a_numeric_count_too():
+    vals = [r["effect"]["value"] for r in FEWSHOT_EMPTY_OUTPUT["rules"]]
+    assert 10 in vals
+
+
+def test_second_fewshot_rule_count_matches_the_table():
+    # 표가 3행이면 rule 도 3개. 표에 없는 대상은 출력에도 없다
+    assert len(FEWSHOT_EMPTY_OUTPUT["rules"]) == 3
+
+
+def test_second_fewshot_values_are_grounded():
+    import grounding
+    clause = FEWSHOTS[1][0]
+    assert all(not grounding.check_rule(r, clause)
+               for r in FEWSHOT_EMPTY_OUTPUT["rules"])
 
 
 def test_third_fewshot_is_unsupported():

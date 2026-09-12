@@ -136,10 +136,79 @@ FEWSHOT_OUTPUT = {
     ]
 }
 
-# 표현할 수 없는 조문은 빈 배열이 정답이다 (§9 10번).
-# 예시 1~3 이 전부 rule 을 내놓는 형태여서 모델이 본 빈 배열이 하나도 없었다.
-FEWSHOT_EMPTY_CLAUSE = "이 통장은 「예금자보호법」에 따라 보호됩니다."
-FEWSHOT_EMPTY_OUTPUT = {"rules": []}
+# 면제횟수 표를 옮기는 장면. **일곱 라운드 동안 FEE_WAIVE rule 62개가 나왔는데
+# "UNLIMITED" 를 쓴 것이 0개였다.** 카탈로그에 있고 스키마도 허용하는데 모델이
+# 그 표현을 한 번도 못 봤다. 조문의 "제한없음" 을 전부 숫자 1 로 적었다.
+#
+# 보여주는 것 셋 —
+#   "제한없음" → "UNLIMITED"      (수가 아니다)
+#   "월 10회"  → 10               (조문에 적힌 수 그대로)
+#   빈 칸      → 윗행 값을 물려받는다 (표가 그렇게 생겼다)
+#
+# rule 수는 표의 행 수와 같다. 표에 없는 대상은 출력에도 없다.
+# 마지막 ※ 줄은 안내문이라 rule 이 되지 않는다 — 빈 배열 장면을 일부 벌충한다.
+FEWSHOT_EMPTY_CLAUSE = (
+    "[수수료 면제]\n"
+    "▪ 면제조건: 전월 중 이 통장에서 급여이체 실적이 있는 경우\n"
+    "▪ 면제대상 수수료 및 면제횟수\n"
+    "\n"
+    "[참조표: 면제 대상 수수료 및 면제횟수]\n"
+    "면제 대상 수수료 | 면제횟수\n"
+    "전자금융 이체수수료 | 제한없음\n"
+    "자동화기기 시간외출금수수료 | \n"
+    "자동화기기 이체수수료 | 월 10회\n"
+    "※ 면제 내용은 영업점에 게시한 바에 따릅니다."
+)
+FEWSHOT_EMPTY_OUTPUT = {
+    "rules": [
+        {
+            "rule_id": "R-EX-02-01",
+            "status": "OK",
+            "label": "전자금융 이체수수료 면제",
+            "source": {"quote": "전자금융 이체수수료 | 제한없음"},
+            "let": {"window": {"month_range": {
+                "from": {"anchor": "contract.reference_date",
+                         "offset_months": -1, "day": "first"},
+                "to": {"anchor": "contract.reference_date",
+                       "offset_months": -1, "day": "last"}}}},
+            "condition": {"exists": {"event": "SALARY_TRANSFER",
+                                     "within": {"ref": "$window"}}},
+            "effect": {"type": "FEE_WAIVE", "target": "EBANK_TRANSFER",
+                       "value": "UNLIMITED"},
+        },
+        {
+            "rule_id": "R-EX-02-02",
+            "status": "OK",
+            "label": "시간외출금수수료 면제",
+            "source": {"quote": "자동화기기 시간외출금수수료 |"},
+            "let": {"window": {"month_range": {
+                "from": {"anchor": "contract.reference_date",
+                         "offset_months": -1, "day": "first"},
+                "to": {"anchor": "contract.reference_date",
+                       "offset_months": -1, "day": "last"}}}},
+            "condition": {"exists": {"event": "SALARY_TRANSFER",
+                                     "within": {"ref": "$window"}}},
+            "effect": {"type": "FEE_WAIVE",
+                       "target": "ATM_WITHDRAW_AFTER_HOURS",
+                       "value": "UNLIMITED"},
+        },
+        {
+            "rule_id": "R-EX-02-03",
+            "status": "OK",
+            "label": "자동화기기 이체수수료 면제",
+            "source": {"quote": "자동화기기 이체수수료 | 월 10회"},
+            "let": {"window": {"month_range": {
+                "from": {"anchor": "contract.reference_date",
+                         "offset_months": -1, "day": "first"},
+                "to": {"anchor": "contract.reference_date",
+                       "offset_months": -1, "day": "last"}}}},
+            "condition": {"exists": {"event": "SALARY_TRANSFER",
+                                     "within": {"ref": "$window"}}},
+            "effect": {"type": "FEE_WAIVE", "target": "ATM_TRANSFER",
+                       "value": 10},
+        },
+    ]
+}
 
 # 표현 수단이 없을 때의 탈출구. 가르치기 전에 검증기부터 막았다 (§9 11번).
 #
