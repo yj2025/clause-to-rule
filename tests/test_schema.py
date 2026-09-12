@@ -35,8 +35,20 @@ def test_status_enum_matches_catalog():
     assert set(props["status"]["enum"]) == set(catalog.STATUSES)
 
 
-def test_there_are_three_fewshots():
-    assert len(FEWSHOTS) == 3
+def test_there_are_four_fewshots():
+    """v10 에서 빈 배열 장면을 되살렸다 — 맞바꾸지 않고 더했다."""
+    assert len(FEWSHOTS) == 4
+
+
+def test_the_fourth_fewshot_is_an_empty_array():
+    assert FEWSHOTS[3][1] == {"rules": []}
+
+
+def test_the_intro_scene_mentions_benefits_without_numbers():
+    """혜택이 말로만 언급된 조문 — ⑨ 의 대표 실패 모양이다."""
+    import grounding
+    clause = FEWSHOTS[3][0]
+    assert "금리" in clause and grounding.numbers_in(clause) == set()
 
 
 def test_first_fewshot_shows_a_rule():
@@ -82,7 +94,7 @@ def test_fewshot_quote_is_verbatim():
     assert q in FEWSHOT_CLAUSE
 
 
-@pytest.mark.parametrize("i", [0, 1, 2])
+@pytest.mark.parametrize("i", [0, 1, 2, 3])
 def test_every_fewshot_quote_is_verbatim(i):
     clause, out = FEWSHOTS[i]
     for r in out["rules"]:

@@ -239,8 +239,25 @@ FEWSHOT_UNSUPPORTED_OUTPUT = {
     ]
 }
 
+# 혜택이 **말로만** 언급된 조문. 숫자도 조건도 없으면 rule 이 없다.
+#
+# v9 에서 이 장면을 면제횟수 장면과 맞바꿨더니, 빈 배열을 내야 할 조문들이
+# rule 을 만들기 시작했다 — ⑦ 13.0% → 6.5%, ⑩ 합성 46.9% → 12.5%.
+# 예시 자리는 유한한 자원이고, 빼는 것이 무엇을 가르치고 있었는지 먼저 알아야 한다.
+#
+# 맞바꾸지 않고 **더한다.** 상품 소개 문장에서 우대금리를 지어내는 것이
+# ⑨ 의 대표 실패라, 그 모양을 그대로 보여준다. 코퍼스 문장을 베끼지는 않는다.
+FEWSHOT_INTRO_CLAUSE = (
+    "[상품 개요]\n"
+    "상 품 명 : 예시적금\n"
+    "상품특징 : 자동이체를 등록한 고객에게 금리 혜택과 창구 수수료 감면을 "
+    "제공하는 자유적립식 적금"
+)
+FEWSHOT_INTRO_OUTPUT = {"rules": []}
+
 FEWSHOTS = (
     (FEWSHOT_CLAUSE, FEWSHOT_OUTPUT),
     (FEWSHOT_EMPTY_CLAUSE, FEWSHOT_EMPTY_OUTPUT),
     (FEWSHOT_UNSUPPORTED_CLAUSE, FEWSHOT_UNSUPPORTED_OUTPUT),
+    (FEWSHOT_INTRO_CLAUSE, FEWSHOT_INTRO_OUTPUT),
 )

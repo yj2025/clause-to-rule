@@ -43,6 +43,11 @@ def test_user_prompt_contains_examples():
     assert "[예시 1 · 조문]" in build_user_prompt(CLAUSE)
 
 
+def test_user_prompt_still_shows_an_empty_array_scene():
+    """v9 가 이 장면을 잃고 ⑦ 13.0% → 6.5%, ⑩ 46.9% → 12.5% 가 됐다."""
+    assert '"rules": []' in build_user_prompt(CLAUSE)
+
+
 def test_user_prompt_shows_a_fee_waiver_example():
     """일곱 라운드 동안 UNLIMITED 를 한 번도 안 썼다 — 장면이 없었다."""
     assert '"UNLIMITED"' in build_user_prompt(CLAUSE)
