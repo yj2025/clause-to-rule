@@ -81,12 +81,25 @@ def test_second_fewshot_values_are_grounded():
                for r in FEWSHOT_EMPTY_OUTPUT["rules"])
 
 
-def test_third_fewshot_is_unsupported():
-    assert FEWSHOTS[2][1]["rules"][0]["status"] == "UNSUPPORTED"
+def test_third_fewshot_splits_body_from_proviso():
+    """v14 — 본문은 옮기고 단서는 UNSUPPORTED 로 둔다.
+
+    gold 가 "섞임" 인 조문 5개에서 옮길 수 없는 부분이 전부 단서 줄이었다.
+    **OK 가 먼저, UNSUPPORTED 가 나중**이다 — v5 는 "써도 된다" 만 가르쳐
+    ⑧ 이 83.7% 로 무너졌다.
+    """
+    st = [r["status"] for r in FEWSHOTS[2][1]["rules"]]
+    assert st == ["OK", "UNSUPPORTED"]
 
 
-def test_unsupported_fewshot_has_no_effect():
-    assert "effect" not in FEWSHOTS[2][1]["rules"][0]
+def test_the_unsupported_rule_has_no_effect():
+    un = [r for r in FEWSHOTS[2][1]["rules"] if r["status"] == "UNSUPPORTED"]
+    assert un and all("effect" not in r for r in un)
+
+
+def test_the_ok_rule_in_the_mixed_example_has_an_effect():
+    ok = [r for r in FEWSHOTS[2][1]["rules"] if r["status"] == "OK"]
+    assert ok and all("effect" in r for r in ok)
 
 
 def test_fewshot_quote_is_verbatim():

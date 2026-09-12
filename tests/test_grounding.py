@@ -104,3 +104,19 @@ def test_that_invention_passed_every_existing_gate(root):
     m = d["KBYY-S1-P01"]["final"]
     assert all(m[k] for k in
                ("json_ok", "schema_ok", "catalog_ok", "quote_ok", "exec_ok"))
+
+
+@pytest.mark.parametrize("text,want", [
+    ("2천만원", 20000000.0), ("5백만원", 5000000.0),
+    ("3천원", 3000.0), ("1억원", 100000000.0),
+])
+def test_korean_compound_units(text, want):
+    """예시가 스스로 검증기를 통과해야 한다 — v14 에서 "2천만원" 에 걸렸다."""
+    assert want in G.numbers_in(text)
+
+
+def test_every_fewshot_value_is_grounded():
+    from schema import FEWSHOTS
+    for clause, out in FEWSHOTS:
+        for r in out["rules"]:
+            assert G.check_rule(r, clause) == [], f"{r['rule_id']} 가 근거 축에 걸린다"

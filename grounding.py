@@ -48,10 +48,13 @@ def numbers_in(text):
         out.add(v)
         if v == int(v):
             out.add(float(int(v)))
-    # 만·억 단위 — "100만원" 은 1000000 이다
-    for m in re.finditer(r"(\d[\d,]*(?:\.\d+)?)\s*(만|억)", text.replace(",", "")):
-        v = float(m.group(1)) * (10_000 if m.group(2) == "만" else 100_000_000)
-        out.add(v)
+    # 한글 수 단위 — "100만원" 은 1000000, "2천만원" 은 20000000 이다
+    UNIT = {"천": 1_000, "만": 10_000, "억": 100_000_000}
+    flat = text.replace(",", "")
+    for m in re.finditer(r"(\d[\d,]*(?:\.\d+)?)\s*(천만|백만|천|만|억)", flat):
+        n, u = float(m.group(1)), m.group(2)
+        mult = {"천만": 10_000_000, "백만": 1_000_000}.get(u) or UNIT[u]
+        out.add(n * mult)
     return out
 
 
