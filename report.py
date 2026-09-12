@@ -111,6 +111,23 @@ def gate11(recs, texts):
     print("  ④ 는 인용문이 원문에 있는지만 본다. 사람이 읽으면 어긋남이 훨씬 많다.")
 
 
+def gate12(recs):
+    """⑫ 선언 — gold 와 같은 판정을 내렸나."""
+    import declare
+    a = declare.audit(recs, run=0)
+    if not a["n"]:
+        return
+    print(f"\n⑫ 선언 일치 — gold {a['n']}조문 중 {a['hit']}개 = {a['rate']:.1f}%")
+    over = sum(n for (w, g), n in a["conf"].items()
+               if w in (declare.EMPTY, declare.UNSUP)
+               and g in (declare.OK, declare.MIXED))
+    under = sum(n for (w, g), n in a["conf"].items()
+                if w in (declare.OK, declare.MIXED)
+                and g in (declare.EMPTY, declare.UNSUP))
+    print(f"  과생성(만들 것이 없는데 만듦) {over}건 · 과소(만들 수 있는데 포기) {under}건")
+    print("  ⑥ 은 빈 배열과 UNSUPPORTED 를 못 가른다. 이 축은 선언을 본다.")
+
+
 def _empty_rate(recs):
     n = sum(1 for x in recs
             if isinstance((x.get("output") or {}).get("rules"), list)
@@ -277,6 +294,7 @@ def main(argv=None):
     gate8(recs, base)
     gate9(recs, texts, base)
     gate11(recs, texts)
+    gate12(recs)
     meaning(recs)
     forms(recs, base)
     return 0

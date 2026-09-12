@@ -5732,5 +5732,992 @@
   "raw_first": "{\n \"rules\": []\n}",
   "raw_last": "{\n \"rules\": []\n}",
   "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S5-R02",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 10
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 10
+  },
+  "errors": [
+   "실행 불가: DslError: exists: 객체를 기대했으나 list 이 옴. 올바른 형태: {\"exists\": {\"event\": …, \"within\": …}}",
+   "실행 불가: DslError: 미바인딩 참조: $window. let 에 먼저 묶어야 한다: {\"let\": {\"window\": {...}}}",
+   "실행 불가: DslError: 미바인딩 참조: $window. let 에 먼저 묶어야 한다: {\"let\": {\"window\": {...}}}",
+   "실행 불가: DslError: 미바인딩 참조: $window. let 에 먼저 묶어야 한다: {\"let\": {\"window\": {...}}}",
+   "실행 불가: DslError: 미바인딩 참조: $window. let 에 먼저 묶어야 한다: {\"let\": {\"window\": {...}}}",
+   "실행 불가: DslError: 미바인딩 참조: $window. let 에 먼저 묶어야 한다: {\"let\": {\"window\": {...}}}",
+   "실행 불가: DslError: 미바인딩 참조: $window. let 에 먼저 묶어야 한다: {\"let\": {\"window\": {...}}}",
+   "실행 불가: DslError: 미바인딩 참조: $window. let 에 먼저 묶어야 한다: {\"let\": {\"window\": {...}}}",
+   "실행 불가: DslError: 미바인딩 참조: $window. let 에 먼저 묶어야 한다: {\"let\": {\"window\": {...}}}",
+   "실행 불가: DslError: 미바인딩 참조: $window. let 에 먼저 묶어야 한다: {\"let\": {\"window\": {...}}}"
+  ],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S5-R02-01",
+     "status": "OK",
+     "label": "기본실적 면제",
+     "source": {
+      "quote": "전월 중 이 통장에서 아래“기본실적 중 하나 이상” 발생된 경우"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.start_date",
+         "offset_months": -1,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.start_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "exists": [
+       {
+        "count_events": {
+         "event": "CARD_USAGE",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "count_events": {
+         "event": "AUTO_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "ATM_TRANSFER",
+      "value": 1
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S5-R02-02",
+     "status": "OK",
+     "label": "면제기간 적용",
+     "source": {
+      "quote": "면제기간 : 이번 달 11일부터 다음달 10일까지"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "ATM_WITHDRAW_AFTER_HOURS",
+      "value": 1
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S5-R02-03",
+     "status": "OK",
+     "label": "면제기간 적용",
+     "source": {
+      "quote": "면제기간 : 이번 달 11일부터 다음달 10일까지"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "AUTO_DEBIT",
+      "value": 1
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S5-R02-04",
+     "status": "OK",
+     "label": "면제기간 적용",
+     "source": {
+      "quote": "면제기간 : 이번 달 11일부터 다음달 10일까지"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "EBANK_TRANSFER",
+      "value": 1
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S5-R02-05",
+     "status": "OK",
+     "label": "면제기간 적용",
+     "source": {
+      "quote": "면제기간 : 이번 달 11일부터 다음달 10일까지"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "OTHER_BANK_ATM_WITHDRAW",
+      "value": 1
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S5-R02-06",
+     "status": "OK",
+     "label": "신규/전환 시 면제",
+     "source": {
+      "quote": "이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "ATM_TRANSFER",
+      "value": 1
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S5-R02-07",
+     "status": "OK",
+     "label": "신규/전환 시 면제",
+     "source": {
+      "quote": "이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "ATM_WITHDRAW_AFTER_HOURS",
+      "value": 1
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S5-R02-08",
+     "status": "OK",
+     "label": "신규/전환 시 면제",
+     "source": {
+      "quote": "이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "AUTO_DEBIT",
+      "value": 1
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S5-R02-09",
+     "status": "OK",
+     "label": "신규/전환 시 면제",
+     "source": {
+      "quote": "이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "EBANK_TRANSFER",
+      "value": 1
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S5-R02-10",
+     "status": "OK",
+     "label": "신규/전환 시 면제",
+     "source": {
+      "quote": "이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "OTHER_BANK_ATM_WITHDRAW",
+      "value": 1
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-01\",\n   \"status\": \"OK\",\n   \"label\": \"기본실적 면제\",\n   \"source\": {\n    \"quote\": \"전월 중 이 통장에서 아래“기본실적 중 하나 이상” 발생된 경우\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"exists\": [\n     {\n      \"count_events\": {\n       \"event\": \"CARD_USAGE\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     },\n     {\n      \"count_events\": {\n       \"event\": \"AUTO_TRANSFER\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_TRANSFER\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-02\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"면제기간 : 이번 달 11일부터 다음달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_WITHDRAW_AFTER_HOURS\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-03\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"면제기간 : 이번 달 11일부터 다음달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"AUTO_DEBIT\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-04\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"면제기간 : 이번 달 11일부터 다음달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"EBANK_TRANSFER\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-05\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"면제기간 : 이번 달 11일부터 다음달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"OTHER_BANK_ATM_WITHDRAW\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-06\",\n   \"status\": \"OK\",\n   \"label\": \"신규/전환 시 면제\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_TRANSFER\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-07\",\n   \"status\": \"OK\",\n   \"label\": \"신규/전환 시 면제\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_WITHDRAW_AFTER_HOURS\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-08\",\n   \"status\": \"OK\",\n   \"label\": \"신규/전환 시 면제\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"AUTO_DEBIT\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-09\",\n   \"status\": \"OK\",\n   \"label\": \"신규/전환 시 면제\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"EBANK_TRANSFER\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-10\",\n   \"status\": \"OK\",\n   \"label\": \"신규/전환 시 면제\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"OTHER_BANK_ATM_WITHDRAW\",\n    \"value\": 1\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-01\",\n   \"status\": \"OK\",\n   \"label\": \"기본실적 면제\",\n   \"source\": {\n    \"quote\": \"전월 중 이 통장에서 아래“기본실적 중 하나 이상” 발생된 경우\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"CARD_USAGE\",\n     \"within\": {\n      \"ref\": \"$window\"\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_TRANSFER\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-02\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"면제기간 : 이번 달 11일부터 다음달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_WITHDRAW_AFTER_HOURS\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-03\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"면제기간 : 이번 달 11일부터 다음달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"AUTO_DEBIT\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-04\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"면제기간 : 이번 달 11일부터 다음달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"EBANK_TRANSFER\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-05\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"면제기간 : 이번 달 11일부터 다음달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"OTHER_BANK_ATM_WITHDRAW\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-06\",\n   \"status\": \"OK\",\n   \"label\": \"신규/전환 시 면제\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_TRANSFER\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-07\",\n   \"status\": \"OK\",\n   \"label\": \"신규/전환 시 면제\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_WITHDRAW_AFTER_HOURS\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-08\",\n   \"status\": \"OK\",\n   \"label\": \"신규/전환 시 면제\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"AUTO_DEBIT\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-09\",\n   \"status\": \"OK\",\n   \"label\": \"신규/전환 시 면제\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"EBANK_TRANSFER\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-10\",\n   \"status\": \"OK\",\n   \"label\": \"신규/전환 시 면제\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"OTHER_BANK_ATM_WITHDRAW\",\n    \"value\": 1\n   }\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S5-R02",
+  "run": 1,
+  "n_attempts": 1,
+  "n_best": 1,
+  "first": {
+   "json_ok": false,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": false,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 0
+  },
+  "errors": [],
+  "output": null,
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-01\",\n   \"status\": \"OK\",\n   \"label\": \"기본실적 면제\",\n   \"source\": {\n    \"quote\": \"전월 중 이 통장에서 아래“기본실적 중 하나 이상” 발생된 경우\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \">\": [\n     {\n      \"count_events\": {\n       \"event\": \"CARD_USAGE\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     },\n     0\n    ],\n    \"or\": [\n     {\n      \"count_events\": {\n       \"event\": \"AUTO_TRANSFER\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     },\n     0\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_TRANSFER\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-02\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"면제기간 : 이번 달 11일부터 다음달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"month\": {\n         \"day\": \"day_of_month\"\n        }\n       },\n       11\n      ]\n     },\n     {\n      \"<\": [\n       {\n        \"month\": {\n         \"day\": \"day_of_month\"\n        }\n       },\n       11\n      ],\n      \"or\": [\n       {\n        \"month\": {\n         \"month_of_year\"\n        }\n       },\n       {\n        \"month\": {\n         \"month_of_year\"\n        }\n       }\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_WITHDRAW_AFTER_HOURS\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-03\",\n   \"status\": \"OK\",\n   \"label\": \"신규/전환 시 면제\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": 0,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": 2,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"count_events\": {\n       \"event\": \"CARD_USAGE\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     },\n     0\n    ],\n    \"or\": [\n     {\n      \"count_events\": {\n       \"event\": \"AUTO_TRANSFER\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     },\n     0\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"AUTO_DEBIT\",\n    \"value\": 1\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-01\",\n   \"status\": \"OK\",\n   \"label\": \"기본실적 면제\",\n   \"source\": {\n    \"quote\": \"전월 중 이 통장에서 아래“기본실적 중 하나 이상” 발생된 경우\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \">\": [\n     {\n      \"count_events\": {\n       \"event\": \"CARD_USAGE\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     },\n     0\n    ],\n    \"or\": [\n     {\n      \"count_events\": {\n       \"event\": \"AUTO_TRANSFER\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     },\n     0\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_TRANSFER\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-02\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"면제기간 : 이번 달 11일부터 다음달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"month\": {\n         \"day\": \"day_of_month\"\n        }\n       },\n       11\n      ]\n     },\n     {\n      \"<\": [\n       {\n        \"month\": {\n         \"day\": \"day_of_month\"\n        }\n       },\n       11\n      ],\n      \"or\": [\n       {\n        \"month\": {\n         \"month_of_year\"\n        }\n       },\n       {\n        \"month\": {\n         \"month_of_year\"\n        }\n       }\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_WITHDRAW_AFTER_HOURS\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-03\",\n   \"status\": \"OK\",\n   \"label\": \"신규/전환 시 면제\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": 0,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": 2,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"count_events\": {\n       \"event\": \"CARD_USAGE\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     },\n     0\n    ],\n    \"or\": [\n     {\n      \"count_events\": {\n       \"event\": \"AUTO_TRANSFER\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     },\n     0\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"AUTO_DEBIT\",\n    \"value\": 1\n   }\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S5-R02",
+  "run": 2,
+  "n_attempts": 3,
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 10
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 10
+  },
+  "errors": [
+   "실행 불가: DslError: exists: 객체를 기대했으나 list 이 옴. 올바른 형태: {\"exists\": {\"event\": …, \"within\": …}}",
+   "실행 불가: DslError: 미바인딩 참조: $window. let 에 먼저 묶어야 한다: {\"let\": {\"window\": {...}}}",
+   "실행 불가: DslError: 미바인딩 참조: $window. let 에 먼저 묶어야 한다: {\"let\": {\"window\": {...}}}",
+   "실행 불가: DslError: 미바인딩 참조: $window. let 에 먼저 묶어야 한다: {\"let\": {\"window\": {...}}}",
+   "실행 불가: DslError: 미바인딩 참조: $window. let 에 먼저 묶어야 한다: {\"let\": {\"window\": {...}}}",
+   "실행 불가: DslError: 미바인딩 참조: $window. let 에 먼저 묶어야 한다: {\"let\": {\"window\": {...}}}",
+   "실행 불가: DslError: 미바인딩 참조: $window. let 에 먼저 묶어야 한다: {\"let\": {\"window\": {...}}}",
+   "실행 불가: DslError: 미바인딩 참조: $window. let 에 먼저 묶어야 한다: {\"let\": {\"window\": {...}}}",
+   "실행 불가: DslError: 미바인딩 참조: $window. let 에 먼저 묶어야 한다: {\"let\": {\"window\": {...}}}",
+   "실행 불가: DslError: 미바인딩 참조: $window. let 에 먼저 묶어야 한다: {\"let\": {\"window\": {...}}}"
+  ],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S5-R02-01",
+     "status": "OK",
+     "label": "기본실적 면제",
+     "source": {
+      "quote": "전월 중 이 통장에서 아래“기본실적 중 하나 이상” 발생된 경우"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.start_date",
+         "offset_months": -1,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.start_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "exists": [
+       {
+        "count_events": {
+         "event": "CARD_USAGE",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "count_events": {
+         "event": "AUTO_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "ATM_TRANSFER",
+      "value": 1
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S5-R02-02",
+     "status": "OK",
+     "label": "면제기간 적용",
+     "source": {
+      "quote": "면제기간 : 이번 달 11일부터 다음달 10일까지"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "ATM_WITHDRAW_AFTER_HOURS",
+      "value": 1
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S5-R02-03",
+     "status": "OK",
+     "label": "면제기간 적용",
+     "source": {
+      "quote": "면제기간 : 이번 달 11일부터 다음달 10일까지"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "AUTO_DEBIT",
+      "value": 1
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S5-R02-04",
+     "status": "OK",
+     "label": "면제기간 적용",
+     "source": {
+      "quote": "면제기간 : 이번 달 11일부터 다음달 10일까지"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "EBANK_TRANSFER",
+      "value": 1
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S5-R02-05",
+     "status": "OK",
+     "label": "면제기간 적용",
+     "source": {
+      "quote": "면제기간 : 이번 달 11일부터 다음달 10일까지"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "OTHER_BANK_ATM_WITHDRAW",
+      "value": 1
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S5-R02-06",
+     "status": "OK",
+     "label": "면제기간 적용",
+     "source": {
+      "quote": "이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "ATM_TRANSFER",
+      "value": 1
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S5-R02-07",
+     "status": "OK",
+     "label": "면제기간 적용",
+     "source": {
+      "quote": "이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "ATM_WITHDRAW_AFTER_HOURS",
+      "value": 1
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S5-R02-08",
+     "status": "OK",
+     "label": "면제기간 적용",
+     "source": {
+      "quote": "이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "AUTO_DEBIT",
+      "value": 1
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S5-R02-09",
+     "status": "OK",
+     "label": "면제기간 적용",
+     "source": {
+      "quote": "이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "EBANK_TRANSFER",
+      "value": 1
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S5-R02-10",
+     "status": "OK",
+     "label": "면제기간 적용",
+     "source": {
+      "quote": "이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "OTHER_BANK_ATM_WITHDRAW",
+      "value": 1
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-01\",\n   \"status\": \"OK\",\n   \"label\": \"기본실적 면제\",\n   \"source\": {\n    \"quote\": \"전월 중 이 통장에서 아래“기본실적 중 하나 이상” 발생된 경우\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"exists\": [\n     {\n      \"count_events\": {\n       \"event\": \"CARD_USAGE\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     },\n     {\n      \"count_events\": {\n       \"event\": \"AUTO_TRANSFER\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_TRANSFER\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-02\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"면제기간 : 이번 달 11일부터 다음달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_WITHDRAW_AFTER_HOURS\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-03\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"면제기간 : 이번 달 11일부터 다음달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"AUTO_DEBIT\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-04\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"면제기간 : 이번 달 11일부터 다음달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"EBANK_TRANSFER\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-05\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"면제기간 : 이번 달 11일부터 다음달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"OTHER_BANK_ATM_WITHDRAW\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-06\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_TRANSFER\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-07\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_WITHDRAW_AFTER_HOURS\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-08\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"AUTO_DEBIT\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-09\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"EBANK_TRANSFER\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-10\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"OTHER_BANK_ATM_WITHDRAW\",\n    \"value\": 1\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-01\",\n   \"status\": \"OK\",\n   \"label\": \"기본실적 면제\",\n   \"source\": {\n    \"quote\": \"전월 중 이 통장에서 아래“기본실적 중 하나 이상” 발생된 경우\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"CARD_USAGE\",\n     \"within\": {\n      \"ref\": \"$window\"\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_TRANSFER\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-02\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"면제기간 : 이번 달 11일부터 다음달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_WITHDRAW_AFTER_HOURS\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-03\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"면제기간 : 이번 달 11일부터 다음달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"AUTO_DEBIT\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-04\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"면제기간 : 이번 달 11일부터 다음달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"EBANK_TRANSFER\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-05\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"면제기간 : 이번 달 11일부터 다음달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"OTHER_BANK_ATM_WITHDRAW\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-06\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_TRANSFER\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-07\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_WITHDRAW_AFTER_HOURS\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-08\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"AUTO_DEBIT\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-09\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"EBANK_TRANSFER\",\n    \"value\": 1\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S5-R02-10\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"OTHER_BANK_ATM_WITHDRAW\",\n    \"value\": 1\n   }\n  }\n ]\n}",
+  "truncated": false
  }
 ]
