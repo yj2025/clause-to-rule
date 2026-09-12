@@ -98,6 +98,19 @@ def gate9(recs, texts, base=None):
     print("  ①~⑤ 는 값의 출처를 묻지 않는다. ⑥ 도 발화하지 않는 창작은 못 잡는다.")
 
 
+def gate11(recs, texts):
+    """⑪ 뒷받침 — 인용문이 rule 을 받치나. 하한이다."""
+    import support
+    a = support.audit(recs, texts)
+    if not a["checked"]:
+        return
+    print(f"\n⑪ 인용문이 rule 을 안 받침 (**하한** — 기계로 확실한 것만 센다)")
+    print(f"  인용문 있는 rule {a['checked']}개 중 {a['bad']}개 = {a['rate']:.1f}%")
+    if a["kinds"]:
+        print("  " + " · ".join(f"{k[:28]} {n}" for k, n in a["kinds"].most_common(3)))
+    print("  ④ 는 인용문이 원문에 있는지만 본다. 사람이 읽으면 어긋남이 훨씬 많다.")
+
+
 def _empty_rate(recs):
     n = sum(1 for x in recs
             if isinstance((x.get("output") or {}).get("rules"), list)
@@ -263,6 +276,7 @@ def main(argv=None):
     per_clause(recs, texts)
     gate8(recs, base)
     gate9(recs, texts, base)
+    gate11(recs, texts)
     meaning(recs)
     forms(recs, base)
     return 0
