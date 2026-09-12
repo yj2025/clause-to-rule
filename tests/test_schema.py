@@ -131,26 +131,19 @@ def test_fewshot_rate_value_is_a_number():
     assert isinstance(FEWSHOT_OUTPUT["rules"][0]["effect"]["value"], (int, float))
 
 
-def test_the_first_fewshot_shows_disqualify():
-    """v14 실측 — DISQUALIFY 가 생성물의 17.8% 인데 예시에는 0번 나왔다.
+def test_disqualify_is_deliberately_absent_from_the_examples():
+    """v15 에서 넣었다가 되돌렸다.
 
-    본 적 없는 도구라 "막히면 밀어 넣는 자리" 가 됐다.
+    DISQUALIFY 는 줄었지만(13 → 8) 그 자리가 다른 남발로 채워졌다 —
+    거래중지가 LIMIT_AMOUNT 3개로 가고, 지어낸 코드가 1 → 7 로 늘었다.
+    게다가 v14 에서 맞던 조문 8개가 틀렸고 그중 6개가
+    "표현 불가" 에서 "정상 rule" 로 갔다. **예시에 rule 이 하나 는 것이
+    "더 내라" 로 읽혔다.**
+
+    막힌 조문에서 수단을 찾는 행동 자체는 그대로이고 도구만 바뀐다.
+    이 문제는 예시가 아니라 카탈로그 확장으로 풀어야 한다.
     """
-    st = [r["effect"]["type"] for r in FEWSHOT_OUTPUT["rules"] if "effect" in r]
-    assert "DISQUALIFY" in st
-
-
-def test_disqualify_sits_next_to_a_guard():
-    """'이 rule 만 안 쓴다'(guard)와 '자격 자체가 없다'(DISQUALIFY)의 차이."""
-    rs = FEWSHOT_OUTPUT["rules"]
-    assert any("guard" in r for r in rs)
-    assert any((r.get("effect") or {}).get("type") == "DISQUALIFY" for r in rs)
-
-
-def test_the_example_does_not_teach_a_reversed_age_rule():
-    """코퍼스는 '만 19세 미만이 가입 대상' 이다. 예시가 반대면 베끼기가 섞인다."""
     import json
-    body = json.dumps(FEWSHOT_OUTPUT, ensure_ascii=False)
-    dq = [r for r in FEWSHOT_OUTPUT["rules"]
-          if (r.get("effect") or {}).get("type") == "DISQUALIFY"]
-    assert dq and "customer.age" not in json.dumps(dq, ensure_ascii=False)
+    st = {(r.get("effect") or {}).get("type")
+          for _, o in FEWSHOTS for r in o["rules"]}
+    assert "DISQUALIFY" not in st
