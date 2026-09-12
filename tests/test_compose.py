@@ -95,13 +95,16 @@ def test_v6_beats_v1_on_composition(root):
     assert b["rate"] > a["rate"]
 
 
-def test_the_axis_is_noisy_within_a_round(root):
-    """⑩ 은 조문 30개를 합쳐 한 값을 낸다 — 표본이 사실상 1 이다.
+def test_the_axis_noise_swings_between_rounds(root):
+    """⑩ 은 조문 전체의 rule 을 합쳐 한 값을 낸다 — 흔들림이 라운드마다 극단적이다.
 
-    1회차 판정선이 ±15~18p 라서, 1회차 라운드의 ⑩ 변화는 대부분 판정 불가다.
+    gold 46개로 재면 v1 은 표준편차 23.6p, v7 은 0.0p 다.
+    **평균 판정선을 쓰면 안 된다. 라운드별로 재야 한다.**
     """
     import os, json, statistics
     os.chdir(root)
-    d = json.loads((root / "results/results_v7.json").read_text("utf-8"))
-    vals = [compose.compare(d, r)["rate"] for r in (0, 1, 2)]
-    assert statistics.pstdev(vals) > 5.0
+    sds = []
+    for v in ("v1", "v2", "v7"):
+        d = json.loads((root / f"results/results_{v}.json").read_text("utf-8"))
+        sds.append(statistics.pstdev([compose.compare(d, r)["rate"] for r in (0, 1, 2)]))
+    assert max(sds) - min(sds) > 15.0        # 라운드마다 크게 다르다
