@@ -56,30 +56,62 @@ AXES = {
     "extra":       [0, 1],
     "reserved":    [0, 1_000_000],
     "termination": ["MATURITY", "EARLY"],
+    # 가입기간. 생성물이 가장 자주 쓰는 고정 변수였다 — 참조 27개.
+    # 12 로 고정돼 있어서 `term_months >= 12` 가 프로필 전부에서 참이었고,
+    # ⑥ 이 맞는 기간 조건과 틀린 기간 조건을 구별하지 못했다.
+    "term":        [6, 12],
+    # 판별 기준일의 시대. 참조 20개.
+    # "2023-04-11 이후 가입분" 같은 시행일 조건이 기준일 하나로는 안 흔들린다.
+    # OLD 는 그 시행일 **이전**이다. 날짜 전부가 기준일을 따라 움직인다.
+    "epoch":       ["NOW", "OLD"],
 }
 
-REFERENCE_DATE = "2026-09-11"
-START_DATE = "2026-01-01"
-MATURITY_DATE = "2026-12-01"
-PREV_MONTH = "2026-08"          # 기준일의 전월
+# 시대별 날짜. 전부 기준일에서 파생한다 — 하나만 바꾸면 창도 같이 움직인다.
+EPOCHS = {
+    "NOW": {"reference": "2026-09-11", "start": "2026-01-01",
+            "maturity": "2026-12-01"},
+    # 상품 시행일 2023-04-11 **이전**. 시행일 조건을 흔드는 유일한 축이다.
+    "OLD": {"reference": "2023-02-20", "start": "2022-06-01",
+            "maturity": "2023-06-01"},
+}
+
+REFERENCE_DATE = EPOCHS["NOW"]["reference"]      # 예전 이름 — 쓰는 곳이 있다
+START_DATE = EPOCHS["NOW"]["start"]
+MATURITY_DATE = EPOCHS["NOW"]["maturity"]
+PREV_MONTH = "2026-08"
+
+
+def _month_before(ym, k):
+    """`"2026-08"` 에서 k 달 전. `"2026-03"`."""
+    y, m = int(ym[:4]), int(ym[5:7])
+    t = y * 12 + (m - 1) - k
+    return f"{t // 12:04d}-{t % 12 + 1:02d}"
+
+
+def _prev_month(date):
+    """기준일의 전월."""
+    return _month_before(date[:7], 1)
 
 
 def _ctx(combo):
+    era = EPOCHS[combo["epoch"]]
+    prev = _prev_month(era["reference"])
     ev = {}
     if combo["basic"]:
-        ev["CARD_USAGE"] = [{"date": f"{PREV_MONTH}-15", "amount": 30_000}]
-        ev["AUTO_TRANSFER"] = [{"date": f"{PREV_MONTH}-20", "amount": 80_000}]
+        ev["CARD_USAGE"] = [{"date": f"{prev}-15", "amount": 30_000}]
+        ev["AUTO_TRANSFER"] = [{"date": f"{prev}-20", "amount": 80_000}]
         # 출금. v17 에서 카탈로그에 WITHDRAWAL 을 넣으면서 프로필은 안 고쳤다.
         # 그래서 `WITHDRAWAL == 0` 이 **모든 프로필에서 참**이 됐고,
         # 무거래 판정을 올바르게 옮긴 rule 이 헛조건으로 잡혔다 (⑭).
         # 이벤트를 카탈로그에 더하면 프로필 축도 같이 봐야 한다.
-        ev["WITHDRAWAL"] = [{"date": f"{PREV_MONTH}-18", "amount": 50_000}]
+        ev["WITHDRAWAL"] = [{"date": f"{prev}-18", "amount": 50_000}]
     if combo["extra"]:
         # 전월로 끝나는 6개월치 — 개월 수 세기와 "전월 중" 이 둘 다 걸린다
-        ev["SALARY_TRANSFER"] = [{"date": f"2026-{m:02d}-25", "amount": 2_000_000}
-                                 for m in range(3, 9)]
-        ev["DEPOSIT"] = [{"date": f"{PREV_MONTH}-10", "amount": 500_000}]
-        ev["PENSION_RECEIPT"] = [{"date": f"{PREV_MONTH}-25", "amount": 600_000}]
+        ev["SALARY_TRANSFER"] = [
+            {"date": f"{_month_before(prev, k)}-25", "amount": 2_000_000}
+            for k in range(5, -1, -1)]
+        ev["DEPOSIT"] = [{"date": f"{prev}-10", "amount": 500_000}]
+        ev["PENSION_RECEIPT"] = [{"date": f"{prev}-25", "amount": 600_000}]
 
     # 모든 이벤트 종류를 "제공했다" 고 선언한다. 선언하지 않으면 "없다" 가 아니라
     # "모른다" 가 되어 판별이 전부 UNKNOWN 으로 뭉개진다 (§7.2 의 세 번째 줄).
@@ -94,9 +126,9 @@ def _ctx(combo):
         "account": {"balance": combo["balance"],
                     "reserved_amount": combo["reserved"]},
         "contract": {"base_rate": 0.1, "channel": combo["channel"],
-                     "start_date": START_DATE, "maturity_date": MATURITY_DATE,
-                     "reference_date": REFERENCE_DATE, "switch_date": None,
-                     "termination_date": None, "term_months": 12,
+                     "start_date": era["start"], "maturity_date": era["maturity"],
+                     "reference_date": era["reference"], "switch_date": None,
+                     "termination_date": None, "term_months": combo["term"],
                      "amount": combo["balance"], "monthly_amount": 0,
                      "termination_type": combo["termination"]},
         "events": ev,

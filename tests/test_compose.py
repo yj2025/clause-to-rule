@@ -75,7 +75,8 @@ def test_missing_output_is_reported(root):
     os.chdir(root)
     recs = json.loads((root / "results/results_v1.json").read_text("utf-8"))
     got = compose.compare(recs, run=0)
-    assert "missing" in got and got["total"] == 256
+    import gold
+    assert "missing" in got and got["total"] == len(gold.profiles())
 
 
 def test_composed_rate_is_a_percentage(root):

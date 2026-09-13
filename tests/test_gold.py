@@ -4,7 +4,25 @@ import gold
 
 
 def test_profile_count(profiles):
-    assert len(profiles) == 256
+    assert len(profiles) == 1024
+
+
+def test_term_and_epoch_axes_actually_discriminate(profiles):
+    """넓힌 두 축이 실제로 값을 흔드는지.
+
+    생성물의 변수 참조 40%가 프로필이 고정한 변수를 가리키고 있었다.
+    `term_months` 27회 · `reference_date` 20회 — 둘이 대부분이었다.
+    고정돼 있으면 ⑥ 이 맞는 조건과 틀린 조건을 구별하지 못한다.
+    """
+    terms = {c["contract"]["term_months"] for _, c in profiles}
+    refs = {c["contract"]["reference_date"] for _, c in profiles}
+    assert len(terms) > 1 and len(refs) > 1
+
+    # 날짜가 기준일을 따라 움직여야 한다. 안 그러면 OLD 프로필에서
+    # 실적이 전부 창 밖으로 나가 "실적 없음" 한 가지로 뭉개진다.
+    for _, c in profiles:
+        for ev in c["events"].get("SALARY_TRANSFER", []):
+            assert ev["date"] < c["contract"]["reference_date"]
 
 
 def test_profile_count_is_the_product_of_axes(profiles):

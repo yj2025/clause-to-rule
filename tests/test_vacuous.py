@@ -130,11 +130,15 @@ def test_the_real_v19_rule_is_caught(root):
 def test_profile_gap_is_not_called_a_defect():
     """프로필이 안 흔든 변수는 '미가동' 이지 헛조건이 아니다.
 
-    `term_months` 는 골드 프로필에서 12 로 고정이다. `>= 12` 가 프로필
-    전부에서 참이지만 6개월짜리 계약은 얼마든지 있다 — 모델 잘못이 아니다.
-    첫 측정에서 이 둘을 안 갈라 수치가 8배 부풀었다.
+    `monthly_amount` 는 골드 프로필에서 0 으로 고정이다. `>= 0` 이 프로필
+    전부에서 참이지만 월 납입금이 0 이 아닌 계약은 얼마든지 있다 —
+    모델 잘못이 아니다. 첫 측정에서 이 둘을 안 갈라 수치가 8배 부풀었다.
+
+    `term_months` 가 원래 이 자리였다. 프로필에 기간 축을 넣어 풀었다.
     """
-    cond = {">=": [{"var": "contract.term_months"}, 12]}
+    cond = {">=": [{"var": "contract.monthly_amount"}, 1]}
+    assert not V.is_vacuous(cond)                # 프로필에서 거짓이다
+    cond = {"==": [{"var": "contract.monthly_amount"}, 0]}
     assert V.is_vacuous(cond)                    # 프로필에서는 언제나 참
     assert V.has_counterexample(cond)            # 정의역에는 반례가 있다
     assert V.classify(cond) == "미가동"
@@ -158,7 +162,7 @@ def test_enum_fully_enumerated_is_vacuous():
 def test_audit_counts_the_two_separately():
     recs = [{"clause_id": "X", "run": 0, "output": {"rules": [
         {"condition": {">=": [{"count_events": {"event": "DEPOSIT"}}, 0]}},
-        {"condition": {">=": [{"var": "contract.term_months"}, 12]}},
+        {"condition": {"==": [{"var": "contract.monthly_amount"}, 0]}},
         {"condition": {"<": [{"var": "account.balance"}, 10000]}}]}}]
     a = V.audit(recs)
     assert (a["checked"], a["bad"], a["idle"]) == (3, 1, 1)
