@@ -73,6 +73,11 @@
 | ⑬ | 카탈로그에 없는 개념을 문자열에 담나 | `invent.py` |
 | ⑭ | 조건이 붙었는데 언제나 참인가 | `vacuous.py` |
 
+⑭ 는 두 가지를 **갈라 센다.** 프로필 1024개 전부에서 참이라고 다 모델
+잘못이 아니다. 카탈로그 정의역을 훑는 문맥 400개(`_free.py`)에서 반례를 찾아
+**헛조건**(반례 없음 · 모델의 결함)과 **미가동**(반례 있음 · 프로필의 구멍)을
+나눈다. 안 가르면 수치가 여덟 배까지 부푼다.
+
 **⑥ 만으로는 부족하다.** UNSUPPORTED 와 빈 배열을 못 가르고, 조문을 고립시켜
 재므로 합성할 때만 드러나는 파괴를 못 본다. 그래서 축을 더 세웠다.
 
@@ -89,6 +94,8 @@ python report.py results/results_v10.json --baseline results/results_v9.json
 python judge.py  results/results_v10.json results/results_v9.json --watch <조문id>...
 python diagnose.py results/results_v10.json     # 다음 처방을 고르기 위한 브리핑
 python noise.py  results/results_v10.json       # 그 라운드의 판정선
+python vacuous.py results/results_v10.json     # ⑭ 헛조건 · 미가동
+python blockers.py                             # 카탈로그 확장이 푸는 조문 수
 ```
 
 테스트: `/workspace/.venv/bin/python -m pytest tests/ -q`
@@ -101,12 +108,19 @@ python noise.py  results/results_v10.json       # 그 라운드의 판정선
    ⑫ 는 ±2.1p, ⑨ 는 **±23.5p** 다. 하나의 값을 모든 축에 쓰면 안 된다
 4. **조문별로 풀기 전에는 군 평균을 처방의 효과로 읽지 않는다**
 5. **탈출구를 열기 전에 그것을 세는 축을 먼저 세운다**
+6. **표면 지표가 오르면 뜻을 따로 확인한다.** v19 가 표적 이름을 쓰게 만들었고
+   표적 조문도 둘 다 맞혔는데, 실물은 `count >= 0` 이라 뜻이 뒤집혀 있었다.
+   ⑭ 이 없었으면 성공으로 적을 뻔했다
 
 ## 아직 못 한 것
 
-- **gold 30개 전부 미검토** (`reviewed: false`). 이것 없이는 ⑥⑩⑫ 를 기준선으로 못 쓴다
+- **gold 46개 전부 미검토** (`reviewed: false`). 이것 없이는 ⑥⑩⑫ 를 기준선으로 못 쓴다.
+  확장 우선순위도 여기서 나온다 — 사람 검토가 순위를 바꿀 수 있다
 - **카탈로그 확장.** gold 46조문에 표현 불가 rule 이 **53개, 30조문**에 있다.
   코퍼스의 3분의 2가 부분적으로든 전부든 옮길 수 없다.
   **지문으로는 못 푼다** — v15 에서 막았더니 다른 도구로 샜다.
-  우선순위와 근거는 `CATALOG_PROPOSAL.md` 에 있다
+  우선순위와 근거는 `CATALOG_PROPOSAL.md` 에 있다.
+  **순위를 "언급한 조문 수" 로 매기면 안 된다** — 걸림돌은 묶여서 온다.
+  `blockers.py` 가 "그 조문의 표현 불가 rule 이 하나도 안 남는" 것만 센다.
+  옛 꼴찌(제3자 서비스 effect)가 1등이고, 옛 2위(출금 이벤트)는 0개를 푼다
 - **뜻을 겨냥한 처방이 이제 시작이다.** v2~v6 은 전부 조판과 선택 규칙이었다
