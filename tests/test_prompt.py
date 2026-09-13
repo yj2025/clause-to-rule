@@ -169,7 +169,7 @@ def test_nothing_was_swapped_out_to_make_room():
     """
     from schema import FEWSHOTS
     assert len(FEWSHOTS) >= 5
-    assert FEWSHOTS[3][1] == {"rules": []}
+    assert any(o == {"rules": []} for _, o in FEWSHOTS)
 
 
 def test_the_prompt_length_stays_inside_the_registered_bound():

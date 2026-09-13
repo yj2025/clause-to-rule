@@ -3,8 +3,8 @@ import json
 import pytest
 
 import catalog
-from schema import (FEWSHOT_CLAUSE, FEWSHOT_EMPTY_OUTPUT, FEWSHOT_OUTPUT,
-                    FEWSHOTS, SCHEMA)
+from schema import (FEWSHOT_CLAUSE, FEWSHOT_EMPTY_OUTPUT, FEWSHOT_INTRO_CLAUSE,
+                    FEWSHOT_INTRO_OUTPUT, FEWSHOT_OUTPUT, FEWSHOTS, SCHEMA)
 
 
 def test_schema_is_json_serialisable():
@@ -43,10 +43,10 @@ def test_the_original_four_fewshots_are_never_swapped_out():
     더하기에 대한 것이 아니다 — 그 구별을 여기서 지킨다.
     """
     assert len(FEWSHOTS) >= 5
-    assert FEWSHOTS[3][1] == {"rules": []}, "빈 배열 장면은 자리를 지킨다"
+    assert any(o == {"rules": []} for _, o in FEWSHOTS), "빈 배열 장면은 남는다"
 
 
-def test_the_fourth_fewshot_is_an_empty_array():
+def test_the_empty_array_scene_is_never_dropped():
     """v18 에서 무거래 장면으로 바꿨다가 되돌렸다.
 
     장면은 **먹었다** — WITHDRAWAL 사용이 1 rule → 10 rule, 표적 2/2.
@@ -55,14 +55,17 @@ def test_the_fourth_fewshot_is_an_empty_array():
 
     **확장 항목마다 예시 자리가 필요한데 자리가 모자란다** —
     이것이 `CATALOG_PROPOSAL.md` 에 붙는 결론이다.
+
+    자리 번호로 찾지 않는다 — 차례는 v22 가 재는 변수다.
     """
-    assert FEWSHOTS[3][1] == {"rules": []}
+    assert FEWSHOT_INTRO_OUTPUT == {"rules": []}
+    assert (FEWSHOT_INTRO_CLAUSE, FEWSHOT_INTRO_OUTPUT) in FEWSHOTS
 
 
 def test_the_intro_scene_mentions_benefits_without_numbers():
     """혜택이 말로만 언급된 조문 — ⑨ 의 대표 실패 모양이다."""
     import grounding
-    clause = FEWSHOTS[3][0]
+    clause = FEWSHOT_INTRO_CLAUSE
     assert "금리" in clause and grounding.numbers_in(clause) == set()
 
 
@@ -198,3 +201,13 @@ def test_no_example_teaches_a_vacuous_condition(root):
         for r in out.get("rules") or []:
             bad = [k for k, _ in VA.check_rule(r) if k == "헛조건"]
             assert not bad, f"예시 {i} 가 헛조건을 가르친다"
+
+
+def test_the_empty_array_example_sits_closest_to_the_clause():
+    """빈 배열 예시는 **맨 끝**이다 — 조문 바로 앞자리.
+
+    v21 이 무거래 장면을 끝에 붙이면서 이 자리를 빼앗았고 ⑦ 이 10.9p 떨어졌다.
+    개수 탓인지 자리 탓인지 못 갈라서, v22 가 개수를 그대로 두고
+    차례만 되돌려 가른다. 이 시험이 그 차례를 지킨다.
+    """
+    assert FEWSHOTS[-1][1] == {"rules": []}

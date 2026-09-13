@@ -319,6 +319,11 @@ FEWSHOTS = (
     (FEWSHOT_CLAUSE, FEWSHOT_OUTPUT),
     (FEWSHOT_EMPTY_CLAUSE, FEWSHOT_EMPTY_OUTPUT),
     (FEWSHOT_UNSUPPORTED_CLAUSE, FEWSHOT_UNSUPPORTED_OUTPUT),
-    (FEWSHOT_INTRO_CLAUSE, FEWSHOT_INTRO_OUTPUT),
+    # v22: 무거래 장면을 **넷째**로, 빈 배열을 **끝**으로 되돌린다.
+    # v21 은 다섯째를 끝에 붙이면서 빈 배열을 조문 바로 앞자리에서 밀어냈고
+    # ⑦ 이 10.9p 떨어졌다. 개수 탓인지 자리 탓인지 못 갈랐다.
+    # 여기서는 개수도 내용도 그대로 두고 **차례만** 바꾼다 —
+    # 프롬프트 길이가 한 글자도 안 변하므로 "길어서" 라는 설명이 배제된다.
     (FEWSHOT_DORMANT_CLAUSE, FEWSHOT_DORMANT_OUTPUT),
+    (FEWSHOT_INTRO_CLAUSE, FEWSHOT_INTRO_OUTPUT),
 )
