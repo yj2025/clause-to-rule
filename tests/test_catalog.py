@@ -8,7 +8,8 @@ def test_variable_count():
 
 
 def test_event_count():
-    assert len(C.EVENTS) == 10
+    """v17 에서 WITHDRAWAL 을 더해 11개가 됐다 (`CATALOG_PROPOSAL.md` 2순위)."""
+    assert len(C.EVENTS) == 11
 
 
 def test_operator_count():
@@ -72,9 +73,20 @@ def test_pending_effects_are_absent(name):
     assert name not in C.EFFECTS
 
 
-@pytest.mark.parametrize("name", ["SEIZURE", "WITHDRAWAL"])
+@pytest.mark.parametrize("name", ["SEIZURE", "PROVISIONAL_SEIZURE"])
 def test_pending_events_are_absent(name):
+    """아직 합의 전인 것. 압류 계열은 `CATALOG_PROPOSAL.md` 7순위다."""
     assert name not in C.EVENTS
+
+
+def test_withdrawal_pairs_with_deposit():
+    """DEPOSIT 만 있으면 출금만 있던 계좌가 무거래로 판정된다 — 부호가 뒤집힌다."""
+    assert "WITHDRAWAL" in C.EVENTS and "DEPOSIT" in C.EVENTS
+
+
+def test_withdrawal_is_picked_for_transaction_clauses():
+    _, ev = C.pick_candidates("1년 이상 입출금 거래가 없는 계좌")
+    assert "WITHDRAWAL" in ev
 
 
 # ── pick_candidates ─────────────────────────────────────────────────────

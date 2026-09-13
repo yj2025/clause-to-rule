@@ -48,6 +48,9 @@ EVENTS = {
     "AUTO_TRANSFER":          "자동이체 · 공과금이체",
     "CARD_USAGE":             "카드 결제실적(현금서비스 포함)",
     "DEPOSIT":                "입금",
+    # v17 에서 더했다. `CATALOG_PROPOSAL.md` 2순위 — 8조문 18 rule 이 여기 걸린다.
+    # DEPOSIT 만 있으면 **출금만 있던 계좌가 무거래로 판정된다.** 부호가 뒤집힌다.
+    "WITHDRAWAL":             "출금",
     "PENSION_RECEIPT":        "연금 수령",
     "FX_TRANSACTION":         "외환 거래",
     "PRODUCT_SWITCH":         "상품 전환",
@@ -127,6 +130,7 @@ _HINTS = {
     "AUTO_TRANSFER":             ("자동이체", "공과금", "지로", "CMS"),
     "CARD_USAGE":                ("카드", "결제실적"),
     "DEPOSIT":                   ("입금", "예치"),
+    "WITHDRAWAL":                ("출금", "인출"),
     "PENSION_RECEIPT":           ("연금",),
     "FX_TRANSACTION":            ("외화", "환전", "외환"),
     "PRODUCT_SWITCH":            ("전환",),
