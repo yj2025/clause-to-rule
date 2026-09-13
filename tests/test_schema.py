@@ -40,15 +40,28 @@ def test_there_are_four_fewshots():
     assert len(FEWSHOTS) == 4
 
 
-def test_the_fourth_fewshot_is_an_empty_array():
-    assert FEWSHOTS[3][1] == {"rules": []}
+def test_the_fourth_fewshot_shows_how_to_count_inactivity(root=None):
+    """v17 에서 WITHDRAWAL 을 카탈로그에 넣었는데 46조문에서 1번 썼다.
+
+    이름은 프롬프트에 실렸는데 모델이 무거래를 `contract.term_months`
+    (가입기간)로 옮겼다. 이름을 줘도 무엇을 세는지는 모른다.
+    """
+    import json
+    body = json.dumps(FEWSHOTS[3][1], ensure_ascii=False)
+    assert "WITHDRAWAL" in body and "DEPOSIT" in body
 
 
-def test_the_intro_scene_mentions_benefits_without_numbers():
-    """혜택이 말로만 언급된 조문 — ⑨ 의 대표 실패 모양이다."""
-    import grounding
-    clause = FEWSHOTS[3][0]
-    assert "금리" in clause and grounding.numbers_in(clause) == set()
+def test_the_inactivity_scene_counts_both_directions():
+    """입금과 출금을 둘 다 세어야 무거래다."""
+    cond = FEWSHOTS[3][1]["rules"][0]["condition"]
+    evs = {c["=="][0]["count_events"]["event"] for c in cond["and"]}
+    assert evs == {"DEPOSIT", "WITHDRAWAL"}
+
+
+def test_the_scene_still_carries_a_no_rule_line():
+    """예시 4 가 빈 배열 장면이었다. 그 몫을 일부 남긴다."""
+    assert "편리한 금융 서비스를 제공합니다" in FEWSHOTS[3][0]
+    assert len(FEWSHOTS[3][1]["rules"]) == 1      # 그 줄은 rule 이 되지 않는다
 
 
 def test_first_fewshot_shows_a_rule():
