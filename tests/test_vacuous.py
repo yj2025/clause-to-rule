@@ -166,3 +166,36 @@ def test_audit_counts_the_two_separately():
         {"condition": {"<": [{"var": "account.balance"}, 10000]}}]}}]
     a = V.audit(recs)
     assert (a["checked"], a["bad"], a["idle"]) == (3, 1, 1)
+
+
+def test_sampler_straddles_every_threshold_the_model_uses():
+    """조건에 쓰이는 문턱값과 그 양옆이 표본에 있어야 한다.
+
+    문턱을 안 밟으면 `balance != 10000` 같은 조건이 반례를 못 만나
+    헛조건으로 잘못 잡힌다.
+    """
+    import _free
+    for t in (10_000, 50_000, 100_000, 1_000_000):
+        for v in (t - 1, t, t + 1):
+            assert v in _free._INT, f"{v} 가 표본에 없다"
+
+
+def test_a_rare_counterexample_is_still_found():
+    """400개 표본으로 드문 반례도 찾는가."""
+    import _free
+    V._FREE = _free.sample()
+    cond = {"!=": [{"var": "account.balance"}, 10_000]}
+    assert V.has_counterexample(cond)
+    V._FREE = None
+
+
+def test_vacuity_is_stable_across_seeds():
+    """씨앗을 바꿔도 같은 답이 나와야 판정에 쓸 수 있다."""
+    import _free
+    cond = {">=": [{"count_events": {"event": "DEPOSIT"}}, 0]}
+    near = {"<": [{"var": "account.balance"}, 50_000_000]}
+    for seed in (20260913, 7, 99):
+        V._FREE = _free.sample(400, seed)
+        assert V.classify(cond) == "헛조건"
+        assert V.classify(near) == "미가동"
+    V._FREE = None
