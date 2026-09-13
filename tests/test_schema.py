@@ -35,9 +35,15 @@ def test_status_enum_matches_catalog():
     assert set(props["status"]["enum"]) == set(catalog.STATUSES)
 
 
-def test_there_are_four_fewshots():
-    """v10 에서 빈 배열 장면을 되살렸다 — 맞바꾸지 않고 더했다."""
-    assert len(FEWSHOTS) == 4
+def test_the_original_four_fewshots_are_never_swapped_out():
+    """v21 에서 다섯째(무거래 장면)를 **더했다.** 넷은 그대로 둔다.
+
+    v9 와 v18 이 맞바꿔서 두 번 다 되돌렸다. v10 은 더해서 성공했다.
+    "예시 자리가 유한하다" 는 **맞바꿈**에 대한 결론이지
+    더하기에 대한 것이 아니다 — 그 구별을 여기서 지킨다.
+    """
+    assert len(FEWSHOTS) >= 5
+    assert FEWSHOTS[3][1] == {"rules": []}, "빈 배열 장면은 자리를 지킨다"
 
 
 def test_the_fourth_fewshot_is_an_empty_array():

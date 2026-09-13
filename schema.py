@@ -271,9 +271,54 @@ FEWSHOT_INTRO_CLAUSE = (
 )
 FEWSHOT_INTRO_OUTPUT = {"rules": []}
 
+# **무거래 기간을 세는 법.** v17~v20 에서 산문으로 세 번 시도해 세 번 다 실패했다.
+# 이름만 주면 `contract.term_months`(가입기간)로 옮기고, 어휘에 설명 줄을 붙이면
+# `count(WITHDRAWAL) >= 0` 이라는 헛조건을 내고, 지시문에 금지하면 그 모양을
+# 그대로 낸다. **장면만 먹는다** — v18 에서 확인했다.
+#
+# v18 은 이 장면을 넣으려고 `FEWSHOT_INTRO`(빈 배열)를 **맞바꿔서** 되돌렸다.
+# ⑦ 이 30.4% → 8.7% 로 무너졌다. 여기서는 **더한다.** 넷을 그대로 두고 다섯째다.
+# v10 이 더하기는 된다는 것을 이미 보였다.
+#
+# 보여주는 것 —
+#   입금과 출금을 **둘 다** 세어야 무거래다
+#   `count_events` 가 **0 인 것**이 "거래가 없다" 다 (`>= 0` 은 언제나 참이다)
+#   창은 `contract.reference_date` 기준이다. 가입일이 아니다
+#   혜택이 말로만 언급된 줄은 rule 이 되지 않는다
+FEWSHOT_DORMANT_CLAUSE = (
+    "[거래 제한]\n"
+    "▪ 최근 1년간 입금과 출금이 모두 없는 계좌는 거래를 제한합니다.\n"
+    "▪ 편리한 금융 서비스를 제공합니다."
+)
+
+FEWSHOT_DORMANT_OUTPUT = {
+    "rules": [
+        {
+            "rule_id": "R-EX-05-01",
+            "status": "OK",
+            "label": "장기 무거래 계좌",
+            "source": {"quote": "▪ 최근 1년간 입금과 출금이 모두 없는 계좌는 거래를 제한합니다."},
+            "let": {"window": {"month_range": {
+                "from": {"anchor": "contract.reference_date",
+                         "offset_months": -12, "day": "first"},
+                "to": {"anchor": "contract.reference_date",
+                       "offset_months": -1, "day": "last"}}}},
+            "condition": {"and": [
+                {"==": [{"count_events": {"event": "DEPOSIT",
+                                          "within": {"ref": "$window"}}}, 0]},
+                {"==": [{"count_events": {"event": "WITHDRAWAL",
+                                          "within": {"ref": "$window"}}}, 0]},
+            ]},
+            "effect": {"type": "DISQUALIFY"},
+        }
+    ]
+}
+
+
 FEWSHOTS = (
     (FEWSHOT_CLAUSE, FEWSHOT_OUTPUT),
     (FEWSHOT_EMPTY_CLAUSE, FEWSHOT_EMPTY_OUTPUT),
     (FEWSHOT_UNSUPPORTED_CLAUSE, FEWSHOT_UNSUPPORTED_OUTPUT),
     (FEWSHOT_INTRO_CLAUSE, FEWSHOT_INTRO_OUTPUT),
+    (FEWSHOT_DORMANT_CLAUSE, FEWSHOT_DORMANT_OUTPUT),
 )

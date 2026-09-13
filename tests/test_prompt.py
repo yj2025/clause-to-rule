@@ -162,15 +162,25 @@ def test_one_account_hint_reaches_the_right_clause():
     assert "1인 1계좌" in p.split("[쓸 수 있는 이름]")[1]
 
 
-def test_usage_lines_do_not_cost_an_example_slot():
-    """예시 자리는 유한하고 맞바꿀 수 없다 — v9 와 v18 에서 두 번 확인했다."""
+def test_nothing_was_swapped_out_to_make_room():
+    """새 장면은 **더한** 것이다. 기존 넷은 자리를 지킨다.
+
+    v9 와 v18 이 맞바꿔서 두 번 다 되돌렸다 (⑦ 이 무너진다).
+    """
     from schema import FEWSHOTS
-    assert len(FEWSHOTS) == 4 and FEWSHOTS[3][1] == {"rules": []}
+    assert len(FEWSHOTS) >= 5
+    assert FEWSHOTS[3][1] == {"rules": []}
 
 
-def test_the_prompt_stays_shorter_than_the_scene_version():
-    """v18(장면)은 6,717자였다. 설명 줄은 그 이름이 실린 조문에서만 길어진다."""
+def test_the_prompt_length_stays_inside_the_registered_bound():
+    """v21 이 다섯째 예시를 더하면서 프롬프트가 길어졌다 — **사전에 잰 비용**이다.
+
+    v19(설명 줄)는 평균 5,9xx자였고 v21 은 7,0xx자다.
+    되돌리는 선 2번(①~⑤ 중 하나가 10p 넘게 떨어짐)이 이 비용을 잡는다.
+    여기서는 **더 늘어나지 않게** 막는다 — 8,000자를 넘으면 새 장면을
+    더 넣기 전에 예산을 다시 따져야 한다.
+    """
     import json
     corpus = json.loads(__import__("pathlib").Path("data/corpus.json").read_text("utf-8"))
     lens = [len(build_user_prompt(c["text"], c["id"])) for c in corpus]
-    assert sum(lens) / len(lens) < 6000
+    assert sum(lens) / len(lens) < 8000
