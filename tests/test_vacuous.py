@@ -98,3 +98,30 @@ def test_every_gate_lets_it_pass():
          "effect": {"type": "DISQUALIFY"}}
     assert VA.check_catalog(r) == [] and VA.check_executable(r) == []
     assert V.check_rule(r) != []
+
+
+def test_window_bindings_must_be_passed(root):
+    """rule 의 `let` 을 안 넘기면 창을 쓰는 조건이 전부 검사에서 빠진다.
+
+    v19 에서 이 구멍 때문에 표적 조문의 헛조건을 놓쳤다 —
+    창을 쓰는 형태가 이 코퍼스에서 가장 흔하다.
+    """
+    LET = {"window": {"month_range": {
+        "from": {"anchor": "contract.reference_date", "offset_months": -12,
+                 "day": "first"},
+        "to": {"anchor": "contract.reference_date", "offset_months": -1,
+               "day": "last"}}}}
+    arm = {">=": [{"count_events": {"event": "WITHDRAWAL",
+                                    "within": {"ref": "$window"}}}, 0]}
+    assert not V.is_vacuous(arm)                 # let 없이는 실행 실패
+    assert V.is_vacuous(arm, LET)                # 넘기면 헛조건으로 잡힌다
+
+
+def test_the_real_v19_rule_is_caught(root):
+    import json, os
+    os.chdir(root)
+    d = {x["clause_id"]: x for x in
+         json.loads((root / "results/results_v19.json").read_text("utf-8"))
+         if x["run"] == 0}
+    r = (d["KBYY-S2-R19"].get("output") or {}).get("rules")[0]
+    assert V.check_rule(r), "창을 쓰는 헛조건을 잡아야 한다"

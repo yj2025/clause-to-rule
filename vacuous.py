@@ -59,21 +59,27 @@ def _profiles():
     return _PROFILES
 
 
-def is_vacuous(cond):
+def is_vacuous(cond, env=None):
     """조건이 붙어 있는데 프로필 전부에서 참인가.
 
     빈 조건과 조건 없음은 False — 숨은 것만 센다.
     실행 불가는 False — 그건 ⑤ 가 잡는다.
+
+    **`env` 에 rule 의 `let` 을 넘겨야 한다.** 안 넘기면 창을 쓰는 조건이
+    전부 "미바인딩 참조" 로 실행 실패가 되어 검사에서 빠진다.
+    창을 쓰는 형태가 이 코퍼스에서 가장 흔하다 — v19 에서 이 구멍 때문에
+    표적 조문의 헛조건을 놓쳤다.
     """
     if not isinstance(cond, dict) or not cond:
         return False
     try:
-        return all(evaluate(cond, ctx) is TV.T for ctx in _profiles())
+        return all(evaluate(cond, ctx, dict(env or {})) is TV.T
+                   for ctx in _profiles())
     except Exception:
         return False
 
 
-def vacuous_branches(cond):
+def vacuous_branches(cond, env=None):
     """`and` 안에서 헛것인 갈래. 조건 전체가 헛것이 아니어도 갈래는 헛것일 수 있다.
 
     v19 의 거래중지가 그 모양이다 — 잔액 조건은 진짜인데
@@ -84,17 +90,18 @@ def vacuous_branches(cond):
     arms = cond["and"]
     if not isinstance(arms, list):
         return []
-    return [a for a in arms if is_vacuous(a)]
+    return [a for a in arms if is_vacuous(a, env)]
 
 
 def check_rule(rule):
     out = []
+    env = rule.get("let") or {}
     for part in ("condition", "guard"):
         c = rule.get(part)
-        if is_vacuous(c):
+        if is_vacuous(c, env):
             out.append(f"{part} 이 프로필 전부에서 참이다 — 조건이 없는 것과 같다")
             continue
-        for a in vacuous_branches(c):
+        for a in vacuous_branches(c, env):
             out.append(f"{part} 의 한 갈래가 언제나 참이다 — 빼도 결과가 같다: "
                        f"{json.dumps(a, ensure_ascii=False)[:70]}")
     return out
