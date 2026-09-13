@@ -137,3 +137,40 @@ def test_retry_prompt_still_contains_the_clause():
 
 def test_retry_prompt_asks_to_keep_good_rules():
     assert "그대로 둔다" in build_retry_prompt(CLAUSE, {}, ["e"])
+
+
+# ── v19: 어휘에 쓰는 법을 붙인다 (예시 자리를 안 쓴다) ──────────────────
+def test_usage_lines_attach_to_misused_names():
+    """v17 — 이름만 주면 안 쓴다. 46조문에서 WITHDRAWAL 을 1번 썼다."""
+    p = build_user_prompt("1년 이상 입출금 거래가 없는 계좌")
+    assert "무거래 판정은 DEPOSIT 과 WITHDRAWAL 을 둘 다 센다" in p
+
+
+def test_usage_lines_only_for_measured_misuse():
+    """전부에 붙이면 길어지고, 안 쓸 이름을 설명하면 그 이름을 쓰게 된다."""
+    from prompt import _USAGE
+    assert set(_USAGE) == {"WITHDRAWAL", "DISQUALIFY", "customer.has_product"}
+
+
+def test_disqualify_usage_names_what_it_is_not():
+    p = build_user_prompt("만 19세 미만 고객")
+    assert "특정 거래만 금지하는 것이 아니다" in p
+
+
+def test_one_account_hint_reaches_the_right_clause():
+    p = build_user_prompt("이 상품은 1인 1계좌만 가입이 가능합니다")
+    assert "1인 1계좌" in p.split("[쓸 수 있는 이름]")[1]
+
+
+def test_usage_lines_do_not_cost_an_example_slot():
+    """예시 자리는 유한하고 맞바꿀 수 없다 — v9 와 v18 에서 두 번 확인했다."""
+    from schema import FEWSHOTS
+    assert len(FEWSHOTS) == 4 and FEWSHOTS[3][1] == {"rules": []}
+
+
+def test_the_prompt_stays_shorter_than_the_scene_version():
+    """v18(장면)은 6,717자였다. 설명 줄은 그 이름이 실린 조문에서만 길어진다."""
+    import json
+    corpus = json.loads(__import__("pathlib").Path("data/corpus.json").read_text("utf-8"))
+    lens = [len(build_user_prompt(c["text"], c["id"])) for c in corpus]
+    assert sum(lens) / len(lens) < 6000

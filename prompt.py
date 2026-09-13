@@ -52,6 +52,32 @@ rule 하나의 형태
 """
 
 
+# 쓰는 법 한 줄. **실측으로 오용이 확인된 이름에만** 붙인다.
+#
+# 전부에 붙이면 프롬프트가 길어지고, 안 쓸 이름을 설명하면 그 이름을 쓰게 된다
+# (§9 2번 — 안 하던 실수를 미리 막으려 이름을 부르면 오히려 가르친다).
+#
+# 예시 자리를 쓰지 않는 경로다. `pick_candidates` 가 조문별로 어휘를 추리므로
+# **그 이름이 실린 조문에서만** 길어진다.
+_USAGE = {
+    # v17: 이름을 줬는데 "1년 이상 입출금 거래가 없는" 을
+    #      contract.term_months(가입기간)로 옮겼다. 46조문에서 1번 썼다.
+    "WITHDRAWAL":
+        "무거래 판정은 DEPOSIT 과 WITHDRAWAL 을 둘 다 센다",
+    # v14: 거래중지·지급정지·비과세를 전부 여기로 밀었다 (생성물의 17.8%).
+    "DISQUALIFY":
+        "예금 자격 자체가 없을 때다. 특정 거래만 금지하는 것이 아니다",
+    # v8 진단: 코퍼스는 이 개념을 "보유" 라 부르지 않고 "1인 1계좌" 라 부른다.
+    "customer.has_product":
+        '조문의 "1인 1계좌" 가 이것이다',
+}
+
+
+def _usage(name, pad=30):
+    line = _USAGE.get(name)
+    return [f"{'':<{pad}}{line}"] if line else []
+
+
 def _catalog_block(text):
     """조문에 근거가 있는 어휘만 추린다. 근거가 없으면 전체를 준다."""
     vs, es = catalog.pick_candidates(text)
@@ -60,15 +86,20 @@ def _catalog_block(text):
     es = es or sorted(catalog.EVENTS)
 
     lines = ["[변수]"]
-    lines += [f"  {v:<28}{catalog.VARIABLES[v]['type']:<6}{catalog.VARIABLES[v]['desc']}"
-              for v in vs]
+    for v in vs:
+        m = catalog.VARIABLES[v]
+        lines.append(f"  {v:<28}{m['type']:<6}{m['desc']}")
+        lines += _usage(v, 36)
     lines.append("[이벤트]")
-    lines += [f"  {e:<28}{catalog.EVENTS[e]}" for e in es]
+    for e in es:
+        lines.append(f"  {e:<28}{catalog.EVENTS[e]}")
+        lines += _usage(e, 30)
     lines.append("[연산자]")
     lines.append("  " + ", ".join(catalog.OPERATORS))
     lines.append("[effect]")
     for name, need in catalog.EFFECTS.items():
         lines.append(f"  {name:<16}{'필수 키: ' + ', '.join(need) if need else '추가 키 없음'}")
+        lines += _usage(name, 18)
     if fees:
         lines.append("[면제 대상]")
         lines += [f"  {f:<28}{catalog.FEES[f]}" for f in fees]
