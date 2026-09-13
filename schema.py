@@ -319,11 +319,12 @@ FEWSHOTS = (
     (FEWSHOT_CLAUSE, FEWSHOT_OUTPUT),
     (FEWSHOT_EMPTY_CLAUSE, FEWSHOT_EMPTY_OUTPUT),
     (FEWSHOT_UNSUPPORTED_CLAUSE, FEWSHOT_UNSUPPORTED_OUTPUT),
-    # v22: 무거래 장면을 **넷째**로, 빈 배열을 **끝**으로 되돌린다.
-    # v21 은 다섯째를 끝에 붙이면서 빈 배열을 조문 바로 앞자리에서 밀어냈고
-    # ⑦ 이 10.9p 떨어졌다. 개수 탓인지 자리 탓인지 못 갈랐다.
-    # 여기서는 개수도 내용도 그대로 두고 **차례만** 바꾼다 —
-    # 프롬프트 길이가 한 글자도 안 변하므로 "길어서" 라는 설명이 배제된다.
-    (FEWSHOT_DORMANT_CLAUSE, FEWSHOT_DORMANT_OUTPUT),
+    # **다섯째(무거래 장면)는 v22 판정으로 뺐다.** 장면 자체는 먹었다 —
+    # 산문 셋(v17·v19·v20)이 못 한 것을 두 번(v18·v21) 해냈다.
+    # 그런데 예시를 하나 더 놓으면 ⑦ 빈 배열이 10.9p 무너진다.
+    # v21(끝자리)과 v22(넷째 자리)가 **소수점까지 같았다** — 자리가 아니라 개수다.
+    # 얻는 것도 있었다: ③ 카탈로그 준수가 rule 있는 회차 기준 +12.9p.
+    # 카탈로그가 넓어지면 이 계산이 뒤집힌다 — CATALOG_PROPOSAL.md 참고.
+    # 되살리려면 `FEWSHOT_DORMANT_*` 를 이 자리에 넣으면 된다.
     (FEWSHOT_INTRO_CLAUSE, FEWSHOT_INTRO_OUTPUT),
 )

@@ -35,15 +35,20 @@ def test_status_enum_matches_catalog():
     assert set(props["status"]["enum"]) == set(catalog.STATUSES)
 
 
-def test_the_original_four_fewshots_are_never_swapped_out():
-    """v21 에서 다섯째(무거래 장면)를 **더했다.** 넷은 그대로 둔다.
+def test_the_example_budget_is_four():
+    """다섯째를 놓으면 ⑦ 빈 배열이 10.9p 무너진다 — **자리와 무관하게.**
 
-    v9 와 v18 이 맞바꿔서 두 번 다 되돌렸다. v10 은 더해서 성공했다.
-    "예시 자리가 유한하다" 는 **맞바꿈**에 대한 결론이지
-    더하기에 대한 것이 아니다 — 그 구별을 여기서 지킨다.
+    v21 은 다섯째를 끝에, v22 는 넷째에 놓았다. ⑦ 이 **둘 다 13.0%** 로
+    소수점까지 같았다 (v19 는 23.9%). 프롬프트 길이도 같았으므로
+    "길어서" 도 아니다. **개수다.**
+
+    맞바꿈은 v9·v18 에서 두 번 확인했고 더하기는 v21·v22 에서 확인했다.
+    양쪽 다 ⑦ 을 문다.
+
+    다섯째를 되살리려면 그 비용을 다시 사전 등록하고 재야 한다.
+    카탈로그가 넓어지면 계산이 뒤집힐 수 있다 — ③ 이 +12.9p 였다.
     """
-    assert len(FEWSHOTS) >= 5
-    assert any(o == {"rules": []} for _, o in FEWSHOTS), "빈 배열 장면은 남는다"
+    assert len(FEWSHOTS) == 4
 
 
 def test_the_empty_array_scene_is_never_dropped():
@@ -203,11 +208,10 @@ def test_no_example_teaches_a_vacuous_condition(root):
             assert not bad, f"예시 {i} 가 헛조건을 가르친다"
 
 
-def test_the_empty_array_example_sits_closest_to_the_clause():
-    """빈 배열 예시는 **맨 끝**이다 — 조문 바로 앞자리.
+def test_the_empty_array_example_is_last():
+    """빈 배열 예시는 맨 끝이다 — v19 까지의 차례를 지킨다.
 
-    v21 이 무거래 장면을 끝에 붙이면서 이 자리를 빼앗았고 ⑦ 이 10.9p 떨어졌다.
-    개수 탓인지 자리 탓인지 못 갈라서, v22 가 개수를 그대로 두고
-    차례만 되돌려 가른다. 이 시험이 그 차례를 지킨다.
+    차례 자체는 ⑦ 에 영향이 없었다 (v21 대 v22 가 같았다).
+    그래도 근거 없이 바꾸지 않는다 — v19 구성으로 되돌린 상태다.
     """
     assert FEWSHOTS[-1][1] == {"rules": []}
