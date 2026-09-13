@@ -2897,5 +2897,77 @@
   "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R11-01\",\n   \"status\": \"OK\",\n   \"label\": \"신규 거래 채널\",\n   \"source\": {\n    \"quote\": \"▪ 신규 : 영업점 또는 KB스타뱅킹 이용\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.channel\"\n     },\n     [\n      \"BRANCH\",\n      \"ONLINE\"\n     ]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"NEW_ACCOUNT\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R11-02\",\n   \"status\": \"OK\",\n   \"label\": \"해지 거래 채널\",\n   \"source\": {\n    \"quote\": \"▪ 해지 : 영업점 또는 개인인터넷뱅킹, KB스타뱅킹 이용\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.channel\"\n     },\n     [\n      \"BRANCH\",\n      \"ONLINE\",\n      \"ONLINE\"\n     ]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"TERMINATION\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R11-03\",\n   \"status\": \"OK\",\n   \"label\": \"전환 거래 채널\",\n   \"source\": {\n    \"quote\": \"▪ 전환 : 영업점 또는 개인인터넷뱅킹, KB스타뱅킹 이용\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.channel\"\n     },\n     [\n      \"BRANCH\",\n      \"ONLINE\",\n      \"ONLINE\"\n     ]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"PRODUCT_SWITCH\"\n   }\n  }\n ]\n}",
   "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R11-01\",\n   \"status\": \"OK\",\n   \"label\": \"신규 거래 채널\",\n   \"source\": {\n    \"quote\": \"▪ 신규 : 영업점 또는 KB스타뱅킹 이용\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.channel\"\n     },\n     [\n      \"BRANCH\",\n      \"ONLINE\"\n     ]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"NEW_ACCOUNT\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R11-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"해지 거래 채널\",\n   \"source\": {\n    \"quote\": \"▪ 해지 : 영업점 또는 개인인터넷뱅킹, KB스타뱅킹 이용\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.channel\"\n     },\n     [\n      \"BRANCH\",\n      \"ONLINE\",\n      \"ONLINE\"\n     ]\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R11-03\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"전환 거래 채널\",\n   \"source\": {\n    \"quote\": \"▪ 전환 : 영업점 또는 개인인터넷뱅킹, KB스타뱅킹 이용\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.channel\"\n     },\n     [\n      \"BRANCH\",\n      \"ONLINE\",\n      \"ONLINE\"\n     ]\n    ]\n   }\n  }\n ]\n}",
   "truncated": false
+ },
+ {
+  "clause_id": "KBONE-S2-R12",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [
+   "REQUIRE 의 value \"DEPOSIT_ACCOUNT\" 는 카탈로그에 없는 코드다. 표현 수단이 없으면 status 를 UNSUPPORTED 로 한다",
+   "status 가 UNSUPPORTED 인 rule 에는 effect 를 적지 않는다"
+  ],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBONE-S2-R12-01",
+     "status": "OK",
+     "label": "계약해지 방법",
+     "source": {
+      "quote": "▪ 영업점, 개인인터넷뱅킹, KB스타뱅킹을 통해 해지 가능"
+     },
+     "condition": {},
+     "effect": {
+      "type": "REQUIRE",
+      "value": "BRANCH, ONLINE, INTERNET"
+     }
+    },
+    {
+     "rule_id": "R-KBONE-S2-R12-02",
+     "status": "UNSUPPORTED",
+     "label": "해지 시 입금 계좌 필요",
+     "source": {
+      "quote": "※ 개인인터넷뱅킹, KB스타뱅킹을 통한 해지 시 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다."
+     },
+     "guard": {
+      "in": [
+       {
+        "var": "contract.channel"
+       },
+       [
+        "ONLINE",
+        "INTERNET"
+       ]
+      ]
+     },
+     "condition": {},
+     "effect": {
+      "type": "REQUIRE",
+      "value": "DEPOSIT_ACCOUNT"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R12-01\",\n   \"status\": \"OK\",\n   \"label\": \"계약해지 방법\",\n   \"source\": {\n    \"quote\": \"▪ 영업점, 개인인터넷뱅킹, KB스타뱅킹을 통해 해지 가능\"\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"BRANCH, ONLINE, INTERNET\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R12-02\",\n   \"status\": \"OK\",\n   \"label\": \"해지 시 입금 계좌 필요\",\n   \"source\": {\n    \"quote\": \"※ 개인인터넷뱅킹, KB스타뱅킹을 통한 해지 시 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다.\"\n   },\n   \"guard\": {\n    \"in\": [\n     {\n      \"var\": \"contract.channel\"\n     },\n     [\"ONLINE\", \"INTERNET\"]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"DEPOSIT_ACCOUNT\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R12-01\",\n   \"status\": \"OK\",\n   \"label\": \"계약해지 방법\",\n   \"source\": {\n    \"quote\": \"▪ 영업점, 개인인터넷뱅킹, KB스타뱅킹을 통해 해지 가능\"\n   },\n   \"condition\": {},\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"BRANCH, ONLINE, INTERNET\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R12-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"해지 시 입금 계좌 필요\",\n   \"source\": {\n    \"quote\": \"※ 개인인터넷뱅킹, KB스타뱅킹을 통한 해지 시 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다.\"\n   },\n   \"guard\": {\n    \"in\": [\n     {\n      \"var\": \"contract.channel\"\n     },\n     [\n      \"ONLINE\",\n      \"INTERNET\"\n     ]\n    ]\n   },\n   \"condition\": {},\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"DEPOSIT_ACCOUNT\"\n   }\n  }\n ]\n}",
+  "truncated": false
  }
 ]
