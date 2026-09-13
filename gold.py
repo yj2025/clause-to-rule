@@ -69,6 +69,11 @@ def _ctx(combo):
     if combo["basic"]:
         ev["CARD_USAGE"] = [{"date": f"{PREV_MONTH}-15", "amount": 30_000}]
         ev["AUTO_TRANSFER"] = [{"date": f"{PREV_MONTH}-20", "amount": 80_000}]
+        # 출금. v17 에서 카탈로그에 WITHDRAWAL 을 넣으면서 프로필은 안 고쳤다.
+        # 그래서 `WITHDRAWAL == 0` 이 **모든 프로필에서 참**이 됐고,
+        # 무거래 판정을 올바르게 옮긴 rule 이 헛조건으로 잡혔다 (⑭).
+        # 이벤트를 카탈로그에 더하면 프로필 축도 같이 봐야 한다.
+        ev["WITHDRAWAL"] = [{"date": f"{PREV_MONTH}-18", "amount": 50_000}]
     if combo["extra"]:
         # 전월로 끝나는 6개월치 — 개월 수 세기와 "전월 중" 이 둘 다 걸린다
         ev["SALARY_TRANSFER"] = [{"date": f"2026-{m:02d}-25", "amount": 2_000_000}

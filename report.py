@@ -191,6 +191,19 @@ def gate13(recs):
     print("  v12 부터 ③ 에 물린다. 그 전 라운드는 이 경로로 관문을 통과했다.")
 
 
+def gate14(recs):
+    """⑭ 헛조건 — 조건이 붙었는데 언제나 참인가."""
+    import vacuous
+    a = vacuous.audit([x for x in recs if x["run"] == 0])
+    if not a["checked"]:
+        return
+    print(f"\n⑭ 헛조건 — 조건이 붙은 rule {a['checked']}개 중 "
+          f"{a['bad']}개 = {a['rate']:.1f}%")
+    if a["by_clause"]:
+        print("  " + " · ".join(f"{c} {n}" for c, n in a["by_clause"].most_common(6)))
+    print("  관문 다섯이 전부 통과시킨다. ⑫ 도 못 본다 — 판정은 맞기 때문이다.")
+
+
 def _empty_rate(recs):
     n = sum(1 for x in recs
             if isinstance((x.get("output") or {}).get("rules"), list)
@@ -360,6 +373,7 @@ def main(argv=None):
     gate11(recs, texts)
     gate12(recs)
     gate13(recs)
+    gate14(recs)
     meaning(recs)
     forms(recs, base)
     return 0

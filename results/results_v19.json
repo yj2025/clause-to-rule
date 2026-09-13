@@ -29,5 +29,1023 @@
   "raw_first": "{\n \"rules\": []\n}",
   "raw_last": "{\n \"rules\": []\n}",
   "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R01",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 3
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 3
+  },
+  "errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S2-R01-01",
+     "status": "UNSUPPORTED",
+     "label": "청소년 고객 가입 조건",
+     "source": {
+      "quote": "▪ 만 19세 미만 실명의 개인"
+     },
+     "condition": {
+      "<": [
+       {
+        "var": "customer.age"
+       },
+       19
+      ]
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S2-R01-02",
+     "status": "UNSUPPORTED",
+     "label": "개인사업자 및 서류미제출 임의단체, 공동명의 불가",
+     "source": {
+      "quote": "※ 개인사업자 및 서류미제출 임의단체, 공동명의 가입 불가"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-KBYY-S2-R01-03",
+     "status": "UNSUPPORTED",
+     "label": "1인 1계좌",
+     "source": {
+      "quote": "※「KB Young Youth 청소년통장」을 포함하여 1인 1계좌"
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R01-01\",\n   \"status\": \"OK\",\n   \"label\": \"청소년 고객 가입 조건\",\n   \"source\": {\n    \"quote\": \"▪ 만 19세 미만 실명의 개인\"\n   },\n   \"condition\": {\n    \"<\": [\n     {\n      \"var\": \"customer.age\"\n     },\n     19\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"REAL_NAME\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R01-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"개인사업자 및 서류미제출 임의단체, 공동명의 불가\",\n   \"source\": {\n    \"quote\": \"※ 개인사업자 및 서류미제출 임의단체, 공동명의 가입 불가\"\n   },\n   \"condition\": {}\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R01-03\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"1인 1계좌\",\n   \"source\": {\n    \"quote\": \"※「KB Young Youth 청소년통장」을 포함하여 1인 1계좌\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R01-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"청소년 고객 가입 조건\",\n   \"source\": {\n    \"quote\": \"▪ 만 19세 미만 실명의 개인\"\n   },\n   \"condition\": {\n    \"<\": [\n     {\n      \"var\": \"customer.age\"\n     },\n     19\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R01-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"개인사업자 및 서류미제출 임의단체, 공동명의 불가\",\n   \"source\": {\n    \"quote\": \"※ 개인사업자 및 서류미제출 임의단체, 공동명의 가입 불가\"\n   },\n   \"condition\": {}\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R01-03\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"1인 1계좌\",\n   \"source\": {\n    \"quote\": \"※「KB Young Youth 청소년통장」을 포함하여 1인 1계좌\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R02",
+  "run": 0,
+  "n_attempts": 2,
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S2-R02-01",
+     "status": "OK",
+     "label": "신규금액 제한없음",
+     "source": {
+      "quote": "▪ 제한없음"
+     },
+     "effect": {
+      "type": "LIMIT_AMOUNT",
+      "value": "UNLIMITED"
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R02-01\",\n   \"status\": \"OK\",\n   \"label\": \"신규금액 제한없음\",\n   \"source\": {\n    \"quote\": \"▪ 제한없음\"\n   },\n   \"effect\": {\n    \"type\": \"LIMIT_AMOUNT\",\n    \"value\": \"UNLIMITED\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R02-01\",\n   \"status\": \"OK\",\n   \"label\": \"신규금액 제한없음\",\n   \"source\": {\n    \"quote\": \"▪ 제한없음\"\n   },\n   \"effect\": {\n    \"type\": \"LIMIT_AMOUNT\",\n    \"value\": \"UNLIMITED\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R03",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "output": {
+   "rules": []
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R04",
+  "run": 0,
+  "n_attempts": 2,
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S2-R04-01",
+     "status": "OK",
+     "label": "연령 만 19세 자동전환",
+     "source": {
+      "quote": "매년 첫 영업일에 가입자의 연령이 만 19세인 경우 「KB국민ONE통장」으로 자동전환"
+     },
+     "condition": {
+      "==": [
+       {
+        "var": "customer.age"
+       },
+       19
+      ]
+     },
+     "effect": {
+      "type": "REQUIRE",
+      "value": "PRODUCT_SWITCH"
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S2-R04-02",
+     "status": "OK",
+     "label": "KB국민ONE통장 보유자 자동전환",
+     "source": {
+      "quote": "※ 단, KB국민ONE통장을 이미 보유하고 있는 경우에는 「KB종합통장」으로 자동전환"
+     },
+     "condition": {
+      "==": [
+       {
+        "var": "customer.has_product"
+       },
+       "KB국민ONE통장"
+      ]
+     },
+     "effect": {
+      "type": "REQUIRE",
+      "value": "PRODUCT_SWITCH"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R04-01\",\n   \"status\": \"OK\",\n   \"label\": \"연령 만 19세 자동전환\",\n   \"source\": {\n    \"quote\": \"매년 첫 영업일에 가입자의 연령이 만 19세인 경우 「KB국민ONE통장」으로 자동전환\"\n   },\n   \"let\": {\n    \"switch_date\": {\n     \"year\": {\n      \"anchor\": \"contract.start_date\",\n      \"offset_years\": 1,\n      \"month\": \"first\",\n      \"day\": \"first\"\n     }\n    }\n   },\n   \"condition\": {\n    \"==\": [\n     {\n      \"var\": \"customer.age\"\n     },\n     19\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"PRODUCT_SWITCH\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R04-02\",\n   \"status\": \"OK\",\n   \"label\": \"KB국민ONE통장 보유자 자동전환\",\n   \"source\": {\n    \"quote\": \"※ 단, KB국민ONE통장을 이미 보유하고 있는 경우에는 「KB종합통장」으로 자동전환\"\n   },\n   \"condition\": {\n    \"==\": [\n     {\n      \"var\": \"customer.has_product\"\n     },\n     \"KB국민ONE통장\"\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"PRODUCT_SWITCH\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R04-01\",\n   \"status\": \"OK\",\n   \"label\": \"연령 만 19세 자동전환\",\n   \"source\": {\n    \"quote\": \"매년 첫 영업일에 가입자의 연령이 만 19세인 경우 「KB국민ONE통장」으로 자동전환\"\n   },\n   \"condition\": {\n    \"==\": [\n     {\n      \"var\": \"customer.age\"\n     },\n     19\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"PRODUCT_SWITCH\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R04-02\",\n   \"status\": \"OK\",\n   \"label\": \"KB국민ONE통장 보유자 자동전환\",\n   \"source\": {\n    \"quote\": \"※ 단, KB국민ONE통장을 이미 보유하고 있는 경우에는 「KB종합통장」으로 자동전환\"\n   },\n   \"condition\": {\n    \"==\": [\n     {\n      \"var\": \"customer.has_product\"\n     },\n     \"KB국민ONE통장\"\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"PRODUCT_SWITCH\"\n   }\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R05",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S2-R05-01",
+     "status": "UNSUPPORTED",
+     "label": "기존 저축예금 통장 전환 가능",
+     "source": {
+      "quote": "▪ 기존 저축예금 통장 전환 가능"
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R05-01\",\n   \"status\": \"OK\",\n   \"label\": \"기존 저축예금 통장 전환 가능\",\n   \"source\": {\n    \"quote\": \"▪ 기존 저축예금 통장 전환 가능\"\n   },\n   \"guard\": {\n    \"not\": [\n     {\n      \"in\": [\n       {\n        \"var\": \"contract.account_type\"\n       },\n       [\n        \"JOINT_ACCOUNT\",\n        \"KB_STOCK_ACCOUNT\",\n        \"MMDA_ACCOUNT\"\n       ]\n      ]\n     }\n    ]\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R05-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"기존 저축예금 통장 전환 가능\",\n   \"source\": {\n    \"quote\": \"▪ 기존 저축예금 통장 전환 가능\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R06",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "output": {
+   "rules": []
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R07",
+  "run": 0,
+  "n_attempts": 2,
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S2-R07-01",
+     "status": "OK",
+     "label": "저금통 설정 금리 우대",
+     "source": {
+      "quote": "▪ 연 1.9% (최대 100만원까지)"
+     },
+     "condition": {
+      "and": [
+       {
+        "in": [
+         {
+          "var": "account.reserved_amount"
+         },
+         [
+          "LOW_SAVINGS_TANK"
+         ]
+        ]
+       },
+       {
+        "<=": [
+         {
+          "var": "account.reserved_amount"
+         },
+         1000000
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_ADD",
+      "value": 1.9,
+      "unit": "%p",
+      "applies_to": "BASE_RATE"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R07-01\",\n   \"status\": \"OK\",\n   \"label\": \"저금통 설정 금리 우대\",\n   \"source\": {\n    \"quote\": \"▪ 연 1.9% (최대 100만원까지)\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"in\": [\n       {\n        \"var\": \"account.reserved_amount\"\n       },\n       \"LOW_SAVINGS_TANK\"\n      ]\n     },\n     {\n      \"<=\": [\n       {\n        \"var\": \"account.reserved_amount\"\n       },\n       1000000\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 1.9,\n    \"unit\": \"%p\",\n    \"applies_to\": \"BASE_RATE\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R07-01\",\n   \"status\": \"OK\",\n   \"label\": \"저금통 설정 금리 우대\",\n   \"source\": {\n    \"quote\": \"▪ 연 1.9% (최대 100만원까지)\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"in\": [\n       {\n        \"var\": \"account.reserved_amount\"\n       },\n       [\"LOW_SAVINGS_TANK\"]\n      ]\n     },\n     {\n      \"<=\": [\n       {\n        \"var\": \"account.reserved_amount\"\n       },\n       1000000\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 1.9,\n    \"unit\": \"%p\",\n    \"applies_to\": \"BASE_RATE\"\n   }\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R08",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [
+   "카탈로그에 없는 변수: contract.last_transaction_date. 쓸 수 있는 것: account.balance, account.reserved_amount, contract.amount, contract.base_rate, contract.channel, contract.maturity_date, contract.monthly_amount, contract.reference_date, contract.start_date, contract.switch_date, contract.term_months, contract.termination_date, contract.termination_type, customer.age, customer.has_product, customer.is_first_deposit, customer.is_youth",
+   "실행 불가: DslError: 카탈로그에 없는 변수: contract.last_transaction_date"
+  ],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S2-R08-01",
+     "status": "UNSUPPORTED",
+     "label": "이자 지급시기",
+     "source": {
+      "quote": "매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함"
+     },
+     "condition": {
+      "in": [
+       {
+        "var": "contract.maturity_date"
+       },
+       [
+        "2월",
+        "5월",
+        "8월",
+        "11월"
+       ]
+      ]
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S2-R08-02",
+     "status": "UNSUPPORTED",
+     "label": "이자 계산시기 변경",
+     "source": {
+      "quote": "최종거래일로부터 5년이 경과한 날부터는 이자에 원금을 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다"
+     },
+     "condition": {
+      ">=": [
+       {
+        "var": "contract.last_transaction_date"
+       },
+       5
+      ]
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R08-01\",\n   \"status\": \"OK\",\n   \"label\": \"이자 지급시기\",\n   \"source\": {\n    \"quote\": \"매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.maturity_date\"\n     },\n     [\n      \"2월\",\n      \"5월\",\n      \"8월\",\n      \"11월\"\n     ]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"INTEREST_PAYMENT\",\n    \"value\": \"BIMONTHLY\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R08-02\",\n   \"status\": \"OK\",\n   \"label\": \"이자 계산시기 변경\",\n   \"source\": {\n    \"quote\": \"최종거래일로부터 5년이 경과한 날부터는 이자에 원금을 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.last_transaction_date\"\n     },\n     5\n    ]\n   },\n   \"effect\": {\n    \"type\": \"INTEREST_CALCULATION\",\n    \"value\": \"ON_ACCOUNT_CLOSURE_OR_TRANSACTION\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R08-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"이자 지급시기\",\n   \"source\": {\n    \"quote\": \"매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.maturity_date\"\n     },\n     [\n      \"2월\",\n      \"5월\",\n      \"8월\",\n      \"11월\"\n     ]\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R08-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"이자 계산시기 변경\",\n   \"source\": {\n    \"quote\": \"최종거래일로부터 5년이 경과한 날부터는 이자에 원금을 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.last_transaction_date\"\n     },\n     5\n    ]\n   }\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R09",
+  "run": 0,
+  "n_attempts": 1,
+  "n_best": 1,
+  "first": {
+   "json_ok": false,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": false,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 0
+  },
+  "errors": [],
+  "output": null,
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R09-01\",\n   \"status\": \"OK\",\n   \"label\": \"기본금리 적용 기간\",\n   \"source\": {\n    \"quote\": \"기본금리 : 예금이자는 예금일부터 지급일 전일까지(결산시에는 지난 원가일부터 원가일 전일까지)를 이자계산 기간으로 하고, 매일의 최종잔액을 평균하여 결산일 현재 지점에 고시한 기본금리로 계산함\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"var\": \"contract.type\"\n     },\n     \"==\",\n     \"DEPOSIT\"\n    ],\n    {\n     \"var\": \"contract.status\"\n     },\n     \"==\",\n     \"ACTIVE\"\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": \"BASE_RATE\",\n    \"unit\": \"%p\",\n    \"applies_to\": \"BASE_RATE\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R09-02\",\n   \"status\": \"OK\",\n   \"label\": \"특별금리 적용 기간\",\n   \"source\": {\n    \"quote\": \"특별금리 : 저금통 설정일(또는 지난 원가일)부터 저금통 해제일(또는 원가일)전날까지를 이자계산 기간으로 하고, 매일의 저금통 잔액에 대해 결산일 현재 지점에 고시한 특별금리로 계산함\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"var\": \"contract.type\"\n     },\n     \"==\",\n     \"SAVING\"\n    ],\n    {\n     \"var\": \"contract.status\"\n     },\n     \"==\",\n     \"ACTIVE\"\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": \"SPECIAL_RATE\",\n    \"unit\": \"%p\",\n    \"applies_to\": \"SPECIAL_RATE\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R09-01\",\n   \"status\": \"OK\",\n   \"label\": \"기본금리 적용 기간\",\n   \"source\": {\n    \"quote\": \"기본금리 : 예금이자는 예금일부터 지급일 전일까지(결산시에는 지난 원가일부터 원가일 전일까지)를 이자계산 기간으로 하고, 매일의 최종잔액을 평균하여 결산일 현재 지점에 고시한 기본금리로 계산함\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"var\": \"contract.type\"\n     },\n     \"==\",\n     \"DEPOSIT\"\n    ],\n    {\n     \"var\": \"contract.status\"\n     },\n     \"==\",\n     \"ACTIVE\"\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": \"BASE_RATE\",\n    \"unit\": \"%p\",\n    \"applies_to\": \"BASE_RATE\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R09-02\",\n   \"status\": \"OK\",\n   \"label\": \"특별금리 적용 기간\",\n   \"source\": {\n    \"quote\": \"특별금리 : 저금통 설정일(또는 지난 원가일)부터 저금통 해제일(또는 원가일)전날까지를 이자계산 기간으로 하고, 매일의 저금통 잔액에 대해 결산일 현재 지점에 고시한 특별금리로 계산함\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"var\": \"contract.type\"\n     },\n     \"==\",\n     \"SAVING\"\n    ],\n    {\n     \"var\": \"contract.status\"\n     },\n     \"==\",\n     \"ACTIVE\"\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": \"SPECIAL_RATE\",\n    \"unit\": \"%p\",\n    \"applies_to\": \"SPECIAL_RATE\"\n   }\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R10",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "output": {
+   "rules": []
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R11",
+  "run": 0,
+  "n_attempts": 2,
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 6
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 6
+  },
+  "errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S2-R11-01",
+     "status": "OK",
+     "label": "저금통 설정 시 특별금리 적용",
+     "source": {
+      "quote": "계좌의 출금가능 잔액 범위 내에서 저금통으로 설정된 금액에 대해 특별금리 제공"
+     },
+     "condition": {
+      "exists": {
+       "event": "AUTO_TRANSFER"
+      }
+     },
+     "effect": {
+      "type": "RATE_ADD",
+      "value": 0.5,
+      "unit": "%p",
+      "applies_to": "BASE_RATE"
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S2-R11-02",
+     "status": "OK",
+     "label": "저금통 해제 시 특별금리 해지",
+     "source": {
+      "quote": "저금통 설정, 해제는 횟수 제한 없이 지점 및 인터넷뱅킹, KB스타뱅킹을 통해 거래 가능"
+     },
+     "condition": {
+      "exists": {
+       "event": "AUTO_TRANSFER"
+      }
+     },
+     "effect": {
+      "type": "RATE_SUBTRACT",
+      "value": 0.5,
+      "unit": "%p",
+      "applies_to": "BASE_RATE"
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S2-R11-03",
+     "status": "OK",
+     "label": "저금통 설정 금액 출금 불가",
+     "source": {
+      "quote": "저금통으로 설정된 금액은 계좌 출금(이체)이 불가하며, 필요 금액만큼 저금통 금액 차감 처리 후 계좌출금(이체) 가능"
+     },
+     "condition": {
+      "exists": {
+       "event": "AUTO_TRANSFER"
+      }
+     },
+     "effect": {
+      "type": "LIMIT_AMOUNT",
+      "value": 0
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S2-R11-04",
+     "status": "OK",
+     "label": "상품 전환 시 저금통 자동 해제",
+     "source": {
+      "quote": "다른 예금 상품으로 전환하는 경우 저금통은 자동 해제됨"
+     },
+     "condition": {
+      "exists": {
+       "event": "PRODUCT_SWITCH"
+      }
+     },
+     "effect": {
+      "type": "RATE_SUBTRACT",
+      "value": 0.5,
+      "unit": "%p",
+      "applies_to": "BASE_RATE"
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S2-R11-05",
+     "status": "OK",
+     "label": "상품 전환 후 저금통 설정 가능",
+     "source": {
+      "quote": "다른 예금 상품에서 이 상품으로 전환하는 경우 도래하는 결산일 이후 저금통 설정 가능"
+     },
+     "condition": {
+      "exists": {
+       "event": "PRODUCT_SWITCH"
+      }
+     },
+     "effect": {
+      "type": "RATE_ADD",
+      "value": 0.5,
+      "unit": "%p",
+      "applies_to": "BASE_RATE"
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S2-R11-06",
+     "status": "OK",
+     "label": "거래 정정 시 특별금리 적용",
+     "source": {
+      "quote": "거래 정정 등 부득이한 사유로 저금통 설정금액보다 실제 잔액이 더 적은 경우에는 실제 잔액에 대하여 결산일 현재 지점에 게시한 특별금리 적용"
+     },
+     "condition": {
+      "exists": {
+       "event": "TRANSACTION_CORRECTION"
+      }
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 0.5,
+      "unit": "%p",
+      "applies_to": "BASE_RATE"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R11-01\",\n   \"status\": \"OK\",\n   \"label\": \"저금통 설정 시 특별금리 적용\",\n   \"source\": {\n    \"quote\": \"계좌의 출금가능 잔액 범위 내에서 저금통으로 설정된 금액에 대해 특별금리 제공\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"LOW_SAVINGS_ACCOUNT_SETUP\"\n    }\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.5,\n    \"unit\": \"%p\",\n    \"applies_to\": \"BASE_RATE\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R11-02\",\n   \"status\": \"OK\",\n   \"label\": \"저금통 해제 시 특별금리 해지\",\n   \"source\": {\n    \"quote\": \"저금통 설정, 해제는 횟수 제한 없이 지점 및 인터넷뱅킹, KB스타뱅킹을 통해 거래 가능\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"LOW_SAVINGS_ACCOUNT_REMOVAL\"\n    }\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 0.5,\n    \"unit\": \"%p\",\n    \"applies_to\": \"BASE_RATE\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R11-03\",\n   \"status\": \"OK\",\n   \"label\": \"저금통 설정 금액 출금 불가\",\n   \"source\": {\n    \"quote\": \"저금통으로 설정된 금액은 계좌 출금(이체)이 불가하며, 필요 금액만큼 저금통 금액 차감 처리 후 계좌출금(이체) 가능\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"LOW_SAVINGS_ACCOUNT_SETUP\"\n    }\n   },\n   \"effect\": {\n    \"type\": \"LIMIT_AMOUNT\",\n    \"value\": 0\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R11-04\",\n   \"status\": \"OK\",\n   \"label\": \"상품 전환 시 저금통 자동 해제\",\n   \"source\": {\n    \"quote\": \"다른 예금 상품으로 전환하는 경우 저금통은 자동 해제됨\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"PRODUCT_SWITCH\"\n    }\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 0.5,\n    \"unit\": \"%p\",\n    \"applies_to\": \"BASE_RATE\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R11-05\",\n   \"status\": \"OK\",\n   \"label\": \"상품 전환 후 저금통 설정 가능\",\n   \"source\": {\n    \"quote\": \"다른 예금 상품에서 이 상품으로 전환하는 경우 도래하는 결산일 이후 저금통 설정 가능\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"PRODUCT_SWITCH\"\n    }\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.5,\n    \"unit\": \"%p\",\n    \"applies_to\": \"BASE_RATE\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R11-06\",\n   \"status\": \"OK\",\n   \"label\": \"거래 정정 시 특별금리 적용\",\n   \"source\": {\n    \"quote\": \"거래 정정 등 부득이한 사유로 저금통 설정금액보다 실제 잔액이 더 적은 경우에는 실제 잔액에 대하여 결산일 현재 지점에 게시한 특별금리 적용\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"TRANSACTION_CORRECTION\"\n    }\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.5,\n    \"unit\": \"%p\",\n    \"applies_to\": \"BASE_RATE\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R11-01\",\n   \"status\": \"OK\",\n   \"label\": \"저금통 설정 시 특별금리 적용\",\n   \"source\": {\n    \"quote\": \"계좌의 출금가능 잔액 범위 내에서 저금통으로 설정된 금액에 대해 특별금리 제공\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"AUTO_TRANSFER\"\n    }\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.5,\n    \"unit\": \"%p\",\n    \"applies_to\": \"BASE_RATE\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R11-02\",\n   \"status\": \"OK\",\n   \"label\": \"저금통 해제 시 특별금리 해지\",\n   \"source\": {\n    \"quote\": \"저금통 설정, 해제는 횟수 제한 없이 지점 및 인터넷뱅킹, KB스타뱅킹을 통해 거래 가능\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"AUTO_TRANSFER\"\n    }\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 0.5,\n    \"unit\": \"%p\",\n    \"applies_to\": \"BASE_RATE\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R11-03\",\n   \"status\": \"OK\",\n   \"label\": \"저금통 설정 금액 출금 불가\",\n   \"source\": {\n    \"quote\": \"저금통으로 설정된 금액은 계좌 출금(이체)이 불가하며, 필요 금액만큼 저금통 금액 차감 처리 후 계좌출금(이체) 가능\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"AUTO_TRANSFER\"\n    }\n   },\n   \"effect\": {\n    \"type\": \"LIMIT_AMOUNT\",\n    \"value\": 0\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R11-04\",\n   \"status\": \"OK\",\n   \"label\": \"상품 전환 시 저금통 자동 해제\",\n   \"source\": {\n    \"quote\": \"다른 예금 상품으로 전환하는 경우 저금통은 자동 해제됨\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"PRODUCT_SWITCH\"\n    }\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 0.5,\n    \"unit\": \"%p\",\n    \"applies_to\": \"BASE_RATE\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R11-05\",\n   \"status\": \"OK\",\n   \"label\": \"상품 전환 후 저금통 설정 가능\",\n   \"source\": {\n    \"quote\": \"다른 예금 상품에서 이 상품으로 전환하는 경우 도래하는 결산일 이후 저금통 설정 가능\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"PRODUCT_SWITCH\"\n    }\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.5,\n    \"unit\": \"%p\",\n    \"applies_to\": \"BASE_RATE\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R11-06\",\n   \"status\": \"OK\",\n   \"label\": \"거래 정정 시 특별금리 적용\",\n   \"source\": {\n    \"quote\": \"거래 정정 등 부득이한 사유로 저금통 설정금액보다 실제 잔액이 더 적은 경우에는 실제 잔액에 대하여 결산일 현재 지점에 게시한 특별금리 적용\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"TRANSACTION_CORRECTION\"\n    }\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.5,\n    \"unit\": \"%p\",\n    \"applies_to\": \"BASE_RATE\"\n   }\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R12",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 4
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 4
+  },
+  "errors": [
+   "실행 불가: DslError: 정의되지 않은 연산자: within. 쓸 수 있는 것: >=, >, <=, <, ==, !=, and, or, not, in, exists, count_events, count_distinct_months, count_consecutive_months"
+  ],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S2-R12-01",
+     "status": "OK",
+     "label": "전자금융 이체수수료 면제",
+     "source": {
+      "quote": "전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼 때) | 제한 없음"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "exists": {
+       "event": "CARD_USAGE",
+       "within": {
+        "ref": "$window"
+       }
+      }
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "EBANK_TRANSFER",
+      "value": "UNLIMITED"
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S2-R12-02",
+     "status": "OK",
+     "label": "자동화기기 시간외출금수수료 면제",
+     "source": {
+      "quote": "KB국민은행 자동화기기 시간외출금수수료 |"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "exists": {
+       "event": "CARD_USAGE",
+       "within": {
+        "ref": "$window"
+       }
+      }
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "ATM_WITHDRAW_AFTER_HOURS",
+      "value": "UNLIMITED"
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S2-R12-03",
+     "status": "OK",
+     "label": "면제기간 적용",
+     "source": {
+      "quote": "▪ 면제기간: 이번 달 11일부터 다음 달 10일까지"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         "2023-04-11"
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.reference_date"
+         },
+         "2023-05-11"
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "EBANK_TRANSFER",
+      "value": "UNLIMITED"
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S2-R12-04",
+     "status": "OK",
+     "label": "신규/전환 고객 면제",
+     "source": {
+      "quote": "※ 이 통장의 신규(전환)일로부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.switch_date",
+         "offset_months": 2,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.switch_date",
+         "offset_months": 2,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "within": {
+       "ref": "$window"
+      }
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "EBANK_TRANSFER",
+      "value": "UNLIMITED"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R12-01\",\n   \"status\": \"OK\",\n   \"label\": \"전자금융 이체수수료 면제\",\n   \"source\": {\n    \"quote\": \"전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼 때) | 제한 없음\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"CARD_USAGE\",\n     \"within\": {\n      \"ref\": \"$window\"\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"EBANK_TRANSFER\",\n    \"value\": \"UNLIMITED\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R12-02\",\n   \"status\": \"OK\",\n   \"label\": \"자동화기기 시간외출금수수료 면제\",\n   \"source\": {\n    \"quote\": \"KB국민은행 자동화기기 시간외출금수수료 |\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"CARD_USAGE\",\n     \"within\": {\n      \"ref\": \"$window\"\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_WITHDRAW_AFTER_HOURS\",\n    \"value\": \"UNLIMITED\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R12-03\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"▪ 면제기간: 이번 달 11일부터 다음 달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"contract.reference_date\"\n       },\n       \"2023-04-11\"\n      ]\n     },\n     {\n      \"<\": [\n       {\n        \"var\": \"contract.reference_date\"\n       },\n       \"2023-05-11\"\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"EBANK_TRANSFER\",\n    \"value\": \"UNLIMITED\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R12-04\",\n   \"status\": \"OK\",\n   \"label\": \"신규/전환 고객 면제\",\n   \"source\": {\n    \"quote\": \"※ 이 통장의 신규(전환)일로부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.switch_date\",\n       \"offset_months\": 2,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.switch_date\",\n       \"offset_months\": 2,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"within\": {\n     \"ref\": \"$window\"\n    }\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"EBANK_TRANSFER\",\n    \"value\": \"UNLIMITED\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R12-01\",\n   \"status\": \"OK\",\n   \"label\": \"전자금융 이체수수료 면제\",\n   \"source\": {\n    \"quote\": \"전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼 때) | 제한 없음\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"CARD_USAGE\",\n     \"within\": {\n      \"ref\": \"$window\"\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"EBANK_TRANSFER\",\n    \"value\": \"UNLIMITED\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R12-02\",\n   \"status\": \"OK\",\n   \"label\": \"자동화기기 시간외출금수수료 면제\",\n   \"source\": {\n    \"quote\": \"KB국민은행 자동화기기 시간외출금수수료 |\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"CARD_USAGE\",\n     \"within\": {\n      \"ref\": \"$window\"\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_WITHDRAW_AFTER_HOURS\",\n    \"value\": \"UNLIMITED\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R12-03\",\n   \"status\": \"OK\",\n   \"label\": \"면제기간 적용\",\n   \"source\": {\n    \"quote\": \"▪ 면제기간: 이번 달 11일부터 다음 달 10일까지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"contract.reference_date\"\n       },\n       \"2023-04-11\"\n      ]\n     },\n     {\n      \"<\": [\n       {\n        \"var\": \"contract.reference_date\"\n       },\n       \"2023-05-11\"\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"EBANK_TRANSFER\",\n    \"value\": \"UNLIMITED\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R12-04\",\n   \"status\": \"OK\",\n   \"label\": \"신규/전환 고객 면제\",\n   \"source\": {\n    \"quote\": \"※ 이 통장의 신규(전환)일로부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.switch_date\",\n       \"offset_months\": 2,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.switch_date\",\n       \"offset_months\": 2,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"within\": {\n     \"ref\": \"$window\"\n    }\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"EBANK_TRANSFER\",\n    \"value\": \"UNLIMITED\"\n   }\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R13",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [
+   "스키마 위반: 'condition' is a required property (위치 rules/0)"
+  ],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S2-R13-01",
+     "status": "UNSUPPORTED",
+     "label": "비과세종합저축 가입 가능",
+     "source": {
+      "quote": "▪ 비과세종합저축으로 가입 가능"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R13-01\",\n   \"status\": \"OK\",\n   \"label\": \"비과세종합저축 가입 가능\",\n   \"source\": {\n    \"quote\": \"▪ 비과세종합저축으로 가입 가능\"\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\",\n    \"value\": \"TAXABLE\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R13-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"비과세종합저축 가입 가능\",\n   \"source\": {\n    \"quote\": \"▪ 비과세종합저축으로 가입 가능\"\n   }\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R14",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S2-R14-01",
+     "status": "UNSUPPORTED",
+     "label": "해지 방법",
+     "source": {
+      "quote": "▪ 해지 : 지점 방문"
+     },
+     "condition": {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "EARLY"
+      ]
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R14-01\",\n   \"status\": \"OK\",\n   \"label\": \"해지 방법\",\n   \"source\": {\n    \"quote\": \"▪ 해지 : 지점 방문\"\n   },\n   \"condition\": {\n    \"==\": [\n     {\n      \"var\": \"contract.termination_type\"\n     },\n     \"EARLY\"\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"BRANCH_VISIT\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R14-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"해지 방법\",\n   \"source\": {\n    \"quote\": \"▪ 해지 : 지점 방문\"\n   },\n   \"condition\": {\n    \"==\": [\n     {\n      \"var\": \"contract.termination_type\"\n     },\n     \"EARLY\"\n    ]\n   }\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R15",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [
+   "스키마 위반: 'condition' is a required property (위치 rules/0)"
+  ],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S2-R15-01",
+     "status": "UNSUPPORTED",
+     "label": "지점 방문 해지 가능",
+     "source": {
+      "quote": "▪ 지점 방문을 통해 해지 가능"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R15-01\",\n   \"status\": \"OK\",\n   \"label\": \"지점 방문 해지 가능\",\n   \"source\": {\n    \"quote\": \"▪ 지점 방문을 통해 해지 가능\"\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"IN_BRANCH_TERMINATION\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R15-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"지점 방문 해지 가능\",\n   \"source\": {\n    \"quote\": \"▪ 지점 방문을 통해 해지 가능\"\n   }\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R16",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "output": {
+   "rules": []
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S2-R17",
+  "run": 0,
+  "n_attempts": 2,
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S2-R17-01",
+     "status": "UNSUPPORTED",
+     "label": "양도 및 상속 명의변경 불가",
+     "source": {
+      "quote": "▪ 양도 및 상속에 의한 명의변경 불가능"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-KBYY-S2-R17-02",
+     "status": "UNSUPPORTED",
+     "label": "담보제공 불가",
+     "source": {
+      "quote": "▪ 담보제공 불가능"
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R17-01\",\n   \"status\": \"OK\",\n   \"label\": \"양도 및 상속 명의변경 불가\",\n   \"source\": {\n    \"quote\": \"▪ 양도 및 상속에 의한 명의변경 불가능\"\n   },\n   \"condition\": {}\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R17-02\",\n   \"status\": \"OK\",\n   \"label\": \"담보제공 불가\",\n   \"source\": {\n    \"quote\": \"▪ 담보제공 불가능\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R17-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"양도 및 상속 명의변경 불가\",\n   \"source\": {\n    \"quote\": \"▪ 양도 및 상속에 의한 명의변경 불가능\"\n   },\n   \"condition\": {}\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R17-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"담보제공 불가\",\n   \"source\": {\n    \"quote\": \"▪ 담보제공 불가능\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "truncated": false
  }
 ]
