@@ -174,3 +174,15 @@ def test_a_retry_that_only_reduces_errors_is_accepted(monkeypatch):
               '"condition": {}, "effect": {"type": "DISQUALIFY"}}]}')
     r = _run_with([WORSE, BETTER, BETTER], monkeypatch)
     assert r["n_best"] == 2
+
+
+def test_a_swap_that_raises_the_total_is_accepted(monkeypatch):
+    """관문을 하나 잃고 둘을 얻으면 채택된다 — 총수만 보장된다.
+
+    v13 판정에서 "재시도 회귀가 구조적으로 0" 이라고 적은 것은 틀렸다.
+    v16(3회차)에서 5건이 이 형태로 개별 관문을 잃었다.
+    """
+    a = _m(json_ok=True, schema_ok=True, quote_ok=True)          # 3관문
+    b = _m(json_ok=True, schema_ok=True, catalog_ok=True, exec_ok=True)  # 4관문, quote 잃음
+    assert R._score_of(b) > R._score_of(a)
+    assert a["quote_ok"] and not b["quote_ok"]
