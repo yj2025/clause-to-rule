@@ -7,7 +7,7 @@
   {
    "rule_id": "KBYY-S2-R16-01",
    "status": "UNSUPPORTED",
-   "label": "질권설정 불가",
+   "label": "질권설정 불가 — 질권설정을 가리킬 변수도 '거래 금지' effect 도 없음",
    "source": {
     "quote": "불가"
    },

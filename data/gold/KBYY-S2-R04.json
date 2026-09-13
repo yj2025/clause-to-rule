@@ -7,7 +7,7 @@
   {
    "rule_id": "KBYY-S2-R04-01",
    "status": "UNSUPPORTED",
-   "label": "만 19세 도달 시 KB국민ONE통장으로 자동전환",
+   "label": "만 19세 도달 시 KB국민ONE통장으로 자동전환 — 상품 전환 effect 없음",
    "source": {
     "quote": "매년 첫 영업일에 가입자의 연령이 만 19세인 경우 「KB국민ONE통장」으로 자동전환"
    },
@@ -16,7 +16,7 @@
   {
    "rule_id": "KBYY-S2-R04-02",
    "status": "UNSUPPORTED",
-   "label": "KB국민ONE통장 기보유 시 KB종합통장으로 자동전환",
+   "label": "KB국민ONE통장 기보유 시 KB종합통장으로 자동전환 — 상품 전환 effect 없음",
    "source": {
     "quote": "단, KB국민ONE통장을 이미 보유하고 있는 경우에는 「KB종합통장」으로 자동전환"
    },

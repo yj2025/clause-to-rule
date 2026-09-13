@@ -2453,5 +2453,344 @@
   "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R04-01\",\n   \"status\": \"OK\",\n   \"label\": \"기본이율 적용\",\n   \"source\": {\n    \"quote\": \"▪ 연 0.10%\"\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.1,\n    \"unit\": \"%p\"\n   }\n  }\n ]\n}",
   "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R04-01\",\n   \"status\": \"OK\",\n   \"label\": \"기본이율 적용\",\n   \"source\": {\n    \"quote\": \"▪ 연 0.10%\"\n   },\n   \"condition\": {},\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.1,\n    \"unit\": \"%p\"\n   }\n  }\n ]\n}",
   "truncated": false
+ },
+ {
+  "clause_id": "KBONE-S2-R05",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 3
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 3
+  },
+  "errors": [
+   "카탈로그에 없는 변수: contract.product_type. 쓸 수 있는 것: account.balance, account.reserved_amount, contract.amount, contract.base_rate, contract.channel, contract.maturity_date, contract.monthly_amount, contract.reference_date, contract.start_date, contract.switch_date, contract.term_months, contract.termination_date, contract.termination_type, customer.age, customer.has_product, customer.is_first_deposit, customer.is_youth",
+   "카탈로그에 없는 변수: contract.product_type. 쓸 수 있는 것: account.balance, account.reserved_amount, contract.amount, contract.base_rate, contract.channel, contract.maturity_date, contract.monthly_amount, contract.reference_date, contract.start_date, contract.switch_date, contract.term_months, contract.termination_date, contract.termination_type, customer.age, customer.has_product, customer.is_first_deposit, customer.is_youth",
+   "실행 불가: DslError: 카탈로그에 없는 변수: contract.product_type",
+   "실행 불가: DslError: 카탈로그에 없는 변수: contract.product_type"
+  ],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBONE-S2-R05-01",
+     "status": "UNSUPPORTED",
+     "label": "보통예금 이자 지급시기",
+     "source": {
+      "quote": "이자는 매년 6, 12월의 둘째 금요일에 결산하여 다음날 원금에 더함"
+     },
+     "condition": {
+      "in": [
+       {
+        "var": "contract.product_type"
+       },
+       "ORDINARY"
+      ]
+     }
+    },
+    {
+     "rule_id": "R-KBONE-S2-R05-02",
+     "status": "UNSUPPORTED",
+     "label": "저축예금 이자 지급시기",
+     "source": {
+      "quote": "이자는 매년 2, 5, 8, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함"
+     },
+     "condition": {
+      "in": [
+       {
+        "var": "contract.product_type"
+       },
+       "SAVING"
+      ]
+     }
+    },
+    {
+     "rule_id": "R-KBONE-S2-R05-03",
+     "status": "UNSUPPORTED",
+     "label": "최종거래일 이후 이자 계산 방식",
+     "source": {
+      "quote": "최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌 해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다."
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R05-01\",\n   \"status\": \"OK\",\n   \"label\": \"보통예금 이자 지급시기\",\n   \"source\": {\n    \"quote\": \"이자는 매년 6, 12월의 둘째 금요일에 결산하여 다음날 원금에 더함\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.product_type\"\n     },\n     \"ORDINARY\"\n    ]\n   },\n   \"effect\": {\n    \"type\": \"INTEREST_PAYMENT_DATE\",\n    \"value\": [\n     \"06-02-FRI\",\n     \"12-02-FRI\"\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R05-02\",\n   \"status\": \"OK\",\n   \"label\": \"저축예금 이자 지급시기\",\n   \"source\": {\n    \"quote\": \"이자는 매년 2, 5, 8, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.product_type\"\n     },\n     \"SAVING\"\n    ]\n   },\n   \"effect\": {\n    \"type\": \"INTEREST_PAYMENT_DATE\",\n    \"value\": [\n     \"02-02-FRI\",\n     \"05-02-FRI\",\n     \"08-02-FRI\",\n     \"11-02-FRI\"\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R05-03\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"최종거래일 이후 이자 계산 방식\",\n   \"source\": {\n    \"quote\": \"최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌 해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다.\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R05-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"보통예금 이자 지급시기\",\n   \"source\": {\n    \"quote\": \"이자는 매년 6, 12월의 둘째 금요일에 결산하여 다음날 원금에 더함\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.product_type\"\n     },\n     \"ORDINARY\"\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R05-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"저축예금 이자 지급시기\",\n   \"source\": {\n    \"quote\": \"이자는 매년 2, 5, 8, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.product_type\"\n     },\n     \"SAVING\"\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R05-03\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"최종거래일 이후 이자 계산 방식\",\n   \"source\": {\n    \"quote\": \"최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌 해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다.\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBONE-S2-R06",
+  "run": 0,
+  "n_attempts": 1,
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBONE-S2-R06-01",
+     "status": "UNSUPPORTED",
+     "label": "이자 계산 기간 및 방법",
+     "source": {
+      "quote": "▪ 예금이자는 예금일부터 지급일 전일까지(결산시에는 지난 원가일부터 원가일 전일까지)를 이자계산 기간으로 하고, 매일의 최종잔액을 평균하여 결산일 현재 영업점에 고시하는 이율로 계산함"
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R06-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"이자 계산 기간 및 방법\",\n   \"source\": {\n    \"quote\": \"▪ 예금이자는 예금일부터 지급일 전일까지(결산시에는 지난 원가일부터 원가일 전일까지)를 이자계산 기간으로 하고, 매일의 최종잔액을 평균하여 결산일 현재 영업점에 고시하는 이율로 계산함\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R06-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"이자 계산 기간 및 방법\",\n   \"source\": {\n    \"quote\": \"▪ 예금이자는 예금일부터 지급일 전일까지(결산시에는 지난 원가일부터 원가일 전일까지)를 이자계산 기간으로 하고, 매일의 최종잔액을 평균하여 결산일 현재 영업점에 고시하는 이율로 계산함\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBONE-S2-R07",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [
+   "스키마 위반: ['EBANK_TRANSFER', 'ATM_WITHDRAW_AFTER_HOURS', 'AUTO_DEBIT'] is not one of ['ATM_TRANSFER', 'ATM_WITHDRAW_AFTER_HOURS', 'AUTO_DEBIT', 'EBANK_TRANSFER', 'OTHER_BANK_ATM_WITHDRAW', 'SMS_NOTICE'] (위치 rules/0/effect/target)",
+   "스키마 위반: ['EBANK_TRANSFER', 'ATM_WITHDRAW_AFTER_HOURS', 'AUTO_DEBIT', 'ATM_TRANSFER', 'OTHER_BANK_ATM_WITHDRAW', 'SMS_NOTICE'] is not one of ['ATM_TRANSFER', 'ATM_WITHDRAW_AFTER_HOURS', 'AUTO_DEBIT', 'EBANK_TRANSFER', 'OTHER_BANK_ATM_WITHDRAW', 'SMS_NOTICE'] (위치 rules/1/effect/target)",
+   "수수료 대상이 아님: ['EBANK_TRANSFER', 'ATM_WITHDRAW_AFTER_HOURS', 'AUTO_DEBIT']. 쓸 수 있는 것: ATM_TRANSFER, ATM_WITHDRAW_AFTER_HOURS, AUTO_DEBIT, EBANK_TRANSFER, OTHER_BANK_ATM_WITHDRAW, SMS_NOTICE",
+   "수수료 대상이 아님: ['EBANK_TRANSFER', 'ATM_WITHDRAW_AFTER_HOURS', 'AUTO_DEBIT', 'ATM_TRANSFER', 'OTHER_BANK_ATM_WITHDRAW', 'SMS_NOTICE']. 쓸 수 있는 것: ATM_TRANSFER, ATM_WITHDRAW_AFTER_HOURS, AUTO_DEBIT, EBANK_TRANSFER, OTHER_BANK_ATM_WITHDRAW, SMS_NOTICE"
+  ],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBONE-S2-R07-01",
+     "status": "OK",
+     "label": "KB생활서비스 기본실적 수수료 면제",
+     "source": {
+      "quote": "기본실적: KB카드결제 / 공과금 이체 중 하나! → 3개항목 수수료 면제 ①전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼때) ②KB국민은행 자동화기기 시간 외 출금수수료 ③납부자자동이체(타행자동이체포함)수수료"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "or": [
+       {
+        "exists": {
+         "event": "CARD_USAGE",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "AUTO_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": [
+       "EBANK_TRANSFER",
+       "ATM_WITHDRAW_AFTER_HOURS",
+       "AUTO_DEBIT"
+      ],
+      "value": "UNLIMITED"
+     }
+    },
+    {
+     "rule_id": "R-KBONE-S2-R07-02",
+     "status": "OK",
+     "label": "KB생활서비스 기본실적＋추가실적 수수료 면제",
+     "source": {
+      "quote": "기본실적: KB카드결제 / 공과금 이체 중 하나! ＋ 추가실적: 급여이체 / 가맹점대금 / 연금수령 이체 중 하나! → 6개항목 수수료 면제 ①전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼때) ②KB국민은행 자동화기기 시간외 출금수수료 ③납부자자동이체(타행자동이체포함)수수료 ④KB국민은행 자동화기기 이체수수료(다른 은행으로 보낼때)(월10회) ⑤다른 은행 자동화기기 출금수수료(월5회) ⑥입출금내역 SMS/FAX 통지수수료"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "and": [
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "SALARY_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "WITHDRAWAL",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "PENSION_RECEIPT",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": [
+       "EBANK_TRANSFER",
+       "ATM_WITHDRAW_AFTER_HOURS",
+       "AUTO_DEBIT",
+       "ATM_TRANSFER",
+       "OTHER_BANK_ATM_WITHDRAW",
+       "SMS_NOTICE"
+      ],
+      "value": "UNLIMITED"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R07-01\",\n   \"status\": \"OK\",\n   \"label\": \"KB생활서비스 기본실적 수수료 면제\",\n   \"source\": {\n    \"quote\": \"기본실적: KB카드결제 / 공과금 이체 중 하나! → 3개항목 수수료 면제 ①전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼때) ②KB국민은행 자동화기기 시간 외 출금수수료 ③납부자자동이체(타행자동이체포함)수수료\"\n   },\n   \"condition\": {\n    \"or\": [\n     {\n      \"exists\": {\n       \"event\": \"CARD_USAGE\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     },\n     {\n      \"exists\": {\n       \"event\": \"AUTO_TRANSFER\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": [\n      \"EBANK_TRANSFER\",\n      \"ATM_WITHDRAW_AFTER_HOURS\",\n      \"AUTO_DEBIT\"\n    ],\n    \"value\": \"UNLIMITED\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R07-02\",\n   \"status\": \"OK\",\n   \"label\": \"KB생활서비스 기본실적＋추가실적 수수료 면제\",\n   \"source\": {\n    \"quote\": \"기본실적: KB카드결제 / 공과금 이체 중 하나! ＋ 추가실적: 급여이체 / 가맹점대금 / 연금수령 이체 중 하나! → 6개항목 수수료 면제 ①전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼때) ②KB국민은행 자동화기기 시간외 출금수수료 ③납부자자동이체(타행자동이체포함)수수료 ④KB국민은행 자동화기기 이체수수료(다른 은행으로 보낼때)(월10회) ⑤다른 은행 자동화기기 출금수수료(월5회) ⑥입출금내역 SMS/FAX 통지수수료\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"or\": [\n       {\n        \"exists\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       {\n        \"exists\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       }\n      ]\n     },\n     {\n      \"or\": [\n       {\n        \"exists\": {\n         \"event\": \"SALARY_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       {\n        \"exists\": {\n         \"event\": \"WITHDRAWAL\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       {\n        \"exists\": {\n         \"event\": \"PENSION_RECEIPT\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       }\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": [\n      \"EBANK_TRANSFER\",\n      \"ATM_WITHDRAW_AFTER_HOURS\",\n      \"AUTO_DEBIT\",\n      \"ATM_TRANSFER\",\n      \"OTHER_BANK_ATM_WITHDRAW\",\n      \"SMS_NOTICE\"\n    ],\n    \"value\": \"UNLIMITED\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R07-01\",\n   \"status\": \"OK\",\n   \"label\": \"KB생활서비스 기본실적 수수료 면제\",\n   \"source\": {\n    \"quote\": \"기본실적: KB카드결제 / 공과금 이체 중 하나! → 3개항목 수수료 면제 ①전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼때) ②KB국민은행 자동화기기 시간 외 출금수수료 ③납부자자동이체(타행자동이체포함)수수료\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"or\": [\n     {\n      \"exists\": {\n       \"event\": \"CARD_USAGE\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     },\n     {\n      \"exists\": {\n       \"event\": \"AUTO_TRANSFER\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": [\n     \"EBANK_TRANSFER\",\n     \"ATM_WITHDRAW_AFTER_HOURS\",\n     \"AUTO_DEBIT\"\n    ],\n    \"value\": \"UNLIMITED\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R07-02\",\n   \"status\": \"OK\",\n   \"label\": \"KB생활서비스 기본실적＋추가실적 수수료 면제\",\n   \"source\": {\n    \"quote\": \"기본실적: KB카드결제 / 공과금 이체 중 하나! ＋ 추가실적: 급여이체 / 가맹점대금 / 연금수령 이체 중 하나! → 6개항목 수수료 면제 ①전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼때) ②KB국민은행 자동화기기 시간외 출금수수료 ③납부자자동이체(타행자동이체포함)수수료 ④KB국민은행 자동화기기 이체수수료(다른 은행으로 보낼때)(월10회) ⑤다른 은행 자동화기기 출금수수료(월5회) ⑥입출금내역 SMS/FAX 통지수수료\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"or\": [\n       {\n        \"exists\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       {\n        \"exists\": {\n         \"event\": \"AUTO_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       }\n      ]\n     },\n     {\n      \"or\": [\n       {\n        \"exists\": {\n         \"event\": \"SALARY_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       {\n        \"exists\": {\n         \"event\": \"WITHDRAWAL\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       {\n        \"exists\": {\n         \"event\": \"PENSION_RECEIPT\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       }\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": [\n     \"EBANK_TRANSFER\",\n     \"ATM_WITHDRAW_AFTER_HOURS\",\n     \"AUTO_DEBIT\",\n     \"ATM_TRANSFER\",\n     \"OTHER_BANK_ATM_WITHDRAW\",\n     \"SMS_NOTICE\"\n    ],\n    \"value\": \"UNLIMITED\"\n   }\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBONE-S2-R10",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [
+   "스키마 위반: 'condition' is a required property (위치 rules/0)"
+  ],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBONE-S2-R10-01",
+     "status": "UNSUPPORTED",
+     "label": "비과세종합저축 가입 가능",
+     "source": {
+      "quote": "▪ 비과세종합저축으로 가입가능"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R10-01\",\n   \"status\": \"OK\",\n   \"label\": \"비과세종합저축 가입 가능\",\n   \"source\": {\n    \"quote\": \"▪ 비과세종합저축으로 가입가능\"\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\",\n    \"value\": \"TAXABLE\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R10-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"비과세종합저축 가입 가능\",\n   \"source\": {\n    \"quote\": \"▪ 비과세종합저축으로 가입가능\"\n   }\n  }\n ]\n}",
+  "truncated": false
  }
 ]
