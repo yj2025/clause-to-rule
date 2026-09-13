@@ -160,3 +160,35 @@ def test_disqualify_appears_only_with_a_real_condition():
     dq = [r for _, o in FEWSHOTS for r in o["rules"]
           if (r.get("effect") or {}).get("type") == "DISQUALIFY"]
     assert all(r.get("condition") for r in dq), "조건 없는 DISQUALIFY 는 넣지 않는다"
+
+
+def test_every_example_with_rules_passes_its_own_gates(root):
+    """예시가 내 검증기를 못 넘으면 그것을 그대로 가르치게 된다.
+
+    빈 배열 예시는 뺀다 — ③④⑤ 가 빈 배열에 False 를 주는 것은
+    채점의 알려진 결함이다 (v10 판정 · v11 에서 갈래를 따로 세웠다).
+    """
+    import os
+    os.chdir(root)
+    import schema
+    import validate as V
+    GATES = ("json_ok", "schema_ok", "catalog_ok", "quote_ok", "exec_ok")
+    for i, (clause, out) in enumerate(schema.FEWSHOTS, 1):
+        rules = out.get("rules") or []
+        if not rules:
+            continue
+        r = V.score_record(out, clause)
+        bad = [k for k in GATES if not r[k]]
+        assert not bad, f"예시 {i} 가 {bad} 를 못 넘는다: {r['errors']}"
+
+
+def test_no_example_teaches_a_vacuous_condition(root):
+    """예시의 조건이 언제나 참이면 그 모양을 가르친다 (⑭)."""
+    import os
+    os.chdir(root)
+    import schema
+    import vacuous as VA
+    for i, (_, out) in enumerate(schema.FEWSHOTS, 1):
+        for r in out.get("rules") or []:
+            bad = [k for k, _ in VA.check_rule(r) if k == "헛조건"]
+            assert not bad, f"예시 {i} 가 헛조건을 가르친다"
