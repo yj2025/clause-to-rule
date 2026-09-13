@@ -3020,5 +3020,397 @@
   "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R14-01\",\n   \"status\": \"OK\",\n   \"label\": \"양도 가능\",\n   \"source\": {\n    \"quote\": \"▪ 양도 가능\"\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"TRANSFER_ALLOWED\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R14-02\",\n   \"status\": \"OK\",\n   \"label\": \"담보제공 불가능\",\n   \"source\": {\n    \"quote\": \"▪ 담보제공 불가능\"\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"PLEDGE_NOT_ALLOWED\"\n   }\n  }\n ]\n}",
   "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R14-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"양도 가능\",\n   \"source\": {\n    \"quote\": \"▪ 양도 가능\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R14-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"담보제공 불가능\",\n   \"source\": {\n    \"quote\": \"▪ 담보제공 불가능\"\n   }\n  }\n ]\n}",
   "truncated": false
+ },
+ {
+  "clause_id": "KBONE-S2-R15",
+  "run": 0,
+  "n_attempts": 2,
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 3
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 3
+  },
+  "errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBONE-S2-R15-01",
+     "status": "UNSUPPORTED",
+     "label": "압류 및 가압류 시 원금 이자 지급 제한",
+     "source": {
+      "quote": "계좌에 압류주1), 가압류주2)등이 등록될 경우 원금 및 이자 지급이 제한될 수 있음"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "KBONE-S2-R15-02",
+     "status": "UNSUPPORTED",
+     "label": "예금잔액증명서 발급일 이체 제한",
+     "source": {
+      "quote": "예금잔액증명서 발급 당일에는 입금·출금·이체 등 잔액 변동 불가"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "KBONE-S2-R15-03",
+     "status": "UNSUPPORTED",
+     "label": "사기 피해 계좌 거래 제한",
+     "source": {
+      "quote": "통장이 ‘전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법’에서 정의한 피해의심거래계좌 및 사기이용계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치를 할 수 있음"
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"KBONE-S2-R15-01\",\n   \"status\": \"OK\",\n   \"label\": \"압류 및 가압류 시 원금 이자 지급 제한\",\n   \"source\": {\n    \"quote\": \"계좌에 압류주1), 가압류주2)등이 등록될 경우 원금 및 이자 지급이 제한될 수 있음\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"var\": \"account.levy_status\"\n    }\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  },\n  {\n   \"rule_id\": \"KBONE-S2-R15-02\",\n   \"status\": \"OK\",\n   \"label\": \"예금잔액증명서 발급일 이체 제한\",\n   \"source\": {\n    \"quote\": \"예금잔액증명서 발급 당일에는 입금·출금·이체 등 잔액 변동 불가\"\n   },\n   \"condition\": {\n    \"==\": [\n     {\n      \"var\": \"account.balance_certificate_issue_date\"\n     },\n     {\n      \"var\": \"account.current_date\"\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  },\n  {\n   \"rule_id\": \"KBONE-S2-R15-03\",\n   \"status\": \"OK\",\n   \"label\": \"사기 피해 계좌 거래 제한\",\n   \"source\": {\n    \"quote\": \"통장이 ‘전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법’에서 정의한 피해의심거래계좌 및 사기이용계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치를 할 수 있음\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"var\": \"account.suspicious_account_status\"\n    }\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"KBONE-S2-R15-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"압류 및 가압류 시 원금 이자 지급 제한\",\n   \"source\": {\n    \"quote\": \"계좌에 압류주1), 가압류주2)등이 등록될 경우 원금 및 이자 지급이 제한될 수 있음\"\n   },\n   \"condition\": {}\n  },\n  {\n   \"rule_id\": \"KBONE-S2-R15-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"예금잔액증명서 발급일 이체 제한\",\n   \"source\": {\n    \"quote\": \"예금잔액증명서 발급 당일에는 입금·출금·이체 등 잔액 변동 불가\"\n   },\n   \"condition\": {}\n  },\n  {\n   \"rule_id\": \"KBONE-S2-R15-03\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"사기 피해 계좌 거래 제한\",\n   \"source\": {\n    \"quote\": \"통장이 ‘전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법’에서 정의한 피해의심거래계좌 및 사기이용계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치를 할 수 있음\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBONE-S2-R16",
+  "run": 0,
+  "n_attempts": 2,
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 3
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 3
+  },
+  "errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBONE-S2-R16-01",
+     "status": "OK",
+     "label": "예금잔액 10,000원 미만 무거래 계좌 거래중지",
+     "source": {
+      "quote": "예금잔액이 10,000원 미만이며, 1년이상 입출금거래가 없는 계좌"
+     },
+     "condition": {
+      "and": [
+       {
+        "<": [
+         {
+          "var": "account.balance"
+         },
+         10000
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_events": {
+           "event": "WITHDRAWAL",
+           "within": {
+            "ref": "$inactivity_window"
+           }
+          }
+         },
+         0
+        ]
+       }
+      ]
+     },
+     "let": {
+      "inactivity_window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.start_date",
+         "offset_months": 0,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.start_date",
+         "offset_months": -12,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    },
+    {
+     "rule_id": "KBONE-S2-R16-02",
+     "status": "OK",
+     "label": "예금잔액 10,000원 이상 50,000원 미만 무거래 계좌 거래중지",
+     "source": {
+      "quote": "예금잔액이 10,000원 이상 50,000원 미만이며, 2년이상 입출금거래가 없는 계좌"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "account.balance"
+         },
+         10000
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "account.balance"
+         },
+         50000
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_events": {
+           "event": "WITHDRAWAL",
+           "within": {
+            "ref": "$inactivity_window"
+           }
+          }
+         },
+         0
+        ]
+       }
+      ]
+     },
+     "let": {
+      "inactivity_window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.start_date",
+         "offset_months": 0,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.start_date",
+         "offset_months": -24,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    },
+    {
+     "rule_id": "KBONE-S2-R16-03",
+     "status": "OK",
+     "label": "예금잔액 50,000원 이상 100,000원 미만 무거래 계좌 거래중지",
+     "source": {
+      "quote": "예금잔액이 50,000원 이상 100,000원 미만이며, 3년이상 입출금거래가 없는 계좌"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "account.balance"
+         },
+         50000
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "account.balance"
+         },
+         100000
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_events": {
+           "event": "WITHDRAWAL",
+           "within": {
+            "ref": "$inactivity_window"
+           }
+          }
+         },
+         0
+        ]
+       }
+      ]
+     },
+     "let": {
+      "inactivity_window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.start_date",
+         "offset_months": 0,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.start_date",
+         "offset_months": -36,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"KBONE-S2-R16-01\",\n   \"status\": \"OK\",\n   \"label\": \"예금잔액 10,000원 미만 무거래 계좌 거래중지\",\n   \"source\": {\n    \"quote\": \"예금잔액이 10,000원 미만이며, 1년이상 입출금거래가 없는 계좌\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"<\": [\n       {\n        \"var\": \"account.balance\"\n       },\n       10000\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_events\": {\n         \"event\": \"WITHDRAWAL\",\n         \"within\": {\n          \"ref\": \"$inactivity_window\"\n         }\n        }\n       },\n       0\n      ]\n     }\n    ]\n   },\n   \"let\": {\n    \"inactivity_window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"last_transaction_date\",\n       \"offset_months\": 0,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"last_transaction_date\",\n       \"offset_months\": -12,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  },\n  {\n   \"rule_id\": \"KBONE-S2-R16-02\",\n   \"status\": \"OK\",\n   \"label\": \"예금잔액 10,000원 이상 50,000원 미만 무거래 계좌 거래중지\",\n   \"source\": {\n    \"quote\": \"예금잔액이 10,000원 이상 50,000원 미만이며, 2년이상 입출금거래가 없는 계좌\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"account.balance\"\n       },\n       10000\n      ]\n     },\n     {\n      \"<\": [\n       {\n        \"var\": \"account.balance\"\n       },\n       50000\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_events\": {\n         \"event\": \"WITHDRAWAL\",\n         \"within\": {\n          \"ref\": \"$inactivity_window\"\n         }\n        }\n       },\n       0\n      ]\n     }\n    ]\n   },\n   \"let\": {\n    \"inactivity_window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"last_transaction_date\",\n       \"offset_months\": 0,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"last_transaction_date\",\n       \"offset_months\": -24,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  },\n  {\n   \"rule_id\": \"KBONE-S2-R16-03\",\n   \"status\": \"OK\",\n   \"label\": \"예금잔액 50,000원 이상 100,000원 미만 무거래 계좌 거래중지\",\n   \"source\": {\n    \"quote\": \"예금잔액이 50,000원 이상 100,000원 미만이며, 3년이상 입출금거래가 없는 계좌\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"account.balance\"\n       },\n       50000\n      ]\n     },\n     {\n      \"<\": [\n       {\n        \"var\": \"account.balance\"\n       },\n       100000\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_events\": {\n         \"event\": \"WITHDRAWAL\",\n         \"within\": {\n          \"ref\": \"$inactivity_window\"\n         }\n        }\n       },\n       0\n      ]\n     }\n    ]\n   },\n   \"let\": {\n    \"inactivity_window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"last_transaction_date\",\n       \"offset_months\": 0,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"last_transaction_date\",\n       \"offset_months\": -36,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"KBONE-S2-R16-01\",\n   \"status\": \"OK\",\n   \"label\": \"예금잔액 10,000원 미만 무거래 계좌 거래중지\",\n   \"source\": {\n    \"quote\": \"예금잔액이 10,000원 미만이며, 1년이상 입출금거래가 없는 계좌\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"<\": [\n       {\n        \"var\": \"account.balance\"\n       },\n       10000\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_events\": {\n         \"event\": \"WITHDRAWAL\",\n         \"within\": {\n          \"ref\": \"$inactivity_window\"\n         }\n        }\n       },\n       0\n      ]\n     }\n    ]\n   },\n   \"let\": {\n    \"inactivity_window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": 0,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": -12,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  },\n  {\n   \"rule_id\": \"KBONE-S2-R16-02\",\n   \"status\": \"OK\",\n   \"label\": \"예금잔액 10,000원 이상 50,000원 미만 무거래 계좌 거래중지\",\n   \"source\": {\n    \"quote\": \"예금잔액이 10,000원 이상 50,000원 미만이며, 2년이상 입출금거래가 없는 계좌\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"account.balance\"\n       },\n       10000\n      ]\n     },\n     {\n      \"<\": [\n       {\n        \"var\": \"account.balance\"\n       },\n       50000\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_events\": {\n         \"event\": \"WITHDRAWAL\",\n         \"within\": {\n          \"ref\": \"$inactivity_window\"\n         }\n        }\n       },\n       0\n      ]\n     }\n    ]\n   },\n   \"let\": {\n    \"inactivity_window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": 0,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": -24,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  },\n  {\n   \"rule_id\": \"KBONE-S2-R16-03\",\n   \"status\": \"OK\",\n   \"label\": \"예금잔액 50,000원 이상 100,000원 미만 무거래 계좌 거래중지\",\n   \"source\": {\n    \"quote\": \"예금잔액이 50,000원 이상 100,000원 미만이며, 3년이상 입출금거래가 없는 계좌\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"account.balance\"\n       },\n       50000\n      ]\n     },\n     {\n      \"<\": [\n       {\n        \"var\": \"account.balance\"\n       },\n       100000\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_events\": {\n         \"event\": \"WITHDRAWAL\",\n         \"within\": {\n          \"ref\": \"$inactivity_window\"\n         }\n        }\n       },\n       0\n      ]\n     }\n    ]\n   },\n   \"let\": {\n    \"inactivity_window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": 0,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": -36,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBONE-S2-R17",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": false,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": false,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [
+   "quote 가 조문 원문에 없다: '예금 만기일 또는 이자지급을 포함한 최종거래일 이후 5년 이내 계좌를 해'. 요약하거나 바꿔 쓰지 말고 원문을 그대로 옮긴다"
+  ],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBONE-S2-R17-01",
+     "status": "UNSUPPORTED",
+     "label": "휴면예금 출연",
+     "source": {
+      "quote": "예금 만기일 또는 이자지급을 포함한 최종거래일 이후 5년 이내 계좌를 해지하지 않을 경우 예금거래기본약관 제9조의2 휴면예금 및 출연에 따라 휴면예금은 \"서민금융진흥원(국번없이 1397)\"에 출연주)될 수 있으며, 이 경우 서민금융진흥원을 통해 휴면예금을 찾으실 수 있습니다."
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R17-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"휴면예금 출연\",\n   \"source\": {\n    \"quote\": \"예금 만기일 또는 이자지급을 포함한 최종거래일 이후 5년 이내 계좌를 해지하지 않을 경우 예금거래기본약관 제9조의2 휴면예금 및 출연에 따라 휴면예금은 \\\"서민금융진흥원(국번없이 1397)\\\"에 출연주)될 수 있으며, 이 경우 서민금융진흥원을 통해 휴면예금을 찾으실 수 있습니다.\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R17-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"휴면예금 출연\",\n   \"source\": {\n    \"quote\": \"예금 만기일 또는 이자지급을 포함한 최종거래일 이후 5년 이내 계좌를 해지하지 않을 경우 예금거래기본약관 제9조의2 휴면예금 및 출연에 따라 휴면예금은 \\\"서민금융진흥원(국번없이 1397)\\\"에 출연주)될 수 있으며, 이 경우 서민금융진흥원을 통해 휴면예금을 찾으실 수 있습니다.\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBONE-S2-R20",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 4
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": false,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 4
+  },
+  "errors": [
+   "스키마 위반: 'condition' is a required property (위치 rules/0)",
+   "quote 가 조문 원문에 없다: '▪ 급여이체 계약에 의하지 않은 일반 이체거래에 의한 입금 건은 급여이체'. 요약하거나 바꿔 쓰지 말고 원문을 그대로 옮긴다"
+  ],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBONE-S2-R20-01",
+     "status": "UNSUPPORTED",
+     "label": "1인 1계좌 제한",
+     "source": {
+      "quote": "▪ 이 상품은 1인 1계좌만 가입이 가능합니다."
+     }
+    },
+    {
+     "rule_id": "KBONE-S2-R20-02",
+     "status": "OK",
+     "label": "급여이체 계약 변경 안내",
+     "source": {
+      "quote": "▪ 이 통장을 급여통장으로 이용하시는 고객님께서는 급여이체 일자가 변경되면 가까운 영업점을 방문하시거나 KB국민은행 고객센터(☎1588-9999)를 통해 변경 신청 하시기 바랍니다."
+     },
+     "condition": {
+      "in": [
+       {
+        "var": "contract.channel"
+       },
+       [
+        "BRANCH",
+        "ONLINE",
+        "INTERNET",
+        "MOBILE"
+       ]
+      ]
+     },
+     "effect": {
+      "type": "REQUIRE",
+      "value": "contact_branch_or_call_center"
+     }
+    },
+    {
+     "rule_id": "KBONE-S2-R20-03",
+     "status": "UNSUPPORTED",
+     "label": "급여이체 실적 인정 조건",
+     "source": {
+      "quote": "▪ 급여이체 계약에 의하지 않은 일반 이체거래에 의한 입금 건은 급여이체실적으로 인정되지 않으니 유의하시기 바랍니다."
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "KBONE-S2-R20-04",
+     "status": "UNSUPPORTED",
+     "label": "사기이용 계좌 제한",
+     "source": {
+      "quote": "▪ 통장이 ‘전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법’ 에서 정의한 피해의심 거래계좌 및 사기이용 계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치를 할 수 있습니다."
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"KBONE-S2-R20-01\",\n   \"status\": \"OK\",\n   \"label\": \"1인 1계좌 제한\",\n   \"source\": {\n    \"quote\": \"▪ 이 상품은 1인 1계좌만 가입이 가능합니다.\"\n   },\n   \"condition\": {\n    \"==\": [\n     {\n      \"var\": \"contract.account_count\"\n     },\n     1\n    ]\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  },\n  {\n   \"rule_id\": \"KBONE-S2-R20-02\",\n   \"status\": \"OK\",\n   \"label\": \"급여이체 계약 변경 안내\",\n   \"source\": {\n    \"quote\": \"▪ 이 통장을 급여통장으로 이용하시는 고객님께서는 급여이체 일자가 변경되면 가까운 영업점을 방문하시거나 KB국민은행 고객센터(☎1588-9999)를 통해 변경 신청 하시기 바랍니다.\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.channel\"\n     },\n     [\n      \"BRANCH\",\n      \"ONLINE\",\n      \"INTERNET\",\n      \"MOBILE\"\n     ]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"contact_branch_or_call_center\"\n   }\n  },\n  {\n   \"rule_id\": \"KBONE-S2-R20-03\",\n   \"status\": \"OK\",\n   \"label\": \"급여이체 실적 인정 조건\",\n   \"source\": {\n    \"quote\": \"▪ 급여이체 계약에 의하지 않은 일반 이체거래에 의한 입금 건은 급여이체실적으로 인정되지 않으니 유의하시기 바랍니다.\"\n   },\n   \"condition\": {\n    \"not\": {\n     \"in\": [\n      {\n       \"var\": \"transaction.type\"\n      },\n      [\n       \"SALARY_TRANSFER\"\n      ]\n     ]\n    }\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  },\n  {\n   \"rule_id\": \"KBONE-S2-R20-04\",\n   \"status\": \"OK\",\n   \"label\": \"사기이용 계좌 제한\",\n   \"source\": {\n    \"quote\": \"▪ 통장이 ‘전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법’ 에서 정의한 피해의심 거래계좌 및 사기이용 계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치를 할 수 있습니다.\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"account.risk_status\"\n     },\n     [\n      \"suspicious\",\n      \"fraud\"\n     ]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"KBONE-S2-R20-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"1인 1계좌 제한\",\n   \"source\": {\n    \"quote\": \"▪ 이 상품은 1인 1계좌만 가입이 가능합니다.\"\n   }\n  },\n  {\n   \"rule_id\": \"KBONE-S2-R20-02\",\n   \"status\": \"OK\",\n   \"label\": \"급여이체 계약 변경 안내\",\n   \"source\": {\n    \"quote\": \"▪ 이 통장을 급여통장으로 이용하시는 고객님께서는 급여이체 일자가 변경되면 가까운 영업점을 방문하시거나 KB국민은행 고객센터(☎1588-9999)를 통해 변경 신청 하시기 바랍니다.\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.channel\"\n     },\n     [\n      \"BRANCH\",\n      \"ONLINE\",\n      \"INTERNET\",\n      \"MOBILE\"\n     ]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"contact_branch_or_call_center\"\n   }\n  },\n  {\n   \"rule_id\": \"KBONE-S2-R20-03\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"급여이체 실적 인정 조건\",\n   \"source\": {\n    \"quote\": \"▪ 급여이체 계약에 의하지 않은 일반 이체거래에 의한 입금 건은 급여이체실적으로 인정되지 않으니 유의하시기 바랍니다.\"\n   },\n   \"condition\": {}\n  },\n  {\n   \"rule_id\": \"KBONE-S2-R20-04\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"사기이용 계좌 제한\",\n   \"source\": {\n    \"quote\": \"▪ 통장이 ‘전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법’ 에서 정의한 피해의심 거래계좌 및 사기이용 계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치를 할 수 있습니다.\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "truncated": false
  }
 ]
