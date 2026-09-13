@@ -25,16 +25,24 @@ v19 에서 거래중지 조문이 이렇게 나왔다.
 빈 조건 `{}` 은 **세지 않는다.** "항상 적용" 이라는 뜻을 분명히 밝힌 것이라
 숨은 헛조건과 다르다.
 
-## 한계 — 프로필 축이 고정한 값도 걸린다
+## 두 가지를 갈라 센다 — 이걸 안 하면 수치가 부풀려진다
 
-`contract.term_months` 는 프로필에서 12 로 고정이다. 그래서 `>= 12` 가
-"프로필 전부에서 참" 으로 잡힌다. **진짜 헛조건은 아니다.**
+프로필 전부에서 참이라고 다 모델 잘못이 아니다. `contract.term_months` 는
+프로필에서 12 로 **고정**이라 `>= 12` 가 자동으로 참이 된다. 이건 내 프로필의
+구멍이지 모델의 헛조건이 아니다.
 
-축이 없는 변수를 쓰는 조건은 이 축이 과하게 잡는다. 다만 **⑥·⑩ 이 그 조건을
-변별하지 못하는 것은 사실이므로**, 채점 관점에서는 헛조건과 같다.
-프로필 축을 넓히면 줄어든다.
+그래서 프로필에서 걸린 조건마다 **카탈로그 정의역 전체를 훑는 문맥 400개**
+(`_free.sample()`) 에서 반례를 찾는다.
 
-실물을 열어 확인할 것. `by_clause` 와 `examples` 가 그래서 있다.
+* 반례 있음 → **미가동**. 내 프로필이 그 변수를 안 흔든 것뿐이다.
+  측정의 구멍이라 ⑥·⑩ 의 변별력은 실제로 떨어지지만, 모델 탓은 아니다.
+* 반례 없음 → **헛조건**. 어떤 문맥에서도 참이다. 모델의 결함이다.
+
+반례 판정은 거짓과 모름을 둘 다 센다 — 헛조건 쪽을 **적게** 잡는 방향이다.
+실행 오류는 표본의 흠일 수 있어 반례로 치지 않는다.
+
+첫 측정에서 이 둘을 안 갈랐더니 "조건의 15~30%가 장식" 이 나왔다.
+가르고 나면 수치가 크게 줄어든다 — ROUNDS.md 참고.
 
     python vacuous.py results/results_v19.json
 """
@@ -45,9 +53,41 @@ import json
 import sys
 from pathlib import Path
 
+import _free
 import gold
 from engine import evaluate
 from tv import TV
+
+_FREE = None
+
+
+def _free_ctxs():
+    global _FREE
+    if _FREE is None:
+        _FREE = _free.sample()
+    return _FREE
+
+
+def has_counterexample(cond, env=None):
+    """정의역 전체를 훑는 표본에서 참이 아닌 문맥이 하나라도 있나.
+
+    거짓과 모름을 둘 다 반례로 친다 — 헛조건을 적게 잡는 쪽으로 기운다.
+    실행 오류는 표본의 흠일 수 있어 반례로 치지 않는다.
+    """
+    for ctx in _free_ctxs():
+        try:
+            if evaluate(cond, ctx, dict(env or {})) is not TV.T:
+                return True
+        except Exception:
+            continue
+    return False
+
+
+def classify(cond, env=None):
+    """`"헛조건"` · `"미가동"` · `None`."""
+    if not is_vacuous(cond, env):
+        return None
+    return "미가동" if has_counterexample(cond, env) else "헛조건"
 
 _PROFILES = None
 
@@ -94,21 +134,24 @@ def vacuous_branches(cond, env=None):
 
 
 def check_rule(rule):
+    """[(종류, 설명), ...]. 종류는 `"헛조건"` 또는 `"미가동"`."""
     out = []
     env = rule.get("let") or {}
     for part in ("condition", "guard"):
         c = rule.get(part)
-        if is_vacuous(c, env):
-            out.append(f"{part} 이 프로필 전부에서 참이다 — 조건이 없는 것과 같다")
+        kind = classify(c, env)
+        if kind:
+            out.append((kind, f"{part} 전체가 언제나 참이다 — 조건이 없는 것과 같다"))
             continue
         for a in vacuous_branches(c, env):
-            out.append(f"{part} 의 한 갈래가 언제나 참이다 — 빼도 결과가 같다: "
-                       f"{json.dumps(a, ensure_ascii=False)[:70]}")
+            k = "미가동" if has_counterexample(a, env) else "헛조건"
+            out.append((k, f"{part} 의 한 갈래가 언제나 참이다 — 빼도 결과가 같다: "
+                           f"{json.dumps(a, ensure_ascii=False)[:70]}"))
     return out
 
 
 def audit(recs):
-    checked = bad = 0
+    checked = bad = idle = 0
     by_clause = collections.Counter()
     examples = []
     for x in recs:
@@ -119,13 +162,18 @@ def audit(recs):
             if not isinstance(cond, dict) or not cond:
                 continue
             checked += 1
-            if check_rule(r):
+            found = check_rule(r)
+            kinds = {k for k, _ in found}
+            if "헛조건" in kinds:
                 bad += 1
                 by_clause[x["clause_id"]] += 1
                 if len(examples) < 6:
                     examples.append((x["clause_id"], cond))
-    return {"checked": checked, "bad": bad,
+            elif "미가동" in kinds:
+                idle += 1
+    return {"checked": checked, "bad": bad, "idle": idle,
             "rate": bad / checked * 100 if checked else 0.0,
+            "idle_rate": idle / checked * 100 if checked else 0.0,
             "by_clause": by_clause, "examples": examples}
 
 
@@ -139,7 +187,9 @@ def main(argv=None):
     r = audit(recs)
     print(f"=== {Path(a.results).name} (run {a.run}) ===\n")
     print(f"⑭ 헛조건 — 조건이 붙은 rule {r['checked']}개 중 "
-          f"**{r['bad']}개({r['rate']:.1f}%)가 언제나 참이다**\n")
+          f"**{r['bad']}개({r['rate']:.1f}%)가 어떤 문맥에서도 참이다**")
+    print(f"   그 밖에 {r['idle']}개({r['idle_rate']:.1f}%)는 미가동 — "
+          f"내 프로필이 그 변수를 안 흔든 것이라 모델 탓이 아니다\n")
     if r["by_clause"]:
         print("  " + " · ".join(f"{c} {n}" for c, n in r["by_clause"].most_common(8)))
     print("\n실물")

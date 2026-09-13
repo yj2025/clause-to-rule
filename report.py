@@ -198,7 +198,9 @@ def gate14(recs):
     if not a["checked"]:
         return
     print(f"\n⑭ 헛조건 — 조건이 붙은 rule {a['checked']}개 중 "
-          f"{a['bad']}개 = {a['rate']:.1f}%")
+          f"{a['bad']}개 = {a['rate']:.1f}% (어떤 문맥에서도 참)")
+    print(f"   미가동 {a['idle']}개 = {a['idle_rate']:.1f}% — "
+          f"프로필이 그 변수를 안 흔든 것이라 모델 탓이 아니다")
     if a["by_clause"]:
         print("  " + " · ".join(f"{c} {n}" for c, n in a["by_clause"].most_common(6)))
     print("  관문 다섯이 전부 통과시킨다. ⑫ 도 못 본다 — 판정은 맞기 때문이다.")

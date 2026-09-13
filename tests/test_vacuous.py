@@ -50,7 +50,7 @@ def test_broken_condition_is_not_counted():
 def test_guard_is_checked_too():
     r = {"condition": {"==": [{"var": "customer.age"}, 17]},
          "guard": {">=": [{"var": "account.balance"}, 0]}}
-    assert any("guard" in e for e in V.check_rule(r))
+    assert any("guard" in t for _, t in V.check_rule(r))
 
 
 def test_the_known_v19_shape_is_caught():
@@ -64,7 +64,7 @@ def test_the_known_v19_shape_is_caught():
     assert not V.is_vacuous(cond)
     assert len(V.vacuous_branches(cond)) == 1
     r = {"condition": cond}
-    assert any("한 갈래가" in e for e in V.check_rule(r))
+    assert any("한 갈래가" in t for _, t in V.check_rule(r))
 
 
 def test_the_correct_shape_is_not_caught():
@@ -125,3 +125,40 @@ def test_the_real_v19_rule_is_caught(root):
          if x["run"] == 0}
     r = (d["KBYY-S2-R19"].get("output") or {}).get("rules")[0]
     assert V.check_rule(r), "창을 쓰는 헛조건을 잡아야 한다"
+
+
+def test_profile_gap_is_not_called_a_defect():
+    """프로필이 안 흔든 변수는 '미가동' 이지 헛조건이 아니다.
+
+    `term_months` 는 골드 프로필에서 12 로 고정이다. `>= 12` 가 프로필
+    전부에서 참이지만 6개월짜리 계약은 얼마든지 있다 — 모델 잘못이 아니다.
+    첫 측정에서 이 둘을 안 갈라 수치가 8배 부풀었다.
+    """
+    cond = {">=": [{"var": "contract.term_months"}, 12]}
+    assert V.is_vacuous(cond)                    # 프로필에서는 언제나 참
+    assert V.has_counterexample(cond)            # 정의역에는 반례가 있다
+    assert V.classify(cond) == "미가동"
+
+
+def test_real_vacuity_has_no_counterexample():
+    """셀 수 없는 값이 0 이상인지 묻는 조건은 어떤 문맥에서도 참이다."""
+    cond = {">=": [{"count_events": {"event": "WITHDRAWAL"}}, 0]}
+    assert not V.has_counterexample(cond)
+    assert V.classify(cond) == "헛조건"
+
+
+def test_enum_fully_enumerated_is_vacuous():
+    """열거값 전부를 나열하면 조건이 아무 일도 하지 않는다."""
+    import catalog
+    cond = {"in": [{"var": "contract.termination_type"},
+                   list(catalog.ENUM_VALUES["contract.termination_type"])]}
+    assert V.classify(cond) == "헛조건"
+
+
+def test_audit_counts_the_two_separately():
+    recs = [{"clause_id": "X", "run": 0, "output": {"rules": [
+        {"condition": {">=": [{"count_events": {"event": "DEPOSIT"}}, 0]}},
+        {"condition": {">=": [{"var": "contract.term_months"}, 12]}},
+        {"condition": {"<": [{"var": "account.balance"}, 10000]}}]}}]
+    a = V.audit(recs)
+    assert (a["checked"], a["bad"], a["idle"]) == (3, 1, 1)

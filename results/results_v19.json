@@ -1532,5 +1532,290 @@
   "raw_first": "{\n \"rules\": []\n}",
   "raw_last": "{\n \"rules\": []\n}",
   "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S3-R02",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [
+   "실행 불가: DslError: 피연산자가 아님: ['date']"
+  ],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S3-R02-01",
+     "status": "UNSUPPORTED",
+     "label": "제공기간",
+     "source": {
+      "quote": "▪ 가입일로부터 1년(1년 단위 갱신)."
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.start_date"
+         },
+         {
+          "date": "contract.start_date"
+         }
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.start_date"
+         },
+         {
+          "date": "contract.start_date"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S3-R02-01\",\n   \"status\": \"OK\",\n   \"label\": \"제공기간\",\n   \"source\": {\n    \"quote\": \"▪ 가입일로부터 1년(1년 단위 갱신).\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"contract.start_date\"\n       },\n       {\n        \"date\": \"contract.start_date\"\n       }\n      ]\n     },\n     {\n      \"<\": [\n       {\n        \"var\": \"contract.start_date\"\n       },\n       {\n        \"date\": \"contract.start_date\"\n       }\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"LIMIT_DURATION\",\n    \"value\": 1,\n    \"unit\": \"YEAR\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S3-R02-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"제공기간\",\n   \"source\": {\n    \"quote\": \"▪ 가입일로부터 1년(1년 단위 갱신).\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"contract.start_date\"\n       },\n       {\n        \"date\": \"contract.start_date\"\n       }\n      ]\n     },\n     {\n      \"<\": [\n       {\n        \"var\": \"contract.start_date\"\n       },\n       {\n        \"date\": \"contract.start_date\"\n       }\n      ]\n     }\n    ]\n   }\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S3-R03",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "output": {
+   "rules": []
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S3-R04",
+  "run": 0,
+  "n_attempts": 1,
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S3-R04-01",
+     "status": "UNSUPPORTED",
+     "label": "연계·제휴서비스 변경 시 대체 제공",
+     "source": {
+      "quote": "▪ KB국민은행은 연계·제휴서비스를 부당하게 축소하거나 변경하지 않으며, 불가피하게 축소하거나 변경하는 경우 그에 상응하는 다른 연계·제휴서비스를 제공"
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S3-R04-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"연계·제휴서비스 변경 시 대체 제공\",\n   \"source\": {\n    \"quote\": \"▪ KB국민은행은 연계·제휴서비스를 부당하게 축소하거나 변경하지 않으며, 불가피하게 축소하거나 변경하는 경우 그에 상응하는 다른 연계·제휴서비스를 제공\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S3-R04-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"연계·제휴서비스 변경 시 대체 제공\",\n   \"source\": {\n    \"quote\": \"▪ KB국민은행은 연계·제휴서비스를 부당하게 축소하거나 변경하지 않으며, 불가피하게 축소하거나 변경하는 경우 그에 상응하는 다른 연계·제휴서비스를 제공\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S3-R05",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [
+   "스키마 위반: 'condition' is a required property (위치 rules/1)",
+   "카탈로그에 없는 변수: contract.notice_reason. 쓸 수 있는 것: account.balance, account.reserved_amount, contract.amount, contract.base_rate, contract.channel, contract.maturity_date, contract.monthly_amount, contract.reference_date, contract.start_date, contract.switch_date, contract.term_months, contract.termination_date, contract.termination_type, customer.age, customer.has_product, customer.is_first_deposit, customer.is_youth",
+   "실행 불가: DslError: 카탈로그에 없는 변수: contract.notice_reason"
+  ],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S3-R05-01",
+     "status": "OK",
+     "label": "사전통지 방법",
+     "source": {
+      "quote": "서면, 우편, 전자우편, 전화, 팩스, 휴대전화 문자메시지 또는 이에 준하는 전자적 의사표시 중 2개 이상의 방법으로 축소·변경 6개월 전부터 매월 고지"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         6
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "SALARY_TRANSFER",
+           "within": {
+            "ref": "$notice_window"
+           }
+          }
+         },
+         2
+        ]
+       }
+      ]
+     },
+     "let": {
+      "notice_window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.start_date",
+         "offset_months": 6,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.maturity_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S3-R05-02",
+     "status": "OK",
+     "label": "불가피한 사유",
+     "source": {
+      "quote": "금융회사의 휴업·파산·경영상의 위기 또는 연계․제휴서비스등을 제공하는 자의 일방적인 제공 중단 등 6개월 전부터 고지하기 어려운 불가피한 경우에는 해당 상황이 발생하는 즉시 고지"
+     },
+     "guard": {
+      "not": [
+       {
+        "in": [
+         {
+          "var": "contract.notice_reason"
+         },
+         [
+          "BANK_CLOSURE",
+          "BANKRUPTCY",
+          "FINANCIAL_Crisis",
+          "SERVICE_TERMINATION"
+         ]
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S3-R05-01\",\n   \"status\": \"OK\",\n   \"label\": \"사전통지 방법\",\n   \"source\": {\n    \"quote\": \"서면, 우편, 전자우편, 전화, 팩스, 휴대전화 문자메시지 또는 이에 준하는 전자적 의사표시 중 2개 이상의 방법으로 축소·변경 6개월 전부터 매월 고지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"contract.notice_months\"\n       },\n       6\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"NOTICE_METHOD\",\n         \"within\": {\n          \"ref\": \"$notice_window\"\n         }\n        }\n       },\n       2\n      ]\n     }\n    ]\n   },\n   \"let\": {\n    \"notice_window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": 6,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.end_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S3-R05-02\",\n   \"status\": \"OK\",\n   \"label\": \"불가피한 사유\",\n   \"source\": {\n    \"quote\": \"금융회사의 휴업·파산·경영상의 위기 또는 연계․제휴서비스등을 제공하는 자의 일방적인 제공 중단 등 6개월 전부터 고지하기 어려운 불가피한 경우에는 해당 상황이 발생하는 즉시 고지\"\n   },\n   \"guard\": {\n    \"not\": [\n     {\n      \"in\": [\n       {\n        \"var\": \"contract.notice_reason\"\n       },\n       [\n        \"BANK_CLOSURE\",\n        \"BANKRUPTCY\",\n        \"FINANCIAL_Crisis\",\n        \"SERVICE_TERMINATION\"\n       ]\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S3-R05-01\",\n   \"status\": \"OK\",\n   \"label\": \"사전통지 방법\",\n   \"source\": {\n    \"quote\": \"서면, 우편, 전자우편, 전화, 팩스, 휴대전화 문자메시지 또는 이에 준하는 전자적 의사표시 중 2개 이상의 방법으로 축소·변경 6개월 전부터 매월 고지\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"contract.term_months\"\n       },\n       6\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"SALARY_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$notice_window\"\n         }\n        }\n       },\n       2\n      ]\n     }\n    ]\n   },\n   \"let\": {\n    \"notice_window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": 6,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.maturity_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S3-R05-02\",\n   \"status\": \"OK\",\n   \"label\": \"불가피한 사유\",\n   \"source\": {\n    \"quote\": \"금융회사의 휴업·파산·경영상의 위기 또는 연계․제휴서비스등을 제공하는 자의 일방적인 제공 중단 등 6개월 전부터 고지하기 어려운 불가피한 경우에는 해당 상황이 발생하는 즉시 고지\"\n   },\n   \"guard\": {\n    \"not\": [\n     {\n      \"in\": [\n       {\n        \"var\": \"contract.notice_reason\"\n       },\n       [\n        \"BANK_CLOSURE\",\n        \"BANKRUPTCY\",\n        \"FINANCIAL_Crisis\",\n        \"SERVICE_TERMINATION\"\n       ]\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  }\n ]\n}",
+  "truncated": false
+ },
+ {
+  "clause_id": "KBYY-S5-R01",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "output": {
+   "rules": []
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false
  }
 ]
