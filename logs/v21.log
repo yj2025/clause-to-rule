@@ -42,3 +42,10 @@ Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF
 진행 39/46 [KBONE-S2-R10] 시도3 조문27s 예약16.4GB 여유17.3GB 타0.4GB  (2407s, 누적 39건)
 진행 40/46 [KBONE-S2-R11] 시도3 조문101s 예약16.4GB 여유17.3GB 타0.4GB  (2508s, 누적 40건)
 진행 41/46 [KBONE-S2-R12] 시도3 조문75s 예약16.4GB 여유17.3GB 타0.4GB  (2584s, 누적 41건)
+진행 42/46 [KBONE-S2-R14] 시도3 조문45s 예약16.4GB 여유17.3GB 타0.4GB  (2628s, 누적 42건)
+진행 43/46 [KBONE-S2-R15] 시도3 조문102s 예약16.4GB 여유17.3GB 타0.4GB  (2731s, 누적 43건)
+진행 44/46 [KBONE-S2-R16] 시도3 조문258s 예약16.4GB 여유17.3GB 타0.4GB  (2989s, 누적 44건)
+진행 45/46 [KBONE-S2-R17] 시도3 조문72s 예약16.4GB 여유17.3GB 타0.4GB  (3061s, 누적 45건)
+진행 46/46 [KBONE-S2-R20] 시도3 조문146s 예약16.4GB 여유17.3GB 타0.4GB  (3207s, 누적 46건)
+
+완료 46건 · 3207초 → results/results_v21.json
