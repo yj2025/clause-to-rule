@@ -255,42 +255,21 @@ FEWSHOT_UNSUPPORTED_OUTPUT = {
     ]
 }
 
-# **무거래 기간을 세는 법.** v17 에서 카탈로그에 `WITHDRAWAL` 을 넣었는데
-# 46조문에서 한 번밖에 안 썼다 — 이름은 프롬프트에 실렸는데 모델이
-# "1년 이상 입출금 거래가 없는" 을 `contract.term_months`(가입기간)로 옮겼다.
-# **이름을 줘도 그것으로 무엇을 세는지는 모른다.**
+# 혜택이 **말로만** 언급된 조문. 숫자도 조건도 없으면 rule 이 없다.
 #
-# 보여주는 것 —
-#   입금과 출금을 **둘 다** 세어야 무거래다 (or 로 묶는다)
-#   count_events 가 0 인 것이 "거래가 없다" 다
-#   혜택이 말로만 언급된 줄은 rule 이 되지 않는다 (예시 4 의 몫을 일부 남긴다)
+# v9 에서 이 장면을 면제횟수 장면과 맞바꿨더니, 빈 배열을 내야 할 조문들이
+# rule 을 만들기 시작했다 — ⑦ 13.0% → 6.5%, ⑩ 합성 46.9% → 12.5%.
+# 예시 자리는 유한한 자원이고, 빼는 것이 무엇을 가르치고 있었는지 먼저 알아야 한다.
+#
+# 맞바꾸지 않고 **더한다.** 상품 소개 문장에서 우대금리를 지어내는 것이
+# ⑨ 의 대표 실패라, 그 모양을 그대로 보여준다. 코퍼스 문장을 베끼지는 않는다.
 FEWSHOT_INTRO_CLAUSE = (
-    "[거래 제한]\n"
-    "▪ 최근 1년간 입금과 출금이 모두 없는 계좌는 거래를 제한합니다.\n"
-    "▪ 편리한 금융 서비스를 제공합니다."
+    "[상품 개요]\n"
+    "상 품 명 : 예시적금\n"
+    "상품특징 : 자동이체를 등록한 고객에게 금리 혜택과 창구 수수료 감면을 "
+    "제공하는 자유적립식 적금"
 )
-FEWSHOT_INTRO_OUTPUT = {
-    "rules": [
-        {
-            "rule_id": "R-EX-04-01",
-            "status": "OK",
-            "label": "장기 무거래 계좌",
-            "source": {"quote": "▪ 최근 1년간 입금과 출금이 모두 없는 계좌는 거래를 제한합니다."},
-            "let": {"window": {"month_range": {
-                "from": {"anchor": "contract.reference_date",
-                         "offset_months": -12, "day": "first"},
-                "to": {"anchor": "contract.reference_date",
-                       "offset_months": -1, "day": "last"}}}},
-            "condition": {"and": [
-                {"==": [{"count_events": {"event": "DEPOSIT",
-                                          "within": {"ref": "$window"}}}, 0]},
-                {"==": [{"count_events": {"event": "WITHDRAWAL",
-                                          "within": {"ref": "$window"}}}, 0]},
-            ]},
-            "effect": {"type": "DISQUALIFY"},
-        }
-    ]
-}
+FEWSHOT_INTRO_OUTPUT = {"rules": []}
 
 FEWSHOTS = (
     (FEWSHOT_CLAUSE, FEWSHOT_OUTPUT),
