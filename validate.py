@@ -80,10 +80,19 @@ def check_catalog(rule):
     if t is not None and t not in catalog.EFFECTS:
         errs.append(f"카탈로그에 없는 effect: {t}. 쓸 수 있는 것: "
                     f"{', '.join(sorted(catalog.EFFECTS))}")
-    if t == "FEE_WAIVE" and eff.get("target") not in catalog.FEES:
+    # `in` 검사 전에 해시 가능한지 본다. 모델이 target 이나 unit 에
+    # **배열**을 넣으면 `x in set` 이 TypeError 로 죽는다 — v19 에서 라운드가
+    # 37/46 에서 멈췄다. 생성물 때문에 검증기가 죽으면 안 된다.
+    def _known(v, vocab):
+        try:
+            return v in vocab
+        except TypeError:
+            return False
+
+    if t == "FEE_WAIVE" and not _known(eff.get("target"), catalog.FEES):
         errs.append(f"수수료 대상이 아님: {eff.get('target')}. 쓸 수 있는 것: "
                     f"{', '.join(sorted(catalog.FEES))}")
-    if eff.get("unit") is not None and eff["unit"] not in catalog.UNITS:
+    if eff.get("unit") is not None and not _known(eff["unit"], catalog.UNITS):
         errs.append(f"카탈로그에 없는 단위: {eff['unit']}. 쓸 수 있는 것: "
                     f"{', '.join(catalog.UNITS)}")
     return errs

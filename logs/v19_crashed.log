@@ -1,0 +1,62 @@
+라운드 v19
+  코퍼스   data/corpus.json (46 조문)
+  회차     1 · 온도 0.1 · 토큰 예산 3072
+  git      8031eba
+  시작     2026-09-13 18:06:08
+
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:51,  2.32it/s]Loading weights:   1%|          | 2/399 [00:00<01:56,  3.41it/s]Loading weights:   4%|▍         | 15/399 [00:00<00:16, 23.04it/s]Loading weights:   6%|▌         | 23/399 [00:00<00:11, 33.64it/s]Loading weights:   7%|▋         | 28/399 [00:01<00:18, 20.04it/s]Loading weights:   8%|▊         | 32/399 [00:01<00:16, 22.82it/s]Loading weights:   9%|▉         | 37/399 [00:01<00:13, 26.46it/s]Loading weights:  12%|█▏        | 48/399 [00:02<00:13, 25.53it/s]Loading weights:  15%|█▍        | 59/399 [00:02<00:14, 23.77it/s]Loading weights:  18%|█▊        | 70/399 [00:03<00:12, 25.82it/s]Loading weights:  18%|█▊        | 73/399 [00:03<00:13, 24.51it/s]Loading weights:  20%|██        | 81/399 [00:03<00:12, 25.41it/s]Loading weights:  23%|██▎       | 92/399 [00:04<00:13, 22.25it/s]Loading weights:  26%|██▌       | 103/399 [00:04<00:13, 22.15it/s]Loading weights:  29%|██▊       | 114/399 [00:05<00:12, 22.18it/s]Loading weights:  31%|███       | 123/399 [00:05<00:09, 27.82it/s]Loading weights:  32%|███▏      | 127/399 [00:05<00:12, 22.56it/s]Loading weights:  34%|███▍      | 136/399 [00:06<00:12, 20.73it/s]Loading weights:  36%|███▌      | 142/399 [00:06<00:10, 23.85it/s]Loading weights:  37%|███▋      | 147/399 [00:06<00:10, 23.00it/s]Loading weights:  38%|███▊      | 150/399 [00:06<00:11, 22.23it/s]Loading weights:  39%|███▉      | 155/399 [00:06<00:10, 23.04it/s]Loading weights:  40%|███▉      | 158/399 [00:06<00:10, 22.87it/s]Loading weights:  40%|████      | 161/399 [00:07<00:12, 18.82it/s]Loading weights:  42%|████▏     | 168/399 [00:07<00:08, 26.99it/s]Loading weights:  43%|████▎     | 172/399 [00:07<00:10, 20.97it/s]Loading weights:  45%|████▌     | 180/399 [00:08<00:11, 18.56it/s]Loading weights:  48%|████▊     | 191/399 [00:08<00:10, 20.44it/s]Loading weights:  51%|█████     | 202/399 [00:09<00:09, 21.79it/s]Loading weights:  53%|█████▎    | 213/399 [00:09<00:08, 21.90it/s]Loading weights:  55%|█████▌    | 221/399 [00:09<00:08, 21.77it/s]Loading weights:  56%|█████▌    | 224/399 [00:10<00:08, 21.73it/s]Loading weights:  58%|█████▊    | 230/399 [00:10<00:06, 24.72it/s]Loading weights:  58%|█████▊    | 233/399 [00:10<00:07, 22.20it/s]Loading weights:  59%|█████▉    | 237/399 [00:10<00:06, 24.76it/s]Loading weights:  60%|██████    | 241/399 [00:10<00:08, 18.26it/s]Loading weights:  62%|██████▏   | 248/399 [00:11<00:06, 25.04it/s]Loading weights:  64%|██████▎   | 254/399 [00:11<00:05, 26.80it/s]Loading weights:  65%|██████▍   | 258/399 [00:11<00:06, 21.04it/s]Loading weights:  67%|██████▋   | 268/399 [00:11<00:05, 22.36it/s]Loading weights:  68%|██████▊   | 271/399 [00:12<00:05, 23.27it/s]Loading weights:  69%|██████▊   | 274/399 [00:12<00:05, 22.37it/s]Loading weights:  70%|██████▉   | 279/399 [00:12<00:05, 21.93it/s]Loading weights:  73%|███████▎  | 290/399 [00:12<00:04, 21.87it/s]Loading weights:  73%|███████▎  | 293/399 [00:13<00:05, 19.18it/s]Loading weights:  75%|███████▌  | 301/399 [00:13<00:04, 23.75it/s]Loading weights:  77%|███████▋  | 309/399 [00:13<00:03, 24.74it/s]Loading weights:  78%|███████▊  | 312/399 [00:13<00:03, 21.94it/s]Loading weights:  79%|███████▉  | 315/399 [00:14<00:04, 20.81it/s]Loading weights:  81%|████████  | 323/399 [00:14<00:03, 24.85it/s]Loading weights:  83%|████████▎ | 331/399 [00:14<00:02, 30.39it/s]Loading weights:  84%|████████▍ | 335/399 [00:14<00:02, 21.71it/s]Loading weights:  86%|████████▋ | 345/399 [00:15<00:02, 21.32it/s]Loading weights:  89%|████████▉ | 356/399 [00:15<00:01, 23.73it/s]Loading weights:  91%|█████████ | 364/399 [00:15<00:01, 25.55it/s]Loading weights:  92%|█████████▏| 367/399 [00:16<00:01, 22.22it/s]Loading weights:  94%|█████████▍| 375/399 [00:16<00:00, 24.67it/s]Loading weights:  95%|█████████▍| 378/399 [00:16<00:00, 24.62it/s]Loading weights:  95%|█████████▌| 381/399 [00:16<00:00, 22.89it/s]Loading weights:  97%|█████████▋| 388/399 [00:17<00:00, 23.06it/s]Loading weights:  98%|█████████▊| 391/399 [00:17<00:00, 20.99it/s]Loading weights: 100%|██████████| 399/399 [00:17<00:00, 23.06it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+모델 로딩 30초
+진행 1/46 [KBYY-S1-P01] 시도3 조문6s 예약16.4GB 여유17.3GB 타0.4GB  (6s, 누적 1건)
+진행 2/46 [KBYY-S2-R01] 시도3 조문78s 예약16.4GB 여유17.3GB 타0.4GB  (84s, 누적 2건)
+진행 3/46 [KBYY-S2-R02] 시도2 조문18s 예약16.4GB 여유17.3GB 타0.4GB  (102s, 누적 3건)
+진행 4/46 [KBYY-S2-R03] 시도3 조문6s 예약16.4GB 여유17.3GB 타0.4GB  (108s, 누적 4건)
+진행 5/46 [KBYY-S2-R04] 시도2 조문55s 예약16.4GB 여유17.3GB 타0.4GB  (162s, 누적 5건)
+진행 6/46 [KBYY-S2-R05] 시도3 조문40s 예약16.4GB 여유17.3GB 타0.4GB  (202s, 누적 6건)
+진행 7/46 [KBYY-S2-R06] 시도3 조문6s 예약16.4GB 여유17.3GB 타0.4GB  (208s, 누적 7건)
+진행 8/46 [KBYY-S2-R07] 시도2 조문57s 예약16.4GB 여유17.3GB 타0.4GB  (265s, 누적 8건)
+진행 9/46 [KBYY-S2-R08] 시도3 조문87s 예약16.4GB 여유17.3GB 타0.4GB  (352s, 누적 9건)
+진행 10/46 [KBYY-S2-R09] 시도3 조문89s 예약16.4GB 여유17.3GB 타0.4GB  (441s, 누적 10건)
+진행 11/46 [KBYY-S2-R10] 시도3 조문6s 예약16.4GB 여유17.3GB 타0.4GB  (447s, 누적 11건)
+진행 12/46 [KBYY-S2-R11] 시도2 조문155s 예약16.4GB 여유17.3GB 타0.4GB  (602s, 누적 12건)
+진행 13/46 [KBYY-S2-R12] 시도3 조문231s 예약16.4GB 여유17.3GB 타0.4GB  (833s, 누적 13건)
+진행 14/46 [KBYY-S2-R13] 시도3 조문27s 예약16.4GB 여유17.3GB 타0.4GB  (860s, 누적 14건)
+진행 15/46 [KBYY-S2-R14] 시도3 조문32s 예약16.4GB 여유17.3GB 타0.4GB  (891s, 누적 15건)
+진행 16/46 [KBYY-S2-R15] 시도3 조문25s 예약16.4GB 여유17.3GB 타0.4GB  (917s, 누적 16건)
+진행 17/46 [KBYY-S2-R16] 시도3 조문6s 예약16.4GB 여유17.3GB 타0.4GB  (923s, 누적 17건)
+진행 18/46 [KBYY-S2-R17] 시도2 조문29s 예약16.4GB 여유17.3GB 타0.4GB  (953s, 누적 18건)
+진행 19/46 [KBYY-S2-R18] 시도3 조문104s 예약16.4GB 여유17.3GB 타0.4GB  (1057s, 누적 19건)
+진행 20/46 [KBYY-S2-R19] 시도2 조문162s 예약16.4GB 여유17.3GB 타0.4GB  (1218s, 누적 20건)
+진행 21/46 [KBYY-S2-R20] 시도3 조문49s 예약16.4GB 여유17.3GB 타0.4GB  (1267s, 누적 21건)
+진행 22/46 [KBYY-S2-R22] 시도3 조문7s 예약16.4GB 여유17.3GB 타0.4GB  (1274s, 누적 22건)
+진행 23/46 [KBYY-S2-R23] 시도3 조문168s 예약16.4GB 여유17.3GB 타0.4GB  (1442s, 누적 23건)
+진행 24/46 [KBYY-S3-R01] 시도3 조문6s 예약16.4GB 여유17.3GB 타0.4GB  (1448s, 누적 24건)
+진행 25/46 [KBYY-S3-R02] 시도3 조문49s 예약16.4GB 여유17.3GB 타0.4GB  (1497s, 누적 25건)
+진행 26/46 [KBYY-S3-R03] 시도3 조문6s 예약16.4GB 여유17.3GB 타0.4GB  (1503s, 누적 26건)
+진행 27/46 [KBYY-S3-R04] 시도1 조문12s 예약16.4GB 여유17.3GB 타0.4GB  (1515s, 누적 27건)
+진행 28/46 [KBYY-S3-R05] 시도3 조문131s 예약16.4GB 여유17.3GB 타0.4GB  (1646s, 누적 28건)
+진행 29/46 [KBYY-S5-R01] 시도3 조문6s 예약16.4GB 여유17.3GB 타0.4GB  (1652s, 누적 29건)
+진행 30/46 [KBYY-S5-R02] 시도3 조문224s 예약16.4GB 여유17.3GB 타0.4GB  (1876s, 누적 30건)
+진행 31/46 [KBYY-S5-R03] 시도1 조문120s 예약16.4GB 여유17.3GB 타0.4GB  (1996s, 누적 31건)
+진행 32/46 [KBONE-S1-P01] 시도3 조문6s 예약16.4GB 여유17.3GB 타0.4GB  (2003s, 누적 32건)
+진행 33/46 [KBONE-S2-R01] 시도1 조문11s 예약16.4GB 여유17.3GB 타0.4GB  (2014s, 누적 33건)
+진행 34/46 [KBONE-S2-R03] 시도3 조문6s 예약16.4GB 여유17.3GB 타0.4GB  (2020s, 누적 34건)
+진행 35/46 [KBONE-S2-R04] 시도2 조문19s 예약16.4GB 여유17.3GB 타0.4GB  (2039s, 누적 35건)
+진행 36/46 [KBONE-S2-R05] 시도3 조문110s 예약16.4GB 여유17.3GB 타0.4GB  (2148s, 누적 36건)
+진행 37/46 [KBONE-S2-R06] 시도1 조문13s 예약16.4GB 여유17.3GB 타0.4GB  (2162s, 누적 37건)
+Traceback (most recent call last):
+  File "/workspace/personal_workplace_CHO/model/M2-2/run_local_v2.py", line 236, in <module>
+    sys.exit(main())
+  File "/workspace/personal_workplace_CHO/model/M2-2/run_local_v2.py", line 219, in main
+    got = run_clause(tok, model, c, runs=a.runs, temperature=a.temperature,
+  File "/workspace/personal_workplace_CHO/model/M2-2/run_local_v2.py", line 167, in run_clause
+    marks = validate.score_record(parsed, clause["text"])
+  File "/workspace/personal_workplace_CHO/model/M2-2/validate.py", line 193, in score_record
+    e = [m for r in rules for m in fn(r)]
+  File "/workspace/personal_workplace_CHO/model/M2-2/validate.py", line 193, in <listcomp>
+    e = [m for r in rules for m in fn(r)]
+  File "/workspace/personal_workplace_CHO/model/M2-2/validate.py", line 190, in <lambda>
+    for name, fn in (("catalog_ok", lambda r: check_catalog(r)),
+  File "/workspace/personal_workplace_CHO/model/M2-2/validate.py", line 83, in check_catalog
+    if t == "FEE_WAIVE" and eff.get("target") not in catalog.FEES:
+TypeError: unhashable type: 'list'

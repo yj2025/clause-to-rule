@@ -226,3 +226,28 @@ def test_axes_are_independent():
     bad_quote = rule(source={"quote": "없는 문장"})
     m = V.score_record({"rules": [bad_quote]}, CLAUSE)
     assert m["quote_ok"] is False and m["catalog_ok"] is True and m["exec_ok"] is True
+
+
+# ── 생성물이 이상해도 검증기가 죽지 않는다 ──────────────────────────────
+@pytest.mark.parametrize("bad", [
+    {"type": "FEE_WAIVE", "target": ["EBANK_TRANSFER", "ATM_TRANSFER"],
+     "value": "UNLIMITED"},
+    {"type": "FEE_WAIVE", "target": {"a": 1}, "value": "UNLIMITED"},
+    {"type": "RATE_ADD", "value": 1.0, "unit": ["%p"]},
+    {"type": "RATE_ADD", "value": 1.0, "unit": {"x": 1}},
+])
+def test_catalog_check_survives_unhashable_values(bad):
+    """v19 에서 모델이 target 에 배열을 넣어 라운드가 37/46 에서 멈췄다.
+
+    `x in set` 이 TypeError 로 죽었다. 생성물 때문에 검증기가 죽으면
+    그 라운드 전체를 못 읽는다.
+    """
+    r = {"rule_id": "R", "source": {"quote": "x"}, "condition": {}, "effect": bad}
+    assert V.check_catalog(r) != []          # 잡아내되 죽지 않는다
+
+
+def test_score_record_survives_unhashable_values():
+    out = {"rules": [{"rule_id": "R", "source": {"quote": "x"}, "condition": {},
+                      "effect": {"type": "FEE_WAIVE", "target": ["A", "B"],
+                                 "value": "UNLIMITED"}}]}
+    assert V.score_record(out, "조문")["catalog_ok"] is False
