@@ -43,9 +43,15 @@ def test_user_prompt_contains_examples():
     assert "[예시 1 · 조문]" in build_user_prompt(CLAUSE)
 
 
-def test_user_prompt_still_shows_an_empty_array_scene():
-    """v9 가 이 장면을 잃고 ⑦ 13.0% → 6.5%, ⑩ 46.9% → 12.5% 가 됐다."""
-    assert '"rules": []' in build_user_prompt(CLAUSE)
+def test_user_prompt_still_shows_a_line_that_yields_no_rule():
+    """v9 가 빈 배열 장면을 잃고 ⑦ 13.0% → 6.5% 가 됐다.
+
+    v18 에서 예시 4 를 무거래 장면으로 바꾸며 빈 배열 **출력**은 잃었지만,
+    그 조문 안에 **rule 이 되지 않는 줄**을 남겨 몫을 일부 지킨다.
+    ⑦ 이 15p 넘게 오르면 되돌린다.
+    """
+    p = build_user_prompt(CLAUSE)
+    assert "편리한 금융 서비스를 제공합니다" in p
 
 
 def test_user_prompt_shows_a_fee_waiver_example():

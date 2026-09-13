@@ -144,8 +144,8 @@ def test_fewshot_rate_value_is_a_number():
     assert isinstance(FEWSHOT_OUTPUT["rules"][0]["effect"]["value"], (int, float))
 
 
-def test_disqualify_is_deliberately_absent_from_the_examples():
-    """v15 에서 넣었다가 되돌렸다.
+def test_disqualify_appears_only_with_a_real_condition():
+    """v15 에서 **조건 없는** DISQUALIFY 를 넣었다가 되돌렸다.
 
     DISQUALIFY 는 줄었지만(13 → 8) 그 자리가 다른 남발로 채워졌다 —
     거래중지가 LIMIT_AMOUNT 3개로 가고, 지어낸 코드가 1 → 7 로 늘었다.
@@ -154,9 +154,13 @@ def test_disqualify_is_deliberately_absent_from_the_examples():
     "더 내라" 로 읽혔다.**
 
     막힌 조문에서 수단을 찾는 행동 자체는 그대로이고 도구만 바뀐다.
-    이 문제는 예시가 아니라 카탈로그 확장으로 풀어야 한다.
+
+    v18 에서 다시 넣었는데 **조건이 있다** — 무거래 판정이라는 구체적인 조건이다.
+    v15 의 위험은 "DISQUALIFY 라는 도구를 보여준 것" 이 아니라
+    **"막히면 여기에 밀어 넣어도 된다" 로 읽힌 것**이었다.
+    조건이 붙어 있으면 그렇게 읽힐 여지가 줄어든다 — 이것이 v18 의 가설이고,
+    틀리면 ⑫ 과생성이 13건을 넘어 되돌린다.
     """
-    import json
-    st = {(r.get("effect") or {}).get("type")
-          for _, o in FEWSHOTS for r in o["rules"]}
-    assert "DISQUALIFY" not in st
+    dq = [r for _, o in FEWSHOTS for r in o["rules"]
+          if (r.get("effect") or {}).get("type") == "DISQUALIFY"]
+    assert all(r.get("condition") for r in dq), "조건 없는 DISQUALIFY 는 넣지 않는다"
