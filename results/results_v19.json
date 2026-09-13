@@ -2969,5 +2969,56 @@
   "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R12-01\",\n   \"status\": \"OK\",\n   \"label\": \"계약해지 방법\",\n   \"source\": {\n    \"quote\": \"▪ 영업점, 개인인터넷뱅킹, KB스타뱅킹을 통해 해지 가능\"\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"BRANCH, ONLINE, INTERNET\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R12-02\",\n   \"status\": \"OK\",\n   \"label\": \"해지 시 입금 계좌 필요\",\n   \"source\": {\n    \"quote\": \"※ 개인인터넷뱅킹, KB스타뱅킹을 통한 해지 시 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다.\"\n   },\n   \"guard\": {\n    \"in\": [\n     {\n      \"var\": \"contract.channel\"\n     },\n     [\"ONLINE\", \"INTERNET\"]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"DEPOSIT_ACCOUNT\"\n   }\n  }\n ]\n}",
   "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R12-01\",\n   \"status\": \"OK\",\n   \"label\": \"계약해지 방법\",\n   \"source\": {\n    \"quote\": \"▪ 영업점, 개인인터넷뱅킹, KB스타뱅킹을 통해 해지 가능\"\n   },\n   \"condition\": {},\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"BRANCH, ONLINE, INTERNET\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R12-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"해지 시 입금 계좌 필요\",\n   \"source\": {\n    \"quote\": \"※ 개인인터넷뱅킹, KB스타뱅킹을 통한 해지 시 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다.\"\n   },\n   \"guard\": {\n    \"in\": [\n     {\n      \"var\": \"contract.channel\"\n     },\n     [\n      \"ONLINE\",\n      \"INTERNET\"\n     ]\n    ]\n   },\n   \"condition\": {},\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"DEPOSIT_ACCOUNT\"\n   }\n  }\n ]\n}",
   "truncated": false
+ },
+ {
+  "clause_id": "KBONE-S2-R14",
+  "run": 0,
+  "n_attempts": 3,
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [
+   "스키마 위반: 'condition' is a required property (위치 rules/0)",
+   "스키마 위반: 'condition' is a required property (위치 rules/1)"
+  ],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBONE-S2-R14-01",
+     "status": "UNSUPPORTED",
+     "label": "양도 가능",
+     "source": {
+      "quote": "▪ 양도 가능"
+     }
+    },
+    {
+     "rule_id": "R-KBONE-S2-R14-02",
+     "status": "UNSUPPORTED",
+     "label": "담보제공 불가능",
+     "source": {
+      "quote": "▪ 담보제공 불가능"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R14-01\",\n   \"status\": \"OK\",\n   \"label\": \"양도 가능\",\n   \"source\": {\n    \"quote\": \"▪ 양도 가능\"\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"TRANSFER_ALLOWED\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R14-02\",\n   \"status\": \"OK\",\n   \"label\": \"담보제공 불가능\",\n   \"source\": {\n    \"quote\": \"▪ 담보제공 불가능\"\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"PLEDGE_NOT_ALLOWED\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R14-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"양도 가능\",\n   \"source\": {\n    \"quote\": \"▪ 양도 가능\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R14-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"담보제공 불가능\",\n   \"source\": {\n    \"quote\": \"▪ 담보제공 불가능\"\n   }\n  }\n ]\n}",
+  "truncated": false
  }
 ]
