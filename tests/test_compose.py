@@ -109,3 +109,36 @@ def test_the_axis_noise_swings_between_rounds(root):
         d = json.loads((root / f"results/results_{v}.json").read_text("utf-8"))
         sds.append(statistics.pstdev([compose.compare(d, r)["rate"] for r in (0, 1, 2)]))
     assert max(sds) - min(sds) > 15.0        # 라운드마다 크게 다르다
+
+
+def test_unconditional_disqualify_is_counted(root):
+    """조건 없이 자격을 박탈하면 모든 고객이 탈락한다.
+
+    ⑩ 어긋남의 큰 갈래인데 ⑭ 는 일부러 안 센다 (빈 조건은 뜻을 밝힌 것이라
+    숨은 헛조건과 다르다). 그래서 여기서 따로 센다.
+    """
+    import os
+    os.chdir(root)
+    recs = [{"clause_id": "X", "run": 0, "output": {"rules": [
+        {"rule_id": "a", "status": "OK", "condition": {},
+         "effect": {"type": "DISQUALIFY"}},
+        {"rule_id": "b", "status": "OK", "condition": {},
+         "effect": {"type": "LIMIT_AMOUNT", "value": 1000000}},
+        {"rule_id": "c", "status": "OK",
+         "condition": {"==": [{"var": "customer.has_product"}, True]},
+         "effect": {"type": "DISQUALIFY"}},
+    ]}}]
+    got = compose.unconditional_disqualify(recs)
+    assert [r[1] for r in got] == ["a"], (
+        "조건 없는 DISQUALIFY 만 센다 — LIMIT_AMOUNT 는 조건 {} 가 맞고"
+        "(저금통 한도는 누구에게나 적용된다), 조건이 붙은 것은 정상이다")
+
+
+def test_a_guard_also_counts_as_a_condition(root):
+    import os
+    os.chdir(root)
+    recs = [{"clause_id": "X", "run": 0, "output": {"rules": [
+        {"rule_id": "g", "status": "OK", "condition": {},
+         "guard": {"==": [{"var": "customer.is_youth"}, True]},
+         "effect": {"type": "DISQUALIFY"}}]}}]
+    assert compose.unconditional_disqualify(recs) == []

@@ -210,6 +210,44 @@ def gate14(recs):
     print("  관문 다섯이 전부 통과시킨다. ⑫ 도 못 본다 — 판정은 맞기 때문이다.")
 
 
+def gate10(recs):
+    """⑩ 합성 — 조문을 **합쳐서** 한 고객의 금리를 낸다.
+
+    ⑥ 은 조문을 고립시켜 재므로 합성할 때만 드러나는 파괴를 못 본다.
+    그런데 이 축은 여태 `report.py` 에 없었다 — `compose.py` 를 따로 돌려야
+    보였고, 그래서 **라운드 판정에서 한 번도 안 썼다.** 2026-09-14 에 넣는다.
+
+    비율만 찍지 않는다. 값이 25.0 · 56.2 · 75.0 처럼 딱 떨어지는
+    **불연속 계단**이라 평균으로 읽으면 오해한다. 어긋남의 **종류**와
+    조건 없는 `DISQUALIFY` 개수를 같이 찍는다.
+    """
+    import compose
+    try:
+        r = compose.compare(recs, run=0)
+    except Exception as e:
+        print(f"\n⑩ 합성 — 잴 수 없다: {e}")
+        return
+    dq = rate_hi = rate_lo = 0
+    for (ka, kb), n in r["diffs"].items():
+        if ka[2] != kb[2]:
+            dq += n
+        elif (kb[0] or 0) > (ka[0] or 0) or (kb[1] or 0) > (ka[1] or 0):
+            rate_hi += n
+        elif (kb[0] or 0) < (ka[0] or 0) or (kb[1] or 0) < (ka[1] or 0):
+            rate_lo += n
+    print(f"\n⑩ 합성 — 조문 {r['clauses']}개를 합쳐 프로필 {r['total']}개에 돌린다")
+    print(f"  일치 {r['rate']:.1f}%  (gold rule {r['gold_rules']} · 생성 {r['gen_rules']})")
+    if r["total"] - r["match"]:
+        print(f"  어긋남 {r['total'] - r['match']}개 — 자격 판정 {dq} · "
+              f"금리가 높다 {rate_hi} · 낮다 {rate_lo}")
+    u = compose.unconditional_disqualify(recs)
+    if u:
+        print(f"  **조건 없는 DISQUALIFY {len(u)}개** — 모든 고객이 탈락한다")
+        for cid, rid, quote in u[:4]:
+            print(f"    {cid:<16} {quote}")
+    print("  비율은 불연속 계단이다. 평균으로 읽지 말고 종류를 본다.")
+
+
 def _empty_rate(recs):
     n = sum(1 for x in recs
             if isinstance((x.get("output") or {}).get("rules"), list)
@@ -406,6 +444,7 @@ def main(argv=None):
     gates_on_rules(recs, base)
     gate8(recs, base)
     gate9(recs, texts, base)
+    gate10(recs)
     gate11(recs, texts)
     gate12(recs)
     gate13(recs)

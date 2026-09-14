@@ -18,6 +18,44 @@ gold 가 경고한 파괴는 `S2-R07` 의 특별금리와 **합성될 때만** �
 
 **기존 축을 건드리지 않는다.** ⑥ 은 그대로 두고 따로 센다.
 
+## 이 비율이 무엇을 재고 있나 — 어긋남을 열어 봤다 (2026-09-14)
+
+여섯 라운드에서 어긋난 프로필을 종류별로 갈라 봤다.
+
+| 라운드 | 어긋남 | 자격 판정 | 금리 |
+|---|---:|---:|---:|
+| v1 | 768 | 768 | 0 |
+| v7 · v15 · v21 · v22 | 256 | 256 | 0 |
+| **v13** | 896 | 768 | **128** |
+
+**대부분이 자격 판정이다.** 그리고 언제나 한 방향이다 — 생성물이 gold 보다
+자격을 더 박탈한다. 금리가 어긋나는 것은 v13 에서만 나왔고
+(gold 2.00 대 생성 0.10) 특별금리를 통째로 놓친 경우다.
+
+### 자격 박탈의 한 갈래 — 조건 없는 `DISQUALIFY`
+
+    {"rule_id": "R-KBYY-S2-R17-01", "condition": {},
+     "effect": {"type": "DISQUALIFY"}}    ← 모든 고객이 탈락한다
+
+양도·담보제공 조문("양도 및 상속에 의한 명의변경 불가능")에서 나온다.
+금지라는 효과는 분명한데 '특정 거래만 금지' 를 담을 effect 가 없어서
+`DISQUALIFY` 로 밀고, 조건을 못 붙여 `{}` 로 둔다.
+
+**이것이 전부는 아니다.** v13 은 조건 없는 `DISQUALIFY` 가 **0개**인데도
+⑩ 이 12.5% 로 가장 낮다 — 조건이 붙었는데 너무 넓게 걸리는 rule 도 같은
+피해를 준다. 그래서 `unconditional_disqualify` 는 **한 갈래를 세는 것**이지
+⑩ 을 대신하지 않는다.
+
+**⑭ 도 이것을 못 본다** — 빈 조건은 "항상 적용" 이라는 뜻을 분명히 밝힌 것이라
+일부러 제외하기 때문이다. 그래서 따로 센다.
+
+### 비율이 딱 떨어지는 값만 나오는 이유
+
+25.0% · 56.2% · 75.0% · 12.5%. gold 가 자격을 남겨 두는 프로필 수로
+정해지기 때문이다. 연속적인 품질 지표가 아니라 **불연속 계단**이고,
+그 계단을 표준편차로 재서 "판정선 ±21.6p" 라고 적어 둔 것은 오해를 부른다.
+**비율보다 어긋남의 종류와 조건 없는 `DISQUALIFY` 개수를 본다.**
+
 ## 이 축은 흔들림이 크다 — 1회차로 판정하면 안 된다
 
 3회차 라운드 안에서 회차별로 재면 이렇다.
@@ -78,6 +116,30 @@ def _gen_rules(recs, clause_ids, run=0):
             continue
         out += [r for r in rs if isinstance(r, dict)]
     return out, missing
+
+
+def unconditional_disqualify(recs, run=0):
+    """조건 없이 자격을 박탈하는 rule. **모든 고객이 탈락한다.**
+
+    `LIMIT_AMOUNT` 같은 것은 조건 `{}` 가 맞다 — 저금통 한도 100만원은
+    누구에게나 적용된다. `DISQUALIFY` 만 다르다. 예금 자격 자체를 없애는
+    효과라 조건이 없으면 뜻이 뒤집힌다.
+
+    ⑩ 의 어긋남이 사실상 전부 이것이었다. 비율보다 이 개수가 훨씬 안정적이다.
+    """
+    out = []
+    for x in recs:
+        if x["run"] != run:
+            continue
+        for r in (x.get("output") or {}).get("rules") or []:
+            if not isinstance(r, dict) or r.get("status") != "OK":
+                continue
+            if (r.get("effect") or {}).get("type") != "DISQUALIFY":
+                continue
+            if not (r.get("condition") or {}) and not (r.get("guard") or {}):
+                out.append((x["clause_id"], r.get("rule_id"),
+                            (r.get("source") or {}).get("quote", "")[:50]))
+    return out
 
 
 def compare(recs, run=0, product="KBYY"):
