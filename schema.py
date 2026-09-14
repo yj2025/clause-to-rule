@@ -87,6 +87,36 @@ _RULE = {
         {"required": ["effect"]},
         {"properties": {"status": {"const": "UNSUPPORTED"}}, "required": ["status"]},
     ],
+    # v23 — **조건 없는 DISQUALIFY 를 막는다.**
+    #
+    # `{"condition": {}, "effect": {"type": "DISQUALIFY"}}` 는 모든 고객의
+    # 예금 자격을 없앤다. 관문 다섯을 전부 통과하고 ⑭ 도 못 본다
+    # (빈 조건은 "항상 적용" 이라는 뜻을 밝힌 것이라 일부러 뺀다).
+    # 기준선 3회차에서 세 회차 모두 2개, 전부 `KBYY-S2-R18` 이었다.
+    #
+    # 산문으로는 세 번 실패했다 (v17 이름 · v19 설명 줄 · v20 금지).
+    # 스키마는 v12 에서 한 번 통했다 — 지어낸 코드를 ③ 에 물려 ⑬ 을 0% 로
+    # 만들었다. 여기서도 ② 가 잡고 재시도가 오류를 그대로 돌려준다.
+    #
+    # `LIMIT_AMOUNT` 는 조건 `{}` 가 맞다 — 저금통 한도 100만원은 누구에게나
+    # 적용된다. `DISQUALIFY` 만 다르다. 골드의 다섯 개는 전부 조건이 있다.
+    "allOf": [{
+        "if": {
+            "properties": {
+                "status": {"const": "OK"},
+                "effect": {"properties": {"type": {"const": "DISQUALIFY"}},
+                           "required": ["type"]},
+            },
+            "required": ["effect"],
+        },
+        "then": {
+            "anyOf": [
+                {"properties": {"condition": {"minProperties": 1}}},
+                {"properties": {"guard": {"minProperties": 1}},
+                 "required": ["guard"]},
+            ],
+        },
+    }],
 }
 
 SCHEMA = {

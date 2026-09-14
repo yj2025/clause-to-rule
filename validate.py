@@ -25,8 +25,21 @@ _validator = jsonschema.Draft202012Validator(SCHEMA)
 
 # ── ② 스키마 ────────────────────────────────────────────────────────────
 def check_schema(output):
-    return [f"스키마 위반: {e.message} (위치 {'/'.join(str(p) for p in e.path) or '최상위'})"
-            for e in _validator.iter_errors(output)]
+    return [_phrase(e) for e in _validator.iter_errors(output)]
+
+
+# 재시도 프롬프트가 이 문구를 그대로 모델에게 돌려준다. rule 전체를 찍으면
+# 무엇이 문제인지 안 보인다. 규칙이 분명한 것은 사람 말로 바꿔 준다.
+def _phrase(e):
+    at = "/".join(str(p) for p in e.path) or "최상위"
+    if e.validator == "allOf" or "'DISQUALIFY'" in str(e.message)[:400]:
+        inst = e.instance if isinstance(e.instance, dict) else {}
+        eff = (inst.get("effect") or {}).get("type")
+        if eff == "DISQUALIFY" and not (inst.get("condition") or inst.get("guard")):
+            return (f"스키마 위반: DISQUALIFY 에는 condition 이나 guard 가 있어야 한다. "
+                    f"비어 있으면 모든 고객이 예금 자격을 잃는다. "
+                    f"옮길 조건이 없으면 status 를 UNSUPPORTED 로 한다 (위치 {at})")
+    return f"스키마 위반: {e.message} (위치 {at})"
 
 
 # ── ③ 카탈로그 ──────────────────────────────────────────────────────────

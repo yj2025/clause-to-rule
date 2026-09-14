@@ -215,3 +215,63 @@ def test_the_empty_array_example_is_last():
     그래도 근거 없이 바꾸지 않는다 — v19 구성으로 되돌린 상태다.
     """
     assert FEWSHOTS[-1][1] == {"rules": []}
+
+
+def _rule(**kw):
+    base = {"rule_id": "x", "status": "OK", "label": "L",
+            "source": {"quote": "q"}, "condition": {}}
+    return {"rules": [dict(base, **kw)]}
+
+
+def test_unconditional_disqualify_is_a_schema_violation(root):
+    """조건 없는 DISQUALIFY 는 모든 고객의 예금 자격을 없앤다 (v23).
+
+    관문 다섯을 전부 통과하고 ⑭ 도 못 본다 — 빈 조건은 "항상 적용" 이라는
+    뜻을 밝힌 것이라 일부러 뺀다. 기준선 3회차에서 세 회차 모두 2개였다.
+    """
+    import os
+    os.chdir(root)
+    import validate as V
+    errs = V.check_schema(_rule(effect={"type": "DISQUALIFY"}))
+    assert errs, "막아야 한다"
+    assert "UNSUPPORTED" in errs[0], (
+        "재시도 프롬프트가 이 문구를 그대로 돌려준다 — 무엇을 하라는지 적어야 한다")
+
+
+def test_a_condition_or_a_guard_is_enough(root):
+    import os
+    os.chdir(root)
+    import validate as V
+    cond = {"==": [{"var": "customer.has_product"}, True]}
+    assert not V.check_schema(_rule(condition=cond,
+                                    effect={"type": "DISQUALIFY"}))
+    assert not V.check_schema(_rule(guard=cond, effect={"type": "DISQUALIFY"}))
+
+
+def test_other_effects_may_have_no_condition(root):
+    """저금통 한도 100만원은 누구에게나 적용된다 — 조건 {} 가 맞다.
+
+    골드의 KBYY-S2-R07-02 가 그 형태다. DISQUALIFY 만 다르다.
+    """
+    import os
+    os.chdir(root)
+    import validate as V
+    assert not V.check_schema(_rule(
+        effect={"type": "LIMIT_AMOUNT", "value": 1000000, "unit": "원"}))
+    assert not V.check_schema(_rule(
+        effect={"type": "FEE_WAIVE", "target": "EBANK_TRANSFER",
+                "value": "UNLIMITED"}))
+
+
+def test_every_gold_rule_still_passes_the_schema(root):
+    """제약을 넣어 골드가 깨지면 안 된다. 골드의 DISQUALIFY 다섯 개는 전부 조건이 있다."""
+    import os, json
+    os.chdir(root)
+    from pathlib import Path
+    import validate as V
+    for p in sorted(Path("data/gold").glob("*.json")):
+        if p.name.startswith("_"):
+            continue
+        d = json.loads(p.read_text("utf-8"))
+        errs = V.check_schema({"rules": d.get("rules") or []})
+        assert not errs, f"{d['clause_id']}: {errs[:1]}"
