@@ -284,15 +284,28 @@ def gates(recs, texts, base=None):
     none = sum(1 for x in recs if not isinstance((x.get("output") or {}).get("rules"), list))
     print(f"⑦ 빈 배열 (별도 축)      {'':>7} {_empty_rate(recs):>8.1f}%")
 
-    # 재시도가 결과를 망가뜨린 회차 — 1차에 통과한 관문을 최종에서 잃었나
-    regress = [x for x in recs
-               if any(x["first"][k] and not x["final"][k] for k in KEYS)]
+    # 재시도가 관문을 잃은 회차. **둘로 갈라 센다.**
+    #
+    # 처음에는 "결과를 망가뜨린 회차" 하나로 셌는데 과장이었다.
+    # 기준선 7건을 열어 보니 다섯은 관문 수가 같은 **맞바꿈**이고
+    # 둘은 오히려 관문이 늘었다 (합계 +2). 채택 규칙을 "관문을 하나라도
+    # 잃으면 안 받는다" 로 바꿔 보는 실험을 저장된 결과로 돌려 봤더니
+    # KBONE-S2-R20 에서 관문을 오히려 하나 잃는다. **바꾸지 않는다.**
+    lost = [x for x in recs
+            if any(x["first"][k] and not x["final"][k] for k in KEYS)]
+    n_of = lambda m: sum(1 for k in KEYS if m[k])
+    worse = [x for x in lost if n_of(x["final"]) < n_of(x["first"])]
+    swap = len(lost) - len(worse)
     tries = sum(x["n_attempts"] - 1 for x in recs)
-    print(f"\n재시도 {tries}회 · 결과를 망가뜨린 회차 {len(regress)}건", end="")
-    if regress:
-        lost = collections.Counter(k for x in regress for k in KEYS
-                                   if x["first"][k] and not x["final"][k])
-        print("  잃은 관문 " + " · ".join(f"{SYM[k]} {v}" for k, v in lost.items()))
+    print(f"\n재시도 {tries}회 · 관문 총수가 줄어든 회차 {len(worse)}건"
+          f" · 같은 수로 맞바꾼 회차 {swap}건", end="")
+    if lost:
+        by = collections.Counter(k for x in lost for k in KEYS
+                                 if x["first"][k] and not x["final"][k])
+        got = collections.Counter(k for x in lost for k in KEYS
+                                  if x["final"][k] and not x["first"][k])
+        print("  잃은 관문 " + " · ".join(f"{SYM[k]} {v}" for k, v in by.items())
+              + "  ·  얻은 관문 " + " · ".join(f"{SYM[k]} {v}" for k, v in got.items()))
     else:
         print()
 

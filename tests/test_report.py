@@ -53,3 +53,28 @@ def test_no_round_has_ever_beaten_the_abstention_baseline(root):
                         got if isinstance(got, list) else [],
                         agg, P, base)["rate"] * 100)
     assert statistics.mean(ss) < b, "기준선을 넘었다 — 이 시험을 고치고 축하할 것"
+
+
+def test_gate_swaps_are_not_called_damage(root):
+    """관문을 맞바꾼 것과 총수가 줄어든 것을 갈라 센다.
+
+    "결과를 망가뜨린 회차" 하나로 세던 것이 과장이었다. 기준선 7건을
+    열어 보니 다섯은 관문 수가 같은 맞바꿈이고 둘은 오히려 늘었다(합계 +2).
+
+    채택 규칙을 "관문을 하나라도 잃으면 안 받는다" 로 바꾸는 실험을
+    저장된 결과로 돌려 봤더니 KBONE-S2-R20 에서 관문을 오히려 하나 잃는다.
+    GPU 없이 확인하고 바꾸지 않기로 했다.
+    """
+    import os, json
+    os.chdir(root)
+    from pathlib import Path
+    GATES = ("json_ok", "schema_ok", "catalog_ok", "quote_ok", "exec_ok")
+    recs = json.loads(Path("results/results_base3.json").read_text("utf-8"))
+    lost = [x for x in recs
+            if any(x["first"][k] and not x["final"][k] for k in GATES)]
+    n = lambda m: sum(1 for k in GATES if m[k])
+    worse = [x for x in lost if n(x["final"]) < n(x["first"])]
+    assert lost, "맞바꾼 회차가 있어야 이 시험이 의미가 있다"
+    assert not worse, (
+        "관문 총수가 줄어든 회차가 생겼다 — 채택 규칙이 깨진 것이다. "
+        f"{[(x['clause_id'], x['run']) for x in worse]}")
