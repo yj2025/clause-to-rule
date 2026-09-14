@@ -186,3 +186,36 @@ def test_a_swap_that_raises_the_total_is_accepted(monkeypatch):
     b = _m(json_ok=True, schema_ok=True, catalog_ok=True, exec_ok=True)  # 4관문, quote 잃음
     assert R._score_of(b) > R._score_of(a)
     assert a["quote_ok"] and not b["quote_ok"]
+
+
+def test_every_record_says_what_made_it():
+    """결과 파일만 보고 어느 지문·예시·카탈로그로 돌렸는지 알 수 있어야 한다.
+
+    v22 를 되돌린 뒤 '지금 지문이 v19 와 같나' 를 확인하려고 git 에서
+    커밋을 찾아 파일을 풀어 대조해야 했다. 셋을 따로 세므로
+    하나만 바뀌어도 어느 쪽인지 보인다.
+    """
+    import run_local_v2 as R
+    fp = R.prompt_fingerprint()
+    assert set(fp) == {"system", "fewshots", "n_fewshots", "catalog"}
+    assert fp["n_fewshots"] == 4
+    assert all(isinstance(fp[k], str) and len(fp[k]) == 12
+               for k in ("system", "fewshots", "catalog"))
+
+
+def test_the_fingerprint_moves_when_the_prompt_moves():
+    import run_local_v2 as R
+    import prompt
+    a = R.prompt_fingerprint()
+    old = prompt.SYSTEM_PROMPT
+    try:
+        prompt.SYSTEM_PROMPT = old + "\n한 줄 더"
+        import importlib
+        importlib.reload(R)
+        b = R.prompt_fingerprint()
+        assert a["system"] != b["system"]
+        assert a["fewshots"] == b["fewshots"], "예시는 안 건드렸다"
+    finally:
+        prompt.SYSTEM_PROMPT = old
+        import importlib
+        importlib.reload(R)

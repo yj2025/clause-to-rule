@@ -12,13 +12,38 @@ GPU 경합 가설을 확인할 수 없다 (부록 A.6).
 """
 
 import argparse
+import hashlib
 import json
 import sys
 import time
 from pathlib import Path
 
+import catalog
+import schema
 import validate
 from prompt import SYSTEM_PROMPT, build_retry_prompt, build_user_prompt
+
+
+def prompt_fingerprint():
+    """이 라운드가 무엇으로 만들어졌는지 한 줄로 남긴다.
+
+    v22 를 되돌린 뒤 "지금 지문이 v19 와 같나" 를 확인하려고 git 으로
+    커밋을 찾아 파일을 풀어 대조해야 했다. 결과 파일에 적어 두면 안 해도 된다.
+
+    지문·예시·카탈로그를 각각 따로 센다. 하나만 바뀌어도 어느 쪽인지 보인다.
+    """
+    def h(x):
+        return hashlib.sha256(x.encode("utf-8")).hexdigest()[:12]
+    return {
+        "system": h(SYSTEM_PROMPT),
+        "fewshots": h(json.dumps(schema.FEWSHOTS, ensure_ascii=False,
+                                 sort_keys=True, default=str)),
+        "n_fewshots": len(schema.FEWSHOTS),
+        "catalog": h(json.dumps(
+            [sorted(catalog.VARIABLES), sorted(catalog.EVENTS),
+             sorted(catalog.EFFECTS), sorted(catalog.FEES)],
+            ensure_ascii=False)),
+    }
 
 MODEL = "Qwen/Qwen3-8B"
 MAX_NEW_TOKENS = 3072
@@ -181,12 +206,16 @@ def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
 
         _, n_best, marks, output, errors = best
         out.append({"clause_id": clause["id"], "run": run, "n_attempts": attempts,
+                    "prompt": _FINGERPRINT,
                     "n_best": n_best,
                     "first": _marks(first), "final": _marks(marks),
                     "errors": errors, "output": output,
                     "raw_first": raw_first, "raw_last": raw_last,
                     "truncated": truncated})
     return out
+
+
+_FINGERPRINT = prompt_fingerprint()
 
 
 def _marks(m):
