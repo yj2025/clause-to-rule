@@ -30,7 +30,12 @@ from pathlib import Path
 
 import catalog
 
-# 자유 문자열을 허용하는 effect
+# 문자열 값을 갖는 effect. **자유 문자열을 허용하지 않는다.**
+#
+# 2026-09-14 사람 검토에서 정해졌다. 정답 데이터가 `REQUIRE` 의 value 에
+# "본인명의의 입출금이자유로운예금 계좌" 라는 한국어 문장을 넣고 있었는데,
+# 카탈로그에 그 계좌 종류를 가리킬 코드가 없다. **모델에게 벌점을 주는
+# 바로 그 일을 정답이 하고 있었다.** 그 rule 은 UNSUPPORTED 로 바꿨다.
 FREE = ("REQUIRE", "DISQUALIFY")
 
 # 대문자 코드형 — 지어낸 이름은 거의 이 모양이다
@@ -54,10 +59,12 @@ def check_rule(rule, vocab=None):
     v = eff.get("value")
     if not isinstance(v, str):
         return []
-    if not _CODE.fullmatch(v.strip()):
-        return []                       # 한글 설명문 등은 이 축의 대상이 아니다
     if v.strip() in vocab:
         return []
+    if not _CODE.fullmatch(v.strip()):
+        return [f"{eff['type']} 의 value \"{v[:40]}\" 가 카탈로그 코드가 아니다. "
+                f"자유 문자열은 쓰지 않는다 — 실행기가 읽을 수 없다. "
+                f"표현 수단이 없으면 status 를 UNSUPPORTED 로 한다"]
     return [f"{eff['type']} 의 value \"{v}\" 는 카탈로그에 없는 코드다. "
             f"표현 수단이 없으면 status 를 UNSUPPORTED 로 한다"]
 

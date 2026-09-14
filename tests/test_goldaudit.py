@@ -59,8 +59,19 @@ def test_detrimental_effects_never_approximate(gold):
         f"CONFIRMED 에 넣어라: {unlisted}")
 
 
-def test_the_review_is_marked_provisional(gold):
-    """사람 검토와 구별한다. reviewed 는 여전히 false 다."""
+def test_reviewed_and_provisional_are_never_both_set(gold):
+    """사람 검토와 잠정 판정을 구별한다.
+
+    사람이 본 조문은 `reviewed: true` 와 `review` 를 갖고
+    `provisional_review` 가 없어야 한다. 아직 안 본 조문은 그 반대다.
+    2026-09-14 부터 사람 검토가 들어오기 시작했다.
+    """
+    done = []
     for cid, d in gold.items():
-        assert d.get("reviewed") is False, f"{cid} 가 사람 검토로 표시됐다"
-        assert d.get("provisional_review", {}).get("by") == "claude"
+        if d.get("reviewed"):
+            assert "provisional_review" not in d, f"{cid} 에 잠정 표시가 남았다"
+            assert d.get("review", {}).get("by"), f"{cid} 에 검토자가 없다"
+            done.append(cid)
+        else:
+            assert d.get("provisional_review", {}).get("by") == "claude", cid
+    assert done, "사람 검토가 하나도 없다"

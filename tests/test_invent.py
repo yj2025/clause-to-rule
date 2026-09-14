@@ -28,13 +28,25 @@ def test_a_catalog_name_is_fine(name):
     assert invent.check_rule(rule(v=name)) == []
 
 
-def test_a_korean_sentence_is_out_of_scope():
-    # 한글 설명문은 이 축이 겨냥하는 것이 아니다
-    assert invent.check_rule(rule(v="본인명의의 입출금이 자유로운 예금 계좌")) == []
+def test_a_korean_sentence_is_caught(root):
+    """한국어 설명문도 잡는다 (2026-09-14 사람 검토로 바뀐 기준).
 
+    전에는 "이 축의 대상이 아니다" 로 빼고 있었다. 그 구멍으로 정답
+    데이터가 REQUIRE 의 value 에 한국어 문장을 넣고도 0점을 받았다.
+    """
+    import os
+    os.chdir(root)
+    assert invent.check_rule(rule(v="본인명의의 입출금이자유로운예금 계좌"))
 
-def test_a_short_token_is_out_of_scope():
-    assert invent.check_rule(rule(v="AB")) == []
+def test_a_short_token_is_caught_too(root):
+    """짧아도 카탈로그 코드가 아니면 지어낸 것이다 (2026-09-14 사람 검토).
+
+    전에는 세 글자 미만을 봐줬다. 기준이 "실행기가 읽을 수 있나" 로
+    바뀌었으므로 길이는 상관없다.
+    """
+    import os
+    os.chdir(root)
+    assert invent.check_rule(rule(v="AB"))
 
 
 def test_a_numeric_value_is_out_of_scope():
@@ -86,9 +98,23 @@ def test_the_gate_now_catches_it(root):
     assert V.check_catalog(rule()) != []
 
 
-def test_the_gate_still_allows_korean_text(root):
+def test_the_gate_blocks_free_text_too(root):
+    """③ 관문까지 막는다 (2026-09-14 사람 검토).
+
+    실행기가 읽을 수 없는 값이면 한국어든 소문자든 카탈로그 준수 실패다.
+    v12 에서 대문자 코드를 ③ 에 물린 것과 같은 논리다.
+
+    이 결정으로 ③ 이 전 라운드에서 최대 6.5p 내려간다.
+    **모델이 나빠진 것이 아니라 관문을 엄하게 만든 것이다.**
+    실제로 걸리는 값은 "BRANCH, ONLINE, INTERNET" · "1 year" ·
+    "contact_branch_or_call_center" 처럼 전부 실행 불가능한 것이었다.
+    """
+    import os
+    os.chdir(root)
     import validate as V
-    assert V.check_catalog(rule(v="본인명의의 입출금이 자유로운 예금 계좌")) == []
+    assert V.check_catalog(rule(v="본인명의의 입출금이 자유로운 예금 계좌"))
+    assert V.check_catalog(rule(v="1 year"))
+    assert V.check_catalog(rule(v="BRANCH, ONLINE, INTERNET"))
 
 
 def test_the_rounds_before_v12_were_not_caught(root):
@@ -102,3 +128,33 @@ def test_the_rounds_before_v12_were_not_caught(root):
                      if isinstance(r, dict))
               and x["final"]["catalog_ok"]]
     assert caught, "그때는 통과했어야 한다"
+
+
+def test_a_free_korean_string_is_also_an_invented_code(root):
+    """자유 문자열도 지어낸 코드로 센다 (2026-09-14 사람 검토).
+
+    ⑬ 이 대문자 코드만 보고 한국어 설명문은 일부러 빼고 있었다.
+    그 구멍으로 정답 데이터가 REQUIRE 의 value 에
+    "본인명의의 입출금이자유로운예금 계좌" 를 넣고도 0점을 받았다.
+    실행기가 읽을 수 없는 값이면 코드든 문장이든 같다.
+    """
+    import os
+    os.chdir(root)
+    import invent
+    r = {"rule_id": "x", "status": "OK", "label": "L",
+         "source": {"quote": "q"}, "condition": {},
+         "effect": {"type": "REQUIRE",
+                    "value": "본인명의의 입출금이자유로운예금 계좌"}}
+    errs = invent.check_rule(r)
+    assert errs and "자유 문자열" in errs[0]
+
+
+def test_a_catalog_code_still_passes(root):
+    import os
+    os.chdir(root)
+    import invent, catalog
+    good = sorted(catalog.FEES)[0]
+    r = {"rule_id": "x", "status": "OK", "label": "L",
+         "source": {"quote": "q"}, "condition": {},
+         "effect": {"type": "REQUIRE", "value": good}}
+    assert not invent.check_rule(r)
