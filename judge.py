@@ -71,7 +71,7 @@ def judge(new, old, watch=()):
                 if any(x["first"][g] and not x["final"][g] for g in KEYS)}
 
     ra, rb = regress(A), regress(B)
-    print(f"\n재시도가 결과를 망가뜨린 회차  기준 {len(ra)} → 이번 {len(rb)}")
+    print(f"\n재시도가 관문을 잃은 회차 (맞바꿈 포함)  기준 {len(ra)} → 이번 {len(rb)}")
     healed = sorted(k for k in ra & set(common) if k not in rb)
     added = sorted(k for k in rb & set(common) if k not in ra)
     for cid, run in healed:
