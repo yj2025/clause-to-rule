@@ -1,7 +1,7 @@
 {
  "clause_id": "KBYY-S5-R03",
  "label": "KB생활 서비스Ⅱ",
- "reviewed": false,
+ "reviewed": true,
  "note": "복원 초안. 사람 검토 필요. 면제조건은 '전월 중' 기본실적 하나 이상 AND 추가실적 하나 이상 → AND(OR, OR). 기본실적 없이 추가실적만 있으면 면제 불가라는 ※ 는 이 AND 로 이미 표현된다(예시 문장은 rule 로 만들지 않았다). 면제대상 표 6행이 각각 rule 이고 빈 면제횟수 칸 2개는 윗행의 '제한없음'(UNLIMITED)을 물려받는다. 값은 제한없음=UNLIMITED, 월 10회=10, 월 5회=5. 수수료 면제는 FEE_WAIVE 다. 근사 2곳: (1) 급여이체 '건별 50만원 이상' 금액 조건은 DSL 에 금액 필터가 없어 exists SALARY_TRANSFER 로만 옮겼다. (2) 가맹점결제(카드 가맹점대금 입금실적)에 딱 맞는 이벤트가 없어 DEPOSIT(입금)으로 옮겼다. 주1)~주5) 의 세부 인정기준과 SMS 월정액형 한정(주5)은 옮길 수단이 없어 조건에 반영하지 않았다.",
  "rules": [
   {
@@ -54,14 +54,6 @@
        {
         "exists": {
          "event": "SALARY_TRANSFER",
-         "within": {
-          "ref": "$window"
-         }
-        }
-       },
-       {
-        "exists": {
-         "event": "DEPOSIT",
          "within": {
           "ref": "$window"
          }
@@ -142,14 +134,6 @@
        },
        {
         "exists": {
-         "event": "DEPOSIT",
-         "within": {
-          "ref": "$window"
-         }
-        }
-       },
-       {
-        "exists": {
          "event": "PENSION_RECEIPT",
          "within": {
           "ref": "$window"
@@ -216,14 +200,6 @@
        {
         "exists": {
          "event": "SALARY_TRANSFER",
-         "within": {
-          "ref": "$window"
-         }
-        }
-       },
-       {
-        "exists": {
-         "event": "DEPOSIT",
          "within": {
           "ref": "$window"
          }
@@ -304,14 +280,6 @@
        },
        {
         "exists": {
-         "event": "DEPOSIT",
-         "within": {
-          "ref": "$window"
-         }
-        }
-       },
-       {
-        "exists": {
          "event": "PENSION_RECEIPT",
          "within": {
           "ref": "$window"
@@ -378,14 +346,6 @@
        {
         "exists": {
          "event": "SALARY_TRANSFER",
-         "within": {
-          "ref": "$window"
-         }
-        }
-       },
-       {
-        "exists": {
-         "event": "DEPOSIT",
          "within": {
           "ref": "$window"
          }
@@ -466,14 +426,6 @@
        },
        {
         "exists": {
-         "event": "DEPOSIT",
-         "within": {
-          "ref": "$window"
-         }
-        }
-       },
-       {
-        "exists": {
          "event": "PENSION_RECEIPT",
          "within": {
           "ref": "$window"
@@ -489,12 +441,20 @@
     "target": "SMS_NOTICE",
     "value": "UNLIMITED"
    }
+  },
+  {
+   "rule_id": "KBYY-S5-R03-07",
+   "status": "UNSUPPORTED",
+   "label": "가맹점결제 실적 — 가맹점대금 입금 이벤트 없음",
+   "source": {
+    "quote": "가맹점결제 | KB국민은행에서 지급한 카드 가맹점대금 입금실적주2)이 있는 경우"
+   }
   }
  ],
- "provisional_review": {
-  "by": "claude",
+ "review": {
+  "by": "CYJ",
   "at": "2026-09-14",
-  "basis": "DECISIONS.md — 오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED",
-  "note": "사람 검토 아님. 기준을 글로 적어 일관되게 적용한 것뿐이다."
+  "verdict": "가맹점결제를 조건에서 뺀다",
+  "note": "가맹점결제를 DEPOSIT(일반 입금)으로 옮기고 있었다. 조문은 '가맹점 사업자가 카드 대금을 받는 것' 이라 주체와 성격이 다르다 — 월급 입금도 실적으로 세게 된다. 방향의 문제가 아니라 다른 개념으로 바꾼 것이라 허용하지 않는다. 추가실적은 급여이체·연금수령 둘로 가고 가맹점결제는 별도 UNSUPPORTED rule 로 남긴다. 급여이체의 '건별 50만원 이상' 근사는 방향이 고객에게 유리해 유지한다."
  }
 }

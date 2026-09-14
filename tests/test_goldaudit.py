@@ -73,5 +73,6 @@ def test_reviewed_and_provisional_are_never_both_set(gold):
             assert d.get("review", {}).get("by"), f"{cid} 에 검토자가 없다"
             done.append(cid)
         else:
-            assert d.get("provisional_review", {}).get("by") == "claude", cid
+            assert d.get("principles_applied", {}).get("by") == "claude", cid
+            assert "provisional_review" not in d, cid
     assert done, "사람 검토가 하나도 없다"
