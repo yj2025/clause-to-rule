@@ -83,9 +83,11 @@ def gate8(recs, base=None):
 def gate9(recs, texts, base=None):
     """⑨ 근거 — 생성물의 수가 조문에 있나.
 
-    **첫 회차로 맞춰 잰다.** 회차 수가 다른 라운드를 그냥 비교하면 틀린다 —
-    3회차 라운드와 1회차 라운드의 분모가 세 배 다르다. 이 축은 분모가 작아
-    (수치 effect 만 센다) 그 차이가 크게 나온다.
+    **첫 회차로 맞춰 잰다.** 회차 수가 다른 라운드를 그냥 비교하면 틀린다.
+
+    **분모는 조문이다.** rule 을 분모로 두면 1회 불확실 구간이 최대 ±46.5p 라
+    라운드 비교에 못 쓰고, 모델이 rule 을 덜 내기만 해도 비율이 좋아진다.
+    조문 단위는 ±2.5p 다 — NOISE.md 참고.
     """
     import grounding
     recs = [x for x in recs if x["run"] == 0]
@@ -93,12 +95,14 @@ def gate9(recs, texts, base=None):
     if not a["checked"]:
         return
     print(f"\n⑨ 근거 없는 수 (은행 금리를 발명하는 것은 가장 비싼 오류다)")
-    line = (f"  수치 effect {a['checked']}개 중 근거 없는 것 "
-            f"{a['invented']}개 = {a['rate']:.1f}%")
+    line = (f"  조문 {a['clauses']}개 중 지어낸 수가 있는 조문 "
+            f"{a['bad_clauses']}개 = {a['rate']:.1f}%")
     if base:
         b = grounding.audit([x for x in base if x["run"] == 0], texts)
         line += f"   (기준 {b['rate']:.1f}% · {a['rate'] - b['rate']:+.1f}p)"
     print(line)
+    print(f"  (참고 · 라운드 비교엔 안 쓴다) 수치 effect {a['checked']}개 중 "
+          f"{a['invented']}개 = {a['rule_rate']:.1f}%")
     if a["by_clause"]:
         print("  " + " · ".join(f"{c} {n}" for c, n in a["by_clause"].most_common(6)))
     print("  ①~⑤ 는 값의 출처를 묻지 않는다. ⑥ 도 발화하지 않는 창작은 못 잡는다.")

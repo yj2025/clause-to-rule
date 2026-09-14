@@ -136,3 +136,36 @@ def test_the_axis_is_compared_on_matched_runs(root):
     whole = G.audit(d, texts)["rate"]
     first = G.audit([x for x in d if x["run"] == 0], texts)["rate"]
     assert whole != first          # 실제로 다르다
+
+
+def test_the_denominator_is_clauses_not_rules(root):
+    """rule 을 분모로 두면 모델이 덜 내기만 해도 비율이 좋아진다.
+
+    3회 반복으로 재 보니 rule 단위는 1회 기준 최대 ±46.5p 였다 —
+    라운드 비교에 못 쓴다. 조문 단위는 ±2.5p 다.
+    """
+    import os, json
+    os.chdir(root)
+    texts = {x["id"]: x["text"] for x in
+             json.loads((root / "data/corpus.json").read_text("utf-8"))}
+    # 같은 조문에서 지어낸 수를 두 개 내도 조문 단위로는 한 건이다
+    recs = [{"clause_id": "KBYY-S2-R03", "run": 0, "output": {"rules": [
+        {"effect": {"type": "RATE_ADD", "value": 0.7, "unit": "PERCENT_POINT"}},
+        {"effect": {"type": "RATE_ADD", "value": 1.3, "unit": "PERCENT_POINT"}},
+    ]}}]
+    a = G.audit(recs, texts)
+    assert a["invented"] == 2, "rule 단위로는 두 건"
+    assert a["bad_clauses"] == 1 and a["clauses"] == 1
+    assert a["rate"] == 100.0, "조문 단위 비율이 주 지표다"
+    assert a["rule_rate"] == 100.0
+
+
+def test_making_fewer_rules_does_not_flatter_the_clause_rate(root):
+    """rule 을 하나만 내도 그 조문은 여전히 '지어냈다' 로 센다."""
+    import os, json
+    os.chdir(root)
+    texts = {x["id"]: x["text"] for x in
+             json.loads((root / "data/corpus.json").read_text("utf-8"))}
+    one = [{"clause_id": "KBYY-S2-R03", "run": 0, "output": {"rules": [
+        {"effect": {"type": "RATE_ADD", "value": 0.7, "unit": "PERCENT_POINT"}}]}}]
+    assert G.audit(one, texts)["rate"] == 100.0

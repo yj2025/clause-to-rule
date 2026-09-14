@@ -16,6 +16,20 @@ gold 가 빈 배열인 조문에서는 창작 rule 이 어느 프로필에서도
 **이 축은 기존 관문을 건드리지 않는다.** ①~⑤ 의 정의가 그대로라 v1 부터의
 비교가 유지된다. 새로 세는 것뿐이다.
 
+## 무엇을 분모로 두나 — rule 이 아니라 조문이다
+
+처음에는 **수치 effect 를 낸 rule** 을 분모로 뒀다. 그 분모가 8~28개뿐이라
+한둘이 바뀌면 10p 가 움직인다. 3회 반복으로 재 보니 1회 기준 불확실 구간이
+v1 ±19.1p · v2 ±18.9p · **v7 ±46.5p** 였다. **라운드 비교에 못 쓴다.**
+게다가 모델이 rule 을 몇 개 내느냐에 따라 분모가 같이 흔들려서,
+"덜 만들면 비율이 좋아지는" 축이었다.
+
+**조문 단위로 센다** — "이 조문에서 지어낸 수가 하나라도 있나".
+분모가 코퍼스 조문 수로 고정된다. 같은 세 라운드에서 **전부 ±2.5p** 다.
+1회차로도 판정된다.
+
+rule 단위 비율은 참고로 같이 찍지만 **라운드 비교에는 쓰지 않는다.**
+
     python grounding.py results/results_v6.json
 """
 
@@ -85,7 +99,9 @@ def audit(recs, texts):
     rules = grounded = invented = 0
     by_clause = collections.Counter()
     examples = []
+    seen_clauses, bad_clauses = set(), set()
     for x in recs:
+        seen_clauses.add(x["clause_id"])
         text = texts.get(x["clause_id"], "")
         nums = numbers_in(text)
         for r in (x.get("output") or {}).get("rules") or []:
@@ -99,13 +115,19 @@ def audit(recs, texts):
             rules += 1
             if errs:
                 invented += 1
+                bad_clauses.add(x["clause_id"])
                 by_clause[x["clause_id"]] += 1
                 if len(examples) < 8:
                     examples.append((x["clause_id"], r, errs[0]))
             else:
                 grounded += 1
+    n_clauses = len(seen_clauses)
     return {"checked": rules, "grounded": grounded, "invented": invented,
-            "rate": invented / rules * 100 if rules else 0.0,
+            # 라운드 비교에 쓰는 값 — 분모가 조문 수로 고정된다 (±2.5p)
+            "clauses": n_clauses, "bad_clauses": len(bad_clauses),
+            "rate": len(bad_clauses) / n_clauses * 100 if n_clauses else 0.0,
+            # 참고용 — 분모가 흔들려 라운드 비교에 못 쓴다 (최대 ±46.5p)
+            "rule_rate": invented / rules * 100 if rules else 0.0,
             "by_clause": by_clause, "examples": examples}
 
 
