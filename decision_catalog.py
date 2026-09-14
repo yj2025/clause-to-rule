@@ -46,11 +46,11 @@ class Doc(FPDF):
     def h1(self, text, sub=None):
         self.set_font("nk", "B", 16)
         self.set_text_color(*INK)
-        self.multi_cell(TW, 8, text)
+        self.multi_cell(TW, 8, text, new_x="LMARGIN")
         if sub:
             self.set_font("nk", "", 9.5)
             self.set_text_color(*MUTED)
-            self.multi_cell(TW, 5.4, sub)
+            self.multi_cell(TW, 5.4, sub, new_x="LMARGIN")
         self.ln(1.5)
         y = self.get_y()
         self.set_draw_color(*ACCENT)
@@ -72,14 +72,14 @@ class Doc(FPDF):
         self.set_xy(M + 11, y)
         self.set_font("nk", "B", 12.5)
         self.set_text_color(*INK)
-        self.multi_cell(TW - 11, 6.6, text)
+        self.multi_cell(TW - 11, 6.6, text, new_x="LMARGIN")
         self.ln(1.5)
 
     def p(self, text, size=9.7, color=MUTED, indent=0):
         self.set_x(M + indent)
         self.set_font("nk", "", size)
         self.set_text_color(*color)
-        self.multi_cell(TW - indent, 5.6, text, markdown=True)
+        self.multi_cell(TW - indent, 5.6, text, markdown=True, new_x="LMARGIN")
         self.ln(2)
 
     def case(self, label, lines, indent=11):
@@ -100,12 +100,13 @@ class Doc(FPDF):
             self.set_text_color(*FAINT)
             self.cell(17, 4.7, k)
             self.set_text_color(*INK)
-            self.multi_cell(TW - indent - 25, 4.7, v, markdown=True)
+            self.multi_cell(TW - indent - 25, 4.7, v, markdown=True, new_x="LMARGIN")
             yy = self.get_y()
         self.set_y(y0 + need + 3)
 
     def options(self, items):
         for tag, text, tone in items:
+            self.set_x(M + 11)
             if self.get_y() > 260:
                 self.add_page()
             self.set_x(M + 11)
@@ -114,7 +115,7 @@ class Doc(FPDF):
             self.cell(13, 5.4, tag)
             self.set_font("nk", "", 9.4)
             self.set_text_color(*MUTED)
-            self.multi_cell(TW - 24, 5.4, text, markdown=True)
+            self.multi_cell(TW - 24, 5.4, text, markdown=True, new_x="LMARGIN")
             self.ln(1)
         self.ln(2)
 

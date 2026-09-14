@@ -48,11 +48,11 @@ class Brief(FPDF):
         self.ln(3)
         self.set_font("nk", "B", 17)
         self.set_text_color(*INK)
-        self.multi_cell(TW, 8.4, text)
+        self.multi_cell(TW, 8.4, text, new_x="LMARGIN")
         if sub:
             self.set_font("nk", "", 9.5)
             self.set_text_color(*MUTED)
-            self.multi_cell(TW, 5.4, sub)
+            self.multi_cell(TW, 5.4, sub, new_x="LMARGIN")
         self.ln(1.5)
         y = self.get_y()
         self.set_draw_color(*ACCENT)
@@ -67,29 +67,30 @@ class Brief(FPDF):
         self.ln(3.5)
         self.set_font("nk", "B", 11.5)
         self.set_text_color(*INK)
-        self.multi_cell(TW, 6.2, text)
+        self.multi_cell(TW, 6.2, text, new_x="LMARGIN")
         self.ln(1.2)
 
     def p(self, text, size=9.6, color=MUTED, gap=2.2):
         self.set_font("nk", "", size)
         self.set_text_color(*color)
-        self.multi_cell(TW, 5.5, text, markdown=True)
+        self.multi_cell(TW, 5.5, text, markdown=True, new_x="LMARGIN")
         self.ln(gap)
 
     def lead(self, text):
         self.set_font("nk", "", 10.4)
         self.set_text_color(*INK)
-        self.multi_cell(TW, 6.0, text, markdown=True)
+        self.multi_cell(TW, 6.0, text, markdown=True, new_x="LMARGIN")
         self.ln(3)
 
     def bullets(self, items, size=9.6):
         for it in items:
+            self.set_x(M)
             self.set_font("nk", "B", size)
             self.set_text_color(*ACCENT)
             self.cell(5, 5.4, "·")
             self.set_font("nk", "", size)
             self.set_text_color(*MUTED)
-            self.multi_cell(TW - 5, 5.4, it, markdown=True)
+            self.multi_cell(TW - 5, 5.4, it, markdown=True, new_x="LMARGIN")
         self.ln(2)
 
     def box(self, label, text, tone=ACCENT):
@@ -112,7 +113,7 @@ class Brief(FPDF):
         self.set_xy(M + pad, y0 + 8.0)
         self.set_font("nk", "", 9.4)
         self.set_text_color(*INK)
-        self.multi_cell(TW - 2 * pad - 2, 5.3, text, markdown=True)
+        self.multi_cell(TW - 2 * pad - 2, 5.3, text, markdown=True, new_x="LMARGIN")
         self.set_y(y0 + h + 3.5)
 
     def table(self, head, rows, widths, aligns=None, hi=None):
@@ -184,6 +185,7 @@ def build():
                           "찾아 고치고, 그다음 프롬프트를 움직인다"),
                  ("라운드", "v1 ~ v22"),
                  ("작성", "2026-09-14")):
+        d.set_x(M)
         d.set_font("nk", "B", 9)
         d.set_text_color(*FAINT)
         d.cell(22, 6.4, k)
