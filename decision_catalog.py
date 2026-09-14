@@ -15,8 +15,8 @@ FONTS = HERE / "fonts"
 OUT = HERE / "M2-2_카탈로그확장_결정요청.pdf"
 
 INK = (26, 24, 22)
-MUTED = (92, 88, 82)
-FAINT = (139, 133, 125)
+MUTED = (66, 62, 56)
+FAINT = (104, 98, 90)
 ACCENT = (32, 76, 110)
 RULE = (214, 209, 202)
 SUNK = (242, 240, 236)
@@ -31,8 +31,8 @@ class Doc(FPDF):
     def __init__(self):
         super().__init__(format="A4")
         self.set_auto_page_break(True, margin=20)
-        self.add_font("nk", "", str(FONTS / "NotoSansKR-VF.ttf"))
-        self.add_font("nk", "B", str(FONTS / "NotoSansKR-Bold.ttf"))
+        self.add_font("nk", "", str(FONTS / "KR-Regular.ttf"))
+        self.add_font("nk", "B", str(FONTS / "KR-Bold.ttf"))
         self.set_margins(M, 18, M)
 
     def footer(self):
