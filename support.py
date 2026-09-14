@@ -57,6 +57,39 @@ _EVENT_WORDS = {
 }
 
 
+# 변수가 조문에서 불릴 만한 말. 이벤트와 같은 규칙 — **확실한 것만** 넣는다.
+# 여기 없는 변수는 검사하지 않는다. 놓치는 것이 잘못 잡는 것보다 낫다.
+#
+# `contract.reference_date` · `contract.base_rate` 같은 것은 조문이 이름을
+# 안 부르고 쓰므로 뺐다. `contract.channel` 도 뺐다 — "지점" 이 해지 경로와
+# 가입 경로 양쪽에 쓰여 구별이 안 된다.
+_VAR_WORDS = {
+    "customer.age": ("세", "나이", "연령"),
+    "customer.is_youth": ("세", "나이", "연령", "청소년", "Youth"),
+    "customer.has_product": ("1인 1계좌", "보유", "기 보유"),
+    "account.balance": ("잔액", "예금잔액"),
+    "account.reserved_amount": ("저금통",),
+    "contract.term_months": ("개월", "년", "기간"),
+    "contract.termination_type": ("해지", "중도"),
+    "contract.amount": ("금액", "원"),
+    "contract.monthly_amount": ("납입", "월"),
+}
+
+
+def _vars_in(node, out=None):
+    out = set() if out is None else out
+    if isinstance(node, dict):
+        v = node.get("var")
+        if isinstance(v, str):
+            out.add(v)
+        for x in node.values():
+            _vars_in(x, out)
+    elif isinstance(node, list):
+        for x in node:
+            _vars_in(x, out)
+    return out
+
+
 def _events_in(node, out=None):
     out = set() if out is None else out
     if isinstance(node, dict):
@@ -97,7 +130,19 @@ def check_rule(rule, clause_text):
     # 참조표를 가리키는 인용문은 봐준다. "기본실적 중 하나 이상" 은 표가
     # 그것을 카드결제·공과금이체로 정의하므로 근거가 맞다.
     points_to_table = any(w in q for w in ("아래 표", "표 참조", "실적", "아래"))
-    if not points_to_table:
+
+    # **수수료 면제는 인용문이 조건을 안 받친다 — 그게 맞는 구조다.**
+    #
+    # 면제 대상 표의 한 행("KB국민은행 자동화기기 시간외출금수수료")을 인용하고
+    # 조건은 면제조건 줄("전월 중 … 카드결제실적")에서 온다. 인용문은
+    # **효과의 대상**을 가리키고 조건의 근거는 다른 줄에 있다.
+    #
+    # 이 검사가 골드에서 **34번** 발동했다. 전부 이 모양이었다.
+    # "인용문 하나가 조건과 효과를 둘 다 받쳐야 한다" 는 가정이 틀렸다.
+    # 골드에 돌려 보고 알았다 — 축을 만들 때 정답에 먼저 돌려 봐야 한다.
+    is_fee_waive = (rule.get("effect") or {}).get("type") == "FEE_WAIVE"
+
+    if not points_to_table and not is_fee_waive:
         for ev in _events_in(rule.get("condition")) | _events_in(rule.get("guard")):
             words = _EVENT_WORDS.get(ev)
             if not words:
