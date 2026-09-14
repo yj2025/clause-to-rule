@@ -11,14 +11,32 @@ outcome 에 `other_effects` 를 포함한다. 안 넣었더니 수수료 면제�
 ⑥ 조차 구분하지 못했다. `rule_id` 는 일부러 뺀다 — 쪼갰는지 합쳤는지는 뜻이 아니다.
 """
 
+import json
+
 from engine import evaluate_rules
 from resolver import resolve
 
 
+def _hashable(v):
+    """생성물의 아무 값이나 비교 가능한 형태로.
+
+    모델이 스칼라 자리에 리스트를 넣는다 — `FEE_WAIVE.target` 에 목록을
+    넣은 회차가 실제로 있었다. 그러면 `frozenset` 이 터지고 **그 라운드의
+    ⑥ 채점 전체가 중단된다.** 같은 모양이 ③ 에서도 한 번 터졌었다.
+    비교만 하면 되므로 문자열로 눕힌다.
+    """
+    if isinstance(v, (str, int, float, bool)) or v is None:
+        return v
+    return json.dumps(v, ensure_ascii=False, sort_keys=True)
+
+
 def _key(eff):
     """other_effect 하나를 비교 가능한 형태로. rule_id 는 빼고 status 는 넣는다."""
-    return (eff.get("status"), eff.get("type"), eff.get("target"),
-            str(eff.get("value")), eff.get("unit"))
+    if not isinstance(eff, dict):
+        return ("?", "?", _hashable(eff), "?", "?")
+    return (_hashable(eff.get("status")), _hashable(eff.get("type")),
+            _hashable(eff.get("target")), str(eff.get("value")),
+            _hashable(eff.get("unit")))
 
 
 def outcome(rules, ctx, aggregation="SUM", base_rate=0.0):

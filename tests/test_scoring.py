@@ -121,3 +121,21 @@ def test_unknown_is_part_of_outcome(profiles):
     bare = dict(ctx)
     bare["contract"] = {k: v for k, v in ctx["contract"].items() if k != "monthly_amount"}
     assert outcome([unknown], bare, AGG, RATE) != outcome([BASE], bare, AGG, RATE)
+
+
+def test_a_list_where_a_scalar_belongs_does_not_kill_the_round():
+    """모델이 FEE_WAIVE.target 에 목록을 넣으면 frozenset 이 터졌다.
+
+    그러면 그 라운드의 ⑥ 채점이 통째로 중단된다. v19 에서 실제로 났고,
+    같은 모양이 ③ 에서도 한 번 터졌었다. 비교만 하면 되므로 눕힌다.
+    """
+    import gold
+    from scoring import score
+    P = gold.profiles()[:8]
+    bad = [{"rule_id": "X", "status": "OK", "label": "목록을 넣었다",
+            "source": {"quote": "q"}, "condition": {},
+            "effect": {"type": "FEE_WAIVE",
+                       "target": ["전자금융이체", "자동화기기"],
+                       "value": "UNLIMITED"}}]
+    r = score([], bad, "SUM", P, 0.0)
+    assert 0.0 <= r["rate"] <= 1.0

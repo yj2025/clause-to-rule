@@ -3,5 +3,11 @@
  "label": "상품유형",
  "reviewed": false,
  "note": "복원 초안. 사람 검토 필요. 빈 배열 — 상품을 '입출금이 자유로운 예금(저축예금)'으로 분류하는 사실 서술일 뿐, 판별할 조건도 적용할 효과도 없다(few-shot 예시 2 유형).",
- "rules": []
+ "rules": [],
+ "provisional_review": {
+  "by": "claude",
+  "at": "2026-09-14",
+  "basis": "DECISIONS.md — 오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED",
+  "note": "사람 검토 아님. 기준을 글로 적어 일관되게 적용한 것뿐이다."
+ }
 }

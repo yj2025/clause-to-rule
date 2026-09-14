@@ -37,25 +37,31 @@ def test_a_clause_unlocks_only_when_every_blocker_is_filled(clauses):
     assert cid in B.unlocked(clauses, need)
 
 
-def test_withdrawal_alone_unlocked_nothing(clauses):
+def test_withdrawal_is_no_longer_a_blocker_at_all(clauses):
     """v17 이 출금 이벤트를 넣었다. 제안서 2순위였고 푼 조문은 0개다.
 
     출금을 요구한 조문은 전부 명의변경·'거래 금지' effect 같은
     다른 것도 같이 요구했다. 확장은 묶음으로 와야 값을 낸다.
+
+    2026-09-14: 골드 라벨이 아직 '출금 이벤트 없음' 이라 적고 있었다.
+    카탈로그에 있는 것을 걸림돌로 세면 확장 순위가 틀어진다 —
+    `goldaudit.py` 가 찾았다. 라벨에서 뺐고 이 시험이 지킨다.
     """
-    need_w = [cid for cid, rs in clauses.items()
-              if any("출금" in b for b in rs.values())]
-    assert need_w, "출금을 요구하는 조문이 있어야 한다"
-    assert B.unlocked(clauses, {"출금"}) == []
+    import catalog
+    assert "WITHDRAWAL" in catalog.EVENTS
+    everywhere = {b for rs in clauses.values() for bs in rs.values() for b in bs}
+    assert "출금" not in everywhere, "카탈로그에 있는 것은 걸림돌이 아니다"
 
 
-def test_labels_and_notes_agree_on_the_dormancy_clauses():
-    """거래중지 두 조문은 출금 말고 명의변경도 요구한다.
+def test_the_dormancy_clauses_still_need_name_change_events():
+    """거래중지 두 조문이 남긴 걸림돌은 명의변경과 '거래 금지' effect 다.
 
-    조문이 '입출금 거래 **또는 명의변경 거래**' 로 무거래기간을 정의한다.
-    라벨이 출금만 적고 있어서 도구가 '출금만 넣으면 풀린다' 고 셌었다.
+    조문이 무거래기간을 '입출금 거래 **또는 명의변경 거래**' 로 정의한다.
+    출금은 카탈로그에 들어왔지만 명의변경은 아직 없다 — 그래서 판정은
+    UNSUPPORTED 로 남는다.
     """
     for cid in ("KBYY-S2-R19", "KBONE-S2-R16"):
         d = json.loads(Path(f"data/gold/{cid}.json").read_text("utf-8"))
         lab = d["rules"][0]["label"]
-        assert "출금" in lab and "명의변경" in lab
+        assert "명의변경" in lab
+        assert "출금 이벤트" not in lab, "카탈로그에 있는 것을 걸림돌로 적지 않는다"

@@ -3,5 +3,11 @@
  "label": "제공기간",
  "reviewed": false,
  "note": "복원 초안. 사람 검토 필요. 빈 배열로 판정 — '가입일로부터 1년(1년 단위 갱신)'은 제휴 교육서비스(S3-R01)의 제공 기간을 적은 서술이고, 판별할 조건도 고객에게 줄 효과도 없다. 갱신이 1년 단위로 무한히 이어지므로 기간 경과가 자격을 끊는 조건으로도 동작하지 않는다. UNSUPPORTED 가 아닌 이유: UNSUPPORTED 는 '조건·효과는 있는데 카탈로그에 수단이 없다'는 뜻인데 여기엔 옮길 조건·효과 자체가 없다(few-shot 의 예금자보호 예시와 같은 자리). contract.start_date 로 창을 만들 수 있다는 이유로 rule 을 만들면 붙일 effect 가 없어 억지 REQUIRE/LIMIT_AMOUNT 가 붙는다 — 이 조문이 잡으려는 과생성 오류가 그것이다.",
- "rules": []
+ "rules": [],
+ "provisional_review": {
+  "by": "claude",
+  "at": "2026-09-14",
+  "basis": "DECISIONS.md — 오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED",
+  "note": "사람 검토 아님. 기준을 글로 적어 일관되게 적용한 것뿐이다."
+ }
 }

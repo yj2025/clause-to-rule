@@ -50,5 +50,11 @@
    },
    "condition": {}
   }
- ]
+ ],
+ "provisional_review": {
+  "by": "claude",
+  "at": "2026-09-14",
+  "basis": "DECISIONS.md — 오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED",
+  "note": "사람 검토 아님. 기준을 글로 적어 일관되게 적용한 것뿐이다."
+ }
 }
