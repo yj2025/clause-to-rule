@@ -80,7 +80,19 @@ _RULE = {
         "condition": _CONDITION,
         "effect": _EFFECT,
     },
-    "required": ["rule_id", "source", "condition"],
+    # `condition` 은 **status 가 OK 일 때만** 요구한다.
+    #
+    # UNSUPPORTED 는 "옮길 수단이 없다" 는 선언이라 담을 조건 자체가 없다.
+    # `{}` 를 적으라는 것은 우리 관례일 뿐 형식이 요구하는 것이 아니다.
+    #
+    # 예시 3 이 `"condition": {}` 을 보여주고 지시문에도 적혀 있는데
+    # **기준선에서 46조문 중 8개가 그래도 빠뜨렸다.** ② 실패 11건 중 8건이
+    # 이것뿐이었다. 가르쳐서 안 되고, 요구해서 얻는 것도 없다.
+    #
+    # 푸니 ② 76.1% → 93.5%, 관문 다섯 전부 통과 37.0% → 50.0% 다.
+    # **이 이득은 모델이 좋아진 것이 아니라 셈을 고친 것이다.**
+    # 전 라운드를 다시 채점했다 — ROUNDS.md 참고.
+    "required": ["rule_id", "source"],
     "additionalProperties": False,
     # status 가 UNSUPPORTED 면 옮길 effect 가 없다. 그 경우만 effect 를 뺄 수 있다.
     "anyOf": [
@@ -101,6 +113,11 @@ _RULE = {
     # `LIMIT_AMOUNT` 는 조건 `{}` 가 맞다 — 저금통 한도 100만원은 누구에게나
     # 적용된다. `DISQUALIFY` 만 다르다. 골드의 다섯 개는 전부 조건이 있다.
     "allOf": [{
+        # OK 면 condition 을 적어야 한다. 조건이 없으면 `{}` 로 "항상 적용" 을
+        # 분명히 밝힌다 — 빠뜨린 것과 구별되어야 한다.
+        "if": {"properties": {"status": {"const": "OK"}}, "required": ["status"]},
+        "then": {"required": ["condition"]},
+    }, {
         "if": {
             "properties": {
                 "status": {"const": "OK"},

@@ -248,6 +248,40 @@ def gate10(recs):
     print("  비율은 불연속 계단이다. 평균으로 읽지 말고 종류를 본다.")
 
 
+def rescore(recs):
+    """저장된 관문 표시를 버리고 **지금 검증기로** 다시 낸다.
+
+    결과 파일의 `final` 은 **그때 잰 값**이고 기록이다. 덮어쓰면 문서에 적힌
+    수치와 어긋난다. 그래서 여기서는 사본을 만들어 돌려주고 파일은 안 건드린다.
+
+    채점을 고친 뒤 옛 라운드를 견줄 때 쓴다. `raw_last` 가 아니라 파싱된
+    `output` 으로 다시 재므로 ① 은 그대로다.
+    """
+    import copy
+    out = []
+    for x in recs:
+        y = copy.deepcopy(x)
+        o = y.get("output")
+        if isinstance(o, dict):
+            m = V.score_record(o, _clause_text(y["clause_id"]))
+            for k in ("schema_ok", "catalog_ok", "quote_ok", "exec_ok",
+                      "empty", "n_rules"):
+                y["final"][k] = m[k]
+        out.append(y)
+    return out
+
+
+_TEXTS = None
+
+
+def _clause_text(cid):
+    global _TEXTS
+    if _TEXTS is None:
+        _TEXTS = {x["id"]: x["text"] for x in
+                  json.loads(Path("data/corpus.json").read_text("utf-8"))}
+    return _TEXTS.get(cid, "")
+
+
 def _empty_rate(recs):
     n = sum(1 for x in recs
             if isinstance((x.get("output") or {}).get("rules"), list)
@@ -445,11 +479,21 @@ def main(argv=None):
     ap.add_argument("results")
     ap.add_argument("--clauses", default="data/corpus.json")
     ap.add_argument("--baseline")
+    ap.add_argument("--rescore", action="store_true",
+                    help="저장된 관문 표시를 버리고 **지금 검증기로** 다시 낸다. "
+                         "채점을 고친 뒤 옛 라운드를 견줄 때 쓴다. "
+                         "결과 파일은 건드리지 않는다")
     a = ap.parse_args(argv)
 
     recs = json.loads(Path(a.results).read_text("utf-8"))
     texts = {c["id"]: c["text"] for c in json.loads(Path(a.clauses).read_text("utf-8"))}
     base = json.loads(Path(a.baseline).read_text("utf-8")) if a.baseline else None
+    if a.rescore:
+        recs = rescore(recs)
+        if base:
+            base = rescore(base)
+        print("※ 저장된 관문 표시를 버리고 지금 검증기로 다시 냈다. "
+              "파일은 안 건드린다.")
 
     print(f"=== {Path(a.results).name} ===\n")
     gates(recs, texts, base)

@@ -78,3 +78,34 @@ def test_gate_swaps_are_not_called_damage(root):
     assert not worse, (
         "관문 총수가 줄어든 회차가 생겼다 — 채택 규칙이 깨진 것이다. "
         f"{[(x['clause_id'], x['run']) for x in worse]}")
+
+
+def test_rescore_does_not_touch_the_file(root):
+    """저장된 관문 표시는 **그때 잰 값**이고 기록이다.
+
+    채점을 고칠 때마다 덮어쓰면 문서에 적힌 수치와 어긋난다.
+    2026-09-14 에 실제로 한 번 덮어썼다가 되돌렸다.
+    """
+    import os, json, hashlib
+    os.chdir(root)
+    from pathlib import Path
+    import report
+    f = Path("results/results_base3.json")
+    before = hashlib.sha256(f.read_bytes()).hexdigest()
+    recs = json.loads(f.read_text("utf-8"))
+    out = report.rescore(recs)
+    assert hashlib.sha256(f.read_bytes()).hexdigest() == before, "파일이 바뀌었다"
+    assert recs[0]["final"] is not out[0]["final"], "원본을 그대로 돌려주면 안 된다"
+    assert len(out) == len(recs)
+
+
+def test_rescore_changes_the_marks_when_the_schema_changed(root):
+    """스키마를 풀었으므로 옛 라운드의 ② 가 오른다."""
+    import os, json
+    os.chdir(root)
+    from pathlib import Path
+    import report
+    recs = json.loads(Path("results/results_base3.json").read_text("utf-8"))
+    now = sum(1 for x in recs if x["final"]["schema_ok"])
+    new = sum(1 for x in report.rescore(recs) if x["final"]["schema_ok"])
+    assert new > now, "UNSUPPORTED 의 condition 을 풀었으니 올라야 한다"
