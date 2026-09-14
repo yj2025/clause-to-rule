@@ -30,7 +30,12 @@ def prompt_fingerprint():
     v22 를 되돌린 뒤 "지금 지문이 v19 와 같나" 를 확인하려고 git 으로
     커밋을 찾아 파일을 풀어 대조해야 했다. 결과 파일에 적어 두면 안 해도 된다.
 
-    지문·예시·카탈로그를 각각 따로 센다. 하나만 바뀌어도 어느 쪽인지 보인다.
+    지문·예시·카탈로그·스키마를 각각 따로 센다.
+    하나만 바뀌어도 어느 쪽인지 보인다.
+
+    **스키마를 빠뜨렸다가 v23 에서 물렸다.** 스키마에 제약을 더했는데
+    해시가 그대로라 기준선과 구별이 안 됐다. 스키마는 ② 관문을 정의하므로
+    출력을 바꾼다 — 지문과 똑같이 기록해야 한다.
     """
     def h(x):
         return hashlib.sha256(x.encode("utf-8")).hexdigest()[:12]
@@ -43,6 +48,8 @@ def prompt_fingerprint():
             [sorted(catalog.VARIABLES), sorted(catalog.EVENTS),
              sorted(catalog.EFFECTS), sorted(catalog.FEES)],
             ensure_ascii=False)),
+        "schema": h(json.dumps(schema.SCHEMA, ensure_ascii=False,
+                               sort_keys=True, default=str)),
     }
 
 MODEL = "Qwen/Qwen3-8B"

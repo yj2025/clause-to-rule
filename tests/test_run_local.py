@@ -197,10 +197,10 @@ def test_every_record_says_what_made_it():
     """
     import run_local_v2 as R
     fp = R.prompt_fingerprint()
-    assert set(fp) == {"system", "fewshots", "n_fewshots", "catalog"}
+    assert set(fp) == {"system", "fewshots", "n_fewshots", "catalog", "schema"}
     assert fp["n_fewshots"] == 4
     assert all(isinstance(fp[k], str) and len(fp[k]) == 12
-               for k in ("system", "fewshots", "catalog"))
+               for k in ("system", "fewshots", "catalog", "schema"))
 
 
 def test_the_fingerprint_moves_when_the_prompt_moves():
@@ -218,4 +218,27 @@ def test_the_fingerprint_moves_when_the_prompt_moves():
     finally:
         prompt.SYSTEM_PROMPT = old
         import importlib
+        importlib.reload(R)
+
+
+def test_the_fingerprint_moves_when_the_schema_moves():
+    """스키마는 ② 관문을 정의하므로 출력을 바꾼다.
+
+    v23 에서 스키마에 제약을 더했는데 해시가 그대로라 기준선과 구별이
+    안 됐다. 결과 파일만 보고 '같은 구성' 이라고 읽을 뻔했다.
+    """
+    import importlib
+    import run_local_v2 as R
+    import schema
+    a = R.prompt_fingerprint()
+    old = schema.SCHEMA
+    try:
+        schema.SCHEMA = dict(old, title="딴 것")
+        importlib.reload(R)
+        b = R.prompt_fingerprint()
+        assert a["schema"] != b["schema"]
+        assert a["system"] == b["system"], "지문은 안 건드렸다"
+        assert a["fewshots"] == b["fewshots"], "예시는 안 건드렸다"
+    finally:
+        schema.SCHEMA = old
         importlib.reload(R)
