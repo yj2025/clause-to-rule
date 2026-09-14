@@ -300,8 +300,33 @@ def per_clause(recs, texts, worst=8):
             print(f"  {cid:<16}잘림 {tr} · 무출력 {none}")
 
 
+def abstain_baseline(tpl, agg, P, base):
+    """**아무것도 안 만드는 모델의 ⑥ 점수.**
+
+    이전 실험(~2026-09-09, 30조문)에서 이 값이 92.6% 였고 일곱 라운드가
+    전부 그 아래였다. **⑥ 은 뜻이 아니라 기권율을 재고 있었다.**
+    저장소가 날아가면서 이 검사가 같이 사라졌고, 그 뒤 아홉 라운드 동안
+    ⑥ 을 기준선 없이 찍어 왔다. 2026-09-14 에 되살린다.
+
+    46조문에서도 **88.0%** 다. 원인은 두 가지가 겹친다 —
+    gold 가 빈 배열인 조문이 13개이고, 나머지 중 24개는 gold rule 이 전부
+    UNSUPPORTED 라 **실행 결과가 빈 배열과 같다.** 합쳐서 37/46 조문이
+    기권만 해도 만점을 준다.
+
+    **⑥ 단독으로는 "옳게 기권했다" 와 "아무것도 못 냈다" 를 못 가른다.**
+    그래서 ⑫(선언 일치)가 따로 있다. 둘을 같이 읽어야 한다.
+    """
+    ss = [score(g.get("rules") or [], [], agg, P, base)["rate"] * 100
+          for g in tpl.values()]
+    perfect = sum(1 for x in ss if x == 100)
+    return (sum(ss) / len(ss) if ss else 0.0), perfect
+
+
 def meaning(recs):
-    """⑥ — 섞인 갈래와 무출력 제외 갈래를 같이 찍는다 (부록 A.3)."""
+    """⑥ — 섞인 갈래와 무출력 제외 갈래를 같이 찍는다 (부록 A.3).
+
+    **기준선을 같이 찍는다.** 안 찍으면 기권율을 성능으로 오독한다.
+    """
     tpl = {p.stem: json.loads(p.read_text("utf-8"))
            for p in sorted(Path("data/gold").glob("*.json"))
            if not p.name.startswith("_")}
@@ -315,7 +340,12 @@ def meaning(recs):
     for x in recs:
         by[x["clause_id"]].append(x)
 
+    b_rate, b_perfect = abstain_baseline(tpl, agg, P, base)
     print(f"\n⑥ 실행 결과 일치 — gold {len(tpl)}개 · 프로필 {len(P)}개")
+    print(f"  **기준선 {b_rate:.1f}%** — 아무것도 안 만드는 모델의 점수다. "
+          f"{b_perfect}/{len(tpl)}조문이 기권만으로 만점을 받는다.")
+    print(f"  이 아래면 기권보다 못한 것이다. ⑫ 와 같이 읽어야 한다 — "
+          f"⑥ 은 '옳게 기권' 과 '아무것도 못 냄' 을 못 가른다.")
     print(f"{'조문':<16}{'회차':>5}{'섞인갈래':>10}{'무출력제외':>12}{'검토':>6}")
     print("-" * 52)
     mixed, clean = {}, {}
