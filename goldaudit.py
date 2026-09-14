@@ -13,7 +13,9 @@
 3. **초안이 헛조건을 담고 있나.** 정답에 언제나 참인 조건이 있으면
    ⑥ 이 그것을 정답으로 가르친다.
 
-4. **UNSUPPORTED 인데 조건이 붙어 있나.** 관례는 `{}` 다.
+4. **UNSUPPORTED 인데 조건이 붙어 있나.** 관례는 `{}` 다. 다만
+   **조건은 되는데 effect 만 없는 경우**에는 일부러 남긴다 — `DECISIONS.md` 참고.
+   지금 둘 있고 둘 다 의도한 것이다.
 
 셋 다 **기계로 끝난다.** 사람이 볼 것은 "이 줄이 정말 규칙인가" 같은
 해석뿐이고, 이 도구가 그 목록을 좁혀 준다.
@@ -167,10 +169,10 @@ def main(argv=None):
         print("  없음")
 
     uwc = unsupported_with_condition(gold)
-    print(f"\n■ UNSUPPORTED 인데 조건이 붙은 rule")
+    print(f"\n■ UNSUPPORTED 인데 조건이 붙은 rule (의도한 것 — DECISIONS.md)")
     if uwc:
         for cid, rid in uwc:
-            print(f"  · {cid:<16} {rid}")
+            print(f"  · {cid:<16} {rid}   조건은 되는데 effect 가 없다")
     else:
         print("  없음")
 
