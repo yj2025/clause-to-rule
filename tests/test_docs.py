@@ -9,13 +9,13 @@ import re
 import pytest
 
 DOCS = ("README.md", "ROUNDS.md", "EXPERIMENTS.md", "NOISE.md",
-        "CATALOG_PROPOSAL.md", "DECISIONS.md", "RECOVERY.md", "STATUS.md")
+        "CATALOG_PROPOSAL.md", "DECISIONS.md", "STATUS.md")
 
 # 본문에서 `파일.md` 꼴로 부르는 것
 _REF = re.compile(r"`([A-Za-z0-9_./-]+\.(?:md|py))`")
 
 
-def test_the_doc_set_is_exactly_eight(root):
+def test_the_doc_set_is_exactly_seven(root):
     got = sorted(p.name for p in root.glob("*.md"))
     assert got == sorted(DOCS), (
         f"문서가 늘거나 줄었다: {got}. 라운드마다 파일을 새로 만들지 않는다 — "
