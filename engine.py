@@ -126,6 +126,10 @@ def _operand(node, ctx, env):
         if key not in env:
             raise DslError(f"미바인딩 참조: ${key}")
         return env[key]
+    if "anchor" in node:
+        # 2026-09-15 최종거래일 확장. "최종거래일 이후 5년" 은 이벤트 창이 아니라
+        # 날짜 하나와의 비교다 — 창의 from/to 와 같은 모양을 피연산자 자리에도 받는다.
+        return _anchor(node, ctx)
     for op in catalog.COUNTERS:
         if op in node:
             return _count(op, node[op], ctx, env)
@@ -200,7 +204,8 @@ def _compare(op, a, b):
             return TV.of(a != b)
         if op == "in":
             return TV.of(a in b)
-        if isinstance(a, str) and isinstance(b, str):
+        # anchor 피연산자는 date 를 돌려준다 — 한쪽만 문자열이어도 날짜로 맞춘다
+        if isinstance(a, (str, _dt.date)) and isinstance(b, (str, _dt.date)):
             a, b = _date(a), _date(b)
         return TV.of({">": a > b, ">=": a >= b, "<": a < b, "<=": a <= b}[op])
     except (TypeError, KeyError):

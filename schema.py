@@ -7,24 +7,6 @@ few-shot 이 틀린 형태를 가르치면 모델은 그대로 따라 한다. �
 import catalog
 
 # ── JSON 스키마 ─────────────────────────────────────────────────────────
-_OPERAND = {
-    "anyOf": [
-        {"type": ["string", "number", "boolean", "null"]},
-        {"type": "object", "properties": {"var": {"type": "string"}},
-         "required": ["var"], "additionalProperties": False},
-        {"type": "object", "properties": {"ref": {"type": "string"}},
-         "required": ["ref"], "additionalProperties": False},
-        {"type": "object", "minProperties": 1, "maxProperties": 1},
-    ]
-}
-
-_CONDITION = {
-    "type": "object",
-    "maxProperties": 1,
-    "description": "키가 하나인 객체. and/or 는 배열을, 비교는 피연산자 2개를 받는다. "
-                   "빈 객체는 조건 없음(항상 적용)이고 UNSUPPORTED 에만 쓴다.",
-}
-
 _ANCHOR = {
     "type": "object",
     "properties": {
@@ -34,6 +16,26 @@ _ANCHOR = {
     },
     "required": ["anchor"],
     "additionalProperties": False,
+}
+
+_OPERAND = {
+    "anyOf": [
+        {"type": ["string", "number", "boolean", "null"]},
+        {"type": "object", "properties": {"var": {"type": "string"}},
+         "required": ["var"], "additionalProperties": False},
+        {"type": "object", "properties": {"ref": {"type": "string"}},
+         "required": ["ref"], "additionalProperties": False},
+        # 2026-09-15 — "최종거래일 이후 5년" 같은 날짜와의 비교. 창의 from/to 와 같은 모양
+        _ANCHOR,
+        {"type": "object", "minProperties": 1, "maxProperties": 1},
+    ]
+}
+
+_CONDITION = {
+    "type": "object",
+    "maxProperties": 1,
+    "description": "키가 하나인 객체. and/or 는 배열을, 비교는 피연산자 2개를 받는다. "
+                   "빈 객체는 조건 없음(항상 적용)이고 UNSUPPORTED 에만 쓴다.",
 }
 
 _WINDOW = {

@@ -4,8 +4,8 @@ import catalog as C
 
 
 def test_variable_count():
-    """2026-09-15 customer.holder_type 을 더해 18개가 됐다."""
-    assert len(C.VARIABLES) == 18
+    """2026-09-15 customer.holder_type · account.last_transaction_date 를 더해 19개가 됐다."""
+    assert len(C.VARIABLES) == 19
 
 
 def test_event_count():
@@ -18,8 +18,8 @@ def test_operator_count():
 
 
 def test_effect_count():
-    """2026-09-15 SERVICE_PROVIDE · FEE_WAIVE_NO_CARRYOVER 를 더해 10개가 됐다."""
-    assert len(C.EFFECTS) == 10
+    """2026-09-15 SERVICE_PROVIDE · FEE_WAIVE_NO_CARRYOVER · DORMANT_CONTRIBUTION 을 더해 11개가 됐다."""
+    assert len(C.EFFECTS) == 11
 
 
 def test_fee_count():

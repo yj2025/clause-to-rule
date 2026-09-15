@@ -53,6 +53,7 @@ CLAIMS = [
                                 for k in list(catalog.VARIABLES) + list(catalog.EFFECTS))),
     ("서비스 제공 effect", lambda: "SERVICE_PROVIDE" in catalog.EFFECTS),
     ("이월 금지 effect", lambda: "FEE_WAIVE_NO_CARRYOVER" in catalog.EFFECTS),
+    ("출연 effect", lambda: "DORMANT_CONTRIBUTION" in catalog.EFFECTS),
 ]
 
 # 규칙이 될 만한 줄인가 — 조판 기호와 말투로 거른다

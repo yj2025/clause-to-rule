@@ -73,7 +73,13 @@ def test_vacuity_finds_nothing_in_gold(as_records):
 # 프로필 나이 축에 6 을 더해 봤더니 1024 → 1536 이 되고 기준선 ⑩ 이 75.0 → 66.7 로
 # 움직였다. 확정한 판정선을 버려야 해서 되돌렸다. 대가는 ⑥ 이 이 하한을 빠뜨린
 # 생성물을 못 가리는 것 하나다.
-KNOWN_IDLE = {"KBYY-S3-R05": 2}
+#
+# 휴면예금 두 조문(2026-09-15 DORMANT_CONTRIBUTION)의 '미해지' 갈래도 같다. 채점 프로필에
+# TERMINATION 이벤트가 없어 `not exists TERMINATION` 이 언제나 참이다. 반례 표본에는 해지가
+# 있다. 프로필에 해지를 넣으면 그 이벤트를 쓰는 과거 생성물의 ⑥ 이 움직여 판정선을 버려야 한다.
+# 대가는 ⑥ 이 이 갈래를 빠뜨린 생성물을 못 가리는 것이다 — 휴면 rule 은 어차피 프로필에서
+# 발동하지 않는다 (최종거래일 고정).
+KNOWN_IDLE = {"KBYY-S3-R05": 2, "KBONE-S2-R17": 1, "KBYY-S2-R20": 1}
 
 
 def test_known_idle_conditions_are_exactly_these(as_records):

@@ -74,7 +74,8 @@ def _ctx(rng):
 
 # 나중에 더한 변수는 **따로 뽑는다.** 같은 난수열에 끼우면 그 뒤 값이 전부
 # 밀려 400개 문맥이 통째로 바뀌고, 과거 라운드의 ⑭ 이 표본 때문에 움직인다.
-_LATE = ("customer.holder_type",)
+# 끝에만 붙인다 — 앞 이름의 값이 안 밀린다.
+_LATE = ("customer.holder_type", "account.last_transaction_date")
 
 
 def sample(n=400, seed=20260913):
@@ -86,6 +87,8 @@ def sample(n=400, seed=20260913):
         ctx = _ctx(rng)
         for name in _LATE:
             group, _, key = name.partition(".")
-            ctx[group][key] = late.choice(catalog.ENUM_VALUES[name])
+            spec = catalog.VARIABLES[name]
+            ctx[group][key] = (late.choice(catalog.ENUM_VALUES[name])
+                               if spec["type"] == "enum" else _value(late, spec))
         out.append(ctx)
     return out

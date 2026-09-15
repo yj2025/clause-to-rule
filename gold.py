@@ -129,7 +129,11 @@ def _ctx(combo):
                      # 오류는 여전히 잡힌다.
                      "holder_type": "INDIVIDUAL"},
         "account": {"balance": combo["balance"],
-                    "reserved_amount": combo["reserved"]},
+                    "reserved_amount": combo["reserved"],
+                    # 고정이다 (2026-09-15, holder_type 과 같은 이유). 기준일에 거래가 있던
+                    # 쓰는 계좌라 휴면 rule 은 프로필 어디서도 발동하지 않는다.
+                    # 대가 — ⑥ 이 "5년" 의 정확도를 못 가린다. 조건 없이 출연시키는 오류는 잡힌다.
+                    "last_transaction_date": era["reference"]},
         "contract": {"base_rate": 0.1, "channel": combo["channel"],
                      "start_date": era["start"], "maturity_date": era["maturity"],
                      "reference_date": era["reference"], "switch_date": None,

@@ -53,6 +53,10 @@ def test_detrimental_effects_never_approximate(gold):
         "KBONE-S2-R01-02",   # 개인 · 개인사업자 · 서류미제출 임의단체가 아니면 탈락
         "KBYY-S2-R01-02",    # 개인사업자 · 서류미제출 임의단체 · 공동명의면 탈락
         "KBYY-S2-R23-02",    # 공동명의면 탈락
+        # DORMANT_CONTRIBUTION 휴면예금 출연 — 최종거래일 5년 경과 · 미해지 둘 다 옮겼다.
+        # '만기일 또는' 갈래는 변수 정의(만기 지급도 거래)가 받는다
+        "KBONE-S2-R17-01",
+        "KBYY-S2-R20-01",
     }
     BENEFIT = {"RATE_ADD", "RATE_OVERRIDE", "FEE_WAIVE", "SERVICE_PROVIDE"}
     unlisted = []
