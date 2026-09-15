@@ -50,6 +50,12 @@ def prompt_fingerprint():
             ensure_ascii=False)),
         "schema": h(json.dumps(schema.SCHEMA, ensure_ascii=False,
                                sort_keys=True, default=str)),
+        # 2026-09-15 — 어휘 확장 여섯이 catalog 해시에 안 잡혔다 (대상 목록 · 이벤트 속성 ·
+        # 열거값). catalog 를 고치면 옛 라운드와 견줄 값이 바뀌므로 키를 따로 둔다.
+        "vocab": h(json.dumps(
+            [catalog.SERVICES, catalog.RESTRICTIONS, catalog.EVENT_ATTRIBUTES,
+             catalog.ENUM_VALUES, list(catalog.UNITS)],
+            ensure_ascii=False, sort_keys=True, default=str)),
     }
 
 MODEL = "Qwen/Qwen3-8B"

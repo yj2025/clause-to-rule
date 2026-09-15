@@ -197,10 +197,11 @@ def test_every_record_says_what_made_it():
     """
     import run_local_v2 as R
     fp = R.prompt_fingerprint()
-    assert set(fp) == {"system", "fewshots", "n_fewshots", "catalog", "schema"}
+    # vocab 은 2026-09-15 에 더했다 — 확장 여섯의 대상 목록·속성이 catalog 해시에 안 잡혔다
+    assert set(fp) == {"system", "fewshots", "n_fewshots", "catalog", "schema", "vocab"}
     assert fp["n_fewshots"] == 4
     assert all(isinstance(fp[k], str) and len(fp[k]) == 12
-               for k in ("system", "fewshots", "catalog", "schema"))
+               for k in ("system", "fewshots", "catalog", "schema", "vocab"))
 
 
 def test_the_fingerprint_moves_when_the_prompt_moves():
