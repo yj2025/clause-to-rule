@@ -99,5 +99,10 @@ def sample(n=400, seed=20260913):
             ctx["events"][name] = [
                 {"date": late.choice(_EVENT_DATES), "amount": late.choice(_INT)}
                 for _ in range(n)]
+        # 이벤트 속성도 따로 뽑아 이미 만든 건에 붙인다 (2026-09-15)
+        for kind, attrs in catalog.EVENT_ATTRIBUTES.items():
+            for e in ctx["events"].get(kind, []):
+                for name, vals in attrs.items():
+                    e[name] = late.choice(vals)
         out.append(ctx)
     return out

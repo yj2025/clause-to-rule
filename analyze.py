@@ -56,7 +56,7 @@ def forms(records):
                     if k in ("and", "or") and not isinstance(v, list):
                         c[f"{k} 에 배열 아닌 것"] += 1
                     if k in ("count_events", "count_distinct_months",
-                             "count_consecutive_months") and set(v or {}) - {"event", "within"}:
+                             "count_consecutive_months") and set(v or {}) - {"event", "within", "where"}:
                         c["count_* 에 군더더기 키"] += 1
 
             for part in ("condition", "guard"):

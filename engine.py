@@ -165,19 +165,63 @@ def _events(ctx, kind, win):
     return out
 
 
+def _match(e, where, kind):
+    """이벤트 한 건이 where 를 만족하나 — T/F/U. 값이 없으면 U 다."""
+    vals = []
+    attrs = catalog.EVENT_ATTRIBUTES.get(kind, {})
+    for key, want in where.items():
+        if key == "min_amount":
+            if isinstance(want, bool) or not isinstance(want, (int, float)):
+                raise DslError(f"where 의 min_amount 는 수여야 한다: {want!r}. "
+                               f'올바른 형태: {{"min_amount": 500000}}')
+            a = e.get("amount")
+            vals.append(TV.U if a is None else TV.of(a >= want))
+            continue
+        if key not in attrs:
+            raise DslError(f"{kind} 에 없는 속성: {key}. 쓸 수 있는 것: min_amount"
+                           + "".join(f", {a}" for a in attrs))
+        if not isinstance(want, list):
+            raise DslError(f"where 의 {key} 는 허용 값의 배열이어야 한다. "
+                           f'올바른 형태: {{"{key}": ["{attrs[key][0]}"]}}')
+        v = e.get(key)
+        vals.append(TV.U if v is None else TV.of(v in want))
+    return tv_and(vals) if vals else TV.T
+
+
+def _filter(evs, spec, kind):
+    """where 를 건 이벤트 → (확실히 맞는 것, 맞는지 모르는 것이 있나)."""
+    where = spec.get("where")
+    if where is None:
+        return evs, False
+    if not isinstance(where, dict) or not where:
+        raise DslError('where 는 조건 객체여야 한다. 올바른 형태: '
+                       '{"min_amount": 500000} 또는 {"route": ["GIRO", "CMS"]}')
+    hit, unsure = [], False
+    for e in evs:
+        m = _match(e, where, kind)
+        if m is TV.T:
+            hit.append(e)
+        elif m is TV.U:
+            unsure = True
+    return hit, unsure
+
+
 def _count(op, spec, ctx, env):
     if not isinstance(spec, dict):
         raise DslError(f"{op}: 객체를 기대했으나 {type(spec).__name__} 이 옴")
-    extra = set(spec) - {"event", "within"}
+    extra = set(spec) - {"event", "within", "where"}
     if extra:
         raise DslError(f"{op}: 모르는 키 {sorted(extra)}. 올바른 형태: "
-                       f'{{">=": [{{"{op}": {{"event": …, "within": …}}}}, 6]}}')
+                       f'{{">=": [{{"{op}": {{"event": …, "within": …, "where": …}}}}, 6]}}')
     win = _window(spec["within"], ctx, env) if "within" in spec else None
     if "within" in spec and win is None:
         return None
     evs = _events(ctx, spec.get("event"), win)
     if evs is None:
         return None
+    evs, unsure = _filter(evs, spec, spec.get("event"))
+    if unsure:
+        return None                       # 한 건이라도 맞는지 모르면 수도 모른다
     if op == "count_events":
         return len(evs)
     months = sorted({_date(e.get("date")).strftime("%Y-%m")
@@ -242,7 +286,10 @@ def evaluate(node, ctx, env=None):
         if "within" in arg and win is None:
             return TV.U
         evs = _events(ctx, arg.get("event"), win)
-        return TV.U if evs is None else TV.of(len(evs) > 0)
+        if evs is None:
+            return TV.U
+        hit, unsure = _filter(evs, arg, arg.get("event"))
+        return TV.T if hit else TV.U if unsure else TV.F
 
     if op in catalog.COUNTERS:
         raise DslError(f"{op} 는 수를 돌려준다. 조건식이 되려면 비교로 감싸야 한다: "

@@ -55,6 +55,8 @@ CLAIMS = [
     ("이월 금지 effect", lambda: "FEE_WAIVE_NO_CARRYOVER" in catalog.EFFECTS),
     ("출연 effect", lambda: "DORMANT_CONTRIBUTION" in catalog.EFFECTS),
     ("'거래 금지' effect", lambda: "RESTRICT" in catalog.EFFECTS),
+    ("납부 경로 속성", lambda: "route" in catalog.EVENT_ATTRIBUTES.get("AUTO_TRANSFER", {})),
+    ("계약 구분 속성", lambda: "source" in catalog.EVENT_ATTRIBUTES.get("SALARY_TRANSFER", {})),
 ]
 
 # 규칙이 될 만한 줄인가 — 조판 기호와 말투로 거른다

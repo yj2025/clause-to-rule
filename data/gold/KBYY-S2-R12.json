@@ -2,7 +2,7 @@
  "clause_id": "KBYY-S2-R12",
  "label": "수수료면제 서비스",
  "reviewed": false,
- "note": "복원 초안. 사람 검토 필요. 면제대상 표의 각 행을 rule 하나로 옮겼다(2행). 2행의 면제횟수 칸은 원문에서 비어 있는데, 같은 문서의 6행짜리 표에서 확인되듯 병합셀(제한없음)의 아랫칸이므로 UNLIMITED 로 읽었다. 면제기간(이번 달 11일~다음 달 10일)은 면제효과의 적용기간이라 별도 rule 로 두지 않았다 — 카탈로그에 효과 적용기간을 담을 자리가 없다.",
+ "note": "복원 초안. 사람 검토 필요. 면제대상 표의 각 행을 rule 하나로 옮겼다(2행). 2행의 면제횟수 칸은 원문에서 비어 있는데, 같은 문서의 6행짜리 표에서 확인되듯 병합셀(제한없음)의 아랫칸이므로 UNLIMITED 로 읽었다. 면제기간(이번 달 11일~다음 달 10일)은 면제효과의 적용기간이라 별도 rule 로 두지 않았다 — 카탈로그에 효과 적용기간을 담을 자리가 없다. [카탈로그 확장 2026-09-15] anchor 비교가 생겨 03 이 풀렸다. 기준일 <= 가입일 + 2개월 10일 이고, 표의 두 수수료마다 rule 하나씩 03 · 04 로 나눴다. 전환일을 contract.start_date 가 받는다고 읽은 것은 KBYY-S5-R02 와 같다 — 사람 확인이 필요하다.",
  "rules": [
   {
    "rule_id": "KBYY-S2-R12-01",
@@ -80,12 +80,53 @@
   },
   {
    "rule_id": "KBYY-S2-R12-03",
-   "status": "UNSUPPORTED",
-   "label": "신규(전환)일로부터 다음 다음 달 10일까지 실적 무관 면제 — 기간 조건을 표현할 수단 없음",
+   "status": "OK",
+   "label": "신규(전환)일로부터 다음 다음 달 10일까지 전자금융 이체수수료 면제(실적 무관)",
    "source": {
     "quote": "※ 이 통장의 신규(전환)일로부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
    },
-   "condition": {}
+   "condition": {
+    "<=": [
+     {
+      "var": "contract.reference_date"
+     },
+     {
+      "anchor": "contract.start_date",
+      "offset_months": 2,
+      "day": 10
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "EBANK_TRANSFER",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBYY-S2-R12-04",
+   "status": "OK",
+   "label": "신규(전환)일로부터 다음 다음 달 10일까지 자동화기기 시간외출금수수료 면제(실적 무관)",
+   "source": {
+    "quote": "※ 이 통장의 신규(전환)일로부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
+   },
+   "condition": {
+    "<=": [
+     {
+      "var": "contract.reference_date"
+     },
+     {
+      "anchor": "contract.start_date",
+      "offset_months": 2,
+      "day": 10
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "ATM_WITHDRAW_AFTER_HOURS",
+    "value": "UNLIMITED"
+   }
   }
  ],
  "principles_applied": {

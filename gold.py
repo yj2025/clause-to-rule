@@ -99,7 +99,9 @@ def _ctx(combo):
     ev = {}
     if combo["basic"]:
         ev["CARD_USAGE"] = [{"date": f"{prev}-15", "amount": 30_000}]
-        ev["AUTO_TRANSFER"] = [{"date": f"{prev}-20", "amount": 80_000}]
+        # 속성은 2026-09-15 에 더했다. 없으면 where 를 건 조건이 전부 UNKNOWN 이 된다.
+        # 지로 · 급여이체 계약분이라 인정범위 안이다 — 과거 생성물의 판별은 안 바뀐다.
+        ev["AUTO_TRANSFER"] = [{"date": f"{prev}-20", "amount": 80_000, "route": "GIRO"}]
         # 출금. v17 에서 카탈로그에 WITHDRAWAL 을 넣으면서 프로필은 안 고쳤다.
         # 그래서 `WITHDRAWAL == 0` 이 **모든 프로필에서 참**이 됐고,
         # 무거래 판정을 올바르게 옮긴 rule 이 헛조건으로 잡혔다 (⑭).
@@ -108,7 +110,8 @@ def _ctx(combo):
     if combo["extra"]:
         # 전월로 끝나는 6개월치 — 개월 수 세기와 "전월 중" 이 둘 다 걸린다
         ev["SALARY_TRANSFER"] = [
-            {"date": f"{_month_before(prev, k)}-25", "amount": 2_000_000}
+            {"date": f"{_month_before(prev, k)}-25", "amount": 2_000_000,
+             "source": "SALARY_CONTRACT"}
             for k in range(5, -1, -1)]
         ev["DEPOSIT"] = [{"date": f"{prev}-10", "amount": 500_000}]
         ev["PENSION_RECEIPT"] = [{"date": f"{prev}-25", "amount": 600_000}]

@@ -48,6 +48,9 @@ def known():
     out |= set(catalog.SERVICES) | set(catalog.RESTRICTIONS)
     for vals in catalog.ENUM_VALUES.values():
         out |= set(vals)
+    for attrs in catalog.EVENT_ATTRIBUTES.values():
+        for vals in attrs.values():
+            out |= set(vals)
     return out
 
 

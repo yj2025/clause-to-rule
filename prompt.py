@@ -111,6 +111,14 @@ def _catalog_block(text):
     if restrictions:
         lines.append("[금지 대상]")
         lines += [f"  {r:<28}{catalog.RESTRICTIONS[r]}" for r in restrictions]
+    attrs = [(e, catalog.EVENT_ATTRIBUTES[e]) for e in es if e in catalog.EVENT_ATTRIBUTES]
+    if attrs or "건별" in text:
+        lines.append('[이벤트 조건] exists · count_* 에 "where" 를 건다 — '
+                     '{"exists": {"event": …, "within": …, "where": {"min_amount": 500000}}}')
+        lines.append(f"  {'min_amount':<28}건별 금액 이상 (원)")
+        for e, a in attrs:
+            for name, vals in a.items():
+                lines.append(f"  {e + '.' + name:<28}{', '.join(vals)}")
     for name, vals in catalog.ENUM_VALUES.items():
         if name in vs:
             lines.append(f"[{name} 의 값]")

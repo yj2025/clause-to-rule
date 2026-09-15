@@ -68,6 +68,24 @@ def check_catalog(rule):
         elif k == "anchor" and isinstance(v, str) and v not in catalog.VARIABLES:
             errs.append(f"카탈로그에 없는 기준 변수: {v}")
 
+    # 이벤트 where 의 속성 이름과 값 (2026-09-15 확장 여섯째)
+    for k, v in hit:
+        if k in ("exists",) + catalog.COUNTERS and isinstance(v, dict) \
+                and isinstance(v.get("where"), dict):
+            kind = v.get("event")
+            attrs = catalog.EVENT_ATTRIBUTES.get(kind, {}) if isinstance(kind, str) else {}
+            for a, want in v["where"].items():
+                if a == "min_amount":
+                    continue
+                if a not in attrs:
+                    errs.append(f"{kind} 에 없는 속성: {a}. 쓸 수 있는 것: min_amount"
+                                + "".join(f", {x}" for x in attrs))
+                elif isinstance(want, list):
+                    bad = [x for x in want if x not in attrs[a]]
+                    if bad:
+                        errs.append(f"{kind}.{a} 의 값이 아님: {bad}. 쓸 수 있는 것: "
+                                    f"{', '.join(attrs[a])}")
+
     # enum 변수를 카탈로그에 없는 값과 비교하는 경우
     for k, v in hit:
         if k in catalog.COMPARISONS and isinstance(v, list) and len(v) == 2:
