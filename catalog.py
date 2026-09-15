@@ -75,6 +75,9 @@ EVENTS = {
     "TERMINATION":            "해지",
     "APP_LOGIN":              "앱 로그인",
     "TRANSACTION_CORRECTION": "거래 정정",
+    # 2026-09-15 확장 다섯째 항목. 거래중지 조문의 "무거래기간 산정기준: 입출금 거래 또는
+    # 명의변경 거래 최종 발생일로부터". 출금(v17)만 넣어서는 이 갈래가 빠져 한 조문도 안 열렸다.
+    "NAME_CHANGE":            "명의변경 거래",
 }
 
 # ── 연산자 (14) ─────────────────────────────────────────────────────────
@@ -113,6 +116,10 @@ EFFECTS = {
     # 서민금융진흥원에 출연될 수 있으며". 최종거래일 변수만으로는 조문이 안 열린다.
     # DISQUALIFY 는 가입 자격 상실이라 뜻이 다르다. 불이익 effect — 조건이 완전해야 한다.
     "DORMANT_CONTRIBUTION": (),
+    # 2026-09-15 확장 다섯째 항목. 특정 거래만 막는다 — 예금 자격은 그대로다.
+    # 자리가 없을 때 모델이 가장 많이 DISQUALIFY 로 밀어 넣었다 (v14 에서 13개 중 다수).
+    # target 은 RESTRICTIONS 에서 고른다. 불이익 effect — 조건이 완전해야 한다.
+    "RESTRICT": ("target",),
 }
 
 # value 가 반드시 수여야 하는 것들 — check_effect_value 가 쓴다
@@ -136,6 +143,14 @@ SERVICES = {
     "NE_TIMES_TRIAL":         "㈜NE능률 NE Times 무료체험프로그램",
     "NE_TIMES_ONLINE_COURSE": "NE Times 온라인수강권",
     "NE_TIMES_NEWSPAPER":     "NE Times 영자신문",
+}
+
+# ── 금지 대상 (3) ───────────────────────────────────────────────────────
+# RESTRICT 의 target. 담보제공과 질권설정은 조문마다 이름만 달라 하나로 둔다.
+RESTRICTIONS = {
+    "ALL_TRANSACTIONS": "입출금·잔액조회·이관 등 거래 전반 (거래중지)",
+    "PLEDGE":           "담보제공 · 질권설정",
+    "NAME_CHANGE":      "양도·상속에 의한 명의변경",
 }
 
 UNITS = ("%p", "%", "원", "회", "회/월", "개월", "년", "age", "channel", "date", "")
@@ -170,6 +185,7 @@ _HINTS = {
     "customer.holder_type":      ("개인사업자", "임의단체", "공동명의", "실명의 개인"),
     # "거래가 없는" 은 넣지 않는다 — 거래중지 조문은 명의변경 거래까지 세야 해 아직 막혀 있다
     "account.last_transaction_date": ("최종거래일", "휴면"),
+    "NAME_CHANGE":               ("명의변경",),
     "SALARY_TRANSFER":           ("급여이체", "급여"),
     "AUTO_TRANSFER":             ("자동이체", "공과금", "지로", "CMS"),
     "CARD_USAGE":                ("카드", "결제실적"),
@@ -210,6 +226,14 @@ def pick_services(text):
     words = {"NE_TIMES_TRIAL": ("무료체험", "NE Times", "NE능률", "제공기간"),
              "NE_TIMES_ONLINE_COURSE": ("수강권",),
              "NE_TIMES_NEWSPAPER": ("영자신문",)}
+    return sorted(k for k, ws in words.items() if any(w in text for w in ws))
+
+
+def pick_restrictions(text):
+    """금지 조문에 붙일 대상."""
+    words = {"ALL_TRANSACTIONS": ("거래 제한", "거래중지", "잔액조회"),
+             "PLEDGE": ("담보", "질권"),
+             "NAME_CHANGE": ("명의변경", "양도", "상속")}
     return sorted(k for k, ws in words.items() if any(w in text for w in ws))
 
 

@@ -53,15 +53,16 @@ def test_withdrawal_is_no_longer_a_blocker_at_all(clauses):
     assert "출금" not in everywhere, "카탈로그에 있는 것은 걸림돌이 아니다"
 
 
-def test_the_dormancy_clauses_still_need_name_change_events():
-    """거래중지 두 조문이 남긴 걸림돌은 명의변경과 '거래 금지' effect 다.
+def test_the_dormancy_clauses_open_only_with_name_change_events():
+    """거래중지 두 조문은 명의변경 이벤트와 '거래 금지' effect 를 같이 요구했다.
 
     조문이 무거래기간을 '입출금 거래 **또는 명의변경 거래**' 로 정의한다.
-    출금은 카탈로그에 들어왔지만 명의변경은 아직 없다 — 그래서 판정은
-    UNSUPPORTED 로 남는다.
+    출금(v17)만으로는 0조문이었다. 2026-09-15 둘을 같이 넣어 열렸다.
     """
+    import catalog
+    assert "NAME_CHANGE" in catalog.EVENTS and "RESTRICT" in catalog.EFFECTS
     for cid in ("KBYY-S2-R19", "KBONE-S2-R16"):
         d = json.loads(Path(f"data/gold/{cid}.json").read_text("utf-8"))
-        lab = d["rules"][0]["label"]
-        assert "명의변경" in lab
-        assert "출금 이벤트" not in lab, "카탈로그에 있는 것을 걸림돌로 적지 않는다"
+        r = d["rules"][0]
+        assert r["status"] == "OK" and r["effect"]["type"] == "RESTRICT"
+        assert "NAME_CHANGE" in json.dumps(r["condition"]), "무거래에 명의변경 거래가 빠졌다"

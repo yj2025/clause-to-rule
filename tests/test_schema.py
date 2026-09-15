@@ -22,7 +22,8 @@ def test_effect_enum_matches_catalog():
 
 def test_fee_target_enum_matches_catalog():
     props = SCHEMA["properties"]["rules"]["items"]["properties"]
-    assert set(props["effect"]["properties"]["target"]["enum"]) == set(catalog.FEES) | set(catalog.SERVICES)
+    assert set(props["effect"]["properties"]["target"]["enum"]) == (
+        set(catalog.FEES) | set(catalog.SERVICES) | set(catalog.RESTRICTIONS))
 
 
 def test_unit_enum_matches_catalog():

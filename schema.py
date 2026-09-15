@@ -58,7 +58,8 @@ _EFFECT = {
         "type": {"enum": sorted(catalog.EFFECTS)},
         "value": {"type": ["number", "string", "boolean"]},
         "unit": {"enum": list(catalog.UNITS)},
-        "target": {"enum": sorted(set(catalog.FEES) | set(catalog.SERVICES))},
+        "target": {"enum": sorted(set(catalog.FEES) | set(catalog.SERVICES)
+                                  | set(catalog.RESTRICTIONS))},
         "renewable": {"type": "boolean"},
         "applies_to": {"enum": list(catalog.APPLIES_TO)},
     },

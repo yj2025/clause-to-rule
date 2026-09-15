@@ -57,6 +57,16 @@ def test_detrimental_effects_never_approximate(gold):
         # '만기일 또는' 갈래는 변수 정의(만기 지급도 거래)가 받는다
         "KBONE-S2-R17-01",
         "KBYY-S2-R20-01",
+        # RESTRICT 거래유형별 금지 — 조문이 누구에게나 금지한다. 조건 없음이 완전하다
+        "KBONE-S2-R14-01",   # 담보제공 불가
+        "KBYY-S2-R16-01",    # 질권설정 불가
+        "KBYY-S2-R17-01",    # 양도·상속에 의한 명의변경 불가
+        "KBYY-S2-R17-02",    # 담보제공 불가
+        # RESTRICT 거래중지 — 잔액 구간 · 무거래(입출금·명의변경) 둘 다 옮겼다.
+        # 입출금 이벤트를 넓게 세어 오차는 고객에게 유리하다. 편입시기(연 2회)는
+        # 절차로 두었다 — 사람 확인이 필요한 자리다 (DECISIONS.md)
+        "KBONE-S2-R16-01",
+        "KBYY-S2-R19-01",
     }
     BENEFIT = {"RATE_ADD", "RATE_OVERRIDE", "FEE_WAIVE", "SERVICE_PROVIDE"}
     unlisted = []

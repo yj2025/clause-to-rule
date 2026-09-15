@@ -62,6 +62,8 @@ def _ctx(rng):
     ctx["customer"]["is_youth"] = age < 19
 
     for name in catalog.EVENTS:
+        if name in _LATE_EVENTS:
+            continue
         n = rng.choice([0, 0, 1, 2, 4])
         ctx["events"][name] = [
             {"date": rng.choice(_EVENT_DATES), "amount": rng.choice(_INT)}
@@ -76,6 +78,8 @@ def _ctx(rng):
 # 밀려 400개 문맥이 통째로 바뀌고, 과거 라운드의 ⑭ 이 표본 때문에 움직인다.
 # 끝에만 붙인다 — 앞 이름의 값이 안 밀린다.
 _LATE = ("customer.holder_type", "account.last_transaction_date")
+# 이벤트도 같다. 이벤트 고리에 끼우면 그 뒤 모든 문맥의 난수가 밀린다.
+_LATE_EVENTS = ("NAME_CHANGE",)
 
 
 def sample(n=400, seed=20260913):
@@ -90,5 +94,10 @@ def sample(n=400, seed=20260913):
             spec = catalog.VARIABLES[name]
             ctx[group][key] = (late.choice(catalog.ENUM_VALUES[name])
                                if spec["type"] == "enum" else _value(late, spec))
+        for name in _LATE_EVENTS:
+            n = late.choice([0, 0, 1, 2, 4])
+            ctx["events"][name] = [
+                {"date": late.choice(_EVENT_DATES), "amount": late.choice(_INT)}
+                for _ in range(n)]
         out.append(ctx)
     return out

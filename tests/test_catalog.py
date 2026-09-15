@@ -9,8 +9,8 @@ def test_variable_count():
 
 
 def test_event_count():
-    """v17 에서 WITHDRAWAL 을 더해 11개가 됐다 (`CATALOG_PROPOSAL.md` 2순위)."""
-    assert len(C.EVENTS) == 11
+    """v17 에서 WITHDRAWAL, 2026-09-15 NAME_CHANGE 를 더해 12개가 됐다."""
+    assert len(C.EVENTS) == 12
 
 
 def test_operator_count():
@@ -18,8 +18,8 @@ def test_operator_count():
 
 
 def test_effect_count():
-    """2026-09-15 SERVICE_PROVIDE · FEE_WAIVE_NO_CARRYOVER · DORMANT_CONTRIBUTION 을 더해 11개가 됐다."""
-    assert len(C.EFFECTS) == 11
+    """2026-09-15 SERVICE_PROVIDE · FEE_WAIVE_NO_CARRYOVER · DORMANT_CONTRIBUTION · RESTRICT 를 더해 12개가 됐다."""
+    assert len(C.EFFECTS) == 12
 
 
 def test_fee_count():

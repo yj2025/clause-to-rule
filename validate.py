@@ -113,6 +113,9 @@ def check_catalog(rule):
         errs.append(f"수수료 대상이 아님: {eff.get('target')}. 모든 면제에 걸리면 "
                     f"target 을 빼고, 하나에만 걸리면 이 중에서 고른다: "
                     f"{', '.join(sorted(catalog.FEES))}")
+    if t == "RESTRICT" and not _known(eff.get("target"), catalog.RESTRICTIONS):
+        errs.append(f"금지 대상이 아님: {eff.get('target')}. 쓸 수 있는 것: "
+                    f"{', '.join(sorted(catalog.RESTRICTIONS))}")
     if eff.get("unit") is not None and not _known(eff["unit"], catalog.UNITS):
         errs.append(f"카탈로그에 없는 단위: {eff['unit']}. 쓸 수 있는 것: "
                     f"{', '.join(catalog.UNITS)}")

@@ -107,6 +107,10 @@ def _catalog_block(text):
     if services:
         lines.append("[제휴서비스 대상]")
         lines += [f"  {s:<28}{catalog.SERVICES[s]}" for s in services]
+    restrictions = catalog.pick_restrictions(text)
+    if restrictions:
+        lines.append("[금지 대상]")
+        lines += [f"  {r:<28}{catalog.RESTRICTIONS[r]}" for r in restrictions]
     for name, vals in catalog.ENUM_VALUES.items():
         if name in vs:
             lines.append(f"[{name} 의 값]")
