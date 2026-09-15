@@ -45,6 +45,7 @@ _CODE = re.compile(r"[A-Z][A-Z0-9_]{2,}")
 def known():
     out = set(catalog.VARIABLES) | set(catalog.EVENTS) | set(catalog.EFFECTS)
     out |= set(catalog.FEES) | set(catalog.APPLIES_TO) | set(catalog.STATUSES)
+    out |= set(catalog.SERVICES)
     for vals in catalog.ENUM_VALUES.values():
         out |= set(vals)
     return out

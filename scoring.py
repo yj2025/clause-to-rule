@@ -33,10 +33,10 @@ def _hashable(v):
 def _key(eff):
     """other_effect 하나를 비교 가능한 형태로. rule_id 는 빼고 status 는 넣는다."""
     if not isinstance(eff, dict):
-        return ("?", "?", _hashable(eff), "?", "?")
+        return ("?", "?", _hashable(eff), "?", "?", "?")
     return (_hashable(eff.get("status")), _hashable(eff.get("type")),
             _hashable(eff.get("target")), str(eff.get("value")),
-            _hashable(eff.get("unit")))
+            _hashable(eff.get("unit")), _hashable(eff.get("renewable")))
 
 
 def outcome(rules, ctx, aggregation="SUM", base_rate=0.0):

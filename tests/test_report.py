@@ -21,7 +21,10 @@ def test_the_abstention_baseline_is_computed_and_printed(root):
     prod = json.loads(Path("data/gold/_product.json").read_text("utf-8"))
     rate, perfect = report.abstain_baseline(
         tpl, prod["aggregation"], gold.profiles(), prod["base_rate"])
-    assert 80 < rate < 95, f"기준선이 {rate:.1f}% 다 — 예상 범위 밖"
+    # 카탈로그를 넓히면 **내려가는 것이 맞다.** UNSUPPORTED 가 OK 로 바뀐 조문은
+    # 기권으로 만점을 못 받는다. 2026-09-15 확장 둘을 넣고 88.0 → 78.3 이 됐다.
+    # 하한은 확장이 더 들어올 자리를 두고 잡았다.
+    assert 60 < rate < 95, f"기준선이 {rate:.1f}% 다 — 예상 범위 밖"
     assert perfect > len(tpl) // 2, "기권만으로 만점인 조문이 절반을 넘는다"
 
 

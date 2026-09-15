@@ -17,7 +17,7 @@
 상품 전환 effect · 적용 기준 금액 effect · 압류 계열 이벤트 · 출금 이벤트.
 """
 
-# ── 변수 (17) ───────────────────────────────────────────────────────────
+# ── 변수 (18) ───────────────────────────────────────────────────────────
 def _v(t, d):
     return {"type": t, "desc": d}
 
@@ -40,6 +40,9 @@ VARIABLES = {
     "customer.is_youth":         _v("bool", "만 19세 미만 Youth 고객"),
     "customer.has_product":      _v("bool", "해당 상품 보유 여부"),
     "customer.is_first_deposit": _v("bool", "첫 거래 여부"),
+    # 2026-09-15 확장 셋째 항목. 두 상품에서 방향이 반대다 — KBYY 는 개인사업자
+    # 가입 불가, KBONE 은 포함. 불리언 하나로는 둘 다 못 담아 열거형으로 둔다.
+    "customer.holder_type":      _v("enum", "명의 유형"),
 }
 
 # 값은 v3 생성물에서 실제로 쓰인 것을 기준으로 복원했다.
@@ -47,6 +50,10 @@ VARIABLES = {
 ENUM_VALUES = {
     "contract.channel":          ("BRANCH", "ONLINE", "INTERNET", "MOBILE", "ATM", "CALL"),
     "contract.termination_type": ("MATURITY", "EARLY", "PARTIAL", "MID_TERM", "NONE"),
+    # 임의단체는 관련서류(고유번호 등) 제출 여부로 둘로 가른다 — 조문이 그렇게 가른다.
+    "customer.holder_type":      ("INDIVIDUAL", "SOLE_PROPRIETOR",
+                                  "UNREGISTERED_ASSOCIATION", "REGISTERED_ASSOCIATION",
+                                  "JOINT", "CORPORATION"),
 }
 
 # ── 이벤트 (10) ─────────────────────────────────────────────────────────
@@ -78,7 +85,7 @@ OPERATORS   = (">=", ">", "<=", "<", "==", "!=", "and", "or", "not", "in",
 # 수를 돌려주는 것들. 비교의 피연산자 자리에 들어간다.
 COUNTERS = ("count_events", "count_distinct_months", "count_consecutive_months")
 
-# ── effect (8) ──────────────────────────────────────────────────────────
+# ── effect (10) ──────────────────────────────────────────────────────────
 # 이름 → 필수 키
 EFFECTS = {
     "RATE_ADD":      ("value", "unit"),
@@ -89,6 +96,15 @@ EFFECTS = {
     "LIMIT_AMOUNT":  ("value",),
     "REQUIRE":       ("value",),
     "FEE_WAIVE":     ("target", "value"),
+    # 2026-09-15 확장 첫째 항목 (`DECISIONS.md` 임시 확정). 금리·수수료·한도가 아닌
+    # 급부를 담는다. value 는 수량이고 unit 이 그 뜻을 정한다 — 회(횟수) · 개월/년(기간).
+    # 선택 키 renewable 은 "1년 단위 갱신" 처럼 기간이 되풀이될 때만 쓴다.
+    "SERVICE_PROVIDE": ("target", "value", "unit"),
+    # 2026-09-15 확장 둘째 항목. "수수료면제 잔여횟수는 이월되지 않습니다".
+    # 자리가 없을 때 FEE_WAIVE 에 횟수 0 을 적으면 면제 자체가 사라져 뜻이 뒤집힌다.
+    # 필수 키가 없다. 선택 키 target(FEES)이 없으면 모든 면제에 걸린다.
+    # 잔여횟수 변수는 넣지 않았다 — 판별 범위에서는 이월 금지라는 사실만 담으면 된다.
+    "FEE_WAIVE_NO_CARRYOVER": (),
 }
 
 # value 가 반드시 수여야 하는 것들 — check_effect_value 가 쓴다
@@ -104,7 +120,17 @@ FEES = {
     "SMS_NOTICE":               "입출금 알림 수수료",
 }
 
-UNITS = ("%p", "%", "원", "회", "회/월", "개월", "age", "channel", "date", "")
+# ── 제휴서비스 대상 (3) ─────────────────────────────────────────────────
+# SERVICE_PROVIDE 의 target. 이 자리가 없을 때 모델은 REQUIRE 에 서비스명을 적거나
+# "고객별 1회" 를 LIMIT_AMOUNT 1 로 옮겼다 — 1원 한도로 읽혀 뜻이 뒤집힌다.
+# 표의 품목이 둘(수강권 · 영자신문)이라 단위만으로는 무엇을 주는지 못 가른다.
+SERVICES = {
+    "NE_TIMES_TRIAL":         "㈜NE능률 NE Times 무료체험프로그램",
+    "NE_TIMES_ONLINE_COURSE": "NE Times 온라인수강권",
+    "NE_TIMES_NEWSPAPER":     "NE Times 영자신문",
+}
+
+UNITS = ("%p", "%", "원", "회", "회/월", "개월", "년", "age", "channel", "date", "")
 
 APPLIES_TO = ("BASE_RATE", "FINAL_RATE")
 
@@ -133,6 +159,7 @@ _HINTS = {
     "customer.is_youth":         ("Youth", "청소년", "미성년"),
     "customer.has_product":      ("보유", "가입한"),
     "customer.is_first_deposit": ("첫 거래", "최초"),
+    "customer.holder_type":      ("개인사업자", "임의단체", "공동명의", "실명의 개인"),
     "SALARY_TRANSFER":           ("급여이체", "급여"),
     "AUTO_TRANSFER":             ("자동이체", "공과금", "지로", "CMS"),
     "CARD_USAGE":                ("카드", "결제실적"),
@@ -165,6 +192,14 @@ def pick_fees(text):
              "OTHER_BANK_ATM_WITHDRAW": ("타행",),
              "AUTO_DEBIT": ("자동이체", "납부자"),
              "SMS_NOTICE": ("알림", "SMS", "문자")}
+    return sorted(k for k, ws in words.items() if any(w in text for w in ws))
+
+
+def pick_services(text):
+    """제휴서비스 조문에 붙일 대상."""
+    words = {"NE_TIMES_TRIAL": ("무료체험", "NE Times", "NE능률", "제공기간"),
+             "NE_TIMES_ONLINE_COURSE": ("수강권",),
+             "NE_TIMES_NEWSPAPER": ("영자신문",)}
     return sorted(k for k, ws in words.items() if any(w in text for w in ws))
 
 

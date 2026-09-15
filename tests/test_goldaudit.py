@@ -45,8 +45,16 @@ def test_detrimental_effects_never_approximate(gold):
         "KBYY-S2-R07-02",    # LIMIT_AMOUNT 저금통 한도 100만원 — 조건 없음이 맞다
         "KBYY-S2-R23-01",    # DISQUALIFY 1인 1계좌 — 위와 같다
         "KBYY-S2-R23-03",    # LIMIT_AMOUNT 저금통 한도 100만원
+        # FEE_WAIVE_NO_CARRYOVER 이월 불가 — 조문이 모든 면제에 건다. 조건 없음이 완전하다
+        "KBONE-S2-R07-01",
+        "KBONE-S2-R20-02",
+        "KBYY-S5-R01-01",
+        # DISQUALIFY 명의 유형 — 인용문이 나열한 유형을 그대로 옮겼다
+        "KBONE-S2-R01-02",   # 개인 · 개인사업자 · 서류미제출 임의단체가 아니면 탈락
+        "KBYY-S2-R01-02",    # 개인사업자 · 서류미제출 임의단체 · 공동명의면 탈락
+        "KBYY-S2-R23-02",    # 공동명의면 탈락
     }
-    BENEFIT = {"RATE_ADD", "RATE_OVERRIDE", "FEE_WAIVE"}
+    BENEFIT = {"RATE_ADD", "RATE_OVERRIDE", "FEE_WAIVE", "SERVICE_PROVIDE"}
     unlisted = []
     for cid, d in gold.items():
         for r in d.get("rules") or []:

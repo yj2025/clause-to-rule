@@ -122,7 +122,12 @@ def _ctx(combo):
 
     return {
         "customer": {"age": combo["age"], "is_youth": combo["age"] < 19,
-                     "has_product": combo["has_product"], "is_first_deposit": False},
+                     "has_product": combo["has_product"], "is_first_deposit": False,
+                     # 축이 아니라 고정이다 (2026-09-15). 축으로 두면 프로필이 2048 이 되어
+                     # 확정한 판정선을 버려야 한다. 대가 — 명의 유형 rule 은 프로필에서
+                     # 발동하지 않아 ⑥ 이 그 조건의 정확도를 못 가린다. 조건 없이 탈락시키는
+                     # 오류는 여전히 잡힌다.
+                     "holder_type": "INDIVIDUAL"},
         "account": {"balance": combo["balance"],
                     "reserved_amount": combo["reserved"]},
         "contract": {"base_rate": 0.1, "channel": combo["channel"],

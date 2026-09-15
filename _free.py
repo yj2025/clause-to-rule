@@ -47,13 +47,17 @@ def _value(rng, spec):
 def _ctx(rng):
     ctx = {"customer": {}, "account": {}, "contract": {}, "events": {}}
     for name, spec in catalog.VARIABLES.items():
+        if name in _LATE:
+            continue
         group, _, key = name.partition(".")
         if spec["type"] == "enum":
             ctx[group][key] = rng.choice(catalog.ENUM_VALUES[name])
         else:
             ctx[group][key] = _value(rng, spec)
     # 나이와 Youth 는 묶여 있다 — 따로 뽑으면 있을 수 없는 문맥이 된다
-    age = rng.choice([7, 18, 19, 30, 64, 80])
+    # 6 은 2026-09-15 에 30 을 바꿔 넣었다. 제휴서비스 표의 '만 7세 –' 하한이
+    # 반례를 못 만나 헛조건으로 잡혔다. 길이를 그대로 둬 난수 순서가 안 바뀐다.
+    age = rng.choice([7, 18, 19, 6, 64, 80])
     ctx["customer"]["age"] = age
     ctx["customer"]["is_youth"] = age < 19
 
@@ -68,7 +72,20 @@ def _ctx(rng):
     return ctx
 
 
+# 나중에 더한 변수는 **따로 뽑는다.** 같은 난수열에 끼우면 그 뒤 값이 전부
+# 밀려 400개 문맥이 통째로 바뀌고, 과거 라운드의 ⑭ 이 표본 때문에 움직인다.
+_LATE = ("customer.holder_type",)
+
+
 def sample(n=400, seed=20260913):
     """정의역을 넓게 훑는 문맥 n개. 씨앗 고정 — 라운드 사이 비교 가능하게."""
     rng = random.Random(seed)
-    return [_ctx(rng) for _ in range(n)]
+    late = random.Random(seed + 1)
+    out = []
+    for _ in range(n):
+        ctx = _ctx(rng)
+        for name in _LATE:
+            group, _, key = name.partition(".")
+            ctx[group][key] = late.choice(catalog.ENUM_VALUES[name])
+        out.append(ctx)
+    return out

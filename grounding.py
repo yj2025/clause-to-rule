@@ -45,6 +45,7 @@ CHECKED = {
     "RATE_ADD": "value", "RATE_SUBTRACT": "value",
     "RATE_OVERRIDE": "value", "PENALTY_RATE": "value",
     "LIMIT_AMOUNT": "value", "FEE_WAIVE": "value",
+    "SERVICE_PROVIDE": "value",
 }
 
 _NUM = re.compile(r"\d[\d,]*(?:\.\d+)?")

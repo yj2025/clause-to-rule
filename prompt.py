@@ -82,6 +82,7 @@ def _catalog_block(text):
     """조문에 근거가 있는 어휘만 추린다. 근거가 없으면 전체를 준다."""
     vs, es = catalog.pick_candidates(text)
     fees = catalog.pick_fees(text)
+    services = catalog.pick_services(text)
     vs = vs or sorted(catalog.VARIABLES)
     es = es or sorted(catalog.EVENTS)
 
@@ -103,6 +104,9 @@ def _catalog_block(text):
     if fees:
         lines.append("[면제 대상]")
         lines += [f"  {f:<28}{catalog.FEES[f]}" for f in fees]
+    if services:
+        lines.append("[제휴서비스 대상]")
+        lines += [f"  {s:<28}{catalog.SERVICES[s]}" for s in services]
     for name, vals in catalog.ENUM_VALUES.items():
         if name in vs:
             lines.append(f"[{name} 의 값]")

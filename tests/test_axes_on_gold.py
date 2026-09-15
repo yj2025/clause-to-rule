@@ -63,7 +63,24 @@ def test_invented_codes_finds_nothing_in_gold(as_records):
 def test_vacuity_finds_nothing_in_gold(as_records):
     import vacuous
     a = vacuous.audit(as_records)
-    assert a["bad"] == 0 and a["idle"] == 0, f"⑭ 가 골드를 잡는다"
+    assert a["bad"] == 0, f"⑭ 가 골드를 잡는다"
+    rest = [x for x in as_records if x["clause_id"] not in KNOWN_IDLE]
+    assert vacuous.audit(rest)["idle"] == 0, f"⑭ 가 골드에서 미가동을 잡는다"
+
+
+# **알고 두는 측정 구멍.** 2026-09-15 SERVICE_PROVIDE 로 옮긴 표의 "만 7세 –" 하한은
+# 채점 프로필의 나이(17 · 19)로는 안 흔들린다. 헛조건은 아니다 — 반례 표본에 6세가 있다.
+# 프로필 나이 축에 6 을 더해 봤더니 1024 → 1536 이 되고 기준선 ⑩ 이 75.0 → 66.7 로
+# 움직였다. 확정한 판정선을 버려야 해서 되돌렸다. 대가는 ⑥ 이 이 하한을 빠뜨린
+# 생성물을 못 가리는 것 하나다.
+KNOWN_IDLE = {"KBYY-S3-R05": 2}
+
+
+def test_known_idle_conditions_are_exactly_these(as_records):
+    import vacuous
+    for cid, n in KNOWN_IDLE.items():
+        one = [x for x in as_records if x["clause_id"] == cid]
+        assert vacuous.audit(one)["idle"] == n, cid
 
 
 def test_no_unconditional_disqualify_in_gold(as_records):

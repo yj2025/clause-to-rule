@@ -2,7 +2,7 @@
  "clause_id": "KBYY-S2-R01",
  "label": "가입대상",
  "reviewed": true,
- "note": "복원 초안. 사람 검토 필요. 가입대상(만 19세 미만)은 '미만이 아니면 가입 불가' 로 뒤집어 DISQUALIFY 로 옮겼다 — 경계는 < 19 이고 == 19 가 아니다(만 19세는 가입 불가). '실명의 개인' 은 표현 수단이 없어 rule-02 의 UNSUPPORTED 에 함께 둔다. 1인 1계좌는 customer.has_product 로 옮겼으나 '「KB Young Youth 청소년통장」을 포함하여' 라는 타 상품 합산 부분은 변수가 없어 담지 못했다 — 검토 포인트.",
+ "note": "복원 초안. 사람 검토 필요. 가입대상(만 19세 미만)은 '미만이 아니면 가입 불가' 로 뒤집어 DISQUALIFY 로 옮겼다 — 경계는 < 19 이고 == 19 가 아니다(만 19세는 가입 불가). '실명의 개인' 은 표현 수단이 없어 rule-02 의 UNSUPPORTED 에 함께 둔다. 1인 1계좌는 customer.has_product 로 옮겼으나 '「KB Young Youth 청소년통장」을 포함하여' 라는 타 상품 합산 부분은 변수가 없어 담지 못했다 — 검토 포인트. [카탈로그 확장 2026-09-15] customer.holder_type 이 생겨 OK 로 바꿨다. 인용문이 나열한 셋을 그대로 옮겼다. 불이익 effect 라 근사가 금지되는데 인용문 기준으로 빠진 유형이 없다. 법인·서류제출 임의단체는 이 인용문이 말하지 않는다 — '실명의 개인' 에서 나오지만 거기를 옮기면 탈락이 넓어지므로 조문 01 의 인용문으로 따로 다룰 일이다.",
  "rules": [
   {
    "rule_id": "KBYY-S2-R01-01",
@@ -27,12 +27,26 @@
   },
   {
    "rule_id": "KBYY-S2-R01-02",
-   "status": "UNSUPPORTED",
-   "label": "개인사업자·서류미제출 임의단체·공동명의 가입 불가 — 명의 유형 변수 없음",
+   "status": "OK",
+   "label": "개인사업자·서류미제출 임의단체·공동명의면 가입 불가",
    "source": {
     "quote": "※ 개인사업자 및 서류미제출 임의단체, 공동명의 가입 불가"
    },
-   "condition": {}
+   "condition": {
+    "in": [
+     {
+      "var": "customer.holder_type"
+     },
+     [
+      "SOLE_PROPRIETOR",
+      "UNREGISTERED_ASSOCIATION",
+      "JOINT"
+     ]
+    ]
+   },
+   "effect": {
+    "type": "DISQUALIFY"
+   }
   },
   {
    "rule_id": "KBYY-S2-R01-03",

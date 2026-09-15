@@ -105,6 +105,14 @@ def check_catalog(rule):
     if t == "FEE_WAIVE" and not _known(eff.get("target"), catalog.FEES):
         errs.append(f"수수료 대상이 아님: {eff.get('target')}. 쓸 수 있는 것: "
                     f"{', '.join(sorted(catalog.FEES))}")
+    if t == "SERVICE_PROVIDE" and not _known(eff.get("target"), catalog.SERVICES):
+        errs.append(f"제휴서비스 대상이 아님: {eff.get('target')}. 쓸 수 있는 것: "
+                    f"{', '.join(sorted(catalog.SERVICES))}")
+    if (t == "FEE_WAIVE_NO_CARRYOVER" and eff.get("target") is not None
+            and not _known(eff.get("target"), catalog.FEES)):
+        errs.append(f"수수료 대상이 아님: {eff.get('target')}. 모든 면제에 걸리면 "
+                    f"target 을 빼고, 하나에만 걸리면 이 중에서 고른다: "
+                    f"{', '.join(sorted(catalog.FEES))}")
     if eff.get("unit") is not None and not _known(eff["unit"], catalog.UNITS):
         errs.append(f"카탈로그에 없는 단위: {eff['unit']}. 쓸 수 있는 것: "
                     f"{', '.join(catalog.UNITS)}")
@@ -146,7 +154,7 @@ def check_effect_value(rule):
     """
     eff = rule.get("effect") or {}
     t = eff.get("type")
-    if t not in catalog.RATE_EFFECTS:
+    if t not in catalog.RATE_EFFECTS and t != "SERVICE_PROVIDE":
         return []
     v = eff.get("value")
     if isinstance(v, bool) or not isinstance(v, (int, float)):
