@@ -149,14 +149,60 @@ SCHEMA = {
 }
 
 # ── few-shot ────────────────────────────────────────────────────────────
-# 이 예시 하나가 창(let), 가드, 개월 수 세기, 단위를 한 번에 보여준다.
+# **2026-09-16 · v26 에서 첫째 자리를 맞바꿨다.** 아래 `FEWSHOT_RATE_*` 가
+# 원래 있던 것이고 지금은 재워 둔다. 근거는 이렇다.
+#
+#   예시[0] 이 홀로 가르치던 것   gold 46조문이 요구하는 수
+#     count_distinct_months              **0 조문**
+#     count_consecutive_months           **0 조문**
+#     RATE_ADD · applies_to              1 조문 (`KBYY-S2-R07`)
+#
+# **정답 46조문 중 개월 수를 세는 조문이 하나도 없다.** 그런데 예시 넷 중 하나가
+# 그것을 가르치고 있었다. `let`/`$window` 는 예시[1]이 같이 가르치므로 안 잃는다.
+# 남는 비용은 `RATE_ADD`+`applies_to` 한 조문인데, v24·v25 가 그 조문에서
+# **effect 는 이미 맞게 낸다** (틀리는 것은 조건이다). 그래서 가장 싸다.
+#
+# 그 자리에 v25 가 지목한 장면을 넣는다 — 명의 유형으로 자격을 가르는 장면.
+# v25 에서 ③ 이 `REQUIRE value=INDIVIDUAL` 을 세 번 막았는데 모델이 세 번 다
+# 같은 것을 냈다. **막는 것은 낱말을 바꾸게 하지 구조를 바꾸게 하지 못한다.**
+# 여기서 보여주는 것은 구조다 —
+#
+#   명의 유형은 effect 의 value 가 아니라 **조건에서 비교**한다
+#   "가입할 수 없다" 는 `DISQUALIFY` 다 (거래 제한과 다르다)
+#   열거형은 `not` + `in` 으로 한 번에 배제한다
+#   마지막 ※ 안내 줄은 rule 이 되지 않는다
 FEWSHOT_CLAUSE = (
+    "[가입 대상]\n"
+    "▪ 실명의 개인 및 개인사업자 (임의단체 중 고유번호증을 제출한 단체 포함)\n"
+    "▪ 법인 및 공동명의 계좌는 가입할 수 없습니다.\n"
+    "※ 자세한 사항은 영업점에 문의하시기 바랍니다."
+)
+
+FEWSHOT_OUTPUT = {
+    "rules": [
+        {
+            "rule_id": "R-EX-01",
+            "status": "OK",
+            "label": "가입 대상 명의 유형",
+            "source": {"quote": "▪ 법인 및 공동명의 계좌는 가입할 수 없습니다."},
+            "condition": {"not": {"in": [{"var": "customer.holder_type"},
+                                         ["INDIVIDUAL", "SOLE_PROPRIETOR",
+                                          "REGISTERED_ASSOCIATION"]]}},
+            "effect": {"type": "DISQUALIFY"},
+        }
+    ]
+}
+
+# 재워 둔다 — 2026-09-16 까지 첫째 자리에 있던 예시. 창(let), 가드, 개월 수 세기,
+# 단위를 한 번에 보여준다. 되살리려면 이 자리와 위를 맞바꾸고 사전 등록한다.
+# **개월 수 세기를 요구하는 정답 조문이 생기면 그때가 되살릴 때다.**
+FEWSHOT_RATE_CLAUSE = (
     "적금 가입월 1일부터 만기월의 전전월 마지막일까지 급여이체가 발생한 월이 "
     "총 6개월 이상인 경우 연 1.0%p의 우대금리를 제공합니다. "
     "단, 중도해지 시에는 우대금리가 적용되지 않습니다."
 )
 
-FEWSHOT_OUTPUT = {
+FEWSHOT_RATE_OUTPUT = {
     "rules": [
         {
             "rule_id": "R-EX-01",
@@ -360,7 +406,13 @@ FEWSHOT_DORMANT_OUTPUT = {
                 {"==": [{"count_events": {"event": "WITHDRAWAL",
                                           "within": {"ref": "$window"}}}, 0]},
             ]},
-            "effect": {"type": "DISQUALIFY"},
+            # 2026-09-16 · v25 에서 고쳤다. 원래 `DISQUALIFY` 였다.
+            # 조문이 "거래를 제한합니다" 인데 `DISQUALIFY` 는 **가입 자격 상실**이다.
+            # 09-15 확장으로 `RESTRICT` 가 생겼고 이 자리가 바로 그 자리다.
+            # 이 예시는 v22 에 빠진 뒤 카탈로그가 넓어진 것을 못 따라갔다 —
+            # **되살렸으면 v24·v25 가 싸운 그 혼동을 예시가 직접 가르칠 뻔했다.**
+            # 관문 다섯은 이것을 전부 통과시킨다 (맨 DISQUALIFY 는 합법이다).
+            "effect": {"type": "RESTRICT", "target": "ALL_TRANSACTIONS"},
         }
     ]
 }

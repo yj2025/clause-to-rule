@@ -138,21 +138,52 @@ def test_every_fewshot_quote_is_verbatim(i):
         assert "".join(r["source"]["quote"].split()) in "".join(clause.split())
 
 
-def test_fewshot_uses_a_window_binding():
-    r = FEWSHOT_OUTPUT["rules"][0]
+# 아래 넷은 **재워 둔** 금리 예시(`FEWSHOT_RATE_*`)의 불변식이다.
+# 2026-09-16 에 첫째 자리를 명의유형 장면으로 맞바꾸면서 이 예시가 빠졌다.
+# 되살릴 때를 대비해 그대로 지킨다 — 재워 둔 동안 썩는 것을 막는 것이
+# `test_parked_examples_are_kept_current` 와 같은 뜻이다.
+def test_parked_rate_fewshot_uses_a_window_binding():
+    from schema import FEWSHOT_RATE_OUTPUT
+    r = FEWSHOT_RATE_OUTPUT["rules"][0]
     assert "window" in r["let"] and "$window" in json.dumps(r["condition"])
 
 
-def test_fewshot_wraps_the_counter_in_a_comparison():
-    assert list(FEWSHOT_OUTPUT["rules"][0]["condition"]) == [">="]
+def test_parked_rate_fewshot_wraps_the_counter_in_a_comparison():
+    from schema import FEWSHOT_RATE_OUTPUT
+    assert list(FEWSHOT_RATE_OUTPUT["rules"][0]["condition"]) == [">="]
 
 
-def test_fewshot_guard_excludes_early_termination():
-    assert FEWSHOT_OUTPUT["rules"][0]["guard"]["=="][1] == "MATURITY"
+def test_parked_rate_fewshot_guard_excludes_early_termination():
+    from schema import FEWSHOT_RATE_OUTPUT
+    assert FEWSHOT_RATE_OUTPUT["rules"][0]["guard"]["=="][1] == "MATURITY"
 
 
-def test_fewshot_rate_value_is_a_number():
-    assert isinstance(FEWSHOT_OUTPUT["rules"][0]["effect"]["value"], (int, float))
+def test_parked_rate_fewshot_value_is_a_number():
+    from schema import FEWSHOT_RATE_OUTPUT
+    assert isinstance(FEWSHOT_RATE_OUTPUT["rules"][0]["effect"]["value"],
+                      (int, float))
+
+
+# ── 새 첫째 예시 (명의유형 · 2026-09-16) ────────────────────────────────
+def test_the_holder_type_fewshot_compares_in_the_condition():
+    """**명의 유형은 조건에서 비교한다.** effect 의 value 가 아니다.
+
+    v24 에서 모델이 `REQUIRE value=INDIVIDUAL` 을 냈고 사람 검토를 마친
+    조문 둘이 그렇게 깨졌다. v25 에서 ③ 이 세 번 막았는데 세 번 다 같은 것을
+    냈다 — 막는 것으로는 구조를 못 바꾼다. 이 예시가 그 구조를 보여준다.
+    """
+    r = FEWSHOT_OUTPUT["rules"][0]
+    assert "customer.holder_type" in json.dumps(r["condition"], ensure_ascii=False)
+    assert r["effect"]["type"] == "DISQUALIFY"
+    assert "value" not in r["effect"], "명의 유형을 effect 의 value 에 담지 않는다"
+
+
+def test_the_holder_type_fewshot_excludes_by_enumeration():
+    r = FEWSHOT_OUTPUT["rules"][0]
+    assert list(r["condition"]) == ["not"] and "in" in r["condition"]["not"]
+    import catalog
+    vals = r["condition"]["not"]["in"][1]
+    assert set(vals) <= set(catalog.ENUM_VALUES["customer.holder_type"])
 
 
 def test_disqualify_appears_only_with_a_real_condition():
@@ -276,3 +307,47 @@ def test_every_gold_rule_still_passes_the_schema(root):
         d = json.loads(p.read_text("utf-8"))
         errs = V.check_schema({"rules": d.get("rules") or []})
         assert not errs, f"{d['clause_id']}: {errs[:1]}"
+
+
+def test_parked_examples_are_kept_current(root):
+    """**쓰지 않는 예시도 채점기와 카탈로그를 따라가야 한다.**
+
+    `FEWSHOT_DORMANT_*` 는 v22 에 빠진 뒤 09-15 카탈로그 확장을 못 따라갔다.
+    조문이 "거래를 제한합니다" 인데 effect 가 `DISQUALIFY` 로 남아 있었다 —
+    되살렸으면 v24·v25 가 싸운 바로 그 혼동을 예시가 직접 가르칠 뻔했다.
+    관문 다섯은 맨 `DISQUALIFY` 를 합법으로 통과시키므로 잡히지도 않는다.
+    """
+    import os
+    os.chdir(root)
+    import schema
+    import validate as V
+    GATES = ("json_ok", "schema_ok", "catalog_ok", "quote_ok", "exec_ok")
+    parked = [("FEWSHOT_DORMANT", schema.FEWSHOT_DORMANT_CLAUSE,
+               schema.FEWSHOT_DORMANT_OUTPUT),
+              ("FEWSHOT_RATE", schema.FEWSHOT_RATE_CLAUSE,
+               schema.FEWSHOT_RATE_OUTPUT)]
+    for name, clause, out in parked:
+        r = V.score_record(out, clause)
+        bad = [k for k in GATES if not r[k]]
+        assert not bad, f"{name} 이 {bad} 를 못 넘는다: {r['errors']}"
+
+
+def test_no_example_uses_disqualify_for_a_transaction_limit(root):
+    """거래 제한은 `RESTRICT` 다. 예시가 `DISQUALIFY` 로 가르치면 안 된다.
+
+    v24 에서 `RESTRICT` 가 필요한 5조문 중 4조문이 `DISQUALIFY` 로 갔다.
+    예시가 그 혼동을 거들면 안 된다 — 쓰는 예시든 재워 둔 예시든.
+    """
+    import os
+    os.chdir(root)
+    import schema
+    pools = list(schema.FEWSHOTS) + [
+        (schema.FEWSHOT_DORMANT_CLAUSE, schema.FEWSHOT_DORMANT_OUTPUT),
+        (schema.FEWSHOT_RATE_CLAUSE, schema.FEWSHOT_RATE_OUTPUT)]
+    for i, (clause, out) in enumerate(pools):
+        for r in out.get("rules") or []:
+            if (r.get("effect") or {}).get("type") != "DISQUALIFY":
+                continue
+            assert "제한" not in clause, (
+                f"예시 {i} 의 조문이 «제한» 을 말하는데 DISQUALIFY 를 가르친다 — "
+                "RESTRICT 여야 한다")
