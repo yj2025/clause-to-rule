@@ -134,7 +134,7 @@ python blockers.py                             # 카탈로그 확장이 푸는 �
 |---|---|---|
 | `*.py` · `tests/` · `*.md` | 예 | |
 | `data/gold/` · `data/corpus.json` | 예 | 정답과 입력이다 |
-| `results/*.json` | **예** | 라운드마다 GPU 45분. `raw_first`/`raw_last` 에 모델 원문이 있어 **채점기를 고칠 때마다 전부 다시 잰다** |
+| `results/*.json` | **예** | 라운드마다 GPU 한 시간 안팎(46조문 1회차 33~65분). `raw_first`/`raw_last` 에 모델 원문이 있어 **채점기를 고칠 때마다 전부 다시 잰다** |
 | `logs/` | 아니오 | 진행 표시가 대부분. 실행 시간만 `EXPERIMENTS.md` 에 옮겼다 |
 | `__pycache__` · `.pytest_cache` | 아니오 | |
 
