@@ -251,3 +251,56 @@ def test_score_record_survives_unhashable_values():
                       "effect": {"type": "FEE_WAIVE", "target": ["A", "B"],
                                  "value": "UNLIMITED"}}]}
     assert V.score_record(out, "조문")["catalog_ok"] is False
+
+
+# ── DISQUALIFY 를 좁힌다 (2026-09-16 · v24) ─────────────────────────────
+def _r(effect):
+    return {"rule_id": "x", "status": "OK", "label": "L",
+            "source": {"quote": "q"},
+            "condition": {"==": [{"var": "customer.age"}, 17]},
+            "effect": effect}
+
+
+def test_a_holder_type_in_the_require_value_is_caught():
+    """v24 가 사람 검토 완료 조문 둘을 깨뜨린 경로다.
+
+    gold 는 holder_type 을 조건에서 비교해 DISQUALIFY 한다.
+    모델은 REQUIRE 의 value 에 담았고 관문 다섯이 전부 통과시켰다.
+    """
+    errs = V.check_catalog(_r({"type": "REQUIRE", "value": "INDIVIDUAL"}))
+    assert errs and "customer.holder_type" in errs[0]
+
+
+def test_a_restriction_code_in_the_disqualify_value_is_caught():
+    errs = V.check_catalog(_r({"type": "DISQUALIFY", "value": "ALL_TRANSACTIONS"}))
+    assert errs and "RESTRICT" in errs[0]
+
+
+def test_disqualify_takes_no_target():
+    errs = V.check_catalog(_r({"type": "DISQUALIFY", "target": "ALL_TRANSACTIONS"}))
+    assert errs and "RESTRICT" in errs[0]
+
+
+def test_a_bare_disqualify_is_still_fine():
+    assert V.check_catalog(_r({"type": "DISQUALIFY"})) == []
+
+
+def test_restrict_with_its_own_target_is_fine():
+    assert V.check_catalog(_r({"type": "RESTRICT", "target": "ALL_TRANSACTIONS"})) == []
+
+
+def test_the_new_constraint_costs_gold_nothing(root):
+    """gold 46조문이 전부 통과해야 한다. 비용 0 이 이 제약의 근거다."""
+    import json, os
+    os.chdir(root)
+    bad = []
+    for p in sorted((root / "data/gold").glob("*.json")):
+        if p.name.startswith("_"):
+            continue
+        for r in json.loads(p.read_text("utf-8")).get("rules", []):
+            eff = r.get("effect") or {}
+            if eff.get("type") in ("REQUIRE", "DISQUALIFY"):
+                v, t = eff.get("value"), eff.get("target")
+                if (isinstance(v, str) and __import__("catalog").slot_of(v.strip())) or t:
+                    bad.append((p.name, eff))
+    assert not bad, f"gold 가 새 제약에 걸린다: {bad}"

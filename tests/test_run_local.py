@@ -198,10 +198,36 @@ def test_every_record_says_what_made_it():
     import run_local_v2 as R
     fp = R.prompt_fingerprint()
     # vocab 은 2026-09-15 에 더했다 — 확장 여섯의 대상 목록·속성이 catalog 해시에 안 잡혔다
-    assert set(fp) == {"system", "fewshots", "n_fewshots", "catalog", "schema", "vocab"}
+    # validator 는 2026-09-16 에 더했다 — 아래 시험이 이유다
+    assert set(fp) == {"system", "fewshots", "n_fewshots", "catalog", "schema",
+                       "vocab", "validator"}
     assert fp["n_fewshots"] == 4
     assert all(isinstance(fp[k], str) and len(fp[k]) == 12
-               for k in ("system", "fewshots", "catalog", "schema", "vocab"))
+               for k in ("system", "fewshots", "catalog", "schema", "vocab",
+                         "validator"))
+
+
+def test_the_fingerprint_moves_when_the_validator_moves(tmp_path, monkeypatch):
+    """**검증기도 출력을 바꾼다.** 스키마와 같은 이유다.
+
+    검증기가 바뀌면 재시도에 되먹이는 오류 문구가 바뀌고, 그래서 생성물이
+    바뀐다 — v24 에서 채택된 시도의 절반이 재시도 결과다.
+
+    v25 에서 물릴 뻔했다. 지문·예시·카탈로그·스키마·어휘를 하나도 안 건드리고
+    ③ 만 좁히는 라운드라, 이 키가 없으면 v24 와 해시가 **완전히 같아** 두 라운드를
+    구별할 수 없다. v23 에서 스키마를 빠뜨려 똑같이 물렸던 자리다.
+    """
+    import run_local_v2 as R
+    from pathlib import Path
+    src = Path(R.__file__).parent / "validate.py"
+    before = R.prompt_fingerprint()["validator"]
+    original = src.read_text("utf-8")
+    try:
+        src.write_text(original + "\n# 한 줄 더\n", "utf-8")
+        assert R.prompt_fingerprint()["validator"] != before
+    finally:
+        src.write_text(original, "utf-8")
+    assert R.prompt_fingerprint()["validator"] == before
 
 
 def test_the_fingerprint_moves_when_the_prompt_moves():

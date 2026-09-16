@@ -56,6 +56,15 @@ def prompt_fingerprint():
             [catalog.SERVICES, catalog.RESTRICTIONS, catalog.EVENT_ATTRIBUTES,
              catalog.ENUM_VALUES, list(catalog.UNITS)],
             ensure_ascii=False, sort_keys=True, default=str)),
+        # 2026-09-16 — **스키마와 같은 이유로 검증기도 센다.** 위 주석이 "스키마는
+        # ② 관문을 정의하므로 출력을 바꾼다" 고 적어 두고 ③④⑤ 를 정의하는 검증기는
+        # 빠뜨렸다. 검증기가 바뀌면 재시도에 되먹이는 오류 문구가 바뀌고, 그래서
+        # **생성물 자체가 바뀐다** — 재시도가 관문의 36% 를 만든다 (v24 기준).
+        # v25 에서 물릴 뻔했다. 지문·스키마·어휘를 하나도 안 건드리고 ③ 만 좁히는
+        # 라운드라, 이 키가 없으면 v24 와 지문 해시가 완전히 같아 구별이 안 된다.
+        "validator": h("".join(
+            (Path(__file__).parent / f).read_text("utf-8")
+            for f in ("validate.py", "invent.py", "vacuous.py", "grounding.py"))),
     }
 
 MODEL = "Qwen/Qwen3-8B"

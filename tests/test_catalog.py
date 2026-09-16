@@ -144,3 +144,25 @@ def test_pick_fees_is_empty_without_evidence():
 ])
 def test_is_known_value(name, value, want):
     assert C.is_known_value(name, value) is want
+
+
+# ── 자리 검사 (2026-09-16 · v24 회귀) ────────────────────────────────────
+def test_every_enum_value_knows_its_slot():
+    """카탈로그를 넓히면 새 이름이 자동으로 제자리를 갖는다.
+
+    v24 회귀의 뿌리는 «이름이 카탈로그에 있으면 아무 자리나 통과» 였다.
+    09-15 에 명의유형을 넣자 INDIVIDUAL 이 REQUIRE 의 value 로도 통과했다.
+    """
+    import catalog
+    for name, vals in catalog.ENUM_VALUES.items():
+        for v in vals:
+            assert catalog.slot_of(v), f"{v} 의 자리를 카탈로그가 모른다"
+    for fam in (catalog.RESTRICTIONS, catalog.SERVICES, catalog.FEES,
+                catalog.EVENTS, catalog.VARIABLES):
+        for v in fam:
+            assert catalog.slot_of(v), f"{v} 의 자리를 카탈로그가 모른다"
+
+
+def test_a_made_up_code_has_no_slot():
+    import catalog
+    assert catalog.slot_of("PLEDGE_NOT_ALLOWED") is None

@@ -111,6 +111,11 @@ EFFECTS = {
     "RATE_SUBTRACT": ("value", "unit"),
     "RATE_OVERRIDE": ("value", "unit"),
     "PENALTY_RATE":  ("value", "unit"),
+    # **가입 자격 상실만.** 대상(target)을 받지 않는다 — 계좌 전체에 걸린다.
+    # 2026-09-16 · v24 에서 여기가 새는 자리로 확인됐다. 거래 제한(RESTRICT)과
+    # 휴면예금 출연(DORMANT_CONTRIBUTION) 의 자리를 만들어 줬는데도, 그 일곱 조문 중
+    # 여섯이 DISQUALIFY 로 왔다. 이름만 준 도구는 **기존에 그럴듯한 자리가 있으면
+    # 안 열린다.** 그래서 이쪽을 좁힌다 (validate.check_effect · invent.check_rule).
     "DISQUALIFY":    (),
     "LIMIT_AMOUNT":  ("value",),
     "REQUIRE":       ("value",),
@@ -166,6 +171,50 @@ RESTRICTIONS = {
 }
 
 UNITS = ("%p", "%", "원", "회", "회/월", "개월", "년", "age", "channel", "date", "")
+
+
+# ── 코드가 원래 있어야 할 자리 (2026-09-16) ─────────────────────────────
+#
+# 카탈로그가 넓어질 때마다 **새 이름이 REQUIRE/DISQUALIFY 의 value 로도 공짜로
+# 통과하게 된다.** 그 자리는 자유 문자열이고, ⑬ 은 "카탈로그 어딘가에 있나" 만
+# 보기 때문이다 (일부러 그렇게 뒀다 — 자리 오류는 ⑬ 이 아니라 ③ 이 볼 일이다.
+# `tests/test_invent.py::test_an_event_name_in_the_wrong_slot_is_allowed_by_this_axis`).
+#
+# v24 에서 그 대가를 치렀다. 09-15 에 명의유형을 넣자 `INDIVIDUAL` ·
+# `SOLE_PROPRIETOR` 가 카탈로그에 들어왔고, 모델이 그것을 `REQUIRE` 의 value 에
+# 담았다. gold 는 `holder_type` 을 조건에서 비교해 `DISQUALIFY` 하는 자리다.
+# **사람 검토를 마친 조문 둘이 그렇게 깨졌다** (`KBONE-S2-R01` · `KBYY-S2-R01`).
+#
+# 확장할 때마다 손으로 막을 수는 없다. 이름이 어느 자리 것인지를 카탈로그가
+# 직접 들고 있게 해서, 새 이름이 들어와도 자동으로 제자리를 갖게 한다.
+def slot_of(code):
+    """이 코드가 원래 있어야 할 자리. 어디에도 없으면 None."""
+    return _SLOTS().get(code)
+
+
+_SLOTS_CACHE = None
+
+
+def _SLOTS():
+    global _SLOTS_CACHE
+    if _SLOTS_CACHE is not None:
+        return _SLOTS_CACHE
+    out = {}
+    for name, vals in ENUM_VALUES.items():
+        for v in vals:
+            out.setdefault(v, f"조건에서 `{name}` 과 비교하는 자리")
+    for v in RESTRICTIONS:
+        out[v] = "`RESTRICT` 의 target"
+    for v in SERVICES:
+        out[v] = "`SERVICE_PROVIDE` 의 target"
+    for v in FEES:
+        out[v] = "`FEE_WAIVE` 의 target"
+    for v in EVENTS:
+        out.setdefault(v, "조건의 `exists` · `count_events` 자리")
+    for v in VARIABLES:
+        out.setdefault(v, "조건의 `var` 자리")
+    _SLOTS_CACHE = out
+    return out
 
 APPLIES_TO = ("BASE_RATE", "FINAL_RATE")
 

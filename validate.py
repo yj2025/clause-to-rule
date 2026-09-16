@@ -106,6 +106,20 @@ def check_catalog(rule):
     # 한글 설명문은 막지 않는다. 대문자 코드형만 본다.
     errs += invent.check_rule(rule)
 
+    # 2026-09-16 · v24. ⑬ 은 "카탈로그 어딘가에 있나" 만 본다 — 자리는 **③ 이
+    # 본다.** 확장으로 새 이름이 들어올 때마다 그 이름이 REQUIRE/DISQUALIFY 의
+    # value 로도 공짜로 통과하게 되는데, 실행기는 그 자리에서 읽지 않는다.
+    # v24 에서 `REQUIRE value=INDIVIDUAL` 과 `DISQUALIFY value=ALL_TRANSACTIONS`
+    # 가 관문 다섯을 전부 통과했다. gold 는 REQUIRE 를 한 번도 쓰지 않고
+    # DISQUALIFY 의 value 가 전부 None 이라 **이 제약의 비용은 0 이다.**
+    _eff = rule.get("effect") or {}
+    if _eff.get("type") in ("REQUIRE", "DISQUALIFY"):
+        _v = _eff.get("value")
+        _slot = catalog.slot_of(_v.strip()) if isinstance(_v, str) else None
+        if _slot:
+            errs.append(f"{_eff['type']} 의 value \"{_v.strip()}\" 는 {_slot} 코드다. "
+                        f"거기서 쓴다 — 실행기는 {_eff['type']} 의 value 를 읽지 않는다")
+
     eff = rule.get("effect") or {}
     t = eff.get("type")
     if t is not None and t not in catalog.EFFECTS:
@@ -134,6 +148,20 @@ def check_catalog(rule):
     if t == "RESTRICT" and not _known(eff.get("target"), catalog.RESTRICTIONS):
         errs.append(f"금지 대상이 아님: {eff.get('target')}. 쓸 수 있는 것: "
                     f"{', '.join(sorted(catalog.RESTRICTIONS))}")
+    # 2026-09-16 · v24. DISQUALIFY 는 **가입 자격 상실**이라 대상을 안 받는다.
+    # 자리를 만들어 줘도 모델은 거래 제한을 DISQUALIFY 로 밀어 넣었고, 그러면서
+    # 금지 대상 이름만 target 에 얹었다 — `KBONE-S2-R16` 이 그렇다.
+    # 실행기는 DISQUALIFY 의 target 을 읽지 않으므로 **전 거래가 아니라 계좌 자격이
+    # 날아간다.** 뜻이 다른데 관문 다섯이 전부 통과시키던 자리다.
+    # gold 의 DISQUALIFY 8건은 전부 target 이 없어 비용이 0 이다.
+    if t == "DISQUALIFY" and eff.get("target") is not None:
+        tgt = eff.get("target")
+        if _known(tgt, catalog.RESTRICTIONS):
+            errs.append(f"DISQUALIFY 는 대상을 받지 않는다. {tgt} 는 거래 제한 대상이므로 "
+                        f"RESTRICT 를 쓴다 — DISQUALIFY 는 가입 자격 상실이라 뜻이 다르다")
+        else:
+            errs.append(f"DISQUALIFY 는 대상을 받지 않는다 (target={tgt}). "
+                        f"자격 상실은 계좌 전체에 걸린다 — 일부만 막으려면 RESTRICT 를 쓴다")
     if eff.get("unit") is not None and not _known(eff["unit"], catalog.UNITS):
         errs.append(f"카탈로그에 없는 단위: {eff['unit']}. 쓸 수 있는 것: "
                     f"{', '.join(catalog.UNITS)}")
