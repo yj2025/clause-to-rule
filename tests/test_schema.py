@@ -164,7 +164,7 @@ def test_parked_rate_fewshot_value_is_a_number():
                       (int, float))
 
 
-# ── 새 첫째 예시 (명의유형 · 2026-09-16) ────────────────────────────────
+# ── 재워 둔 명의유형 예시 (2026-09-16 에 넣었다가 v26 판정으로 뺐다) ─────
 def test_the_holder_type_fewshot_compares_in_the_condition():
     """**명의 유형은 조건에서 비교한다.** effect 의 value 가 아니다.
 
@@ -172,14 +172,16 @@ def test_the_holder_type_fewshot_compares_in_the_condition():
     조문 둘이 그렇게 깨졌다. v25 에서 ③ 이 세 번 막았는데 세 번 다 같은 것을
     냈다 — 막는 것으로는 구조를 못 바꾼다. 이 예시가 그 구조를 보여준다.
     """
-    r = FEWSHOT_OUTPUT["rules"][0]
+    from schema import FEWSHOT_HOLDER_OUTPUT
+    r = FEWSHOT_HOLDER_OUTPUT["rules"][0]
     assert "customer.holder_type" in json.dumps(r["condition"], ensure_ascii=False)
     assert r["effect"]["type"] == "DISQUALIFY"
     assert "value" not in r["effect"], "명의 유형을 effect 의 value 에 담지 않는다"
 
 
 def test_the_holder_type_fewshot_excludes_by_enumeration():
-    r = FEWSHOT_OUTPUT["rules"][0]
+    from schema import FEWSHOT_HOLDER_OUTPUT
+    r = FEWSHOT_HOLDER_OUTPUT["rules"][0]
     assert list(r["condition"]) == ["not"] and "in" in r["condition"]["not"]
     import catalog
     vals = r["condition"]["not"]["in"][1]
@@ -325,7 +327,9 @@ def test_parked_examples_are_kept_current(root):
     parked = [("FEWSHOT_DORMANT", schema.FEWSHOT_DORMANT_CLAUSE,
                schema.FEWSHOT_DORMANT_OUTPUT),
               ("FEWSHOT_RATE", schema.FEWSHOT_RATE_CLAUSE,
-               schema.FEWSHOT_RATE_OUTPUT)]
+               schema.FEWSHOT_RATE_OUTPUT),
+              ("FEWSHOT_HOLDER", schema.FEWSHOT_HOLDER_CLAUSE,
+               schema.FEWSHOT_HOLDER_OUTPUT)]
     for name, clause, out in parked:
         r = V.score_record(out, clause)
         bad = [k for k in GATES if not r[k]]
@@ -343,7 +347,8 @@ def test_no_example_uses_disqualify_for_a_transaction_limit(root):
     import schema
     pools = list(schema.FEWSHOTS) + [
         (schema.FEWSHOT_DORMANT_CLAUSE, schema.FEWSHOT_DORMANT_OUTPUT),
-        (schema.FEWSHOT_RATE_CLAUSE, schema.FEWSHOT_RATE_OUTPUT)]
+        (schema.FEWSHOT_RATE_CLAUSE, schema.FEWSHOT_RATE_OUTPUT),
+        (schema.FEWSHOT_HOLDER_CLAUSE, schema.FEWSHOT_HOLDER_OUTPUT)]
     for i, (clause, out) in enumerate(pools):
         for r in out.get("rules") or []:
             if (r.get("effect") or {}).get("type") != "DISQUALIFY":
@@ -351,3 +356,27 @@ def test_no_example_uses_disqualify_for_a_transaction_limit(root):
             assert "제한" not in clause, (
                 f"예시 {i} 의 조문이 «제한» 을 말하는데 DISQUALIFY 를 가르친다 — "
                 "RESTRICT 여야 한다")
+
+
+def test_at_most_one_fewshot_quotes_a_bullet_line(root):
+    """**예시의 인용 모양이 «무엇을 rule 로 만들까» 까지 옮긴다** (v26).
+
+    v26 에서 quote 가 `▪` 로 시작하는 예시를 **둘째로** 넣었더니(첫째 자리에)
+    생성물의 quote 중 `▪` 로 시작하는 비율이 44.7% → 66.7% 로 뛰었고,
+    빈 배열을 내야 할 조문 7개에서 `▪` 줄을 인용해 rule 을 만들었다.
+    ④ 가 +19.6p 오른 것과 ⑦ 이 −15.2p 떨어진 것이 같은 뿌리다.
+
+    **하나는 괜찮다.** 예시[2](한도 예외)가 v1 부터 `▪` 를 인용해 왔고
+    v25 의 ⑦ 은 19.6% 였다. 무너진 것은 **둘이 됐을 때**다.
+    그래서 금지가 아니라 **개수**를 고정한다 — 예시 예산이 넷인 것과 같은 모양의
+    제약이다 (`test_the_example_budget_is_four`).
+
+    둘째를 놓으려면 그 비용을 다시 사전 등록하고 재야 한다.
+    """
+    import os
+    os.chdir(root)
+    import schema
+    n = sum(1 for _, out in schema.FEWSHOTS
+            if any((r.get("source") or {}).get("quote", "").startswith("▪")
+                   for r in out.get("rules") or []))
+    assert n <= 1, f"`▪` 를 인용하는 예시가 {n}개다 — v26 이 둘의 비용을 쟀다"

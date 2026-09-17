@@ -171,14 +171,14 @@ SCHEMA = {
 #   "가입할 수 없다" 는 `DISQUALIFY` 다 (거래 제한과 다르다)
 #   열거형은 `not` + `in` 으로 한 번에 배제한다
 #   마지막 ※ 안내 줄은 rule 이 되지 않는다
-FEWSHOT_CLAUSE = (
+FEWSHOT_HOLDER_CLAUSE = (
     "[가입 대상]\n"
     "▪ 실명의 개인 및 개인사업자 (임의단체 중 고유번호증을 제출한 단체 포함)\n"
     "▪ 법인 및 공동명의 계좌는 가입할 수 없습니다.\n"
     "※ 자세한 사항은 영업점에 문의하시기 바랍니다."
 )
 
-FEWSHOT_OUTPUT = {
+FEWSHOT_HOLDER_OUTPUT = {
     "rules": [
         {
             "rule_id": "R-EX-01",
@@ -419,7 +419,14 @@ FEWSHOT_DORMANT_OUTPUT = {
 
 
 FEWSHOTS = (
-    (FEWSHOT_CLAUSE, FEWSHOT_OUTPUT),
+    # **2026-09-17 · v26 판정으로 되돌렸다.** 명의유형 장면(`FEWSHOT_HOLDER_*`)을
+    # 이 자리에 넣었더니 주 표적은 움직였는데(REQUIRE → DISQUALIFY, 둘 다) 되돌리는
+    # 선 둘에 걸렸다 — ⑦ 빈 배열 −15.2p · ⑫ −10.9p · ⑥ −12.8p.
+    # 원인은 장면의 뜻이 아니라 **모양**이다. 새 장면의 조문이 `▪` 로 시작하고
+    # quote 도 `▪` 로 시작해서, 모델이 "`▪` 줄은 인용한다" 를 같이 배웠다.
+    # ④ 가 +19.6p 오르고 ⑦ 이 무너진 것이 같은 뿌리다.
+    # 되살리려면 **`▪` 를 쓰지 않는 조문으로 다시 써서** 사전 등록한다.
+    (FEWSHOT_RATE_CLAUSE, FEWSHOT_RATE_OUTPUT),
     (FEWSHOT_EMPTY_CLAUSE, FEWSHOT_EMPTY_OUTPUT),
     (FEWSHOT_UNSUPPORTED_CLAUSE, FEWSHOT_UNSUPPORTED_OUTPUT),
     # **다섯째(무거래 장면)는 v22 판정으로 뺐다.** 장면 자체는 먹었다 —
@@ -431,3 +438,9 @@ FEWSHOTS = (
     # 되살리려면 `FEWSHOT_DORMANT_*` 를 이 자리에 넣으면 된다.
     (FEWSHOT_INTRO_CLAUSE, FEWSHOT_INTRO_OUTPUT),
 )
+
+
+# `FEWSHOT_CLAUSE` · `FEWSHOT_OUTPUT` 은 **지금 첫째 자리에 있는 예시**를 가리킨다.
+# v26 에서 명의유형 장면을 넣었다가 되돌렸으므로 다시 금리 예시다.
+FEWSHOT_CLAUSE = FEWSHOT_RATE_CLAUSE
+FEWSHOT_OUTPUT = FEWSHOT_RATE_OUTPUT
