@@ -31,6 +31,19 @@ if [ -e "$OUT" ]; then
   exit 1
 fi
 
+# GPU 여유를 먼저 본다. 라운드는 16.4GB 를 예약하고 긴 조문에서 20GB 안팎까지 간다.
+# v23 과 v27 이 **도중에 들어온 남의 작업** 때문에 OOM 으로 끊겼다 (8/46 · 11/46).
+# 시작할 때 여유가 없으면 아예 띄우지 않는다. 도중에 들어오는 것은 못 막지만,
+# 처음부터 모자란 채로 한 시간을 버리는 것은 막는다.
+NEED_MIB="${NEED_MIB:-24000}"
+FREE=$(( $(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits)        - $(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits) ))
+if [ "$FREE" -lt "$NEED_MIB" ]; then
+  echo "GPU 여유 ${FREE}MiB < ${NEED_MIB}MiB — 안 띄운다." >&2
+  nvidia-smi --query-compute-apps=pid,used_memory --format=csv >&2
+  echo "비기를 기다리거나 NEED_MIB 를 낮춰 강행한다 (그러면 OOM 위험을 아는 채로 도는 것이다)." >&2
+  exit 2
+fi
+
 {
   echo "라운드 $VER"
   echo "  코퍼스   $CORPUS ($($PY -c "import json;print(len(json.load(open('$CORPUS'))))") 조문)"
