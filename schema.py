@@ -171,11 +171,16 @@ SCHEMA = {
 #   "가입할 수 없다" 는 `DISQUALIFY` 다 (거래 제한과 다르다)
 #   열거형은 `not` + `in` 으로 한 번에 배제한다
 #   마지막 ※ 안내 줄은 rule 이 되지 않는다
+# **2026-09-17 · v27 에서 다시 썼다.** v26 판은 조문이 `▪` 로 시작하고 quote 도
+# `▪` 로 시작했다. 그래서 `▪` 를 인용하는 예시가 예시[2]와 합쳐 **둘**이 됐고,
+# 모델이 "`▪` 줄은 인용해 rule 로 만든다" 를 같이 배웠다 — ④ +19.6p 와
+# ⑦ −15.2p 가 같은 뿌리였다. 가르치려던 구조는 그대로 두고 **모양만** 바꾼다.
+# 조문을 산문으로 쓰고 quote 도 `▪` 없이 딴다. 뺀 금리 예시와 같은 모양이다.
 FEWSHOT_HOLDER_CLAUSE = (
-    "[가입 대상]\n"
-    "▪ 실명의 개인 및 개인사업자 (임의단체 중 고유번호증을 제출한 단체 포함)\n"
-    "▪ 법인 및 공동명의 계좌는 가입할 수 없습니다.\n"
-    "※ 자세한 사항은 영업점에 문의하시기 바랍니다."
+    "이 예금은 실명의 개인과 개인사업자가 가입할 수 있습니다. "
+    "임의단체는 고유번호증을 제출한 경우에 한하여 가입할 수 있으며, "
+    "법인과 공동명의 계좌는 가입할 수 없습니다. "
+    "자세한 사항은 거래 영업점에 문의하시기 바랍니다."
 )
 
 FEWSHOT_HOLDER_OUTPUT = {
@@ -184,7 +189,7 @@ FEWSHOT_HOLDER_OUTPUT = {
             "rule_id": "R-EX-01",
             "status": "OK",
             "label": "가입 대상 명의 유형",
-            "source": {"quote": "▪ 법인 및 공동명의 계좌는 가입할 수 없습니다."},
+            "source": {"quote": "법인과 공동명의 계좌는 가입할 수 없습니다"},
             "condition": {"not": {"in": [{"var": "customer.holder_type"},
                                          ["INDIVIDUAL", "SOLE_PROPRIETOR",
                                           "REGISTERED_ASSOCIATION"]]}},
@@ -426,7 +431,7 @@ FEWSHOTS = (
     # quote 도 `▪` 로 시작해서, 모델이 "`▪` 줄은 인용한다" 를 같이 배웠다.
     # ④ 가 +19.6p 오르고 ⑦ 이 무너진 것이 같은 뿌리다.
     # 되살리려면 **`▪` 를 쓰지 않는 조문으로 다시 써서** 사전 등록한다.
-    (FEWSHOT_RATE_CLAUSE, FEWSHOT_RATE_OUTPUT),
+    (FEWSHOT_HOLDER_CLAUSE, FEWSHOT_HOLDER_OUTPUT),
     (FEWSHOT_EMPTY_CLAUSE, FEWSHOT_EMPTY_OUTPUT),
     (FEWSHOT_UNSUPPORTED_CLAUSE, FEWSHOT_UNSUPPORTED_OUTPUT),
     # **다섯째(무거래 장면)는 v22 판정으로 뺐다.** 장면 자체는 먹었다 —
@@ -442,5 +447,5 @@ FEWSHOTS = (
 
 # `FEWSHOT_CLAUSE` · `FEWSHOT_OUTPUT` 은 **지금 첫째 자리에 있는 예시**를 가리킨다.
 # v26 에서 명의유형 장면을 넣었다가 되돌렸으므로 다시 금리 예시다.
-FEWSHOT_CLAUSE = FEWSHOT_RATE_CLAUSE
-FEWSHOT_OUTPUT = FEWSHOT_RATE_OUTPUT
+FEWSHOT_CLAUSE = FEWSHOT_HOLDER_CLAUSE
+FEWSHOT_OUTPUT = FEWSHOT_HOLDER_OUTPUT
