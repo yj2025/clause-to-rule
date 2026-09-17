@@ -1142,5 +1142,52 @@
     "p": 0.06234688265586721
    }
   }
+ },
+ "selection": {
+  "semantic_exact": {
+   "picked_on_full_dev": "e3",
+   "share": {
+    "e1": 0.0049,
+    "e2": 0.3632,
+    "e3": 0.6319
+   }
+  },
+  "status_correct": {
+   "picked_on_full_dev": "e3",
+   "share": {
+    "e1": 0.0,
+    "e2": 0.3681,
+    "e3": 0.6319
+   }
+  },
+  "form_f1": {
+   "picked_on_full_dev": "e3",
+   "share": {
+    "e1": 0.0,
+    "e2": 0.1875,
+    "e3": 0.8125
+   }
+  },
+  "effect_f1": {
+   "picked_on_full_dev": "e2",
+   "share": {
+    "e1": 0.0043,
+    "e2": 0.5653,
+    "e3": 0.4304
+   }
+  },
+  "operator_f1": {
+   "picked_on_full_dev": "e3",
+   "share": {
+    "e1": 0.0003,
+    "e2": 0.2442,
+    "e3": 0.7555
+   }
+  }
+ },
+ "selection_exact_closed_form": {
+  "e3": 0.6358303199128832,
+  "e2": 0.3590159048797966,
+  "e1": 0.00515377520732012
  }
 }

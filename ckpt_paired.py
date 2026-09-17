@@ -13,6 +13,11 @@
 * 부분점수 지표(*_f1 · grounding_rate): 문항별 차이의 **부호 뒤집기 순열검정**.
 * 둘 다 문항 부트스트랩으로 **평균 차이의 95% 구간**을 낸다.
 
+**선택 규칙 흔들림.** 팀원은 Dev semantic_exact 최고값으로 체크포인트를 고른다
+(동점이면 base 대비 회귀가 적은 쪽, 그래도 동점이면 이른 epoch). 같은 50문항을 복원추출로
+다시 뽑을 때마다 이 규칙을 적용해 **각 체크포인트가 뽑히는 비율**을 낸다. 비교용으로
+다른 지표를 기준으로 삼았을 때도 같은 동점 규칙으로 센다.
+
 팀원 점수 파일의 값이 CSV 문항 평균과 같은지 먼저 확인한다 — 다르면 멈춘다.
 팀원 폴더는 **읽기만 한다.** `blind50_LOCKED` 는 열지 않는다.
 """
@@ -37,6 +42,7 @@ MODELS = {
     "e3": RUN / "checkpoint_evals" / "epoch3_dev50_predictions.csv",
 }
 PAIRS = (("base", "e1"), ("e1", "e2"), ("e2", "e3"), ("base", "e3"))
+EPOCHS = ("e1", "e2", "e3")
 
 BINARY = ("semantic_exact", "status_correct", "json_parse")
 GRADED = ("form_f1", "effect_f1", "operator_f1", "group_op_f1",
@@ -146,6 +152,40 @@ def compare(a, b, metric, orders):
     return res
 
 
+def pick(data, sample, metric="semantic_exact", epochs=EPOCHS):
+    """팀원 선택 규칙 — 표본(문항 목록, 중복 허용)에서 고른 체크포인트."""
+    def key(i, t):
+        score = sum(float(data[t][o][metric]) for o in sample)
+        regressed = sum(1 for o in sample
+                        if data["base"][o]["semantic_exact"] and not data[t][o]["semantic_exact"])
+        return (-score, regressed, i)
+    return min(enumerate(epochs), key=lambda it: key(*it))[1]
+
+
+def selection_stability(data, orders, metric="semantic_exact", n_boot=N_BOOT, rng=None):
+    rng = rng or random.Random(SEED)
+    n = len(orders)
+    got = {t: 0 for t in EPOCHS}
+    for _ in range(n_boot):
+        got[pick(data, [orders[rng.randrange(n)] for _ in range(n)], metric)] += 1
+    return {"picked_on_full_dev": pick(data, orders, metric),
+            "share": {t: v / n_boot for t, v in got.items()}}
+
+
+def nested_exact_share(data, orders):
+    """정확 일치 문항이 e1 ⊂ e2 ⊂ e3 이고 base 가 0 이면 닫힌 식이 있다 — 검산용.
+
+    e3 는 e3 에만 맞힌 문항이 하나라도 뽑혀야 이긴다. 못 뽑히면 동점이고 이른 epoch 가 간다.
+    """
+    hit = {t: {o for o in orders if data[t][o]["semantic_exact"]} for t in ("base",) + EPOCHS}
+    if hit["base"] or not (hit["e1"] <= hit["e2"] <= hit["e3"]):
+        return None
+    n = len(orders)
+    miss = lambda k: ((n - k) / n) ** n                      # 특정 k 문항이 하나도 안 뽑힐 확률
+    only3, only23 = len(hit["e3"] - hit["e2"]), len(hit["e3"] - hit["e1"])
+    return {"e3": 1 - miss(only3), "e2": miss(only3) - miss(only23), "e1": miss(only23)}
+
+
 def run(data, orders=None):
     orders = sorted(orders or data["base"])
     return {f"{a}→{b}": {m: compare(data[a], data[b], m, orders) for m in BINARY + GRADED}
@@ -165,6 +205,10 @@ def main():
         "seed": SEED, "n_boot": N_BOOT, "n_perm": N_PERM,
         "all": run(data, orders),
         "rules_found_only": {"n": len(rules), **run(data, rules)},
+        "selection": {m: selection_stability(data, orders, m)
+                      for m in ("semantic_exact", "status_correct", "form_f1",
+                                "effect_f1", "operator_f1")},
+        "selection_exact_closed_form": nested_exact_share(data, orders),
     }
     OUT.write_text(json.dumps(result, ensure_ascii=False, indent=1), "utf-8")
 
@@ -181,6 +225,13 @@ def main():
                 flag = "*" if r["p"] < 0.05 else " "
                 print(f"   {flag} {m:19} {r['a']:.3f}→{r['b']:.3f}  차 {r['diff']:+.3f} "
                       f"[{r['ci95'][0]:+.3f}, {r['ci95'][1]:+.3f}]  p={r['p']:.3f}  {extra}")
+    print(f"\n## 선택 규칙 흔들림 — Dev50 복원추출 {N_BOOT}회에서 뽑힌 비율")
+    for m, r in result["selection"].items():
+        share = " · ".join(f"{t} {v:5.1%}" for t, v in r["share"].items())
+        print(f"  기준 {m:15} 전체 Dev → {r['picked_on_full_dev']}   {share}")
+    cf = result["selection_exact_closed_form"]
+    if cf:
+        print("  닫힌 식(semantic_exact) " + " · ".join(f"{t} {v:5.1%}" for t, v in cf.items()))
     print(f"\n→ {OUT.relative_to(ROOT)}")
 
 
