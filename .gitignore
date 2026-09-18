@@ -14,3 +14,4 @@ logs/
 # 브리핑 PDF 용 한글 폰트 — 14MB 라 받아서 쓴다 (brief.py 머리말 참고)
 fonts/
 *.pdf
+adapters/

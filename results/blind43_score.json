@@ -866,6 +866,1064 @@
      "declaration_match": true
     }
    ]
+  },
+  "e3": {
+   "meta": {
+    "tag": "e3",
+    "model": "Qwen/Qwen3.5-9B",
+    "model_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "adapter": "adapters/e3",
+    "adapter_sha256": "062f285e2acd75259f48245a87e50c4e47cac1e87c94cf920f5eb0f4a613c755",
+    "notebook_sha256": "b45a5affd766a85bc6f149ab66c5a404eb2ec97d9e3b3d11c3bae4764c0426a5",
+    "packets_sha256": "8d83e25e8af323707a013b280bdfd6ce570273a7c134b67c09265666d5d55d37",
+    "generation": {
+     "do_sample": false,
+     "max_new_tokens": 6144,
+     "quant": "4bit nf4 double · compute fp16",
+     "attn": "eager",
+     "enable_thinking": false
+    },
+    "versions": {
+     "transformers": "5.18.0.dev0",
+     "peft": "0.20.0",
+     "torch": "2.12.1+cu126"
+    },
+    "git": "1c3e156"
+   },
+   "summary": {
+    "전체": {
+     "n": 43,
+     "parse": 0.9767441860465116,
+     "shape": 0.9767441860465116,
+     "truncated": 0,
+     "grounding": 0.9641095338769757,
+     "status": {
+      "NO_EXECUTABLE_RULE": 3,
+      "RULES_FOUND": 39,
+      "null": 1
+     },
+     "declaration_match": 0.7906976744186046,
+     "declaration_table": {
+      "gold 빈 / 모델 빈": 3,
+      "gold 규칙 / 모델 규칙": 31,
+      "gold 빈 / 모델 규칙": 8,
+      "gold 규칙 / 모델 판정불가": 1
+     },
+     "convert": {
+      "EMPTY": 3,
+      "NONE_CONVERTED": 35,
+      "변환 안 됨": 1,
+      "ALL_CONVERTED": 1,
+      "SOME_CONVERTED": 3
+     },
+     "blockers": {
+      "UNLABELED": 120,
+      "SCOPE": 16,
+      "VOCAB": 14,
+      "STRUCTURE": 1
+     },
+     "rules": 4,
+     "exec_n": 4,
+     "exec": 0.375,
+     "exec_empty_baseline": 0.125
+    },
+    "SEEN_TRAIN": {
+     "n": 8,
+     "parse": 1.0,
+     "shape": 1.0,
+     "truncated": 0,
+     "grounding": 0.9821428571428571,
+     "status": {
+      "NO_EXECUTABLE_RULE": 1,
+      "RULES_FOUND": 7
+     },
+     "declaration_match": 0.875,
+     "declaration_table": {
+      "gold 빈 / 모델 빈": 1,
+      "gold 규칙 / 모델 규칙": 6,
+      "gold 빈 / 모델 규칙": 1
+     },
+     "convert": {
+      "EMPTY": 1,
+      "NONE_CONVERTED": 7
+     },
+     "blockers": {
+      "SCOPE": 6,
+      "VOCAB": 9,
+      "UNLABELED": 12
+     },
+     "rules": 0,
+     "exec_n": 0,
+     "exec": null,
+     "exec_empty_baseline": null
+    },
+    "NEAR_TRAIN": {
+     "n": 9,
+     "parse": 1.0,
+     "shape": 1.0,
+     "truncated": 0,
+     "grounding": 0.9814814814814815,
+     "status": {
+      "RULES_FOUND": 9
+     },
+     "declaration_match": 0.6666666666666666,
+     "declaration_table": {
+      "gold 빈 / 모델 규칙": 3,
+      "gold 규칙 / 모델 규칙": 6
+     },
+     "convert": {
+      "NONE_CONVERTED": 7,
+      "ALL_CONVERTED": 1,
+      "SOME_CONVERTED": 1
+     },
+     "blockers": {
+      "UNLABELED": 13,
+      "SCOPE": 7,
+      "VOCAB": 2
+     },
+     "rules": 2,
+     "exec_n": 2,
+     "exec": 0.75,
+     "exec_empty_baseline": 0.25
+    },
+    "NEW": {
+     "n": 26,
+     "parse": 0.9615384615384616,
+     "shape": 0.9615384615384616,
+     "truncated": 0,
+     "grounding": 0.9525474525474524,
+     "status": {
+      "NO_EXECUTABLE_RULE": 2,
+      "RULES_FOUND": 23,
+      "null": 1
+     },
+     "declaration_match": 0.8076923076923077,
+     "declaration_table": {
+      "gold 빈 / 모델 빈": 2,
+      "gold 규칙 / 모델 규칙": 19,
+      "gold 빈 / 모델 규칙": 4,
+      "gold 규칙 / 모델 판정불가": 1
+     },
+     "convert": {
+      "EMPTY": 2,
+      "NONE_CONVERTED": 21,
+      "변환 안 됨": 1,
+      "SOME_CONVERTED": 2
+     },
+     "blockers": {
+      "UNLABELED": 95,
+      "VOCAB": 3,
+      "SCOPE": 3,
+      "STRUCTURE": 1
+     },
+     "rules": 2,
+     "exec_n": 2,
+     "exec": 0.0,
+     "exec_empty_baseline": 0.0
+    }
+   },
+   "records": [
+    {
+     "sample_id": "KBYY-S1-P01",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "NO_EXECUTABLE_RULE",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": true,
+     "convert_error": null,
+     "convert_outcome": "EMPTY",
+     "layers": {},
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R01",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 2
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R02",
+     "novelty": "NEAR_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 1
+     },
+     "rules": [],
+     "declaration_match": false
+    },
+    {
+     "sample_id": "KBYY-S2-R03",
+     "novelty": "SEEN_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "NO_EXECUTABLE_RULE",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": true,
+     "convert_error": null,
+     "convert_outcome": "EMPTY",
+     "layers": {},
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R04",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 3
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R05",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 1
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R06",
+     "novelty": "NEAR_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 1
+     },
+     "rules": [],
+     "declaration_match": false
+    },
+    {
+     "sample_id": "KBYY-S2-R07",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 4
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R08",
+     "novelty": "NEAR_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 0.8333333333333334,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 4,
+      "SCOPE": 2
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R09",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 6
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R10",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 1
+     },
+     "rules": [],
+     "declaration_match": false
+    },
+    {
+     "sample_id": "KBYY-S2-R12",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": false,
+     "shape": false,
+     "grounding": 0.0,
+     "status": null,
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": null,
+     "convert_error": "v1.1 모양이 아니다",
+     "convert_outcome": null,
+     "layers": {},
+     "rules": [],
+     "declaration_match": false
+    },
+    {
+     "sample_id": "KBYY-S2-R13",
+     "novelty": "SEEN_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "SCOPE": 2
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R14",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 4
+     },
+     "rules": [],
+     "declaration_match": false
+    },
+    {
+     "sample_id": "KBYY-S2-R15",
+     "novelty": "NEAR_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 1
+     },
+     "rules": [],
+     "declaration_match": false
+    },
+    {
+     "sample_id": "KBYY-S2-R16",
+     "novelty": "NEAR_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "ALL_CONVERTED",
+     "layers": {},
+     "rules": [
+      {
+       "rule_id": "P-U01-01",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 질권설정",
+       "source": {
+        "quote": "질권설정\n▪ 불가"
+       },
+       "condition": {},
+       "effect": {
+        "type": "RESTRICT",
+        "target": "PLEDGE"
+       }
+      }
+     ],
+     "declaration_match": true,
+     "exec": 1.0,
+     "exec_empty_baseline": 0.0
+    },
+    {
+     "sample_id": "KBYY-S2-R17",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "SOME_CONVERTED",
+     "layers": {
+      "UNLABELED": 1
+     },
+     "rules": [
+      {
+       "rule_id": "P-U01-01",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 담보제공",
+       "source": {
+        "quote": "양도 및 담보제공\n▪ 양도 및 상속에 의한 명의변경 불가능 ▪ 담보제공 불가능"
+       },
+       "condition": {},
+       "effect": {
+        "type": "RESTRICT",
+        "target": "PLEDGE"
+       }
+      }
+     ],
+     "declaration_match": true,
+     "exec": 0.0,
+     "exec_empty_baseline": 0.0
+    },
+    {
+     "sample_id": "KBYY-S2-R18",
+     "novelty": "SEEN_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "VOCAB": 4,
+      "UNLABELED": 2
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R19",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 8
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R20",
+     "novelty": "SEEN_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 3
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R22",
+     "novelty": "SEEN_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 3,
+      "SCOPE": 2
+     },
+     "rules": [],
+     "declaration_match": false
+    },
+    {
+     "sample_id": "KBYY-S2-R23",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "일부 UNSUPPORTED",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 10,
+      "VOCAB": 1
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S3-R01",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 3
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S3-R02",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 2
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S3-R03",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 1
+     },
+     "rules": [],
+     "declaration_match": false
+    },
+    {
+     "sample_id": "KBYY-S3-R05",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 0.9090909090909091,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "SCOPE": 2,
+      "UNLABELED": 3
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S5-R01",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 2
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S5-R02",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 8
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S5-R03",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "일부 UNSUPPORTED",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 14,
+      "STRUCTURE": 1
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S1-P01",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "NO_EXECUTABLE_RULE",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": true,
+     "convert_error": null,
+     "convert_outcome": "EMPTY",
+     "layers": {},
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R01",
+     "novelty": "NEAR_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "SOME_CONVERTED",
+     "layers": {
+      "UNLABELED": 1
+     },
+     "rules": [
+      {
+       "rule_id": "P-U01-01",
+       "status": "OK",
+       "label": "CONSTRAINT · 가입대상",
+       "source": {
+        "quote": "가입대상\n▪ 실명의 개인(1인 1계좌) ※ 개인사업자 및 관련서류 미제출 임의단체 포함"
+       },
+       "condition": {
+        "not": {
+         "==": [
+          {
+           "var": "customer.holder_type"
+          },
+          "INDIVIDUAL"
+         ]
+        }
+       },
+       "effect": {
+        "type": "DISQUALIFY"
+       }
+      }
+     ],
+     "declaration_match": true,
+     "exec": 0.5,
+     "exec_empty_baseline": 0.5
+    },
+    {
+     "sample_id": "KBONE-S2-R03",
+     "novelty": "SEEN_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "VOCAB": 1,
+      "UNLABELED": 2
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R05",
+     "novelty": "NEAR_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "SCOPE": 4,
+      "UNLABELED": 2,
+      "VOCAB": 2
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R06",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 1,
+      "SCOPE": 1
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R07",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 4
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R10",
+     "novelty": "SEEN_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "SCOPE": 2
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R11",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 1
+     },
+     "rules": [],
+     "declaration_match": false
+    },
+    {
+     "sample_id": "KBONE-S2-R12",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 3
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R14",
+     "novelty": "NEAR_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 2
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R15",
+     "novelty": "SEEN_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 0.8571428571428571,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 2,
+      "VOCAB": 4
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R16",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 10
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R17",
+     "novelty": "NEAR_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 1,
+      "SCOPE": 1
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R20",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 0.8571428571428571,
+     "status": "RULES_FOUND",
+     "gold_verdict": "일부 UNSUPPORTED",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "SOME_CONVERTED",
+     "layers": {
+      "UNLABELED": 3,
+      "VOCAB": 2
+     },
+     "rules": [
+      {
+       "rule_id": "P-U01-01",
+       "status": "OK",
+       "label": "CONSTRAINT · ",
+       "source": {
+        "quote": "▪ 이 상품은 1인 1계좌만 가입이 가능합니다."
+       },
+       "condition": {
+        "not": {
+         "==": [
+          {
+           "var": "customer.has_product"
+          },
+          false
+         ]
+        }
+       },
+       "effect": {
+        "type": "DISQUALIFY"
+       }
+      }
+     ],
+     "declaration_match": true,
+     "exec": 0.0,
+     "exec_empty_baseline": 0.0
+    }
+   ]
   }
  }
 }
