@@ -158,3 +158,49 @@ def test_a_catalog_code_still_passes(root):
          "source": {"quote": "q"}, "condition": {},
          "effect": {"type": "REQUIRE", "value": good}}
     assert not invent.check_rule(r)
+
+
+# ── 2026-09-20 정의를 넓혔다 — 이름 자리 전부를 본다 ────────────────────
+def _rule(**eff):
+    return {"rule_id": "X-01", "status": "OK", "label": "x", "source": {"quote": "x"},
+            "condition": {"exists": {"event": "CARD_USAGE"}}, "effect": {"type": "RESTRICT", **eff}}
+
+
+def test_an_invented_target_next_to_a_new_effect_is_counted():
+    """v28 이 찾은 자리 — RESTRICT 에 target 셋을 주자 네 번째를 지어냈다."""
+    recs = [{"clause_id": "C1", "run": 0,
+             "output": {"rules": [_rule(target="WITHDRAWAL")]}}]
+    a = invent.audit_names(recs)
+    assert a["bad"] == 1 and a["names"]["WITHDRAWAL"] == 1
+    assert a["slots"]["effect.target"] == 1
+    # 옛 정의는 이것을 못 본다 — 그래서 넓혔다
+    assert invent.audit(recs)["bad"] == 0
+
+
+def test_catalog_names_are_not_invented():
+    for target in ("PLEDGE", "PARTIAL_TERMINATION"):
+        recs = [{"clause_id": "C1", "run": 0, "output": {"rules": [_rule(target=target)]}}]
+        assert invent.audit_names(recs)["bad"] == 0, target
+    prod = [{"clause_id": "C1", "run": 0, "output": {"rules": [
+        {"rule_id": "X-01", "status": "OK", "label": "x", "source": {"quote": "x"},
+         "condition": {}, "effect": {"type": "PRODUCT_SWITCH_TO", "target": "KB국민ONE통장"}}]}}]
+    assert invent.audit_names(prod)["bad"] == 0
+
+
+def test_condition_names_count_too():
+    recs = [{"clause_id": "C1", "run": 0, "output": {"rules": [{
+        "rule_id": "X-01", "status": "OK", "label": "x", "source": {"quote": "x"},
+        "condition": {"and": [{"==": [{"var": "account.status"}, "OK"]},
+                              {"exists": {"event": "CARD_USAGE"}}]},
+        "effect": {"type": "DISQUALIFY"}}]}}]
+    a = invent.audit_names(recs)
+    assert a["names"]["account.status"] == 1 and a["bad"] == 1
+    assert a["checked"] == 2, "쓴 이름은 둘이다 — 분모가 이름 수여야 한다"
+
+
+def test_the_amount_filter_is_a_number_not_a_name():
+    recs = [{"clause_id": "C1", "run": 0, "output": {"rules": [{
+        "rule_id": "X-01", "status": "OK", "label": "x", "source": {"quote": "x"},
+        "condition": {"exists": {"event": "DEPOSIT", "where": {"min_amount": 500000}}},
+        "effect": {"type": "DISQUALIFY"}}]}}]
+    assert invent.audit_names(recs)["bad"] == 0

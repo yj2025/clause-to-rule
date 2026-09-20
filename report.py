@@ -186,13 +186,18 @@ def gates_on_rules(recs, base=None):
 def gate13(recs):
     """⑬ 지어낸 코드 — 카탈로그에 없는 개념을 문자열에 담았나."""
     import invent
-    a = invent.audit([x for x in recs if x["run"] == 0])
+    run0 = [x for x in recs if x["run"] == 0]
+    a = invent.audit_names(run0)
     if not a["checked"]:
         return
-    print(f"\n⑬ 지어낸 코드 — 문자열 값 {a['checked']}개 중 {a['bad']}개 = {a['rate']:.1f}%")
+    print(f"\n⑬ 지어낸 이름 — 이름 자리 {a['checked']}개 중 {a['bad']}개 = {a['rate']:.1f}%")
     if a["names"]:
         print("  " + " · ".join(f"{k} {v}" for k, v in a["names"].most_common(6)))
-    print("  v12 부터 ③ 에 물린다. 그 전 라운드는 이 경로로 관문을 통과했다.")
+    if a["slots"]:
+        print("  자리별: " + " · ".join(f"{k} {v}" for k, v in a["slots"].most_common()))
+    old = invent.audit(run0)
+    print(f"  (옛 정의 · 문자열 값만: {old['checked']}개 중 {old['bad']}개)")
+    print("  2026-09-20 에 정의를 넓혔다 — v28 에서 새 effect 옆에 이름을 지어내는 것을 놓쳤다.")
 
 
 def gate14(recs):
