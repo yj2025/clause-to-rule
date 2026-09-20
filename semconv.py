@@ -336,6 +336,12 @@ class _Unit:
                 return None, None
             if "not_rule" in e:
                 return {"not_rule": e["not_rule"]}, None
+            # 대응표 요건은 표현이 참이라는 뜻이다 — "공동명의로 가입 == false" 는 그 부정을 지켜야 한다
+            if right.get("value") is False:
+                return {"not": copy.deepcopy(e["requirement"])}, e.get("violation")
+            if right.get("value") is not True:
+                return self.block("STRUCTURE", slot, left,
+                                  f"참/거짓 제약의 값이 참/거짓이 아니다: {right.get('value')!r}"), None
             return copy.deepcopy(e["requirement"]), e.get("violation")
         subj = self.subject(left, slot)
         if subj is None:
@@ -346,7 +352,12 @@ class _Unit:
             # 수 비교가 카탈로그의 참/거짓 하나와 같은 자리 — "1인 1계좌" (보유 계좌 수 ≤ 1)
             # 는 "이미 보유하면 가입 불가" 다. 대응표가 적은 연산자 · 값과 같을 때만 쓴다.
             want = subj.get("when") or {}
-            v, why = _literal(right, None)
+            if isinstance(want.get("value"), bool):
+                # 참/거짓 값은 수로 읽지 않는다 — "True" 문자열도 참으로 친다
+                raw = right.get("value")
+                v = raw if isinstance(raw, bool) else {"true": True, "false": False}.get(str(raw).lower())
+            else:
+                v, why = _literal(right, None)
             if node.get("operator") != want.get("operator") or v != want.get("value"):
                 return self.block("STRUCTURE", slot, left,
                                   f"대응표의 요건은 {want} 일 때만이다: {node.get('operator')} {v}"), None

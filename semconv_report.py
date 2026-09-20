@@ -92,6 +92,7 @@ def partition(results, only=None):
       SOURCE       의미 규칙 스스로 미해결
       SCOPE        판별 범위 밖이 하나라도 있다
       STRUCTURE    DSL 구조가 없는 자리가 하나라도 있다
+      CONVERTER    변환기 칸 구조 한계 — 카탈로그 · DSL 에는 있다. 변환기를 고치면 열린다
       VOCAB        어휘만 없다 — 카탈로그를 넓히면 열린다
     """
     part = collections.Counter()
@@ -114,6 +115,8 @@ def partition(results, only=None):
                 for b in u["blockers"]:
                     if b["layer"] == "STRUCTURE":
                         struct[b["reason"]] += 1
+            elif "CONVERTER" in L:
+                key = "CONVERTER"
             else:
                 key = "VOCAB"
                 vocab_sets[frozenset(b["reason"] for b in u["blockers"])] += 1

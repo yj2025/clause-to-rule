@@ -65,6 +65,66 @@
               }
              }
             }
+           },
+           {
+            "not": {
+             "exists": {
+              "event": "SALARY_TRANSFER",
+              "within": {
+               "ref": "$y1"
+              }
+             }
+            }
+           },
+           {
+            "not": {
+             "exists": {
+              "event": "AUTO_TRANSFER",
+              "within": {
+               "ref": "$y1"
+              }
+             }
+            }
+           },
+           {
+            "not": {
+             "exists": {
+              "event": "PENSION_RECEIPT",
+              "within": {
+               "ref": "$y1"
+              }
+             }
+            }
+           },
+           {
+            "not": {
+             "exists": {
+              "event": "NAME_CHANGE",
+              "within": {
+               "ref": "$y1"
+              }
+             }
+            }
+           },
+           {
+            "not": {
+             "exists": {
+              "event": "CARD_USAGE",
+              "within": {
+               "ref": "$y1"
+              }
+             }
+            }
+           },
+           {
+            "not": {
+             "exists": {
+              "event": "FX_TRANSACTION",
+              "within": {
+               "ref": "$y1"
+              }
+             }
+            }
            }
           ]
          }
@@ -345,22 +405,22 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "condition",
        "surface": "불가피하게 축소하거나 변경하는 경우",
-       "reason": "판별 범위 밖: 통지",
+       "reason": "제휴서비스 축소·변경 사건 변수 없음",
        "family": "부가서비스·제휴"
       },
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "effect",
        "surface": "REQUIRE::그에 상응하는 다른 연계·제휴서비스",
-       "reason": "판별 범위 밖: 은행 책임·의무",
+       "reason": "제휴서비스 축소·변경 사건 변수 없음",
        "family": "부가서비스·제휴"
       }
      ],
      "layers": [
-      "SCOPE"
+      "VOCAB"
      ]
     }
    ],
@@ -1335,14 +1395,15 @@
        "family": "상품전환·재예치"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "effect",
        "surface": "CHANGE_STATE::저금통은 자동으로 해제",
-       "reason": "저금통 설정 해제(상태 변경) 효과 없음",
-       "family": "부가서비스·제휴"
+       "reason": "계좌·부가서비스 상태 변경 effect 없음",
+       "family": "상품전환·재예치"
       }
      ],
      "layers": [
+      "STRUCTURE",
       "VOCAB"
      ]
     },
@@ -1487,22 +1548,22 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "condition",
        "surface": "불가피하게 축소하거나 변경하는 경우",
-       "reason": "판별 범위 밖: 통지",
+       "reason": "제휴서비스 축소·변경 사건 변수 없음",
        "family": "부가서비스·제휴"
       },
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "effect",
        "surface": "REQUIRE::그에 상응하는 다른 연계·제휴서비스",
-       "reason": "판별 범위 밖: 은행 책임·의무",
+       "reason": "제휴서비스 축소·변경 사건 변수 없음",
        "family": "부가서비스·제휴"
       }
      ],
      "layers": [
-      "SCOPE"
+      "VOCAB"
      ]
     }
    ],
@@ -2270,11 +2331,11 @@
        "family": "이자계산·지급"
       },
       {
-       "layer": "VOCAB",
+       "layer": "SCOPE",
        "slot": "condition",
        "surface": "보통예금",
-       "reason": "예금 종류(예금과목) 변수 없음",
-       "family": "기타"
+       "reason": "판별 범위 밖: 이자 결산·원가(지급) 시기",
+       "family": "이자계산·지급"
       },
       {
        "layer": "SCOPE",
@@ -2286,8 +2347,7 @@
      ],
      "layers": [
       "SOURCE",
-      "SCOPE",
-      "VOCAB"
+      "SCOPE"
      ]
     },
     {
@@ -2327,11 +2387,11 @@
        "family": "이자계산·지급"
       },
       {
-       "layer": "VOCAB",
+       "layer": "SCOPE",
        "slot": "condition",
        "surface": "저축예금",
-       "reason": "예금 종류(예금과목) 변수 없음",
-       "family": "기타"
+       "reason": "판별 범위 밖: 이자 결산·원가(지급) 시기",
+       "family": "이자계산·지급"
       },
       {
        "layer": "SCOPE",
@@ -2343,8 +2403,7 @@
      ],
      "layers": [
       "SOURCE",
-      "SCOPE",
-      "VOCAB"
+      "SCOPE"
      ]
     },
     {
@@ -2384,11 +2443,11 @@
        "family": "이자계산·지급"
       },
       {
-       "layer": "VOCAB",
+       "layer": "SCOPE",
        "slot": "condition",
        "surface": "가계당좌예금, 기업자유예금",
-       "reason": "예금 종류(예금과목) 변수 없음",
-       "family": "기타"
+       "reason": "판별 범위 밖: 이자 결산·원가(지급) 시기",
+       "family": "이자계산·지급"
       },
       {
        "layer": "SCOPE",
@@ -2400,8 +2459,7 @@
      ],
      "layers": [
       "SOURCE",
-      "SCOPE",
-      "VOCAB"
+      "SCOPE"
      ]
     }
    ],
@@ -2566,23 +2624,15 @@
     },
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
+     "outcome": "NOT_A_RULE",
      "rules": [],
-     "not_rule": [],
-     "n_effects": 1,
-     "n_blocked_effects": 1,
-     "blockers": [
-      {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "SET_VALUE::각종 은행거래 수수료",
-       "reason": "수수료 대상 코드 없음: 각종 은행거래 수수료(대상 미특정)",
-       "family": "수수료"
-      }
+     "not_rule": [
+      "서비스 정의·개요: 면제 규칙은 해당 조문이 옮긴다"
      ],
-     "layers": [
-      "VOCAB"
-     ]
+     "n_effects": 1,
+     "n_blocked_effects": 0,
+     "blockers": [],
+     "layers": []
     }
    ],
    "blockers": []
@@ -2811,13 +2861,6 @@
      "n_effects": 1,
      "n_blocked_effects": 1,
      "blockers": [
-      {
-       "layer": "SCOPE",
-       "slot": "CONDITIONAL_EFFECT.scope",
-       "surface": "이자계산기간동안",
-       "reason": "판별 범위 밖: 이자 계산 기간(이율 적용 구간)",
-       "family": "이자계산·지급"
-      },
       {
        "layer": "SCOPE",
        "slot": "effect",
@@ -3378,17 +3421,17 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "CONSTRAINT.scope",
        "surface": "매월(해당월의 초일부터 말일까지)",
-       "reason": "적금 저축(납입) 거래 단위 제약 없음",
+       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
        "family": "가입금액·한도"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "CONSTRAINT.scope",
        "surface": "만기 전일까지",
-       "reason": "적금 저축(납입) 거래 단위 제약 없음",
+       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
        "family": "가입금액·한도"
       },
       {
@@ -3404,18 +3447,10 @@
        "surface": "100만원 이하",
        "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
        "family": "가입금액·한도"
-      },
-      {
-       "layer": "STRUCTURE",
-       "slot": "constraint",
-       "surface": "원 단위 금액",
-       "reason": "금액 단위(배수) 요건 없음",
-       "family": "가입금액·한도"
       }
      ],
      "layers": [
-      "STRUCTURE",
-      "VOCAB"
+      "STRUCTURE"
      ]
     }
    ],
@@ -3438,13 +3473,6 @@
      "n_effects": 1,
      "n_blocked_effects": 1,
      "blockers": [
-      {
-       "layer": "SCOPE",
-       "slot": "CONDITIONAL_EFFECT.scope",
-       "surface": "계약기간 동안",
-       "reason": "판별 범위 밖: 이자 계산 기간(이율 적용 구간)",
-       "family": "이자계산·지급"
-      },
       {
        "layer": "SCOPE",
        "slot": "effect",
@@ -3478,13 +3506,6 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "SCOPE",
-       "slot": "CONDITIONAL_EFFECT.scope",
-       "surface": "계약기간동안",
-       "reason": "판별 범위 밖: 이자 계산 기간(이율 적용 구간)",
-       "family": "이자계산·지급"
-      },
-      {
        "layer": "VOCAB",
        "slot": "condition",
        "surface": "적금 만기일의 전전월 말일을 기준으로 밀리터리클럽주1)에 가입되어 있는 경우",
@@ -3493,7 +3514,6 @@
       }
      ],
      "layers": [
-      "SCOPE",
       "VOCAB"
      ]
     }
@@ -3532,23 +3552,22 @@
        "family": "기타"
       },
       {
-       "layer": "STRUCTURE",
+       "layer": "SCOPE",
        "slot": "selector.effect",
        "surface": "APPLY_VALUE::약관",
-       "reason": "다른 약관·조문 참조",
+       "reason": "적용 약관·거래방법 선택 판별 범위 밖",
        "family": "규칙간관계·예외"
       },
       {
-       "layer": "STRUCTURE",
+       "layer": "SCOPE",
        "slot": "selector.effect",
        "surface": "APPLY_VALUE::약관",
-       "reason": "다른 약관·조문 참조",
+       "reason": "적용 약관·거래방법 선택 판별 범위 밖",
        "family": "규칙간관계·예외"
       }
      ],
      "layers": [
-      "SCOPE",
-      "STRUCTURE"
+      "SCOPE"
      ]
     }
    ],
@@ -3707,59 +3726,27 @@
    "document_name": "KB달리자적금 상품설명서",
    "section_path": "섹션2/항목1",
    "status": "RULES_FOUND",
-   "outcome": "ALL_CONVERTED",
+   "outcome": "SOME_CONVERTED",
    "units": [
     {
      "form": "CONSTRAINT",
-     "outcome": "CONVERTED",
-     "rules": [
-      {
-       "rule_id": "train-95-U01-01",
-       "status": "OK",
-       "label": "CONSTRAINT · 가입대상",
-       "source": {
-        "quote": "가입대상\n▪ 만 14세 이상 실명의 개인(1인 1계좌) ※ 개인사업자, 임의단체(서류 미제출 임의단체 포함), 공동명의 가입불가"
-       },
-       "condition": {
-        "not": {
-         "and": [
-          {
-           ">=": [
-            {
-             "var": "customer.age"
-            },
-            14
-           ]
-          },
-          {
-           "==": [
-            {
-             "var": "customer.holder_type"
-            },
-            "INDIVIDUAL"
-           ]
-          },
-          {
-           "==": [
-            {
-             "var": "customer.has_product"
-            },
-            false
-           ]
-          }
-         ]
-        }
-       },
-       "effect": {
-        "type": "DISQUALIFY"
-       }
-      }
-     ],
+     "outcome": "BLOCKED",
+     "rules": [],
      "not_rule": [],
      "n_effects": 1,
-     "n_blocked_effects": 0,
-     "blockers": [],
-     "layers": []
+     "n_blocked_effects": 1,
+     "blockers": [
+      {
+       "layer": "VOCAB",
+       "slot": "constraint",
+       "surface": "실명의 개인",
+       "reason": "'실명의 개인' 의 명의 유형 범위 미정 — 사람 확인 대기",
+       "family": "가입자격"
+      }
+     ],
+     "layers": [
+      "VOCAB"
+     ]
     },
     {
      "form": "CONDITIONAL_EFFECT",
@@ -4592,51 +4579,27 @@
    "document_name": "KB두근두근여행적금 특약",
    "section_path": "제2조",
    "status": "RULES_FOUND",
-   "outcome": "ALL_CONVERTED",
+   "outcome": "SOME_CONVERTED",
    "units": [
     {
      "form": "CONSTRAINT",
-     "outcome": "CONVERTED",
-     "rules": [
-      {
-       "rule_id": "train-112-U01-01",
-       "status": "OK",
-       "label": "CONSTRAINT · 가입대상",
-       "source": {
-        "quote": "제2조 가입대상\n이 적금의 가입대상은 실명의 개인으로 1인 1계좌에 한하여 가입 가능하며, 개인사업자, 임의단체 및 공동명의로는 가입이 불가합니다."
-       },
-       "condition": {
-        "not": {
-         "and": [
-          {
-           "==": [
-            {
-             "var": "customer.holder_type"
-            },
-            "INDIVIDUAL"
-           ]
-          },
-          {
-           "==": [
-            {
-             "var": "customer.has_product"
-            },
-            false
-           ]
-          }
-         ]
-        }
-       },
-       "effect": {
-        "type": "DISQUALIFY"
-       }
-      }
-     ],
+     "outcome": "BLOCKED",
+     "rules": [],
      "not_rule": [],
      "n_effects": 1,
-     "n_blocked_effects": 0,
-     "blockers": [],
-     "layers": []
+     "n_blocked_effects": 1,
+     "blockers": [
+      {
+       "layer": "VOCAB",
+       "slot": "constraint",
+       "surface": "실명의 개인",
+       "reason": "'실명의 개인' 의 명의 유형 범위 미정 — 사람 확인 대기",
+       "family": "가입자격"
+      }
+     ],
+     "layers": [
+      "VOCAB"
+     ]
     },
     {
      "form": "CONDITIONAL_EFFECT",
@@ -4723,15 +4686,23 @@
    "units": [
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "NOT_A_RULE",
+     "outcome": "BLOCKED",
      "rules": [],
-     "not_rule": [
-      "상품 설정: base_rate"
-     ],
+     "not_rule": [],
      "n_effects": 1,
-     "n_blocked_effects": 0,
-     "blockers": [],
-     "layers": []
+     "n_blocked_effects": 1,
+     "blockers": [
+      {
+       "layer": "VOCAB",
+       "slot": "effect",
+       "surface": "APPLY_VALUE::이율",
+       "reason": "문맥 의존 적용 이율(기본금리 · 만기후이율 구별 불가)",
+       "family": "금리·이율값"
+      }
+     ],
+     "layers": [
+      "VOCAB"
+     ]
     },
     {
      "form": "CONDITIONAL_EFFECT",
@@ -4948,10 +4919,10 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "CONSTRAINT.scope",
        "surface": "매월(월 초일부터 말일까지)",
-       "reason": "적금 저축(납입) 거래 단위 제약 없음",
+       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
        "family": "가입금액·한도"
       },
       {
@@ -4967,18 +4938,10 @@
        "surface": "50만원 이하",
        "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
        "family": "가입금액·한도"
-      },
-      {
-       "layer": "STRUCTURE",
-       "slot": "constraint",
-       "surface": "원단위",
-       "reason": "금액 단위(배수) 요건 없음",
-       "family": "가입금액·한도"
       }
      ],
      "layers": [
-      "STRUCTURE",
-      "VOCAB"
+      "STRUCTURE"
      ]
     }
    ],
@@ -5001,13 +4964,6 @@
      "n_effects": 1,
      "n_blocked_effects": 1,
      "blockers": [
-      {
-       "layer": "SCOPE",
-       "slot": "CONDITIONAL_EFFECT.scope",
-       "surface": "계약기간 동안",
-       "reason": "판별 범위 밖: 이자 계산 기간(이율 적용 구간)",
-       "family": "이자계산·지급"
-      },
       {
        "layer": "SCOPE",
        "slot": "effect",
@@ -5588,17 +5544,17 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "CONSTRAINT.scope",
        "surface": "매월(해당월의 초일부터 말일까지)",
-       "reason": "적금 저축(납입) 거래 단위 제약 없음",
+       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
        "family": "가입금액·한도"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "CONSTRAINT.scope",
        "surface": "만기일 전일까지",
-       "reason": "적금 저축(납입) 거래 단위 제약 없음",
+       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
        "family": "가입금액·한도"
       },
       {
@@ -5614,18 +5570,10 @@
        "surface": "50만원 이하",
        "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
        "family": "가입금액·한도"
-      },
-      {
-       "layer": "STRUCTURE",
-       "slot": "constraint",
-       "surface": "원단위",
-       "reason": "금액 단위(배수) 요건 없음",
-       "family": "가입금액·한도"
       }
      ],
      "layers": [
-      "STRUCTURE",
-      "VOCAB"
+      "STRUCTURE"
      ]
     }
    ],
@@ -6061,16 +6009,15 @@
        "family": "기타"
       },
       {
-       "layer": "STRUCTURE",
+       "layer": "SCOPE",
        "slot": "effect",
        "surface": "APPLY_VALUE::관리와 거래에 관한 사항",
-       "reason": "다른 약관·조문 참조",
+       "reason": "판별 범위 밖: 외부 기관 약관·규정에 위임",
        "family": "규칙간관계·예외"
       }
      ],
      "layers": [
-      "SCOPE",
-      "STRUCTURE"
+      "SCOPE"
      ]
     }
    ],
@@ -6517,27 +6464,19 @@
    "document_name": "신한 생계비계좌 특약",
    "section_path": "제1조",
    "status": "RULES_FOUND",
-   "outcome": "NONE_CONVERTED",
+   "outcome": "NOT_A_RULE",
    "units": [
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
+     "outcome": "NOT_A_RULE",
      "rules": [],
-     "not_rule": [],
-     "n_effects": 1,
-     "n_blocked_effects": 1,
-     "blockers": [
-      {
-       "layer": "STRUCTURE",
-       "slot": "effect",
-       "surface": "APPLY_VALUE::거래",
-       "reason": "다른 약관·조문 참조",
-       "family": "규칙간관계·예외"
-      }
+     "not_rule": [
+      "허용 서술: 보충 약관 적용 순서"
      ],
-     "layers": [
-      "STRUCTURE"
-     ]
+     "n_effects": 1,
+     "n_blocked_effects": 0,
+     "blockers": [],
+     "layers": []
     }
    ],
    "blockers": []
@@ -6837,14 +6776,15 @@
        "family": "기타"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "effect",
        "surface": "SET_VALUE::연계·제휴 서비스",
-       "reason": "부가서비스·제휴혜택 제공 대상 코드 없음",
+       "reason": "우대 혜택 내용 미특정(효과 종류 불명)",
        "family": "부가서비스·제휴"
       }
      ],
      "layers": [
+      "STRUCTURE",
       "VOCAB"
      ]
     }
@@ -7141,10 +7081,10 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "VOCAB",
+       "layer": "SCOPE",
        "slot": "CONDITIONAL_EFFECT.modifier",
        "surface": "통장 재발급 수수료를 받고",
-       "reason": "수수료 대상 코드 없음: 통장 재발급 수수료",
+       "reason": "판별 범위 밖: 서류·신청·통장 발급 절차",
        "family": "수수료"
       },
       {
@@ -7163,8 +7103,7 @@
       }
      ],
      "layers": [
-      "SCOPE",
-      "VOCAB"
+      "SCOPE"
      ]
     }
    ],
@@ -7330,8 +7269,8 @@
       {
        "layer": "SCOPE",
        "slot": "effect",
-       "surface": "예금이자",
-       "reason": "판별 범위 밖: 계산식 (이자·금액 산출)",
+       "surface": "SET_VALUE::예금이자",
+       "reason": "판별 범위 밖: 이자 계산·지급",
        "family": "이자계산·지급"
       }
      ],
@@ -7353,25 +7292,16 @@
    "units": [
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
+     "outcome": "NOT_A_RULE",
      "rules": [],
      "not_rule": [
+      "허용 서술: 제약 없음",
       "허용 서술: 제약 없음"
      ],
      "n_effects": 2,
-     "n_blocked_effects": 1,
-     "blockers": [
-      {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "ALLOW::이 예금에서 다른 상품으로의 전환",
-       "reason": "상품 전환 허용·제한 효과 없음",
-       "family": "상품전환·재예치"
-      }
-     ],
-     "layers": [
-      "VOCAB"
-     ]
+     "n_blocked_effects": 0,
+     "blockers": [],
+     "layers": []
     },
     {
      "form": "CONDITIONAL_EFFECT",
@@ -7389,14 +7319,15 @@
        "family": "부가서비스·제휴"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "effect",
        "surface": "SET_VALUE::부가서비스",
-       "reason": "부가서비스·제휴혜택 제공 대상 코드 없음",
+       "reason": "우대 혜택 내용 미특정(효과 종류 불명)",
        "family": "부가서비스·제휴"
       }
      ],
      "layers": [
+      "STRUCTURE",
       "VOCAB"
      ]
     }
@@ -7446,11 +7377,11 @@
        "family": "이자계산·지급"
       },
       {
-       "layer": "VOCAB",
+       "layer": "SCOPE",
        "slot": "condition",
        "surface": "보통예금",
-       "reason": "예금 종류(예금과목) 변수 없음",
-       "family": "기타"
+       "reason": "판별 범위 밖: 이자 결산·원가(지급) 시기",
+       "family": "이자계산·지급"
       },
       {
        "layer": "SCOPE",
@@ -7461,8 +7392,7 @@
       }
      ],
      "layers": [
-      "SCOPE",
-      "VOCAB"
+      "SCOPE"
      ]
     },
     {
@@ -7488,11 +7418,11 @@
        "family": "이자계산·지급"
       },
       {
-       "layer": "VOCAB",
+       "layer": "SCOPE",
        "slot": "condition",
        "surface": "저축예금, 기업자유예금, 가계당좌예금",
-       "reason": "예금 종류(예금과목) 변수 없음",
-       "family": "기타"
+       "reason": "판별 범위 밖: 이자 결산·원가(지급) 시기",
+       "family": "이자계산·지급"
       },
       {
        "layer": "SCOPE",
@@ -7503,8 +7433,7 @@
       }
      ],
      "layers": [
-      "SCOPE",
-      "VOCAB"
+      "SCOPE"
      ]
     }
    ],
@@ -7783,10 +7712,10 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "STRUCTURE",
+       "layer": "CONVERTER",
        "slot": "CONDITIONAL_EFFECT.modifier",
        "surface": "신규일로부터 최초 3개월이 지난달의 15일까지는 우대요건 달성여부에 관계없이 우대혜택 제공",
-       "reason": "기본 조건 우회(요건 무관 제공 기간) 결합 구조 없음",
+       "reason": "변환기 칸 구조 한계: 기본 조건 우회(요건 무관 제공 기간) 결합 구조 없음",
        "family": "규칙간관계·예외"
       },
       {
@@ -7797,16 +7726,17 @@
        "family": "거래실적·이벤트"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "effect",
        "surface": "SET_VALUE::우대혜택",
-       "reason": "부가서비스·제휴혜택 제공 대상 코드 없음",
+       "reason": "우대 혜택 내용 미특정(효과 종류 불명)",
        "family": "부가서비스·제휴"
       }
      ],
      "layers": [
       "STRUCTURE",
-      "VOCAB"
+      "VOCAB",
+      "CONVERTER"
      ]
     }
    ],
@@ -8325,25 +8255,13 @@
         "quote": "1. 대상: 이 통장의 가입 고객\n2. 우대기간: 이 통장의 가입 후 최초 3개월간"
        },
        "condition": {
-        "and": [
+        "<": [
          {
-          "==": [
-           {
-            "var": "customer.has_product"
-           },
-           true
-          ]
+          "var": "contract.reference_date"
          },
          {
-          "<": [
-           {
-            "var": "contract.reference_date"
-           },
-           {
-            "anchor": "contract.start_date",
-            "offset_months": 3
-           }
-          ]
+          "anchor": "contract.start_date",
+          "offset_months": 3
          }
         ]
        },
@@ -8380,27 +8298,19 @@
    "document_name": "신한G1(지원)금거래계좌 상품설명서",
    "section_path": "섹션2/항목20",
    "status": "RULES_FOUND",
-   "outcome": "NONE_CONVERTED",
+   "outcome": "NOT_A_RULE",
    "units": [
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
+     "outcome": "NOT_A_RULE",
      "rules": [],
-     "not_rule": [],
-     "n_effects": 1,
-     "n_blocked_effects": 1,
-     "blockers": [
-      {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "ALLOW::기타 증권거래예금으로 전환",
-       "reason": "상품 전환 허용·제한 효과 없음",
-       "family": "상품전환·재예치"
-      }
+     "not_rule": [
+      "허용 서술: 제약 없음"
      ],
-     "layers": [
-      "VOCAB"
-     ]
+     "n_effects": 1,
+     "n_blocked_effects": 0,
+     "blockers": [],
+     "layers": []
     }
    ],
    "blockers": []
@@ -8535,13 +8445,6 @@
        "surface": "1회 (10)억",
        "reason": "전자금융 이체한도(1회·1일)",
        "family": "거래제한·금지"
-      },
-      {
-       "layer": "SCOPE",
-       "slot": "constraint",
-       "surface": "1일 (제한없음)억",
-       "reason": "전자금융 이체한도(1회·1일)",
-       "family": "거래제한·금지"
       }
      ],
      "layers": [
@@ -8617,13 +8520,6 @@
        "surface": "제 11조에서 정한 우대이자율을 지급하는 경우",
        "reason": "다른 약관·조문 참조",
        "family": "규칙간관계·예외"
-      },
-      {
-       "layer": "STRUCTURE",
-       "slot": "effect",
-       "surface": "ADD_VALUE::제 ①항의 이자율",
-       "reason": "금리 값이 문서 안의 수가 아니다 (게시값 참조 · 계산식)",
-       "family": "금리·이율값"
       }
      ],
      "layers": [
@@ -8828,23 +8724,15 @@
    "units": [
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
+     "outcome": "NOT_A_RULE",
      "rules": [],
-     "not_rule": [],
-     "n_effects": 1,
-     "n_blocked_effects": 1,
-     "blockers": [
-      {
-       "layer": "STRUCTURE",
-       "slot": "effect",
-       "surface": "APPLY_VALUE::거래",
-       "reason": "다른 약관·조문 참조",
-       "family": "규칙간관계·예외"
-      }
+     "not_rule": [
+      "허용 서술: 보충 약관 적용 순서"
      ],
-     "layers": [
-      "STRUCTURE"
-     ]
+     "n_effects": 1,
+     "n_blocked_effects": 0,
+     "blockers": [],
+     "layers": []
     },
     {
      "form": "CONDITIONAL_EFFECT",
@@ -8860,18 +8748,10 @@
        "surface": "전자금융거래",
        "reason": "타 약관 준용 안내(약관 적용 범위)",
        "family": "규칙간관계·예외"
-      },
-      {
-       "layer": "STRUCTURE",
-       "slot": "effect",
-       "surface": "APPLY_VALUE::사항",
-       "reason": "다른 약관·조문 참조",
-       "family": "규칙간관계·예외"
       }
      ],
      "layers": [
-      "SCOPE",
-      "STRUCTURE"
+      "SCOPE"
      ]
     }
    ],
@@ -8906,13 +8786,6 @@
      "n_effects": 1,
      "n_blocked_effects": 1,
      "blockers": [
-      {
-       "layer": "SCOPE",
-       "slot": "CONDITIONAL_EFFECT.scope",
-       "surface": "계약기간동안",
-       "reason": "판별 범위 밖: 이자 계산 기간(이율 적용 구간)",
-       "family": "이자계산·지급"
-      },
       {
        "layer": "SCOPE",
        "slot": "effect",
@@ -9042,10 +8915,10 @@
        "family": "세금·비과세"
       },
       {
-       "layer": "VOCAB",
+       "layer": "SCOPE",
        "slot": "condition",
        "surface": "특별중도해지",
-       "reason": "특별중도해지 사유 변수 없음",
+       "reason": "판별 범위 밖: 세금·비과세",
        "family": "해지·중도해지"
       },
       {
@@ -9057,8 +8930,7 @@
       }
      ],
      "layers": [
-      "SCOPE",
-      "VOCAB"
+      "SCOPE"
      ]
     }
    ],
@@ -9185,27 +9057,19 @@
    "document_name": "신한 플랫폼 적금 특약",
    "section_path": "제1조",
    "status": "RULES_FOUND",
-   "outcome": "NONE_CONVERTED",
+   "outcome": "NOT_A_RULE",
    "units": [
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
+     "outcome": "NOT_A_RULE",
      "rules": [],
-     "not_rule": [],
-     "n_effects": 1,
-     "n_blocked_effects": 1,
-     "blockers": [
-      {
-       "layer": "STRUCTURE",
-       "slot": "effect",
-       "surface": "APPLY_VALUE::거래",
-       "reason": "다른 약관·조문 참조",
-       "family": "규칙간관계·예외"
-      }
+     "not_rule": [
+      "허용 서술: 보충 약관 적용 순서"
      ],
-     "layers": [
-      "STRUCTURE"
-     ]
+     "n_effects": 1,
+     "n_blocked_effects": 0,
+     "blockers": [],
+     "layers": []
     }
    ],
    "blockers": []
@@ -10202,27 +10066,19 @@
    "document_name": "신한 S드림(DREAM)적금 특약",
    "section_path": "제1조",
    "status": "RULES_FOUND",
-   "outcome": "NONE_CONVERTED",
+   "outcome": "NOT_A_RULE",
    "units": [
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
+     "outcome": "NOT_A_RULE",
      "rules": [],
-     "not_rule": [],
-     "n_effects": 1,
-     "n_blocked_effects": 1,
-     "blockers": [
-      {
-       "layer": "STRUCTURE",
-       "slot": "effect",
-       "surface": "APPLY_VALUE::거래",
-       "reason": "다른 약관·조문 참조",
-       "family": "규칙간관계·예외"
-      }
+     "not_rule": [
+      "허용 서술: 보충 약관 적용 순서"
      ],
-     "layers": [
-      "STRUCTURE"
-     ]
+     "n_effects": 1,
+     "n_blocked_effects": 0,
+     "blockers": [],
+     "layers": []
     }
    ],
    "blockers": []
@@ -10498,6 +10354,13 @@
        "surface": "부기명으로 등록된 아동",
        "reason": "부기명(수혜 아동) 등록 변수 없음",
        "family": "명의·서류·절차"
+      },
+      {
+       "layer": "VOCAB",
+       "slot": "effect",
+       "surface": "APPLY_VALUE::이율",
+       "reason": "문맥 의존 적용 이율(기본금리 · 만기후이율 구별 불가)",
+       "family": "금리·이율값"
       }
      ],
      "layers": [
@@ -10533,10 +10396,17 @@
        "family": "이자계산·지급"
       },
       {
-       "layer": "VOCAB",
+       "layer": "SCOPE",
        "slot": "condition",
        "surface": "변동금리를 적용하는 예금",
-       "reason": "금리 유형(변동·고정) 변수 없음",
+       "reason": "판별 범위 밖: 이자 계산 기간(이율 적용 구간)",
+       "family": "금리·이율값"
+      },
+      {
+       "layer": "VOCAB",
+       "slot": "effect",
+       "surface": "APPLY_VALUE::이율",
+       "reason": "문맥 의존 적용 이율(기본금리 · 만기후이율 구별 불가)",
        "family": "금리·이율값"
       }
      ],
@@ -11002,27 +10872,19 @@
    "document_name": "신한 My플러스 정기예금 특약",
    "section_path": "제1조",
    "status": "RULES_FOUND",
-   "outcome": "NONE_CONVERTED",
+   "outcome": "NOT_A_RULE",
    "units": [
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
+     "outcome": "NOT_A_RULE",
      "rules": [],
-     "not_rule": [],
-     "n_effects": 1,
-     "n_blocked_effects": 1,
-     "blockers": [
-      {
-       "layer": "STRUCTURE",
-       "slot": "effect",
-       "surface": "APPLY_VALUE::거래",
-       "reason": "다른 약관·조문 참조",
-       "family": "규칙간관계·예외"
-      }
+     "not_rule": [
+      "허용 서술: 보충 약관 적용 순서"
      ],
-     "layers": [
-      "STRUCTURE"
-     ]
+     "n_effects": 1,
+     "n_blocked_effects": 0,
+     "blockers": [],
+     "layers": []
     }
    ],
    "blockers": []
@@ -11129,17 +10991,9 @@
        "surface": "금리우대쿠폰을 발급받은 고객",
        "reason": "금리우대쿠폰 보유 여부 변수 없음",
        "family": "금리·이율값"
-      },
-      {
-       "layer": "STRUCTURE",
-       "slot": "effect",
-       "surface": "ADD_VALUE::만기이자율",
-       "reason": "적용금리 산식(금리 합산 구성) 없음",
-       "family": "금리·이율값"
       }
      ],
      "layers": [
-      "STRUCTURE",
       "VOCAB"
      ]
     }
@@ -11393,10 +11247,10 @@
      "n_blocked_effects": 5,
      "blockers": [
       {
-       "layer": "STRUCTURE",
+       "layer": "CONVERTER",
        "slot": "CONDITIONAL_EFFECT.modifier",
        "surface": "이 통장의 가입(또는 전환)일부터 다음 다음 달 10일까지는 거래 실적에 관계없이 면제",
-       "reason": "기본 조건 우회(요건 무관 제공 기간) 결합 구조 없음",
+       "reason": "변환기 칸 구조 한계: 실적 무관 면제 기간을 별도 rule 로 내야 한다",
        "family": "규칙간관계·예외"
       },
       {
@@ -11430,7 +11284,8 @@
      ],
      "layers": [
       "STRUCTURE",
-      "VOCAB"
+      "VOCAB",
+      "CONVERTER"
      ]
     }
    ],
@@ -11765,24 +11620,24 @@
        "family": "이자계산·지급"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "selector",
        "surface": "결산일 전월 말일 기준 직전 3개월 동안 입금된 건수",
-       "reason": "결산일 변수(결산일 기준 기간 창) 없음",
+       "reason": "결산일(특정 월 n째 요일) 날짜 계산 없음",
        "family": "날짜·영업일"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "selector",
        "surface": "결산일 전월 말일 기준 직전 3개월 동안 입금된 건수",
-       "reason": "결산일 변수(결산일 기준 기간 창) 없음",
+       "reason": "결산일(특정 월 n째 요일) 날짜 계산 없음",
        "family": "날짜·영업일"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "selector",
        "surface": "결산일 전월 말일 기준 직전 3개월 동안 입금된 건수",
-       "reason": "결산일 변수(결산일 기준 기간 창) 없음",
+       "reason": "결산일(특정 월 n째 요일) 날짜 계산 없음",
        "family": "날짜·영업일"
       },
       {
@@ -11810,8 +11665,7 @@
      "layers": [
       "SOURCE",
       "SCOPE",
-      "STRUCTURE",
-      "VOCAB"
+      "STRUCTURE"
      ]
     },
     {
@@ -12355,11 +12209,11 @@
      "n_blocked_effects": 2,
      "blockers": [
       {
-       "layer": "STRUCTURE",
+       "layer": "VOCAB",
        "slot": "SELECTOR.modifier",
        "surface": "①과② 모두 충족시에도 최대 연 0.5%p",
-       "reason": "우대금리 합산 상한(최대 우대폭) 없음",
-       "family": "금리·이율값"
+       "reason": "가입(재예치) 시점 나이 변수 없음",
+       "family": "가입자격"
       },
       {
        "layer": "VOCAB",
@@ -12377,7 +12231,6 @@
       }
      ],
      "layers": [
-      "STRUCTURE",
       "VOCAB"
      ]
     }
@@ -12426,15 +12279,23 @@
    "units": [
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "NOT_A_RULE",
+     "outcome": "BLOCKED",
      "rules": [],
-     "not_rule": [
-      "상품 설정: base_rate"
-     ],
+     "not_rule": [],
      "n_effects": 1,
-     "n_blocked_effects": 0,
-     "blockers": [],
-     "layers": []
+     "n_blocked_effects": 1,
+     "blockers": [
+      {
+       "layer": "VOCAB",
+       "slot": "effect",
+       "surface": "APPLY_VALUE::이율",
+       "reason": "문맥 의존 적용 이율(기본금리 · 만기후이율 구별 불가)",
+       "family": "금리·이율값"
+      }
+     ],
+     "layers": [
+      "VOCAB"
+     ]
     },
     {
      "form": "CONDITIONAL_EFFECT",
@@ -12502,13 +12363,6 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "SCOPE",
-       "slot": "CONDITIONAL_EFFECT.scope",
-       "surface": "계약기간 동안",
-       "reason": "판별 범위 밖: 이자 계산 기간(이율 적용 구간)",
-       "family": "이자계산·지급"
-      },
-      {
        "layer": "VOCAB",
        "slot": "condition",
        "surface": "신규가입일로부터 3개월이 경과한 날이 속한 달의 급여이체실적",
@@ -12531,7 +12385,6 @@
       }
      ],
      "layers": [
-      "SCOPE",
       "STRUCTURE",
       "VOCAB"
      ]
@@ -12557,10 +12410,10 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "CONSTRAINT.scope",
        "surface": "만기 1개월 전까지",
-       "reason": "적금 저축(납입) 거래 단위 제약 없음",
+       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
        "family": "가입금액·한도"
       },
       {
@@ -12573,21 +12426,13 @@
       {
        "layer": "STRUCTURE",
        "slot": "constraint",
-       "surface": "원단위",
-       "reason": "금액 단위(배수) 요건 없음",
-       "family": "가입금액·한도"
-      },
-      {
-       "layer": "STRUCTURE",
-       "slot": "constraint",
        "surface": "매월(월 초일부터 말일까지) 3백만원 이내",
        "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
        "family": "가입금액·한도"
       }
      ],
      "layers": [
-      "STRUCTURE",
-      "VOCAB"
+      "STRUCTURE"
      ]
     }
    ],
@@ -12604,47 +12449,23 @@
    "units": [
     {
      "form": "CONSTRAINT",
-     "outcome": "CONVERTED",
-     "rules": [
-      {
-       "rule_id": "dev-319-U01-01",
-       "status": "OK",
-       "label": "CONSTRAINT · 가입대상",
-       "source": {
-        "quote": "가입대상\n실명의 개인 (1인 1계좌) ※ 개인사업자, 임의단체 및 공동명의 가입 불가(서류 미제출 임의단체 가입 가능)"
-       },
-       "condition": {
-        "not": {
-         "and": [
-          {
-           "==": [
-            {
-             "var": "customer.holder_type"
-            },
-            "INDIVIDUAL"
-           ]
-          },
-          {
-           "==": [
-            {
-             "var": "customer.has_product"
-            },
-            false
-           ]
-          }
-         ]
-        }
-       },
-       "effect": {
-        "type": "DISQUALIFY"
-       }
-      }
-     ],
+     "outcome": "BLOCKED",
+     "rules": [],
      "not_rule": [],
      "n_effects": 1,
-     "n_blocked_effects": 0,
-     "blockers": [],
-     "layers": []
+     "n_blocked_effects": 1,
+     "blockers": [
+      {
+       "layer": "VOCAB",
+       "slot": "constraint",
+       "surface": "실명의 개인",
+       "reason": "'실명의 개인' 의 명의 유형 범위 미정 — 사람 확인 대기",
+       "family": "가입자격"
+      }
+     ],
+     "layers": [
+      "VOCAB"
+     ]
     },
     {
      "form": "CONDITIONAL_EFFECT",
@@ -12919,13 +12740,6 @@
      "n_effects": 1,
      "n_blocked_effects": 1,
      "blockers": [
-      {
-       "layer": "SCOPE",
-       "slot": "CONDITIONAL_EFFECT.scope",
-       "surface": "계약기간 동안",
-       "reason": "판별 범위 밖: 이자 계산 기간(이율 적용 구간)",
-       "family": "이자계산·지급"
-      },
       {
        "layer": "SCOPE",
        "slot": "effect",
@@ -13322,10 +13136,10 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "VOCAB",
+       "layer": "SCOPE",
        "slot": "CONSTRAINT.modifier",
        "surface": "거래처가 은행(다른 은행 포함)과 직접 거래할 때에는 발행한도액을 초과하여 발행할 수 있습니다",
-       "reason": "가계수표 발행 거래·발행한도 없음",
+       "reason": "가계수표 발행한도",
        "family": "거래제한·금지"
       },
       {
@@ -13337,8 +13151,7 @@
       }
      ],
      "layers": [
-      "SCOPE",
-      "VOCAB"
+      "SCOPE"
      ]
     },
     {
@@ -13501,8 +13314,8 @@
       {
        "layer": "SCOPE",
        "slot": "effect",
-       "surface": "예금이자",
-       "reason": "판별 범위 밖: 계산식 (이자·금액 산출)",
+       "surface": "SET_VALUE::예금이자",
+       "reason": "판별 범위 밖: 이자 계산·지급",
        "family": "이자계산·지급"
       }
      ],
@@ -14105,9 +13918,9 @@
       {
        "layer": "STRUCTURE",
        "slot": "constraint",
-       "surface": "월단위",
-       "reason": "기간 단위(월단위·연단위) 요건 없음",
-       "family": "계약기간·만기"
+       "surface": "계약기간",
+       "reason": "묶음 안에 규칙인 제약과 절차가 섞였다",
+       "family": null
       }
      ],
      "layers": [
@@ -14366,10 +14179,10 @@
        "family": "거래실적·이벤트"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "condition",
        "surface": "신규부터 만기까지 총 납입 회차의 90% 이상 달성 시",
-       "reason": "적금 납입 회차·완납 여부 없음",
+       "reason": "납입 회차 달성률(약정 회차 대비) 집계 없음",
        "family": "거래실적·이벤트"
       },
       {
@@ -15021,23 +14834,15 @@
     },
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
+     "outcome": "NOT_A_RULE",
      "rules": [],
-     "not_rule": [],
-     "n_effects": 1,
-     "n_blocked_effects": 1,
-     "blockers": [
-      {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "ALLOW::양도",
-       "reason": "양도 허용·제한 대상 코드 없음",
-       "family": "거래제한·금지"
-      }
+     "not_rule": [
+      "허용 서술: 제약 없음"
      ],
-     "layers": [
-      "VOCAB"
-     ]
+     "n_effects": 1,
+     "n_blocked_effects": 0,
+     "blockers": [],
+     "layers": []
     },
     {
      "form": "CONDITIONAL_EFFECT",

@@ -70,12 +70,13 @@ def test_dormancy_gold_is_ok(cid, rid):
 
 @pytest.mark.parametrize("cid,rid", PAIR)
 def test_five_years_without_termination_is_needed(cid, rid):
+    # 2026-09-18 Claude 2차 검토: 초일불산입 — 기념일 당일까지 5년 안이라 다음 날부터 걸린다
     r = [_rule(cid, rid)]
-    hit = resolve(evaluate_rules(r, _ctx("2031-09-11", "2026-09-11")), "SUM", base_rate=0.1)
+    hit = resolve(evaluate_rules(r, _ctx("2031-09-12", "2026-09-11")), "SUM", base_rate=0.1)
     assert [e["type"] for e in hit.other_effects] == ["DORMANT_CONTRIBUTION"]
     assert hit.final_rate_max == "0.10", "출연 대상이 되어도 금리는 그대로다"
-    early = resolve(evaluate_rules(r, _ctx("2031-09-10", "2026-09-11")), "SUM")
-    closed = resolve(evaluate_rules(r, _ctx("2031-09-11", "2026-09-11", terminated=True)), "SUM")
+    early = resolve(evaluate_rules(r, _ctx("2031-09-11", "2026-09-11")), "SUM")
+    closed = resolve(evaluate_rules(r, _ctx("2031-09-12", "2026-09-11", terminated=True)), "SUM")
     assert early.other_effects == [] and closed.other_effects == []
 
 

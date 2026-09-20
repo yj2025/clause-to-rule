@@ -24,5 +24,11 @@
   "question": "5. 금리 상한 자리",
   "choice": "가 · 합산 설정 — 빈 배열 유지",
   "note": "사람 확인 전 임시 확정. DECISIONS.md 의 임시 확정 표."
+ },
+ "claude_review": {
+  "verdict": "맞음",
+  "agent": "승인",
+  "reason": "최저~최고 금리는 합산 결과 서술(결정 5, aggregation). 빈 배열.",
+  "at": "2026-09-18"
  }
 }

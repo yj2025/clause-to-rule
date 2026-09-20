@@ -24,5 +24,11 @@
   "question": "4. 기본금리 자리",
   "choice": "가 · 상품 설정 base_rate — 빈 배열 유지",
   "note": "사람 확인 전 임시 확정. DECISIONS.md 의 임시 확정 표."
+ },
+ "claude_review": {
+  "verdict": "맞음",
+  "agent": "승인",
+  "reason": "연 0.10% 는 base_rate(결정 4 임시 확정). ※ 고시 기본이율 줄도 base_rate 설명이라 빈 배열이 맞다.",
+  "at": "2026-09-18"
  }
 }

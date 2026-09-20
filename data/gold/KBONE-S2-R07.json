@@ -30,5 +30,11 @@
   ],
   "result": "바뀐 것 없음",
   "note": "사람 검토가 아니다. 12조문 검토에서 정해진 원칙을 적용해 훑었고 어긋나는 것이 없었다. 판정이 맞다는 뜻이 아니라 '정해진 원칙과 모순되지 않는다' 는 뜻이다."
+ },
+ "claude_review": {
+  "verdict": "맞음",
+  "agent": "승인",
+  "reason": "실질 규칙은 잔여횟수 이월 불가 하나이고 FEE_WAIVE_NO_CARRYOVER, 조건 {}, target 생략(모든 면제)이 조문과 맞는다. 도식은 예시라 R08/R09 소관. 인용문 일치. 참고: 검토표의 dir 가 \"혜택\" 으로 나오는데 review_data.py 의 _HARM 집합에 FEE_WAIVE_NO_CARRYOVER 가 빠져서 생긴 표시 오류이고 gold 자체와는 무관하다(DECISIONS 표는 불이익).",
+  "at": "2026-09-18"
  }
 }

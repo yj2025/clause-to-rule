@@ -44,7 +44,8 @@ def check_entry(kind, key, e):
         return [f"{kind}[{key}]: 객체가 아니다"]
     if "gap" in e:
         errs = []
-        if e.get("layer", "VOCAB") not in ("VOCAB", "STRUCTURE", "SCOPE"):
+        # CONVERTER: 카탈로그 · DSL 에는 있는데 변환기의 칸 구조가 못 옮긴다 (2026-09-18 2차 검토)
+        if e.get("layer", "VOCAB") not in ("VOCAB", "STRUCTURE", "SCOPE", "CONVERTER"):
             errs.append(f"{kind}[{key}]: gap 의 layer 가 아니다: {e.get('layer')}")
         if e.get("family") not in semconv.FAMILIES:
             errs.append(f"{kind}[{key}]: family 가 목록에 없다: {e.get('family')}")

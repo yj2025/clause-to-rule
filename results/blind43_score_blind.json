@@ -1,0 +1,1908 @@
+{
+ "profiles": 1024,
+ "tags": {
+  "e3": {
+   "meta": {
+    "tag": "e3",
+    "model": "Qwen/Qwen3.5-9B",
+    "model_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "adapter": "adapters/e3",
+    "adapter_sha256": "062f285e2acd75259f48245a87e50c4e47cac1e87c94cf920f5eb0f4a613c755",
+    "notebook_sha256": "b45a5affd766a85bc6f149ab66c5a404eb2ec97d9e3b3d11c3bae4764c0426a5",
+    "packets_sha256": "8d83e25e8af323707a013b280bdfd6ce570273a7c134b67c09265666d5d55d37",
+    "generation": {
+     "do_sample": false,
+     "max_new_tokens": 6144,
+     "quant": "4bit nf4 double · compute fp16",
+     "attn": "eager",
+     "enable_thinking": false
+    },
+    "versions": {
+     "transformers": "5.18.0.dev0",
+     "peft": "0.20.0",
+     "torch": "2.12.1+cu126"
+    },
+    "git": "1c3e156"
+   },
+   "summary": {
+    "전체": {
+     "n": 43,
+     "parse": 0.9767441860465116,
+     "shape": 0.9767441860465116,
+     "truncated": 0,
+     "grounding": 0.9641095338769757,
+     "status": {
+      "NO_EXECUTABLE_RULE": 3,
+      "RULES_FOUND": 39,
+      "null": 1
+     },
+     "declaration_match": 0.9069767441860465,
+     "declaration_table": {
+      "gold 빈 / 모델 빈": 8,
+      "gold 규칙 / 모델 규칙": 31,
+      "gold 빈 / 모델 규칙": 3,
+      "gold 규칙 / 모델 판정불가": 1
+     },
+     "convert": {
+      "EMPTY": 3,
+      "ALL_CONVERTED": 4,
+      "NONE_CONVERTED": 26,
+      "NOT_A_RULE": 5,
+      "변환 안 됨": 1,
+      "SOME_CONVERTED": 4
+     },
+     "blockers": {
+      "STRUCTURE": 17,
+      "VOCAB": 30,
+      "UNLABELED": 10,
+      "SCOPE": 46,
+      "CONVERTER": 3
+     },
+     "rules": 10,
+     "exec_n": 8,
+     "exec": 1.0,
+     "exec_empty_baseline": 0.375
+    },
+    "SEEN_TRAIN": {
+     "n": 8,
+     "parse": 1.0,
+     "shape": 1.0,
+     "truncated": 0,
+     "grounding": 0.9821428571428571,
+     "status": {
+      "NO_EXECUTABLE_RULE": 1,
+      "RULES_FOUND": 7
+     },
+     "declaration_match": 0.875,
+     "declaration_table": {
+      "gold 빈 / 모델 빈": 1,
+      "gold 규칙 / 모델 규칙": 6,
+      "gold 빈 / 모델 규칙": 1
+     },
+     "convert": {
+      "EMPTY": 1,
+      "NONE_CONVERTED": 6,
+      "SOME_CONVERTED": 1
+     },
+     "blockers": {
+      "SCOPE": 10,
+      "VOCAB": 15
+     },
+     "rules": 1,
+     "exec_n": 1,
+     "exec": 1.0,
+     "exec_empty_baseline": 1.0
+    },
+    "NEAR_TRAIN": {
+     "n": 9,
+     "parse": 1.0,
+     "shape": 1.0,
+     "truncated": 0,
+     "grounding": 0.9814814814814815,
+     "status": {
+      "RULES_FOUND": 9
+     },
+     "declaration_match": 0.8888888888888888,
+     "declaration_table": {
+      "gold 빈 / 모델 규칙": 1,
+      "gold 빈 / 모델 빈": 2,
+      "gold 규칙 / 모델 규칙": 6
+     },
+     "convert": {
+      "NONE_CONVERTED": 6,
+      "NOT_A_RULE": 2,
+      "ALL_CONVERTED": 1
+     },
+     "blockers": {
+      "STRUCTURE": 2,
+      "SCOPE": 15,
+      "VOCAB": 1,
+      "CONVERTER": 1
+     },
+     "rules": 1,
+     "exec_n": 1,
+     "exec": 1.0,
+     "exec_empty_baseline": 0.0
+    },
+    "NEW": {
+     "n": 26,
+     "parse": 0.9615384615384616,
+     "shape": 0.9615384615384616,
+     "truncated": 0,
+     "grounding": 0.9525474525474524,
+     "status": {
+      "NO_EXECUTABLE_RULE": 2,
+      "RULES_FOUND": 23,
+      "null": 1
+     },
+     "declaration_match": 0.9230769230769231,
+     "declaration_table": {
+      "gold 빈 / 모델 빈": 5,
+      "gold 규칙 / 모델 규칙": 19,
+      "gold 규칙 / 모델 판정불가": 1,
+      "gold 빈 / 모델 규칙": 1
+     },
+     "convert": {
+      "EMPTY": 2,
+      "ALL_CONVERTED": 3,
+      "NONE_CONVERTED": 14,
+      "NOT_A_RULE": 3,
+      "변환 안 됨": 1,
+      "SOME_CONVERTED": 3
+     },
+     "blockers": {
+      "VOCAB": 14,
+      "STRUCTURE": 15,
+      "UNLABELED": 10,
+      "SCOPE": 21,
+      "CONVERTER": 2
+     },
+     "rules": 8,
+     "exec_n": 6,
+     "exec": 1.0,
+     "exec_empty_baseline": 0.3333333333333333
+    }
+   },
+   "records": [
+    {
+     "sample_id": "KBYY-S1-P01",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "NO_EXECUTABLE_RULE",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": true,
+     "convert_error": null,
+     "convert_outcome": "EMPTY",
+     "layers": {},
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R01",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "ALL_CONVERTED",
+     "layers": {},
+     "rules": [
+      {
+       "rule_id": "P-U01-01",
+       "status": "OK",
+       "label": "CONSTRAINT · 가입대상",
+       "source": {
+        "quote": "가입대상\n▪ 만 19세 미만 실명의 개인 ※ 개인사업자 및 서류미제출 임의단체, 공동명의 가입 불가 ※「KB Young Youth 청소년통장」을 포함하여 1인 1계좌"
+       },
+       "condition": {
+        "not": {
+         "and": [
+          {
+           "and": [
+            {
+             "<": [
+              {
+               "var": "customer.age"
+              },
+              19
+             ]
+            },
+            {
+             "==": [
+              {
+               "var": "customer.holder_type"
+              },
+              "INDIVIDUAL"
+             ]
+            }
+           ]
+          },
+          {
+           "not": {
+            "in": [
+             {
+              "var": "customer.holder_type"
+             },
+             [
+              "SOLE_PROPRIETOR",
+              "UNREGISTERED_ASSOCIATION",
+              "JOINT"
+             ]
+            ]
+           }
+          },
+          {
+           "==": [
+            {
+             "var": "customer.has_product"
+            },
+            false
+           ]
+          }
+         ]
+        }
+       },
+       "effect": {
+        "type": "DISQUALIFY"
+       }
+      }
+     ],
+     "declaration_match": true,
+     "exec": 1.0,
+     "exec_empty_baseline": 0.25
+    },
+    {
+     "sample_id": "KBYY-S2-R02",
+     "novelty": "NEAR_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "STRUCTURE": 1
+     },
+     "rules": [],
+     "declaration_match": false
+    },
+    {
+     "sample_id": "KBYY-S2-R03",
+     "novelty": "SEEN_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "NO_EXECUTABLE_RULE",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": true,
+     "convert_error": null,
+     "convert_outcome": "EMPTY",
+     "layers": {},
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R04",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "VOCAB": 2,
+      "STRUCTURE": 1
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R05",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "VOCAB": 1
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R06",
+     "novelty": "NEAR_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": true,
+     "convert_error": null,
+     "convert_outcome": "NOT_A_RULE",
+     "layers": {},
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R07",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 3
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R08",
+     "novelty": "NEAR_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 0.8333333333333334,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "SCOPE": 6
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R09",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "SCOPE": 6
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R10",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": true,
+     "convert_error": null,
+     "convert_outcome": "NOT_A_RULE",
+     "layers": {},
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R12",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": false,
+     "shape": false,
+     "grounding": 0.0,
+     "status": null,
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": null,
+     "convert_error": "v1.1 모양이 아니다",
+     "convert_outcome": null,
+     "layers": {},
+     "rules": [],
+     "declaration_match": false
+    },
+    {
+     "sample_id": "KBYY-S2-R13",
+     "novelty": "SEEN_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "SCOPE": 2
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R14",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": true,
+     "convert_error": null,
+     "convert_outcome": "NOT_A_RULE",
+     "layers": {},
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R15",
+     "novelty": "NEAR_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": true,
+     "convert_error": null,
+     "convert_outcome": "NOT_A_RULE",
+     "layers": {},
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R16",
+     "novelty": "NEAR_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "ALL_CONVERTED",
+     "layers": {},
+     "rules": [
+      {
+       "rule_id": "P-U01-01",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 질권설정",
+       "source": {
+        "quote": "질권설정\n▪ 불가"
+       },
+       "condition": {},
+       "effect": {
+        "type": "RESTRICT",
+        "target": "PLEDGE"
+       }
+      }
+     ],
+     "declaration_match": true,
+     "exec": 1.0,
+     "exec_empty_baseline": 0.0
+    },
+    {
+     "sample_id": "KBYY-S2-R17",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "ALL_CONVERTED",
+     "layers": {},
+     "rules": [
+      {
+       "rule_id": "P-U01-01",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 양도 및 상속에 의한 명의변경",
+       "source": {
+        "quote": "양도 및 담보제공\n▪ 양도 및 상속에 의한 명의변경 불가능 ▪ 담보제공 불가능"
+       },
+       "condition": {},
+       "effect": {
+        "type": "RESTRICT",
+        "target": "NAME_CHANGE"
+       }
+      },
+      {
+       "rule_id": "P-U01-02",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 담보제공",
+       "source": {
+        "quote": "양도 및 담보제공\n▪ 양도 및 상속에 의한 명의변경 불가능 ▪ 담보제공 불가능"
+       },
+       "condition": {},
+       "effect": {
+        "type": "RESTRICT",
+        "target": "PLEDGE"
+       }
+      }
+     ],
+     "declaration_match": true,
+     "exec": 1.0,
+     "exec_empty_baseline": 0.0
+    },
+    {
+     "sample_id": "KBYY-S2-R18",
+     "novelty": "SEEN_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "VOCAB": 6
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S2-R19",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "SOME_CONVERTED",
+     "layers": {
+      "SCOPE": 1
+     },
+     "rules": [
+      {
+       "rule_id": "P-U01-01",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 입출금, 잔액조회, 이관 등의 거래",
+       "source": {
+        "quote": "거래중지\n▪ 다음의 경우에 해당하는 경우 입출금, 잔액조회, 이관 등의 거래 제한 (가) 예금잔액이 10,000원 미만이며, 1년 이상 입출금 거래가 없는 계좌 (나) 예금잔액이 10,000원 이상 50,000원 미만이며, 2년 이상 입출금 거래가 없는 계좌 (다) 예금잔액이 50,000원 이상 100,000원 미만이며, 3년 이상 입출금 거래가 없는 계좌 ☞ 무거래기간 산정기준: 입출금 거래 또는 명의변경 거래 최종 발생일로 부터 산정 ▪ 편입시기: 연 2회(매년 6월, 12월 셋째 금요일 기준으로 다음날인 토요일에 편입) ▪ 거래를 다시 시작하고자 하는 경우에는 본인 확인 및 금융거래목적 확인 후 가능"
+       },
+       "condition": {
+        "or": [
+         {
+          "and": [
+           {
+            "<": [
+             {
+              "var": "account.balance"
+             },
+             10000
+            ]
+           },
+           {
+            "and": [
+             {
+              "not": {
+               "exists": {
+                "event": "DEPOSIT",
+                "within": {
+                 "ref": "$y1"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "WITHDRAWAL",
+                "within": {
+                 "ref": "$y1"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "SALARY_TRANSFER",
+                "within": {
+                 "ref": "$y1"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "AUTO_TRANSFER",
+                "within": {
+                 "ref": "$y1"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "PENSION_RECEIPT",
+                "within": {
+                 "ref": "$y1"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "NAME_CHANGE",
+                "within": {
+                 "ref": "$y1"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "CARD_USAGE",
+                "within": {
+                 "ref": "$y1"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "FX_TRANSACTION",
+                "within": {
+                 "ref": "$y1"
+                }
+               }
+              }
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "and": [
+           {
+            "and": [
+             {
+              ">=": [
+               {
+                "var": "account.balance"
+               },
+               10000
+              ]
+             },
+             {
+              "<": [
+               {
+                "var": "account.balance"
+               },
+               50000
+              ]
+             }
+            ]
+           },
+           {
+            "and": [
+             {
+              "not": {
+               "exists": {
+                "event": "DEPOSIT",
+                "within": {
+                 "ref": "$y2"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "WITHDRAWAL",
+                "within": {
+                 "ref": "$y2"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "SALARY_TRANSFER",
+                "within": {
+                 "ref": "$y2"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "AUTO_TRANSFER",
+                "within": {
+                 "ref": "$y2"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "PENSION_RECEIPT",
+                "within": {
+                 "ref": "$y2"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "NAME_CHANGE",
+                "within": {
+                 "ref": "$y2"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "CARD_USAGE",
+                "within": {
+                 "ref": "$y2"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "FX_TRANSACTION",
+                "within": {
+                 "ref": "$y2"
+                }
+               }
+              }
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "and": [
+           {
+            "and": [
+             {
+              ">=": [
+               {
+                "var": "account.balance"
+               },
+               50000
+              ]
+             },
+             {
+              "<": [
+               {
+                "var": "account.balance"
+               },
+               100000
+              ]
+             }
+            ]
+           },
+           {
+            "and": [
+             {
+              "not": {
+               "exists": {
+                "event": "DEPOSIT",
+                "within": {
+                 "ref": "$y3"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "WITHDRAWAL",
+                "within": {
+                 "ref": "$y3"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "SALARY_TRANSFER",
+                "within": {
+                 "ref": "$y3"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "AUTO_TRANSFER",
+                "within": {
+                 "ref": "$y3"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "PENSION_RECEIPT",
+                "within": {
+                 "ref": "$y3"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "NAME_CHANGE",
+                "within": {
+                 "ref": "$y3"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "CARD_USAGE",
+                "within": {
+                 "ref": "$y3"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "FX_TRANSACTION",
+                "within": {
+                 "ref": "$y3"
+                }
+               }
+              }
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "effect": {
+        "type": "RESTRICT",
+        "target": "ALL_TRANSACTIONS"
+       },
+       "let": {
+        "y1": {
+         "month_range": {
+          "from": {
+           "anchor": "contract.reference_date",
+           "offset_months": -12
+          },
+          "to": {
+           "anchor": "contract.reference_date",
+           "offset_months": 0
+          }
+         }
+        },
+        "y2": {
+         "month_range": {
+          "from": {
+           "anchor": "contract.reference_date",
+           "offset_months": -24
+          },
+          "to": {
+           "anchor": "contract.reference_date",
+           "offset_months": 0
+          }
+         }
+        },
+        "y3": {
+         "month_range": {
+          "from": {
+           "anchor": "contract.reference_date",
+           "offset_months": -36
+          },
+          "to": {
+           "anchor": "contract.reference_date",
+           "offset_months": 0
+          }
+         }
+        }
+       }
+      }
+     ],
+     "declaration_match": true,
+     "exec": 1.0,
+     "exec_empty_baseline": 0.875
+    },
+    {
+     "sample_id": "KBYY-S2-R20",
+     "novelty": "SEEN_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "SOME_CONVERTED",
+     "layers": {
+      "SCOPE": 1
+     },
+     "rules": [
+      {
+       "rule_id": "P-U01-01",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 휴면예금",
+       "source": {
+        "quote": "▪ 예금 만기일 또는 이자지급을 포함한 최종거래일 이후 5년 이내 계좌를 해지하지 않을 경우 예금거래기본약관 제9조의2 휴면예금 및 출연에 따라 휴면예금은 “서민금융진흥원(국번없이 1397)”에 출연주)될 수 있으며, 이 경우 서민금융진흥원을 통해 휴면예금을 찾으실 수 있습니다. 주) 출연: 어떤 사람이나 단체가 자기의 의사에 따라 돈을 내거나 의무를 부담함으로써 재산상의 손실을 입고 남의 재산을 증가시키는 일을 말합니다. 일반적으로 기부행위를 일컫는 말로 사용되나 법률적으로는 비영리재단법인에 재산을 무상으로 내는 행위를 뜻합니다. ▪ 휴면예금은 휴면예금통합조회서비스(www.sleepmoney.or.kr)를 통해 조회 가능합니다. ※ 계좌통합관리서비스 이용 시 사용하지 않는 소액계좌를 잔고 이전/해지 할 수 있으며, 휴면계좌 통합조회서비스 이용 시 휴면계좌 현황을 파악 할 수 있습니다."
+       },
+       "condition": {
+        "and": [
+         {
+          ">=": [
+           {
+            "var": "contract.reference_date"
+           },
+           {
+            "anchor": "account.last_transaction_date",
+            "offset_months": 60
+           }
+          ]
+         },
+         {
+          "not": {
+           "exists": {
+            "event": "TERMINATION"
+           }
+          }
+         }
+        ]
+       },
+       "effect": {
+        "type": "DORMANT_CONTRIBUTION"
+       }
+      }
+     ],
+     "declaration_match": true,
+     "exec": 1.0,
+     "exec_empty_baseline": 1.0
+    },
+    {
+     "sample_id": "KBYY-S2-R22",
+     "novelty": "SEEN_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "SCOPE": 5
+     },
+     "rules": [],
+     "declaration_match": false
+    },
+    {
+     "sample_id": "KBYY-S2-R23",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "일부 UNSUPPORTED",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "STRUCTURE": 3,
+      "SCOPE": 2,
+      "VOCAB": 2
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S3-R01",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "ALL_CONVERTED",
+     "layers": {},
+     "rules": [
+      {
+       "rule_id": "P-U01-01",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 무료체험프로그램 서비스(NE Times)",
+       "source": {
+        "quote": "▪ ㈜NE능률 교육서비스 KB Young Youth 통장 가입 고객에게는 이 상품에서 제공하는 전용 웹페이지를 통해 무료체험프로그램 서비스(NE Times)를 제공합니다. (고객별 1회) (아래 표 참조)"
+       },
+       "condition": {},
+       "effect": {
+        "type": "SERVICE_PROVIDE",
+        "target": "NE_TIMES_TRIAL",
+        "unit": "회",
+        "value": 1
+       }
+      }
+     ],
+     "declaration_match": true,
+     "exec": 1.0,
+     "exec_empty_baseline": 0.0
+    },
+    {
+     "sample_id": "KBYY-S3-R02",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 1
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S3-R03",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "SCOPE": 1
+     },
+     "rules": [],
+     "declaration_match": false
+    },
+    {
+     "sample_id": "KBYY-S3-R05",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 0.9090909090909091,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "SCOPE": 5
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S5-R01",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "VOCAB": 1
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S5-R02",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "CONVERTER": 1,
+      "VOCAB": 1,
+      "STRUCTURE": 2,
+      "UNLABELED": 4
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBYY-S5-R03",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "일부 UNSUPPORTED",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "UNLABELED": 2,
+      "VOCAB": 3,
+      "STRUCTURE": 9
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S1-P01",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "NO_EXECUTABLE_RULE",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": true,
+     "convert_error": null,
+     "convert_outcome": "EMPTY",
+     "layers": {},
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R01",
+     "novelty": "NEAR_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "VOCAB": 1,
+      "STRUCTURE": 1
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R03",
+     "novelty": "SEEN_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "VOCAB": 3
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R05",
+     "novelty": "NEAR_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "SCOPE": 8
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R06",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "SCOPE": 2
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R07",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "CONVERTER": 1,
+      "VOCAB": 1
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R10",
+     "novelty": "SEEN_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "SCOPE": 2
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R11",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "빈 배열",
+     "gold_empty": true,
+     "pred_empty": true,
+     "convert_error": null,
+     "convert_outcome": "NOT_A_RULE",
+     "layers": {},
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R12",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "VOCAB": 1
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R14",
+     "novelty": "NEAR_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "CONVERTER": 1
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R15",
+     "novelty": "SEEN_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 0.8571428571428571,
+     "status": "RULES_FOUND",
+     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "VOCAB": 6
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R16",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "SOME_CONVERTED",
+     "layers": {
+      "SCOPE": 2
+     },
+     "rules": [
+      {
+       "rule_id": "P-U01-01",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 입출금, 잔액조회, 이관 등의 거래",
+       "source": {
+        "quote": "거래중지\n▪ 다음의 경우에 해당하는 경우 입출금, 잔액조회, 이관 등의 거래 제한 (가) 예금잔액이 10,000원 미만이며, 1년이상 입출금거래가 없는 계좌 (나) 예금잔액이 10,000원 이상 50,000원 미만이며, 2년이상 입출금거래가 없는 계좌 (다) 예금잔액이 50,000원 이상 100,000원 미만이며, 3년이상 입출금거래가 없는 계좌 ☞ 무거래기간 산정기준 : 입출금 거래 또는 명의변경 거래 최종 발생일로 부터 산정 ▪ 편입시기 : 연2회(매년 6월, 12월 셋째 금요일 기준으로 익일인 토요일에 편입) ▪ 거래를 다시 시작하고자 하는 경우에는 본인 확인 및 금융거래 목적을 확인 한 후 가능"
+       },
+       "condition": {
+        "or": [
+         {
+          "and": [
+           {
+            "<": [
+             {
+              "var": "account.balance"
+             },
+             10000
+            ]
+           },
+           {
+            "and": [
+             {
+              "not": {
+               "exists": {
+                "event": "DEPOSIT",
+                "within": {
+                 "ref": "$y1"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "WITHDRAWAL",
+                "within": {
+                 "ref": "$y1"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "SALARY_TRANSFER",
+                "within": {
+                 "ref": "$y1"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "AUTO_TRANSFER",
+                "within": {
+                 "ref": "$y1"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "PENSION_RECEIPT",
+                "within": {
+                 "ref": "$y1"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "NAME_CHANGE",
+                "within": {
+                 "ref": "$y1"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "CARD_USAGE",
+                "within": {
+                 "ref": "$y1"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "FX_TRANSACTION",
+                "within": {
+                 "ref": "$y1"
+                }
+               }
+              }
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "and": [
+           {
+            "and": [
+             {
+              ">=": [
+               {
+                "var": "account.balance"
+               },
+               10000
+              ]
+             },
+             {
+              "<": [
+               {
+                "var": "account.balance"
+               },
+               50000
+              ]
+             }
+            ]
+           },
+           {
+            "and": [
+             {
+              "not": {
+               "exists": {
+                "event": "DEPOSIT",
+                "within": {
+                 "ref": "$y2"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "WITHDRAWAL",
+                "within": {
+                 "ref": "$y2"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "SALARY_TRANSFER",
+                "within": {
+                 "ref": "$y2"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "AUTO_TRANSFER",
+                "within": {
+                 "ref": "$y2"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "PENSION_RECEIPT",
+                "within": {
+                 "ref": "$y2"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "NAME_CHANGE",
+                "within": {
+                 "ref": "$y2"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "CARD_USAGE",
+                "within": {
+                 "ref": "$y2"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "FX_TRANSACTION",
+                "within": {
+                 "ref": "$y2"
+                }
+               }
+              }
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "and": [
+           {
+            "and": [
+             {
+              ">=": [
+               {
+                "var": "account.balance"
+               },
+               50000
+              ]
+             },
+             {
+              "<": [
+               {
+                "var": "account.balance"
+               },
+               100000
+              ]
+             }
+            ]
+           },
+           {
+            "and": [
+             {
+              "not": {
+               "exists": {
+                "event": "DEPOSIT",
+                "within": {
+                 "ref": "$y3"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "WITHDRAWAL",
+                "within": {
+                 "ref": "$y3"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "SALARY_TRANSFER",
+                "within": {
+                 "ref": "$y3"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "AUTO_TRANSFER",
+                "within": {
+                 "ref": "$y3"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "PENSION_RECEIPT",
+                "within": {
+                 "ref": "$y3"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "NAME_CHANGE",
+                "within": {
+                 "ref": "$y3"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "CARD_USAGE",
+                "within": {
+                 "ref": "$y3"
+                }
+               }
+              }
+             },
+             {
+              "not": {
+               "exists": {
+                "event": "FX_TRANSACTION",
+                "within": {
+                 "ref": "$y3"
+                }
+               }
+              }
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "effect": {
+        "type": "RESTRICT",
+        "target": "ALL_TRANSACTIONS"
+       },
+       "let": {
+        "y1": {
+         "month_range": {
+          "from": {
+           "anchor": "contract.reference_date",
+           "offset_months": -12
+          },
+          "to": {
+           "anchor": "contract.reference_date",
+           "offset_months": 0
+          }
+         }
+        },
+        "y2": {
+         "month_range": {
+          "from": {
+           "anchor": "contract.reference_date",
+           "offset_months": -24
+          },
+          "to": {
+           "anchor": "contract.reference_date",
+           "offset_months": 0
+          }
+         }
+        },
+        "y3": {
+         "month_range": {
+          "from": {
+           "anchor": "contract.reference_date",
+           "offset_months": -36
+          },
+          "to": {
+           "anchor": "contract.reference_date",
+           "offset_months": 0
+          }
+         }
+        }
+       }
+      }
+     ],
+     "declaration_match": true,
+     "exec": 1.0,
+     "exec_empty_baseline": 0.875
+    },
+    {
+     "sample_id": "KBONE-S2-R17",
+     "novelty": "NEAR_TRAIN",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 1.0,
+     "status": "RULES_FOUND",
+     "gold_verdict": "정상 rule",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "NONE_CONVERTED",
+     "layers": {
+      "SCOPE": 1
+     },
+     "rules": [],
+     "declaration_match": true
+    },
+    {
+     "sample_id": "KBONE-S2-R20",
+     "novelty": "NEW",
+     "truncated": false,
+     "parse": true,
+     "shape": true,
+     "grounding": 0.8571428571428571,
+     "status": "RULES_FOUND",
+     "gold_verdict": "일부 UNSUPPORTED",
+     "gold_empty": false,
+     "pred_empty": false,
+     "convert_error": null,
+     "convert_outcome": "SOME_CONVERTED",
+     "layers": {
+      "SCOPE": 2,
+      "VOCAB": 2
+     },
+     "rules": [
+      {
+       "rule_id": "P-U01-01",
+       "status": "OK",
+       "label": "CONSTRAINT · ",
+       "source": {
+        "quote": "▪ 이 상품은 1인 1계좌만 가입이 가능합니다."
+       },
+       "condition": {
+        "not": {
+         "==": [
+          {
+           "var": "customer.has_product"
+          },
+          false
+         ]
+        }
+       },
+       "effect": {
+        "type": "DISQUALIFY"
+       }
+      },
+      {
+       "rule_id": "P-U02-01",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 수수료 면제 미사용 횟수 이월",
+       "source": {
+        "quote": "▪ 수수료 면제 미사용 횟수는 이월되지 않습니다."
+       },
+       "condition": {},
+       "effect": {
+        "type": "FEE_WAIVE_NO_CARRYOVER"
+       }
+      }
+     ],
+     "declaration_match": true,
+     "exec": 1.0,
+     "exec_empty_baseline": 0.0
+    }
+   ]
+  }
+ },
+ "gold_informed_excluded": true
+}

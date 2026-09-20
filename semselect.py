@@ -42,7 +42,7 @@ CONTAIN = 0.6
 FUZZY = 0.8
 
 # 판정의 뜻이 아닌 칸 — 같은 판정인지 볼 때 뺀다
-_META = {"why", "by", "reviewed"}
+_META = {"why", "by", "reviewed", "source", "claude_review", "human_review", "gold_informed"}
 
 _LEAD = re.compile(r"^(?:단\s*,|※|▪|∙|·|•|-|➢|☞|[①-⑳]|\(\d+\)|\d+\s*[.)]|\[\d+\])\s*")
 _QUOTES = str.maketrans({c: "" for c in "‘’“”\"'「」『』《》<>"})

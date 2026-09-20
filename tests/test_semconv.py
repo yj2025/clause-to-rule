@@ -179,6 +179,30 @@ def test_boolean_constraint_uses_requirement():
     assert not resolve(evaluate_rules([rule], {"customer": {"has_product": False}})).disqualified
 
 
+def test_false_boolean_constraint_negates_requirement():
+    # "공동명의로 가입 == false" — 공동명의면 가입 불가. 대응표 요건은 표현이 참이라는 뜻이다
+    FALSE = {"type": "literal", "value": False, "value_type": "boolean"}
+    L = lex(constraint={"공동명의로 가입": {"requirement": {"==": [{"var": "customer.holder_type"}, "JOINT"]},
+                                          "violation": "DISQUALIFY"}})
+    for right, joint_out in ((FALSE, True), (TRUE, False)):
+        unit = {"form": "CONSTRAINT", "evidence": [{"text": "공동명의 가입 불가"}],
+                "body": {"constraint": pred("공동명의로 가입", right=right)}}
+        (rule,) = convert_unit(unit, L)["rules"]
+        for holder, out in (("JOINT", joint_out), ("INDIVIDUAL", not joint_out)):
+            r = resolve(evaluate_rules([rule], {"customer": {"holder_type": holder}}))
+            assert r.disqualified is out, (right["value"], holder)
+
+
+def test_non_boolean_value_in_boolean_constraint_is_blocked():
+    unit = {"form": "CONSTRAINT", "evidence": [{"text": "x"}],
+            "body": {"constraint": pred("1인 1계좌", right={"type": "literal", "value": "Y",
+                                                         "value_type": "boolean"})}}
+    L = lex(constraint={"1인 1계좌": {"requirement": {"==": [{"var": "customer.has_product"}, False]},
+                                     "violation": "DISQUALIFY"}})
+    res = convert_unit(unit, L)
+    assert res["rules"] == [] and res["layers"] == ["STRUCTURE"]
+
+
 def test_upper_limit_constraint_becomes_limit_amount():
     unit = {"form": "CONSTRAINT", "evidence": [{"text": "최고 100만원"}],
             "body": {"constraint": pred("저금통 한도", "LE",
@@ -292,3 +316,15 @@ def test_unconverted_modifier_withholds_every_rule_of_the_unit():
             modifier={"제휴 ATM 제외": {"gap": "ATM 운영 주체 구분 없음", "layer": "VOCAB", "family": "수수료"}})
     res = convert_unit(unit, L)
     assert res["rules"] == [] and res["outcome"] == "BLOCKED" and res["n_blocked_effects"] == 1
+
+
+def test_boolean_when_is_compared_as_a_boolean_not_a_number():
+    unit = {"form": "CONSTRAINT", "evidence": [{"text": "개인사업자, 공동명의 가입 불가"}],
+            "body": {"constraint": pred("개인사업자, 공동명의", "NE",
+                                        {"type": "literal", "value": True, "value_type": "boolean"})}}
+    req = {"not": {"in": [{"var": "customer.holder_type"}, ["SOLE_PROPRIETOR", "JOINT"]]}}
+    L = lex(subject={"개인사업자, 공동명의": {"requirement": req, "when": {"operator": "NE", "value": True},
+                                           "violation": "DISQUALIFY"}})
+    (rule,) = convert_unit(unit, L)["rules"]
+    assert resolve(evaluate_rules([rule], {"customer": {"holder_type": "JOINT"}})).disqualified
+    assert not resolve(evaluate_rules([rule], {"customer": {"holder_type": "INDIVIDUAL"}})).disqualified

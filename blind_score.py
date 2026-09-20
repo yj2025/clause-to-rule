@@ -158,11 +158,17 @@ def summarize(per):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("tags", nargs="+")
+    ap.add_argument("--no-gold-informed", action="store_true",
+                    help="정답(data/gold)을 보고 정한 대응표 판정을 빼고 잰다 — 블라인드를 지키는 쪽")
+    ap.add_argument("--out", default=str(OUT))
     a = ap.parse_args()
 
     import blind_run
     packets = blind_run.load_packets()
-    lex = semconv.Lexicon.load()
+    raw = json.loads(semconv.LEXICON_PATH.read_text("utf-8"))
+    if a.no_gold_informed:
+        raw = {k: {s: e for s, e in t.items() if not e.get("gold_informed")} for k, t in raw.items()}
+    lex = semconv.Lexicon(raw)
     extract_json, grounding_rate = team_evaluator()
     prod = gold._product()
     prof = gold.profiles()
@@ -184,8 +190,9 @@ def main():
                 print(f"             상태 {s['status']} · 잘림 {s['truncated']}")
                 print(f"             선언 {s['declaration_table']}")
                 print(f"             변환 {s['convert']} · 막힘 {s['blockers']}")
-    OUT.write_text(json.dumps(result, ensure_ascii=False, indent=1, default=str), "utf-8")
-    print(f"\n→ {OUT.relative_to(ROOT)}")
+    result["gold_informed_excluded"] = a.no_gold_informed
+    Path(a.out).write_text(json.dumps(result, ensure_ascii=False, indent=1, default=str), "utf-8")
+    print(f"\n→ {a.out}")
 
 
 if __name__ == "__main__":
