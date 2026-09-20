@@ -66,8 +66,10 @@ def test_detrimental_effects_never_approximate(gold):
         # 날짜 계산이 생겨 되살릴 때를 위해 목록에 남겨 둔다
     }
     # 2026-09-20 TAX_EXEMPT_ELIGIBLE 을 더했다 — 「비과세로 가입 가능」 은 혜택이다
+    # PRODUCT_SWITCH_TO · STATE_CHANGE 는 혜택도 불이익도 아니다 — 안내에 가깝다.
+    # 근사(첫 영업일 미반영)는 시점만 옮기고 대상을 바꾸지 않는다 (2026-09-20)
     BENEFIT = {"RATE_ADD", "RATE_OVERRIDE", "FEE_WAIVE", "SERVICE_PROVIDE",
-               "TAX_EXEMPT_ELIGIBLE"}
+               "TAX_EXEMPT_ELIGIBLE", "PRODUCT_SWITCH_TO", "STATE_CHANGE"}
     unlisted = []
     for cid, d in gold.items():
         for r in d.get("rules") or []:

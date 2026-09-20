@@ -210,7 +210,7 @@
      "shape": false,
      "grounding": 1.0,
      "status": "RULES_FOUND",
-     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_verdict": "정상 rule",
      "gold_empty": false,
      "pred_empty": false,
      "convert_error": "v1.1 모양이 아니다",
@@ -902,24 +902,25 @@
       "RULES_FOUND": 39,
       "null": 1
      },
-     "declaration_match": 0.9069767441860465,
+     "declaration_match": 0.8837209302325582,
      "declaration_table": {
       "gold 빈 / 모델 빈": 8,
-      "gold 규칙 / 모델 규칙": 31,
+      "gold 규칙 / 모델 규칙": 30,
       "gold 빈 / 모델 규칙": 3,
-      "gold 규칙 / 모델 판정불가": 1
+      "gold 규칙 / 모델 판정불가": 1,
+      "gold 규칙 / 모델 빈": 1
      },
      "convert": {
       "EMPTY": 3,
       "ALL_CONVERTED": 5,
-      "NONE_CONVERTED": 24,
-      "NOT_A_RULE": 5,
+      "NONE_CONVERTED": 23,
+      "NOT_A_RULE": 6,
       "변환 안 됨": 2,
       "SOME_CONVERTED": 4
      },
      "blockers": {
       "STRUCTURE": 15,
-      "VOCAB": 31,
+      "VOCAB": 27,
       "CONVERTER": 5,
       "SCOPE": 42
      },
@@ -1000,23 +1001,24 @@
       "RULES_FOUND": 23,
       "null": 1
      },
-     "declaration_match": 0.9230769230769231,
+     "declaration_match": 0.8846153846153846,
      "declaration_table": {
       "gold 빈 / 모델 빈": 5,
-      "gold 규칙 / 모델 규칙": 19,
+      "gold 규칙 / 모델 규칙": 18,
       "gold 규칙 / 모델 판정불가": 1,
-      "gold 빈 / 모델 규칙": 1
+      "gold 빈 / 모델 규칙": 1,
+      "gold 규칙 / 모델 빈": 1
      },
      "convert": {
       "EMPTY": 2,
       "ALL_CONVERTED": 4,
-      "NONE_CONVERTED": 12,
-      "NOT_A_RULE": 3,
+      "NONE_CONVERTED": 11,
+      "NOT_A_RULE": 4,
       "변환 안 됨": 2,
       "SOME_CONVERTED": 3
      },
      "blockers": {
-      "VOCAB": 13,
+      "VOCAB": 9,
       "STRUCTURE": 13,
       "CONVERTER": 4,
       "SCOPE": 21
@@ -1168,7 +1170,7 @@
      "shape": true,
      "grounding": 1.0,
      "status": "RULES_FOUND",
-     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_verdict": "정상 rule",
      "gold_empty": false,
      "pred_empty": false,
      "convert_error": null,
@@ -1935,8 +1937,7 @@
      "convert_outcome": "NONE_CONVERTED",
      "layers": {
       "STRUCTURE": 3,
-      "SCOPE": 2,
-      "VOCAB": 2
+      "SCOPE": 2
      },
      "rules": [],
      "declaration_match": true
@@ -2060,14 +2061,12 @@
      "status": "RULES_FOUND",
      "gold_verdict": "정상 rule",
      "gold_empty": false,
-     "pred_empty": false,
+     "pred_empty": true,
      "convert_error": null,
-     "convert_outcome": "NONE_CONVERTED",
-     "layers": {
-      "VOCAB": 1
-     },
+     "convert_outcome": "NOT_A_RULE",
+     "layers": {},
      "rules": [],
-     "declaration_match": true
+     "declaration_match": false
     },
     {
      "sample_id": "KBYY-S5-R02",
@@ -2215,8 +2214,7 @@
      "convert_error": null,
      "convert_outcome": "NONE_CONVERTED",
      "layers": {
-      "CONVERTER": 1,
-      "VOCAB": 1
+      "CONVERTER": 1
      },
      "rules": [],
      "declaration_match": true

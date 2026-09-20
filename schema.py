@@ -58,8 +58,10 @@ _EFFECT = {
         "type": {"enum": sorted(catalog.EFFECTS)},
         "value": {"type": ["number", "string", "boolean"]},
         "unit": {"enum": list(catalog.UNITS)},
+        # 2026-09-20 상품 코드 체계 · 상태 변경을 더했다. 상품 키는 `data/products.json` 에서 온다
         "target": {"enum": sorted(set(catalog.FEES) | set(catalog.SERVICES)
-                                  | set(catalog.RESTRICTIONS))},
+                                  | set(catalog.RESTRICTIONS) | set(catalog.STATES)
+                                  | set(catalog.PRODUCTS))},
         "renewable": {"type": "boolean"},
         "applies_to": {"enum": list(catalog.APPLIES_TO)},
     },

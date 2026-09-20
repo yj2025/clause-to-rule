@@ -17,7 +17,22 @@
 상품 전환 effect · 적용 기준 금액 effect · 압류 계열 이벤트 · 출금 이벤트.
 """
 
-# ── 변수 (19) ───────────────────────────────────────────────────────────
+# ── 상품 (74) ───────────────────────────────────────────────────────────
+# 2026-09-20. 「KB국민ONE통장으로 자동전환」 처럼 **다른 상품을 가리키는** 조문이 있다.
+# 이름을 자유 문자열로 쓰면 ⑬ 이 막고 실행기도 못 읽는다. DB(`Products`)의 은행 채번
+# 상품코드를 출처로 삼고, 모델이 읽고 쓰기 쉬운 한글 키를 붙였다 — `data/products.json`.
+# 그 파일은 DB 스냅샷에서 만들고 DB 해시를 같이 적는다 (`products.py`).
+def _products():
+    import json
+    from pathlib import Path
+    f = Path(__file__).resolve().parent / "data" / "products.json"
+    return json.loads(f.read_text("utf-8"))["products"] if f.exists() else {}
+
+
+PRODUCTS = _products()
+
+
+# ── 변수 (21) ───────────────────────────────────────────────────────────
 def _v(t, d):
     return {"type": t, "desc": d}
 
@@ -51,6 +66,10 @@ VARIABLES = {
     # 중도해지이율·만기후이율을 가른다. 해지일과 다르다 — 일부 지급도 지급청구다.
     # **데이터 쪽 확인 필요:** 고객 데이터에 이 날짜가 있는지 아직 안 물었다.
     "contract.payout_request_date": _v("date", "지급청구일(인출을 요구한 날)"),
+    # 2026-09-20 상품 코드 체계. 「KB국민ONE통장을 이미 보유하고 있는 경우」 를 담는다.
+    # `customer.has_product` 는 **이 상품** 보유 여부라 다른 상품을 못 가리킨다.
+    # 값은 상품 키의 목록이다: {"in": ["KB국민ONE통장", {"var": "customer.held_products"}]}
+    "customer.held_products": _v("list", "보유한 상품 (상품 키 목록)"),
 }
 
 # 값은 v3 생성물에서 실제로 쓰인 것을 기준으로 복원했다.
@@ -94,6 +113,9 @@ EVENT_ATTRIBUTES = {
     "AUTO_TRANSFER":   {"route": ("APARTMENT_FEE", "GIRO", "CMS", "FIRM_BANKING", "CARD")},
     # "급여이체 계약에 의하지 않은 일반 이체거래에 의한 입금 건은 급여이체실적으로 인정되지 않는다"
     "SALARY_TRANSFER": {"source": ("SALARY_CONTRACT", "GENERAL_TRANSFER")},
+    # 2026-09-20. 「다른 예금 상품으로 전환하는 경우」 와 「이 상품으로 전환하는 경우」 는
+    # 뜻이 반대인데 이벤트 이름이 같았다. 방향을 속성으로 가른다.
+    "PRODUCT_SWITCH":  {"direction": ("IN", "OUT")},
 }
 
 # ── 연산자 (14) ─────────────────────────────────────────────────────────
@@ -144,6 +166,10 @@ EFFECTS = {
     # 2026-09-20 실행기 범위 결정 5. 「비과세종합저축으로 가입 가능」 — 세율·세금 계산은 범위 밖이지만
     # **가입 자격**은 고객을 가른다. 필수 키가 없다 — 조건이 붙으면 그 조건이 자격을 좁힌다.
     "TAX_EXEMPT_ELIGIBLE": (),
+    # 2026-09-20 상품 코드 체계. target 은 PRODUCTS 의 키다.
+    "PRODUCT_SWITCH_TO": ("target",),
+    # 전환·해지에 딸려 계좌 상태가 바뀌는 자리. target 은 STATES 에서 고른다.
+    "STATE_CHANGE": ("target",),
 }
 
 # value 가 반드시 수여야 하는 것들 — check_effect_value 가 쓴다
@@ -177,9 +203,19 @@ RESTRICTIONS = {
     "NAME_CHANGE":      "양도·상속에 의한 명의변경",
     # 2026-09-20 실행기 범위 결정. 「일부해지 불가」 · 「중도해지 불가」 · 「만기 앞당김 지급 불가」 는
     # 이율을 고르는 문제가 아니라 **그 거래를 막는다.** 팀원 gold 에서 9자리가 여기 걸려 있었다.
+    # 2026-09-20 상품 코드 체계. 「이 예금에서 다른 예금으로 전환 불가」 는 그 거래를 막는 것이다.
+    "SWITCH_OUT":       "이 상품에서 다른 상품으로 전환",
+    "SWITCH_IN":        "다른 상품에서 이 상품으로 전환",
     "PARTIAL_TERMINATION": "일부해지 · 일부인출",
     "EARLY_TERMINATION":   "중도해지",
     "EARLY_PAYOUT":        "만기 앞당김 지급 · 만기 전 지급청구",
+}
+
+# ── 상태 변경 대상 (1) ──────────────────────────────────────────────────
+# 2026-09-20 실행기 범위 결정 7. 「다른 예금 상품으로 전환하면 저금통은 자동 해제」 처럼
+# 뒤따르는 우대·한도를 바꾸는 상태 변경만 담는다.
+STATES = {
+    "RESERVE_OFF": "저금통 설정 해제",
 }
 
 UNITS = ("%p", "%", "원", "회", "회/월", "개월", "년", "age", "channel", "date", "")
@@ -217,6 +253,10 @@ def _SLOTS():
             out.setdefault(v, f"조건에서 `{name}` 과 비교하는 자리")
     for v in RESTRICTIONS:
         out[v] = "`RESTRICT` 의 target"
+    for v in STATES:
+        out[v] = "`STATE_CHANGE` 의 target"
+    for v in PRODUCTS:
+        out.setdefault(v, "`PRODUCT_SWITCH_TO` 의 target · 조건의 보유 상품 목록")
     for v in SERVICES:
         out[v] = "`SERVICE_PROVIDE` 의 target"
     for v in FEES:
@@ -303,11 +343,22 @@ def pick_services(text):
     return sorted(k for k, ws in words.items() if any(w in text for w in ws))
 
 
+def pick_products(text):
+    """조문 본문이 이름으로 부른 상품만. 74개를 다 붙이면 지문이 길어지고 없는 것을 부른다."""
+    hit = []
+    for key, p in PRODUCTS.items():
+        name = p["name"]
+        if name in text or name.replace(" ", "") in text.replace(" ", ""):
+            hit.append(key)
+    return sorted(hit)
+
+
 def pick_restrictions(text):
     """금지 조문에 붙일 대상."""
     words = {"ALL_TRANSACTIONS": ("거래 제한", "거래중지", "잔액조회"),
              "PLEDGE": ("담보", "질권"),
              "NAME_CHANGE": ("명의변경", "양도", "상속"),
+             "SWITCH_OUT": ("전환",), "SWITCH_IN": ("전환",),
              "PARTIAL_TERMINATION": ("일부해지", "일부 해지", "일부인출"),
              "EARLY_TERMINATION": ("중도해지", "중도 해지"),
              "EARLY_PAYOUT": ("만기앞당김", "만기 앞당김", "만기전 지급")}

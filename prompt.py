@@ -111,6 +111,15 @@ def _catalog_block(text):
     if restrictions:
         lines.append("[금지 대상]")
         lines += [f"  {r:<28}{catalog.RESTRICTIONS[r]}" for r in restrictions]
+    # 2026-09-20 상품 코드 체계. 조문이 이름으로 부른 상품만 붙인다 — 74개를 다 붙이면
+    # 지문이 길어지고 안 부른 상품을 쓰게 된다 (§9 2번).
+    products = catalog.pick_products(text)
+    if products:
+        lines.append("[상품 키] PRODUCT_SWITCH_TO 의 target · customer.held_products 의 값")
+        lines += [f"  {k:<28}{catalog.PRODUCTS[k]['name']}" for k in products]
+    if any("저금통" in text for _ in (1,)) and "해제" in text:
+        lines.append("[상태 변경 대상]")
+        lines += [f"  {k:<28}{v}" for k, v in catalog.STATES.items()]
     attrs = [(e, catalog.EVENT_ATTRIBUTES[e]) for e in es if e in catalog.EVENT_ATTRIBUTES]
     if attrs or "건별" in text:
         lines.append('[이벤트 조건] exists · count_* 에 "where" 를 건다 — '

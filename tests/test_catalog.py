@@ -6,10 +6,11 @@ import catalog as C
 def test_variable_count():
     """2026-09-15 customer.holder_type · account.last_transaction_date 로 19개.
 
-    2026-09-20 실행기 범위 결정으로 contract.payout_request_date 를 더해 20개다.
-    **데이터 쪽 확인 전이다** — 고객 데이터에 지급청구일이 있는지 아직 안 물었다.
+    2026-09-20 실행기 범위 결정으로 contract.payout_request_date 를,
+    상품 코드 체계로 customer.held_products 를 더해 21개다.
+    **데이터 쪽 확인 전이다** — 지급청구일과 보유 상품 목록이 고객 데이터에 있는지 아직 안 물었다.
     """
-    assert len(C.VARIABLES) == 20
+    assert len(C.VARIABLES) == 21
 
 
 def test_event_count():
@@ -24,9 +25,9 @@ def test_operator_count():
 def test_effect_count():
     """2026-09-15 SERVICE_PROVIDE · FEE_WAIVE_NO_CARRYOVER · DORMANT_CONTRIBUTION · RESTRICT 로 12개.
 
-    2026-09-20 실행기 범위 결정 5 로 TAX_EXEMPT_ELIGIBLE 을 더해 13개다.
+    2026-09-20 TAX_EXEMPT_ELIGIBLE · PRODUCT_SWITCH_TO · STATE_CHANGE 를 더해 15개다.
     """
-    assert len(C.EFFECTS) == 13
+    assert len(C.EFFECTS) == 15
 
 
 def test_fee_count():
