@@ -70,6 +70,10 @@ VARIABLES = {
     # `customer.has_product` 는 **이 상품** 보유 여부라 다른 상품을 못 가리킨다.
     # 값은 상품 키의 목록이다: {"in": ["KB국민ONE통장", {"var": "customer.held_products"}]}
     "customer.held_products": _v("list", "보유한 상품 (상품 키 목록)"),
+    # 2026-09-20. 「본인명의의 입출금이자유로운예금 계좌가 필요」 처럼 **상품이 아니라 갈래**를
+    # 요구하는 조문이 있다. 값은 DB(`Products.product_category`)의 분류다:
+    # DEMAND_DEPOSIT(입출금) · INSTALLMENT_DEPOSIT(적금) · TIME_DEPOSIT(거치식)
+    "customer.held_categories": _v("list", "보유한 상품의 갈래 목록"),
 }
 
 # 값은 v3 생성물에서 실제로 쓰인 것을 기준으로 복원했다.
@@ -204,6 +208,8 @@ RESTRICTIONS = {
     # 2026-09-20 실행기 범위 결정. 「일부해지 불가」 · 「중도해지 불가」 · 「만기 앞당김 지급 불가」 는
     # 이율을 고르는 문제가 아니라 **그 거래를 막는다.** 팀원 gold 에서 9자리가 여기 걸려 있었다.
     # 2026-09-20 상품 코드 체계. 「이 예금에서 다른 예금으로 전환 불가」 는 그 거래를 막는 것이다.
+    # 2026-09-20. 「이 경로로는 해지할 수 없다」 를 담는다. 중도해지(EARLY_TERMINATION)와 다르다
+    "TERMINATION":      "해지",
     "SWITCH_OUT":       "이 상품에서 다른 상품으로 전환",
     "SWITCH_IN":        "다른 상품에서 이 상품으로 전환",
     "PARTIAL_TERMINATION": "일부해지 · 일부인출",
@@ -294,6 +300,8 @@ _HINTS = {
     "customer.age":              ("세", "나이", "만 "),
     "customer.is_youth":         ("Youth", "청소년", "미성년"),
     "customer.has_product":      ("보유", "가입한"),
+    "customer.held_products":     ("보유", "기보유", "이미 보유"),
+    "customer.held_categories":   ("입출금이자유로운예금", "입출금이 자유로운 예금", "예금 계좌가 필요"),
     "customer.is_first_deposit": ("첫 거래", "최초"),
     "customer.holder_type":      ("개인사업자", "임의단체", "공동명의", "실명의 개인"),
     # "거래가 없는" 은 넣지 않는다 — 거래중지 조문은 명의변경 거래까지 세야 해 아직 막혀 있다
@@ -358,6 +366,7 @@ def pick_restrictions(text):
     words = {"ALL_TRANSACTIONS": ("거래 제한", "거래중지", "잔액조회"),
              "PLEDGE": ("담보", "질권"),
              "NAME_CHANGE": ("명의변경", "양도", "상속"),
+             "TERMINATION": ("해지 시", "해지할 수 없", "해지가 불가"),
              "SWITCH_OUT": ("전환",), "SWITCH_IN": ("전환",),
              "PARTIAL_TERMINATION": ("일부해지", "일부 해지", "일부인출"),
              "EARLY_TERMINATION": ("중도해지", "중도 해지"),

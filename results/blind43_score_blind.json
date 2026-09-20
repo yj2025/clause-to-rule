@@ -36,25 +36,25 @@
       "RULES_FOUND": 39,
       "null": 1
      },
-     "declaration_match": 0.8837209302325582,
+     "declaration_match": 0.8604651162790697,
      "declaration_table": {
       "gold 빈 / 모델 빈": 8,
-      "gold 규칙 / 모델 규칙": 30,
+      "gold 규칙 / 모델 규칙": 29,
       "gold 빈 / 모델 규칙": 3,
       "gold 규칙 / 모델 판정불가": 1,
-      "gold 규칙 / 모델 빈": 1
+      "gold 규칙 / 모델 빈": 2
      },
      "convert": {
       "EMPTY": 3,
       "ALL_CONVERTED": 4,
-      "NONE_CONVERTED": 25,
-      "NOT_A_RULE": 6,
+      "NONE_CONVERTED": 24,
+      "NOT_A_RULE": 7,
       "변환 안 됨": 1,
       "SOME_CONVERTED": 4
      },
      "blockers": {
       "STRUCTURE": 17,
-      "VOCAB": 28,
+      "VOCAB": 27,
       "UNLABELED": 10,
       "SCOPE": 42,
       "CONVERTER": 6
@@ -136,24 +136,24 @@
       "RULES_FOUND": 23,
       "null": 1
      },
-     "declaration_match": 0.8846153846153846,
+     "declaration_match": 0.8461538461538461,
      "declaration_table": {
       "gold 빈 / 모델 빈": 5,
-      "gold 규칙 / 모델 규칙": 18,
+      "gold 규칙 / 모델 규칙": 17,
       "gold 규칙 / 모델 판정불가": 1,
       "gold 빈 / 모델 규칙": 1,
-      "gold 규칙 / 모델 빈": 1
+      "gold 규칙 / 모델 빈": 2
      },
      "convert": {
       "EMPTY": 2,
       "ALL_CONVERTED": 3,
-      "NONE_CONVERTED": 13,
-      "NOT_A_RULE": 4,
+      "NONE_CONVERTED": 12,
+      "NOT_A_RULE": 5,
       "변환 안 됨": 1,
       "SOME_CONVERTED": 3
      },
      "blockers": {
-      "VOCAB": 10,
+      "VOCAB": 9,
       "STRUCTURE": 15,
       "UNLABELED": 10,
       "SCOPE": 21,
@@ -1388,16 +1388,14 @@
      "shape": true,
      "grounding": 1.0,
      "status": "RULES_FOUND",
-     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_verdict": "정상 rule",
      "gold_empty": false,
-     "pred_empty": false,
+     "pred_empty": true,
      "convert_error": null,
-     "convert_outcome": "NONE_CONVERTED",
-     "layers": {
-      "VOCAB": 1
-     },
+     "convert_outcome": "NOT_A_RULE",
+     "layers": {},
      "rules": [],
-     "declaration_match": true
+     "declaration_match": false
     },
     {
      "sample_id": "KBONE-S2-R14",

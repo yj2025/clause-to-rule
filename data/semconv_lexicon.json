@@ -11803,21 +11803,19 @@
    }
   },
   "REQUIRE::해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌": {
-   "gap": "본인명의 입출금예금 계좌 보유(계좌 종류) 변수 없음",
-   "layer": "VOCAB",
-   "family": "가입자격",
-   "why": "2차 검토: 사람 검토 gold KBONE-S2-R12 와 같은 이유",
-   "by": "claude-review-2",
+   "effect": "RESTRICT",
+   "target": "TERMINATION",
+   "why": "「본인명의 입출금계좌가 없으면 그 경로로 해지 불가」 — gold KBONE-S2-R12 와 같은 옮김",
+   "by": "claude-decision",
    "reviewed": false,
-   "source": "blind43_e3",
    "claude_review": {
-    "verdict": "고침",
+    "verdict": "카탈로그 확장 2026-09-20",
     "from": {
-     "gap": "판별 범위 밖: 이체·입금·결제 처리 절차",
-     "layer": "SCOPE",
-     "family": "해지·중도해지"
+     "gap": "본인명의 입출금예금 계좌 보유(계좌 종류) 변수 없음",
+     "layer": "VOCAB"
     },
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20"
    }
   },
   "REQUIRE::회사가 정한 절차에 따라 변경신청": {

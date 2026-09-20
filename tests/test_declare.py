@@ -58,8 +58,13 @@ def test_the_rate_is_a_percentage(root):
     assert 0.0 <= D.audit(recs, run=0)["rate"] <= 100.0
 
 
-def test_overgeneration_dominates(root):
-    """모델은 과하게 만드는 쪽으로 틀린다 — 유실된 기록이 지목한 다음 과녁."""
+def test_overgeneration_no_longer_dominates_after_the_catalog_grew(root):
+    """**2026-09-20 에 뒤집혔다.** 전에는 과생성이 과소생성보다 많았다 (유실된 기록의 다음 과녁).
+
+    카탈로그를 넓히자(비과세 · 해지/전환 제한 · 상품 코드 · 계좌 갈래) 정답이 열렸고,
+    «정답은 빈 배열인데 모델이 만들었다» 로 세던 자리가 «둘 다 rule» 로 바뀌었다.
+    지금은 11 대 11 이다. **모델이 좋아진 것이 아니라 정답이 움직였다** — 같은 v6 결과다.
+    """
     import json, os
     os.chdir(root)
     recs = json.loads((root / "results/results_v6.json").read_text("utf-8"))
@@ -68,4 +73,4 @@ def test_overgeneration_dominates(root):
                if w in (D.EMPTY, D.UNSUP) and g in (D.OK, D.MIXED))
     under = sum(n for (w, g), n in conf.items()
                 if w in (D.OK, D.MIXED) and g in (D.EMPTY, D.UNSUP))
-    assert over > under
+    assert (over, under) == (11, 11), (over, under)

@@ -88,3 +88,19 @@ def test_the_switch_blocker_is_gone(root):
     os.chdir(root)
     everywhere = {b for rs in blockers.load().values() for bs in rs.values() for b in bs}
     assert "상품전환" not in everywhere, "카탈로그에 있는 것은 걸림돌이 아니다"
+
+
+def test_online_termination_needs_a_demand_deposit_account():
+    """사람 검토(9/14)가 «REQUIRE 의 value 가 자유 문장» 이라 막았던 자리.
+
+    값이 아니라 조건으로 옮겼다 — 채널이 인터넷·모바일이고 본인명의 입출금 계좌가 없으면
+    그 경로로는 해지할 수 없다. 영업점 해지에는 걸리지 않는다.
+    """
+    rs = json.loads((GOLD / "KBONE-S2-R12.json").read_text("utf-8"))["rules"]
+    assert [r["status"] for r in rs] == ["OK"]
+    def hit(channel, held):
+        ctx = {"contract": {"channel": channel}, "customer": {"held_categories": held}}
+        return [e["target"] for e in resolve(evaluate_rules(rs, ctx), "SUM").other_effects]
+    assert hit("INTERNET", []) == ["TERMINATION"]
+    assert hit("INTERNET", ["DEMAND_DEPOSIT"]) == []
+    assert hit("BRANCH", []) == []

@@ -7,10 +7,10 @@ def test_variable_count():
     """2026-09-15 customer.holder_type · account.last_transaction_date 로 19개.
 
     2026-09-20 실행기 범위 결정으로 contract.payout_request_date 를,
-    상품 코드 체계로 customer.held_products 를 더해 21개다.
+    상품 코드 체계로 customer.held_products · customer.held_categories 를 더해 22개다.
     **데이터 쪽 확인 전이다** — 지급청구일과 보유 상품 목록이 고객 데이터에 있는지 아직 안 물었다.
     """
-    assert len(C.VARIABLES) == 21
+    assert len(C.VARIABLES) == 22
 
 
 def test_event_count():
