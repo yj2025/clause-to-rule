@@ -18,7 +18,7 @@ import pytest
 
 MM = 72 / 25.4
 RIGHT = 192.0          # 오른쪽 여백 190mm + 여유
-DOCS = ("brief.py", "decision_doc.py", "decision_catalog.py")
+DOCS = ("brief.py", "decision_doc.py", "decision_catalog.py", "decision_scope.py")
 
 
 def _fonts_ready(root):
