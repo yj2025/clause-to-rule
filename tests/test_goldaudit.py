@@ -62,13 +62,12 @@ def test_detrimental_effects_never_approximate(gold):
         "KBYY-S2-R16-01",    # 질권설정 불가
         "KBYY-S2-R17-01",    # 양도·상속에 의한 명의변경 불가
         "KBYY-S2-R17-02",    # 담보제공 불가
-        # RESTRICT 거래중지 — 잔액 구간 · 무거래(입출금·명의변경) 둘 다 옮겼다.
-        # 입출금 이벤트를 넓게 세어 오차는 고객에게 유리하다. 편입시기(연 2회)는
-        # 절차로 두었다 — 사람 확인이 필요한 자리다 (DECISIONS.md)
-        "KBONE-S2-R16-01",
-        "KBYY-S2-R19-01",
+        # RESTRICT 거래중지 — 2026-09-20 에 UNSUPPORTED 로 되돌렸다 (편입시기를 못 옮긴다).
+        # 날짜 계산이 생겨 되살릴 때를 위해 목록에 남겨 둔다
     }
-    BENEFIT = {"RATE_ADD", "RATE_OVERRIDE", "FEE_WAIVE", "SERVICE_PROVIDE"}
+    # 2026-09-20 TAX_EXEMPT_ELIGIBLE 을 더했다 — 「비과세로 가입 가능」 은 혜택이다
+    BENEFIT = {"RATE_ADD", "RATE_OVERRIDE", "FEE_WAIVE", "SERVICE_PROVIDE",
+               "TAX_EXEMPT_ELIGIBLE"}
     unlisted = []
     for cid, d in gold.items():
         for r in d.get("rules") or []:

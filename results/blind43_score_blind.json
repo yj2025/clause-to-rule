@@ -53,7 +53,7 @@
      },
      "blockers": {
       "STRUCTURE": 17,
-      "VOCAB": 34,
+      "VOCAB": 32,
       "UNLABELED": 10,
       "SCOPE": 42,
       "CONVERTER": 6
@@ -85,7 +85,7 @@
       "SOME_CONVERTED": 1
      },
      "blockers": {
-      "VOCAB": 19,
+      "VOCAB": 17,
       "SCOPE": 6
      },
      "rules": 1,
@@ -451,13 +451,13 @@
      "shape": true,
      "grounding": 1.0,
      "status": "RULES_FOUND",
-     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_verdict": "정상 rule",
      "gold_empty": false,
      "pred_empty": false,
      "convert_error": null,
      "convert_outcome": "NONE_CONVERTED",
      "layers": {
-      "VOCAB": 2
+      "VOCAB": 1
      },
      "rules": [],
      "declaration_match": true
@@ -1354,13 +1354,13 @@
      "shape": true,
      "grounding": 1.0,
      "status": "RULES_FOUND",
-     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_verdict": "정상 rule",
      "gold_empty": false,
      "pred_empty": false,
      "convert_error": null,
      "convert_outcome": "NONE_CONVERTED",
      "layers": {
-      "VOCAB": 2
+      "VOCAB": 1
      },
      "rules": [],
      "declaration_match": true

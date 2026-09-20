@@ -1179,21 +1179,21 @@
    }
   },
   "계약기간 만료일 이후": {
-   "gap": "비과세종합저축 가입 자격 변수 없음",
+   "gap": "고객 쪽 비과세 자격(65세 이상 등) 변수 없음",
    "layer": "VOCAB",
    "family": "세금·비과세",
-   "why": "결정 5: 「비과세로 가입 가능」 은 가입 자격이라 판별 범위 안 — 어휘 추가 후보. 세율·세금 계산은 범위 밖 그대로",
+   "why": "상품 쪽 «가입 가능» 은 effect 로 열렸다. 고객이 비과세 대상인지는 아직 변수가 없다",
    "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "결정 2026-09-20",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "정책",
     "reason": "GUIDE 원칙 6은 세금을 범위 밖으로 두지만, gold KBONE-S2-R10·KBYY-S2-R13 은 '비과세종합저축 가입 가능' 을 UNSUPPORTED('비과세 여부 변수도 세제 effect 도 없음')로 적었다. 확장하면 풀리는 VOCAB 로 셌다는 뜻이다. 세금 산출(과세·세율 변경)은 SCOPE 가 분명하지만, 비과세 가입 가능·불가는 판별처럼 읽힌다.",
     "at": "2026-09-18",
     "decided_at": "2026-09-20",
     "from": {
-     "gap": "판별 범위 밖: 세금·비과세",
-     "layer": "SCOPE"
+     "gap": "비과세종합저축 가입 자격 변수 없음",
+     "layer": "VOCAB"
     }
    }
   },
@@ -2059,14 +2059,21 @@
    }
   },
   "만기일 후 지급 청구할 때": {
-   "gap": "예금 지급청구일(인출 시점) 변수 없음",
-   "layer": "VOCAB",
-   "family": "해지·중도해지",
-   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다. 지급청구는 일부 지급도 포함해 해지일과 다르다",
+   "dsl": {
+    ">": [
+     {
+      "var": "contract.payout_request_date"
+     },
+     {
+      "var": "contract.maturity_date"
+     }
+    ]
+   },
+   "why": "카탈로그 확장: 지급청구일을 만기일과 견준다 (만기 후 청구). 해지일이 아니라 인출을 요구한 날이다",
    "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "결정 2026-09-20",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "정책",
     "reason": "모든 멤버의 받는 효과가 중도해지이율·만기후이율 이자 산출이다. Q1 이 SCOPE 로 정해지면 layer 는 SCOPE 다. Q1 이 판별로 정해지면 '만기 전/후 지급청구' 를 termination_type(EARLY/PARTIAL)이나 termination_date 비교로 받을 수 있는지가 남는다. lex 는 '지급기일 전에' 를 reference_date<maturity_date, '만기일 이후에 해지할 경우' 를 termination_date>=maturity_date 로 옮겼다.",
     "at": "2026-09-18",
@@ -2078,14 +2085,21 @@
    }
   },
   "만기일 후에 찾고자 하는 경우": {
-   "gap": "예금 지급청구일(인출 시점) 변수 없음",
-   "layer": "VOCAB",
-   "family": "해지·중도해지",
-   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다. 지급청구는 일부 지급도 포함해 해지일과 다르다",
+   "dsl": {
+    ">": [
+     {
+      "var": "contract.payout_request_date"
+     },
+     {
+      "var": "contract.maturity_date"
+     }
+    ]
+   },
+   "why": "카탈로그 확장: 지급청구일을 만기일과 견준다 (만기 후 청구). 해지일이 아니라 인출을 요구한 날이다",
    "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "결정 2026-09-20",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "정책",
     "reason": "모든 멤버의 받는 효과가 중도해지이율·만기후이율 이자 산출이다. Q1 이 SCOPE 로 정해지면 layer 는 SCOPE 다. Q1 이 판별로 정해지면 '만기 전/후 지급청구' 를 termination_type(EARLY/PARTIAL)이나 termination_date 비교로 받을 수 있는지가 남는다. lex 는 '지급기일 전에' 를 reference_date<maturity_date, '만기일 이후에 해지할 경우' 를 termination_date>=maturity_date 로 옮겼다.",
     "at": "2026-09-18",
@@ -2959,14 +2973,21 @@
    }
   },
   "예금주가 만기일 (재예치일)전에 지급 청구 할 때": {
-   "gap": "예금 지급청구일(인출 시점) 변수 없음",
-   "layer": "VOCAB",
-   "family": "해지·중도해지",
-   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다. 지급청구는 일부 지급도 포함해 해지일과 다르다",
+   "dsl": {
+    "<": [
+     {
+      "var": "contract.payout_request_date"
+     },
+     {
+      "var": "contract.maturity_date"
+     }
+    ]
+   },
+   "why": "카탈로그 확장: 지급청구일을 만기일과 견준다 (만기 전 청구). 해지일이 아니라 인출을 요구한 날이다",
    "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "결정 2026-09-20",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "정책",
     "reason": "모든 멤버의 받는 효과가 중도해지이율·만기후이율 이자 산출이다. Q1 이 SCOPE 로 정해지면 layer 는 SCOPE 다. Q1 이 판별로 정해지면 '만기 전/후 지급청구' 를 termination_type(EARLY/PARTIAL)이나 termination_date 비교로 받을 수 있는지가 남는다. lex 는 '지급기일 전에' 를 reference_date<maturity_date, '만기일 이후에 해지할 경우' 를 termination_date>=maturity_date 로 옮겼다.",
     "at": "2026-09-18",
@@ -2978,14 +2999,21 @@
    }
   },
   "예금주가 만기일 전에 지급 청구 한 때": {
-   "gap": "예금 지급청구일(인출 시점) 변수 없음",
-   "layer": "VOCAB",
-   "family": "해지·중도해지",
-   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다. 지급청구는 일부 지급도 포함해 해지일과 다르다",
+   "dsl": {
+    "<": [
+     {
+      "var": "contract.payout_request_date"
+     },
+     {
+      "var": "contract.maturity_date"
+     }
+    ]
+   },
+   "why": "카탈로그 확장: 지급청구일을 만기일과 견준다 (만기 전 청구). 해지일이 아니라 인출을 요구한 날이다",
    "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "결정 2026-09-20",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "정책",
     "reason": "모든 멤버의 받는 효과가 중도해지이율·만기후이율 이자 산출이다. Q1 이 SCOPE 로 정해지면 layer 는 SCOPE 다. Q1 이 판별로 정해지면 '만기 전/후 지급청구' 를 termination_type(EARLY/PARTIAL)이나 termination_date 비교로 받을 수 있는지가 남는다. lex 는 '지급기일 전에' 를 reference_date<maturity_date, '만기일 이후에 해지할 경우' 를 termination_date>=maturity_date 로 옮겼다.",
     "at": "2026-09-18",
@@ -2997,14 +3025,21 @@
    }
   },
   "예금주가 만기일 전에 지급 청구한 때": {
-   "gap": "예금 지급청구일(인출 시점) 변수 없음",
-   "layer": "VOCAB",
-   "family": "해지·중도해지",
-   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다. 지급청구는 일부 지급도 포함해 해지일과 다르다",
+   "dsl": {
+    "<": [
+     {
+      "var": "contract.payout_request_date"
+     },
+     {
+      "var": "contract.maturity_date"
+     }
+    ]
+   },
+   "why": "카탈로그 확장: 지급청구일을 만기일과 견준다 (만기 전 청구). 해지일이 아니라 인출을 요구한 날이다",
    "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "결정 2026-09-20",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "정책",
     "reason": "모든 멤버의 받는 효과가 중도해지이율·만기후이율 이자 산출이다. Q1 이 SCOPE 로 정해지면 layer 는 SCOPE 다. Q1 이 판별로 정해지면 '만기 전/후 지급청구' 를 termination_type(EARLY/PARTIAL)이나 termination_date 비교로 받을 수 있는지가 남는다. lex 는 '지급기일 전에' 를 reference_date<maturity_date, '만기일 이후에 해지할 경우' 를 termination_date>=maturity_date 로 옮겼다.",
     "at": "2026-09-18",
@@ -3016,14 +3051,21 @@
    }
   },
   "예금주가 만기일 전에 지급청구할 때": {
-   "gap": "예금 지급청구일(인출 시점) 변수 없음",
-   "layer": "VOCAB",
-   "family": "해지·중도해지",
-   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다. 지급청구는 일부 지급도 포함해 해지일과 다르다",
+   "dsl": {
+    "<": [
+     {
+      "var": "contract.payout_request_date"
+     },
+     {
+      "var": "contract.maturity_date"
+     }
+    ]
+   },
+   "why": "카탈로그 확장: 지급청구일을 만기일과 견준다 (만기 전 청구). 해지일이 아니라 인출을 요구한 날이다",
    "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "결정 2026-09-20",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "정책",
     "reason": "모든 멤버의 받는 효과가 중도해지이율·만기후이율 이자 산출이다. Q1 이 SCOPE 로 정해지면 layer 는 SCOPE 다. Q1 이 판별로 정해지면 '만기 전/후 지급청구' 를 termination_type(EARLY/PARTIAL)이나 termination_date 비교로 받을 수 있는지가 남는다. lex 는 '지급기일 전에' 를 reference_date<maturity_date, '만기일 이후에 해지할 경우' 를 termination_date>=maturity_date 로 옮겼다.",
     "at": "2026-09-18",
@@ -3035,14 +3077,21 @@
    }
   },
   "예금주가 만기일 전에 찾고자 하는 경우": {
-   "gap": "예금 지급청구일(인출 시점) 변수 없음",
-   "layer": "VOCAB",
-   "family": "해지·중도해지",
-   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다. 지급청구는 일부 지급도 포함해 해지일과 다르다",
+   "dsl": {
+    "<": [
+     {
+      "var": "contract.payout_request_date"
+     },
+     {
+      "var": "contract.maturity_date"
+     }
+    ]
+   },
+   "why": "카탈로그 확장: 지급청구일을 만기일과 견준다 (만기 전 청구). 해지일이 아니라 인출을 요구한 날이다",
    "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "결정 2026-09-20",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "정책",
     "reason": "모든 멤버의 받는 효과가 중도해지이율·만기후이율 이자 산출이다. Q1 이 SCOPE 로 정해지면 layer 는 SCOPE 다. Q1 이 판별로 정해지면 '만기 전/후 지급청구' 를 termination_type(EARLY/PARTIAL)이나 termination_date 비교로 받을 수 있는지가 남는다. lex 는 '지급기일 전에' 를 reference_date<maturity_date, '만기일 이후에 해지할 경우' 를 termination_date>=maturity_date 로 옮겼다.",
     "at": "2026-09-18",
@@ -3054,14 +3103,21 @@
    }
   },
   "예금주가 만기일 후에 찾고자 하는 경우": {
-   "gap": "예금 지급청구일(인출 시점) 변수 없음",
-   "layer": "VOCAB",
-   "family": "해지·중도해지",
-   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다. 지급청구는 일부 지급도 포함해 해지일과 다르다",
+   "dsl": {
+    ">": [
+     {
+      "var": "contract.payout_request_date"
+     },
+     {
+      "var": "contract.maturity_date"
+     }
+    ]
+   },
+   "why": "카탈로그 확장: 지급청구일을 만기일과 견준다 (만기 후 청구). 해지일이 아니라 인출을 요구한 날이다",
    "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "결정 2026-09-20",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "정책",
     "reason": "모든 멤버의 받는 효과가 중도해지이율·만기후이율 이자 산출이다. Q1 이 SCOPE 로 정해지면 layer 는 SCOPE 다. Q1 이 판별로 정해지면 '만기 전/후 지급청구' 를 termination_type(EARLY/PARTIAL)이나 termination_date 비교로 받을 수 있는지가 남는다. lex 는 '지급기일 전에' 를 reference_date<maturity_date, '만기일 이후에 해지할 경우' 를 termination_date>=maturity_date 로 옮겼다.",
     "at": "2026-09-18",
@@ -3711,21 +3767,21 @@
    }
   },
   "정산∙환급 세액이 발생한 경우": {
-   "gap": "비과세종합저축 가입 자격 변수 없음",
+   "gap": "고객 쪽 비과세 자격(65세 이상 등) 변수 없음",
    "layer": "VOCAB",
    "family": "세금·비과세",
-   "why": "결정 5: 「비과세로 가입 가능」 은 가입 자격이라 판별 범위 안 — 어휘 추가 후보. 세율·세금 계산은 범위 밖 그대로",
+   "why": "상품 쪽 «가입 가능» 은 effect 로 열렸다. 고객이 비과세 대상인지는 아직 변수가 없다",
    "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "결정 2026-09-20",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "정책",
     "reason": "GUIDE 원칙 6은 세금을 범위 밖으로 두지만, gold KBONE-S2-R10·KBYY-S2-R13 은 '비과세종합저축 가입 가능' 을 UNSUPPORTED('비과세 여부 변수도 세제 effect 도 없음')로 적었다. 확장하면 풀리는 VOCAB 로 셌다는 뜻이다. 세금 산출(과세·세율 변경)은 SCOPE 가 분명하지만, 비과세 가입 가능·불가는 판별처럼 읽힌다.",
     "at": "2026-09-18",
     "decided_at": "2026-09-20",
     "from": {
-     "gap": "판별 범위 밖: 세금·비과세",
-     "layer": "SCOPE"
+     "gap": "비과세종합저축 가입 자격 변수 없음",
+     "layer": "VOCAB"
     }
    }
   },
@@ -9164,21 +9220,19 @@
    }
   },
   "ALLOW::비과세종합저축으로 가입": {
-   "gap": "비과세종합저축 가입 자격 변수 없음",
-   "layer": "VOCAB",
-   "family": "세금·비과세",
-   "why": "결정 5: 「비과세로 가입 가능」 은 가입 자격이라 판별 범위 안 — 어휘 추가 후보. 세율·세금 계산은 범위 밖 그대로",
+   "effect": "TAX_EXEMPT_ELIGIBLE",
+   "why": "카탈로그 확장: 「비과세로 가입 가능」 = TAX_EXEMPT_ELIGIBLE",
    "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "결정 2026-09-20",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "정책",
     "reason": "GUIDE 원칙 6은 세금을 범위 밖으로 두지만, gold KBONE-S2-R10·KBYY-S2-R13 은 '비과세종합저축 가입 가능' 을 UNSUPPORTED('비과세 여부 변수도 세제 effect 도 없음')로 적었다. 확장하면 풀리는 VOCAB 로 셌다는 뜻이다. 세금 산출(과세·세율 변경)은 SCOPE 가 분명하지만, 비과세 가입 가능·불가는 판별처럼 읽힌다.",
     "at": "2026-09-18",
     "decided_at": "2026-09-20",
     "from": {
-     "gap": "판별 범위 밖: 세금·비과세",
-     "layer": "SCOPE"
+     "gap": "비과세종합저축 가입 자격 변수 없음",
+     "layer": "VOCAB"
     }
    }
   },
@@ -9457,17 +9511,21 @@
    }
   },
   "ALLOW::중도해지": {
-   "gap": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
-   "layer": "VOCAB",
-   "family": "해지·중도해지",
-   "why": "모임원 전원 동의 시 중도해지 가능 — 해지 허용·제한 대상 코드 없음",
-   "by": "claude-draft",
+   "effect": "RESTRICT",
+   "target": "EARLY_TERMINATION",
+   "why": "카탈로그 확장: 해지·지급 방식 금지 → RESTRICT EARLY_TERMINATION",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "맞음",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "맞음",
     "reason": "일부해지·중도해지·만기앞당김·미성년자 해지를 금지하는 대상 코드가 RESTRICT 에 없다. termination_type 은 해지 유형 변수일 뿐 금지 effect 가 아니다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "ALLOW::지점 방문": {
@@ -10565,17 +10623,21 @@
    }
   },
   "PROHIBIT::만기앞당김 지급": {
-   "gap": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
-   "layer": "VOCAB",
-   "family": "해지·중도해지",
-   "why": "만기앞당김 지급 불가 — 지급 방식 제한 대상 코드 없음",
-   "by": "claude-draft",
+   "effect": "RESTRICT",
+   "target": "EARLY_PAYOUT",
+   "why": "카탈로그 확장: 해지·지급 방식 금지 → RESTRICT EARLY_PAYOUT",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "맞음",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "맞음",
     "reason": "일부해지·중도해지·만기앞당김·미성년자 해지를 금지하는 대상 코드가 RESTRICT 에 없다. termination_type 은 해지 유형 변수일 뿐 금지 effect 가 아니다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "PROHIBIT::무통장": {
@@ -10591,68 +10653,72 @@
    }
   },
   "PROHIBIT::미성년자 명의 예금은 해지": {
-   "gap": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
-   "layer": "VOCAB",
-   "family": "해지·중도해지",
-   "why": "미성년자 명의 계좌의 (고객센터) 해지 불가는 거래 경로 안내가 아니라 해지 제한이다 — 제한 대상 코드가 없다",
-   "by": "claude-review",
-   "reviewed": false,
-   "claude_review": {
-    "verdict": "맞음",
-    "agent": "맞음",
-    "reason": "일부해지·중도해지·만기앞당김·미성년자 해지를 금지하는 대상 코드가 RESTRICT 에 없다. termination_type 은 해지 유형 변수일 뿐 금지 effect 가 아니다.",
-    "at": "2026-09-18"
-   }
-  },
-  "PROHIBIT::미성년자 예금 해지": {
-   "gap": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
-   "layer": "VOCAB",
-   "family": "해지·중도해지",
-   "why": "미성년자 명의 계좌의 (고객센터) 해지 불가는 거래 경로 안내가 아니라 해지 제한이다 — 제한 대상 코드가 없다",
-   "by": "claude-review",
-   "reviewed": false,
-   "claude_review": {
-    "verdict": "맞음",
-    "agent": "맞음",
-    "reason": "일부해지·중도해지·만기앞당김·미성년자 해지를 금지하는 대상 코드가 RESTRICT 에 없다. termination_type 은 해지 유형 변수일 뿐 금지 effect 가 아니다.",
-    "at": "2026-09-18"
-   }
-  },
-  "PROHIBIT::비과세종합저축": {
-   "gap": "비과세종합저축 가입 자격 변수 없음",
-   "layer": "VOCAB",
-   "family": "세금·비과세",
-   "why": "결정 5: 「비과세로 가입 가능」 은 가입 자격이라 판별 범위 안 — 어휘 추가 후보. 세율·세금 계산은 범위 밖 그대로",
+   "effect": "RESTRICT",
+   "target": "EARLY_TERMINATION",
+   "why": "카탈로그 확장: 해지·지급 방식 금지 → RESTRICT EARLY_TERMINATION",
    "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "결정 2026-09-20",
+    "verdict": "카탈로그 확장 2026-09-20",
+    "agent": "맞음",
+    "reason": "일부해지·중도해지·만기앞당김·미성년자 해지를 금지하는 대상 코드가 RESTRICT 에 없다. termination_type 은 해지 유형 변수일 뿐 금지 effect 가 아니다.",
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
+     "layer": "VOCAB"
+    }
+   }
+  },
+  "PROHIBIT::미성년자 예금 해지": {
+   "effect": "RESTRICT",
+   "target": "EARLY_TERMINATION",
+   "why": "카탈로그 확장: 해지·지급 방식 금지 → RESTRICT EARLY_TERMINATION",
+   "by": "claude-decision",
+   "reviewed": false,
+   "claude_review": {
+    "verdict": "카탈로그 확장 2026-09-20",
+    "agent": "맞음",
+    "reason": "일부해지·중도해지·만기앞당김·미성년자 해지를 금지하는 대상 코드가 RESTRICT 에 없다. termination_type 은 해지 유형 변수일 뿐 금지 effect 가 아니다.",
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
+     "layer": "VOCAB"
+    }
+   }
+  },
+  "PROHIBIT::비과세종합저축": {
+   "effect": "TAX_EXEMPT_ELIGIBLE",
+   "why": "카탈로그 확장: 「비과세로 가입 가능」 = TAX_EXEMPT_ELIGIBLE",
+   "by": "claude-decision",
+   "reviewed": false,
+   "claude_review": {
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "정책",
     "reason": "GUIDE 원칙 6은 세금을 범위 밖으로 두지만, gold KBONE-S2-R10·KBYY-S2-R13 은 '비과세종합저축 가입 가능' 을 UNSUPPORTED('비과세 여부 변수도 세제 effect 도 없음')로 적었다. 확장하면 풀리는 VOCAB 로 셌다는 뜻이다. 세금 산출(과세·세율 변경)은 SCOPE 가 분명하지만, 비과세 가입 가능·불가는 판별처럼 읽힌다.",
     "at": "2026-09-18",
     "decided_at": "2026-09-20",
     "from": {
-     "gap": "판별 범위 밖: 세금·비과세",
-     "layer": "SCOPE"
+     "gap": "비과세종합저축 가입 자격 변수 없음",
+     "layer": "VOCAB"
     }
    }
   },
   "PROHIBIT::비과세종합저축으로 가입": {
-   "gap": "비과세종합저축 가입 자격 변수 없음",
-   "layer": "VOCAB",
-   "family": "세금·비과세",
-   "why": "결정 5: 「비과세로 가입 가능」 은 가입 자격이라 판별 범위 안 — 어휘 추가 후보. 세율·세금 계산은 범위 밖 그대로",
+   "effect": "TAX_EXEMPT_ELIGIBLE",
+   "why": "카탈로그 확장: 「비과세로 가입 가능」 = TAX_EXEMPT_ELIGIBLE",
    "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "결정 2026-09-20",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "정책",
     "reason": "GUIDE 원칙 6은 세금을 범위 밖으로 두지만, gold KBONE-S2-R10·KBYY-S2-R13 은 '비과세종합저축 가입 가능' 을 UNSUPPORTED('비과세 여부 변수도 세제 effect 도 없음')로 적었다. 확장하면 풀리는 VOCAB 로 셌다는 뜻이다. 세금 산출(과세·세율 변경)은 SCOPE 가 분명하지만, 비과세 가입 가능·불가는 판별처럼 읽힌다.",
     "at": "2026-09-18",
     "decided_at": "2026-09-20",
     "from": {
-     "gap": "판별 범위 밖: 세금·비과세",
-     "layer": "SCOPE"
+     "gap": "비과세종합저축 가입 자격 변수 없음",
+     "layer": "VOCAB"
     }
    }
   },
@@ -10964,31 +11030,39 @@
    }
   },
   "PROHIBIT::일부 금액만 해지": {
-   "gap": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
-   "layer": "VOCAB",
-   "family": "해지·중도해지",
-   "why": "만기 전 일부해지 불가 — 대상 코드 없음(termination_type PARTIAL 변수는 있으나 금지 effect 대상이 없다)",
-   "by": "claude-draft",
+   "effect": "RESTRICT",
+   "target": "PARTIAL_TERMINATION",
+   "why": "카탈로그 확장: 해지·지급 방식 금지 → RESTRICT PARTIAL_TERMINATION",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "맞음",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "맞음",
     "reason": "일부해지·중도해지·만기앞당김·미성년자 해지를 금지하는 대상 코드가 RESTRICT 에 없다. termination_type 은 해지 유형 변수일 뿐 금지 effect 가 아니다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "PROHIBIT::일부해지": {
-   "gap": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
-   "layer": "VOCAB",
-   "family": "해지·중도해지",
-   "why": "일부해지 불가 — termination_type PARTIAL 변수는 있으나 거래 제한 대상 코드가 없음",
-   "by": "claude-draft",
+   "effect": "RESTRICT",
+   "target": "PARTIAL_TERMINATION",
+   "why": "카탈로그 확장: 해지·지급 방식 금지 → RESTRICT PARTIAL_TERMINATION",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "맞음",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "맞음",
     "reason": "일부해지·중도해지·만기앞당김·미성년자 해지를 금지하는 대상 코드가 RESTRICT 에 없다. termination_type 은 해지 유형 변수일 뿐 금지 effect 가 아니다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "PROHIBIT::임의단체": {
@@ -11206,17 +11280,21 @@
    }
   },
   "PROHIBIT::중도해지": {
-   "gap": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
-   "layer": "VOCAB",
-   "family": "해지·중도해지",
-   "why": "표지어음 중도해지 불가 — 해지 제한 대상 코드 없음",
-   "by": "claude-draft",
+   "effect": "RESTRICT",
+   "target": "EARLY_TERMINATION",
+   "why": "카탈로그 확장: 해지·지급 방식 금지 → RESTRICT EARLY_TERMINATION",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "맞음",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "맞음",
     "reason": "일부해지·중도해지·만기앞당김·미성년자 해지를 금지하는 대상 코드가 RESTRICT 에 없다. termination_type 은 해지 유형 변수일 뿐 금지 effect 가 아니다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "PROHIBIT::지급": {
@@ -11234,17 +11312,21 @@
    }
   },
   "PROHIBIT::지급기일 전에 지급": {
-   "gap": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
-   "layer": "VOCAB",
-   "family": "해지·중도해지",
-   "why": "표지어음 지급기일 전 지급 불가 — 지급 방식 제한 대상 코드 없음",
-   "by": "claude-draft",
+   "effect": "RESTRICT",
+   "target": "EARLY_TERMINATION",
+   "why": "카탈로그 확장: 해지·지급 방식 금지 → RESTRICT EARLY_TERMINATION",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "맞음",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "맞음",
     "reason": "일부해지·중도해지·만기앞당김·미성년자 해지를 금지하는 대상 코드가 RESTRICT 에 없다. termination_type 은 해지 유형 변수일 뿐 금지 effect 가 아니다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "PROHIBIT::직접 현금을 출금": {
@@ -11994,21 +12076,19 @@
    }
   },
   "SET_VALUE::소득세 및 농어촌특별세": {
-   "gap": "비과세종합저축 가입 자격 변수 없음",
-   "layer": "VOCAB",
-   "family": "세금·비과세",
-   "why": "결정 5: 「비과세로 가입 가능」 은 가입 자격이라 판별 범위 안 — 어휘 추가 후보. 세율·세금 계산은 범위 밖 그대로",
+   "effect": "TAX_EXEMPT_ELIGIBLE",
+   "why": "카탈로그 확장: 「비과세로 가입 가능」 = TAX_EXEMPT_ELIGIBLE",
    "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "결정 2026-09-20",
+    "verdict": "카탈로그 확장 2026-09-20",
     "agent": "정책",
     "reason": "GUIDE 원칙 6은 세금을 범위 밖으로 두지만, gold KBONE-S2-R10·KBYY-S2-R13 은 '비과세종합저축 가입 가능' 을 UNSUPPORTED('비과세 여부 변수도 세제 effect 도 없음')로 적었다. 확장하면 풀리는 VOCAB 로 셌다는 뜻이다. 세금 산출(과세·세율 변경)은 SCOPE 가 분명하지만, 비과세 가입 가능·불가는 판별처럼 읽힌다.",
     "at": "2026-09-18",
     "decided_at": "2026-09-20",
     "from": {
-     "gap": "판별 범위 밖: 세금·비과세",
-     "layer": "SCOPE"
+     "gap": "비과세종합저축 가입 자격 변수 없음",
+     "layer": "VOCAB"
     }
    }
   },

@@ -47,6 +47,10 @@ VARIABLES = {
     # 최종거래일" 을 이 하나로 받는다 — 만기 지급도 거래로 친다. 무거래 창을 이벤트로
     # 세면 명의변경 거래가 빠져(카탈로그에 없다) 거래중지 조문과 같은 자리에 막힌다.
     "account.last_transaction_date": _v("date", "최종거래일(입출금·이자지급·만기지급 포함)"),
+    # 2026-09-20 실행기 범위 결정. 「예금주가 만기일 전에 지급청구할 때」 처럼 **인출을 요구한 날**이
+    # 중도해지이율·만기후이율을 가른다. 해지일과 다르다 — 일부 지급도 지급청구다.
+    # **데이터 쪽 확인 필요:** 고객 데이터에 이 날짜가 있는지 아직 안 물었다.
+    "contract.payout_request_date": _v("date", "지급청구일(인출을 요구한 날)"),
 }
 
 # 값은 v3 생성물에서 실제로 쓰인 것을 기준으로 복원했다.
@@ -137,6 +141,9 @@ EFFECTS = {
     # 자리가 없을 때 모델이 가장 많이 DISQUALIFY 로 밀어 넣었다 (v14 에서 13개 중 다수).
     # target 은 RESTRICTIONS 에서 고른다. 불이익 effect — 조건이 완전해야 한다.
     "RESTRICT": ("target",),
+    # 2026-09-20 실행기 범위 결정 5. 「비과세종합저축으로 가입 가능」 — 세율·세금 계산은 범위 밖이지만
+    # **가입 자격**은 고객을 가른다. 필수 키가 없다 — 조건이 붙으면 그 조건이 자격을 좁힌다.
+    "TAX_EXEMPT_ELIGIBLE": (),
 }
 
 # value 가 반드시 수여야 하는 것들 — check_effect_value 가 쓴다
@@ -168,6 +175,11 @@ RESTRICTIONS = {
     "ALL_TRANSACTIONS": "입출금·잔액조회·이관 등 거래 전반 (거래중지)",
     "PLEDGE":           "담보제공 · 질권설정",
     "NAME_CHANGE":      "양도·상속에 의한 명의변경",
+    # 2026-09-20 실행기 범위 결정. 「일부해지 불가」 · 「중도해지 불가」 · 「만기 앞당김 지급 불가」 는
+    # 이율을 고르는 문제가 아니라 **그 거래를 막는다.** 팀원 gold 에서 9자리가 여기 걸려 있었다.
+    "PARTIAL_TERMINATION": "일부해지 · 일부인출",
+    "EARLY_TERMINATION":   "중도해지",
+    "EARLY_PAYOUT":        "만기 앞당김 지급 · 만기 전 지급청구",
 }
 
 UNITS = ("%p", "%", "원", "회", "회/월", "개월", "년", "age", "channel", "date", "")
@@ -246,6 +258,7 @@ _HINTS = {
     "customer.holder_type":      ("개인사업자", "임의단체", "공동명의", "실명의 개인"),
     # "거래가 없는" 은 넣지 않는다 — 거래중지 조문은 명의변경 거래까지 세야 해 아직 막혀 있다
     "account.last_transaction_date": ("최종거래일", "휴면"),
+    "contract.payout_request_date":   ("지급청구", "찾고자"),
     "NAME_CHANGE":               ("명의변경",),
     "SALARY_TRANSFER":           ("급여이체", "급여"),
     "AUTO_TRANSFER":             ("자동이체", "공과금", "지로", "CMS"),
@@ -294,7 +307,10 @@ def pick_restrictions(text):
     """금지 조문에 붙일 대상."""
     words = {"ALL_TRANSACTIONS": ("거래 제한", "거래중지", "잔액조회"),
              "PLEDGE": ("담보", "질권"),
-             "NAME_CHANGE": ("명의변경", "양도", "상속")}
+             "NAME_CHANGE": ("명의변경", "양도", "상속"),
+             "PARTIAL_TERMINATION": ("일부해지", "일부 해지", "일부인출"),
+             "EARLY_TERMINATION": ("중도해지", "중도 해지"),
+             "EARLY_PAYOUT": ("만기앞당김", "만기 앞당김", "만기전 지급")}
     return sorted(k for k, ws in words.items() if any(w in text for w in ws))
 
 

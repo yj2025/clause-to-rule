@@ -346,7 +346,7 @@
      "shape": false,
      "grounding": 1.0,
      "status": "RULES_FOUND",
-     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_verdict": "정상 rule",
      "gold_empty": false,
      "pred_empty": false,
      "convert_error": "v1.1 모양이 아니다",
@@ -737,7 +737,7 @@
      "shape": true,
      "grounding": 1.0,
      "status": "NO_EXECUTABLE_RULE",
-     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_verdict": "정상 rule",
      "gold_empty": false,
      "pred_empty": true,
      "convert_error": null,
@@ -919,7 +919,7 @@
      },
      "blockers": {
       "STRUCTURE": 15,
-      "VOCAB": 33,
+      "VOCAB": 31,
       "CONVERTER": 5,
       "SCOPE": 42
      },
@@ -950,7 +950,7 @@
       "SOME_CONVERTED": 1
      },
      "blockers": {
-      "VOCAB": 19,
+      "VOCAB": 17,
       "SCOPE": 6
      },
      "rules": 1,
@@ -1315,13 +1315,13 @@
      "shape": true,
      "grounding": 1.0,
      "status": "RULES_FOUND",
-     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_verdict": "정상 rule",
      "gold_empty": false,
      "pred_empty": false,
      "convert_error": null,
      "convert_outcome": "NONE_CONVERTED",
      "layers": {
-      "VOCAB": 2
+      "VOCAB": 1
      },
      "rules": [],
      "declaration_match": true
@@ -2229,13 +2229,13 @@
      "shape": true,
      "grounding": 1.0,
      "status": "RULES_FOUND",
-     "gold_verdict": "UNSUPPORTED 뿐",
+     "gold_verdict": "정상 rule",
      "gold_empty": false,
      "pred_empty": false,
      "convert_error": null,
      "convert_outcome": "NONE_CONVERTED",
      "layers": {
-      "VOCAB": 2
+      "VOCAB": 1
      },
      "rules": [],
      "declaration_match": true

@@ -76,7 +76,8 @@ def resolve(judgements, aggregation="SUM", base_rate=0.0):
             res.needs_review = True
             continue
         if t in ("FEE_WAIVE", "LIMIT_AMOUNT", "REQUIRE", "SERVICE_PROVIDE",
-                 "FEE_WAIVE_NO_CARRYOVER", "DORMANT_CONTRIBUTION", "RESTRICT"):
+                 "FEE_WAIVE_NO_CARRYOVER", "DORMANT_CONTRIBUTION", "RESTRICT",
+                 "TAX_EXEMPT_ELIGIBLE"):
             if j.status in ("MET", "UNKNOWN"):
                 res.other_effects.append({"rule_id": j.rule_id, "status": j.status, **eff})
             if j.status == "UNKNOWN":

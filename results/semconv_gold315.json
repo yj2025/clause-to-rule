@@ -306,27 +306,30 @@
    "document_name": "쓱머니 KB통장 상품설명서",
    "section_path": "섹션2/항목11",
    "status": "RULES_FOUND",
-   "outcome": "NONE_CONVERTED",
+   "outcome": "ALL_CONVERTED",
    "units": [
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
-     "rules": [],
-     "not_rule": [],
-     "n_effects": 1,
-     "n_blocked_effects": 1,
-     "blockers": [
+     "outcome": "CONVERTED",
+     "rules": [
       {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "PROHIBIT::비과세종합저축으로 가입",
-       "reason": "비과세종합저축 가입 자격 변수 없음",
-       "family": "세금·비과세"
+       "rule_id": "train-8-U01-01",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 비과세종합저축으로 가입",
+       "source": {
+        "quote": "▪ 비과세종합저축으로 가입 불가"
+       },
+       "condition": {},
+       "effect": {
+        "type": "TAX_EXEMPT_ELIGIBLE"
+       }
       }
      ],
-     "layers": [
-      "VOCAB"
-     ]
+     "not_rule": [],
+     "n_effects": 1,
+     "n_blocked_effects": 0,
+     "blockers": [],
+     "layers": []
     }
    ],
    "blockers": []
@@ -1119,13 +1122,6 @@
        "layer": "VOCAB",
        "slot": "CONDITIONAL_EFFECT.modifier",
        "surface": "관련 세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있음",
-       "reason": "비과세종합저축 가입 자격 변수 없음",
-       "family": "세금·비과세"
-      },
-      {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "ALLOW::비과세종합저축으로 가입",
        "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
       }
@@ -2543,27 +2539,30 @@
    "document_name": "KB행복지킴이통장 특약",
    "section_path": "제7조",
    "status": "RULES_FOUND",
-   "outcome": "NONE_CONVERTED",
+   "outcome": "ALL_CONVERTED",
    "units": [
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
-     "rules": [],
-     "not_rule": [],
-     "n_effects": 1,
-     "n_blocked_effects": 1,
-     "blockers": [
+     "outcome": "CONVERTED",
+     "rules": [
       {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "ALLOW::비과세종합저축으로 가입",
-       "reason": "비과세종합저축 가입 자격 변수 없음",
-       "family": "세금·비과세"
+       "rule_id": "train-62-U01-01",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 비과세종합저축으로 가입",
+       "source": {
+        "quote": "이 예금은 비과세종합저축으로 가입 가능합니다."
+       },
+       "condition": {},
+       "effect": {
+        "type": "TAX_EXEMPT_ELIGIBLE"
+       }
       }
      ],
-     "layers": [
-      "VOCAB"
-     ]
+     "not_rule": [],
+     "n_effects": 1,
+     "n_blocked_effects": 0,
+     "blockers": [],
+     "layers": []
     }
    ],
    "blockers": []
@@ -3328,23 +3327,15 @@
     },
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
+     "outcome": "NOT_A_RULE",
      "rules": [],
-     "not_rule": [],
-     "n_effects": 2,
-     "n_blocked_effects": 2,
-     "blockers": [
-      {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "PROHIBIT::미성년자 예금 해지",
-       "reason": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
-       "family": "해지·중도해지"
-      }
+     "not_rule": [
+      "절차: 거래 경로"
      ],
-     "layers": [
-      "VOCAB"
-     ]
+     "n_effects": 2,
+     "n_blocked_effects": 0,
+     "blockers": [],
+     "layers": []
     },
     {
      "form": "CONDITIONAL_EFFECT",
@@ -3702,34 +3693,62 @@
    "document_name": "KB달리자적금 특약",
    "section_path": "제11조",
    "status": "RULES_FOUND",
-   "outcome": "NONE_CONVERTED",
+   "outcome": "ALL_CONVERTED",
    "units": [
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
-     "rules": [],
-     "not_rule": [],
-     "n_effects": 2,
-     "n_blocked_effects": 2,
-     "blockers": [
+     "outcome": "CONVERTED",
+     "rules": [
       {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "PROHIBIT::일부 금액만 해지",
-       "reason": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
-       "family": "해지·중도해지"
+       "rule_id": "train-94-U01-01",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 일부 금액만 해지",
+       "source": {
+        "quote": "이 적금은 만기 전 일부 금액만 해지할 수 없습니다."
+       },
+       "condition": {
+        "<": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "var": "contract.maturity_date"
+         }
+        ]
+       },
+       "effect": {
+        "type": "RESTRICT",
+        "target": "PARTIAL_TERMINATION"
+       }
       },
       {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "PROHIBIT::만기앞당김 지급",
-       "reason": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
-       "family": "해지·중도해지"
+       "rule_id": "train-94-U01-02",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 만기앞당김 지급",
+       "source": {
+        "quote": "이 적금은 만기 전 일부 금액만 해지할 수 없습니다."
+       },
+       "condition": {
+        "<": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "var": "contract.maturity_date"
+         }
+        ]
+       },
+       "effect": {
+        "type": "RESTRICT",
+        "target": "EARLY_PAYOUT"
+       }
       }
      ],
-     "layers": [
-      "VOCAB"
-     ]
+     "not_rule": [],
+     "n_effects": 2,
+     "n_blocked_effects": 0,
+     "blockers": [],
+     "layers": []
     }
    ],
    "blockers": []
@@ -5061,13 +5080,6 @@
        "surface": "관련세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있음",
        "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
-      },
-      {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "ALLOW::비과세종합저축으로 가입",
-       "reason": "비과세종합저축 가입 자격 변수 없음",
-       "family": "세금·비과세"
       }
      ],
      "layers": [
@@ -5086,7 +5098,7 @@
        "layer": "VOCAB",
        "slot": "condition",
        "surface": "계약기간 만료일 이후",
-       "reason": "비과세종합저축 가입 자격 변수 없음",
+       "reason": "고객 쪽 비과세 자격(65세 이상 등) 변수 없음",
        "family": "세금·비과세"
       },
       {
@@ -5605,23 +5617,15 @@
     },
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
+     "outcome": "NOT_A_RULE",
      "rules": [],
-     "not_rule": [],
-     "n_effects": 2,
-     "n_blocked_effects": 2,
-     "blockers": [
-      {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "PROHIBIT::미성년자 명의 예금은 해지",
-       "reason": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
-       "family": "해지·중도해지"
-      }
+     "not_rule": [
+      "절차: 거래 경로"
      ],
-     "layers": [
-      "VOCAB"
-     ]
+     "n_effects": 2,
+     "n_blocked_effects": 0,
+     "blockers": [],
+     "layers": []
     },
     {
      "form": "CONDITIONAL_EFFECT",
@@ -5740,13 +5744,6 @@
        "family": "이자계산·지급"
       },
       {
-       "layer": "VOCAB",
-       "slot": "condition",
-       "surface": "만기일 후 지급 청구할 때",
-       "reason": "예금 지급청구일(인출 시점) 변수 없음",
-       "family": "해지·중도해지"
-      },
-      {
        "layer": "SCOPE",
        "slot": "effect",
        "surface": "ADD_VALUE::지급",
@@ -5755,8 +5752,7 @@
       }
      ],
      "layers": [
-      "SCOPE",
-      "VOCAB"
+      "SCOPE"
      ]
     }
    ],
@@ -8380,7 +8376,7 @@
        "layer": "VOCAB",
        "slot": "condition",
        "surface": "정산∙환급 세액이 발생한 경우",
-       "reason": "비과세종합저축 가입 자격 변수 없음",
+       "reason": "고객 쪽 비과세 자격(65세 이상 등) 변수 없음",
        "family": "세금·비과세"
       },
       {
@@ -8572,13 +8568,6 @@
        "family": "이자계산·지급"
       },
       {
-       "layer": "VOCAB",
-       "slot": "condition",
-       "surface": "만기일 후에 찾고자 하는 경우",
-       "reason": "예금 지급청구일(인출 시점) 변수 없음",
-       "family": "해지·중도해지"
-      },
-      {
        "layer": "SCOPE",
        "slot": "effect",
        "surface": "ADD_VALUE::지급",
@@ -8588,8 +8577,7 @@
      ],
      "layers": [
       "SOURCE",
-      "SCOPE",
-      "VOCAB"
+      "SCOPE"
      ]
     }
    ],
@@ -8931,13 +8919,6 @@
        "surface": "특별중도해지",
        "reason": "판별 범위 밖: 세금·비과세",
        "family": "해지·중도해지"
-      },
-      {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "SET_VALUE::소득세 및 농어촌특별세",
-       "reason": "비과세종합저축 가입 자격 변수 없음",
-       "family": "세금·비과세"
       }
      ],
      "layers": [
@@ -9700,13 +9681,6 @@
       {
        "layer": "VOCAB",
        "slot": "condition",
-       "surface": "예금주가 만기일 전에 지급 청구한 때",
-       "reason": "예금 지급청구일(인출 시점) 변수 없음",
-       "family": "해지·중도해지"
-      },
-      {
-       "layer": "VOCAB",
-       "slot": "condition",
        "surface": "정기적립식의 경우 만기일까지 약정한 모든 회차의 월저축금을 입금하지 않고 만기일 이후에 청구하였을때",
        "reason": "적금 납입 회차·완납 여부 없음",
        "family": "거래실적·이벤트"
@@ -9934,13 +9908,6 @@
        "family": "이자계산·지급"
       },
       {
-       "layer": "VOCAB",
-       "slot": "condition",
-       "surface": "예금주가 만기일 전에 찾고자 하는 경우",
-       "reason": "예금 지급청구일(인출 시점) 변수 없음",
-       "family": "해지·중도해지"
-      },
-      {
        "layer": "SCOPE",
        "slot": "effect",
        "surface": "ADD_VALUE::원금",
@@ -9949,8 +9916,7 @@
       }
      ],
      "layers": [
-      "SCOPE",
-      "VOCAB"
+      "SCOPE"
      ]
     }
    ],
@@ -10258,13 +10224,6 @@
       {
        "layer": "VOCAB",
        "slot": "condition",
-       "surface": "예금주가 만기일 전에 지급 청구 한 때",
-       "reason": "예금 지급청구일(인출 시점) 변수 없음",
-       "family": "해지·중도해지"
-      },
-      {
-       "layer": "VOCAB",
-       "slot": "condition",
        "surface": "정기적립식의 경우 만기일까지 약정한 모든 회차의 월 저축금을 입금하지 않고 만기일 이후에 청구하였을 때",
        "reason": "적금 납입 회차·완납 여부 없음",
        "family": "거래실적·이벤트"
@@ -10311,13 +10270,6 @@
        "family": "이자계산·지급"
       },
       {
-       "layer": "VOCAB",
-       "slot": "condition",
-       "surface": "예금주가 만기일 전에 지급청구할 때",
-       "reason": "예금 지급청구일(인출 시점) 변수 없음",
-       "family": "해지·중도해지"
-      },
-      {
        "layer": "STRUCTURE",
        "slot": "effect",
        "surface": "지급",
@@ -10327,8 +10279,7 @@
      ],
      "layers": [
       "SCOPE",
-      "STRUCTURE",
-      "VOCAB"
+      "STRUCTURE"
      ]
     }
    ],
@@ -10683,13 +10634,6 @@
        "family": "이자계산·지급"
       },
       {
-       "layer": "VOCAB",
-       "slot": "condition",
-       "surface": "예금주가 만기일 (재예치일)전에 지급 청구 할 때",
-       "reason": "예금 지급청구일(인출 시점) 변수 없음",
-       "family": "해지·중도해지"
-      },
-      {
        "layer": "STRUCTURE",
        "slot": "effect",
        "surface": "중도해지 이자율",
@@ -10699,8 +10643,7 @@
      ],
      "layers": [
       "SCOPE",
-      "STRUCTURE",
-      "VOCAB"
+      "STRUCTURE"
      ]
     }
    ],
@@ -10784,13 +10727,6 @@
        "family": "이자계산·지급"
       },
       {
-       "layer": "VOCAB",
-       "slot": "condition",
-       "surface": "예금주가 만기일 후에 찾고자 하는 경우",
-       "reason": "예금 지급청구일(인출 시점) 변수 없음",
-       "family": "해지·중도해지"
-      },
-      {
        "layer": "SCOPE",
        "slot": "effect",
        "surface": "ADD_VALUE::지급",
@@ -10800,8 +10736,7 @@
      ],
      "layers": [
       "SOURCE",
-      "SCOPE",
-      "VOCAB"
+      "SCOPE"
      ]
     },
     {
@@ -11141,13 +11076,6 @@
        "family": "이자계산·지급"
       },
       {
-       "layer": "VOCAB",
-       "slot": "condition",
-       "surface": "예금주가 만기일 후에 찾고자 하는 경우",
-       "reason": "예금 지급청구일(인출 시점) 변수 없음",
-       "family": "해지·중도해지"
-      },
-      {
        "layer": "SCOPE",
        "slot": "effect",
        "surface": "ADD_VALUE::지급",
@@ -11157,8 +11085,7 @@
      ],
      "layers": [
       "SOURCE",
-      "SCOPE",
-      "VOCAB"
+      "SCOPE"
      ]
     }
    ],
@@ -11171,7 +11098,7 @@
    "document_name": "표지어음 특약",
    "section_path": "제3조",
    "status": "RULES_FOUND",
-   "outcome": "NONE_CONVERTED",
+   "outcome": "SOME_CONVERTED",
    "units": [
     {
      "form": "CONDITIONAL_EFFECT",
@@ -11209,23 +11136,36 @@
     },
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
-     "rules": [],
-     "not_rule": [],
-     "n_effects": 1,
-     "n_blocked_effects": 1,
-     "blockers": [
+     "outcome": "CONVERTED",
+     "rules": [
       {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "PROHIBIT::지급기일 전에 지급",
-       "reason": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
-       "family": "해지·중도해지"
+       "rule_id": "train-300-U02-01",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 지급기일 전에 지급",
+       "source": {
+        "quote": "표지어음은 지급기일 전에 지급하지 않습니다."
+       },
+       "condition": {
+        "<": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "var": "contract.maturity_date"
+         }
+        ]
+       },
+       "effect": {
+        "type": "RESTRICT",
+        "target": "EARLY_TERMINATION"
+       }
       }
      ],
-     "layers": [
-      "VOCAB"
-     ]
+     "not_rule": [],
+     "n_effects": 1,
+     "n_blocked_effects": 0,
+     "blockers": [],
+     "layers": []
     }
    ],
    "blockers": []
@@ -11372,27 +11312,30 @@
    "document_name": "KB호국보훈지킴이통장 특약",
    "section_path": "제7조",
    "status": "RULES_FOUND",
-   "outcome": "NONE_CONVERTED",
+   "outcome": "ALL_CONVERTED",
    "units": [
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
-     "rules": [],
-     "not_rule": [],
-     "n_effects": 1,
-     "n_blocked_effects": 1,
-     "blockers": [
+     "outcome": "CONVERTED",
+     "rules": [
       {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "ALLOW::비과세종합저축으로 가입",
-       "reason": "비과세종합저축 가입 자격 변수 없음",
-       "family": "세금·비과세"
+       "rule_id": "dev-303-U01-01",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 비과세종합저축으로 가입",
+       "source": {
+        "quote": "이 예금은 비과세종합저축으로 가입할 수 있습니다."
+       },
+       "condition": {},
+       "effect": {
+        "type": "TAX_EXEMPT_ELIGIBLE"
+       }
       }
      ],
-     "layers": [
-      "VOCAB"
-     ]
+     "not_rule": [],
+     "n_effects": 1,
+     "n_blocked_effects": 0,
+     "blockers": [],
+     "layers": []
     }
    ],
    "blockers": []
@@ -12812,13 +12755,6 @@
        "surface": "관련 세법 개정 시 세율이 변경되거나 세금이 부과될 수 있음",
        "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
-      },
-      {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "ALLOW::비과세종합저축으로 가입",
-       "reason": "비과세종합저축 가입 자격 변수 없음",
-       "family": "세금·비과세"
       }
      ],
      "layers": [
@@ -12837,7 +12773,7 @@
        "layer": "VOCAB",
        "slot": "condition",
        "surface": "계약기간 만료일 이후",
-       "reason": "비과세종합저축 가입 자격 변수 없음",
+       "reason": "고객 쪽 비과세 자격(65세 이상 등) 변수 없음",
        "family": "세금·비과세"
       },
       {
@@ -13362,27 +13298,30 @@
    "document_name": "SOL모임저금통 특약",
    "section_path": "제14조",
    "status": "RULES_FOUND",
-   "outcome": "NONE_CONVERTED",
+   "outcome": "ALL_CONVERTED",
    "units": [
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
-     "rules": [],
-     "not_rule": [],
-     "n_effects": 1,
-     "n_blocked_effects": 1,
-     "blockers": [
+     "outcome": "CONVERTED",
+     "rules": [
       {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "PROHIBIT::비과세종합저축으로 가입",
-       "reason": "비과세종합저축 가입 자격 변수 없음",
-       "family": "세금·비과세"
+       "rule_id": "dev-333-U01-01",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 비과세종합저축으로 가입",
+       "source": {
+        "quote": "이 예금은 비과세종합저축으로 가입할 수 없습니다."
+       },
+       "condition": {},
+       "effect": {
+        "type": "TAX_EXEMPT_ELIGIBLE"
+       }
       }
      ],
-     "layers": [
-      "VOCAB"
-     ]
+     "not_rule": [],
+     "n_effects": 1,
+     "n_blocked_effects": 0,
+     "blockers": [],
+     "layers": []
     }
    ],
    "blockers": []
@@ -13787,7 +13726,7 @@
    "document_name": "SOL모임적금 상품설명서",
    "section_path": "섹션3",
    "status": "RULES_FOUND",
-   "outcome": "NONE_CONVERTED",
+   "outcome": "SOME_CONVERTED",
    "units": [
     {
      "form": "CONDITIONAL_EFFECT",
@@ -13973,13 +13912,39 @@
     },
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
-     "rules": [],
+     "outcome": "PARTIAL",
+     "rules": [
+      {
+       "rule_id": "dev-343-U08-01",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 일부해지",
+       "source": {
+        "quote": "| 재예치 | X | **자동해지** 가능 |\n| 일부해지 | X | **예금담보대출** X |"
+       },
+       "condition": {},
+       "effect": {
+        "type": "RESTRICT",
+        "target": "PARTIAL_TERMINATION"
+       }
+      },
+      {
+       "rule_id": "dev-343-U08-02",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 비과세종합저축",
+       "source": {
+        "quote": "| 재예치 | X | **자동해지** 가능 |\n| 일부해지 | X | **예금담보대출** X |"
+       },
+       "condition": {},
+       "effect": {
+        "type": "TAX_EXEMPT_ELIGIBLE"
+       }
+      }
+     ],
      "not_rule": [
       "허용 서술: 제약 없음"
      ],
      "n_effects": 5,
-     "n_blocked_effects": 4,
+     "n_blocked_effects": 2,
      "blockers": [
       {
        "layer": "VOCAB",
@@ -13991,23 +13956,9 @@
       {
        "layer": "VOCAB",
        "slot": "effect",
-       "surface": "PROHIBIT::일부해지",
-       "reason": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
-       "family": "해지·중도해지"
-      },
-      {
-       "layer": "VOCAB",
-       "slot": "effect",
        "surface": "PROHIBIT::예금담보대출",
        "reason": "제한 대상 코드 없음: 예금담보대출",
        "family": "거래제한·금지"
-      },
-      {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "PROHIBIT::비과세종합저축",
-       "reason": "비과세종합저축 가입 자격 변수 없음",
-       "family": "세금·비과세"
       }
      ],
      "layers": [
@@ -14027,13 +13978,6 @@
        "slot": "condition",
        "surface": "모임원에게 중도해지 동의를 요청하여 전원의 동의를 받은 경우",
        "reason": "모임원 동의 여부 변수 없음",
-       "family": "해지·중도해지"
-      },
-      {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "ALLOW::중도해지",
-       "reason": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
        "family": "해지·중도해지"
       }
      ],
@@ -14512,13 +14456,27 @@
     },
     {
      "form": "CONDITIONAL_EFFECT",
-     "outcome": "BLOCKED",
-     "rules": [],
+     "outcome": "PARTIAL",
+     "rules": [
+      {
+       "rule_id": "dev-348-U06-01",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 일부해지",
+       "source": {
+        "quote": "| 재예치 | X | | |\n| 자동해지 | O | 자동해지 서비스 이용 가능 | |\n| 일부해지 | X | | |"
+       },
+       "condition": {},
+       "effect": {
+        "type": "RESTRICT",
+        "target": "PARTIAL_TERMINATION"
+       }
+      }
+     ],
      "not_rule": [
       "허용 서술: 제약 없음"
      ],
      "n_effects": 3,
-     "n_blocked_effects": 2,
+     "n_blocked_effects": 1,
      "blockers": [
       {
        "layer": "VOCAB",
@@ -14526,13 +14484,6 @@
        "surface": "PROHIBIT::재예치",
        "reason": "재예치 허용·제한 대상 코드 없음",
        "family": "상품전환·재예치"
-      },
-      {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "PROHIBIT::일부해지",
-       "reason": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
-       "family": "해지·중도해지"
       }
      ],
      "layers": [
@@ -14764,6 +14715,44 @@
       {
        "rule_id": "dev-350-U02-01",
        "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 중도해지",
+       "source": {
+        "quote": "| 중도해지 이자율 | **중도해지 불가** |"
+       },
+       "condition": {},
+       "effect": {
+        "type": "RESTRICT",
+        "target": "EARLY_TERMINATION"
+       }
+      },
+      {
+       "rule_id": "dev-350-U02-02",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 일부해지",
+       "source": {
+        "quote": "| 중도해지 이자율 | **중도해지 불가** |"
+       },
+       "condition": {},
+       "effect": {
+        "type": "RESTRICT",
+        "target": "PARTIAL_TERMINATION"
+       }
+      },
+      {
+       "rule_id": "dev-350-U02-03",
+       "status": "OK",
+       "label": "CONDITIONAL_EFFECT · 비과세종합저축",
+       "source": {
+        "quote": "| 중도해지 이자율 | **중도해지 불가** |"
+       },
+       "condition": {},
+       "effect": {
+        "type": "TAX_EXEMPT_ELIGIBLE"
+       }
+      },
+      {
+       "rule_id": "dev-350-U02-04",
+       "status": "OK",
        "label": "CONDITIONAL_EFFECT · 공동명의",
        "source": {
         "quote": "| 중도해지 이자율 | **중도해지 불가** |"
@@ -14785,35 +14774,14 @@
       "절차: 통장 발행 여부"
      ],
      "n_effects": 6,
-     "n_blocked_effects": 4,
+     "n_blocked_effects": 1,
      "blockers": [
-      {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "PROHIBIT::중도해지",
-       "reason": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
-       "family": "해지·중도해지"
-      },
-      {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "PROHIBIT::일부해지",
-       "reason": "해지·지급 방식 제한(일부해지·중도해지·만기앞당김 지급) 대상 코드 없음",
-       "family": "해지·중도해지"
-      },
       {
        "layer": "VOCAB",
        "slot": "effect",
        "surface": "PROHIBIT::재예치",
        "reason": "재예치 허용·제한 대상 코드 없음",
        "family": "상품전환·재예치"
-      },
-      {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "PROHIBIT::비과세종합저축",
-       "reason": "비과세종합저축 가입 자격 변수 없음",
-       "family": "세금·비과세"
       }
      ],
      "layers": [
