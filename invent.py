@@ -13,6 +13,10 @@
 
 지금은 **이름 자리 전부**를 본다: effect 의 target · 자유 문자열 값 · 조건의 변수 ·
 이벤트 · 앵커 · 이벤트 속성 값. 분모는 그 자리에 실제로 쓴 이름의 수다.
+
+**자리마다 쓸 수 있는 이름이 다르다.** `WITHDRAWAL` 은 이벤트로는 카탈로그에 있지만
+`RESTRICT` 의 target 은 아니다 — v28 이 실제로 낸 것이 그것이다. 카탈로그 어딘가에 있으면
+봐주는 셈법은 이 현상을 놓친다. 그래서 **자리별 어휘**로 본다 (`SLOT_VOCAB`).
 옛 값과 견주려면 `--value-only` 를 쓴다.
 
 **관문(③)의 계약은 안 바꿨다.** `check_rule` 은 그대로다 — ⑬ 은 뜻을 재는 축이고
@@ -96,6 +100,20 @@ def check_rule(rule, vocab=None):
 _ATTR_KEYS = {"min_amount"}          # 값이 이름이 아니라 수인 자리
 
 
+def slot_vocab():
+    """자리 → 그 자리에 쓸 수 있는 이름. 자리를 틀리면 지어낸 것으로 센다."""
+    targets = (set(catalog.FEES) | set(catalog.SERVICES) | set(catalog.RESTRICTIONS)
+               | set(catalog.STATES) | set(catalog.PRODUCTS))
+    attrs = {v for a in catalog.EVENT_ATTRIBUTES.values() for vals in a.values() for v in vals}
+    return {"effect.target": targets,
+            "effect.applies_to": set(catalog.APPLIES_TO),
+            "effect.value": known(),
+            "condition.var": set(catalog.VARIABLES),
+            "condition.anchor": set(catalog.VARIABLES),
+            "condition.event": set(catalog.EVENTS),
+            "condition.where": attrs}
+
+
 def names_of(rule):
     """rule 하나가 **이름 자리**에 쓴 이름들 → [(자리, 이름)]."""
     out = []
@@ -133,8 +151,8 @@ def names_of(rule):
 
 
 def audit_names(recs, vocab=None):
-    """이름 자리에 쓴 이름 중 카탈로그에 없는 것. ⑬ 의 지금 정의다."""
-    vocab = known() if vocab is None else vocab
+    """이름 자리에 쓴 이름 중 **그 자리의 카탈로그에 없는 것.** ⑬ 의 지금 정의다."""
+    vocab = slot_vocab() if vocab is None else vocab
     checked = bad = 0
     names = collections.Counter()
     slots = collections.Counter()
@@ -145,7 +163,7 @@ def audit_names(recs, vocab=None):
                 continue
             for slot, name in names_of(r):
                 checked += 1
-                if name not in vocab:
+                if name not in vocab.get(slot, set()):
                     bad += 1
                     names[name] += 1
                     slots[slot] += 1
