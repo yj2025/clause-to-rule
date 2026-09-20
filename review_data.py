@@ -66,6 +66,9 @@ def gold_data():
                         "일부 UNSUPPORTED" if any(r["status"] == "UNSUPPORTED" for r in rules) else
                         "정상 rule"),
             "rules": rules, "note": g.get("note", ""),
+            "claude": (g.get("claude_review") or {}).get("verdict"),
+            "claude_why": ((g.get("claude_review") or {}).get("decision_note")
+                           or (g.get("claude_review") or {}).get("reason")),
             "decision": g.get("provisional_decision"),
             "principles": pa.get("basis") or [],
         })
@@ -132,15 +135,20 @@ def lex_data():
     for kind, table in raw.items():
         for key, e in table.items():
             k = (kind, semconv._norm(key))
-            judged = {x: v for x, v in e.items() if x not in ("why", "by", "reviewed", "source")}
+            judged = {x: v for x, v in e.items()
+                      if x not in ("why", "by", "reviewed", "source", "claude_review",
+                                   "gold_informed", "human_review")}
+            cr = e.get("claude_review") or {}
             row = {"id": entry_id(kind, key), "kind": kind, "key": key, "type": _kind_of(e),
                    "entry": judged, "why": e.get("why", ""), "source": e.get("source"),
+                   "claude": cr.get("verdict"), "claude_why": cr.get("main_reason") or cr.get("reason"),
+                   "gold_informed": bool(e.get("gold_informed")),
                    "count": count.get(k, 0), "ctx": ctx.get(k, [])}
             if row["type"] == "gap":
                 gid = group_id(e.get("layer", "VOCAB"), e["gap"])
                 g = groups.setdefault(gid, {"id": gid, "layer": e.get("layer", "VOCAB"),
                                             "reason": e["gap"], "family": e.get("family"),
-                                            "members": []})
+                                            "claude": cr.get("verdict"), "members": []})
                 g["members"].append(row)
             else:
                 items.append(row)
