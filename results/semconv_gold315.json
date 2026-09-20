@@ -317,15 +317,15 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "effect",
        "surface": "PROHIBIT::비과세종합저축으로 가입",
-       "reason": "판별 범위 밖: 세금·비과세",
+       "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
       }
      ],
      "layers": [
-      "SCOPE"
+      "VOCAB"
      ]
     }
    ],
@@ -1116,22 +1116,22 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "CONDITIONAL_EFFECT.modifier",
        "surface": "관련 세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있음",
-       "reason": "판별 범위 밖: 세금·비과세",
+       "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
       },
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "effect",
        "surface": "ALLOW::비과세종합저축으로 가입",
-       "reason": "판별 범위 밖: 세금·비과세",
+       "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
       }
      ],
      "layers": [
-      "SCOPE"
+      "VOCAB"
      ]
     }
    ],
@@ -1495,7 +1495,7 @@
        "family": "상품전환·재예치"
       },
       {
-       "layer": "STRUCTURE",
+       "layer": "VOCAB",
        "slot": "effect",
        "surface": "CHANGE_STATE::저금통은 자동 해제",
        "reason": "계좌·부가서비스 상태 변경 effect 없음",
@@ -1503,7 +1503,6 @@
       }
      ],
      "layers": [
-      "STRUCTURE",
       "VOCAB"
      ]
     },
@@ -1938,6 +1937,13 @@
      "n_blocked_effects": 3,
      "blockers": [
       {
+       "layer": "CONVERTER",
+       "slot": "CONDITIONAL_EFFECT.scope",
+       "surface": "이번 달 11일부터 다음 달 10일까지",
+       "reason": "변환기 칸 구조 한계: 면제기간에 따라 실적 창을 갈라야 한다 (scope 칸은 AND 만 붙인다)",
+       "family": "수수료"
+      },
+      {
        "layer": "VOCAB",
        "slot": "condition",
        "surface": "전월 중 사립학교교직원연금 급여 입금실적이 있는 경우",
@@ -1961,7 +1967,8 @@
      ],
      "layers": [
       "STRUCTURE",
-      "VOCAB"
+      "VOCAB",
+      "CONVERTER"
      ]
     }
    ],
@@ -2547,15 +2554,15 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "effect",
        "surface": "ALLOW::비과세종합저축으로 가입",
-       "reason": "판별 범위 밖: 세금·비과세",
+       "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
       }
      ],
      "layers": [
-      "SCOPE"
+      "VOCAB"
      ]
     }
    ],
@@ -2579,6 +2586,13 @@
      "n_blocked_effects": 2,
      "blockers": [
       {
+       "layer": "CONVERTER",
+       "slot": "CONDITIONAL_EFFECT.scope",
+       "surface": "이번 달 11일부터 다음 달 10일까지",
+       "reason": "변환기 칸 구조 한계: 면제기간에 따라 실적 창을 갈라야 한다 (scope 칸은 AND 만 붙인다)",
+       "family": "수수료"
+      },
+      {
        "layer": "VOCAB",
        "slot": "condition",
        "surface": "전월에",
@@ -2587,7 +2601,8 @@
       }
      ],
      "layers": [
-      "VOCAB"
+      "VOCAB",
+      "CONVERTER"
      ]
     }
    ],
@@ -3438,14 +3453,14 @@
        "layer": "STRUCTURE",
        "slot": "constraint",
        "surface": "1만원 이상",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "적립식 납입 단위(월·회차·건별) 구분 없음",
        "family": "가입금액·한도"
       },
       {
        "layer": "STRUCTURE",
        "slot": "constraint",
        "surface": "100만원 이하",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "적립식 납입 단위(월·회차·건별) 구분 없음",
        "family": "가입금액·한도"
       }
      ],
@@ -3840,50 +3855,43 @@
      "n_blocked_effects": 3,
      "blockers": [
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "selector",
        "surface": "만기후이율",
-       "reason": "만기후 경과기간 변수 없음",
+       "reason": "만기후 경과기간을 수로 세는 연산 없음",
        "family": "계약기간·만기"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "selector",
        "surface": "만기후이율",
-       "reason": "만기후 경과기간 변수 없음",
+       "reason": "만기후 경과기간을 수로 세는 연산 없음",
        "family": "계약기간·만기"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "selector",
        "surface": "만기후이율",
-       "reason": "만기후 경과기간 변수 없음",
+       "reason": "만기후 경과기간을 수로 세는 연산 없음",
        "family": "계약기간·만기"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "selector.effect",
-       "surface": "APPLY_VALUE::만기후이율",
-       "reason": "만기후이율 없음",
-       "family": "금리·이율값"
+       "surface": "만기후이율",
+       "reason": "금리 값이 문서 안의 수가 아니다 (게시값 참조 · 계산식)",
+       "family": null
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "selector.effect",
-       "surface": "APPLY_VALUE::만기후이율",
-       "reason": "만기후이율 없음",
-       "family": "금리·이율값"
-      },
-      {
-       "layer": "VOCAB",
-       "slot": "selector.effect",
-       "surface": "APPLY_VALUE::만기후이율",
-       "reason": "만기후이율 없음",
-       "family": "금리·이율값"
+       "surface": "만기후이율",
+       "reason": "금리 값이 문서 안의 수가 아니다 (게시값 참조 · 계산식)",
+       "family": null
       }
      ],
      "layers": [
-      "VOCAB"
+      "STRUCTURE"
      ]
     }
    ],
@@ -4239,10 +4247,10 @@
      "n_blocked_effects": 2,
      "blockers": [
       {
-       "layer": "VOCAB",
+       "layer": "SCOPE",
        "slot": "CONDITIONAL_EFFECT.modifier",
        "surface": "미성년자 명의 계좌인 경우 또는 계좌에 법적지급제한 등 해지 제한 사유가 있으면 자동 해지되지 않습니다",
-       "reason": "해지 제한 사유(법적지급제한·사고등록·담보제공) 변수 없음",
+       "reason": "판별 범위 밖: 자동해지·자동재예치 실행",
        "family": "해지·중도해지"
       },
       {
@@ -4327,10 +4335,10 @@
      "n_blocked_effects": 2,
      "blockers": [
       {
-       "layer": "VOCAB",
+       "layer": "SCOPE",
        "slot": "CONDITIONAL_EFFECT.modifier",
        "surface": "미성년자 명의 계좌인 경우 또는 계좌에 법적지급제한 등 해지 제한 사유가 있으면 자동 해지되지 않습니다",
-       "reason": "해지 제한 사유(법적지급제한·사고등록·담보제공) 변수 없음",
+       "reason": "판별 범위 밖: 자동해지·자동재예치 실행",
        "family": "해지·중도해지"
       },
       {
@@ -4395,14 +4403,14 @@
        "layer": "STRUCTURE",
        "slot": "constraint",
        "surface": "1만원 이상",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "적립식 납입 단위(월·회차·건별) 구분 없음",
        "family": "가입금액·한도"
       },
       {
        "layer": "STRUCTURE",
        "slot": "constraint",
        "surface": "100만원 이하",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "적립식 납입 단위(월·회차·건별) 구분 없음",
        "family": "가입금액·한도"
       }
      ],
@@ -4926,21 +4934,22 @@
        "family": "가입금액·한도"
       },
       {
-       "layer": "STRUCTURE",
+       "layer": "SCOPE",
        "slot": "constraint",
        "surface": "회차별 1천원 이상",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "판별 범위 밖: 거래 단위 제약(회차·건별·이체한도)",
        "family": "가입금액·한도"
       },
       {
        "layer": "STRUCTURE",
        "slot": "constraint",
        "surface": "50만원 이하",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "적립식 납입 단위(월·회차·건별) 구분 없음",
        "family": "가입금액·한도"
       }
      ],
      "layers": [
+      "SCOPE",
       "STRUCTURE"
      ]
     }
@@ -5047,22 +5056,22 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "CONDITIONAL_EFFECT.modifier",
        "surface": "관련세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있음",
-       "reason": "판별 범위 밖: 세금·비과세",
+       "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
       },
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "effect",
        "surface": "ALLOW::비과세종합저축으로 가입",
-       "reason": "판별 범위 밖: 세금·비과세",
+       "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
       }
      ],
      "layers": [
-      "SCOPE"
+      "VOCAB"
      ]
     },
     {
@@ -5074,10 +5083,10 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "condition",
        "surface": "계약기간 만료일 이후",
-       "reason": "판별 범위 밖: 세금·비과세",
+       "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
       },
       {
@@ -5089,7 +5098,8 @@
       }
      ],
      "layers": [
-      "SCOPE"
+      "SCOPE",
+      "VOCAB"
      ]
     }
    ],
@@ -5560,15 +5570,8 @@
       {
        "layer": "STRUCTURE",
        "slot": "constraint",
-       "surface": "월 1천원 이상",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
-       "family": "가입금액·한도"
-      },
-      {
-       "layer": "STRUCTURE",
-       "slot": "constraint",
        "surface": "50만원 이하",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "적립식 납입 단위(월·회차·건별) 구분 없음",
        "family": "가입금액·한도"
       }
      ],
@@ -5629,10 +5632,10 @@
      "n_blocked_effects": 2,
      "blockers": [
       {
-       "layer": "VOCAB",
+       "layer": "SCOPE",
        "slot": "CONDITIONAL_EFFECT.modifier",
        "surface": "법적지급제한 등 해지 제한 사유가 등록되어 있는 경우 자동해지 되지 않음",
-       "reason": "해지 제한 사유(법적지급제한·사고등록·담보제공) 변수 없음",
+       "reason": "판별 범위 밖: 자동해지·자동재예치 실행",
        "family": "해지·중도해지"
       },
       {
@@ -7152,7 +7155,7 @@
        "layer": "STRUCTURE",
        "slot": "constraint",
        "surface": "입금금액",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "적립식 납입 단위(월·회차·건별) 구분 없음",
        "family": "가입금액·한도"
       }
      ],
@@ -7711,6 +7714,13 @@
      "n_effects": 1,
      "n_blocked_effects": 1,
      "blockers": [
+      {
+       "layer": "CONVERTER",
+       "slot": "CONDITIONAL_EFFECT.scope",
+       "surface": "다음달 16일부터 다음 다음달 15일까지 1개월간",
+       "reason": "변환기 칸 구조 한계: 면제기간에 따라 실적 창을 갈라야 한다 (scope 칸은 AND 만 붙인다)",
+       "family": "수수료"
+      },
       {
        "layer": "CONVERTER",
        "slot": "CONDITIONAL_EFFECT.modifier",
@@ -8367,10 +8377,10 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "condition",
        "surface": "정산∙환급 세액이 발생한 경우",
-       "reason": "판별 범위 밖: 세금·비과세",
+       "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
       },
       {
@@ -8382,7 +8392,8 @@
       }
      ],
      "layers": [
-      "SCOPE"
+      "SCOPE",
+      "VOCAB"
      ]
     },
     {
@@ -8443,8 +8454,8 @@
        "layer": "SCOPE",
        "slot": "constraint",
        "surface": "1회 (10)억",
-       "reason": "전자금융 이체한도(1회·1일)",
-       "family": "거래제한·금지"
+       "reason": "판별 범위 밖: 거래 단위 제약(회차·건별·이체한도)",
+       "family": "가입금액·한도"
       }
      ],
      "layers": [
@@ -8908,10 +8919,10 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "CONDITIONAL_EFFECT.modifier",
        "surface": "과세특례 요건을 갖추지 못한 것이 확인된 경우에는 소득세 및 농어촌특별세가 부과됩니다",
-       "reason": "판별 범위 밖: 세금·비과세",
+       "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
       },
       {
@@ -8922,15 +8933,16 @@
        "family": "해지·중도해지"
       },
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "effect",
        "surface": "SET_VALUE::소득세 및 농어촌특별세",
-       "reason": "판별 범위 밖: 세금·비과세",
+       "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
       }
      ],
      "layers": [
-      "SCOPE"
+      "SCOPE",
+      "VOCAB"
      ]
     }
    ],
@@ -8968,7 +8980,7 @@
        "layer": "STRUCTURE",
        "slot": "constraint",
        "surface": "저축한도",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "적립식 납입 단위(월·회차·건별) 구분 없음",
        "family": "가입금액·한도"
       }
      ],
@@ -9000,7 +9012,7 @@
        "layer": "STRUCTURE",
        "slot": "constraint",
        "surface": "최소 가입가능 금액",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "적립식 납입 단위(월·회차·건별) 구분 없음",
        "family": "가입금액·한도"
       }
      ],
@@ -9611,7 +9623,7 @@
        "layer": "STRUCTURE",
        "slot": "constraint",
        "surface": "최소납입금액",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "적립식 납입 단위(월·회차·건별) 구분 없음",
        "family": "가입금액·한도"
       }
      ],
@@ -9700,15 +9712,16 @@
        "family": "거래실적·이벤트"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "effect",
-       "surface": "APPLY_VALUE::중도해지이자율",
-       "reason": "중도해지이율 없음",
-       "family": "해지·중도해지"
+       "surface": "중도해지이자율",
+       "reason": "금리 값이 문서 안의 수가 아니다 (게시값 참조 · 계산식)",
+       "family": null
       }
      ],
      "layers": [
       "SCOPE",
+      "STRUCTURE",
       "VOCAB"
      ]
     }
@@ -9751,14 +9764,15 @@
        "family": "외화·송금"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "effect",
-       "surface": "APPLY_VALUE::특별중도해지",
-       "reason": "중도해지이율 없음",
-       "family": "금리·이율값"
+       "surface": "특별중도해지",
+       "reason": "금리 값이 문서 안의 수가 아니다 (게시값 참조 · 계산식)",
+       "family": null
       }
      ],
      "layers": [
+      "STRUCTURE",
       "VOCAB"
      ]
     }
@@ -9790,51 +9804,44 @@
        "family": null
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "selector",
        "surface": "만기후 이자율",
-       "reason": "만기후 경과기간 변수 없음",
+       "reason": "만기후 경과기간을 수로 세는 연산 없음",
        "family": "계약기간·만기"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "selector",
        "surface": "만기후 이자율",
-       "reason": "만기후 경과기간 변수 없음",
+       "reason": "만기후 경과기간을 수로 세는 연산 없음",
        "family": "계약기간·만기"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "selector",
        "surface": "만기후 이자율",
-       "reason": "만기후 경과기간 변수 없음",
+       "reason": "만기후 경과기간을 수로 세는 연산 없음",
        "family": "계약기간·만기"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "selector.effect",
-       "surface": "APPLY_VALUE::만기후 이자율",
-       "reason": "만기후이율 없음",
-       "family": "금리·이율값"
+       "surface": "만기후 이자율",
+       "reason": "금리 값이 문서 안의 수가 아니다 (게시값 참조 · 계산식)",
+       "family": null
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "selector.effect",
-       "surface": "APPLY_VALUE::만기후 이자율",
-       "reason": "만기후이율 없음",
-       "family": "금리·이율값"
-      },
-      {
-       "layer": "VOCAB",
-       "slot": "selector.effect",
-       "surface": "APPLY_VALUE::만기후 이자율",
-       "reason": "만기후이율 없음",
-       "family": "금리·이율값"
+       "surface": "만기후 이자율",
+       "reason": "금리 값이 문서 안의 수가 아니다 (게시값 참조 · 계산식)",
+       "family": null
       }
      ],
      "layers": [
       "SOURCE",
-      "VOCAB"
+      "STRUCTURE"
      ]
     }
    ],
@@ -9865,14 +9872,15 @@
        "family": "외화·송금"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "effect",
-       "surface": "APPLY_VALUE::특별중도해지",
-       "reason": "중도해지이율 없음",
-       "family": "금리·이율값"
+       "surface": "특별중도해지",
+       "reason": "금리 값이 문서 안의 수가 아니다 (게시값 참조 · 계산식)",
+       "family": null
       }
      ],
      "layers": [
+      "STRUCTURE",
       "VOCAB"
      ]
     }
@@ -9969,7 +9977,7 @@
        "layer": "STRUCTURE",
        "slot": "constraint",
        "surface": "가입금액",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "적립식 납입 단위(월·회차·건별) 구분 없음",
        "family": "가입금액·한도"
       }
      ],
@@ -10048,7 +10056,7 @@
        "layer": "STRUCTURE",
        "slot": "constraint",
        "surface": "저축한도",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "적립식 납입 단위(월·회차·건별) 구분 없음",
        "family": "가입금액·한도"
       }
      ],
@@ -10160,7 +10168,7 @@
        "layer": "STRUCTURE",
        "slot": "constraint",
        "surface": "최저가입금액",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "적립식 납입 단위(월·회차·건별) 구분 없음",
        "family": "가입금액·한도"
       }
      ],
@@ -10180,7 +10188,7 @@
        "layer": "STRUCTURE",
        "slot": "constraint",
        "surface": "최고가입금액",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "적립식 납입 단위(월·회차·건별) 구분 없음",
        "family": "가입금액·한도"
       }
      ],
@@ -10262,15 +10270,16 @@
        "family": "거래실적·이벤트"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "effect",
-       "surface": "APPLY_VALUE::중도해지이자율",
-       "reason": "중도해지이율 없음",
-       "family": "해지·중도해지"
+       "surface": "중도해지이자율",
+       "reason": "금리 값이 문서 안의 수가 아니다 (게시값 참조 · 계산식)",
+       "family": null
       }
      ],
      "layers": [
       "SCOPE",
+      "STRUCTURE",
       "VOCAB"
      ]
     }
@@ -10309,15 +10318,16 @@
        "family": "해지·중도해지"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "effect",
-       "surface": "APPLY_VALUE::지급",
-       "reason": "중도해지이율 없음",
-       "family": "금리·이율값"
+       "surface": "지급",
+       "reason": "금리 값이 문서 안의 수가 아니다 (게시값 참조 · 계산식)",
+       "family": null
       }
      ],
      "layers": [
       "SCOPE",
+      "STRUCTURE",
       "VOCAB"
      ]
     }
@@ -10353,7 +10363,7 @@
        "slot": "condition",
        "surface": "부기명으로 등록된 아동",
        "reason": "부기명(수혜 아동) 등록 변수 없음",
-       "family": "명의·서류·절차"
+       "family": "가입자격"
       },
       {
        "layer": "VOCAB",
@@ -10574,10 +10584,10 @@
        "family": "이자계산·지급"
       },
       {
-       "layer": "VOCAB",
+       "layer": "SCOPE",
        "slot": "CONDITIONAL_EFFECT.modifier",
        "surface": "예금이 담보로 제공되어 있거나 사고등록 등 자동해지 불가 사유가 있는 경우 자동해지 되지 않습니다",
-       "reason": "해지 제한 사유(법적지급제한·사고등록·담보제공) 변수 없음",
+       "reason": "판별 범위 밖: 자동해지·자동재예치 실행",
        "family": "해지·중도해지"
       },
       {
@@ -10596,8 +10606,7 @@
       }
      ],
      "layers": [
-      "SCOPE",
-      "VOCAB"
+      "SCOPE"
      ]
     }
    ],
@@ -10681,15 +10690,16 @@
        "family": "해지·중도해지"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "effect",
-       "surface": "APPLY_VALUE::중도해지 이자율",
-       "reason": "중도해지이율 없음",
-       "family": "금리·이율값"
+       "surface": "중도해지 이자율",
+       "reason": "금리 값이 문서 안의 수가 아니다 (게시값 참조 · 계산식)",
+       "family": null
       }
      ],
      "layers": [
       "SCOPE",
+      "STRUCTURE",
       "VOCAB"
      ]
     }
@@ -10728,16 +10738,15 @@
        "family": "계약기간·만기"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "effect",
-       "surface": "APPLY_VALUE::만기후이자율",
-       "reason": "만기후이율 없음",
-       "family": "금리·이율값"
+       "surface": "만기후이자율",
+       "reason": "금리 값이 문서 안의 수가 아니다 (게시값 참조 · 계산식)",
+       "family": null
       }
      ],
      "layers": [
-      "STRUCTURE",
-      "VOCAB"
+      "STRUCTURE"
      ]
     }
    ],
@@ -10818,16 +10827,15 @@
        "family": "계약기간·만기"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "effect",
-       "surface": "APPLY_VALUE::만기후 이자율",
-       "reason": "만기후이율 없음",
-       "family": "금리·이율값"
+       "surface": "만기후 이자율",
+       "reason": "금리 값이 문서 안의 수가 아니다 (게시값 참조 · 계산식)",
+       "family": null
       }
      ],
      "layers": [
-      "STRUCTURE",
-      "VOCAB"
+      "STRUCTURE"
      ]
     }
    ],
@@ -10851,15 +10859,15 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "effect",
-       "surface": "APPLY_VALUE::중도해지이자",
-       "reason": "중도해지이율 없음",
-       "family": "해지·중도해지"
+       "surface": "중도해지이자",
+       "reason": "금리 값이 문서 안의 수가 아니다 (게시값 참조 · 계산식)",
+       "family": null
       }
      ],
      "layers": [
-      "VOCAB"
+      "STRUCTURE"
      ]
     }
    ],
@@ -11025,23 +11033,16 @@
        "family": null
       },
       {
-       "layer": "VOCAB",
-       "slot": "condition",
-       "surface": "만기 후 6개월 초과",
-       "reason": "만기후 경과기간 변수 없음",
-       "family": "계약기간·만기"
-      },
-      {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "effect",
-       "surface": "APPLY_VALUE::만기후이율",
-       "reason": "만기후이율 없음",
-       "family": "금리·이율값"
+       "surface": "만기후이율",
+       "reason": "금리 값이 문서 안의 수가 아니다 (게시값 참조 · 계산식)",
+       "family": null
       }
      ],
      "layers": [
       "SOURCE",
-      "VOCAB"
+      "STRUCTURE"
      ]
     }
    ],
@@ -11248,6 +11249,13 @@
      "blockers": [
       {
        "layer": "CONVERTER",
+       "slot": "CONDITIONAL_EFFECT.scope",
+       "surface": "이번달 11일부터 다음달 10일까지",
+       "reason": "변환기 칸 구조 한계: 면제기간에 따라 실적 창을 갈라야 한다 (scope 칸은 AND 만 붙인다)",
+       "family": "수수료"
+      },
+      {
+       "layer": "CONVERTER",
        "slot": "CONDITIONAL_EFFECT.modifier",
        "surface": "이 통장의 가입(또는 전환)일부터 다음 다음 달 10일까지는 거래 실적에 관계없이 면제",
        "reason": "변환기 칸 구조 한계: 실적 무관 면제 기간을 별도 rule 로 내야 한다",
@@ -11273,13 +11281,6 @@
        "surface": "KB리브모바일(KB Liiv M) 자동이체 출금 이력이 있는 경우",
        "reason": "자동이체 출금처(수취기관) 속성 없음",
        "family": "거래실적·이벤트"
-      },
-      {
-       "layer": "VOCAB",
-       "slot": "effect",
-       "surface": "SET_VALUE::KB국민은행 인터넷·모바일뱅킹 다른은행 이체수수료",
-       "reason": "수수료 대상 코드 없음: 인터넷·모바일뱅킹(폰뱅킹 제외) 이체수수료",
-       "family": "수수료"
       }
      ],
      "layers": [
@@ -11382,15 +11383,15 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "effect",
        "surface": "ALLOW::비과세종합저축으로 가입",
-       "reason": "판별 범위 밖: 세금·비과세",
+       "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
       }
      ],
      "layers": [
-      "SCOPE"
+      "VOCAB"
      ]
     }
    ],
@@ -12417,21 +12418,15 @@
        "family": "가입금액·한도"
       },
       {
-       "layer": "STRUCTURE",
+       "layer": "SCOPE",
        "slot": "constraint",
        "surface": "회차별 1만원 이상",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
-       "family": "가입금액·한도"
-      },
-      {
-       "layer": "STRUCTURE",
-       "slot": "constraint",
-       "surface": "매월(월 초일부터 말일까지) 3백만원 이내",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "판별 범위 밖: 거래 단위 제약(회차·건별·이체한도)",
        "family": "가입금액·한도"
       }
      ],
      "layers": [
+      "SCOPE",
       "STRUCTURE"
      ]
     }
@@ -12812,22 +12807,22 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "CONDITIONAL_EFFECT.modifier",
        "surface": "관련 세법 개정 시 세율이 변경되거나 세금이 부과될 수 있음",
-       "reason": "판별 범위 밖: 세금·비과세",
+       "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
       },
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "effect",
        "surface": "ALLOW::비과세종합저축으로 가입",
-       "reason": "판별 범위 밖: 세금·비과세",
+       "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
       }
      ],
      "layers": [
-      "SCOPE"
+      "VOCAB"
      ]
     },
     {
@@ -12839,10 +12834,10 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "condition",
        "surface": "계약기간 만료일 이후",
-       "reason": "판별 범위 밖: 세금·비과세",
+       "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
       },
       {
@@ -12854,7 +12849,8 @@
       }
      ],
      "layers": [
-      "SCOPE"
+      "SCOPE",
+      "VOCAB"
      ]
     }
    ],
@@ -12885,10 +12881,10 @@
        "family": "거래제한·금지"
       },
       {
-       "layer": "VOCAB",
+       "layer": "SCOPE",
        "slot": "effect",
        "surface": "PROHIBIT::자동해지",
-       "reason": "제한 대상 코드 없음: 자동해지·자동재예치",
+       "reason": "판별 범위 밖: 자동해지·자동재예치 실행",
        "family": "해지·중도해지"
       },
       {
@@ -12900,6 +12896,7 @@
       }
      ],
      "layers": [
+      "SCOPE",
       "VOCAB"
      ]
     },
@@ -12919,10 +12916,10 @@
        "family": "해지·중도해지"
       },
       {
-       "layer": "VOCAB",
+       "layer": "SCOPE",
        "slot": "effect",
        "surface": "PROHIBIT::자동해지",
-       "reason": "제한 대상 코드 없음: 자동해지·자동재예치",
+       "reason": "판별 범위 밖: 자동해지·자동재예치 실행",
        "family": "해지·중도해지"
       },
       {
@@ -13376,15 +13373,15 @@
      "n_blocked_effects": 1,
      "blockers": [
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "effect",
        "surface": "PROHIBIT::비과세종합저축으로 가입",
-       "reason": "판별 범위 밖: 세금·비과세",
+       "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
       }
      ],
      "layers": [
-      "SCOPE"
+      "VOCAB"
      ]
     }
    ],
@@ -13966,14 +13963,7 @@
        "layer": "STRUCTURE",
        "slot": "constraint",
        "surface": "1만원 이상",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
-       "family": "가입금액·한도"
-      },
-      {
-       "layer": "STRUCTURE",
-       "slot": "constraint",
-       "surface": "월 100만원 이하",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "적립식 납입 단위(월·회차·건별) 구분 없음",
        "family": "가입금액·한도"
       }
      ],
@@ -14013,15 +14003,14 @@
        "family": "거래제한·금지"
       },
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "effect",
        "surface": "PROHIBIT::비과세종합저축",
-       "reason": "판별 범위 밖: 세금·비과세",
+       "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
       }
      ],
      "layers": [
-      "SCOPE",
       "VOCAB"
      ]
     },
@@ -14088,16 +14077,16 @@
        "family": null
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "effect",
-       "surface": "APPLY_VALUE::중도해지 이자율",
-       "reason": "중도해지이율 없음",
-       "family": "금리·이율값"
+       "surface": "중도해지 이자율",
+       "reason": "금리 값이 문서 안의 수가 아니다 (게시값 참조 · 계산식)",
+       "family": null
       }
      ],
      "layers": [
       "SOURCE",
-      "VOCAB"
+      "STRUCTURE"
      ]
     },
     {
@@ -14405,16 +14394,16 @@
        "family": null
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "effect",
-       "surface": "APPLY_VALUE::중도해지이율",
-       "reason": "중도해지이율 없음",
-       "family": "금리·이율값"
+       "surface": "중도해지이율",
+       "reason": "금리 값이 문서 안의 수가 아니다 (게시값 참조 · 계산식)",
+       "family": null
       }
      ],
      "layers": [
       "SOURCE",
-      "VOCAB"
+      "STRUCTURE"
      ]
     },
     {
@@ -14493,7 +14482,7 @@
        "layer": "STRUCTURE",
        "slot": "constraint",
        "surface": "최저가입금액",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "적립식 납입 단위(월·회차·건별) 구분 없음",
        "family": "가입금액·한도"
       }
      ],
@@ -14513,7 +14502,7 @@
        "layer": "STRUCTURE",
        "slot": "constraint",
        "surface": "최고가입금액",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "적립식 납입 단위(월·회차·건별) 구분 없음",
        "family": "가입금액·한도"
       }
      ],
@@ -14645,17 +14634,17 @@
        "family": "이자계산·지급"
       },
       {
-       "layer": "VOCAB",
+       "layer": "STRUCTURE",
        "slot": "effect",
-       "surface": "APPLY_VALUE::중도해지 이자율",
-       "reason": "중도해지이율 없음",
-       "family": "금리·이율값"
+       "surface": "중도해지 이자율",
+       "reason": "금리 값이 문서 안의 수가 아니다 (게시값 참조 · 계산식)",
+       "family": null
       }
      ],
      "layers": [
       "SOURCE",
       "SCOPE",
-      "VOCAB"
+      "STRUCTURE"
      ]
     }
    ],
@@ -14820,15 +14809,14 @@
        "family": "상품전환·재예치"
       },
       {
-       "layer": "SCOPE",
+       "layer": "VOCAB",
        "slot": "effect",
        "surface": "PROHIBIT::비과세종합저축",
-       "reason": "판별 범위 밖: 세금·비과세",
+       "reason": "비과세종합저축 가입 자격 변수 없음",
        "family": "세금·비과세"
       }
      ],
      "layers": [
-      "SCOPE",
       "VOCAB"
      ]
     },
@@ -14985,7 +14973,7 @@
        "layer": "STRUCTURE",
        "slot": "constraint",
        "surface": "최저가입금액",
-       "reason": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+       "reason": "적립식 납입 단위(월·회차·건별) 구분 없음",
        "family": "가입금액·한도"
       }
      ],

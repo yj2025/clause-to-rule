@@ -53,16 +53,18 @@ def test_withdrawal_is_no_longer_a_blocker_at_all(clauses):
     assert "출금" not in everywhere, "카탈로그에 있는 것은 걸림돌이 아니다"
 
 
-def test_the_dormancy_clauses_open_only_with_name_change_events():
-    """거래중지 두 조문은 명의변경 이벤트와 '거래 금지' effect 를 같이 요구했다.
+def test_the_dormancy_clauses_are_blocked_by_the_join_date_only(clauses):
+    """거래중지 두 조문: 어휘는 다 갖췄고 **편입시기 하나만** 남았다.
 
-    조문이 무거래기간을 '입출금 거래 **또는 명의변경 거래**' 로 정의한다.
-    출금(v17)만으로는 0조문이었다. 2026-09-15 둘을 같이 넣어 열렸다.
+    명의변경 이벤트와 거래 제한 effect 는 2026-09-15 확장으로 들어왔고 조건식도 그대로다.
+    2026-09-20 실행기 범위 결정에서 편입시기(연 2회 · 6·12월 셋째 금요일 다음날)를
+    옮길 수 없어 UNSUPPORTED 로 되돌렸다 — 조건이 맞는 즉시 막으면 최대 6개월 일찍 막는다.
     """
     import catalog
     assert "NAME_CHANGE" in catalog.EVENTS and "RESTRICT" in catalog.EFFECTS
     for cid in ("KBYY-S2-R19", "KBONE-S2-R16"):
         d = json.loads(Path(f"data/gold/{cid}.json").read_text("utf-8"))
         r = d["rules"][0]
-        assert r["status"] == "OK" and r["effect"]["type"] == "RESTRICT"
+        assert r["status"] == "UNSUPPORTED" and "effect" not in r
         assert "NAME_CHANGE" in json.dumps(r["condition"]), "무거래에 명의변경 거래가 빠졌다"
+        assert clauses[cid][r["rule_id"]] == {"편입시기"}

@@ -1179,31 +1179,41 @@
    }
   },
   "계약기간 만료일 이후": {
-   "gap": "판별 범위 밖: 세금·비과세",
-   "layer": "SCOPE",
+   "gap": "비과세종합저축 가입 자격 변수 없음",
+   "layer": "VOCAB",
    "family": "세금·비과세",
-   "why": "'계약기간 만료일 이후의 이자는 과세' — 만기후 이자의 과세 여부는 세금 계산이라 판별 범위 밖",
-   "by": "claude-draft",
+   "why": "결정 5: 「비과세로 가입 가능」 은 가입 자격이라 판별 범위 안 — 어휘 추가 후보. 세율·세금 계산은 범위 밖 그대로",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q4",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "GUIDE 원칙 6은 세금을 범위 밖으로 두지만, gold KBONE-S2-R10·KBYY-S2-R13 은 '비과세종합저축 가입 가능' 을 UNSUPPORTED('비과세 여부 변수도 세제 effect 도 없음')로 적었다. 확장하면 풀리는 VOCAB 로 셌다는 뜻이다. 세금 산출(과세·세율 변경)은 SCOPE 가 분명하지만, 비과세 가입 가능·불가는 판별처럼 읽힌다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "판별 범위 밖: 세금·비과세",
+     "layer": "SCOPE"
+    }
    }
   },
   "계약기간 연장후": {
    "gap": "계약기간 연장 이벤트 없음",
    "layer": "VOCAB",
    "family": "계약기간·만기",
-   "why": "기간 연장을 가리킬 이벤트·변수가 없음. 효과도 이자 계산(SCOPE)",
-   "by": "claude-draft",
+   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "연장 이벤트가 없다는 점은 맞다. 그러나 받는 효과는 '연장하지 않은 것으로 보아 계산한 이자' 다. 같은 조문의 modifier(3e19f432)는 SCOPE 에 있다. Q1 에 따라 SCOPE 가 된다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "계약기간 연장 이벤트 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "계약기간 중 KB국민은행 계좌간 자동이체로 이 적금에 입금된 입금건수가 8회 이상인 경우": {
@@ -1724,14 +1734,19 @@
    "gap": "당초만기일(연장 전 만기일) 변수 없음",
    "layer": "VOCAB",
    "family": "계약기간·만기",
-   "why": "계약기간 연장 후 '당초만기일' 을 지난 중도해지 — 연장 전 만기일 변수가 없다. effect 도 이자 계산",
-   "by": "claude-draft",
+   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "당초만기일 변수가 없다는 점은 맞다. 그러나 받는 효과가 이자 계산이다(g100 과 같은 조문). Q1 에 딸린다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "당초만기일(연장 전 만기일) 변수 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "동 내용 변경시": {
@@ -1899,17 +1914,30 @@
    }
   },
   "만기 후 6개월 초과": {
-   "gap": "만기후 경과기간 변수 없음",
-   "layer": "VOCAB",
-   "family": "계약기간·만기",
-   "why": "'만기 후 6개월 초과' 구간별 만기후이율 — 만기후 경과기간 변수가 없고 구간별 이자 계산이다",
-   "by": "claude-draft",
+   "dsl": {
+    ">": [
+     {
+      "var": "contract.reference_date"
+     },
+     {
+      "anchor": "contract.maturity_date",
+      "offset_months": 6
+     }
+    ]
+   },
+   "why": "만기 후 경과는 새 변수 없이 만기일 앵커로 센다 — 결정 1-다로 판별 범위 안이다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "'만기후 경과기간 변수 없음' 은 GUIDE 의 VOCAB 예시와 같다. 그러나 세 멤버 모두 받는 효과가 만기후이율 구간표다. Q1 이 SCOPE 로 정해지면 변수를 넣어도 열리지 않는다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "만기후 경과기간 변수 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "만기가 휴일인 계좌를 前영업일에 해지할 경우": {
@@ -2034,28 +2062,38 @@
    "gap": "예금 지급청구일(인출 시점) 변수 없음",
    "layer": "VOCAB",
    "family": "해지·중도해지",
-   "why": "'만기일 후 지급 청구할 때' — 지급청구 시점 변수가 없다. effect 도 만기후이율 계산",
-   "by": "claude-draft",
+   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다. 지급청구는 일부 지급도 포함해 해지일과 다르다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "모든 멤버의 받는 효과가 중도해지이율·만기후이율 이자 산출이다. Q1 이 SCOPE 로 정해지면 layer 는 SCOPE 다. Q1 이 판별로 정해지면 '만기 전/후 지급청구' 를 termination_type(EARLY/PARTIAL)이나 termination_date 비교로 받을 수 있는지가 남는다. lex 는 '지급기일 전에' 를 reference_date<maturity_date, '만기일 이후에 해지할 경우' 를 termination_date>=maturity_date 로 옮겼다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "예금 지급청구일(인출 시점) 변수 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "만기일 후에 찾고자 하는 경우": {
    "gap": "예금 지급청구일(인출 시점) 변수 없음",
    "layer": "VOCAB",
    "family": "해지·중도해지",
-   "why": "지급청구는 일부 지급도 포함해 해지일·해지유형과 같은 개념이 아니다 — 같은 표현군을 한 판정으로 맞춘다",
-   "by": "claude-review",
+   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다. 지급청구는 일부 지급도 포함해 해지일과 다르다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "모든 멤버의 받는 효과가 중도해지이율·만기후이율 이자 산출이다. Q1 이 SCOPE 로 정해지면 layer 는 SCOPE 다. Q1 이 판별로 정해지면 '만기 전/후 지급청구' 를 termination_type(EARLY/PARTIAL)이나 termination_date 비교로 받을 수 있는지가 남는다. lex 는 '지급기일 전에' 를 reference_date<maturity_date, '만기일 이후에 해지할 경우' 를 termination_date>=maturity_date 로 옮겼다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "예금 지급청구일(인출 시점) 변수 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "만기일이 임시공휴일인 경우": {
@@ -2321,15 +2359,20 @@
   "부기명으로 등록된 아동": {
    "gap": "부기명(수혜 아동) 등록 변수 없음",
    "layer": "VOCAB",
-   "family": "명의·서류·절차",
-   "why": "부기명 아동 여부를 담을 변수가 없음(customer.age 가 누구 나이인지도 다름). 효과도 만기후 이율(이자 계산)",
-   "by": "claude-draft",
+   "family": "가입자격",
+   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "부기명 아동 변수가 없다는 점은 맞다. 그러나 받는 효과가 만기후이율(+0.5%) 적용 구간이다(같은 조문의 2b3540cc 는 g2 SCOPE). Q1 에 딸린다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "부기명(수혜 아동) 등록 변수 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "분쟁조정 또는 소송의 수행 등 권리구제를 위한 목적": {
@@ -2919,84 +2962,114 @@
    "gap": "예금 지급청구일(인출 시점) 변수 없음",
    "layer": "VOCAB",
    "family": "해지·중도해지",
-   "why": "지급청구는 일부 지급도 포함해 해지일·해지유형과 같은 개념이 아니다 — 같은 표현군을 한 판정으로 맞춘다",
-   "by": "claude-review",
+   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다. 지급청구는 일부 지급도 포함해 해지일과 다르다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "모든 멤버의 받는 효과가 중도해지이율·만기후이율 이자 산출이다. Q1 이 SCOPE 로 정해지면 layer 는 SCOPE 다. Q1 이 판별로 정해지면 '만기 전/후 지급청구' 를 termination_type(EARLY/PARTIAL)이나 termination_date 비교로 받을 수 있는지가 남는다. lex 는 '지급기일 전에' 를 reference_date<maturity_date, '만기일 이후에 해지할 경우' 를 termination_date>=maturity_date 로 옮겼다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "예금 지급청구일(인출 시점) 변수 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "예금주가 만기일 전에 지급 청구 한 때": {
    "gap": "예금 지급청구일(인출 시점) 변수 없음",
    "layer": "VOCAB",
    "family": "해지·중도해지",
-   "why": "'만기일 전에 지급 청구' — 지급청구 시점 변수가 없다(일부지급과 전액 해지 구분 불가). effect 도 중도해지이자율 계산",
-   "by": "claude-draft",
+   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다. 지급청구는 일부 지급도 포함해 해지일과 다르다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "모든 멤버의 받는 효과가 중도해지이율·만기후이율 이자 산출이다. Q1 이 SCOPE 로 정해지면 layer 는 SCOPE 다. Q1 이 판별로 정해지면 '만기 전/후 지급청구' 를 termination_type(EARLY/PARTIAL)이나 termination_date 비교로 받을 수 있는지가 남는다. lex 는 '지급기일 전에' 를 reference_date<maturity_date, '만기일 이후에 해지할 경우' 를 termination_date>=maturity_date 로 옮겼다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "예금 지급청구일(인출 시점) 변수 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "예금주가 만기일 전에 지급 청구한 때": {
    "gap": "예금 지급청구일(인출 시점) 변수 없음",
    "layer": "VOCAB",
    "family": "해지·중도해지",
-   "why": "지급청구는 일부 지급도 포함해 해지일·해지유형과 같은 개념이 아니다 — 같은 표현군을 한 판정으로 맞춘다",
-   "by": "claude-review",
+   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다. 지급청구는 일부 지급도 포함해 해지일과 다르다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "모든 멤버의 받는 효과가 중도해지이율·만기후이율 이자 산출이다. Q1 이 SCOPE 로 정해지면 layer 는 SCOPE 다. Q1 이 판별로 정해지면 '만기 전/후 지급청구' 를 termination_type(EARLY/PARTIAL)이나 termination_date 비교로 받을 수 있는지가 남는다. lex 는 '지급기일 전에' 를 reference_date<maturity_date, '만기일 이후에 해지할 경우' 를 termination_date>=maturity_date 로 옮겼다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "예금 지급청구일(인출 시점) 변수 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "예금주가 만기일 전에 지급청구할 때": {
    "gap": "예금 지급청구일(인출 시점) 변수 없음",
    "layer": "VOCAB",
    "family": "해지·중도해지",
-   "why": "'만기일 전에 지급청구할 때' — 지급청구 시점 변수가 없다. effect 도 이자 계산",
-   "by": "claude-draft",
+   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다. 지급청구는 일부 지급도 포함해 해지일과 다르다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "모든 멤버의 받는 효과가 중도해지이율·만기후이율 이자 산출이다. Q1 이 SCOPE 로 정해지면 layer 는 SCOPE 다. Q1 이 판별로 정해지면 '만기 전/후 지급청구' 를 termination_type(EARLY/PARTIAL)이나 termination_date 비교로 받을 수 있는지가 남는다. lex 는 '지급기일 전에' 를 reference_date<maturity_date, '만기일 이후에 해지할 경우' 를 termination_date>=maturity_date 로 옮겼다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "예금 지급청구일(인출 시점) 변수 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "예금주가 만기일 전에 찾고자 하는 경우": {
    "gap": "예금 지급청구일(인출 시점) 변수 없음",
    "layer": "VOCAB",
    "family": "해지·중도해지",
-   "why": "지급청구는 일부 지급도 포함해 해지일·해지유형과 같은 개념이 아니다 — 같은 표현군을 한 판정으로 맞춘다",
-   "by": "claude-review",
+   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다. 지급청구는 일부 지급도 포함해 해지일과 다르다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "모든 멤버의 받는 효과가 중도해지이율·만기후이율 이자 산출이다. Q1 이 SCOPE 로 정해지면 layer 는 SCOPE 다. Q1 이 판별로 정해지면 '만기 전/후 지급청구' 를 termination_type(EARLY/PARTIAL)이나 termination_date 비교로 받을 수 있는지가 남는다. lex 는 '지급기일 전에' 를 reference_date<maturity_date, '만기일 이후에 해지할 경우' 를 termination_date>=maturity_date 로 옮겼다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "예금 지급청구일(인출 시점) 변수 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "예금주가 만기일 후에 찾고자 하는 경우": {
    "gap": "예금 지급청구일(인출 시점) 변수 없음",
    "layer": "VOCAB",
    "family": "해지·중도해지",
-   "why": "'만기일 후에 찾고자 하는' 은 지급청구(인출) 시점이다. termination_date 로 옮기면 일부지급 등과 구분이 안 된다. effect 도 만기후이자 계산",
-   "by": "claude-draft",
+   "why": "결정 1-다로 범위 안 — 어휘 추가 후보다. 지급청구는 일부 지급도 포함해 해지일과 다르다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "모든 멤버의 받는 효과가 중도해지이율·만기후이율 이자 산출이다. Q1 이 SCOPE 로 정해지면 layer 는 SCOPE 다. Q1 이 판별로 정해지면 '만기 전/후 지급청구' 를 termination_type(EARLY/PARTIAL)이나 termination_date 비교로 받을 수 있는지가 남는다. lex 는 '지급기일 전에' 를 reference_date<maturity_date, '만기일 이후에 해지할 경우' 를 termination_date>=maturity_date 로 옮겼다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "예금 지급청구일(인출 시점) 변수 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "예금주가 통장발급을 요청할 경우": {
@@ -3638,17 +3711,22 @@
    }
   },
   "정산∙환급 세액이 발생한 경우": {
-   "gap": "판별 범위 밖: 세금·비과세",
-   "layer": "SCOPE",
+   "gap": "비과세종합저축 가입 자격 변수 없음",
+   "layer": "VOCAB",
    "family": "세금·비과세",
-   "why": "부가세 정산·환급 세액 입금 — 세금 처리",
-   "by": "claude-draft",
+   "why": "결정 5: 「비과세로 가입 가능」 은 가입 자격이라 판별 범위 안 — 어휘 추가 후보. 세율·세금 계산은 범위 밖 그대로",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q4",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "GUIDE 원칙 6은 세금을 범위 밖으로 두지만, gold KBONE-S2-R10·KBYY-S2-R13 은 '비과세종합저축 가입 가능' 을 UNSUPPORTED('비과세 여부 변수도 세제 effect 도 없음')로 적었다. 확장하면 풀리는 VOCAB 로 셌다는 뜻이다. 세금 산출(과세·세율 변경)은 SCOPE 가 분명하지만, 비과세 가입 가능·불가는 판별처럼 읽힌다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "판별 범위 밖: 세금·비과세",
+     "layer": "SCOPE"
+    }
    }
   },
   "제 11조에서 정한 우대이자율을 지급하는 경우": {
@@ -5093,59 +5171,79 @@
    }
   },
   "과세특례 요건을 갖추지 못한 것이 확인된 경우에는 소득세 및 농어촌특별세가 부과됩니다": {
-   "gap": "판별 범위 밖: 세금·비과세",
-   "layer": "SCOPE",
+   "gap": "비과세종합저축 가입 자격 변수 없음",
+   "layer": "VOCAB",
    "family": "세금·비과세",
-   "why": "특별중도해지 비과세의 예외(과세) — 세금 계산은 원칙 6 범위 밖",
-   "by": "claude-draft",
+   "why": "결정 5: 「비과세로 가입 가능」 은 가입 자격이라 판별 범위 안 — 어휘 추가 후보. 세율·세금 계산은 범위 밖 그대로",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q4",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "GUIDE 원칙 6은 세금을 범위 밖으로 두지만, gold KBONE-S2-R10·KBYY-S2-R13 은 '비과세종합저축 가입 가능' 을 UNSUPPORTED('비과세 여부 변수도 세제 effect 도 없음')로 적었다. 확장하면 풀리는 VOCAB 로 셌다는 뜻이다. 세금 산출(과세·세율 변경)은 SCOPE 가 분명하지만, 비과세 가입 가능·불가는 판별처럼 읽힌다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "판별 범위 밖: 세금·비과세",
+     "layer": "SCOPE"
+    }
    }
   },
   "관련 세법 개정 시 세율이 변경되거나 세금이 부과될 수 있음": {
-   "gap": "판별 범위 밖: 세금·비과세",
-   "layer": "SCOPE",
+   "gap": "비과세종합저축 가입 자격 변수 없음",
+   "layer": "VOCAB",
    "family": "세금·비과세",
-   "why": "비과세종합저축 세율 변경 가능성 — 세금 적용은 범위 밖",
-   "by": "claude-draft",
+   "why": "결정 5: 「비과세로 가입 가능」 은 가입 자격이라 판별 범위 안 — 어휘 추가 후보. 세율·세금 계산은 범위 밖 그대로",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q4",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "GUIDE 원칙 6은 세금을 범위 밖으로 두지만, gold KBONE-S2-R10·KBYY-S2-R13 은 '비과세종합저축 가입 가능' 을 UNSUPPORTED('비과세 여부 변수도 세제 effect 도 없음')로 적었다. 확장하면 풀리는 VOCAB 로 셌다는 뜻이다. 세금 산출(과세·세율 변경)은 SCOPE 가 분명하지만, 비과세 가입 가능·불가는 판별처럼 읽힌다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "판별 범위 밖: 세금·비과세",
+     "layer": "SCOPE"
+    }
    }
   },
   "관련 세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있음": {
-   "gap": "판별 범위 밖: 세금·비과세",
-   "layer": "SCOPE",
+   "gap": "비과세종합저축 가입 자격 변수 없음",
+   "layer": "VOCAB",
    "family": "세금·비과세",
-   "why": "비과세종합저축 세율 변경 가능성 — 세금 적용은 범위 밖",
-   "by": "claude-draft",
+   "why": "결정 5: 「비과세로 가입 가능」 은 가입 자격이라 판별 범위 안 — 어휘 추가 후보. 세율·세금 계산은 범위 밖 그대로",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q4",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "GUIDE 원칙 6은 세금을 범위 밖으로 두지만, gold KBONE-S2-R10·KBYY-S2-R13 은 '비과세종합저축 가입 가능' 을 UNSUPPORTED('비과세 여부 변수도 세제 effect 도 없음')로 적었다. 확장하면 풀리는 VOCAB 로 셌다는 뜻이다. 세금 산출(과세·세율 변경)은 SCOPE 가 분명하지만, 비과세 가입 가능·불가는 판별처럼 읽힌다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "판별 범위 밖: 세금·비과세",
+     "layer": "SCOPE"
+    }
    }
   },
   "관련세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있음": {
-   "gap": "판별 범위 밖: 세금·비과세",
-   "layer": "SCOPE",
+   "gap": "비과세종합저축 가입 자격 변수 없음",
+   "layer": "VOCAB",
    "family": "세금·비과세",
-   "why": "비과세종합저축 세율 변경 가능성 — 세금 적용은 범위 밖",
-   "by": "claude-draft",
+   "why": "결정 5: 「비과세로 가입 가능」 은 가입 자격이라 판별 범위 안 — 어휘 추가 후보. 세율·세금 계산은 범위 밖 그대로",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q4",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "GUIDE 원칙 6은 세금을 범위 밖으로 두지만, gold KBONE-S2-R10·KBYY-S2-R13 은 '비과세종합저축 가입 가능' 을 UNSUPPORTED('비과세 여부 변수도 세제 effect 도 없음')로 적었다. 확장하면 풀리는 VOCAB 로 셌다는 뜻이다. 세금 산출(과세·세율 변경)은 SCOPE 가 분명하지만, 비과세 가입 가능·불가는 판별처럼 읽힌다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "판별 범위 밖: 세금·비과세",
+     "layer": "SCOPE"
+    }
    }
   },
   "국세청 홈페이지에서 휴ᆞ폐업이 확인되는 경우에는 증빙서류제출 생략 가능합니다": {
@@ -5259,31 +5357,41 @@
    }
   },
   "미성년자 명의 계좌인 경우 또는 계좌에 법적지급제한 등 해지 제한 사유가 있으면 자동 해지되지 않습니다": {
-   "gap": "해지 제한 사유(법적지급제한·사고등록·담보제공) 변수 없음",
-   "layer": "VOCAB",
+   "gap": "판별 범위 밖: 자동해지·자동재예치 실행",
+   "layer": "SCOPE",
    "family": "해지·중도해지",
-   "why": "미성년자는 is_youth 로 되지만 '법적지급제한 등 해지 제한 사유'가 카탈로그에 없어 OR 전체를 옮길 수 없다. 자동해지 자체도 절차다",
-   "by": "claude-draft",
+   "why": "결정 4: 자동해지 여부는 은행이 실행하는 절차다 — 우리는 그 계좌의 자격·우대·제한만 판별한다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q3",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "'법적지급제한·사고등록·담보제공 중' 상태 변수가 없는 것은 맞다. 그러나 이 예외들이 붙는 본체는 자동해지 실행이고, g9bd8bb5 가 이를 SCOPE 로 두었다. 본체가 범위 밖이면 변수를 넣어도 열리는 rule 이 없다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "해지 제한 사유(법적지급제한·사고등록·담보제공) 변수 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "법적지급제한 등 해지 제한 사유가 등록되어 있는 경우 자동해지 되지 않음": {
-   "gap": "해지 제한 사유(법적지급제한·사고등록·담보제공) 변수 없음",
-   "layer": "VOCAB",
+   "gap": "판별 범위 밖: 자동해지·자동재예치 실행",
+   "layer": "SCOPE",
    "family": "해지·중도해지",
-   "why": "자동해지 취소 사유(법적지급제한 등)를 가리킬 이름이 없다",
-   "by": "claude-draft",
+   "why": "결정 4: 자동해지 여부는 은행이 실행하는 절차다 — 우리는 그 계좌의 자격·우대·제한만 판별한다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q3",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "'법적지급제한·사고등록·담보제공 중' 상태 변수가 없는 것은 맞다. 그러나 이 예외들이 붙는 본체는 자동해지 실행이고, g9bd8bb5 가 이를 SCOPE 로 두었다. 본체가 범위 밖이면 변수를 넣어도 열리는 rule 이 없다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "해지 제한 사유(법적지급제한·사고등록·담보제공) 변수 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "서류 미제출 임의단체 가입 가능": {
@@ -5401,17 +5509,22 @@
    }
   },
   "예금이 담보로 제공되어 있거나 사고등록 등 자동해지 불가 사유가 있는 경우 자동해지 되지 않습니다": {
-   "gap": "해지 제한 사유(법적지급제한·사고등록·담보제공) 변수 없음",
-   "layer": "VOCAB",
+   "gap": "판별 범위 밖: 자동해지·자동재예치 실행",
+   "layer": "SCOPE",
    "family": "해지·중도해지",
-   "why": "담보제공은 RESTRICT 대상일 뿐 '담보 제공 중' 상태 변수가 없고 사고등록도 없다 — 자동해지 취소 사유를 옮길 수 없다",
-   "by": "claude-draft",
+   "why": "결정 4: 자동해지 여부는 은행이 실행하는 절차다 — 우리는 그 계좌의 자격·우대·제한만 판별한다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q3",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "'법적지급제한·사고등록·담보제공 중' 상태 변수가 없는 것은 맞다. 그러나 이 예외들이 붙는 본체는 자동해지 실행이고, g9bd8bb5 가 이를 SCOPE 로 두었다. 본체가 범위 밖이면 변수를 넣어도 열리는 rule 이 없다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "해지 제한 사유(법적지급제한·사고등록·담보제공) 변수 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "이 통장의 가입(또는 전환)일부터 다음 다음 달 10일까지는 거래 실적에 관계없이 면제": {
@@ -6230,15 +6343,21 @@
    }
   },
   "다음달 16일부터 다음 다음달 15일까지 1개월간": {
-   "ignore": "해당월 실적 → 우대 적용 구간 표기. '이번 달 11일부터 다음 달 10일까지'와 같은 모양 — gold 는 이 구간을 옮기지 않는다",
-   "why": "gold KBYY-S2-R12 · KBYY-S5-R02 와 같은 판단(실적 창은 조건이 담는다). 기준일이 1~15일이면 창이 한 달 밀리므로 검토 필요",
-   "by": "claude-draft",
+   "gap": "변환기 칸 구조 한계: 면제기간에 따라 실적 창을 갈라야 한다 (scope 칸은 AND 만 붙인다)",
+   "layer": "CONVERTER",
+   "family": "수수료",
+   "why": "결정 9: 정답은 기준일 11일 기준으로 전월·두 달 전 창을 가르도록 고쳤다. 변환기는 scope 칸에서 조건을 갈 수 없다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 P2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "실적 월(말일 기준 해당월)과 우대 구간(다음달 16일~다다음달 15일)이 한 달 어긋난다. 기준일이 1~15일이면 전월 창이 아니라 전전월 실적을 봐야 한다. 무시하면 우대 받는 고객이 양방향으로 바뀐다(원칙 6). anchor 날짜 비교와 OR 로 정확히 표현할 수도 있다. gold KBYY-S5-R02 는 같은 모양(11일~10일)을 옮기지 않은 선례가 있다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "ignore": "해당월 실적 → 우대 적용 구간 표기. '이번 달 11일부터 다음 달 10일까지'와 같은 모양 — gold 는 이 구간을 옮기지 않는다"
+    }
    }
   },
   "도래하는 결산일(매년 2월, 5월, 8월, 11월의 둘째 금요일)까지": {
@@ -6926,27 +7045,39 @@
    }
   },
   "이번 달 11일부터 다음 달 10일까지": {
-   "ignore": "전월 실적 → 면제 적용 구간 표기. 이 저장소 gold 는 이 구간을 옮기지 않고 전월 창(기준일 전월 1일~말일) 조건 rule 을 OK 로 둔다",
-   "why": "gold KBYY-S2-R12 · KBYY-S5-R02 노트('면제기간(이번 달 11일~다음달 10일)은 효과의 적용 구간이라 옮기지 않았다')와 같은 판단. 엄밀히는 기준일이 1~10일일 때 창이 한 달 밀리므로 검토 필요",
-   "by": "claude-draft",
+   "gap": "변환기 칸 구조 한계: 면제기간에 따라 실적 창을 갈라야 한다 (scope 칸은 AND 만 붙인다)",
+   "layer": "CONVERTER",
+   "family": "수수료",
+   "why": "결정 9: 정답은 기준일 11일 기준으로 전월·두 달 전 창을 가르도록 고쳤다. 변환기는 scope 칸에서 조건을 갈 수 없다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 P2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "gold KBYY-S2-R12·S5-R02 가 같은 선택(면제기간 무시, 기준일 전월 창)을 했다. 그러나 기준일이 1~10일이면 적용되는 실적은 전전월이라, 무시하면 면제받는 고객이 양방향으로 바뀐다(원칙 6 과 어긋남). 초안도 이를 짚었다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "ignore": "전월 실적 → 면제 적용 구간 표기. 이 저장소 gold 는 이 구간을 옮기지 않고 전월 창(기준일 전월 1일~말일) 조건 rule 을 OK 로 둔다"
+    }
    }
   },
   "이번달 11일부터 다음달 10일까지": {
-   "ignore": "전월 실적 → 면제 적용 구간 표기. 이 저장소 gold 는 이 구간을 옮기지 않고 전월 창(기준일 전월 1일~말일) 조건 rule 을 OK 로 둔다",
-   "why": "'이번 달 11일부터 다음 달 10일까지'와 같은 판단(gold KBYY-S2-R12 · KBYY-S5-R02). 엄밀히는 기준일이 1~10일일 때 창이 한 달 밀리므로 검토 필요",
-   "by": "claude-draft",
+   "gap": "변환기 칸 구조 한계: 면제기간에 따라 실적 창을 갈라야 한다 (scope 칸은 AND 만 붙인다)",
+   "layer": "CONVERTER",
+   "family": "수수료",
+   "why": "결정 9: 정답은 기준일 11일 기준으로 전월·두 달 전 창을 가르도록 고쳤다. 변환기는 scope 칸에서 조건을 갈 수 없다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 P2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "면제 조건은 전월(1일~말일) 실적이고, 면제 기간은 이번달 11일~다음달 10일이다. 기준일이 1~10일이면 전전월 실적이 맞는 창이라, 무시하면 면제 대상이 양방향으로 바뀐다(원칙 6). gold KBYY-S2-R12·KBYY-S5-R02 가 같은 근사를 OK 로 둔 선례와 충돌한다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "ignore": "전월 실적 → 면제 적용 구간 표기. 이 저장소 gold 는 이 구간을 옮기지 않고 전월 창(기준일 전월 1일~말일) 조건 rule 을 OK 로 둔다"
+    }
    }
   },
   "이자계산기간동안": {
@@ -7137,17 +7268,22 @@
  },
  "subject": {
   "100만원 이하": {
-   "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+   "gap": "적립식 납입 단위(월·회차·건별) 구분 없음",
    "layer": "STRUCTURE",
    "family": "가입금액·한도",
-   "why": "월 저축 합계·자동이체 1회 금액 상한 — 거래 단위",
-   "by": "claude-draft",
+   "why": "결정 3: 월 단위면 판별하고 회차·건별이면 범위 밖인데, 이 표현만으로는 어느 쪽인지 못 가른다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "회차·월 저축액 제약이 계약 속성이 아니라는 점은 맞다. 다만 같은 개념을 g789c3be(VOCAB)·g6306299(VOCAB)는 다른 layer 로 적었다. 또 '최고가입금액 월 20만원'(미소드림)·'가입 및 월납입금액 1만원 이상 월 100만원 이하'(SOL모임적금)는 정액적립식이라면 catalog 의 contract.monthly_amount(월 납입금액)와 정확히 같다. 상품이 자유적립식인지 원문에서 확인되지 않는다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+     "layer": "STRUCTURE"
+    }
    }
   },
   "12개월 이내": {
@@ -7194,17 +7330,22 @@
    }
   },
   "1만원 이상": {
-   "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+   "gap": "적립식 납입 단위(월·회차·건별) 구분 없음",
    "layer": "STRUCTURE",
    "family": "가입금액·한도",
-   "why": "자유 저축·자동이체 한 번의 금액 하한 — 계약 속성이 아닌 거래 단위",
-   "by": "claude-draft",
+   "why": "결정 3: 월 단위면 판별하고 회차·건별이면 범위 밖인데, 이 표현만으로는 어느 쪽인지 못 가른다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "회차·월 저축액 제약이 계약 속성이 아니라는 점은 맞다. 다만 같은 개념을 g789c3be(VOCAB)·g6306299(VOCAB)는 다른 layer 로 적었다. 또 '최고가입금액 월 20만원'(미소드림)·'가입 및 월납입금액 1만원 이상 월 100만원 이하'(SOL모임적금)는 정액적립식이라면 catalog 의 contract.monthly_amount(월 납입금액)와 정확히 같다. 상품이 자유적립식인지 원문에서 확인되지 않는다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+     "layer": "STRUCTURE"
+    }
    }
   },
   "1인 1계좌": {
@@ -7323,17 +7464,22 @@
    }
   },
   "1회 (10)억": {
-   "gap": "전자금융 이체한도(1회·1일)",
+   "gap": "판별 범위 밖: 거래 단위 제약(회차·건별·이체한도)",
    "layer": "SCOPE",
-   "family": "거래제한·금지",
-   "why": "기업폰뱅킹 1회 이체한도 — 이체는 판별 범위 밖",
-   "by": "claude-draft",
+   "family": "가입금액·한도",
+   "why": "결정 3: 거래 한 건에 걸리는 제약은 거래 처리 쪽 검증이다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "이체한도(1회·1일)를 '이체라 범위 밖' 으로 두었다. 그런데 같은 종류인 인출·이체한도 축소(5a0f7345, g046e2d0)는 VOCAB 거래 제한이다. 기준이 엇갈린다. ce1f6203 '1일 (제한없음)' 은 한도가 없다는 서술이라 어느 쪽이든 rule 이 아니다(사람 검토 KBYY-S2-R02 '한도 없음은 규칙으로 적지 않는다').",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "전자금융 이체한도(1회·1일)",
+     "layer": "SCOPE"
+    }
    }
   },
   "2회에 한하여 일부해지가 가능": {
@@ -7366,17 +7512,22 @@
    }
   },
   "50만원 이하": {
-   "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+   "gap": "적립식 납입 단위(월·회차·건별) 구분 없음",
    "layer": "STRUCTURE",
    "family": "가입금액·한도",
-   "why": "매월 저축 합계 상한 — 거래 단위",
-   "by": "claude-draft",
+   "why": "결정 3: 월 단위면 판별하고 회차·건별이면 범위 밖인데, 이 표현만으로는 어느 쪽인지 못 가른다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "회차·월 저축액 제약이 계약 속성이 아니라는 점은 맞다. 다만 같은 개념을 g789c3be(VOCAB)·g6306299(VOCAB)는 다른 layer 로 적었다. 또 '최고가입금액 월 20만원'(미소드림)·'가입 및 월납입금액 1만원 이상 월 100만원 이하'(SOL모임적금)는 정액적립식이라면 catalog 의 contract.monthly_amount(월 납입금액)와 정확히 같다. 상품이 자유적립식인지 원문에서 확인되지 않는다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+     "layer": "STRUCTURE"
+    }
    }
   },
   "SSG.COM 쇼핑 누적금액주4)": {
@@ -7463,28 +7614,38 @@
    "gap": "상품 세부구분(보증기관별 가입구분) 변수 없음",
    "layer": "VOCAB",
    "family": "가입자격",
-   "why": "보증기관별 3종 구분 — 상품 세부구분 변수 없음",
-   "by": "claude-draft",
+   "why": "결정 6: 상품 세부 가입구분은 자격이라 범위 안 — 어휘 추가 후보",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q5",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "보증기관별 3종 가입구분의 목적은 '기관별 출금내역 통지' 라 안내·상품 구분(SCOPE/not_rule)으로 읽힌다. 그러나 보증기관 이용 고객만 해당 종류에 가입한다는 자격으로도 읽힐 수 있다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "상품 세부구분(보증기관별 가입구분) 변수 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "가입금액": {
-   "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+   "gap": "적립식 납입 단위(월·회차·건별) 구분 없음",
    "layer": "STRUCTURE",
    "family": "가입금액·한도",
-   "why": "문맥이 적금(신한 스마트 적금 1천원 이상) — 회차 저축금액 하한이라 contract.amount 와 다름",
-   "by": "claude-draft",
+   "why": "결정 3: 월 단위면 판별하고 회차·건별이면 범위 밖인데, 이 표현만으로는 어느 쪽인지 못 가른다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "회차·월 저축액 제약이 계약 속성이 아니라는 점은 맞다. 다만 같은 개념을 g789c3be(VOCAB)·g6306299(VOCAB)는 다른 layer 로 적었다. 또 '최고가입금액 월 20만원'(미소드림)·'가입 및 월납입금액 1만원 이상 월 100만원 이하'(SOL모임적금)는 정액적립식이라면 catalog 의 contract.monthly_amount(월 납입금액)와 정확히 같다. 상품이 자유적립식인지 원문에서 확인되지 않는다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+     "layer": "STRUCTURE"
+    }
    }
   },
   "가입기간": {
@@ -7816,45 +7977,60 @@
    }
   },
   "만기후 이자율": {
-   "gap": "만기후 경과기간 변수 없음",
-   "layer": "VOCAB",
+   "gap": "만기후 경과기간을 수로 세는 연산 없음",
+   "layer": "STRUCTURE",
    "family": "계약기간·만기",
-   "why": "구간이 '만기후 1개월 이내' 등 만기 경과기간 — 변수 없음",
-   "by": "claude-draft",
+   "why": "결정 1-다로 범위 안이지만, 구간표(만기후 1개월 이내 …)는 경과 개월을 **수로** 세야 한다 — 앵커 비교로는 구간을 못 만든다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "'만기후 경과기간 변수 없음' 은 GUIDE 의 VOCAB 예시와 같다. 그러나 세 멤버 모두 받는 효과가 만기후이율 구간표다. Q1 이 SCOPE 로 정해지면 변수를 넣어도 열리지 않는다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "만기후 경과기간 변수 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "만기후이율": {
-   "gap": "만기후 경과기간 변수 없음",
-   "layer": "VOCAB",
+   "gap": "만기후 경과기간을 수로 세는 연산 없음",
+   "layer": "STRUCTURE",
    "family": "계약기간·만기",
-   "why": "구간이 '만기후 1개월 이내' 등 만기 경과기간 — 변수 없음",
-   "by": "claude-draft",
+   "why": "결정 1-다로 범위 안이지만, 구간표(만기후 1개월 이내 …)는 경과 개월을 **수로** 세야 한다 — 앵커 비교로는 구간을 못 만든다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "'만기후 경과기간 변수 없음' 은 GUIDE 의 VOCAB 예시와 같다. 그러나 세 멤버 모두 받는 효과가 만기후이율 구간표다. Q1 이 SCOPE 로 정해지면 변수를 넣어도 열리지 않는다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "만기후 경과기간 변수 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "매월(월 초일부터 말일까지) 3백만원 이내": {
-   "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
-   "layer": "STRUCTURE",
-   "family": "가입금액·한도",
-   "why": "매월 저축 합계 상한 — 거래 단위",
-   "by": "claude-draft",
+   "var": "contract.monthly_amount",
+   "unit": "won",
+   "violation": "DISQUALIFY",
+   "why": "결정 3: 가입 때 정하는 월 납입액은 계약 속성이라 판별한다 (`contract.monthly_amount`)",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "회차·월 저축액 제약이 계약 속성이 아니라는 점은 맞다. 다만 같은 개념을 g789c3be(VOCAB)·g6306299(VOCAB)는 다른 layer 로 적었다. 또 '최고가입금액 월 20만원'(미소드림)·'가입 및 월납입금액 1만원 이상 월 100만원 이하'(SOL모임적금)는 정액적립식이라면 catalog 의 contract.monthly_amount(월 납입금액)와 정확히 같다. 상품이 자유적립식인지 원문에서 확인되지 않는다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+     "layer": "STRUCTURE"
+    }
    }
   },
   "모든 금융기관을 통하여 1인 1계좌": {
@@ -8028,31 +8204,41 @@
    "not_rule": "제약 없음: 원 단위 = 제약 없음"
   },
   "월 100만원 이하": {
-   "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
-   "layer": "STRUCTURE",
-   "family": "가입금액·한도",
-   "why": "월 납입금액 상한 — 자유적립식 모임적금의 월 입금 합계",
-   "by": "claude-draft",
+   "var": "contract.monthly_amount",
+   "unit": "won",
+   "violation": "DISQUALIFY",
+   "why": "결정 3: 가입 때 정하는 월 납입액은 계약 속성이라 판별한다 (`contract.monthly_amount`)",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "회차·월 저축액 제약이 계약 속성이 아니라는 점은 맞다. 다만 같은 개념을 g789c3be(VOCAB)·g6306299(VOCAB)는 다른 layer 로 적었다. 또 '최고가입금액 월 20만원'(미소드림)·'가입 및 월납입금액 1만원 이상 월 100만원 이하'(SOL모임적금)는 정액적립식이라면 catalog 의 contract.monthly_amount(월 납입금액)와 정확히 같다. 상품이 자유적립식인지 원문에서 확인되지 않는다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+     "layer": "STRUCTURE"
+    }
    }
   },
   "월 1천원 이상": {
-   "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
-   "layer": "STRUCTURE",
-   "family": "가입금액·한도",
-   "why": "월 저축금액 하한 — 거래 단위",
-   "by": "claude-draft",
+   "var": "contract.monthly_amount",
+   "unit": "won",
+   "violation": "DISQUALIFY",
+   "why": "결정 3: 가입 때 정하는 월 납입액은 계약 속성이라 판별한다 (`contract.monthly_amount`)",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "회차·월 저축액 제약이 계약 속성이 아니라는 점은 맞다. 다만 같은 개념을 g789c3be(VOCAB)·g6306299(VOCAB)는 다른 layer 로 적었다. 또 '최고가입금액 월 20만원'(미소드림)·'가입 및 월납입금액 1만원 이상 월 100만원 이하'(SOL모임적금)는 정액적립식이라면 catalog 의 contract.monthly_amount(월 납입금액)와 정확히 같다. 상품이 자유적립식인지 원문에서 확인되지 않는다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+     "layer": "STRUCTURE"
+    }
    }
   },
   "월단위": {
@@ -8071,17 +8257,22 @@
    "not_rule": "제약 없음: term_months 는 개월 정수 — '월단위' 는 판별을 바꾸지 않는다"
   },
   "입금금액": {
-   "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+   "gap": "적립식 납입 단위(월·회차·건별) 구분 없음",
    "layer": "STRUCTURE",
    "family": "가입금액·한도",
-   "why": "입금 건별 10억원 이상 — 거래 단위 (where min_amount 는 이벤트 조건일 뿐 요건이 아니다)",
-   "by": "claude-draft",
+   "why": "결정 3: 월 단위면 판별하고 회차·건별이면 범위 밖인데, 이 표현만으로는 어느 쪽인지 못 가른다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "회차·월 저축액 제약이 계약 속성이 아니라는 점은 맞다. 다만 같은 개념을 g789c3be(VOCAB)·g6306299(VOCAB)는 다른 layer 로 적었다. 또 '최고가입금액 월 20만원'(미소드림)·'가입 및 월납입금액 1만원 이상 월 100만원 이하'(SOL모임적금)는 정액적립식이라면 catalog 의 contract.monthly_amount(월 납입금액)와 정확히 같다. 상품이 자유적립식인지 원문에서 확인되지 않는다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+     "layer": "STRUCTURE"
+    }
    }
   },
   "잔액이 일십만원 미만인 경우": {
@@ -8114,17 +8305,22 @@
    }
   },
   "저축한도": {
-   "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+   "gap": "적립식 납입 단위(월·회차·건별) 구분 없음",
    "layer": "STRUCTURE",
    "family": "가입금액·한도",
-   "why": "적금 월 저축 한도 — 월 입금 합계, 계약 속성 아님",
-   "by": "claude-draft",
+   "why": "결정 3: 월 단위면 판별하고 회차·건별이면 범위 밖인데, 이 표현만으로는 어느 쪽인지 못 가른다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "회차·월 저축액 제약이 계약 속성이 아니라는 점은 맞다. 다만 같은 개념을 g789c3be(VOCAB)·g6306299(VOCAB)는 다른 layer 로 적었다. 또 '최고가입금액 월 20만원'(미소드림)·'가입 및 월납입금액 1만원 이상 월 100만원 이하'(SOL모임적금)는 정액적립식이라면 catalog 의 contract.monthly_amount(월 납입금액)와 정확히 같다. 상품이 자유적립식인지 원문에서 확인되지 않는다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+     "layer": "STRUCTURE"
+    }
    }
   },
   "전월에": {
@@ -8183,17 +8379,22 @@
    }
   },
   "최고가입금액": {
-   "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+   "gap": "적립식 납입 단위(월·회차·건별) 구분 없음",
    "layer": "STRUCTURE",
    "family": "가입금액·한도",
-   "why": "문맥 값이 '월 20만원'·'월 2천만원(자유적립식)' — 월 저축 합계 상한",
-   "by": "claude-draft",
+   "why": "결정 3: 월 단위면 판별하고 회차·건별이면 범위 밖인데, 이 표현만으로는 어느 쪽인지 못 가른다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "회차·월 저축액 제약이 계약 속성이 아니라는 점은 맞다. 다만 같은 개념을 g789c3be(VOCAB)·g6306299(VOCAB)는 다른 layer 로 적었다. 또 '최고가입금액 월 20만원'(미소드림)·'가입 및 월납입금액 1만원 이상 월 100만원 이하'(SOL모임적금)는 정액적립식이라면 catalog 의 contract.monthly_amount(월 납입금액)와 정확히 같다. 상품이 자유적립식인지 원문에서 확인되지 않는다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+     "layer": "STRUCTURE"
+    }
    }
   },
   "최대 1 천만원까지 입금 가능": {
@@ -8226,31 +8427,41 @@
    }
   },
   "최소 가입가능 금액": {
-   "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+   "gap": "적립식 납입 단위(월·회차·건별) 구분 없음",
    "layer": "STRUCTURE",
    "family": "가입금액·한도",
-   "why": "문맥이 적금(다둥이 상생 적금 1천원 이상) — 회차 저축금액 하한",
-   "by": "claude-draft",
+   "why": "결정 3: 월 단위면 판별하고 회차·건별이면 범위 밖인데, 이 표현만으로는 어느 쪽인지 못 가른다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "회차·월 저축액 제약이 계약 속성이 아니라는 점은 맞다. 다만 같은 개념을 g789c3be(VOCAB)·g6306299(VOCAB)는 다른 layer 로 적었다. 또 '최고가입금액 월 20만원'(미소드림)·'가입 및 월납입금액 1만원 이상 월 100만원 이하'(SOL모임적금)는 정액적립식이라면 catalog 의 contract.monthly_amount(월 납입금액)와 정확히 같다. 상품이 자유적립식인지 원문에서 확인되지 않는다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+     "layer": "STRUCTURE"
+    }
    }
   },
   "최소납입금액": {
-   "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+   "gap": "적립식 납입 단위(월·회차·건별) 구분 없음",
    "layer": "STRUCTURE",
    "family": "가입금액·한도",
-   "why": "적금 최소 납입금액 1천원 — 회차 저축금액",
-   "by": "claude-draft",
+   "why": "결정 3: 월 단위면 판별하고 회차·건별이면 범위 밖인데, 이 표현만으로는 어느 쪽인지 못 가른다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "회차·월 저축액 제약이 계약 속성이 아니라는 점은 맞다. 다만 같은 개념을 g789c3be(VOCAB)·g6306299(VOCAB)는 다른 layer 로 적었다. 또 '최고가입금액 월 20만원'(미소드림)·'가입 및 월납입금액 1만원 이상 월 100만원 이하'(SOL모임적금)는 정액적립식이라면 catalog 의 contract.monthly_amount(월 납입금액)와 정확히 같다. 상품이 자유적립식인지 원문에서 확인되지 않는다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+     "layer": "STRUCTURE"
+    }
    }
   },
   "최저 연 0.1% ~ 최고 연 2.0%": {
@@ -8268,17 +8479,22 @@
    }
   },
   "최저가입금액": {
-   "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+   "gap": "적립식 납입 단위(월·회차·건별) 구분 없음",
    "layer": "STRUCTURE",
    "family": "가입금액·한도",
-   "why": "두 문맥 모두 적금(자유적립식 포함)의 회차 저축금액 하한 — contract.amount 로 옮기면 다른 개념",
-   "by": "claude-draft",
+   "why": "결정 3: 월 단위면 판별하고 회차·건별이면 범위 밖인데, 이 표현만으로는 어느 쪽인지 못 가른다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "회차·월 저축액 제약이 계약 속성이 아니라는 점은 맞다. 다만 같은 개념을 g789c3be(VOCAB)·g6306299(VOCAB)는 다른 layer 로 적었다. 또 '최고가입금액 월 20만원'(미소드림)·'가입 및 월납입금액 1만원 이상 월 100만원 이하'(SOL모임적금)는 정액적립식이라면 catalog 의 contract.monthly_amount(월 납입금액)와 정확히 같다. 상품이 자유적립식인지 원문에서 확인되지 않는다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+     "layer": "STRUCTURE"
+    }
    }
   },
   "최종거래일로부터 5년이 경과한 날부터": {
@@ -8396,31 +8612,41 @@
    }
   },
   "회차별 1만원 이상": {
-   "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
-   "layer": "STRUCTURE",
+   "gap": "판별 범위 밖: 거래 단위 제약(회차·건별·이체한도)",
+   "layer": "SCOPE",
    "family": "가입금액·한도",
-   "why": "회차별 저축금액 하한 — 거래 단위",
-   "by": "claude-draft",
+   "why": "결정 3: 거래 한 건에 걸리는 제약은 거래 처리 쪽 검증이다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "회차·월 저축액 제약이 계약 속성이 아니라는 점은 맞다. 다만 같은 개념을 g789c3be(VOCAB)·g6306299(VOCAB)는 다른 layer 로 적었다. 또 '최고가입금액 월 20만원'(미소드림)·'가입 및 월납입금액 1만원 이상 월 100만원 이하'(SOL모임적금)는 정액적립식이라면 catalog 의 contract.monthly_amount(월 납입금액)와 정확히 같다. 상품이 자유적립식인지 원문에서 확인되지 않는다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+     "layer": "STRUCTURE"
+    }
    }
   },
   "회차별 1천원 이상": {
-   "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
-   "layer": "STRUCTURE",
+   "gap": "판별 범위 밖: 거래 단위 제약(회차·건별·이체한도)",
+   "layer": "SCOPE",
    "family": "가입금액·한도",
-   "why": "회차별 저축금액 하한 — 거래 단위",
-   "by": "claude-draft",
+   "why": "결정 3: 거래 한 건에 걸리는 제약은 거래 처리 쪽 검증이다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q2",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "회차·월 저축액 제약이 계약 속성이 아니라는 점은 맞다. 다만 같은 개념을 g789c3be(VOCAB)·g6306299(VOCAB)는 다른 layer 로 적었다. 또 '최고가입금액 월 20만원'(미소드림)·'가입 및 월납입금액 1만원 이상 월 100만원 이하'(SOL모임적금)는 정액적립식이라면 catalog 의 contract.monthly_amount(월 납입금액)와 정확히 같다. 상품이 자유적립식인지 원문에서 확인되지 않는다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "입금 거래 단위 금액 요건(회차·월·건별 입금액) 없음",
+     "layer": "STRUCTURE"
+    }
    }
   }
  },
@@ -8938,17 +9164,22 @@
    }
   },
   "ALLOW::비과세종합저축으로 가입": {
-   "gap": "판별 범위 밖: 세금·비과세",
-   "layer": "SCOPE",
+   "gap": "비과세종합저축 가입 자격 변수 없음",
+   "layer": "VOCAB",
    "family": "세금·비과세",
-   "why": "비과세종합저축 가입 가능 — 세제 적용 여부라 판별 범위 밖(원칙 6)",
-   "by": "claude-draft",
+   "why": "결정 5: 「비과세로 가입 가능」 은 가입 자격이라 판별 범위 안 — 어휘 추가 후보. 세율·세금 계산은 범위 밖 그대로",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q4",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "GUIDE 원칙 6은 세금을 범위 밖으로 두지만, gold KBONE-S2-R10·KBYY-S2-R13 은 '비과세종합저축 가입 가능' 을 UNSUPPORTED('비과세 여부 변수도 세제 effect 도 없음')로 적었다. 확장하면 풀리는 VOCAB 로 셌다는 뜻이다. 세금 산출(과세·세율 변경)은 SCOPE 가 분명하지만, 비과세 가입 가능·불가는 판별처럼 읽힌다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "판별 범위 밖: 세금·비과세",
+     "layer": "SCOPE"
+    }
    }
   },
   "ALLOW::상품 전환": {
@@ -9442,45 +9673,54 @@
    }
   },
   "APPLY_VALUE::만기후 이자율": {
-   "gap": "만기후이율 없음",
-   "layer": "VOCAB",
-   "family": "금리·이율값",
-   "why": "만기후 이자율(일반정기적금 이율의 1/2·1/4 등) — base_rate 가 아닌 금리(원칙 4 단서)",
-   "by": "claude-draft",
+   "effect": "RATE_OVERRIDE",
+   "why": "결정 1-다: 이자 금액은 안 셈하되 «어느 이율이 적용되나» 는 판별이다. 적용 이율 대체 = RATE_OVERRIDE. 값이 게시값·계산식이면 변환기가 그 자리에서 막는다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "만기후이율은 base_rate 가 아닌 금리라 gap 이다. 경과기간 구간·산식(1/2·1/4)이 붙어 있다. g391af38 과 같은 문제로, 판별의 금리 선택인지 이자 산출인지가 정해지지 않았다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "만기후이율 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "APPLY_VALUE::만기후이율": {
-   "gap": "만기후이율 없음",
-   "layer": "VOCAB",
-   "family": "금리·이율값",
-   "why": "만기후 경과기간별 이율 — base_rate 가 아닌 금리(원칙 4)",
-   "by": "claude-draft",
+   "effect": "RATE_OVERRIDE",
+   "why": "결정 1-다: 이자 금액은 안 셈하되 «어느 이율이 적용되나» 는 판별이다. 적용 이율 대체 = RATE_OVERRIDE. 값이 게시값·계산식이면 변환기가 그 자리에서 막는다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "만기후이율은 base_rate 가 아닌 금리라 gap 이다. 경과기간 구간·산식(1/2·1/4)이 붙어 있다. g391af38 과 같은 문제로, 판별의 금리 선택인지 이자 산출인지가 정해지지 않았다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "만기후이율 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "APPLY_VALUE::만기후이자율": {
-   "gap": "만기후이율 없음",
-   "layer": "VOCAB",
-   "family": "금리·이율값",
-   "why": "재예치 제외 계좌에 만기후이자율 적용 — base_rate 가 아닌 금리(원칙 4 단서)",
-   "by": "claude-draft",
+   "effect": "RATE_OVERRIDE",
+   "why": "결정 1-다: 이자 금액은 안 셈하되 «어느 이율이 적용되나» 는 판별이다. 적용 이율 대체 = RATE_OVERRIDE. 값이 게시값·계산식이면 변환기가 그 자리에서 막는다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "만기후이율은 base_rate 가 아닌 금리라 gap 이다. 경과기간 구간·산식(1/2·1/4)이 붙어 있다. g391af38 과 같은 문제로, 판별의 금리 선택인지 이자 산출인지가 정해지지 않았다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "만기후이율 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "APPLY_VALUE::사용방법 및 유효기간 등 세부사항": {
@@ -9698,73 +9938,88 @@
    }
   },
   "APPLY_VALUE::중도해지 이자율": {
-   "gap": "중도해지이율 없음",
-   "layer": "VOCAB",
-   "family": "금리·이율값",
-   "why": "중도해지 시 적용 이율 — base_rate 가 아닌 금리(원칙 4)",
-   "by": "claude-draft",
+   "effect": "RATE_OVERRIDE",
+   "why": "결정 1-다: 이자 금액은 안 셈하되 «어느 이율이 적용되나» 는 판별이다. 적용 이율 대체 = RATE_OVERRIDE. 값이 게시값·계산식이면 변환기가 그 자리에서 막는다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "중도해지이율은 base_rate 가 아니라 gap 이다(원칙 4). 그런데 결정 0 은 이자 산출을 DSL 에서 뺐다. 게시 중도해지이율 적용이 '금리 선택'(확장하면 열리는 VOCAB)인지 '이자 산출'(SCOPE)인지가 정해지지 않았다. 088c843b 는 산식이라 어느 쪽이든 SCOPE 에 가깝다. PENALTY_RATE 는 resolver 에서 차감(-1)이라 게시 중도해지이율과 같지 않다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "중도해지이율 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "APPLY_VALUE::중도해지이율": {
-   "gap": "중도해지이율 없음",
-   "layer": "VOCAB",
-   "family": "금리·이율값",
-   "why": "만기 전 해지 시 중도해지이율 적용 — base_rate 가 아닌 금리(원칙 4)",
-   "by": "claude-draft",
+   "effect": "RATE_OVERRIDE",
+   "why": "결정 1-다: 이자 금액은 안 셈하되 «어느 이율이 적용되나» 는 판별이다. 적용 이율 대체 = RATE_OVERRIDE. 값이 게시값·계산식이면 변환기가 그 자리에서 막는다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "중도해지이율은 base_rate 가 아니라 gap 이다(원칙 4). 그런데 결정 0 은 이자 산출을 DSL 에서 뺐다. 게시 중도해지이율 적용이 '금리 선택'(확장하면 열리는 VOCAB)인지 '이자 산출'(SCOPE)인지가 정해지지 않았다. 088c843b 는 산식이라 어느 쪽이든 SCOPE 에 가깝다. PENALTY_RATE 는 resolver 에서 차감(-1)이라 게시 중도해지이율과 같지 않다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "중도해지이율 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "APPLY_VALUE::중도해지이자": {
-   "gap": "중도해지이율 없음",
-   "layer": "VOCAB",
-   "family": "해지·중도해지",
-   "why": "만기 전 해지 시 중도해지이자 적용 — base_rate 가 아닌 금리(원칙 4 단서)",
-   "by": "claude-draft",
+   "effect": "RATE_OVERRIDE",
+   "why": "결정 1-다: 이자 금액은 안 셈하되 «어느 이율이 적용되나» 는 판별이다. 적용 이율 대체 = RATE_OVERRIDE. 값이 게시값·계산식이면 변환기가 그 자리에서 막는다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "중도해지이율은 base_rate 가 아니라 gap 이다(원칙 4). 그런데 결정 0 은 이자 산출을 DSL 에서 뺐다. 게시 중도해지이율 적용이 '금리 선택'(확장하면 열리는 VOCAB)인지 '이자 산출'(SCOPE)인지가 정해지지 않았다. 088c843b 는 산식이라 어느 쪽이든 SCOPE 에 가깝다. PENALTY_RATE 는 resolver 에서 차감(-1)이라 게시 중도해지이율과 같지 않다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "중도해지이율 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "APPLY_VALUE::중도해지이자율": {
-   "gap": "중도해지이율 없음",
-   "layer": "VOCAB",
-   "family": "해지·중도해지",
-   "why": "예금일 당시 고시 중도해지이자율 적용 — base_rate 가 아닌 금리(원칙 4 단서)",
-   "by": "claude-draft",
+   "effect": "RATE_OVERRIDE",
+   "why": "결정 1-다: 이자 금액은 안 셈하되 «어느 이율이 적용되나» 는 판별이다. 적용 이율 대체 = RATE_OVERRIDE. 값이 게시값·계산식이면 변환기가 그 자리에서 막는다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "중도해지이율은 base_rate 가 아니라 gap 이다(원칙 4). 그런데 결정 0 은 이자 산출을 DSL 에서 뺐다. 게시 중도해지이율 적용이 '금리 선택'(확장하면 열리는 VOCAB)인지 '이자 산출'(SCOPE)인지가 정해지지 않았다. 088c843b 는 산식이라 어느 쪽이든 SCOPE 에 가깝다. PENALTY_RATE 는 resolver 에서 차감(-1)이라 게시 중도해지이율과 같지 않다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "중도해지이율 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "APPLY_VALUE::지급": {
-   "gap": "중도해지이율 없음",
-   "layer": "VOCAB",
-   "family": "금리·이율값",
-   "why": "만기일 전 지급청구 시 적용할 이율(만기지급이자율) — 중도해지 적용 금리 개념이 없다",
-   "by": "claude-draft",
+   "effect": "RATE_OVERRIDE",
+   "why": "결정 1-다: 이자 금액은 안 셈하되 «어느 이율이 적용되나» 는 판별이다. 적용 이율 대체 = RATE_OVERRIDE. 값이 게시값·계산식이면 변환기가 그 자리에서 막는다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "중도해지이율은 base_rate 가 아니라 gap 이다(원칙 4). 그런데 결정 0 은 이자 산출을 DSL 에서 뺐다. 게시 중도해지이율 적용이 '금리 선택'(확장하면 열리는 VOCAB)인지 '이자 산출'(SCOPE)인지가 정해지지 않았다. 088c843b 는 산식이라 어느 쪽이든 SCOPE 에 가깝다. PENALTY_RATE 는 resolver 에서 차감(-1)이라 게시 중도해지이율과 같지 않다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "중도해지이율 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "APPLY_VALUE::지급금액": {
@@ -9796,17 +10051,20 @@
    }
   },
   "APPLY_VALUE::특별중도해지": {
-   "gap": "중도해지이율 없음",
-   "layer": "VOCAB",
-   "family": "금리·이율값",
-   "why": "중도해지 당일 해외송금 시 중도해지이율 대신 기본이자율 — 중도해지 적용 금리 개념이 카탈로그에 없다(RATE_OVERRIDE 로 옮기면 중도해지가 아닌 계좌에도 걸림)",
-   "by": "claude-draft",
+   "effect": "RATE_OVERRIDE",
+   "why": "결정 1-다: 이자 금액은 안 셈하되 «어느 이율이 적용되나» 는 판별이다. 적용 이율 대체 = RATE_OVERRIDE. 값이 게시값·계산식이면 변환기가 그 자리에서 막는다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q1",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "중도해지이율은 base_rate 가 아니라 gap 이다(원칙 4). 그런데 결정 0 은 이자 산출을 DSL 에서 뺐다. 게시 중도해지이율 적용이 '금리 선택'(확장하면 열리는 VOCAB)인지 '이자 산출'(SCOPE)인지가 정해지지 않았다. 088c843b 는 산식이라 어느 쪽이든 SCOPE 에 가깝다. PENALTY_RATE 는 resolver 에서 차감(-1)이라 게시 중도해지이율과 같지 않다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "중도해지이율 없음",
+     "layer": "VOCAB"
+    }
    }
   },
   "APPLY_VALUE::해외 송금수수료": {
@@ -9978,16 +10236,21 @@
   },
   "CHANGE_STATE::저금통은 자동 해제": {
    "gap": "계좌·부가서비스 상태 변경 effect 없음",
-   "layer": "STRUCTURE",
+   "layer": "VOCAB",
    "family": "상품전환·재예치",
-   "why": "다른 상품으로 전환 시 저금통 자동 해제 — 상태를 바꾸는 effect 가 없다",
-   "by": "claude-draft",
+   "why": "결정 7: 저금통 해제 같은 상태 변경은 뒤따르는 우대·한도를 바꾸므로 범위 안 — 어휘 추가 후보",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q6",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "저금통 자동 해제는 판별(자격·우대·면제·제한)이 아니라 은행이 상태를 바꾸는 실행이다. 자동해지(g9bd8bb5 SCOPE)와 같은 자리로 볼 수도 있다. 같은 문장을 g1d71bf5 는 VOCAB 로 적었다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "계좌·부가서비스 상태 변경 effect 없음",
+     "layer": "STRUCTURE"
+    }
    }
   },
   "CHANGE_STATE::저금통은 자동으로 해제": {
@@ -10356,31 +10619,41 @@
    }
   },
   "PROHIBIT::비과세종합저축": {
-   "gap": "판별 범위 밖: 세금·비과세",
-   "layer": "SCOPE",
+   "gap": "비과세종합저축 가입 자격 변수 없음",
+   "layer": "VOCAB",
    "family": "세금·비과세",
-   "why": "세제혜택(비과세종합저축) 불가 — 세금 영역",
-   "by": "claude-draft",
+   "why": "결정 5: 「비과세로 가입 가능」 은 가입 자격이라 판별 범위 안 — 어휘 추가 후보. 세율·세금 계산은 범위 밖 그대로",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q4",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "GUIDE 원칙 6은 세금을 범위 밖으로 두지만, gold KBONE-S2-R10·KBYY-S2-R13 은 '비과세종합저축 가입 가능' 을 UNSUPPORTED('비과세 여부 변수도 세제 effect 도 없음')로 적었다. 확장하면 풀리는 VOCAB 로 셌다는 뜻이다. 세금 산출(과세·세율 변경)은 SCOPE 가 분명하지만, 비과세 가입 가능·불가는 판별처럼 읽힌다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "판별 범위 밖: 세금·비과세",
+     "layer": "SCOPE"
+    }
    }
   },
   "PROHIBIT::비과세종합저축으로 가입": {
-   "gap": "판별 범위 밖: 세금·비과세",
-   "layer": "SCOPE",
+   "gap": "비과세종합저축 가입 자격 변수 없음",
+   "layer": "VOCAB",
    "family": "세금·비과세",
-   "why": "비과세종합저축 가입 불가 — 세제 적용 여부라 판별 범위 밖(원칙 6)",
-   "by": "claude-draft",
+   "why": "결정 5: 「비과세로 가입 가능」 은 가입 자격이라 판별 범위 안 — 어휘 추가 후보. 세율·세금 계산은 범위 밖 그대로",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q4",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "GUIDE 원칙 6은 세금을 범위 밖으로 두지만, gold KBONE-S2-R10·KBYY-S2-R13 은 '비과세종합저축 가입 가능' 을 UNSUPPORTED('비과세 여부 변수도 세제 effect 도 없음')로 적었다. 확장하면 풀리는 VOCAB 로 셌다는 뜻이다. 세금 산출(과세·세율 변경)은 SCOPE 가 분명하지만, 비과세 가입 가능·불가는 판별처럼 읽힌다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "판별 범위 밖: 세금·비과세",
+     "layer": "SCOPE"
+    }
    }
   },
   "PROHIBIT::상계": {
@@ -10835,17 +11108,18 @@
    }
   },
   "PROHIBIT::자동해지": {
-   "gap": "제한 대상 코드 없음: 자동해지·자동재예치",
-   "layer": "VOCAB",
+   "gap": "판별 범위 밖: 자동해지·자동재예치 실행",
+   "layer": "SCOPE",
    "family": "해지·중도해지",
-   "why": "법적지급제한·출금계좌 해지 시 자동해지/자동재예치 불가 — 대상 코드 없음",
-   "by": "claude-draft",
+   "why": "결정 4: 자동해지 여부는 은행이 실행하는 절차다",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q3",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "'자동해지 불가' 대상 코드가 없다는 점은 맞다. 그러나 자동해지 실행 자체는 g9bd8bb5 에서 SCOPE 다. 그 금지만 VOCAB 로 세는 것이 일관되는지 정해야 한다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20"
    }
   },
   "PROHIBIT::자료 열람을 제한하거나 거절할 수 있습니다": {
@@ -11465,17 +11739,22 @@
    }
   },
   "SET_VALUE::KB국민은행 인터넷·모바일뱅킹 다른은행 이체수수료": {
-   "gap": "수수료 대상 코드 없음: 인터넷·모바일뱅킹(폰뱅킹 제외) 이체수수료",
-   "layer": "VOCAB",
-   "family": "수수료",
-   "why": "EBANK_TRANSFER 는 전자금융(인터넷·폰·모바일) 이체수수료인데 여기는 폰뱅킹이 빠져 정확히 같지 않다. 경계 사례 — 검토자가 EBANK_TRANSFER 로 받아들일 수 있다",
-   "by": "claude-draft",
+   "effect": "FEE_WAIVE",
+   "target": "EBANK_TRANSFER",
+   "value": "UNLIMITED",
+   "why": "결정 8: 폰뱅킹이 빠진 문구도 전자금융 이체수수료로 받는다. 면제를 넓게 주는 오차라 고객에게 유리하다(결정 1-1)",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q7",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "EBANK_TRANSFER 의 catalog 설명은 '전자금융 이체수수료' 뿐이라 폰뱅킹 포함 여부가 명시되지 않았다. lex 는 '인터넷·폰·스타뱅킹' 과 '전자금융(인터넷·폰·모바일)' 을 모두 EBANK_TRANSFER 로 받았다. '인터넷·모바일(폰 제외)' 을 같은 코드로 받으면 폰뱅킹 이체까지 면제하는 유리한 쪽 오차다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "수수료 대상 코드 없음: 인터넷·모바일뱅킹(폰뱅킹 제외) 이체수수료",
+     "layer": "VOCAB"
+    }
    }
   },
   "SET_VALUE::KB국민은행 인터넷·폰·KB스타뱅킹을 통한 다른은행 이체 수수료": {
@@ -11715,17 +11994,22 @@
    }
   },
   "SET_VALUE::소득세 및 농어촌특별세": {
-   "gap": "판별 범위 밖: 세금·비과세",
-   "layer": "SCOPE",
+   "gap": "비과세종합저축 가입 자격 변수 없음",
+   "layer": "VOCAB",
    "family": "세금·비과세",
-   "why": "특별중도해지 시 소득세·농어촌특별세 비과세 — 세금 계산(원칙 6)",
-   "by": "claude-draft",
+   "why": "결정 5: 「비과세로 가입 가능」 은 가입 자격이라 판별 범위 안 — 어휘 추가 후보. 세율·세금 계산은 범위 밖 그대로",
+   "by": "claude-decision",
    "reviewed": false,
    "claude_review": {
-    "verdict": "사람 판단 Q4",
+    "verdict": "결정 2026-09-20",
     "agent": "정책",
     "reason": "GUIDE 원칙 6은 세금을 범위 밖으로 두지만, gold KBONE-S2-R10·KBYY-S2-R13 은 '비과세종합저축 가입 가능' 을 UNSUPPORTED('비과세 여부 변수도 세제 effect 도 없음')로 적었다. 확장하면 풀리는 VOCAB 로 셌다는 뜻이다. 세금 산출(과세·세율 변경)은 SCOPE 가 분명하지만, 비과세 가입 가능·불가는 판별처럼 읽힌다.",
-    "at": "2026-09-18"
+    "at": "2026-09-18",
+    "decided_at": "2026-09-20",
+    "from": {
+     "gap": "판별 범위 밖: 세금·비과세",
+     "layer": "SCOPE"
+    }
    }
   },
   "SET_VALUE::약정이자": {

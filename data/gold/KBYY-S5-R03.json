@@ -2,7 +2,7 @@
  "clause_id": "KBYY-S5-R03",
  "label": "KB생활 서비스Ⅱ",
  "reviewed": true,
- "note": "복원 초안. 사람 검토 필요. 면제조건은 '전월 중' 기본실적 하나 이상 AND 추가실적 하나 이상 → AND(OR, OR). 기본실적 없이 추가실적만 있으면 면제 불가라는 ※ 는 이 AND 로 이미 표현된다(예시 문장은 rule 로 만들지 않았다). 면제대상 표 6행이 각각 rule 이고 빈 면제횟수 칸 2개는 윗행의 '제한없음'(UNLIMITED)을 물려받는다. 값은 제한없음=UNLIMITED, 월 10회=10, 월 5회=5. 수수료 면제는 FEE_WAIVE 다. 근사 2곳: (1) 급여이체 '건별 50만원 이상' 금액 조건은 DSL 에 금액 필터가 없어 exists SALARY_TRANSFER 로만 옮겼다. (2) 가맹점결제(카드 가맹점대금 입금실적)에 딱 맞는 이벤트가 없어 DEPOSIT(입금)으로 옮겼다. 주1)~주5) 의 세부 인정기준과 SMS 월정액형 한정(주5)은 옮길 수단이 없어 조건에 반영하지 않았다.",
+ "note": "복원 초안. 사람 검토 필요. 면제조건은 '전월 중' 기본실적 하나 이상 AND 추가실적 하나 이상 → AND(OR, OR). 기본실적 없이 추가실적만 있으면 면제 불가라는 ※ 는 이 AND 로 이미 표현된다(예시 문장은 rule 로 만들지 않았다). 면제대상 표 6행이 각각 rule 이고 빈 면제횟수 칸 2개는 윗행의 '제한없음'(UNLIMITED)을 물려받는다. 값은 제한없음=UNLIMITED, 월 10회=10, 월 5회=5. 수수료 면제는 FEE_WAIVE 다. 근사 2곳: (1) 급여이체 '건별 50만원 이상' 금액 조건은 DSL 에 금액 필터가 없어 exists SALARY_TRANSFER 로만 옮겼다. (2) 가맹점결제(카드 가맹점대금 입금실적)에 딱 맞는 이벤트가 없어 DEPOSIT(입금)으로 옮겼다. 주1)~주5) 의 세부 인정기준과 SMS 월정액형 한정(주5)은 옮길 수단이 없어 조건에 반영하지 않았다. [면제기간 결정 2026-09-20 · Claude] 「면제기간: 이번 달 11일부터 다음 달 10일까지」 를 옮겼다. 기준일이 11일 이후면 전월 실적, 1~10일이면 **두 달 전** 실적을 본다 — 전월 창만 보면 매달 1~10일에 양방향 오차가 난다. 채점 프로필의 기준일이 11일·20일이라 ⑥ 수치는 바뀌지 않는다. 사람이 검토한 조문이라 이 변경은 사람 확인이 필요하다.",
  "rules": [
   {
    "rule_id": "KBYY-S5-R03-01",
@@ -25,47 +25,141 @@
        "day": "last"
       }
      }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
     }
    },
    "condition": {
-    "and": [
+    "or": [
      {
-      "or": [
+      "and": [
        {
-        "exists": {
-         "event": "CARD_USAGE",
-         "within": {
-          "ref": "$window"
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
          }
-        }
+        ]
        },
        {
-        "exists": {
-         "event": "AUTO_TRANSFER",
-         "within": {
-          "ref": "$window"
+        "and": [
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "CARD_USAGE",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "AUTO_TRANSFER",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           }
+          ]
+         },
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "SALARY_TRANSFER",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "PENSION_RECEIPT",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           }
+          ]
          }
-        }
+        ]
        }
       ]
      },
      {
-      "or": [
+      "and": [
        {
-        "exists": {
-         "event": "SALARY_TRANSFER",
-         "within": {
-          "ref": "$window"
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
          }
-        }
+        ]
        },
        {
-        "exists": {
-         "event": "PENSION_RECEIPT",
-         "within": {
-          "ref": "$window"
+        "and": [
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "CARD_USAGE",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "AUTO_TRANSFER",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           }
+          ]
+         },
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "SALARY_TRANSFER",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "PENSION_RECEIPT",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           }
+          ]
          }
-        }
+        ]
        }
       ]
      }
@@ -98,47 +192,141 @@
        "day": "last"
       }
      }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
     }
    },
    "condition": {
-    "and": [
+    "or": [
      {
-      "or": [
+      "and": [
        {
-        "exists": {
-         "event": "CARD_USAGE",
-         "within": {
-          "ref": "$window"
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
          }
-        }
+        ]
        },
        {
-        "exists": {
-         "event": "AUTO_TRANSFER",
-         "within": {
-          "ref": "$window"
+        "and": [
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "CARD_USAGE",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "AUTO_TRANSFER",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           }
+          ]
+         },
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "SALARY_TRANSFER",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "PENSION_RECEIPT",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           }
+          ]
          }
-        }
+        ]
        }
       ]
      },
      {
-      "or": [
+      "and": [
        {
-        "exists": {
-         "event": "SALARY_TRANSFER",
-         "within": {
-          "ref": "$window"
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
          }
-        }
+        ]
        },
        {
-        "exists": {
-         "event": "PENSION_RECEIPT",
-         "within": {
-          "ref": "$window"
+        "and": [
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "CARD_USAGE",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "AUTO_TRANSFER",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           }
+          ]
+         },
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "SALARY_TRANSFER",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "PENSION_RECEIPT",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           }
+          ]
          }
-        }
+        ]
        }
       ]
      }
@@ -171,47 +359,141 @@
        "day": "last"
       }
      }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
     }
    },
    "condition": {
-    "and": [
+    "or": [
      {
-      "or": [
+      "and": [
        {
-        "exists": {
-         "event": "CARD_USAGE",
-         "within": {
-          "ref": "$window"
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
          }
-        }
+        ]
        },
        {
-        "exists": {
-         "event": "AUTO_TRANSFER",
-         "within": {
-          "ref": "$window"
+        "and": [
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "CARD_USAGE",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "AUTO_TRANSFER",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           }
+          ]
+         },
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "SALARY_TRANSFER",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "PENSION_RECEIPT",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           }
+          ]
          }
-        }
+        ]
        }
       ]
      },
      {
-      "or": [
+      "and": [
        {
-        "exists": {
-         "event": "SALARY_TRANSFER",
-         "within": {
-          "ref": "$window"
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
          }
-        }
+        ]
        },
        {
-        "exists": {
-         "event": "PENSION_RECEIPT",
-         "within": {
-          "ref": "$window"
+        "and": [
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "CARD_USAGE",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "AUTO_TRANSFER",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           }
+          ]
+         },
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "SALARY_TRANSFER",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "PENSION_RECEIPT",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           }
+          ]
          }
-        }
+        ]
        }
       ]
      }
@@ -244,47 +526,141 @@
        "day": "last"
       }
      }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
     }
    },
    "condition": {
-    "and": [
+    "or": [
      {
-      "or": [
+      "and": [
        {
-        "exists": {
-         "event": "CARD_USAGE",
-         "within": {
-          "ref": "$window"
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
          }
-        }
+        ]
        },
        {
-        "exists": {
-         "event": "AUTO_TRANSFER",
-         "within": {
-          "ref": "$window"
+        "and": [
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "CARD_USAGE",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "AUTO_TRANSFER",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           }
+          ]
+         },
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "SALARY_TRANSFER",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "PENSION_RECEIPT",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           }
+          ]
          }
-        }
+        ]
        }
       ]
      },
      {
-      "or": [
+      "and": [
        {
-        "exists": {
-         "event": "SALARY_TRANSFER",
-         "within": {
-          "ref": "$window"
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
          }
-        }
+        ]
        },
        {
-        "exists": {
-         "event": "PENSION_RECEIPT",
-         "within": {
-          "ref": "$window"
+        "and": [
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "CARD_USAGE",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "AUTO_TRANSFER",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           }
+          ]
+         },
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "SALARY_TRANSFER",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "PENSION_RECEIPT",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           }
+          ]
          }
-        }
+        ]
        }
       ]
      }
@@ -317,47 +693,141 @@
        "day": "last"
       }
      }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
     }
    },
    "condition": {
-    "and": [
+    "or": [
      {
-      "or": [
+      "and": [
        {
-        "exists": {
-         "event": "CARD_USAGE",
-         "within": {
-          "ref": "$window"
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
          }
-        }
+        ]
        },
        {
-        "exists": {
-         "event": "AUTO_TRANSFER",
-         "within": {
-          "ref": "$window"
+        "and": [
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "CARD_USAGE",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "AUTO_TRANSFER",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           }
+          ]
+         },
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "SALARY_TRANSFER",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "PENSION_RECEIPT",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           }
+          ]
          }
-        }
+        ]
        }
       ]
      },
      {
-      "or": [
+      "and": [
        {
-        "exists": {
-         "event": "SALARY_TRANSFER",
-         "within": {
-          "ref": "$window"
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
          }
-        }
+        ]
        },
        {
-        "exists": {
-         "event": "PENSION_RECEIPT",
-         "within": {
-          "ref": "$window"
+        "and": [
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "CARD_USAGE",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "AUTO_TRANSFER",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           }
+          ]
+         },
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "SALARY_TRANSFER",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "PENSION_RECEIPT",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           }
+          ]
          }
-        }
+        ]
        }
       ]
      }
@@ -390,47 +860,141 @@
        "day": "last"
       }
      }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
     }
    },
    "condition": {
-    "and": [
+    "or": [
      {
-      "or": [
+      "and": [
        {
-        "exists": {
-         "event": "CARD_USAGE",
-         "within": {
-          "ref": "$window"
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
          }
-        }
+        ]
        },
        {
-        "exists": {
-         "event": "AUTO_TRANSFER",
-         "within": {
-          "ref": "$window"
+        "and": [
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "CARD_USAGE",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "AUTO_TRANSFER",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           }
+          ]
+         },
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "SALARY_TRANSFER",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "PENSION_RECEIPT",
+             "within": {
+              "ref": "$window"
+             }
+            }
+           }
+          ]
          }
-        }
+        ]
        }
       ]
      },
      {
-      "or": [
+      "and": [
        {
-        "exists": {
-         "event": "SALARY_TRANSFER",
-         "within": {
-          "ref": "$window"
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
          }
-        }
+        ]
        },
        {
-        "exists": {
-         "event": "PENSION_RECEIPT",
-         "within": {
-          "ref": "$window"
+        "and": [
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "CARD_USAGE",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "AUTO_TRANSFER",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           }
+          ]
+         },
+         {
+          "or": [
+           {
+            "exists": {
+             "event": "SALARY_TRANSFER",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           },
+           {
+            "exists": {
+             "event": "PENSION_RECEIPT",
+             "within": {
+              "ref": "$window2"
+             }
+            }
+           }
+          ]
          }
-        }
+        ]
        }
       ]
      }

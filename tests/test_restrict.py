@@ -51,6 +51,17 @@ def test_restrict_needs_a_target_from_its_own_list():
     assert validate.check_executable(no_target) != []
 
 
+# 2026-09-20 실행기 범위 결정: 거래중지 두 조문은 **UNSUPPORTED** 로 되돌렸다.
+# 편입시기(연 2회 · 6·12월 셋째 금요일 다음날)를 옮길 수 없어, 조건이 맞는 즉시 제한으로
+# 판별하면 실제보다 최대 6개월 일찍 막는다 — 불리한 오차는 허용하지 않는다.
+# 조건식은 그대로 두었다. 날짜 계산이 생기면 status 만 되돌리면 된다.
+@pytest.mark.parametrize("cid", DORMANCY)
+def test_dormancy_is_unsupported_until_the_join_date_can_be_expressed(cid):
+    rs = _rules(cid)
+    assert [r["status"] for r in rs] == ["UNSUPPORTED"]
+    assert "effect" not in rs[0] and "편입시기" in rs[0]["label"]
+
+
 @pytest.mark.parametrize("cid", DORMANCY)
 @pytest.mark.parametrize("balance,events,want", [
     (5_000, {}, True),
@@ -63,10 +74,14 @@ def test_restrict_needs_a_target_from_its_own_list():
     (70_000, {"DEPOSIT": ["2024-08-01"]}, False),         # 3년이어야 한다
     (150_000, {}, False),                                 # 10만원 이상은 대상 아님
 ])
-def test_dormancy_restricts_only_idle_small_accounts(cid, balance, events, want):
-    res = resolve(evaluate_rules(_rules(cid), _ctx(balance, **events)), "SUM")
-    assert [e["type"] for e in res.other_effects] == (["RESTRICT"] if want else [])
-    assert not res.disqualified, "거래중지는 예금 자격 상실이 아니다"
+def test_dormancy_condition_still_tells_idle_small_accounts_apart(cid, balance, events, want):
+    """조건식은 살아 있다 — 되살릴 때 다시 쓸 수 있는지 여기서 지킨다."""
+    from engine import evaluate
+    from tv import TV
+    r = _rules(cid)[0]
+    got = evaluate(r["condition"], {**_ctx(balance, **events), "_provided": None},
+                   dict(r.get("let") or {}))
+    assert got is (TV.T if want else TV.F)
 
 
 def test_unconditional_bans_carry_their_target():
@@ -85,9 +100,12 @@ def test_a_ban_keeps_eligibility_and_the_rate():
 
 
 @pytest.mark.parametrize("cid", DORMANCY)
-def test_profiles_tell_restricted_from_not(cid):
-    """잔액 0 · 거래 없음 프로필에서만 걸린다 — ⑥ 이 이 rule 을 가린다."""
-    fired = {bool(resolve(evaluate_rules(_rules(cid), ctx), "SUM").other_effects)
+def test_profiles_would_tell_restricted_from_not_if_it_were_ok(cid):
+    """되살렸을 때 ⑥ 이 이 rule 을 가리지 않는지 — 조건식으로 확인한다."""
+    from engine import evaluate
+    from tv import TV
+    r = _rules(cid)[0]
+    fired = {evaluate(r["condition"], ctx, dict(r.get("let") or {})) is TV.T
              for _, ctx in gold.profiles()}
     assert fired == {True, False}
 
@@ -96,7 +114,8 @@ def test_blockers_are_gone_and_the_rest_are_relabelled(root):
     import os
     os.chdir(root)
     left = blockers.load()
-    assert not set(OPENED) & set(left)
+    # 거래중지 둘은 편입시기 때문에 다시 막혀 있다 (2026-09-20 결정)
+    assert not (set(OPENED) - set(DORMANCY)) & set(left)
     everywhere = {b for rs in left.values() for bs in rs.values() for b in bs}
     assert not {"거래금지", "명의변경", "질권"} & everywhere
     assert left["KBYY-S2-R11"]["KBYY-S2-R11-02"] == {"기준금액"}

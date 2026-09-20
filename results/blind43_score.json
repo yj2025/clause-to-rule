@@ -448,7 +448,7 @@
      "shape": false,
      "grounding": 1.0,
      "status": "RULES_FOUND",
-     "gold_verdict": "정상 rule",
+     "gold_verdict": "UNSUPPORTED 뿐",
      "gold_empty": false,
      "pred_empty": false,
      "convert_error": "v1.1 모양이 아니다",
@@ -822,7 +822,7 @@
      "shape": false,
      "grounding": 1.0,
      "status": "RULES_FOUND",
-     "gold_verdict": "정상 rule",
+     "gold_verdict": "UNSUPPORTED 뿐",
      "gold_empty": false,
      "pred_empty": false,
      "convert_error": "v1.1 모양이 아니다",
@@ -919,14 +919,14 @@
      },
      "blockers": {
       "STRUCTURE": 15,
-      "VOCAB": 29,
-      "CONVERTER": 3,
-      "SCOPE": 46
+      "VOCAB": 33,
+      "CONVERTER": 5,
+      "SCOPE": 42
      },
      "rules": 11,
      "exec_n": 9,
-     "exec": 1.0,
-     "exec_empty_baseline": 0.3333333333333333
+     "exec": 0.9722222222222222,
+     "exec_empty_baseline": 0.3611111111111111
     },
     "SEEN_TRAIN": {
      "n": 8,
@@ -950,8 +950,8 @@
       "SOME_CONVERTED": 1
      },
      "blockers": {
-      "SCOPE": 10,
-      "VOCAB": 15
+      "VOCAB": 19,
+      "SCOPE": 6
      },
      "rules": 1,
      "exec_n": 1,
@@ -1018,13 +1018,13 @@
      "blockers": {
       "VOCAB": 13,
       "STRUCTURE": 13,
-      "CONVERTER": 2,
+      "CONVERTER": 4,
       "SCOPE": 21
      },
      "rules": 9,
      "exec_n": 7,
-     "exec": 1.0,
-     "exec_empty_baseline": 0.2857142857142857
+     "exec": 0.9642857142857143,
+     "exec_empty_baseline": 0.32142857142857145
     }
    },
    "records": [
@@ -1321,7 +1321,7 @@
      "convert_error": null,
      "convert_outcome": "NONE_CONVERTED",
      "layers": {
-      "SCOPE": 2
+      "VOCAB": 2
      },
      "rules": [],
      "declaration_match": true
@@ -1466,7 +1466,7 @@
      "shape": true,
      "grounding": 1.0,
      "status": "RULES_FOUND",
-     "gold_verdict": "정상 rule",
+     "gold_verdict": "UNSUPPORTED 뿐",
      "gold_empty": false,
      "pred_empty": false,
      "convert_error": null,
@@ -1843,8 +1843,8 @@
       }
      ],
      "declaration_match": true,
-     "exec": 1.0,
-     "exec_empty_baseline": 0.875
+     "exec": 0.875,
+     "exec_empty_baseline": 1.0
     },
     {
      "sample_id": "KBYY-S2-R20",
@@ -2100,6 +2100,7 @@
      "convert_error": null,
      "convert_outcome": "NONE_CONVERTED",
      "layers": {
+      "CONVERTER": 2,
       "VOCAB": 3,
       "STRUCTURE": 9
      },
@@ -2234,7 +2235,7 @@
      "convert_error": null,
      "convert_outcome": "NONE_CONVERTED",
      "layers": {
-      "SCOPE": 2
+      "VOCAB": 2
      },
      "rules": [],
      "declaration_match": true
@@ -2321,7 +2322,7 @@
      "shape": true,
      "grounding": 1.0,
      "status": "RULES_FOUND",
-     "gold_verdict": "정상 rule",
+     "gold_verdict": "UNSUPPORTED 뿐",
      "gold_empty": false,
      "pred_empty": false,
      "convert_error": null,
@@ -2698,8 +2699,8 @@
       }
      ],
      "declaration_match": true,
-     "exec": 1.0,
-     "exec_empty_baseline": 0.875
+     "exec": 0.875,
+     "exec_empty_baseline": 1.0
     },
     {
      "sample_id": "KBONE-S2-R17",
