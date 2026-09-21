@@ -74,6 +74,11 @@ _USAGE = {
 
 
 def _usage(name, pad=30):
+    """변수·이벤트 밑에 붙는 쓰임새 힌트 줄. 등록된 이름에만 붙는다.
+
+    전부 적으면 지문이 길어지고 ⑦ 빈 배열이 무너진다 — 지문이 길수록
+    «무언가 만들라» 는 압력이 는다 (v21·v22 에서 실측).
+    """
     line = _USAGE.get(name)
     return [f"{'':<{pad}}{line}"] if line else []
 

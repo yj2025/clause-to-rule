@@ -25,12 +25,24 @@ _validator = jsonschema.Draft202012Validator(SCHEMA)
 
 # ── ② 스키마 ────────────────────────────────────────────────────────────
 def check_schema(output):
+    """② 스키마 적합 — 출력 전체가 `schema.SCHEMA` 를 지키나.
+
+    오류 **목록**을 돌려준다 (빈 목록 = 통과). 이 문구가 재시도 프롬프트에
+    그대로 들어가므로 메시지가 곧 성능이다 — v6 에서 메시지를 고치자
+    재시도 기여가 +10.8p 에서 +36.0p 로 커졌다.
+    """
     return [_phrase(e) for e in _validator.iter_errors(output)]
 
 
 # 재시도 프롬프트가 이 문구를 그대로 모델에게 돌려준다. rule 전체를 찍으면
 # 무엇이 문제인지 안 보인다. 규칙이 분명한 것은 사람 말로 바꿔 준다.
 def _phrase(e):
+    """jsonschema 오류를 사람 말로. 규칙이 분명한 것만 바꾼다.
+
+    `allOf` 위반은 라이브러리가 rule 전체를 찍어 주는데 그러면 무엇이
+    문제인지 안 보인다. 조건 없는 DISQUALIFY 가 대표라서 그것만 따로 짚고,
+    **무엇을 해야 하는지까지** 적는다 (\"옮길 조건이 없으면 UNSUPPORTED\").
+    """
     at = "/".join(str(p) for p in e.path) or "최상위"
     if e.validator == "allOf" or "'DISQUALIFY'" in str(e.message)[:400]:
         inst = e.instance if isinstance(e.instance, dict) else {}
@@ -44,6 +56,11 @@ def _phrase(e):
 
 # ── ③ 카탈로그 ──────────────────────────────────────────────────────────
 def _walk(node, hit):
+    """중첩된 조건식을 훑어 `(키, 값)` 쌍을 전부 모은다.
+
+    조건식은 깊이가 정해져 있지 않아서 («and 안의 or 안의 비교») 평평하게
+    펴 놓고 이름을 검사한다.
+    """
     if isinstance(node, dict):
         for k, v in node.items():
             hit.append((k, v))
@@ -55,6 +72,15 @@ def _walk(node, hit):
 
 
 def check_catalog(rule):
+    """③ 카탈로그 준수 — rule 이 **있는 이름만** 쓰나.
+
+    변수 · 이벤트 · effect · 단위, 그리고 effect 종류마다 다른 **대상 목록**을
+    본다. 없는 이름을 쓰면 실행기가 못 읽고, 있는 이름을 틀린 자리에 쓰면
+    뜻이 조용히 달라진다 (`RESTRICT::WITHDRAWAL` 처럼).
+
+    메시지에 **그 자리에 쓸 수 있는 것**을 같이 적는다. 2026-09-21 에
+    스키마에서도 자리를 가르면서 이 목록이 짧아졌다.
+    """
     errs = []
     hit = _walk({k: rule.get(k) for k in ("condition", "guard", "let")}, [])
 
@@ -129,6 +155,12 @@ def check_catalog(rule):
     # **배열**을 넣으면 `x in set` 이 TypeError 로 죽는다 — v19 에서 라운드가
     # 37/46 에서 멈췄다. 생성물 때문에 검증기가 죽으면 안 된다.
     def _known(v, vocab):
+        """`v in vocab` 을 안전하게. **배열이 와도 검증기가 안 죽는다.**
+
+        모델이 target 에 배열을 넣으면 `x in set` 이 TypeError 로 죽는다 —
+        v19 에서 라운드가 37/46 에서 멈췄다. 생성물 때문에 검증기가
+        죽으면 그 라운드를 통째로 버린다.
+        """
         try:
             return v in vocab
         except TypeError:
@@ -176,10 +208,19 @@ def check_catalog(rule):
 
 # ── ④ quote ────────────────────────────────────────────────────────────
 def _norm(s):
+    """공백을 전부 지운다. 줄바꿈·들여쓰기 차이로 인용이 어긋나는 것을 막는다."""
     return "".join(str(s).split())
 
 
 def check_quote(rule, clause_text):
+    """④ quote 원문 일치 — 근거 문장을 **그대로** 옮겼나.
+
+    공백만 무시하고 부분 문자열로 본다. 요약하거나 바꿔 쓰면 막는다.
+
+    **이 검사는 하한이다** — 인용문이 원문에 있는지만 보지, 그 인용이
+    정말 이 rule 을 받치는지는 안 본다. 사람이 읽으면 어긋남이 더 많다
+    (그쪽은 ⑪ 이 따로 센다).
+    """
     q = (rule.get("source") or {}).get("quote")
     if not q:
         return ["source.quote 가 없다. 조문 원문에서 근거 문장을 그대로 옮겨야 한다"]
@@ -219,6 +260,15 @@ def check_effect_value(rule):
 
 
 def check_executable(rule):
+    """⑤ 실행 가능 — 조건식이 **실제로 돌아가나**.
+
+    `_PROBE` 라는 가짜 고객 하나로 `guard` 와 `condition` 을 돌려 본다.
+    판별 결과가 무엇인지는 안 본다 — **터지지 않는지**만 본다.
+
+    `DslError` 가 나면 조건식이 틀린 것이다. 그 밖의 예외도 잡는데,
+    검증기가 죽으면 라운드를 버려야 하기 때문이다.
+    effect 값의 꼴(금리가 수인가 등)도 여기서 같이 본다.
+    """
     errs = []
     env = dict(rule.get("let") or {})
     for part in ("guard", "condition"):

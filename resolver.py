@@ -31,10 +31,12 @@ class Resolution:
 
     @property
     def final_rate_min(self):
+        """구간의 아래끝. 모르는 감점이 전부 걸린다고 봤을 때의 금리."""
         return f"{self.min:.2f}"
 
     @property
     def final_rate_max(self):
+        """구간의 위끝. 모르는 우대가 전부 걸린다고 봤을 때의 금리."""
         return f"{self.max:.2f}"
 
     def __repr__(self):
@@ -43,6 +45,12 @@ class Resolution:
 
 
 def _delta(eff):
+    """금리 effect 하나가 더하거나 빼는 값. 금리가 아닌 effect 는 0.0 이다.
+
+    값이 수가 아니면 (모델이 `"0.5%"` 같은 문자열을 낸 때) 0.0 으로 둔다 —
+    여기서 터뜨리지 않는 이유는 ⑤ 가 이미 그것을 세고 있기 때문이다.
+    `bool` 은 `int` 의 하위형이라 명시적으로 뺀다.
+    """
     sign = _RATE.get(eff.get("type"))
     if sign is None:
         return 0.0
@@ -54,6 +62,19 @@ def resolve(judgements, aggregation="SUM", base_rate=0.0):
     """판별 목록 → Resolution.
 
     aggregation 은 금리 effect 를 합치는 방식이다. 지금은 SUM 과 MAX 만 있다.
+
+    처리 순서가 곧 우선순위다.
+
+    1. **DISQUALIFY 가 먼저다.** 확정이면 우대를 전부 버리고 기본금리만 낸다.
+       모르면 단정하지 않고 `needs_review` 만 세운다
+    2. 금리가 아닌 effect(수수료 면제 · 제한 · 상품 전환 …)는 `other_effects`
+       로 모은다. 금리 구간 계산에 섞지 않는다
+    3. **RATE_OVERRIDE 는 덮어쓴다.** 지워 버린 rule 을 `overridden_rules` 에
+       남긴다 — 안 그러면 우대금리를 조용히 지우고도 관문을 다 통과한다
+    4. 나머지 금리 effect 를 합친다. **MET 은 구간을 고정하고 UNKNOWN 은
+       구간을 벌린다** — 모르는 감점은 아래끝에, 모르는 우대는 위끝에 넣는다
+
+    U 가 하나라도 관여하면 `needs_review` 가 선다. 단정하지 않는 것이 규칙이다.
     """
     if aggregation not in ("SUM", "MAX"):
         raise ValueError(f"모르는 aggregation: {aggregation}")

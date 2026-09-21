@@ -33,6 +33,11 @@ GOLD_DIR = Path(__file__).resolve().parent / "data" / "gold"
 # DB 가 실제로 주는 것만 적는다. 여기 없는 것은 «모른다» 로 간다.
 # `datacheck.BACKING` 이 근거다 — 거기가 바뀌면 여기도 바뀐다.
 def provided_keys():
+    """실행기에 «이건 준다» 고 선언할 이름 목록.
+
+    `datacheck.BACKING` 이 유일한 근거다. 여기서 따로 적으면 둘이 갈라지고,
+    그러면 «없다» 와 «모른다» 의 경계가 조용히 틀어진다.
+    """
     import datacheck
     keys = [k for k, v in datacheck.BACKING.items() if v is not None]
     # 이벤트는 하나도 못 준다 — 거래 내역 테이블이 없다
@@ -40,6 +45,7 @@ def provided_keys():
 
 
 def _age(birth, on):
+    """생년월일 → 만 나이. 생일이 안 지났으면 한 살 뺀다."""
     b = date.fromisoformat(birth)
     return on.year - b.year - ((on.month, on.day) < (b.month, b.day))
 
@@ -94,6 +100,10 @@ def customers():
 
 
 def gold_rules(product=None):
+    """정답에서 `OK` rule 만 모은다. `UNSUPPORTED` 는 애초에 안 돌린다.
+
+    `product` 에 `"KBYY"` 처럼 조문 앞머리를 주면 그 상품만 고른다.
+    """
     out = []
     for f in sorted(GOLD_DIR.glob("*.json")):
         if f.name.startswith("_"):
@@ -109,6 +119,7 @@ def gold_rules(product=None):
 
 
 def main(argv=None):
+    """고객마다 판별을 내고, UNKNOWN 이 몇이고 왜인지 찍는다."""
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--product", help="KBYY · KBONE 처럼 조문 앞머리")
     a = ap.parse_args(argv)

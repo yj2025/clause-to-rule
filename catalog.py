@@ -26,6 +26,10 @@
 # 2026-09-21 에 상품마다 DB 의 `product_id` 를 같이 적었다 — 고객 DB 의 가입 이력이
 # 이름이 아니라 id 로 이어지게 한다 (`Customer_Subscriptions` 는 이름 스냅샷을 따로 둔다).
 def _products():
+    """`data/products.json` 에서 상품 표를 읽는다. 파일이 없으면 빈 표다.
+
+    빈 표여도 나머지는 돌아간다 — 상품을 가리키는 조문만 못 옮긴다.
+    """
     import json
     from pathlib import Path
     f = Path(__file__).resolve().parent / "data" / "products.json"
@@ -37,6 +41,7 @@ PRODUCTS = _products()
 
 # ── 변수 (21) ───────────────────────────────────────────────────────────
 def _v(t, d):
+    """변수 항목 하나. `type` 은 사람이 읽는 표시이고 실행기는 값으로 판단한다."""
     return {"type": t, "desc": d}
 
 

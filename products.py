@@ -29,6 +29,7 @@ def _key(name):
 
 
 def _sha256(path):
+    """DB 파일의 해시. 스냅샷이 **어느 시점의 DB** 에서 왔는지 남긴다."""
     h = hashlib.sha256()
     with open(path, "rb") as f:
         for chunk in iter(lambda: f.read(1 << 20), b""):
@@ -64,6 +65,7 @@ def snapshot():
 
 
 def build():
+    """스냅샷 문서 한 벌 — 메타(출처·해시·날짜)와 상품 표."""
     return {"_meta": {"source": str(DB), "db_sha256": _sha256(DB),
                       "bank": BANK, "at": date.today().isoformat(),
                       "n": None},
@@ -71,6 +73,7 @@ def build():
 
 
 def main():
+    """DB 와 파일을 맞대어 차이를 찍고, `--write` 일 때만 고친다."""
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--write", action="store_true", help="파일을 다시 뜬다")
     a = ap.parse_args()

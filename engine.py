@@ -29,7 +29,17 @@ class DslError(Exception):
 
 
 class Judgement:
-    """rule 하나의 판별 결과."""
+    """rule 하나의 판별 결과.
+
+    `status` 가 다섯 가지인 것이 요점이다.
+
+        MET / NOT_MET / UNKNOWN   조건식이 돌아갔다
+        ERROR                     조건식이 실행 불가였다 (DslError)
+        SKIPPED_GUARD             guard 가 먼저 걸러 조건을 안 봤다
+
+    **ERROR 를 UNKNOWN 에 섞으면 안 된다.** 앞은 우리가 만든 조건식이
+    틀린 것이고 (⑤ 가 센다), 뒤는 고객 데이터가 없는 것이다 (정상이다).
+    """
 
     __slots__ = ("rule_id", "status", "value", "effect", "error")
 
@@ -51,6 +61,11 @@ class Judgement:
 
 # ── 날짜 ────────────────────────────────────────────────────────────────
 def _date(v):
+    """무엇이 와도 `date` 로. 못 읽으면 U 가 아니라 **DslError** 다.
+
+    값이 없는 것(None → None)과 값이 망가진 것(`"2026년 3월"` → 오류)을
+    가른다. 앞은 «모른다», 뒤는 «조건식이 틀렸다» 라 ⑤ 로 센다.
+    """
     if v is None:
         return None
     if isinstance(v, _dt.date):
@@ -62,11 +77,23 @@ def _date(v):
 
 
 def _shift(d, n):
+    """날짜에서 n 개월 옮긴 `(연, 월)`. 일(day)은 호출부가 따로 정한다.
+
+    31일에서 한 달을 옮기면 없는 날이 되므로 일을 여기서 안 정한다.
+    """
     y, m = d.year, d.month + n
     return y + (m - 1) // 12, (m - 1) % 12 + 1
 
 
 def _anchor(spec, ctx):
+    """기준점 명세 → 실제 날짜. **변수가 비면 None** 을 돌려준다 (= 모른다).
+
+        {"anchor": "contract.start_date", "offset_months": -6, "day": "first"}
+
+    `day` 는 수 · `"first"` · `"last"` 를 받고, 그 달에 없는 날은 말일로 줄인다
+    (1월 31일에서 한 달 뒤는 2월 28일이다).
+    카탈로그에 없는 변수를 쓰면 DslError 다 — 조용히 넘기면 ③ 이 못 잡는다.
+    """
     if not isinstance(spec, dict) or "anchor" not in spec:
         raise DslError('창의 from/to 에는 anchor 가 있어야 한다. 올바른 형태: '
                        '{"anchor": "contract.start_date", "offset_months": 0, "day": "first"}')
@@ -88,6 +115,12 @@ def _anchor(spec, ctx):
 
 
 def _window(spec, ctx, env):
+    """기간 창 명세 → `(시작일, 끝일)`. 양끝 중 하나라도 모르면 None 이다.
+
+    `{"ref": "$window"}` 면 `let` 에 묶인 것을 먼저 푼다. 안 묶여 있으면
+    **DslError** 다 — 옛 구현은 KeyError 로 죽었고 그것이 ⑤ 의 대표 실패였다.
+    지금은 창 형태가 `month_range` 하나뿐이다.
+    """
     if isinstance(spec, dict) and "ref" in spec:
         name = str(spec["ref"]).lstrip("$")
         if name not in env:
@@ -105,6 +138,11 @@ def _window(spec, ctx, env):
 
 # ── 값 ──────────────────────────────────────────────────────────────────
 def _lookup(name, ctx):
+    """`"customer.age"` 처럼 점으로 이어진 이름을 ctx 에서 꺼낸다.
+
+    없으면 None 이다. **«없다» 와 «모른다» 를 가르는 것은 여기가 아니라
+    호출부의 `_provided` 검사다** — 여기는 값만 꺼낸다.
+    """
     cur = ctx
     for part in name.split("."):
         if not isinstance(cur, dict) or part not in cur:
@@ -114,6 +152,11 @@ def _lookup(name, ctx):
 
 
 def _operand(node, ctx, env):
+    """비교의 한쪽 피연산자를 값으로. 수·문자열 같은 날것은 그대로 돌려준다.
+
+    받는 꼴은 넷이다 — `{"var": …}` · `{"ref": "$…"}` · `{"anchor": …}` ·
+    그리고 집계(`count_*`). 카탈로그에 없는 변수는 DslError 다.
+    """
     if not isinstance(node, dict):
         return node
     if "var" in node:
@@ -207,6 +250,12 @@ def _filter(evs, spec, kind):
 
 
 def _count(op, spec, ctx, env):
+    """이벤트를 센다 — 건수 · 서로 다른 달 수 · 연속한 달 수.
+
+    셀 수 없으면 (이벤트 종류를 안 줬거나 창을 못 잡으면) **None** 이고,
+    호출부가 그것을 U 로 바꾼다. 0 과 None 을 섞으면 «실적이 없는 고객» 과
+    «데이터가 없는 고객» 이 같은 답을 받는다.
+    """
     if not isinstance(spec, dict):
         raise DslError(f"{op}: 객체를 기대했으나 {type(spec).__name__} 이 옴")
     extra = set(spec) - {"event", "within", "where"}
@@ -239,6 +288,11 @@ def _count(op, spec, ctx, env):
 
 # ── 조건식 ──────────────────────────────────────────────────────────────
 def _compare(op, a, b):
+    """피연산자 둘을 비교해 TV 로. **한쪽이라도 None 이면 U 다.**
+
+    날짜는 한쪽만 문자열이어도 맞춰서 비교한다 (anchor 는 `date` 를 준다).
+    타입이 안 맞아 비교 자체가 불가능하면 U 가 아니라 DslError 다.
+    """
     if a is None or b is None:
         return TV.U
     try:
@@ -257,6 +311,17 @@ def _compare(op, a, b):
 
 
 def evaluate(node, ctx, env=None):
+    """조건식 하나를 3치로 판별한다. 이 파일의 입구다.
+
+    `node` 는 키가 **하나뿐인** 객체다 — `{"and": [...]}` · `{">=": [a, b]}`.
+    키가 여럿이면 DslError 로 막는다. 모델이 자주 내는 실수라
+    오류 메시지에 올바른 형태를 같이 적어 재시도에서 고치게 한다.
+
+    `None` 과 `{}` 는 **조건 없음 = 항상 적용(T)** 이다. 빈 조건을 F 로
+    두면 «누구에게나 걸리는 금지» 를 옮길 수 없다.
+
+    `env` 는 `let` 이 묶은 이름들이다. 재귀로 내려갈 때 그대로 넘긴다.
+    """
     env = env or {}
     if node is None or node == {}:
         return TV.T                       # 조건 없음 = 항상 적용

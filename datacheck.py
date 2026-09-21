@@ -114,6 +114,7 @@ def audit_gold():
 
 
 def report():
+    """사람이 읽는 요약 — 지금 데이터로 몇 조문을 판정할 수 있나."""
     import catalog
     gold = audit_gold()
     ok = [c for c, x in gold.items()
