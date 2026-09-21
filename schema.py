@@ -31,12 +31,84 @@ _OPERAND = {
     ]
 }
 
-_CONDITION = {
-    "type": "object",
-    "maxProperties": 1,
-    "description": "키가 하나인 객체. and/or 는 배열을, 비교는 피연산자 2개를 받는다. "
-                   "빈 객체는 조건 없음(항상 적용)이고 UNSUPPORTED 에만 쓴다.",
+# 조건식은 **재귀로** 검사한다 (2026-09-21 · v31).
+#
+# 전에는 `{"type": "object", "maxProperties": 1}` 뿐이라 **맨 위 한 겹만** 봤다.
+# 키가 하나인지만 보고 그 키가 무엇인지도, 안쪽도 안 봤다. 그래서 이런 것이 통과했다.
+#
+#     {"and": [{"op": "==", "left": …, "right": …}]}   안쪽 미검사
+#     {"equals": [...]}                                 없는 연산자인데 키는 하나다
+#     {"var": "account.status"}                         var 가 그냥 문자열이었다
+#     {">=": [{"var": "count_distinct_months"}, 12]}    집계를 변수 자리에
+#
+# 이것들이 ② 를 통과해서 ⑤ 에서 죽었다. v30 에서 ⑤ 실패 16조문이 **전부**
+# 3회를 다 쓰고도 못 고쳤고, 그 ERROR 가 resolver 의 needs_review 를 세워
+# ⑥ 까지 무너뜨렸다 (열 조문이 «기권했으면 100%» 인 자리였다).
+#
+# 재귀는 `$ref` 로 한다. 그래서 이 조각들이 `SCHEMA["definitions"]` 아래 산다.
+_OPS = sorted(catalog.COMPARISONS) + ["and", "or", "not", "exists"] + sorted(catalog.COUNTERS)
+
+_DEF_OPERAND = {
+    "anyOf": [
+        {"type": ["string", "number", "boolean", "null"]},
+        # **변수 이름을 열거로 막는다.** 전에는 `type: string` 이라 아무 이름이나 됐다
+        {"type": "object", "properties": {"var": {"enum": sorted(catalog.VARIABLES)}},
+         "required": ["var"], "additionalProperties": False},
+        {"type": "object", "properties": {"ref": {"type": "string"}},
+         "required": ["ref"], "additionalProperties": False},
+        {"$ref": "#/definitions/anchor"},
+        # 집계는 **피연산자로만** 쓴다. 조건식이 되려면 비교로 감싸야 한다
+        {"type": "object", "minProperties": 1, "maxProperties": 1,
+         "properties": {k: {"type": "object"} for k in catalog.COUNTERS},
+         "additionalProperties": False},
+    ]
 }
+
+# `in` 은 `[피연산자, 목록]` 을 받는다. 목록 자리에 올 수 있는 것이 셋이다.
+#
+#   ["A", "B"]                              그대로 적은 목록
+#   {"ref": "$window"}                      `let` 에 묶어 둔 것
+#   {"var": "customer.held_categories"}     **목록을 값으로 갖는 변수**
+#
+# 셋째를 빠뜨렸다가 정답의 `KBONE-S2-R12` 가 막혔다 —
+# 「보유 갈래에 입출금이 있나」는 오른쪽이 변수인 것이 맞는 표현이다.
+# `tests/test_schema.py::test_every_gold_rule_still_passes_the_schema` 가 잡았다.
+_IN_RIGHT = {"anyOf": [
+    {"type": "array"},
+    {"type": "object", "properties": {"ref": {"type": "string"}},
+     "required": ["ref"], "additionalProperties": False},
+    {"type": "object", "properties": {"var": {"enum": sorted(catalog.VARIABLES)}},
+     "required": ["var"], "additionalProperties": False},
+]}
+
+_DEF_CONDITION = {
+    "type": "object",
+    "minProperties": 1,
+    "maxProperties": 1,
+    "propertyNames": {"enum": _OPS},
+    "description": "키가 하나인 객체. 키는 연산자여야 한다. and/or 는 조건식 배열을, "
+                   "비교는 피연산자 2개를 받는다.",
+    "allOf": (
+        [{"if": {"required": [k]},
+          "then": {"properties": {k: {"type": "array", "minItems": 1,
+                                      "items": {"$ref": "#/definitions/condition"}}}}}
+         for k in ("and", "or")]
+        + [{"if": {"required": ["not"]},
+            "then": {"properties": {"not": {"$ref": "#/definitions/condition"}}}},
+           {"if": {"required": ["in"]},
+            "then": {"properties": {"in": {
+                "type": "array", "minItems": 2, "maxItems": 2,
+                "prefixItems": [{"$ref": "#/definitions/operand"}, _IN_RIGHT]}}}}]
+        + [{"if": {"required": [c]},
+            "then": {"properties": {c: {"type": "array", "minItems": 2, "maxItems": 2,
+                                        "items": {"$ref": "#/definitions/operand"}}}}}
+           for c in sorted(catalog.COMPARISONS) if c != "in"]
+    ),
+}
+
+# rule 의 `condition` 은 빈 객체(조건 없음 = 항상 적용)도 받는다
+_CONDITION = {"anyOf": [{"type": "object", "maxProperties": 0},
+                        {"$ref": "#/definitions/condition"}]}
 
 _WINDOW = {
     "type": "object",
@@ -173,6 +245,12 @@ SCHEMA = {
     "properties": {"rules": {"type": "array", "items": _RULE}},
     "required": ["rules"],
     "additionalProperties": False,
+    # 조건식이 자기를 다시 부르므로 조각을 여기 두고 `$ref` 로 가리킨다
+    "definitions": {
+        "operand": _DEF_OPERAND,
+        "anchor": _ANCHOR,
+        "condition": _DEF_CONDITION,
+    },
 }
 
 # ── few-shot ────────────────────────────────────────────────────────────

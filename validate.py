@@ -44,6 +44,13 @@ def _phrase(e):
     **무엇을 해야 하는지까지** 적는다 (\"옮길 조건이 없으면 UNSUPPORTED\").
     """
     at = "/".join(str(p) for p in e.path) or "최상위"
+    # 2026-09-21 · v31. 조건식을 재귀로 검사하게 되면서 jsonschema 가
+    # `is not valid under any of the given schemas` 만 돌려주기 시작했다.
+    # **모델이 그 말로는 못 고친다.** 조건식은 우리가 직접 짚어 준다.
+    if e.path and e.path[-1] in ("condition", "guard"):
+        why = _why_condition(e.instance)
+        if why:
+            return f"조건식이 틀렸다: {why} (위치 {at})"
     if e.validator == "allOf" or "'DISQUALIFY'" in str(e.message)[:400]:
         inst = e.instance if isinstance(e.instance, dict) else {}
         eff = (inst.get("effect") or {}).get("type")
@@ -52,6 +59,98 @@ def _phrase(e):
                     f"비어 있으면 모든 고객이 예금 자격을 잃는다. "
                     f"옮길 조건이 없으면 status 를 UNSUPPORTED 로 한다 (위치 {at})")
     return f"스키마 위반: {e.message} (위치 {at})"
+
+
+# ── 조건식을 짚어 주기 ──────────────────────────────────────────────────
+# v31. 스키마가 잡아 주는 것과 **무엇을 고쳐야 하는지 말해 주는 것**은 다르다.
+# v6 에서 메시지가 좋아지자 재시도 기여가 +10.8p → +36.0p 로 커졌고,
+# v25 는 그 반대를 보여 줬다 — 막기만 하면 낱말만 바꾸며 재시도를 태운다.
+_OPS = sorted(catalog.COMPARISONS) + ["and", "or", "not", "exists"] + sorted(catalog.COUNTERS)
+
+
+def _why_operand(v, where):
+    """비교의 한쪽이 왜 틀렸는지. 멀쩡하면 None."""
+    if not isinstance(v, dict):
+        return None                                   # 수·문자열은 그대로 쓴다
+    if len(v) != 1:
+        return None                                   # 바깥에서 이미 짚는다
+    (k, arg), = v.items()
+    if k == "var":
+        if arg in catalog.COUNTERS:
+            return (f"{where}의 `{arg}` 는 변수가 아니라 **집계**다. "
+                    f'{{"{arg}": {{...}}}} 꼴로 쓰고 비교로 감싼다: '
+                    f'{{">=": [{{"{arg}": {{...}}}}, 6]}}')
+        if arg not in catalog.VARIABLES:
+            return (f"{where}에 카탈로그에 없는 변수: `{arg}`. 쓸 수 있는 것: "
+                    f"{', '.join(sorted(catalog.VARIABLES))}")
+    elif k == "anchor" or (k in ("anchor",) and False):
+        pass
+    elif k in catalog.COUNTERS or k == "ref":
+        return None
+    elif k in _OPS:
+        return f"{where}에 조건식이 왔다. 비교의 피연산자는 값이어야 한다"
+    return None
+
+
+def _why_condition(node, where="조건"):
+    """조건식이 왜 스키마를 못 지키는지 **한 문장**으로. 멀쩡하면 None.
+
+    재귀로 내려가며 처음 만난 문제를 짚는다. 여러 개를 한꺼번에 쏟으면
+    재시도 프롬프트가 오염된다 — v29 에서 아흔 개짜리 목록을 돌려준 적이 있다.
+    """
+    if node in (None, {}):
+        return None
+    if not isinstance(node, dict):
+        return f"{where}은 객체여야 한다. {type(node).__name__} 이 왔다"
+
+    keys = sorted(node)
+    if len(node) != 1:
+        if set(keys) >= {"left", "right"}:
+            return ('조건식은 `{"연산자": [왼쪽, 오른쪽]}` 꼴이다. '
+                    '`left`/`op`/`right` 를 따로 두지 않는다 — '
+                    '예: {"==": [{"var": "customer.age"}, 19]}')
+        return (f"{where}의 키는 하나여야 한다. 온 것: {keys}. "
+                f'여러 개를 묶으려면 {{"and": [ … ]}} 를 쓴다')
+
+    (op, arg), = node.items()
+
+    if op not in _OPS:
+        if op == "var":
+            return ('`var` 단독은 조건식이 아니다. 비교로 감싼다: '
+                    '{"==": [{"var": "…"}, 값]}')
+        return (f"정의되지 않은 연산자: `{op}`. 쓸 수 있는 것: {', '.join(_OPS)}")
+
+    if op in ("and", "or"):
+        if not isinstance(arg, list):
+            return f'`{op}` 는 배열을 받는다. {{"{op}": [ {{...}}, {{...}} ]}}'
+        for x in arg:
+            why = _why_condition(x, where="안쪽 조건")
+            if why:
+                return why
+        return None
+
+    if op == "not":
+        return _why_condition(arg[0] if isinstance(arg, list) else arg, where="not 안쪽")
+
+    if op in catalog.COUNTERS:
+        return (f"`{op}` 는 수를 돌려준다. 조건식이 되려면 비교로 감싼다: "
+                f'{{">=": [{{"{op}": {{...}}}}, 6]}}')
+
+    if op in catalog.COMPARISONS:
+        if not isinstance(arg, list) or len(arg) != 2:
+            n = len(arg) if isinstance(arg, list) else "배열이 아닌 것"
+            return f"`{op}` 는 피연산자 2개를 받는다. 온 것: {n}"
+        if op == "in":
+            if not isinstance(arg[1], (list, dict)):
+                return ('`in` 의 오른쪽은 목록이다 — 그대로 적거나(["A", "B"]) '
+                        '목록을 값으로 갖는 변수여야 한다')
+            # 왼쪽이 값이고 오른쪽이 목록 변수인 꼴도 맞다 (「보유 갈래에 X 가 있나」)
+            return _why_operand(arg[0], "`in` 의 왼쪽 ") or _why_operand(arg[1], "`in` 의 오른쪽 ")
+        for i, v in enumerate(arg):
+            why = _why_operand(v, f"`{op}` 의 {'왼쪽' if i == 0 else '오른쪽'} ")
+            if why:
+                return why
+    return None
 
 
 # ── ③ 카탈로그 ──────────────────────────────────────────────────────────

@@ -304,3 +304,64 @@ def test_the_new_constraint_costs_gold_nothing(root):
                 if (isinstance(v, str) and __import__("catalog").slot_of(v.strip())) or t:
                     bad.append((p.name, eff))
     assert not bad, f"gold 가 새 제약에 걸린다: {bad}"
+
+
+# ── v31 · 조건식을 재귀로 검사하고 **무엇이 틀렸는지 말해 준다** ────────────
+# v30 에서 ⑤ 실패 16조문이 전부 3회를 다 쓰고도 못 고쳤다. 스키마가 조건식의
+# 맨 위 한 겹만 봐서 ② 를 통과시켰고, 그 ERROR 가 resolver 의 needs_review 를
+# 세워 ⑥ 까지 무너뜨렸다 (열 조문이 «기권했으면 100%» 인 자리였다).
+def _rule(cond):
+    return {"rules": [{"rule_id": "X-01", "status": "OK", "label": "x",
+                       "source": {"quote": "x"}, "condition": cond,
+                       "effect": {"type": "RESTRICT", "target": "PLEDGE"}}]}
+
+
+@pytest.mark.parametrize("cond,want", [
+    # 팀원 쪽 predicate 모양. **and 안쪽**이라 전에는 그냥 통과했다
+    ({"and": [{"op": "==", "left": {"var": "customer.age"}, "right": 19}]},
+     "왼쪽, 오른쪽"),
+    # 키가 하나라서 통과하던 없는 연산자
+    ({"equals": [{"var": "customer.age"}, 19]}, "정의되지 않은 연산자"),
+    # var 가 그냥 문자열이었다
+    ({"in": [{"var": "account.status"}, ["SEIZED"]]}, "카탈로그에 없는 변수"),
+    # 집계를 변수 자리에
+    ({">=": [{"var": "count_distinct_months"}, 12]}, "집계"),
+    # 조건식 자리에 var 단독
+    ({"var": "customer.age"}, "비교로 감싼다"),
+    # 키가 둘
+    ({"and": [{"==": [{"var": "customer.age"}, 19]}],
+      "not": {"==": [{"var": "customer.age"}, 20]}}, "키는 하나여야"),
+])
+def test_broken_conditions_are_caught_and_explained(cond, want):
+    """잡기만 하면 안 된다. **무엇을 고쳐야 하는지** 돌려줘야 한다.
+
+    v25 가 반례다 — 막기만 하니 낱말만 바꾸며 재시도를 태웠다.
+    v6 이 정례다 — 메시지가 좋아지자 재시도 기여가 +10.8p → +36.0p 가 됐다.
+    """
+    errs = V.check_schema(_rule(cond))
+    assert errs, f"이 조건식을 ② 가 잡아야 한다: {cond}"
+    assert want in errs[0], f"메시지가 도움이 안 된다: {errs[0]}"
+    assert "is not valid under any of the given schemas" not in errs[0]
+
+
+@pytest.mark.parametrize("cond", [
+    {},                                                   # 조건 없음
+    {"==": [{"var": "customer.age"}, 19]},
+    {"and": [{"==": [{"var": "customer.age"}, 19]},
+             {"<": [{"var": "account.balance"}, 10000]}]},
+    {"not": {"in": [{"var": "customer.holder_type"}, ["INDIVIDUAL"]]}},
+    # `in` 의 오른쪽이 묶어 둔 창일 수 있다 — 시제품이 여기서 한 번 틀렸다
+    {"in": [{"var": "contract.reference_date"}, {"ref": "$window"}]},
+    # 집계는 비교로 감싸면 된다
+    {">=": [{"count_distinct_months": {"event": "SALARY_TRANSFER"}}, 6]},
+    {"exists": {"event": "CARD_USAGE", "within": {"ref": "$window"}}},
+])
+def test_good_conditions_still_pass(cond):
+    """멀쩡한 것을 막으면 안 된다. 과거 세 라운드에서 과잉 차단 0 을 확인했다."""
+    assert not V.check_schema(_rule(cond))
+
+
+def test_every_catalog_variable_is_allowed_in_a_condition():
+    """카탈로그에 변수를 더하면 스키마가 자동으로 받아야 한다."""
+    for v in catalog.VARIABLES:
+        assert not V.check_schema(_rule({"==": [{"var": v}, 1]})), v
