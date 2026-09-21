@@ -21,7 +21,10 @@
 # 2026-09-20. 「KB국민ONE통장으로 자동전환」 처럼 **다른 상품을 가리키는** 조문이 있다.
 # 이름을 자유 문자열로 쓰면 ⑬ 이 막고 실행기도 못 읽는다. DB(`Products`)의 은행 채번
 # 상품코드를 출처로 삼고, 모델이 읽고 쓰기 쉬운 한글 키를 붙였다 — `data/products.json`.
-# 그 파일은 DB 스냅샷에서 만들고 DB 해시를 같이 적는다 (`products.py`).
+# 그 파일은 DB 스냅샷에서 만들고 DB 해시를 같이 적는다 — `python products.py --write`.
+# 키는 **한 번 정하면 안 바꾼다.** 바꾸면 스키마 열거가 바뀌어 그 라운드를 앞 라운드와 못 견준다.
+# 2026-09-21 에 상품마다 DB 의 `product_id` 를 같이 적었다 — 고객 DB 의 가입 이력이
+# 이름이 아니라 id 로 이어지게 한다 (`Customer_Subscriptions` 는 이름 스냅샷을 따로 둔다).
 def _products():
     import json
     from pathlib import Path

@@ -104,3 +104,69 @@ def test_online_termination_needs_a_demand_deposit_account():
     assert hit("INTERNET", []) == ["TERMINATION"]
     assert hit("INTERNET", ["DEMAND_DEPOSIT"]) == []
     assert hit("BRANCH", []) == []
+
+
+# ── 2026-09-21 · 스냅샷을 만드는 코드가 생겼다 (`products.py`) ──────────────
+def test_the_snapshot_still_matches_the_db(root):
+    """DB 에 상품이 늘거나 줄면 이 시험이 먼저 운다.
+
+    `catalog.py` 가 «`products.py` 로 만든다» 고 적고 있었는데 **그 파일이
+    없었다.** 스냅샷을 어떻게 떴는지가 코드로 안 남으면 다시 뜰 때 조용히
+    달라진다. 이제 코드가 있고, 이 시험이 그것을 DB 와 맞댄다.
+    """
+    import json
+    import os
+    import pytest
+    os.chdir(root)
+    import products
+    if not products.DB.exists():
+        pytest.skip(f"상품 DB 가 없다: {products.DB}")
+    have = json.loads(products.OUT.read_text("utf-8"))["products"]
+    now = products.snapshot()
+    assert set(now) == set(have), (
+        f"DB 와 어긋난다 — 새로 생김 {sorted(set(now) - set(have))[:5]} · "
+        f"없어짐 {sorted(set(have) - set(now))[:5]}. "
+        "`python products.py --write` 로 다시 떠라")
+
+
+def test_every_product_carries_a_db_id(root):
+    """이름이 아니라 `product_id` 로 잇는다.
+
+    `Customer_Subscriptions` 는 **이름 스냅샷을 따로 저장한다** — 상품 이름이
+    바뀌기 때문이다. 이름으로 맞추면 그때 조용히 끊긴다.
+    """
+    import json
+    import os
+    os.chdir(root)
+    import products
+    have = json.loads(products.OUT.read_text("utf-8"))["products"]
+    missing = [k for k, v in have.items() if not isinstance(v.get("id"), int)]
+    assert not missing, f"id 가 없는 상품: {missing[:5]}"
+    ids = [v["id"] for v in have.values()]
+    assert len(set(ids)) == len(ids), "id 가 겹친다"
+
+
+def test_a_customer_holding_resolves_to_a_product_key(root):
+    """고객 DB 의 가입 이력이 내 상품 키로 풀리는지 **끝까지** 확인한다.
+
+    `customer.held_products` 는 상품 키의 목록이다. DB 쪽 `product_id` 가
+    이 목록에 못 닿으면 그 변수는 늘 비어 있고, 조건은 조용히 거짓이 된다.
+    """
+    import json
+    import os
+    import sqlite3
+    import pytest
+    os.chdir(root)
+    import datacheck
+    import products
+    if not (datacheck.DB.exists() and products.DB.exists()):
+        pytest.skip("DB 가 없다")
+    by_id = {v["id"]: k
+             for k, v in json.loads(products.OUT.read_text("utf-8"))["products"].items()}
+    with sqlite3.connect(f"file:{datacheck.DB}?mode=ro", uri=True) as c:
+        rows = c.execute("select product_id, product_name "
+                         "  from Customer_Subscriptions where bank_id = 1").fetchall()
+    if not rows:
+        pytest.skip("KB 가입 이력이 없다")
+    lost = [(pid, name) for pid, name in rows if pid not in by_id]
+    assert not lost, f"상품 키로 못 푸는 가입 이력: {lost}"

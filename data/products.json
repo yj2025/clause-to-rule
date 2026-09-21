@@ -3,449 +3,523 @@
   "source": "/workspace/database/schema/financedb.db",
   "db_sha256": "1ac203be52464384a9641119445c585a146331f1c369cf0a23bce05f83ae4acb",
   "bank": "KB국민은행",
-  "at": "2026-09-20",
+  "at": "2026-09-21",
   "n": 74
  },
  "products": {
   "KB_GS_Pay통장": {
+   "id": 4,
    "name": "KB GS Pay통장",
    "code": "DP01001633",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB_Global_Star_적금": {
+   "id": 61,
    "name": "KB Global Star 적금",
    "code": "DP01001654",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB_Global_Star_통장": {
+   "id": 22,
    "name": "KB Global Star 통장",
    "code": "DP01000569",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB_Star_정기예금": {
+   "id": 68,
    "name": "KB Star 정기예금",
    "code": "DP01000938",
    "category": "TIME_DEPOSIT",
    "scope": "BOTH"
   },
   "KB_Young_Youth_적금": {
+   "id": 47,
    "name": "KB Young Youth 적금",
    "code": "DP01000940",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB_Young_Youth_통장": {
+   "id": 11,
    "name": "KB Young Youth 통장",
    "code": "DP01000936",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB_able_Plus통장": {
+   "id": 12,
    "name": "KB able Plus통장",
    "code": "DP01000925",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB_e_Commerce_채권양도_전용계좌_통장": {
+   "id": 35,
    "name": "KB e-Commerce 채권양도 전용계좌(통장)",
    "code": "DP01001483",
    "category": "DEMAND_DEPOSIT",
    "scope": "CORPORATE"
   },
   "KB_별별통장2": {
+   "id": 73,
    "name": "KB 별별통장2",
    "code": "DP01001653",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB_장기간부_도약적금": {
+   "id": 62,
    "name": "KB 장기간부 도약적금",
    "code": "DP01001645",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB_중소기업재직자_우대저축": {
+   "id": 59,
    "name": "KB 중소기업재직자 우대저축",
    "code": "DP01001638",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB_특_한_적금": {
+   "id": 43,
    "name": "KB 특★한 적금",
    "code": "DP01001566",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB_프리N통장": {
+   "id": 1,
    "name": "KB 프리N통장",
    "code": "DP01001666",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB가맹점우대적금": {
+   "id": 55,
    "name": "KB가맹점우대적금",
    "code": "DP01000500",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "BOTH"
   },
   "KB골든라이프연금우대통장": {
+   "id": 19,
    "name": "KB골든라이프연금우대통장",
    "code": "DP01000780",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB공무원연금평생안심통장": {
+   "id": 16,
    "name": "KB공무원연금평생안심통장",
    "code": "DP01000826",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB국민ONE통장": {
+   "id": 17,
    "name": "KB국민ONE통장",
    "code": "DP01000802",
    "category": "DEMAND_DEPOSIT",
    "scope": "BOTH"
   },
   "KB국민연금_통장": {
+   "id": 29,
    "name": "KB국민연금安心통장",
    "code": "DP01000533",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB국민프리미엄적금_자유적립식": {
+   "id": 53,
    "name": "KB국민프리미엄적금 (자유적립식)",
    "code": "DP01000429",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB국민프리미엄적금_정액적립식": {
+   "id": 52,
    "name": "KB국민프리미엄적금 (정액적립식)",
    "code": "DP01000428",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB국민행복적금": {
+   "id": 56,
    "name": "KB국민행복적금",
    "code": "DP01000472",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB군인연금평생안심통장": {
+   "id": 10,
    "name": "KB군인연금평생안심통장",
    "code": "DP01000945",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB기업더드림적금": {
+   "id": 67,
    "name": "KB기업더드림적금",
    "code": "DP01001631",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "CORPORATE"
   },
   "KB기업종합통장": {
+   "id": 39,
    "name": "KB기업종합통장",
    "code": "DP01000027",
    "category": "DEMAND_DEPOSIT",
    "scope": "CORPORATE"
   },
   "KB나라사랑우대통장": {
+   "id": 23,
    "name": "KB나라사랑우대통장",
    "code": "DP01000356",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB나라사랑적금_직업군인용": {
+   "id": 57,
    "name": "KB나라사랑적금(직업군인용)",
    "code": "DP01000924",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB나만의_적금": {
+   "id": 48,
    "name": "KB나만의 적금",
    "code": "DP01001632",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB내맘대로적금": {
+   "id": 41,
    "name": "KB내맘대로적금",
    "code": "DP01000821",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB달리자적금": {
+   "id": 46,
    "name": "KB달리자적금",
    "code": "DP01001649",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB두근두근여행적금": {
+   "id": 54,
    "name": "KB두근두근여행적금",
    "code": "DP01001495",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB맑은하늘적금": {
+   "id": 42,
    "name": "KB맑은하늘적금",
    "code": "DP01000942",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB매일입금_결제전용_계좌": {
+   "id": 7,
    "name": "KB매일입금 결제전용 계좌",
    "code": "DP01001586",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB모임금고": {
+   "id": 6,
    "name": "KB모임금고",
    "code": "DP01001593",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB미소드림적금": {
+   "id": 63,
    "name": "KB미소드림적금",
    "code": "DP01000812",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB보육_복지시설우대통장": {
+   "id": 13,
    "name": "KB보육&복지시설우대통장",
    "code": "DP01000919",
    "category": "DEMAND_DEPOSIT",
    "scope": "BOTH"
   },
   "KB보증서_담보대출_입금전용통장": {
+   "id": 36,
    "name": "KB보증서 담보대출 입금전용통장",
    "code": "DP01000932",
    "category": "DEMAND_DEPOSIT",
    "scope": "CORPORATE"
   },
   "KB부가세납부전용통장": {
+   "id": 14,
    "name": "KB부가세납부전용통장",
    "code": "DP01000866",
    "category": "DEMAND_DEPOSIT",
    "scope": "BOTH"
   },
   "KB사장님_파킹통장": {
+   "id": 32,
    "name": "KB사장님 파킹통장",
    "code": "DP01001618",
    "category": "DEMAND_DEPOSIT",
    "scope": "CORPORATE"
   },
   "KB사장님_적금": {
+   "id": 64,
    "name": "KB사장님+적금",
    "code": "DP01001615",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "CORPORATE"
   },
   "KB사장님_통장": {
+   "id": 33,
    "name": "KB사장님+통장",
    "code": "DP01001588",
    "category": "DEMAND_DEPOSIT",
    "scope": "CORPORATE"
   },
   "KB사학연금평생안심통장": {
+   "id": 20,
    "name": "KB사학연금평생안심통장",
    "code": "DP01000751",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB상호부금_자유적립식": {
+   "id": 51,
    "name": "KB상호부금(자유적립식)",
    "code": "DP01000085",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB상호부금_자유적립식_법인": {
+   "id": 66,
    "name": "KB상호부금(자유적립식)(법인)",
    "code": "DP01000039",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "CORPORATE"
   },
   "KB상호부금_정액적립식": {
+   "id": 49,
    "name": "KB상호부금(정액적립식)",
    "code": "DP01000038",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB상호부금_정액적립식_법인": {
+   "id": 65,
    "name": "KB상호부금(정액적립식)(법인)",
    "code": "DP01000040",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "CORPORATE"
   },
   "KB생계비계좌": {
+   "id": 3,
    "name": "KB생계비계좌",
    "code": "DP01001643",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB스타적금": {
+   "id": 45,
    "name": "KB스타적금Ⅲ",
    "code": "DP01001614",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB스타통장": {
+   "id": 8,
    "name": "KB스타통장",
    "code": "DP01001565",
    "category": "DEMAND_DEPOSIT",
    "scope": "BOTH"
   },
   "KB아이사랑적금": {
+   "id": 50,
    "name": "KB아이사랑적금",
    "code": "DP01001587",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB우대기업통장_법인_MMDA": {
+   "id": 38,
    "name": "KB우대기업통장 (법인 MMDA)",
    "code": "DP01000010",
    "category": "DEMAND_DEPOSIT",
    "scope": "CORPORATE"
   },
   "KB우대저축통장_개인_MMDA": {
+   "id": 24,
    "name": "KB우대저축통장 (개인 MMDA)",
    "code": "DP01000009",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB장병내일준비적금": {
+   "id": 44,
    "name": "KB장병내일준비적금",
    "code": "DP01000939",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB종합통장": {
+   "id": 27,
    "name": "KB종합통장",
    "code": "DP01000005",
    "category": "DEMAND_DEPOSIT",
    "scope": "BOTH"
   },
   "KB종합통장_저축예금": {
+   "id": 25,
    "name": "KB종합통장-저축예금",
    "code": "DP01001580",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB주거행복_월세통장": {
+   "id": 21,
    "name": "KB주거행복 월세통장",
    "code": "DP01000719",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB주택연금지킴이통장": {
+   "id": 9,
    "name": "KB주택연금지킴이통장",
    "code": "DP01001494",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB중진공_정책자금_전용통장": {
+   "id": 30,
    "name": "KB중진공 정책자금 전용통장",
    "code": "DP01001655",
    "category": "DEMAND_DEPOSIT",
    "scope": "CORPORATE"
   },
   "KB청년미래적금": {
+   "id": 40,
    "name": "KB청년미래적금",
    "code": "DP01001656",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB카드쓰담적금": {
+   "id": 74,
    "name": "KB카드쓰담적금",
    "code": "DP01001668",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB하도급지킴이통장": {
+   "id": 18,
    "name": "KB하도급지킴이통장",
    "code": "DP01000785",
    "category": "DEMAND_DEPOSIT",
    "scope": "BOTH"
   },
   "KB행복지킴이통장": {
+   "id": 28,
    "name": "KB행복지킴이통장",
    "code": "DP01000396",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "KB호국보훈지킴이통장": {
+   "id": 15,
    "name": "KB호국보훈지킴이통장",
    "code": "DP01000854",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "ONE_KB_사업자통장": {
+   "id": 34,
    "name": "ONE KB 사업자통장",
    "code": "DP01001479",
    "category": "DEMAND_DEPOSIT",
    "scope": "CORPORATE"
   },
   "with_KB_통장": {
+   "id": 31,
    "name": "with KB 통장",
    "code": "DP01001630",
    "category": "DEMAND_DEPOSIT",
    "scope": "CORPORATE"
   },
   "가계당좌예금": {
+   "id": 26,
    "name": "가계당좌예금",
    "code": "DP01000008",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "국민수퍼정기예금": {
+   "id": 72,
    "name": "국민수퍼정기예금",
    "code": "DP01000041",
    "category": "TIME_DEPOSIT",
    "scope": "CORPORATE"
   },
   "국민수퍼정기예금_CD금리연동형": {
+   "id": 71,
    "name": "국민수퍼정기예금 (CD금리연동형)",
    "code": "DP01000214",
    "category": "TIME_DEPOSIT",
    "scope": "BOTH"
   },
   "국민수퍼정기예금_개인": {
+   "id": 69,
    "name": "국민수퍼정기예금(개인)",
    "code": "DP01000029",
    "category": "TIME_DEPOSIT",
    "scope": "PERSONAL"
   },
   "기업자유예금": {
+   "id": 37,
    "name": "기업자유예금",
    "code": "DP01000007",
    "category": "DEMAND_DEPOSIT",
    "scope": "CORPORATE"
   },
   "모니모_KB_매일이자_통장": {
+   "id": 5,
    "name": "모니모 KB 매일이자 통장",
    "code": "DP01001594",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "쓱KB쇼핑적금": {
+   "id": 60,
    "name": "쓱KB쇼핑적금",
    "code": "DP01001629",
    "category": "INSTALLMENT_DEPOSIT",
    "scope": "PERSONAL"
   },
   "쓱머니KB통장": {
+   "id": 2,
    "name": "쓱머니KB통장",
    "code": "DP01001627",
    "category": "DEMAND_DEPOSIT",
    "scope": "PERSONAL"
   },
   "일반정기예금": {
+   "id": 70,
    "name": "일반정기예금",
    "code": "DP01000014",
    "category": "TIME_DEPOSIT",
    "scope": "BOTH"
   },
   "일반정기적금": {
+   "id": 58,
    "name": "일반정기적금",
    "code": "DP01000021",
    "category": "INSTALLMENT_DEPOSIT",
