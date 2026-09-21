@@ -333,39 +333,32 @@ FEWSHOT_EMPTY_OUTPUT = {
 # 그래서 본문 줄을 하나 더하고 그것을 옮긴 OK rule 을 먼저 놓는다.
 # **OK 가 먼저, UNSUPPORTED 가 나중**이다 — v5 는 "UNSUPPORTED 를 써도 된다" 만
 # 가르쳐서 ⑧ 이 83.7% 로 무너졌다. 여기서 가르치는 것은 **가르는 법**이다.
-# **2026-09-20 · v29 에서 이 장면의 내용을 맞바꿨다.** 개수는 그대로 넷이다 —
-# v22 에서 다섯째 예시가 ⑦ 을 10.9p 무너뜨리는 것을 봤고, v28 에서 ⑦ 은 이미 6.5% 다.
-#
-# 바꾼 이유. v28 에서 지어낸 이름 스물일곱 중 아홉이 **target 자리**였고, 전부 새로 준
-# effect 옆이었다 — `RESTRICT WITHDRAWAL` · `STATE_CHANGE INTEREST_CALCULATED` ·
-# `RESTRICT PRODUCT_SWITCH`. `RESTRICT` 에 target 셋을 주자 네 번째를 지어냈다.
-# ③ 이 막지만 v25 에서 배웠다 — **막는 것은 낱말을 바꾸게 하지 구조를 바꾸게 못 한다.**
-#
-# 그래서 자리를 **보여준다.** 한 장면에 둘을 나란히 둔다 —
-#   목록에 있는 대상(`RESERVE_OFF`)은 그대로 쓴다
-#   목록에 없는 대상(이자 계산 상태)은 **지어내지 않고** `UNSUPPORTED` 로 둔다
-# 옛 장면(영업점장 재량 · 이체한도)이 가르치던 «수단이 없으면 UNSUPPORTED» 는 그대로 남는다.
+# **2026-09-21 · v29 판정으로 되돌렸다.** 장면으로 target 자리를 가르치려 했더니
+# ⑬ 이 안 움직이고(15.9% → 14.4%, 판정선 ±4.1p) **target 자리의 지어내기는 두 배**가 됐다
+# (5 → 10). `RESTRICT::contract.channel` 처럼 변수 이름을 target 에 넣는 모양까지 새로 생겼다.
+# ⑫ −11.1p · ⑥ −10.0p. 장면은 "이 effect 를 쓰라" 로만 읽혔다.
+# 지문으로 할 수 있는 것은 다 했다 — 다음은 스키마다 (effect 종류마다 target 열거를 따로).
 FEWSHOT_UNSUPPORTED_CLAUSE = (
-    "[부가 기능]\n"
-    "이 예금을 다른 예금으로 바꾸면 모아두기 설정은 자동으로 풀립니다. "
-    "모아두기에 넣어 둔 금액은 결산일에 이자를 따로 계산합니다."
+    "[한도 예외]\n"
+    "▪ 가입금액이 500만원 이상인 경우 이체한도를 2천만원으로 한다.\n"
+    "▪ \u201c영업점장\u201d이 필요하다고 인정하는 경우 한도를 달리 정할 수 있습니다.\n"
+    "※ 이 경우의 한도는 영업점에 고시한 바에 따릅니다."
 )
 FEWSHOT_UNSUPPORTED_OUTPUT = {
     "rules": [
         {
             "rule_id": "R-EX-99-01",
             "status": "OK",
-            "label": "다른 예금으로 전환하면 모아두기 해제",
-            "source": {"quote": "다른 예금으로 바꾸면 모아두기 설정은 자동으로 풀립니다"},
-            "condition": {"exists": {"event": "PRODUCT_SWITCH",
-                                     "where": {"direction": ["OUT"]}}},
-            "effect": {"type": "STATE_CHANGE", "target": "RESERVE_OFF"},
+            "label": "가입금액에 따른 이체한도",
+            "source": {"quote": "▪ 가입금액이 500만원 이상인 경우 이체한도를 2천만원으로 한다."},
+            "condition": {">=": [{"var": "contract.amount"}, 5000000]},
+            "effect": {"type": "LIMIT_AMOUNT", "value": 20000000},
         },
         {
             "rule_id": "R-EX-99-02",
             "status": "UNSUPPORTED",
-            "label": "결산일 이자 계산 — 옮길 대상이 목록에 없다",
-            "source": {"quote": "모아두기에 넣어 둔 금액은 결산일에 이자를 따로 계산합니다"},
+            "label": "영업점장 재량 — 옮길 수단이 목록에 없다",
+            "source": {"quote": "▪ \u201c영업점장\u201d이 필요하다고 인정하는 경우"},
             "condition": {},
         },
     ]
