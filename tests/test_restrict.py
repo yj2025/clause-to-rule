@@ -166,3 +166,32 @@ def test_prompt_lists_restrictions_only_for_ban_clauses():
 def test_free_sample_varies_name_change():
     s = _free.sample()
     assert len({len(c["events"]["NAME_CHANGE"]) for c in s}) > 1
+
+
+# ── 2026-09-21 · 날짜 계산을 모델에게 어떻게 알리나 ────────────────────────
+def test_the_recurring_date_block_only_appears_where_it_is_needed():
+    """「n째 요일」을 말하는 조문에만 붙는다.
+
+    장면 하나가 ⑦ 빈 배열을 10.9p 무너뜨린다 (v21·v22). 그래서 few-shot 자리를
+    안 먹고, 필요한 조문에만 붙는 블록으로 넣었다. 나머지 조문의 지문은
+    **한 글자도 안 는다** — 그것이 이 방식을 고른 이유다.
+    """
+    import json
+    corpus = json.loads((GOLD.parent / "corpus.json").read_text("utf-8"))
+    hit = [c["id"] for c in corpus if catalog.wants_recurring_date(c["text"])]
+    assert set(hit) == {"KBYY-S2-R08", "KBYY-S2-R19", "KBYY-S2-R23",
+                        "KBONE-S2-R05", "KBONE-S2-R16"}, hit
+    for c in corpus:
+        p = prompt.build_user_prompt(c["text"])
+        assert ("month_of" in p) == (c["id"] in hit), c["id"]
+
+
+@pytest.mark.parametrize("text,want", [
+    ("매년 6월, 12월 셋째 금요일 기준으로 다음날 편입", True),
+    ("매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산", True),
+    ("(나) 예금잔액이 10,000원 이상", False),        # 항목 번호는 n째가 아니다
+    ("금요일에 지급합니다", False),                   # 요일만 있으면 아니다
+    ("둘째 자녀부터 우대", False),                    # n째만 있으면 아니다
+])
+def test_recurring_date_needs_both_an_ordinal_and_a_weekday(text, want):
+    assert catalog.wants_recurring_date(text) is want

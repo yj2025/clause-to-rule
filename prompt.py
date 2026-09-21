@@ -125,6 +125,17 @@ def _catalog_block(text):
     if any("저금통" in text for _ in (1,)) and "해제" in text:
         lines.append("[상태 변경 대상]")
         lines += [f"  {k:<28}{v}" for k, v in catalog.STATES.items()]
+    # 2026-09-21 · 어휘 확장 2차 1순위. 조문이 「n째 요일」을 말할 때만 붙인다 —
+    # 나머지 조문의 지문은 한 글자도 안 는다. few-shot 자리를 안 먹는 것이 요점이다
+    # (장면 하나가 ⑦ 을 10.9p 무너뜨린다 — v21·v22).
+    if catalog.wants_recurring_date(text):
+        lines.append('[돌아오는 날짜] 해마다 오는 날은 기준점에 month_of 와 n째 요일을 적는다 — '
+                     '{"anchor": "contract.reference_date", "month_of": [6, 12], '
+                     '"day": {"weekday": "FRI", "nth": 3}, "offset_days": 1}')
+        lines.append(f"  {'month_of':<28}그 날이 오는 달 (1~12 목록)")
+        lines.append(f"  {'day.weekday':<28}MON TUE WED THU FRI SAT SUN")
+        lines.append(f"  {'day.nth':<28}몇째 그 요일인가 (1~5)")
+        lines.append(f"  {'offset_days':<28}그날에서 며칠 뒤인가 (다음날이면 1)")
     attrs = [(e, catalog.EVENT_ATTRIBUTES[e]) for e in es if e in catalog.EVENT_ATTRIBUTES]
     if attrs or "건별" in text:
         lines.append('[이벤트 조건] exists · count_* 에 "where" 를 건다 — '
