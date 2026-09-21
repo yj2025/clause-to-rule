@@ -52,21 +52,46 @@ _WINDOW = {
     "additionalProperties": False,
 }
 
+# effect 종류 → 그 종류의 target 목록. **한 열거를 공유하면 안 된다** (2026-09-21 · v29 판정).
+#
+# v28·v29 에서 모델이 «있는 이름을 틀린 자리에» 썼다 — `RESTRICT::WITHDRAWAL`(이벤트 이름) ·
+# `PRODUCT_SWITCH_TO::RESERVE_ON`(상태 이름) · `RESTRICT::contract.channel`(변수 이름).
+# 공유 열거는 이것을 **전부 통과시킨다.** ③ 이 잡지만, ② 가 내주는 오류 메시지가
+# 목록 아흔 개를 통째로 돌려주어 재시도 프롬프트를 오염시켰다.
+#
+# 종류마다 갈라 두면 스키마가 그 자리에서 잡고, 메시지가 **그 자리에 쓸 수 있는 몇 개만** 돌려준다.
+# v6 에서 오류 메시지가 좋아지자 재시도 기여가 +10.8p → +36.0p 로 커진 그 경로다.
+TARGETS = {
+    "FEE_WAIVE": sorted(catalog.FEES),
+    "FEE_WAIVE_NO_CARRYOVER": sorted(catalog.FEES),
+    "SERVICE_PROVIDE": sorted(catalog.SERVICES),
+    "RESTRICT": sorted(catalog.RESTRICTIONS),
+    "STATE_CHANGE": sorted(catalog.STATES),
+    "PRODUCT_SWITCH_TO": sorted(catalog.PRODUCTS),
+}
+
+# target 을 아예 받지 않는 effect. `DISQUALIFY` 는 계좌 전체에 걸린다 (2026-09-16 · v24).
+NO_TARGET = tuple(sorted(set(catalog.EFFECTS) - set(TARGETS)))
+
 _EFFECT = {
     "type": "object",
     "properties": {
         "type": {"enum": sorted(catalog.EFFECTS)},
         "value": {"type": ["number", "string", "boolean"]},
         "unit": {"enum": list(catalog.UNITS)},
-        # 2026-09-20 상품 코드 체계 · 상태 변경을 더했다. 상품 키는 `data/products.json` 에서 온다
-        "target": {"enum": sorted(set(catalog.FEES) | set(catalog.SERVICES)
-                                  | set(catalog.RESTRICTIONS) | set(catalog.STATES)
-                                  | set(catalog.PRODUCTS))},
+        "target": {"type": "string"},
         "renewable": {"type": "boolean"},
         "applies_to": {"enum": list(catalog.APPLIES_TO)},
     },
     "required": ["type"],
     "additionalProperties": False,
+    "allOf": (
+        [{"if": {"properties": {"type": {"const": t}}, "required": ["type"]},
+          "then": {"properties": {"target": {"enum": names}}}}
+         for t, names in sorted(TARGETS.items())]
+        + [{"if": {"properties": {"type": {"enum": list(NO_TARGET)}}, "required": ["type"]},
+            "then": {"not": {"required": ["target"]}}}]
+    ),
 }
 
 _RULE = {

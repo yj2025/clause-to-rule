@@ -3,6 +3,7 @@ import json
 import pytest
 
 import catalog
+import schema
 from schema import (FEWSHOT_CLAUSE, FEWSHOT_EMPTY_OUTPUT, FEWSHOT_INTRO_CLAUSE,
                     FEWSHOT_INTRO_OUTPUT, FEWSHOT_OUTPUT, FEWSHOTS, SCHEMA)
 
@@ -20,11 +21,72 @@ def test_effect_enum_matches_catalog():
     assert set(props["effect"]["properties"]["type"]["enum"]) == set(catalog.EFFECTS)
 
 
-def test_fee_target_enum_matches_catalog():
-    props = SCHEMA["properties"]["rules"]["items"]["properties"]
-    assert set(props["effect"]["properties"]["target"]["enum"]) == (
-        set(catalog.FEES) | set(catalog.SERVICES) | set(catalog.RESTRICTIONS)
-        | set(catalog.STATES) | set(catalog.PRODUCTS))
+def _target_enum(effect_type):
+    """effect 종류를 정해 놓았을 때 스키마가 허용하는 target 목록."""
+    eff = SCHEMA["properties"]["rules"]["items"]["properties"]["effect"]
+    for branch in eff["allOf"]:
+        t = branch["if"]["properties"]["type"]
+        names = {t["const"]} if "const" in t else set(t["enum"])
+        if effect_type in names:
+            return set(branch["then"].get("properties", {})
+                       .get("target", {}).get("enum", []))
+    return set()
+
+
+def test_each_effect_gets_its_own_target_vocabulary():
+    """효과 종류마다 목록이 갈려 있어야 한다 — 2026-09-21.
+
+    하나를 공유하면 `RESTRICT::WITHDRAWAL` 처럼 **있는 이름을 틀린 자리에**
+    쓴 것이 스키마를 통과한다. ③ 이 뒤에서 잡지만 ② 가 못 잡고,
+    오류 메시지가 아흔 개짜리 목록을 재시도 프롬프트에 흘린다.
+    """
+    assert _target_enum("FEE_WAIVE") == set(catalog.FEES)
+    assert _target_enum("FEE_WAIVE_NO_CARRYOVER") == set(catalog.FEES)
+    assert _target_enum("SERVICE_PROVIDE") == set(catalog.SERVICES)
+    assert _target_enum("RESTRICT") == set(catalog.RESTRICTIONS)
+    assert _target_enum("STATE_CHANGE") == set(catalog.STATES)
+    assert _target_enum("PRODUCT_SWITCH_TO") == set(catalog.PRODUCTS)
+
+
+def test_every_target_name_belongs_to_exactly_one_vocabulary():
+    """카탈로그를 넓힐 때 이름이 두 목록에 걸치면 이 시험이 먼저 막는다.
+
+    걸치는 이름이 생기면 «틀린 자리» 판정 자체가 흐려진다.
+    면제 효과 둘(이월 가능·불가)은 **같은 목록**을 쓰므로 걸침이 아니다.
+    """
+    seen = {}
+    for eff, names in schema.TARGETS.items():
+        for n in names:
+            seen.setdefault(n, set()).add(frozenset(names))
+    shared = {n: len(v) for n, v in seen.items() if len(v) > 1}
+    assert not shared, f"여러 목록에 걸친 이름: {shared}"
+
+
+def test_effects_without_a_target_slot_refuse_one():
+    """`DISQUALIFY` 처럼 대상이 없는 효과에 target 을 달면 ② 가 막는다."""
+    assert "DISQUALIFY" in schema.NO_TARGET
+    assert not (set(schema.NO_TARGET) & set(schema.TARGETS))
+    assert set(schema.NO_TARGET) | set(schema.TARGETS) == set(catalog.EFFECTS)
+
+
+def test_the_message_names_only_the_slot_that_was_used():
+    """재시도 프롬프트에 무엇을 쓸 수 있는지 **짧게** 돌려주어야 한다.
+
+    v29 에서 `RESTRICT` target 위반 하나가 상품 키 일흔네 개를 포함한
+    아흔 개짜리 목록을 돌려주었다. 자리를 가른 뒤에는 그 자리 것만 나온다.
+    """
+    import validate
+
+    rule = {"rule_id": "X-01", "status": "OK", "label": "x",
+            "source": {"quote": "x"},
+            "condition": {"==": [{"var": "customer.age"}, 19]},
+            "effect": {"type": "RESTRICT", "target": "WITHDRAWAL"}}
+    errs = validate.check_schema({"rules": [rule]})
+    assert errs, "이벤트 이름을 금지 대상 자리에 쓴 것을 ② 가 잡아야 한다"
+    msg = errs[0]
+    for name in catalog.PRODUCTS:
+        assert name not in msg, f"메시지에 남의 자리 이름이 섞였다: {name}"
+    assert "ALL_TRANSACTIONS" in msg
 
 
 def test_unit_enum_matches_catalog():
