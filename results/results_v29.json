@@ -4160,5 +4160,192 @@
   "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R11-01\",\n   \"status\": \"OK\",\n   \"label\": \"해지 시 이용 가능한 채널\",\n   \"source\": {\n    \"quote\": \"해지 : 영업점 또는 개인인터넷뱅킹, KB스타뱅킹 이용\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"TERMINATION\",\n     \"where\": {\n      \"direction\": [\n       \"OUT\"\n      ]\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"RESTRICT\",\n    \"target\": \"contract.channel\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R11-02\",\n   \"status\": \"OK\",\n   \"label\": \"전환 시 이용 가능한 채널\",\n   \"source\": {\n    \"quote\": \"전환 : 영업점 또는 개인인터넷뱅킹, KB스타뱅킹 이용\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"PRODUCT_SWITCH\",\n     \"where\": {\n      \"direction\": [\n       \"OUT\"\n      ]\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"RESTRICT\",\n    \"target\": \"contract.channel\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R11-03\",\n   \"status\": \"OK\",\n   \"label\": \"신규 가입 시 이용 가능한 채널\",\n   \"source\": {\n    \"quote\": \"신규 : 영업점 또는 KB스타뱅킹 이용\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"TERMINATION\",\n     \"where\": {\n      \"direction\": [\n       \"IN\"\n      ]\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"RESTRICT\",\n    \"target\": \"contract.channel\"\n   }\n  }\n ]\n}",
   "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R11-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"해지 시 이용 가능한 채널\",\n   \"source\": {\n    \"quote\": \"해지 : 영업점 또는 개인인터넷뱅킹, KB스타뱅킹 이용\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"TERMINATION\"\n    }\n   },\n   \"effect\": {\n    \"type\": \"RESTRICT\",\n    \"target\": \"contract.channel\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R11-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"전환 시 이용 가능한 채널\",\n   \"source\": {\n    \"quote\": \"전환 : 영업점 또는 개인인터넷뱅킹, KB스타뱅킹 이용\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"PRODUCT_SWITCH\",\n     \"where\": {\n      \"direction\": [\n       \"OUT\"\n      ]\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"RESTRICT\",\n    \"target\": \"contract.channel\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R11-03\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"신규 가입 시 이용 가능한 채널\",\n   \"source\": {\n    \"quote\": \"신규 : 영업점 또는 KB스타뱅킹 이용\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"PRODUCT_SWITCH\",\n     \"where\": {\n      \"direction\": [\n       \"IN\"\n      ]\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"RESTRICT\",\n    \"target\": \"contract.channel\"\n   }\n  }\n ]\n}",
   "truncated": false
+ },
+ {
+  "clause_id": "KBONE-S2-R07",
+  "run": 0,
+  "n_attempts": 2,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "4d5050f4ca33",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "68f0d27bf490",
+   "vocab": "13c46517e41c",
+   "validator": "b267cca7740e"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [
+   "스키마 위반: {'exists': {'event': 'CARD_USAGE', 'within': {'ref': '$window'}}, 'or': [{'exists': {'event': 'AUTO_TRANSFER', 'within': {'ref': '$window'}}}]} has too many properties (위치 rules/0/condition)",
+   "스키마 위반: ['EBANK_TRANSFER', 'ATM_WITHDRAW_AFTER_HOURS', 'AUTO_DEBIT'] is not of type 'string' (위치 rules/0/effect/target)",
+   "스키마 위반: ['EBANK_TRANSFER', 'ATM_WITHDRAW_AFTER_HOURS', 'AUTO_DEBIT'] is not one of ['ATM_TRANSFER', 'ATM_WITHDRAW_AFTER_HOURS', 'AUTO_DEBIT', 'EBANK_TRANSFER', 'OTHER_BANK_ATM_WITHDRAW', 'SMS_NOTICE'] (위치 rules/0/effect/target)",
+   "스키마 위반: {'exists': {'event': 'CARD_USAGE', 'within': {'ref': '$window'}}, 'or': [{'exists': {'event': 'AUTO_TRANSFER', 'within': {'ref': '$window'}}}], 'and': [{'exists': {'event': 'SALARY_TRANSFER', 'within': {'ref': '$window'}}, 'or': [{'exists': {'event': 'PENSION_RECEIPT', 'within': {'ref': '$window'}}}, {'exists': {'event': 'WITHDRAWAL', 'within': {'ref': '$window'}}}]}]} has too many properties (위치 rules/1/condition)",
+   "스키마 위반: ['EBANK_TRANSFER', 'ATM_WITHDRAW_AFTER_HOURS', 'AUTO_DEBIT', 'ATM_TRANSFER', 'OTHER_BANK_ATM_WITHDRAW', 'SMS_NOTICE'] is not of type 'string' (위치 rules/1/effect/target)",
+   "스키마 위반: ['EBANK_TRANSFER', 'ATM_WITHDRAW_AFTER_HOURS', 'AUTO_DEBIT', 'ATM_TRANSFER', 'OTHER_BANK_ATM_WITHDRAW', 'SMS_NOTICE'] is not one of ['ATM_TRANSFER', 'ATM_WITHDRAW_AFTER_HOURS', 'AUTO_DEBIT', 'EBANK_TRANSFER', 'OTHER_BANK_ATM_WITHDRAW', 'SMS_NOTICE'] (위치 rules/1/effect/target)",
+   "수수료 대상이 아님: ['EBANK_TRANSFER', 'ATM_WITHDRAW_AFTER_HOURS', 'AUTO_DEBIT']. 쓸 수 있는 것: ATM_TRANSFER, ATM_WITHDRAW_AFTER_HOURS, AUTO_DEBIT, EBANK_TRANSFER, OTHER_BANK_ATM_WITHDRAW, SMS_NOTICE",
+   "수수료 대상이 아님: ['EBANK_TRANSFER', 'ATM_WITHDRAW_AFTER_HOURS', 'AUTO_DEBIT', 'ATM_TRANSFER', 'OTHER_BANK_ATM_WITHDRAW', 'SMS_NOTICE']. 쓸 수 있는 것: ATM_TRANSFER, ATM_WITHDRAW_AFTER_HOURS, AUTO_DEBIT, EBANK_TRANSFER, OTHER_BANK_ATM_WITHDRAW, SMS_NOTICE",
+   "quote 가 조문 원문에 없다: '▪ 기본실적: KB카드결제 / 공과금 이체 중 하나! → 3개항목 수수료'. 요약하거나 바꿔 쓰지 말고 원문을 그대로 옮긴다",
+   "quote 가 조문 원문에 없다: '▪ 기본실적: KB카드결제 / 공과금 이체 중 하나! ＋ 추가실적: 급여'. 요약하거나 바꿔 쓰지 말고 원문을 그대로 옮긴다",
+   "실행 불가: DslError: 조건식의 키는 하나여야 한다: ['exists', 'or']. 여러 개를 묶으려면 {\"and\": [ … ]} 를 쓴다",
+   "실행 불가: DslError: 조건식의 키는 하나여야 한다: ['and', 'exists', 'or']. 여러 개를 묶으려면 {\"and\": [ … ]} 를 쓴다"
+  ],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBONE-S2-R07-01",
+     "status": "OK",
+     "label": "KB생활서비스 기본실적 수수료 면제",
+     "source": {
+      "quote": "▪ 기본실적: KB카드결제 / 공과금 이체 중 하나! → 3개항목 수수료 면제 ①전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼때) ②KB국민은행 자동화기기 시간 외 출금수수료 ③납부자자동이체(타행자동이체포함)수수료"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "exists": {
+       "event": "CARD_USAGE",
+       "within": {
+        "ref": "$window"
+       }
+      },
+      "or": [
+       {
+        "exists": {
+         "event": "AUTO_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": [
+       "EBANK_TRANSFER",
+       "ATM_WITHDRAW_AFTER_HOURS",
+       "AUTO_DEBIT"
+      ],
+      "value": "UNLIMITED"
+     }
+    },
+    {
+     "rule_id": "R-KBONE-S2-R07-02",
+     "status": "OK",
+     "label": "KB생활서비스 기본실적＋추가실적 수수료 면제",
+     "source": {
+      "quote": "▪ 기본실적: KB카드결제 / 공과금 이체 중 하나! ＋ 추가실적: 급여이체 / 가맹점대금 / 연금수령 이체 중 하나! → 6개항목 수수료 면제 ①전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼때) ②KB국민은행 자동화기기 시간외 출금수수료 ③납부자자동이체(타행자동이체포함)수수료 ④KB국민은행 자동화기기 이체수수료(다른 은행으로 보낼때)(월10회) ⑤다른 은행 자동화기기 출금수수료(월5회) ⑥입출금내역 SMS/FAX 통지수수료"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "exists": {
+       "event": "CARD_USAGE",
+       "within": {
+        "ref": "$window"
+       }
+      },
+      "or": [
+       {
+        "exists": {
+         "event": "AUTO_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ],
+      "and": [
+       {
+        "exists": {
+         "event": "SALARY_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        },
+        "or": [
+         {
+          "exists": {
+           "event": "PENSION_RECEIPT",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "WITHDRAWAL",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": [
+       "EBANK_TRANSFER",
+       "ATM_WITHDRAW_AFTER_HOURS",
+       "AUTO_DEBIT",
+       "ATM_TRANSFER",
+       "OTHER_BANK_ATM_WITHDRAW",
+       "SMS_NOTICE"
+      ],
+      "value": "UNLIMITED"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R07-01\",\n   \"status\": \"OK\",\n   \"label\": \"KB생활서비스 기본실적 수수료 면제\",\n   \"source\": {\n    \"quote\": \"▪ 기본실적: KB카드결제 / 공과금 이체 중 하나! → 3개항목 수수료 면제 ①전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼때) ②KB국민은행 자동화기기 시간 외 출금수수료 ③납부자자동이체(타행자동이체포함)수수료\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"CARD_USAGE\",\n     \"within\": {\n      \"ref\": \"$window\"\n     }\n    },\n    \"or\": [\n     {\n      \"exists\": {\n       \"event\": \"AUTO_TRANSFER\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": [\n      \"EBANK_TRANSFER\",\n      \"ATM_WITHDRAW_AFTER_HOURS\",\n      \"AUTO_DEBIT\"\n    ],\n    \"value\": \"UNLIMITED\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R07-02\",\n   \"status\": \"OK\",\n   \"label\": \"KB생활서비스 기본실적＋추가실적 수수료 면제\",\n   \"source\": {\n    \"quote\": \"▪ 기본실적: KB카드결제 / 공과금 이체 중 하나! ＋ 추가실적: 급여이체 / 가맹점대금 / 연금수령 이체 중 하나! → 6개항목 수수료 면제 ①전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼때) ②KB국민은행 자동화기기 시간외 출금수수료 ③납부자자동이체(타행자동이체포함)수수료 ④KB국민은행 자동화기기 이체수수료(다른 은행으로 보낼때)(월10회) ⑤다른 은행 자동화기기 출금수수료(월5회) ⑥입출금내역 SMS/FAX 통지수수료\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"CARD_USAGE\",\n     \"within\": {\n      \"ref\": \"$window\"\n     }\n    },\n    \"or\": [\n     {\n      \"exists\": {\n       \"event\": \"AUTO_TRANSFER\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     }\n    ],\n    \"and\": [\n     {\n      \"exists\": {\n       \"event\": \"SALARY_TRANSFER\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      },\n      \"or\": [\n       {\n        \"exists\": {\n         \"event\": \"PENSION_RECEIPT\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       {\n        \"exists\": {\n         \"event\": \"WITHDRAWAL\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       }\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": [\n      \"EBANK_TRANSFER\",\n      \"ATM_WITHDRAW_AFTER_HOURS\",\n      \"AUTO_DEBIT\",\n      \"ATM_TRANSFER\",\n      \"OTHER_BANK_ATM_WITHDRAW\",\n      \"SMS_NOTICE\"\n    ],\n    \"value\": \"UNLIMITED\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBONE-S2-R07-01\",\n   \"status\": \"OK\",\n   \"label\": \"KB생활서비스 기본실적 수수료 면제\",\n   \"source\": {\n    \"quote\": \"▪ 기본실적: KB카드결제 / 공과금 이체 중 하나! → 3개항목 수수료 면제 ①전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼때) ②KB국민은행 자동화기기 시간 외 출금수수료 ③납부자자동이체(타행자동이체포함)수수료\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"CARD_USAGE\",\n     \"within\": {\n      \"ref\": \"$window\"\n     }\n    },\n    \"or\": [\n     {\n      \"exists\": {\n       \"event\": \"AUTO_TRANSFER\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"EBANK_TRANSFER\",\n    \"value\": \"UNLIMITED\"\n   },\n   {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_WITHDRAW_AFTER_HOURS\",\n    \"value\": \"UNLIMITED\"\n   },\n   {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"AUTO_DEBIT\",\n    \"value\": \"UNLIMITED\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBONE-S2-R07-02\",\n   \"status\": \"OK\",\n   \"label\": \"KB생활서비스 기본실적＋추가실적 수수료 면제\",\n   \"source\": {\n    \"quote\": \"▪ 기본실적: KB카드결제 / 공과금 이체 중 하나! ＋ 추가실적: 급여이체 / 가맹점대금 / 연금수령 이체 중 하나! → 6개항목 수수료 면제 ①전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼때) ②KB국민은행 자동화기기 시간외 출금수수료 ③납부자자동이체(타행자동이체포함)수수료 ④KB국민은행 자동화기기 이체수수료(다른 은행으로 보낼때)(월10회) ⑤다른 은행 자동화기기 출금수수료(월5회) ⑥입출금내역 SMS/FAX 통지수수료\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"CARD_USAGE\",\n     \"within\": {\n      \"ref\": \"$window\"\n     }\n    },\n    \"or\": [\n     {\n      \"exists\": {\n       \"event\": \"AUTO_TRANSFER\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     }\n    ],\n    \"and\": [\n     {\n      \"exists\": {\n       \"event\": \"SALARY_TRANSFER\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      },\n      \"or\": [\n       {\n        \"exists\": {\n         \"event\": \"PENSION_RECEIPT\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       {\n        \"exists\": {\n         \"event\": \"WITHDRAWAL\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       }\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"EBANK_TRANSFER\",\n    \"value\": \"UNLIMITED\"\n   },\n   {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_WITHDRAW_AFTER_HOURS\",\n    \"value\": \"UNLIMITED\"\n   },\n   {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"AUTO_DEBIT\",\n    \"value\": \"UNLIMITED\"\n   },\n   {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"ATM_TRANSFER\",\n    \"value\": \"UNLIMITED\"\n   },\n   {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"OTHER_BANK_ATM_WITHDRAW\",\n    \"value\": \"UNLIMITED\"\n   },\n   {\n    \"type\": \"FEE_WAIVE\",\n    \"target\": \"SMS_NOTICE\",\n    \"value\": \"UNLIMITED\"\n   }\n  }\n ]\n}",
+  "truncated": false
  }
 ]
