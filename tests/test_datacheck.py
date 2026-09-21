@@ -73,14 +73,15 @@ def test_no_event_claims_to_be_backed(root):
 
 @needs_db
 @pytest.mark.xfail(strict=True, reason=(
-    "2026-09-21 에 찾은 어긋남이다. v30 판정 뒤에 고친다 — 지금 정답을 바꾸면 "
-    "⑥ 이 바뀌어 v30 을 v28 과 못 견준다. 고치고 나면 이 xfail 을 떼라"))
+    "`UNREGISTERED_ASSOCIATION` 은 2026-09-21 에 `ORGANIZATION` 으로 고쳤다. "
+    "남은 것은 `JOINT`(공동명의)다 — DB 에 담을 칼럼이 없어 조건이 영영 거짓이다. "
+    "덜 탈락시키는 쪽이라 급하지 않다. 정하고 나면 이 xfail 을 떼라"))
 def test_gold_holder_type_values_exist_in_the_db(root):
     """정답이 쓰는 명의 유형이 DB 의 값 목록 안에 있어야 한다.
 
-    `UNREGISTERED_ASSOCIATION` 은 DB 에서 `ORGANIZATION` 이고, `JOINT` 는
-    아예 없다. 전자는 «가입 가능한 임의단체를 탈락시키는» 쪽으로 틀린다 —
-    불이익 effect 근사 금지에 걸린다. DECISIONS.md 를 보라.
+    `JOINT`(공동명의)가 DB 에 없다. 조건이 영영 거짓이라 공동명의를 못 거른다 —
+    **덜** 탈락시키는 쪽이라 오차가 고객에게 유리해서 급하지 않다.
+    `UNREGISTERED_ASSOCIATION` 은 반대 방향이라 먼저 고쳤다. DECISIONS.md 를 보라.
     """
     import json
     import os
