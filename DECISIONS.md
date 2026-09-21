@@ -300,3 +300,87 @@ note 에 적는다.
   상품 코드 체계가 먼저다 (2026-09-15 결정과 같다). 저금통 자동 해제도 전환 방향을 못 가려 같이 막힌다.
 * **데이터 쪽 확인이 필요하다:** 고객 데이터에 지급청구일이 있는가. 없으면 이 변수는 늘 «모른다» 가 된다.
 * 고객 쪽 비과세 자격(65세 이상 등)은 변수가 없다. 조문이 상품 쪽만 적어 지금은 필요 없다.
+
+---
+
+## 2026-09-21 · 고객 DB 를 찾았다 — 「데이터 쪽 확인 필요」 를 닫는다
+
+`/workspace/database/schema/customerdb.db` 가 있다. 여태 이 저장소에서 아무도 안 봤다.
+`financedb.db`(상품·문서)만 보고 있었다. **읽기 전용으로만 열었다.**
+
+테이블 다섯: `Customer_Accounts`(4행) · `Customer_Defaults`(4행) · `Customer_Subscriptions`(4행) ·
+`Customer_Consents`(16행) · `Customer_Data`(0행). 행 수는 견본이고, **값의 범위는 DDL 의
+`CHECK` 제약이 정한다** — 그게 진짜 명세다.
+
+### 내 변수 22개가 데이터에 있나
+
+| 변수 | 데이터 | 근거 |
+|---|---|---|
+| `customer.age` · `customer.is_youth` | **있다**(파생) | `Customer_Defaults.customer_birth` |
+| `customer.holder_type` | **있다** | `customer_kind` — 아래를 보라 |
+| `customer.has_product` · `held_products` · `held_categories` | **있다** | `Customer_Subscriptions.product_id` + `financedb.Products.product_category` |
+| `contract.start_date` | **있다** | `joined_date` |
+| `contract.maturity_date` | **있다** | `maturity_date` (입출금은 null) |
+| `contract.term_months` | **있다**(파생) | `joined_date` ~ `maturity_date` |
+| `contract.amount` · `monthly_amount` | **있다** | `joined_amount` · `monthly_amount` |
+| `contract.termination_date` | **있다** | `closed_date` |
+| `contract.reference_date` | **있다**(실행 시점) | — |
+| `contract.termination_type` | **반만** | `subscription_status` 가 `MATURED`·`CLOSED` 를 가르지만 «중도/만기» 구분은 없다 |
+| `account.balance` | **없다** | 잔액 칼럼이 없다 |
+| `account.reserved_amount` | **없다** | 저금통 적립액이 없다 |
+| `account.last_transaction_date` | **없다** | `last_login_at` 은 **로그인**이지 거래가 아니다 |
+| `contract.payout_request_date` | **없다** | — |
+| `contract.channel` · `switch_date` | **없다** | — |
+| `customer.is_first_deposit` | **없다**(약한 파생) | 가입 이력이 비면 첫 거래로 볼 수는 있다 |
+
+**이벤트 12종은 하나도 없다.** 거래 내역 테이블 자체가 없다. `DEPOSIT` · `WITHDRAWAL` ·
+`SALARY_TRANSFER` · `CARD_USAGE` · `AUTO_TRANSFER` · `FX_TRANSACTION` · `PENSION_RECEIPT` 가
+전부 데이터 없이 떠 있다. gold 가 이 이벤트들을 24군데서 쓴다.
+
+### 그러면 지금 돌릴 수 있는 것은 얼마인가
+
+gold 가 실제로 쓰는 변수는 아홉이고, 그중 **일곱이 데이터에 있다.**
+못 쓰는 둘이 `account.balance`(3조문) · `account.reserved_amount`(2조문) 다.
+이벤트를 쓰는 조문은 전부 못 돌린다.
+
+`engine.py` 가 값이 없으면 `UNKNOWN` 을 내도록 이미 되어 있으므로 **깨지지는 않는다.**
+다만 «판정 못 함» 이 몇 조문인지는 이제 **세어서 말할 수 있다.**
+
+### 급한 것 — `holder_type` 값 이름이 DB 와 어긋난다
+
+DDL 이 정한 값은 넷이다.
+
+    CK_customer_defaults_kind: INDIVIDUAL · SOLE_PROPRIETOR · CORPORATION · ORGANIZATION
+
+내 gold 가 쓰는 값은 넷인데 **둘이 이 목록에 없다.**
+
+| gold 값 | DB | 쓰는 조문 | 어떻게 되나 |
+|---|---|---|---|
+| `INDIVIDUAL` | ✔ | `KBONE-S2-R01` | 맞는다 |
+| `SOLE_PROPRIETOR` | ✔ | `KBONE-S2-R01` · `KBYY-S2-R01` | 맞는다 |
+| `UNREGISTERED_ASSOCIATION` | ✘ (DB 는 `ORGANIZATION`) | `KBONE-S2-R01` · `KBYY-S2-R01` | **불이익 쪽으로 틀린다** |
+| `JOINT` (공동명의) | ✘ (그런 값이 없다) | `KBYY-S2-R01` · `KBYY-S2-R23` | 영영 거짓 — 공동명의를 못 거른다 |
+
+`UNREGISTERED_ASSOCIATION` 이 위험하다. `KBONE-S2-R01-02` 는
+«`INDIVIDUAL`·`SOLE_PROPRIETOR`·`UNREGISTERED_ASSOCIATION` 이 **아니면** 탈락» 이다.
+DB 가 `ORGANIZATION` 을 주면 이 목록에 없으니 **가입 가능한 임의단체를 탈락시킨다.**
+조문은 「관련서류 미제출 임의단체 포함」이라고 가입을 허락하는데 정반대로 판정한다.
+DECISIONS.md 가 정한 «불이익 effect 는 근사 금지» 에 걸린다.
+
+`JOINT` 는 반대 방향이다. 조건이 영영 거짓이라 **덜 탈락시킨다** — 오차가 고객에게 유리한 쪽이라
+같은 원칙에서 허용되는 종류지만, 조문이 명시한 금지를 못 지키는 것이므로 그냥 두면 안 된다.
+공동명의는 `customer_kind` 가 아니라 **계좌의 성질**이다. DB 에 그 칼럼이 없다.
+
+### 지금 고치지 않는다 — v30 이 돌고 있다
+
+정답을 바꾸면 ⑥ 이 바뀌어 **v30 을 v28 과 못 견준다.** 라운드가 끝나고 판정을 낸 뒤에 손댄다.
+그때 할 것:
+
+1. `UNREGISTERED_ASSOCIATION` → `ORGANIZATION` 으로 고친다 (DB 가 이름의 주인이다).
+   다만 조문의 「서류 미제출」 단서는 DB 에 없다 — `ORGANIZATION` 이 그보다 넓다.
+   넓은 쪽이 **가입을 허락하는** 자리라 오차가 고객에게 유리하다
+2. `JOINT` 는 `UNSUPPORTED` 로 내린다. 공동명의를 담을 칼럼이 DB 에 없다
+3. `catalog.VARIABLES["customer.holder_type"]` 에 값 목록을 박고, DB 의 `CHECK` 와
+   어긋나면 터지는 시험을 붙인다 — 지금은 enum 이라면서 값이 안 적혀 있다
+4. `customer_nationality`(DOMESTIC/FOREIGN) · `customer_residency`(RESIDENT/NON_RESIDENT) 는
+   **DB 에 있는데 내 카탈로그에 없다.** 내 46조문에는 안 나오지만 다른 상품 조문에는 나온다
