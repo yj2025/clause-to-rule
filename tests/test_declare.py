@@ -59,11 +59,15 @@ def test_the_rate_is_a_percentage(root):
 
 
 def test_overgeneration_no_longer_dominates_after_the_catalog_grew(root):
-    """**2026-09-20 에 뒤집혔다.** 전에는 과생성이 과소생성보다 많았다 (유실된 기록의 다음 과녁).
+    """**2026-09-20 에 뒤집혔고 09-21 에 한 번 더 움직였다.**
 
-    카탈로그를 넓히자(비과세 · 해지/전환 제한 · 상품 코드 · 계좌 갈래) 정답이 열렸고,
-    «정답은 빈 배열인데 모델이 만들었다» 로 세던 자리가 «둘 다 rule» 로 바뀌었다.
-    지금은 11 대 11 이다. **모델이 좋아진 것이 아니라 정답이 움직였다** — 같은 v6 결과다.
+    전에는 과생성이 과소생성보다 많았다. 카탈로그를 넓히자(비과세 · 해지/전환
+    제한 · 상품 코드 · 계좌 갈래) 정답이 열렸고, «정답은 빈 배열인데 모델이
+    만들었다» 로 세던 자리가 «둘 다 rule» 로 바뀌어 11 대 11 이 됐다.
+
+    2026-09-21 에 날짜 계산으로 거래중지 두 조문을 열면서 **9 대 11** 이 됐다.
+    v6 생성물은 한 글자도 안 바뀌었다 — **정답이 또 움직인 것**이다.
+    이 수가 바뀌면 그때마다 무엇이 열렸는지 여기 적는다.
     """
     import json, os
     os.chdir(root)
@@ -73,4 +77,4 @@ def test_overgeneration_no_longer_dominates_after_the_catalog_grew(root):
                if w in (D.EMPTY, D.UNSUP) and g in (D.OK, D.MIXED))
     under = sum(n for (w, g), n in conf.items()
                 if w in (D.OK, D.MIXED) and g in (D.EMPTY, D.UNSUP))
-    assert (over, under) == (11, 11), (over, under)
+    assert (over, under) == (9, 11), (over, under)

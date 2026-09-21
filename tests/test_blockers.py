@@ -53,18 +53,23 @@ def test_withdrawal_is_no_longer_a_blocker_at_all(clauses):
     assert "출금" not in everywhere, "카탈로그에 있는 것은 걸림돌이 아니다"
 
 
-def test_the_dormancy_clauses_are_blocked_by_the_join_date_only(clauses):
-    """거래중지 두 조문: 어휘는 다 갖췄고 **편입시기 하나만** 남았다.
+def test_the_dormancy_clauses_are_no_longer_blocked(clauses):
+    """거래중지 두 조문이 열렸다 — 마지막 걸림돌이 **편입시기**였다.
 
-    명의변경 이벤트와 거래 제한 effect 는 2026-09-15 확장으로 들어왔고 조건식도 그대로다.
-    2026-09-20 실행기 범위 결정에서 편입시기(연 2회 · 6·12월 셋째 금요일 다음날)를
-    옮길 수 없어 UNSUPPORTED 로 되돌렸다 — 조건이 맞는 즉시 막으면 최대 6개월 일찍 막는다.
+    2026-09-15 확장에서 명의변경 이벤트와 거래 제한 effect 가 들어왔고,
+    2026-09-20 에 편입시기(연 2회 · 6·12월 셋째 금요일 다음날)를 못 옮겨
+    UNSUPPORTED 로 되돌렸다 — 조건이 맞는 즉시 막으면 최대 6개월 일찍 막는다.
+    2026-09-21 에 날짜 계산(`month_of` + n째 요일)이 생겨 되살렸다.
+
+    `blockers.load()` 는 UNSUPPORTED rule 만 세므로, 열린 조문은 아예 안 나온다.
     """
     import catalog
     assert "NAME_CHANGE" in catalog.EVENTS and "RESTRICT" in catalog.EFFECTS
     for cid in ("KBYY-S2-R19", "KBONE-S2-R16"):
         d = json.loads(Path(f"data/gold/{cid}.json").read_text("utf-8"))
         r = d["rules"][0]
-        assert r["status"] == "UNSUPPORTED" and "effect" not in r
+        assert r["status"] == "OK" and r["effect"]["type"] == "RESTRICT"
         assert "NAME_CHANGE" in json.dumps(r["condition"]), "무거래에 명의변경 거래가 빠졌다"
-        assert clauses[cid][r["rule_id"]] == {"편입시기"}
+        assert cid not in clauses, "열린 조문이 걸림돌 목록에 남아 있다"
+    everywhere = {b for rs in clauses.values() for bs in rs.values() for b in bs}
+    assert "편입시기" not in everywhere

@@ -7,15 +7,37 @@ few-shot 이 틀린 형태를 가르치면 모델은 그대로 따라 한다. �
 import catalog
 
 # ── JSON 스키마 ─────────────────────────────────────────────────────────
+# 2026-09-21 · 어휘 확장 2차 안건 1순위. 「매년 6·12월 셋째 금요일」처럼
+# 해마다 돌아오는 날이 약관에 자주 나온다 — 거래중지 편입시기와 이자 결산일이다.
+# `month_of` 가 있으면 기준일에서 뒤로 거슬러 가장 가까운 것을 잡는다.
+_NTH_WEEKDAY = {
+    "type": "object",
+    "properties": {
+        "weekday": {"enum": list(("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"))},
+        "nth": {"type": "integer", "minimum": 1, "maximum": 5},
+    },
+    "required": ["weekday", "nth"],
+    "additionalProperties": False,
+}
+
 _ANCHOR = {
     "type": "object",
     "properties": {
         "anchor": {"type": "string", "enum": sorted(catalog.VARIABLES)},
         "offset_months": {"type": "integer"},
-        "day": {"anyOf": [{"enum": ["first", "last"]}, {"type": "integer"}]},
+        "offset_days": {"type": "integer"},
+        "month_of": {"type": "array", "minItems": 1, "maxItems": 12,
+                     "items": {"type": "integer", "minimum": 1, "maximum": 12}},
+        "day": {"anyOf": [{"enum": ["first", "last"]}, {"type": "integer"},
+                          _NTH_WEEKDAY]},
     },
     "required": ["anchor"],
     "additionalProperties": False,
+    # n째 요일은 어느 달인지 같이 적어야 뜻이 선다
+    "allOf": [{
+        "if": {"properties": {"day": _NTH_WEEKDAY}, "required": ["day"]},
+        "then": {"required": ["month_of"]},
+    }],
 }
 
 _OPERAND = {

@@ -62,8 +62,11 @@ def test_detrimental_effects_never_approximate(gold):
         "KBYY-S2-R16-01",    # 질권설정 불가
         "KBYY-S2-R17-01",    # 양도·상속에 의한 명의변경 불가
         "KBYY-S2-R17-02",    # 담보제공 불가
-        # RESTRICT 거래중지 — 2026-09-20 에 UNSUPPORTED 로 되돌렸다 (편입시기를 못 옮긴다).
-        # 날짜 계산이 생겨 되살릴 때를 위해 목록에 남겨 둔다
+        # RESTRICT 거래중지 — 2026-09-21 에 날짜 계산이 생겨 되살렸다.
+        # 조건이 완전하다: 잔액 세 구간과 무거래 기간을 **편입일 기준으로** 다 옮겼고,
+        # 무거래는 이벤트 전부가 없을 때만 참이라 넓게(=덜 제한하는 쪽으로) 센다
+        "KBONE-S2-R16-01",
+        "KBYY-S2-R19-01",
     }
     # 2026-09-20 TAX_EXEMPT_ELIGIBLE 을 더했다 — 「비과세로 가입 가능」 은 혜택이다
     # PRODUCT_SWITCH_TO · STATE_CHANGE 는 혜택도 불이익도 아니다 — 안내에 가깝다.

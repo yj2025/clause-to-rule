@@ -72,6 +72,9 @@ def _why_operand(v, where):
     """비교의 한쪽이 왜 틀렸는지. 멀쩡하면 None."""
     if not isinstance(v, dict):
         return None                                   # 수·문자열은 그대로 쓴다
+    # 기준점은 키를 여럿 갖는다 (anchor · month_of · day · offset_*) — 먼저 본다
+    if "anchor" in v:
+        return _why_anchor(v, where)
     if len(v) != 1:
         return None                                   # 바깥에서 이미 짚는다
     (k, arg), = v.items()
@@ -83,12 +86,51 @@ def _why_operand(v, where):
         if arg not in catalog.VARIABLES:
             return (f"{where}에 카탈로그에 없는 변수: `{arg}`. 쓸 수 있는 것: "
                     f"{', '.join(sorted(catalog.VARIABLES))}")
-    elif k == "anchor" or (k in ("anchor",) and False):
-        pass
+    elif k == "anchor":
+        return _why_anchor(v, where)
     elif k in catalog.COUNTERS or k == "ref":
         return None
     elif k in _OPS:
         return f"{where}에 조건식이 왔다. 비교의 피연산자는 값이어야 한다"
+    return None
+
+
+
+_WEEKDAYS = ("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN")
+
+
+def _why_anchor(spec, where):
+    """기준점이 왜 틀렸는지. 멀쩡하면 None.
+
+    2026-09-21 에 n째 요일을 더하면서 붙였다. 「6·12월 셋째 금요일」은
+    손잡이가 셋(`month_of` · `weekday` · `nth`)이라 틀릴 자리가 많다.
+    """
+    if spec.get("anchor") not in catalog.VARIABLES:
+        return (f"{where}의 anchor 가 카탈로그에 없는 변수다: `{spec.get('anchor')}`. "
+                f"쓸 수 있는 것: {', '.join(sorted(catalog.VARIABLES))}")
+    day = spec.get("day")
+    months = spec.get("month_of")
+    if isinstance(day, dict):
+        wd, nth = day.get("weekday"), day.get("nth")
+        if wd not in _WEEKDAYS:
+            return (f"요일은 영문 세 글자다: {', '.join(_WEEKDAYS)}. 온 것: {wd!r}")
+        if not isinstance(nth, int) or not 1 <= nth <= 5:
+            return f"nth 는 1~5 다 (몇째 {wd} 인가). 온 것: {nth!r}"
+        if not months:
+            return ('n째 요일을 쓰려면 어느 달인지 같이 적는다: '
+                    '{"anchor": "contract.reference_date", "month_of": [6, 12], '
+                    '"day": {"weekday": "FRI", "nth": 3}}')
+    if months is not None:
+        if not isinstance(months, list) or not all(
+                isinstance(x, int) and 1 <= x <= 12 for x in months):
+            return f"month_of 는 1~12 의 월 목록이다: [6, 12]. 온 것: {months!r}"
+        if not isinstance(day, dict):
+            return ('month_of 를 쓰면 day 는 n째 요일이어야 한다: '
+                    '{"weekday": "FRI", "nth": 3}')
+    extra = set(spec) - {"anchor", "offset_months", "offset_days", "month_of", "day"}
+    if extra:
+        return (f"기준점에 모르는 키: {sorted(extra)}. 쓸 수 있는 것: "
+                "anchor · offset_months · offset_days · month_of · day")
     return None
 
 

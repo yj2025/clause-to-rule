@@ -51,31 +51,67 @@ def test_restrict_needs_a_target_from_its_own_list():
     assert validate.check_executable(no_target) != []
 
 
-# 2026-09-20 실행기 범위 결정: 거래중지 두 조문은 **UNSUPPORTED** 로 되돌렸다.
-# 편입시기(연 2회 · 6·12월 셋째 금요일 다음날)를 옮길 수 없어, 조건이 맞는 즉시 제한으로
-# 판별하면 실제보다 최대 6개월 일찍 막는다 — 불리한 오차는 허용하지 않는다.
-# 조건식은 그대로 두었다. 날짜 계산이 생기면 status 만 되돌리면 된다.
+# 2026-09-20 에 UNSUPPORTED 로 되돌렸다가 **2026-09-21 에 다시 열었다.**
+# 막고 있던 것은 편입시기(연 2회 · 6·12월 셋째 금요일 다음날)였고, 그날을
+# 계산할 수단이 없어 «조건이 맞는 즉시 제한» 으로 판별하면 실제보다 최대
+# 6개월 일찍 막았다 — 불리한 오차라 허용하지 않았다.
+#
+# 이제 `month_of` + n째 요일로 그날을 계산한다. 조건식은 그대로 두고
+# **창의 양끝만 편입일로 옮겼다** — 무거래를 «오늘까지» 가 아니라
+# «편입일까지» 센다.
 @pytest.mark.parametrize("cid", DORMANCY)
-def test_dormancy_is_unsupported_until_the_join_date_can_be_expressed(cid):
+def test_dormancy_is_judged_against_the_sweep_date(cid):
+    """열렸다. 그리고 **편입일을 실제로 보고 있는지** 조건식에서 확인한다."""
     rs = _rules(cid)
-    assert [r["status"] for r in rs] == ["UNSUPPORTED"]
-    assert "effect" not in rs[0] and "편입시기" in rs[0]["label"]
+    assert [r["status"] for r in rs] == ["OK"]
+    assert rs[0]["effect"] == {"type": "RESTRICT", "target": "ALL_TRANSACTIONS"}
+    for win in rs[0]["let"].values():
+        for end in ("from", "to"):
+            a = win["month_range"][end]
+            assert a["month_of"] == [6, 12], (cid, end)
+            assert a["day"] == {"weekday": "FRI", "nth": 3}, (cid, end)
+            assert a["offset_days"] == 1, (cid, end)
+
+
+def test_the_sweep_date_is_the_saturday_after_the_third_friday():
+    """「6·12월 셋째 금요일 기준 다음날」 — 토요일이어야 한다."""
+    from engine import _anchor
+    got = _anchor({"anchor": "contract.reference_date", "month_of": [6, 12],
+                   "day": {"weekday": "FRI", "nth": 3}, "offset_days": 1},
+                  {"contract": {"reference_date": "2026-09-11"}})
+    assert got.isoformat() == "2026-06-20"        # 2026-06-19 이 셋째 금요일
+    assert got.weekday() == 5                      # 토요일
 
 
 @pytest.mark.parametrize("cid", DORMANCY)
+# 기준일 2026-09-11 일 때 **편입일은 2026-06-20** 이다 (6월 셋째 금요일 19일의 다음날).
+# 그래서 창은 오늘이 아니라 그날에서 뒤로 잡힌다.
+#
+#     $y1  2025-06-20 ~ 2026-06-20
+#     $y2  2024-06-20 ~ 2026-06-20
+#     $y3  2023-06-20 ~ 2026-06-20
+#
+# 경계 두 개가 2026-09-20 판 시험에서 뒤집혔고 **뒤집힌 쪽이 맞다.**
+# 2025-08-01 에 출금한 5천원 계좌는 편입일 기준 10개월 전 거래라 아직 1년이
+# 안 됐다. 옛 판(오늘까지 세기)은 이것을 제한 대상으로 봤다 —
+# 그것이 «최대 6개월 일찍 막는다» 의 실제 모습이다.
 @pytest.mark.parametrize("balance,events,want", [
     (5_000, {}, True),
-    (5_000, {"WITHDRAWAL": ["2025-08-01"]}, True),        # 13개월 전 — 1년 무거래
+    (5_000, {"WITHDRAWAL": ["2025-06-01"]}, True),        # 편입일 기준 12.6개월 전
+    (5_000, {"WITHDRAWAL": ["2025-08-01"]}, False),       # 10.6개월 전 — 아직 1년이 아니다
     (5_000, {"WITHDRAWAL": ["2026-01-01"]}, False),
     (5_000, {"NAME_CHANGE": ["2026-01-01"]}, False),      # 명의변경 거래도 거래다
     (5_000, {"SALARY_TRANSFER": ["2026-01-01"]}, False),  # 넓게 센다 — 고객에게 유리한 쪽
+    (5_000, {"WITHDRAWAL": ["2026-08-01"]}, True),        # **편입일 뒤의 거래는 안 본다**
     (30_000, {"DEPOSIT": ["2025-08-01"]}, False),         # 2년이어야 한다
-    (30_000, {"DEPOSIT": ["2024-08-01"]}, True),
+    (30_000, {"DEPOSIT": ["2024-06-01"]}, True),          # 편입일 기준 24.6개월 전
+    (30_000, {"DEPOSIT": ["2024-08-01"]}, False),         # 22.6개월 — 아직 2년이 아니다
     (70_000, {"DEPOSIT": ["2024-08-01"]}, False),         # 3년이어야 한다
+    (70_000, {"DEPOSIT": ["2023-06-01"]}, True),          # 36.6개월 전
     (150_000, {}, False),                                 # 10만원 이상은 대상 아님
 ])
-def test_dormancy_condition_still_tells_idle_small_accounts_apart(cid, balance, events, want):
-    """조건식은 살아 있다 — 되살릴 때 다시 쓸 수 있는지 여기서 지킨다."""
+def test_dormancy_is_counted_from_the_sweep_date_not_today(cid, balance, events, want):
+    """무거래 기간을 **편입일에서** 센다. 경계가 여기 박혀 있다."""
     from engine import evaluate
     from tv import TV
     r = _rules(cid)[0]
@@ -114,8 +150,8 @@ def test_blockers_are_gone_and_the_rest_are_relabelled(root):
     import os
     os.chdir(root)
     left = blockers.load()
-    # 거래중지 둘은 편입시기 때문에 다시 막혀 있다 (2026-09-20 결정)
-    assert not (set(OPENED) - set(DORMANCY)) & set(left)
+    # 2026-09-21 에 편입시기를 날짜 계산으로 풀어 거래중지 둘도 열렸다
+    assert not set(OPENED) & set(left)
     everywhere = {b for rs in left.values() for bs in rs.values() for b in bs}
     assert not {"거래금지", "명의변경", "질권"} & everywhere
     assert left["KBYY-S2-R11"]["KBYY-S2-R11-02"] == {"기준금액"}

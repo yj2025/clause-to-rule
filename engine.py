@@ -85,6 +85,36 @@ def _shift(d, n):
     return y + (m - 1) // 12, (m - 1) % 12 + 1
 
 
+WEEKDAYS = ("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN")
+
+
+def _nth_weekday(y, m, weekday, nth):
+    """그 달의 n째 아무 요일. 없으면 None (다섯째 금요일이 없는 달이 있다).
+
+    「6월 셋째 금요일」 같은 날짜가 약관에 자주 나온다 — 거래중지 편입시기와
+    이자 결산일이 둘 다 이 꼴이다 (2026-09-21 · 어휘 확장 2차 안건 1순위).
+    """
+    if weekday not in WEEKDAYS or not isinstance(nth, int) or not 1 <= nth <= 5:
+        raise DslError(f"n째 요일이 아니다: {weekday!r} {nth!r}. "
+                       f'요일은 {", ".join(WEEKDAYS)} 중 하나이고 nth 는 1~5 다')
+    want = WEEKDAYS.index(weekday)
+    first = _dt.date(y, m, 1)
+    day = 1 + (want - first.weekday()) % 7 + (nth - 1) * 7
+    return _dt.date(y, m, day) if day <= calendar.monthrange(y, m)[1] else None
+
+
+def _resolve_day(y, m, day, base_day):
+    """그 달 안에서 며칠인지. 없는 날은 말일로 줄인다."""
+    last = calendar.monthrange(y, m)[1]
+    if day == "first":
+        return 1
+    if day == "last":
+        return last
+    if day is None:
+        return min(base_day, last)
+    return min(int(day), last)
+
+
 def _anchor(spec, ctx):
     """기준점 명세 → 실제 날짜. **변수가 비면 None** 을 돌려준다 (= 모른다).
 
@@ -93,6 +123,18 @@ def _anchor(spec, ctx):
     `day` 는 수 · `"first"` · `"last"` 를 받고, 그 달에 없는 날은 말일로 줄인다
     (1월 31일에서 한 달 뒤는 2월 28일이다).
     카탈로그에 없는 변수를 쓰면 DslError 다 — 조용히 넘기면 ③ 이 못 잡는다.
+
+    **`month_of` 와 n째 요일** (2026-09-21). 「매년 6·12월 셋째 금요일」처럼
+    해마다 돌아오는 날을 가리킨다.
+
+        {"anchor": "contract.reference_date",
+         "month_of": [6, 12], "day": {"weekday": "FRI", "nth": 3},
+         "offset_days": 1}
+
+    `month_of` 가 있으면 기준일에서 **뒤로 거슬러** 그 달들 중 가장 가까운
+    날을 찾는다. 기준일보다 뒤면 그 앞 것을 쓴다. 손잡이를 적게 둔 것은
+    일부러다 — «가장 가까운 지난 것» 하나만 있으면 약관이 말하는 것을
+    다 담고, 고를 것이 없으면 모델이 틀릴 자리도 없다.
     """
     if not isinstance(spec, dict) or "anchor" not in spec:
         raise DslError('창의 from/to 에는 anchor 가 있어야 한다. 올바른 형태: '
@@ -103,15 +145,50 @@ def _anchor(spec, ctx):
     base = _date(_lookup(name, ctx))
     if base is None:
         return None
-    y, m = _shift(base, int(spec.get("offset_months", 0)))
-    day = spec.get("day", base.day)
-    if day == "first":
-        d = 1
-    elif day == "last":
-        d = calendar.monthrange(y, m)[1]
+    day = spec.get("day")
+    months = spec.get("month_of")
+
+    if months:
+        if not isinstance(months, list) or not all(
+                isinstance(x, int) and 1 <= x <= 12 for x in months):
+            raise DslError(f"month_of 는 1~12 의 월 목록이다. 온 것: {months!r}")
+        if not (isinstance(day, dict) and "weekday" in day):
+            raise DslError('month_of 를 쓰면 day 는 n째 요일이어야 한다: '
+                           '{"weekday": "FRI", "nth": 3}')
+        got = _backwards(base, sorted(set(months)), day)
+        if got is None:
+            raise DslError(f"{sorted(set(months))}월에서 n째 요일을 못 찾았다")
+        y, m, d = got.year, got.month, got.day
+        y, m = _shift(_dt.date(y, m, 1), int(spec.get("offset_months", 0)))
+        d = min(d, calendar.monthrange(y, m)[1])
     else:
-        d = min(int(day), calendar.monthrange(y, m)[1])
-    return _dt.date(y, m, d)
+        if isinstance(day, dict):
+            raise DslError('n째 요일을 쓰려면 month_of 로 어느 달인지 적어야 한다: '
+                           '{"month_of": [6, 12], "day": {"weekday": "FRI", "nth": 3}}')
+        y, m = _shift(base, int(spec.get("offset_months", 0)))
+        d = _resolve_day(y, m, day, base.day)
+
+    out = _dt.date(y, m, d)
+    off = spec.get("offset_days")
+    return out + _dt.timedelta(days=int(off)) if off else out
+
+
+def _backwards(base, months, day):
+    """`base` 이하이면서 `months` 에 드는 달의 n째 요일 중 **가장 가까운 것**.
+
+    해를 최대 둘까지만 거슬러 본다 — 월 목록이 비어 있지 않으면 한 해 안에
+    반드시 하나는 있으므로 둘이면 넉넉하다.
+    """
+    wd, nth = day.get("weekday"), day.get("nth", 1)
+    for y in (base.year, base.year - 1, base.year - 2):
+        best = None
+        for m in months:
+            got = _nth_weekday(y, m, wd, nth)
+            if got is not None and got <= base and (best is None or got > best):
+                best = got
+        if best is not None:
+            return best
+    return None
 
 
 def _window(spec, ctx, env):
