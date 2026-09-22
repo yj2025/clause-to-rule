@@ -190,6 +190,30 @@ TARGETS = {
 
 
 # ── 가중 ────────────────────────────────────────────────────────────────
+def group_of(g):
+    """정답의 **모양**으로 조문을 가른다 (2026-09-23).
+
+    ⑥ 은 성격이 반대인 둘을 한 숫자에 섞어 왔다 —
+
+        A 빈 배열 · A 전부 기권   아무것도 안 만드는 것이 정답. 기권하면 만점이다
+        B 전부 정상             규칙을 맞게 만들어야 점수가 오른다. 기권선은 32.1%
+        M 섞임                 둘이 섞였다
+
+    A 는 **0 아니면 100** 이라 조문 하나가 뒤집히면 크게 움직인다. 그래서 판정선도
+    갈래마다 다르다 (`noise.GROUP_FLOORS`). 전체 ⑥ 하나로 판정하면 A 의 흔들림이
+    B 의 처방 효과를 덮는다 — v36 을 그렇게 잘못 읽었다.
+    """
+    rules = g.get("rules") or []
+    if not rules:
+        return "A빈"
+    st = [r.get("status") for r in rules]
+    if all(s == "UNSUPPORTED" for s in st):
+        return "A기권"
+    if any(s == "UNSUPPORTED" for s in st):
+        return "M"
+    return "B"
+
+
 def clause_weighted(per_clause):
     """{조문: [회차 점수, ...]} → 조문 단위 평균.
 

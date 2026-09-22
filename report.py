@@ -17,6 +17,7 @@ from pathlib import Path
 
 import analyze
 import gold
+import noise
 import validate as V
 from scoring import score
 
@@ -312,13 +313,20 @@ def gates(recs, texts, base=None):
         print(f"\n기준 대비 (공통 {len(common)}건)")
         print(f"{'지표':<22}{'기준':>8}{'이번':>8}{'변화':>8}")
         print("-" * 50)
+        # 2026-09-23 — 전에는 모든 축에 4.0p 를 썼다. **축마다 두 배 넘게 다르다.**
+        # ⑤ 는 ±7.4p 인데 4.0p 로 판정해 「움직였다」고 적을 뻔한 자리가 있었다.
         for i, k in enumerate(KEYS):
             a, b = _rate(A, "final", k), _rate(B, "final", k)
-            mark = "" if abs(b - a) >= 4.0 else "  (노이즈 안)"
+            floor = noise.FLOORS.get(SYMS[i], 4.0)
+            mark = "" if abs(b - a) > floor else f"  (판정선 ±{floor:.1f}p 안)"
             print(f"{SYMS[i]} {NAME[i]:<19}{a:>7.1f}%{b:>7.1f}%{b - a:>+7.1f}p{mark}")
-        print(f"⑦ {'빈 배열':<19}{_empty_rate(A):>7.1f}%{_empty_rate(B):>7.1f}%"
-              f"{_empty_rate(B) - _empty_rate(A):>+7.1f}p")
-        print("\n노이즈 바닥은 ±2~4p 다 (§9). 그 안의 변화는 판정하지 않는다.")
+        ea, eb = _empty_rate(A), _empty_rate(B)
+        fl = noise.FLOORS["⑦"]
+        print(f"⑦ {'빈 배열':<19}{ea:>7.1f}%{eb:>7.1f}%{eb - ea:>+7.1f}p"
+              f"{'' if abs(eb - ea) > fl else f'  (판정선 ±{fl:.1f}p 안)'}")
+        print("\n판정선은 축마다 다르다 — " +
+              " · ".join(f"{k} ±{v:.1f}p" for k, v in noise.FLOORS.items() if k in "①②③④⑤⑦"))
+        print("`NOISE.md` 2026-09-23 측정. 그 안의 변화는 판정하지 않는다.")
 
     none = sum(1 for x in recs if not isinstance((x.get("output") or {}).get("rules"), list))
     print(f"⑦ 빈 배열 (별도 축)      {'':>7} {_empty_rate(recs):>8.1f}%")
@@ -441,8 +449,8 @@ def meaning(recs):
           f"{b_perfect}/{len(tpl)}조문이 기권만으로 만점을 받는다.")
     print(f"  이 아래면 기권보다 못한 것이다. ⑫ 와 같이 읽어야 한다 — "
           f"⑥ 은 '옳게 기권' 과 '아무것도 못 냄' 을 못 가른다.")
-    print(f"{'조문':<16}{'회차':>5}{'섞인갈래':>10}{'무출력제외':>12}{'검토':>6}")
-    print("-" * 52)
+    print(f"{'조문':<16}{'갈래':>6}{'회차':>4}{'섞인갈래':>10}{'무출력제외':>12}{'검토':>6}")
+    print("-" * 56)
     mixed, clean = {}, {}
     for cid, g in sorted(tpl.items()):
         rs = by.get(cid) or []
@@ -458,11 +466,43 @@ def meaning(recs):
                 cs.append(s)
         mixed[cid], clean[cid] = ms, cs
         c = f"{sum(cs) / len(cs) * 100:.1f}%" if cs else "무출력뿐"
-        print(f"{cid:<16}{len(rs):>5}{sum(ms) / len(ms) * 100:>9.1f}%{c:>12}"
+        coin = " ●" if cid in noise.COINS else ""
+        print(f"{cid + coin:<16}{gold.group_of(g):>6}{len(rs):>4}"
+              f"{sum(ms) / len(ms) * 100:>9.1f}%{c:>12}"
               f"{'✓' if g.get('reviewed') else '초안':>6}")
-    print("-" * 52)
-    print(f"{'전체 (조문 가중)':<16}{'':>5}{gold.clause_weighted(mixed) * 100:>9.1f}%"
+    print("-" * 56)
+    print(f"{'전체 (조문 가중)':<16}{'':>10}{gold.clause_weighted(mixed) * 100:>9.1f}%"
           f"{gold.clause_weighted({k: v for k, v in clean.items() if v}) * 100:>11.1f}%")
+
+    # ── 갈래별 ⑥ ────────────────────────────────────────────────────────
+    # 2026-09-23 — **⑥ 하나로 판정하면 안 된다.** 정답이 「아무것도 안 만드는 것」인
+    # 21조문(A)은 0 아니면 100 이라 조문 하나가 뒤집히면 크게 움직이고, 규칙을 만들어야
+    # 하는 21조문(B)은 그보다 훨씬 잔잔하다. 섞어 재면 A 의 흔들림이 B 의 처방 효과를
+    # 덮는다 — v36 을 그렇게 잘못 읽었다 (B 판정선을 ±2.5p 로 알고 「두 배 올랐다」고
+    # 적었는데 실제는 ±8.1p 였다).
+    groups = collections.defaultdict(list)
+    for cid, ms in mixed.items():
+        groups[gold.group_of(tpl[cid])].append(sum(ms) / len(ms) * 100)
+    print(f"\n⑥ 을 정답의 모양으로 가르면 — 갈래마다 판정선이 다르다")
+    print(f"  {'갈래':<8}{'조문':>4}{'⑥':>9}{'기권만 할 때':>13}{'판정선':>9}")
+    # 「기권만 할 때」는 **계산해서 쓴다.** 적어 두면 정답이 바뀔 때 낡는다 —
+    # 2026-09-23 에 브리핑이 그렇게 아홉 라운드 전 수치를 달고 있었다.
+    ab = collections.defaultdict(list)
+    for cid, g in tpl.items():
+        ab[gold.group_of(g)].append(
+            score(g.get("rules") or [], [], agg, P, base)["rate"] * 100)
+    for k in ("A빈", "A기권", "M", "B"):
+        if not groups[k]:
+            continue
+        v = sum(groups[k]) / len(groups[k])
+        z = sum(ab[k]) / len(ab[k])
+        print(f"  {k:<8}{len(groups[k]):>4}{v:>8.1f}%{z:>12.1f}%"
+              f"{'±' + format(noise.GROUP_FLOORS[k], '.1f') + 'p':>9}")
+    hit = [c for c in noise.COINS if c in mixed]
+    if hit:
+        print(f"  ● 동전 조문 {len(hit)}개 — 처방과 무관하게 회차마다 뒤집힌다. "
+              f"넷이 같이 뒤집히면 ⑥ 이 6.5p 움직인다")
+
     if not all(g.get("reviewed") for g in tpl.values()):
         print("\n⚠ 검토되지 않은 gold 가 있다. 이 ⑥ 은 기준선이 아니라 파이프라인 점검용이다.")
 
