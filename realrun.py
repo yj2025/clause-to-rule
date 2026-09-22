@@ -118,16 +118,44 @@ def gold_rules(product=None):
     return out
 
 
+def product_base_rate():
+    """기준금리는 **고객이 아니라 상품**에 붙는다.
+
+    2026-09-22 — 여기서 `ctx["contract"]["base_rate"]` 만 보고 있었다. 고객 DB 는
+    그 값을 주지 않으므로 늘 0.0 이 되고, 최종 금리가 **누구에게나 0.00~0.00** 으로
+    찍혔다. 조건식이나 실행기 탓이 아닌데 그렇게 보인다.
+
+    상품설명서에서 읽은 값이 `data/gold/_product.json` 에 있다 (연 0.1%).
+    계약이 값을 주면 그것을 쓰고, 없으면 상품 값으로 떨어진다.
+    """
+    f = GOLD_DIR / "_product.json"
+    if not f.exists():
+        return 0.0
+    return float(json.loads(f.read_text("utf-8")).get("base_rate") or 0.0)
+
+
 def main(argv=None):
     """고객마다 판별을 내고, UNKNOWN 이 몇이고 왜인지 찍는다."""
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--product", help="KBYY · KBONE 처럼 조문 앞머리")
+    # 2026-09-22 — 옵션 없이 돌리면 **가입 자격 규칙까지 섞여** 이미 보유한 고객이
+    # 「자격 없음」으로 나온다. 정답의 DISQUALIFY 8개는 전부 가입 자격이다
+    # (1인 1계좌 · 연령 · 명의 유형). 두 질문은 다르다 —
+    #   신규: 이 고객이 지금 가입할 수 있나
+    #   보유: 이미 가진 고객의 우대금리가 얼마인가
+    # 섞어 돌리면 뒤쪽 시나리오가 아예 안 보인다 (전부 기준금리 고정).
+    ap.add_argument("--mode", choices=("신규", "보유"), default="신규",
+                    help="신규=전부 · 보유=가입 자격(DISQUALIFY) 규칙을 뺀다")
     a = ap.parse_args(argv)
 
     if not CUSTOMER_DB.exists():
         raise SystemExit(f"고객 DB 가 없다: {CUSTOMER_DB}")
     rules = gold_rules(a.product)
-    print(f"정답 rule {len(rules)}개 · 고객 {len(customers())}명\n")
+    if a.mode == "보유":
+        rules = [r for r in rules
+                 if (r.get("effect") or {}).get("type") != "DISQUALIFY"]
+    print(f"정답 rule {len(rules)}개 · 고객 {len(customers())}명 · "
+          f"기준금리 연 {product_base_rate()}% (상품설명서) · 보기 «{a.mode}»\n")
 
     from collections import Counter
     total = Counter()
@@ -136,7 +164,8 @@ def main(argv=None):
         cnt = Counter(j.value.name if hasattr(j.value, "name") else str(j.value)
                       for j in js)
         total.update(cnt)
-        res = resolve(js, base_rate=ctx["contract"].get("base_rate") or 0.0)
+        res = resolve(js, base_rate=ctx["contract"].get("base_rate")
+                      or product_base_rate())
         print(f"계정 {aid:<4} {ctx['customer']['holder_type']:<16}"
               f"만 {ctx['customer']['age']}세 · 보유 {held or '없음'}")
         print(f"     판별 {dict(cnt)}")
