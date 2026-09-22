@@ -124,11 +124,12 @@ def _catalog_block(text):
         # 이 블록은 이미 붙고 있었고 target 이름도 보여 주고 있었다 (네 조문 전부).
         # **그런데도 DISQUALIFY 로 갔다.** 목록을 준 것과 차이를 말한 것은 다르다 —
         # v24 가 이름을 줬고 v33 이 차이를 말해서 먹혔다. 여기는 아직 차이를 말한 적이 없다.
-        lines.append("[막는 효과는 둘이고 뜻이 다르다]")
-        lines.append(f"  {'DISQUALIFY':<28}예금 **자격**을 잃는다 — 이 예금의 우대가 전부 무효가 된다")
-        lines.append(f"  {'RESTRICT':<28}그 **거래 하나**를 못 한다 — 금리도 자격도 그대로다")
-        lines.append("  무엇을 못 하게 하는지 이름을 댈 수 있으면 RESTRICT 이고, "
-                     "그 이름을 target 에 적는다")
+        if catalog.wants_ban_block(text):
+            lines.append("[막는 효과는 둘이고 뜻이 다르다]")
+            lines.append(f"  {'DISQUALIFY':<28}예금 **자격**을 잃는다 — 이 예금의 우대가 전부 무효가 된다")
+            lines.append(f"  {'RESTRICT':<28}그 **거래 하나**를 못 한다 — 금리도 자격도 그대로다")
+            lines.append("  무엇을 못 하게 하는지 이름을 댈 수 있으면 RESTRICT 이고, "
+                         "그 이름을 target 에 적는다")
         lines.append("[금지 대상 — RESTRICT 의 target]")
         lines += [f"  {r:<28}{catalog.RESTRICTIONS[r]}" for r in restrictions]
     # 2026-09-20 상품 코드 체계. 조문이 이름으로 부른 상품만 붙인다 — 74개를 다 붙이면
