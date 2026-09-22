@@ -32,3 +32,19 @@ def test_no_dangling_reference(root, doc):
         if not (root / name).exists():
             missing.append(name)
     assert not missing, f"{doc} 가 없는 파일을 가리킨다: {sorted(missing)}"
+
+
+# ── 2026-09-23 · 라운드를 돌리는 길은 하나여야 한다 ──────────────────────
+def test_run_round_is_the_only_entry_point(root):
+    """이어 돌리기를 따로 두지 않는다.
+
+    v33 이 12/46 에서 끊겼을 때 세션 임시 폴더에 워처를 따로 짰고, 라운드마다
+    복사본이 늘었다. **세션이 바뀌면 사라지는 자리다.** 저장소 안의
+    `run_round.sh` 하나로 합쳤다 — 끊기면 같은 명령을 다시 부르면 된다.
+    """
+    sh = (root / "run_round.sh").read_text("utf-8")
+    assert "남은 부분결과를 거둔다" in sh, "끊긴 라운드를 잇는 부분이 없다"
+    assert "flock" in sh, "두 개가 겹쳐 도는 것을 막는 자물쇠가 없다"
+    assert "wait_gpu" in sh, "GPU 를 기다리는 부분이 없다"
+    assert "--only" in sh, "안 된 조문만 도는 부분이 없다"
+    assert not list(root.glob("*_resume.sh")), "이어 돌리기 스크립트가 따로 남아 있다"

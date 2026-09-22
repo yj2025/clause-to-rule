@@ -90,14 +90,30 @@
 export M2_REPO_ROOT=/workspace/personal_workplace_CHO/model/M2-2
 export HF_HOME=/workspace/personal_workplace_CHO/.hf_cache
 
-./run_round.sh v10 1        # 탐색 (1회차, 약 40분)
-./run_round.sh v10 3        # 확인 (3회차, 약 2시간)
+./run_round.sh v10 1        # 탐색 (1회차, 약 40~60분)
+./run_round.sh v10 3        # 확인 (3회차, 약 2~3시간)
+
+# 길게 도는 것은 세션에서 떼어 띄운다 — 창이 닫혀도 안 죽는다
+setsid nohup ./run_round.sh v10 >/dev/null 2>&1 &
+tail -f logs/v10_run.log
 
 python report.py results/results_v10.json --baseline results/results_v9.json
 python judge.py  results/results_v10.json results/results_v9.json --watch <조문id>...
 python diagnose.py results/results_v10.json     # 다음 처방을 고르기 위한 브리핑
 python noise.py  results/results_v10.json       # 그 라운드의 판정선
 python vacuous.py results/results_v10.json     # ⑭ 헛조건 · 미가동
+```
+
+**끊겨도 다시 부르면 이어 돈다.** 라운드는 세 번 끊겼다 — v23(8/46) · v27(11/46) 은
+남의 작업이 들어와 OOM, v33(12/46) 은 세션이 초기화됐다. 지금은 같은 명령을 다시
+부르면 **남은 부분결과를 거두고 안 된 조문만** 돈다. GPU 가 모자라면 기다린다
+(`WAIT=0` 이면 안 기다리고 끝낸다 · `NEED_MIB` 로 문턱을 바꾼다).
+
+**판정선을 3회차 하나로 내지 마라.** 한 프로세스에서 연달아 돌린 회차는 서로 닮는다 —
+v38 세 회차만으로는 ⑥ 이 ±1.3p 인데 다른 프로세스의 v37 을 더하면 ±4.1p 다.
+잡음을 재려면 **프로세스를 나눠야** 한다 (`NOISE.md` 2026-09-23).
+
+```bash
 python blockers.py                             # 카탈로그 확장이 푸는 조문 수
 ```
 
