@@ -68,7 +68,10 @@ _OPERAND = {
 # ⑥ 까지 무너뜨렸다 (열 조문이 «기권했으면 100%» 인 자리였다).
 #
 # 재귀는 `$ref` 로 한다. 그래서 이 조각들이 `SCHEMA["definitions"]` 아래 산다.
-_OPS = sorted(catalog.COMPARISONS) + ["and", "or", "not", "exists"] + sorted(catalog.COUNTERS)
+# 조건식의 **키**가 될 수 있는 것. 집계는 여기 없다 — 수를 돌려주므로 비교로
+# 감싸야 한다. 전에는 들어 있어서 `{"count_distinct_months": …}` 가 ② 를
+# 통과하고 ⑤ 에서 죽었다 (2026-09-22 · v32 판정).
+_OPS = sorted(catalog.COMPARISONS) + ["and", "or", "not", "exists"]
 
 _DEF_OPERAND = {
     "anyOf": [
@@ -81,7 +84,7 @@ _DEF_OPERAND = {
         {"$ref": "#/definitions/anchor"},
         # 집계는 **피연산자로만** 쓴다. 조건식이 되려면 비교로 감싸야 한다
         {"type": "object", "minProperties": 1, "maxProperties": 1,
-         "properties": {k: {"type": "object"} for k in catalog.COUNTERS},
+         "properties": {k: {"$ref": "#/definitions/eventspec"} for k in catalog.COUNTERS},
          "additionalProperties": False},
     ]
 }
@@ -117,6 +120,10 @@ _DEF_CONDITION = {
          for k in ("and", "or")]
         + [{"if": {"required": ["not"]},
             "then": {"properties": {"not": {"$ref": "#/definitions/condition"}}}},
+           # v32 에서 모델이 `within` 에 **기준점**을 넣었다. 기준점과 창은 둘 다
+           # anchor 를 품어 닮았는데 안쪽을 안 봐서 ② 가 통과시켰고 ⑤ 에서 죽었다
+           {"if": {"required": ["exists"]},
+            "then": {"properties": {"exists": {"$ref": "#/definitions/eventspec"}}}},
            {"if": {"required": ["in"]},
             "then": {"properties": {"in": {
                 "type": "array", "minItems": 2, "maxItems": 2,
@@ -261,6 +268,23 @@ _RULE = {
     }],
 }
 
+# `exists` 와 집계가 받는 것. **창은 `month_range` 뿐이다** — 기준점을 여기
+# 넣으면 안 된다 (v32 판정). `where` 는 이벤트 속성 필터다.
+_DEF_EVENTSPEC = {
+    "type": "object",
+    "properties": {
+        "event": {"enum": sorted(catalog.EVENTS)},
+        "within": {"anyOf": [
+            _WINDOW,
+            {"type": "object", "properties": {"ref": {"type": "string"}},
+             "required": ["ref"], "additionalProperties": False},
+        ]},
+        "where": {"type": "object"},
+    },
+    "required": ["event"],
+    "additionalProperties": False,
+}
+
 SCHEMA = {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
@@ -272,6 +296,7 @@ SCHEMA = {
         "operand": _DEF_OPERAND,
         "anchor": _ANCHOR,
         "condition": _DEF_CONDITION,
+        "eventspec": _DEF_EVENTSPEC,
     },
 }
 

@@ -136,6 +136,10 @@ def _catalog_block(text):
         lines.append(f"  {'day.weekday':<28}MON TUE WED THU FRI SAT SUN")
         lines.append(f"  {'day.nth':<28}몇째 그 요일인가 (1~5)")
         lines.append(f"  {'offset_days':<28}그날에서 며칠 뒤인가 (다음날이면 1)")
+        # 2026-09-22 · v32 판정. 이 기준점을 `within`(창) 자리에 넣은 회차가 있었다 —
+        # 둘 다 anchor 를 품어 닮았다. **창은 시작과 끝이 있다** 는 것을 같이 적는다
+        lines.append('  기간을 세려면 창에 넣는다 — '
+                     '{"within": {"month_range": {"from": {여기}, "to": {여기}}}}')
     attrs = [(e, catalog.EVENT_ATTRIBUTES[e]) for e in es if e in catalog.EVENT_ATTRIBUTES]
     if attrs or "건별" in text:
         lines.append('[이벤트 조건] exists · count_* 에 "where" 를 건다 — '

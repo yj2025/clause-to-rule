@@ -78,6 +78,8 @@ def _why_operand(v, where):
     if len(v) != 1:
         return None                                   # 바깥에서 이미 짚는다
     (k, arg), = v.items()
+    if k in catalog.COUNTERS:
+        return _why_eventspec(arg, f"`{k}`")
     if k == "var":
         if arg in catalog.COUNTERS:
             return (f"{where}의 `{arg}` 는 변수가 아니라 **집계**다. "
@@ -88,7 +90,7 @@ def _why_operand(v, where):
                     f"{', '.join(sorted(catalog.VARIABLES))}")
     elif k == "anchor":
         return _why_anchor(v, where)
-    elif k in catalog.COUNTERS or k == "ref":
+    elif k == "ref":
         return None
     elif k in _OPS:
         return f"{where}에 조건식이 왔다. 비교의 피연산자는 값이어야 한다"
@@ -134,6 +136,48 @@ def _why_anchor(spec, where):
     return None
 
 
+
+def _why_eventspec(spec, where):
+    """`exists` · 집계가 받는 것이 왜 틀렸는지. 멀쩡하면 None.
+
+    2026-09-22 · v32 판정. 모델이 **기준점을 창 자리에** 넣었다 —
+    둘 다 `anchor` 를 품어 닮았는데 뜻이 다르다. 전에는 ⑤ 에서만 잡혀
+    재시도가 못 고쳤다. ② 로 올리고 무엇이 다른지 말해 준다.
+    """
+    if not isinstance(spec, dict):
+        return f"{where}는 객체여야 한다. {type(spec).__name__} 이 왔다"
+    ev = spec.get("event")
+    if ev not in catalog.EVENTS:
+        return (f"{where}의 event 가 카탈로그에 없다: `{ev}`. "
+                f"쓸 수 있는 것: {', '.join(sorted(catalog.EVENTS))}")
+    win = spec.get("within")
+    if win is not None:
+        if not isinstance(win, dict):
+            return f"{where}의 within 은 객체여야 한다"
+        if "anchor" in win:
+            return ('within 에는 **창**이 온다. 기준점(anchor)이 아니다 — '
+                    '창은 시작과 끝이 있다: '
+                    '{"within": {"month_range": {"from": {"anchor": …}, "to": {"anchor": …}}}}. '
+                    'let 에 묶었으면 {"within": {"ref": "$window"}} 로 쓴다')
+        if "ref" not in win and "month_range" not in win:
+            return (f'{where}의 within 이 창이 아니다. 온 키: {sorted(win)}. '
+                    'month_range 를 쓰거나 let 에 묶어 {"ref": "$…"} 로 부른다')
+        if "month_range" in win:
+            mr = win["month_range"]
+            if not isinstance(mr, dict) or set(mr) != {"from", "to"}:
+                return ('month_range 는 from 과 to 를 둘 다 받는다: '
+                        '{"month_range": {"from": {"anchor": …}, "to": {"anchor": …}}}')
+            for end in ("from", "to"):
+                why = _why_anchor(mr[end], f"창의 {end}") if isinstance(mr[end], dict) else None
+                if why:
+                    return why
+    extra = set(spec) - {"event", "within", "where"}
+    if extra:
+        return (f"{where}에 모르는 키: {sorted(extra)}. "
+                "쓸 수 있는 것: event · within · where")
+    return None
+
+
 def _why_condition(node, where="조건"):
     """조건식이 왜 스키마를 못 지키는지 **한 문장**으로. 멀쩡하면 None.
 
@@ -173,6 +217,9 @@ def _why_condition(node, where="조건"):
 
     if op == "not":
         return _why_condition(arg[0] if isinstance(arg, list) else arg, where="not 안쪽")
+
+    if op == "exists":
+        return _why_eventspec(arg, "exists")
 
     if op in catalog.COUNTERS:
         return (f"`{op}` 는 수를 돌려준다. 조건식이 되려면 비교로 감싼다: "
