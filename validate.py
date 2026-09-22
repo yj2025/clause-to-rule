@@ -94,7 +94,24 @@ def _why_operand(v, where):
         return None
     elif k in _OPS:
         return f"{where}에 조건식이 왔다. 비교의 피연산자는 값이어야 한다"
-    return None
+    else:
+        # 2026-09-22 · v34. **모르는 노드로 감싼 것.** 여기서 None 을 돌려주면
+        # 스키마는 막는데 모델에게 가는 말은 jsonschema 의
+        # 「is not valid under any of the given schemas」뿐이고, 그 말로는 못 고친다.
+        #
+        # v31·v32·v33 세 라운드 모두 이 자리가 3~4건씩 있었고 **전부 같은 모양**이다 —
+        # {"date": {"anchor": "account.last_transaction_date", "offset_years": 5}}.
+        # 기준점을 한 겹 감싸고 연 단위를 지어냈다. 첫 문제(`var` 단독)를 고치고 나면
+        # 검증기가 침묵해서 남은 시도를 그냥 태웠다 (v33 의 KBYY-S2-R20 · KBONE-S2-R17).
+        if isinstance(arg, dict) and "anchor" in arg:
+            inner = _why_anchor(arg, where)
+            return (f"{where}기준점을 `{k}` 로 감싸지 않는다. 그대로 쓴다: "
+                    '{">": [{"var": "contract.reference_date"}, '
+                    '{"anchor": "account.last_transaction_date", "offset_months": 60}]}'
+                    + (f". 그리고 {inner}" if inner else ""))
+        return (f"{where}에 모르는 노드: `{k}`. 피연산자로 올 수 있는 것은 "
+                '수·문자열 · {"var": "…"} · 기준점({"anchor": "…"}) · '
+                '집계({"count_events": {…}}) · {"ref": "$이름"} 이다')
 
 
 
@@ -131,8 +148,13 @@ def _why_anchor(spec, where):
                     '{"weekday": "FRI", "nth": 3}')
     extra = set(spec) - {"anchor", "offset_months", "offset_days", "month_of", "day"}
     if extra:
+        # 2026-09-22 · v34. 연 단위를 지어내는 것이 실물로 나왔다 (offset_years: 5).
+        # 「쓸 수 있는 것」만 늘어놓으면 5년을 어떻게 적는지는 여전히 모른다
+        hint = ""
+        if {"offset_years", "offset_year", "offset_weeks", "offset_week"} & extra:
+            hint = " — 해는 개월로 적는다: 5년이면 offset_months 60 이다"
         return (f"기준점에 모르는 키: {sorted(extra)}. 쓸 수 있는 것: "
-                "anchor · offset_months · offset_days · month_of · day")
+                "anchor · offset_months · offset_days · month_of · day" + hint)
     return None
 
 
