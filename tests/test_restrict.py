@@ -159,8 +159,22 @@ def test_blockers_are_gone_and_the_rest_are_relabelled(root):
 
 
 def test_prompt_lists_restrictions_only_for_ban_clauses():
-    assert "[금지 대상]" in prompt.build_user_prompt("▪ 담보제공 불가능")
-    assert "[금지 대상]" not in prompt.build_user_prompt("만 19세 미만 고객")
+    assert "[금지 대상" in prompt.build_user_prompt("▪ 담보제공 불가능")
+    assert "[금지 대상" not in prompt.build_user_prompt("만 19세 미만 고객")
+
+
+def test_the_ban_block_says_what_the_two_effects_mean():
+    """2026-09-22 · v36. **목록을 준 것과 차이를 말한 것은 다르다.**
+
+    이 블록은 v36 전에도 붙고 있었고 target 이름도 보여 주고 있었다. 그런데도
+    모델은 「질권설정 불가」에 `DISQUALIFY` 를 썼다 — 네 조문 전부 그랬다.
+    지문의 effect 표가 이름과 키만 찍고 **뜻을 안 말했기 때문**이다.
+
+    둘의 뜻이 지문에 있어야 한다. 하나라도 빠지면 이 라운드의 처방이 사라진다.
+    """
+    p = prompt.build_user_prompt("▪ 담보제공 불가능")
+    assert "자격" in p and "거래 하나" in p
+    assert "RESTRICT 의 target" in p
 
 
 def test_free_sample_varies_name_change():

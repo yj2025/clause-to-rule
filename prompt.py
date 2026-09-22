@@ -114,7 +114,22 @@ def _catalog_block(text):
         lines += [f"  {s:<28}{catalog.SERVICES[s]}" for s in services]
     restrictions = catalog.pick_restrictions(text)
     if restrictions:
-        lines.append("[금지 대상]")
+        # 2026-09-22 · v36. **막는 효과가 둘인데 지문이 뜻을 안 말한다.**
+        #
+        # effect 표는 이름과 필수 키만 찍는다 — 「DISQUALIFY 추가 키 없음」 ·
+        # 「RESTRICT 필수 키: target」. 변수와 이벤트에는 설명이 붙는데 effect 에는 없다.
+        # 그래서 모델은 「질권설정 불가」에도 DISQUALIFY 를 쓴다. **라벨은 정확한데
+        # 효과 종류만 틀린다** — 뜻을 못 알아들은 것이 아니라 고를 줄 모르는 것이다.
+        #
+        # 이 블록은 이미 붙고 있었고 target 이름도 보여 주고 있었다 (네 조문 전부).
+        # **그런데도 DISQUALIFY 로 갔다.** 목록을 준 것과 차이를 말한 것은 다르다 —
+        # v24 가 이름을 줬고 v33 이 차이를 말해서 먹혔다. 여기는 아직 차이를 말한 적이 없다.
+        lines.append("[막는 효과는 둘이고 뜻이 다르다]")
+        lines.append(f"  {'DISQUALIFY':<28}예금 **자격**을 잃는다 — 이 예금의 우대가 전부 무효가 된다")
+        lines.append(f"  {'RESTRICT':<28}그 **거래 하나**를 못 한다 — 금리도 자격도 그대로다")
+        lines.append("  무엇을 못 하게 하는지 이름을 댈 수 있으면 RESTRICT 이고, "
+                     "그 이름을 target 에 적는다")
+        lines.append("[금지 대상 — RESTRICT 의 target]")
         lines += [f"  {r:<28}{catalog.RESTRICTIONS[r]}" for r in restrictions]
     # 2026-09-20 상품 코드 체계. 조문이 이름으로 부른 상품만 붙인다 — 74개를 다 붙이면
     # 지문이 길어지고 안 부른 상품을 쓰게 된다 (§9 2번).
