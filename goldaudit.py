@@ -60,7 +60,12 @@ CLAIMS = [
 ]
 
 # 규칙이 될 만한 줄인가 — 조판 기호와 말투로 거른다
-BULLET = re.compile(r"^\s*(▪|▶|·|-|\(?[가-힣]\)|\([0-9]+\)|[0-9]+\.)\s*")
+# 2026-09-22 — `※` · `➢` · `☞` 를 빠뜨리고 있었다. **`※` 가 27줄이다.**
+# 그냥 많은 게 아니라 **정답에서 실제로 규칙이 되는 줄**이다 — 인터넷뱅킹 해지
+# 요건(`KBONE-S2-R12`)도, 실적 무관 면제(`KBYY-S2-R12`)도 전부 `※` 로 시작한다.
+# 그 줄들을 한 번도 대조하지 않은 채 「빠뜨린 줄 13개」라고 적고 있었다.
+# `[제목]` 은 조판 머리라 규칙이 아니므로 그대로 뺀다.
+BULLET = re.compile(r"^\s*(▪|▶|➢|☞|※|·|-|\(?[가-힣]\)|\([0-9]+\)|[0-9]+\.)\s*")
 RULEISH = re.compile(
     r"면제|우대|금리|불가|제한|해지|가입|지급|이자|대상|조건|한도|자격|중지|"
     r"제외|적용|부과|감면|산정")
@@ -100,7 +105,17 @@ def stale_claims(gold):
 
 
 def missed_lines(gold, corpus):
-    """규칙이 될 만한데 어느 rule 도 인용하지 않은 줄."""
+    """규칙이 될 만한데 어느 rule 도 **인용하지 않은** 줄.
+
+    2026-09-22 — 이름이 「빠뜨린 줄」이라 오해를 부른다. 이 검사가 보는 것은
+    **인용(quote)** 이고, 조건식에 그 뜻이 담겼는지는 안 본다. 실물로 물렸다 —
+    `KBYY-S2-R12` 의 「면제기간: 이번 달 11일부터」가 걸렸는데, 정답을 열어 보니
+    조건식에 `{"day": 11}` 로 이미 들어 있었다. 인용이 수수료 행에 붙어 있었을 뿐이다.
+    `KBYY-S5-R02` 의 「카드결제분 제외」도 `where.route` 에 이미 담겨 있었다.
+
+    그래서 조문에 **규칙이 하나라도 있는지**를 같이 돌려준다. 규칙이 0개인 조문은
+    그 줄이 정말 안 담긴 것이고, 규칙이 있으면 **조건식을 열어 봐야** 안다.
+    """
     out = []
     for cid, d in gold.items():
         text = (corpus.get(cid) or {}).get("text", "")
@@ -115,7 +130,9 @@ def missed_lines(gold, corpus):
             core = BULLET.sub("", line)[:18]
             if core and core in quoted:
                 continue
-            out.append((cid, line))
+            out.append((cid, line, len(d.get("rules") or []), bool(d.get("reviewed"))))
+    # 규칙이 0개인 조문을 먼저 — 사람이 볼 값이 가장 큰 자리다
+    out.sort(key=lambda x: (x[2] != 0, x[0]))
     return out
 
 
@@ -148,9 +165,16 @@ def main(argv=None):
 
     missed = missed_lines(gold, corpus)
     if a.missed:
-        for cid, line in missed:
-            print(f"{cid:<16} {line[:88]}")
-        print(f"\n{len(missed)}줄 · {len({c for c, _ in missed})}조문")
+        shown = None
+        for cid, line, n, rev in missed:
+            if (n == 0) != shown:
+                shown = (n == 0)
+                print("\n── 규칙이 하나도 없는 조문 — 그 줄이 정말 안 담겼다 ──"
+                      if shown else
+                      "\n── 규칙은 있다 — 인용만 안 붙었는지 조건식을 열어 봐야 안다 ──")
+            mark = "검토✓" if rev else "초안 "
+            print(f"{cid:<16}{mark} rule{n:>2}  {line[:74]}")
+        print(f"\n{len(missed)}줄 · {len({c for c, _, _, _ in missed})}조문")
         return 0
 
     print(f"골드 {len(gold)}조문 · "
@@ -182,10 +206,13 @@ def main(argv=None):
     else:
         print("  없음")
 
-    print(f"\n■ 빠뜨렸을 수 있는 줄 — {len(missed)}줄 / "
-          f"{len({c for c, _ in missed})}조문")
-    print("  규칙이 될 만한 조판인데 어느 rule 도 인용하지 않았다.")
-    print("  `--missed` 로 전부 본다. **여기만 사람 판단이 필요하다.**")
+    zero = [m for m in missed if m[2] == 0]
+    print(f"\n■ 어느 rule 도 **인용하지 않은** 줄 — {len(missed)}줄 / "
+          f"{len({c for c, _, _, _ in missed})}조문")
+    print(f"  그중 **규칙이 하나도 없는 조문** {len(zero)}줄 / "
+          f"{len({c for c, _, _, _ in zero})}조문 — 여기가 사람이 볼 자리다.")
+    print("  나머지는 규칙이 있다. 인용만 안 붙었을 수 있으니 조건식을 열어 봐야 안다")
+    print("  `--missed` 로 전부 본다 — 규칙이 없는 조문부터 찍는다")
     return 0
 
 
