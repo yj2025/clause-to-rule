@@ -484,24 +484,41 @@ def meaning(recs):
     for cid, ms in mixed.items():
         groups[gold.group_of(tpl[cid])].append(sum(ms) / len(ms) * 100)
     print(f"\n⑥ 을 정답의 모양으로 가르면 — 갈래마다 판정선이 다르다")
-    print(f"  {'갈래':<8}{'조문':>4}{'⑥':>9}{'기권만 할 때':>13}{'판정선':>9}")
+    print(f"  {'갈래':<8}{'조문':>4}{'⑥':>9}{'기권만 할 때':>13}{'판정선':>9}"
+          f"{'동전 뺀 ⑥':>12}{'판정선':>9}")
     # 「기권만 할 때」는 **계산해서 쓴다.** 적어 두면 정답이 바뀔 때 낡는다 —
     # 2026-09-23 에 브리핑이 그렇게 아홉 라운드 전 수치를 달고 있었다.
     ab = collections.defaultdict(list)
     for cid, g in tpl.items():
         ab[gold.group_of(g)].append(
             score(g.get("rules") or [], [], agg, P, base)["rate"] * 100)
+    # 동전을 뺀 값도 같이 낸다. **A기권과 M 의 흔들림은 동전 하나씩이 전부였다** —
+    # 빼면 네 회차가 소수점까지 같다 (판정선 ±11.1p · ±14.4p → 둘 다 ±0.0p).
+    nocoin = collections.defaultdict(list)
+    for cid, ms in mixed.items():
+        if cid not in noise.COINS:
+            nocoin[gold.group_of(tpl[cid])].append(sum(ms) / len(ms) * 100)
     for k in ("A빈", "A기권", "M", "B"):
         if not groups[k]:
             continue
         v = sum(groups[k]) / len(groups[k])
         z = sum(ab[k]) / len(ab[k])
-        print(f"  {k:<8}{len(groups[k]):>4}{v:>8.1f}%{z:>12.1f}%"
-              f"{'±' + format(noise.GROUP_FLOORS[k], '.1f') + 'p':>9}")
+        line = (f"  {k:<8}{len(groups[k]):>4}{v:>8.1f}%{z:>12.1f}%"
+                f"{'±' + format(noise.GROUP_FLOORS[k], '.1f') + 'p':>9}")
+        if len(nocoin[k]) != len(groups[k]) and nocoin[k]:
+            w = sum(nocoin[k]) / len(nocoin[k])
+            line += (f"{w:>11.1f}%"
+                     f"{'±' + format(noise.GROUP_FLOORS_NO_COIN[k], '.1f') + 'p':>9}")
+        print(line)
     hit = [c for c in noise.COINS if c in mixed]
     if hit:
+        rest = [v for cid, ms in mixed.items() if cid not in noise.COINS
+                for v in [sum(ms) / len(ms) * 100]]
         print(f"  ● 동전 조문 {len(hit)}개 — 처방과 무관하게 회차마다 뒤집힌다. "
               f"넷이 같이 뒤집히면 ⑥ 이 6.5p 움직인다")
+        print(f"     그 넷을 빼면 ⑥ {sum(rest) / len(rest):.1f}% "
+              f"(판정선 ±{noise.FLOOR_NO_COIN:.1f}p · 전체는 ±{noise.FLOORS['⑥']:.1f}p) — "
+              f"**읽는 보조선이지 지표가 아니다.** 겨냥한 조문이 동전이면 이 값도 못 쓴다")
 
     if not all(g.get("reviewed") for g in tpl.values()):
         print("\n⚠ 검토되지 않은 gold 가 있다. 이 ⑥ 은 기준선이 아니라 파이프라인 점검용이다.")

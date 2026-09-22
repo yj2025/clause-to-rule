@@ -48,3 +48,15 @@ def test_coin_clauses_are_real_clause_ids():
     root = pathlib.Path(__file__).resolve().parent.parent
     ids = {c["id"] for c in json.loads((root / "data" / "corpus.json").read_text("utf-8"))}
     assert set(noise.COINS) <= ids, f"코퍼스에 없는 조문: {set(noise.COINS) - ids}"
+
+
+def test_coin_free_floors_exist_and_are_smaller():
+    """동전을 뺀 판정선은 **더 작아야** 뜻이 있다.
+
+    빼고도 같거나 크면 그 조문들이 흔들림의 원인이 아니라는 뜻이고,
+    그러면 목록이 낡은 것이다.
+    """
+    import noise
+    assert noise.FLOOR_NO_COIN < noise.FLOORS["⑥"]
+    for k, v in noise.GROUP_FLOORS_NO_COIN.items():
+        assert v <= noise.GROUP_FLOORS[k], f"{k}: 동전을 뺐는데 판정선이 안 줄었다"
