@@ -409,6 +409,31 @@ _NON_BINDING_HEADS = ("[거래방법]", "[신규금액]", "[가입금액]", "[�
 _DORMANT_WORDS = ("휴면", "출연")
 
 
+# 2026-09-23 · v42. **금리와 한도가 서로, 그리고 자격과 섞인다.**
+#
+# 간판 조문(`KBYY-S2-R07` · 저금통 특별금리)이 세 군데를 한꺼번에 틀린다 —
+# 정답은 `RATE_ADD` 1.9 + `LIMIT_AMOUNT` 100만원인데 모델은 `RATE_OVERRIDE` +
+# `DISQUALIFY` 를 내고, 「최대 100만원까지」라는 **한도를 조건으로** 읽는다.
+#
+# v36(`DISQUALIFY` ↔ `RESTRICT`) · v39(`STATE_CHANGE` ↔ 나머지)와 같은 모양이다.
+_RATE_RE = None
+
+
+def wants_rate_kinds(text):
+    """금리·한도 효과 넷의 뜻을 붙일 조문인가 — 「연 N%」 가 있을 때.
+
+    46조문에서 여섯이 걸린다. 그중 셋은 **정답이 빈 배열인 기본금리 조문**이라
+    위험해 보이지만, 블록의 마지막 줄(「기본금리 자체는 이미 깔려 있다」)이 바로
+    그 조문들을 받친다 — 정답이 빈 배열인 이유가 그것이다. A빈 갈래를 되돌리는
+    선으로 건다 (판정선 ±0.0p).
+    """
+    import re
+    global _RATE_RE
+    if _RATE_RE is None:
+        _RATE_RE = re.compile(r"연\s*\d")
+    return bool(_RATE_RE.search(text))
+
+
 def wants_change_kinds(text):
     """「상태가 바뀌는 것처럼 보이는」 효과 셋의 뜻을 붙일 조문인가.
 
