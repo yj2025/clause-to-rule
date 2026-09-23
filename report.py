@@ -216,6 +216,26 @@ def gate14(recs):
     print("  관문 다섯이 전부 통과시킨다. ⑫ 도 못 본다 — 판정은 맞기 때문이다.")
 
 
+def gate15(recs):
+    """⑮ 타입이 안 맞는 비교 — 이름은 목록에 있는데 뜻이 다른 변수를 썼다.
+
+    2026-09-23 에 붙였다. `KBYY-S2-R18` 이 압류 상태를 물으려고 저금통
+    적립액(원)을 문자열 목록과 견준다. **관문 다섯이 전부 통과시키고 ⑬ 도
+    못 본다** — 지어낸 게 아니라 고른 것이기 때문이다.
+    """
+    import mismatch
+    a = mismatch.audit([x for x in recs if x["run"] == 0])
+    if not a["checked"]:
+        return
+    print(f"\n⑮ 타입이 안 맞는 비교 — 비교 {a['checked']}개 중 "
+          f"{a['bad']}개 = {a['rate']:.1f}% (판정선 ±{noise.FLOORS['⑮']:.1f}p)")
+    if a["kinds"]:
+        print("  " + " · ".join(f"{k} ×{n}" for k, n in a["kinds"].most_common(4)))
+        print("  조문: " + " · ".join(f"{c} {n}" for c, n in a["by_clause"].most_common()))
+    print("  **관문 다섯이 전부 통과시킨다.** 지어낸 이름이 아니라 고른 이름이라 "
+          "⑬ 도 못 본다. 정답에서는 0 이다 (`python mismatch.py --gold`).")
+
+
 def gate10(recs):
     """⑩ 합성 — 조문을 **합쳐서** 한 고객의 금리를 낸다.
 
@@ -577,6 +597,7 @@ def main(argv=None):
     gate12(recs)
     gate13(recs)
     gate14(recs)
+    gate15(recs)
     meaning(recs)
     forms(recs, base)
     return 0
