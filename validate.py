@@ -51,24 +51,6 @@ def _phrase(e):
         why = _why_condition(e.instance)
         if why:
             return f"조건식이 틀렸다: {why} (위치 {at})"
-    # 2026-09-23 · v40. **스키마가 잡는데 무엇을 적어야 하는지 말해 주지 않는다.**
-    #
-    # effect 15종이 전부 `condition` 을 요구한다. 모델은 「누구에게나 걸리는」 규칙에서
-    # **키를 아예 뺀다** — 「질권설정 불가」 · 「저금통 해제」 처럼 조건이 없는 자리다.
-    # 다섯 라운드 내내 라운드마다 세 조문이 여기서 ② 를 잃었다.
-    #
-    # 정답의 적는 법은 **키를 두고 비우는 것**이다 — `"condition": {}` 가 38번,
-    # 조건이 든 것이 37번이다. 거의 반반이고, 비우는 쪽이 조금 더 많다.
-    if "'condition' is a required property" in str(e.message):
-        inst = e.instance if isinstance(e.instance, dict) else {}
-        if (inst.get("effect") or {}).get("type") == "DISQUALIFY":
-            return (f"스키마 위반: DISQUALIFY 에는 condition 이나 guard 가 있어야 한다. "
-                    f"비어 있으면 모든 고객이 예금 자격을 잃는다. "
-                    f"옮길 조건이 없으면 status 를 UNSUPPORTED 로 한다 (위치 {at})")
-        return ('rule 에는 `condition` 이 있어야 한다. **누구에게나 걸리면 '
-                '`"condition": {}` 로 비워 적는다** — 키를 빼지 않는다 '
-                f'(위치 {at})')
-
     if e.validator == "allOf" or "'DISQUALIFY'" in str(e.message)[:400]:
         inst = e.instance if isinstance(e.instance, dict) else {}
         eff = (inst.get("effect") or {}).get("type")
