@@ -63,11 +63,71 @@ def clauses_hit(tags, needles):
     return hit, bad
 
 
+def _six(tag):
+    """조문별 ⑥."""
+    import gold
+    from scoring import score
+    tpl = {p.stem: json.loads(p.read_text("utf-8"))
+           for p in sorted(Path("data/gold").glob("*.json"))
+           if not p.name.startswith("_")}
+    prod = json.loads(Path("data/gold/_product.json").read_text("utf-8"))
+    agg, base, P = prod["aggregation"], prod["base_rate"], gold.profiles()
+    out = {}
+    for x in json.loads(Path(f"results/results_{tag}.json").read_text("utf-8")):
+        g = tpl.get(x["clause_id"])
+        if g is None:
+            continue
+        got = (x.get("output") or {}).get("rules")
+        out[x["clause_id"]] = score(g.get("rules") or [],
+                                    got if isinstance(got, list) else [],
+                                    agg, P, base)["rate"] * 100
+    return out
+
+
+def split(base_tags, needles, new_tags, least=3):
+    """**닿는 쪽과 안 닿는 쪽을 갈라 ⑥ 을 견준다** (v37 이 쓴 방법).
+
+    처방이 진짜로 먹었으면 닿는 쪽만 움직인다. 둘 다 움직이면 흔들림이다.
+    """
+    import statistics
+    hit, _ = clauses_hit(base_tags, needles)
+    HIT = {c for c, n in hit.items() if n >= least}
+    S = {t: _six(t) for t in list(base_tags) + list(new_tags)}
+    cs = sorted(S[base_tags[0]])
+    inn = [c for c in cs if c in HIT]
+    out = [c for c in cs if c not in HIT]
+    print(f"\n닿는 조문 {len(inn)} · 안 닿는 조문 {len(out)} "
+          f"({least}/{len(base_tags)}회 이상 닿으면 «닿는 쪽»)\n")
+    print(f"{'':<12}" + "".join(f"{t:>8}" for t in base_tags)
+          + f"{'폭':>13}" + "".join(f"{t:>8}" for t in new_tags))
+    for name, group in (("닿는 쪽", inn), ("안 닿는 쪽", out)):
+        vs = [statistics.mean([S[t][c] for c in group]) for t in base_tags]
+        ns = [statistics.mean([S[t][c] for c in group]) for t in new_tags]
+        print(f"{name:<12}" + "".join(f"{x:>8.1f}" for x in vs)
+              + f"{min(vs):>6.1f}~{max(vs):<6.1f}"
+              + "".join(f"{x:>8.1f}" for x in ns))
+    for name, group in (("닿는 쪽", inn), ("안 닿는 쪽", out)):
+        moved = []
+        for c in group:
+            vs = [S[t][c] for t in base_tags]
+            for t in new_tags:
+                if S[t][c] < min(vs) or S[t][c] > max(vs):
+                    moved.append((c, vs, t, S[t][c]))
+        print(f"\n{name} — 폭 밖으로 움직인 칸 {len(moved)}개")
+        for c, vs, t, v in moved:
+            print(f"  {c:<16}{t:>5}  " + " · ".join(f"{x:4.0f}" for x in vs)
+                  + f" → {v:.0f}")
+    print("\n※ 동전 조문은 이미 폭이 0~100 이라 «폭 밖»으로 안 나간다. "
+          "평균 줄로 읽어야 한다.")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("rounds", nargs="+")
     ap.add_argument("--match", nargs="+", required=True,
                     help="1차 오류에서 찾을 문구")
+    ap.add_argument("--split", nargs="+", default=None,
+                    help="이 라운드들을 닿는 쪽·안 닿는 쪽으로 갈라 ⑥ 을 견준다")
     a = ap.parse_args(argv)
     hit, bad = clauses_hit(a.rounds, a.match)
     print(f"=== 1차 오류에 {a.match} 가 있는 조문 ===\n")
@@ -75,6 +135,8 @@ def main(argv=None):
     print(f"  **닿는 조문 {len(hit)}개**\n")
     for c, n in sorted(hit.items(), key=lambda kv: (-kv[1], kv[0])):
         print(f"    {c:<16} {n}/{len(a.rounds)}회")
+    if a.split:
+        split(a.rounds, a.match, a.split)
     return 0
 
 
