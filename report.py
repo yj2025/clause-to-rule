@@ -479,7 +479,11 @@ def meaning(recs):
     # 21조문(A)은 0 아니면 100 이라 조문 하나가 뒤집히면 크게 움직이고, 규칙을 만들어야
     # 하는 21조문(B)은 그보다 훨씬 잔잔하다. 섞어 재면 A 의 흔들림이 B 의 처방 효과를
     # 덮는다 — v36 을 그렇게 잘못 읽었다 (B 판정선을 ±2.5p 로 알고 「두 배 올랐다」고
-    # 적었는데 실제는 ±8.1p 였다).
+    # 적었는데 실제는 ±13.6p 였다).
+    #
+    # 갈래별 판정선은 **조문 수가 정한다.** M 은 4조문이라 하나가 25.0p 다 —
+    # **1회차로는 어떤 처방도 M 갈래에서 못 읽는다.** 표에 판정선을 같이 찍는
+    # 이유가 그것이다 (2026-09-23 · 프로세스 넷으로 다시 잼).
     groups = collections.defaultdict(list)
     for cid, ms in mixed.items():
         groups[gold.group_of(tpl[cid])].append(sum(ms) / len(ms) * 100)
@@ -492,8 +496,8 @@ def meaning(recs):
     for cid, g in tpl.items():
         ab[gold.group_of(g)].append(
             score(g.get("rules") or [], [], agg, P, base)["rate"] * 100)
-    # 동전을 뺀 값도 같이 낸다. **A기권과 M 의 흔들림은 동전 하나씩이 전부였다** —
-    # 빼면 네 회차가 소수점까지 같다 (판정선 ±11.1p · ±14.4p → 둘 다 ±0.0p).
+    # 동전을 뺀 값도 같이 낸다. **다만 판정선은 안 붙인다 — 순환이기 때문이다**
+    # (`noise.py` 주석). 값만 보조선으로 읽는다.
     nocoin = collections.defaultdict(list)
     for cid, ms in mixed.items():
         if cid not in noise.COINS:
@@ -507,17 +511,17 @@ def meaning(recs):
                 f"{'±' + format(noise.GROUP_FLOORS[k], '.1f') + 'p':>9}")
         if len(nocoin[k]) != len(groups[k]) and nocoin[k]:
             w = sum(nocoin[k]) / len(nocoin[k])
-            line += (f"{w:>11.1f}%"
-                     f"{'±' + format(noise.GROUP_FLOORS_NO_COIN[k], '.1f') + 'p':>9}")
+            line += f"{w:>11.1f}%{'—':>9}"
         print(line)
     hit = [c for c in noise.COINS if c in mixed]
     if hit:
         rest = [v for cid, ms in mixed.items() if cid not in noise.COINS
                 for v in [sum(ms) / len(ms) * 100]]
-        print(f"  ● 동전 조문 {len(hit)}개 — 처방과 무관하게 회차마다 뒤집힌다. "
-              f"넷이 같이 뒤집히면 ⑥ 이 6.5p 움직인다")
-        print(f"     그 넷을 빼면 ⑥ {sum(rest) / len(rest):.1f}% "
-              f"(판정선 ±{noise.FLOOR_NO_COIN:.1f}p · 전체는 ±{noise.FLOORS['⑥']:.1f}p) — "
+        print(f"  ● 동전 조문 {len(hit)}개 — 처방과 무관하게 프로세스마다 뒤집힌다. "
+              f"여덟이 같이 뒤집히면 ⑥ 이 17p 움직인다")
+        print(f"     그 여덟을 빼면 ⑥ {sum(rest) / len(rest):.1f}% "
+              f"(전체 ⑥ 의 판정선은 ±{noise.FLOORS['⑥']:.1f}p · 뺀 값에는 판정선을 "
+              f"못 붙인다 — 같은 표본으로 빼고 재면 0 이 나오는 순환이다) — "
               f"**읽는 보조선이지 지표가 아니다.** 겨냥한 조문이 동전이면 이 값도 못 쓴다")
 
     if not all(g.get("reviewed") for g in tpl.values()):

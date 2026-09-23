@@ -50,13 +50,48 @@ def test_coin_clauses_are_real_clause_ids():
     assert set(noise.COINS) <= ids, f"코퍼스에 없는 조문: {set(noise.COINS) - ids}"
 
 
-def test_coin_free_floors_exist_and_are_smaller():
-    """동전을 뺀 판정선은 **더 작아야** 뜻이 있다.
+def test_coin_free_floor_respects_resolution():
+    """동전을 뺀 값에는 **판정선을 붙이지 않는다 — 순환이기 때문이다.**
 
-    빼고도 같거나 크면 그 조문들이 흔들림의 원인이 아니라는 뜻이고,
-    그러면 목록이 낡은 것이다.
+    동전은 「이 표본에서 갈린 조문」으로 정의했다. 그것을 빼고 같은 표본으로
+    흔들림을 재면 0 이 나올 수밖에 없다. 2026-09-23 아침의 `FLOOR_NO_COIN = 2.4`
+    와 `GROUP_FLOORS_NO_COIN` 이 그렇게 나온 값이라 지웠다.
+
+    남긴 `FLOOR_NO_COIN` 은 **남은 조문 수가 정하는 해상도**다 — 그보다 가늘게
+    읽으면 조문 하나보다 작은 차이를 판정하는 것이다.
     """
     import noise
+    rest = 46 - len(noise.COINS)
+    assert noise.FLOOR_NO_COIN >= 100 / rest, "동전 뺀 값이 해상도보다 가늘다"
     assert noise.FLOOR_NO_COIN < noise.FLOORS["⑥"]
-    for k, v in noise.GROUP_FLOORS_NO_COIN.items():
-        assert v <= noise.GROUP_FLOORS[k], f"{k}: 동전을 뺐는데 판정선이 안 줄었다"
+    assert not hasattr(noise, "GROUP_FLOORS_NO_COIN"), (
+        "갈래별 동전 뺀 판정선은 순환이라 지웠다. 되살리려면 표본을 나눠 재야 한다")
+
+
+def test_no_floor_is_finer_than_one_clause():
+    """**조문 하나보다 가는 판정선은 없다.**
+
+    46조문에서 하나가 뒤집히면 2.2p 다. σ 가 0 이어도 그보다 가늘게 판정하지
+    않는다 — 네 프로세스에서 안 흔들렸다는 것이 흔들릴 수 없다는 뜻은 아니다.
+    갈래별 판정선도 그 갈래의 조문 수가 하한을 정한다 (M 은 4조문이라 25.0p).
+
+    **⑬⑭ 는 빼고 본다** — 단위가 조문이 아니라 이름 자리와 rule 이라 분모가 다르다.
+    """
+    import json
+    import pathlib
+
+    import gold
+    import noise
+    for sym in "①②③④⑤⑥⑦⑫":
+        v = noise.FLOORS[sym]
+        assert v >= 100 / 46 - 0.05, f"{sym} 판정선 {v}p 가 조문 하나보다 가늘다"
+    n = {}
+    for f in sorted((pathlib.Path(__file__).resolve().parent.parent
+                     / "data" / "gold").glob("*.json")):
+        if f.name.startswith("_"):
+            continue
+        g = gold.group_of(json.loads(f.read_text("utf-8")))
+        n[g] = n.get(g, 0) + 1
+    for g, c in n.items():
+        assert noise.GROUP_FLOORS[g] >= 100 / c - 0.05, (
+            f"{g} 갈래 판정선 {noise.GROUP_FLOORS[g]}p 가 조문 하나({100 / c:.1f}p)보다 가늘다")
