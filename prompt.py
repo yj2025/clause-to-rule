@@ -112,15 +112,6 @@ def _catalog_block(text):
     if services:
         lines.append("[제휴서비스 대상]")
         lines += [f"  {s:<28}{catalog.SERVICES[s]}" for s in services]
-    # 2026-09-23 · v42. 금리·한도·자격이 섞이는 자리를 가른다.
-    if catalog.wants_rate_kinds(text):
-        lines.append("[금리와 한도 — 뜻이 다르다]")
-        lines.append(f"  {'RATE_ADD':<24}기본금리에 **더한다** (우대금리)")
-        lines.append(f"  {'RATE_OVERRIDE':<24}금리를 **통째로 갈아친다** — 다른 조문의 우대가 전부 지워진다")
-        lines.append(f"  {'LIMIT_AMOUNT':<24}**금액 한도**다. 넘으면 자격을 잃는 게 아니라 그 금액까지만 적용된다")
-        lines.append(f"  {'DISQUALIFY':<24}예금 **자격**을 잃는다")
-        lines.append("  기본금리 자체는 이미 깔려 있다 — 그것만 적힌 조문은 더할 것이 없다")
-
     # 2026-09-23 · v39. 막는 효과를 가른 것(v36)과 같은 일을 「바뀌는」 효과 셋에 한다.
     if catalog.wants_change_kinds(text):
         lines.append("[바뀌는 것처럼 보이는 효과 셋 — 뜻이 다르다]")
