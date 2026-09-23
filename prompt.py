@@ -112,6 +112,14 @@ def _catalog_block(text):
     if services:
         lines.append("[제휴서비스 대상]")
         lines += [f"  {s:<28}{catalog.SERVICES[s]}" for s in services]
+    # 2026-09-23 · v39. 막는 효과를 가른 것(v36)과 같은 일을 「바뀌는」 효과 셋에 한다.
+    if catalog.wants_change_kinds(text):
+        lines.append("[바뀌는 것처럼 보이는 효과 셋 — 뜻이 다르다]")
+        lines.append(f"  {'STATE_CHANGE':<28}이 계좌의 **설정**이 바뀐다 (저금통 해제 등). 예금은 그대로 있다")
+        lines.append(f"  {'DORMANT_CONTRIBUTION':<28}휴면예금으로 **출연**된다 — 예금이 이 계좌를 떠난다")
+        lines.append(f"  {'SERVICE_PROVIDE':<28}**계좌 밖의 서비스**를 준다 (수강권 · 신문 등). 예금과 무관하다")
+        lines.append("  무엇이 바뀌는지로 고른다 — 계좌의 설정인가, 돈의 주인인가, 계좌 밖의 것인가")
+
     restrictions = catalog.pick_restrictions(text)
     if restrictions:
         # 2026-09-22 · v36. **막는 효과가 둘인데 지문이 뜻을 안 말한다.**

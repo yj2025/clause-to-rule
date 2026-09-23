@@ -396,6 +396,33 @@ def wants_recurring_date(text):
 _NON_BINDING_HEADS = ("[거래방법]", "[신규금액]", "[가입금액]", "[자료열람요구권]")
 
 
+# 2026-09-23 · v39. **`STATE_CHANGE` 가 새 「그럴듯한 경쟁 자리」다.**
+#
+# v36 이 `DISQUALIFY` 에서 같은 것을 고쳤다 — 이름만 주면 안 열리고 **차이를 말해야**
+# 열린다. 지금 `STATE_CHANGE` 가 셋을 빨아들이고 있고 세 회차 내내 굳어 있다.
+#
+#   KBONE-S2-R17 · KBYY-S2-R20   정답 DORMANT_CONTRIBUTION  → 모델 STATE_CHANGE
+#   KBYY-S3-R02                  정답 SERVICE_PROVIDE       → 모델 STATE_CHANGE
+#
+# 셋 다 「무언가 바뀐다」로 닮았는데 **무엇이 바뀌는지가 다르다** — 계좌의 설정인가,
+# 돈의 주인인가, 계좌 밖의 서비스인가.
+_DORMANT_WORDS = ("휴면", "출연")
+
+
+def wants_change_kinds(text):
+    """「상태가 바뀌는 것처럼 보이는」 효과 셋의 뜻을 붙일 조문인가.
+
+    휴면·출연을 말하거나 제휴서비스 목록이 붙는 조문이다. 46조문에서 여섯이 걸리고
+    정답이 셋 중 하나를 쓰는 조문 여섯 중 다섯을 덮는다. 못 덮는 하나(`KBYY-S2-R11`)는
+    회차마다 흔들리는 자리라 어차피 1회차로 못 읽는다.
+
+    헛되이 걸리는 하나(`KBYY-S3-R03`)는 정답이 빈 배열이다. **수단을 보여 주면
+    기권을 그만두는 일이 v34 에서 있었으므로** A빈 갈래를 되돌리는 선으로 건다
+    (판정선 ±0.0p — 한 조문만 깨져도 보인다).
+    """
+    return any(w in text for w in _DORMANT_WORDS) or bool(pick_services(text))
+
+
 def wants_non_binding(text):
     """조문이 절차·채널·「제한없음」·권리 안내만 말하는 자리인가."""
     return any(h in text for h in _NON_BINDING_HEADS)
