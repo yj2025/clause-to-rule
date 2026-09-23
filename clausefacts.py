@@ -53,6 +53,12 @@ def facts(recs, run=0):
                 out[f"effect:{e}"].add(cid)
             if r.get("status") == "UNSUPPORTED":
                 out["기권(UNSUPPORTED)"].add(cid)
+                # 지문 5번은 「effect 도 그렇게 적는다」고 하는데 스키마·검증기·
+                # 정답은 **effect 를 빼라**고 한다 (정답의 기권 rule 28개 전부
+                # effect 가 없다). 2026-09-23 에 찾았다. 기권을 시키는 처방이
+                # 이 모순에 걸릴 수 있어 따로 센다.
+                if "effect" in r:
+                    out["기권인데 effect 를 달았다"].add(cid)
         if not rs:
             out["빈 배열"].add(cid)
         if invent.audit_names([x])["bad"]:

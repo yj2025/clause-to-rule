@@ -38,3 +38,29 @@ def test_dormant_contribution_is_still_two_clauses():
     for t in ("v41", "v43", "v44", "v45"):
         n = len(C.facts(C.load(t)).get("effect:DORMANT_CONTRIBUTION", ()))
         assert n == 2, f"{t}: {n}조문"
+
+
+def test_it_counts_the_prompt_contradiction():
+    """지문 5번과 스키마가 어긋나는 자리를 센다.
+
+    지문은 「status 를 UNSUPPORTED 로 하고 **effect 도 그렇게 적는다**」고 하는데
+    스키마는 그때만 effect 를 **뺄 수 있게** 하고 검증기는 effect 가 있으면
+    오류로 잡는다. **정답의 기권 rule 28개는 전부 effect 가 없다.**
+
+    기권을 시키는 처방(v46)이 이 모순에 걸릴 수 있어 따로 센다.
+    """
+    import json
+    import pathlib
+
+    import clausefacts as C
+    root = pathlib.Path(__file__).resolve().parent.parent
+    n = has = 0
+    for p in sorted((root / "data" / "gold").glob("*.json")):
+        if p.name.startswith("_"):
+            continue
+        for r in (json.loads(p.read_text("utf-8")).get("rules") or []):
+            if r.get("status") == "UNSUPPORTED":
+                n += 1
+                has += "effect" in r
+    assert n > 0 and has == 0, f"정답의 기권 rule {n}개 중 {has}개가 effect 를 단다"
+    assert "기권인데 effect 를 달았다" in C.facts(C.load("v45"))
