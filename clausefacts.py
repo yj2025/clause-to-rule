@@ -28,6 +28,18 @@ def load(tag):
     return json.loads(Path(f"results/results_{tag}.json").read_text("utf-8"))
 
 
+def _gold_groups():
+    out = {}
+    for p in sorted(Path("data/gold").glob("*.json")):
+        if p.name.startswith("_"):
+            continue
+        out[p.stem] = gold.group_of(json.loads(p.read_text("utf-8")))
+    return out
+
+
+_GOLD = _gold_groups()
+
+
 def _eff(rule):
     e = rule.get("effect") if isinstance(rule, dict) else None
     if isinstance(e, dict):
@@ -59,6 +71,15 @@ def facts(recs, run=0):
                 # 이 모순에 걸릴 수 있어 따로 센다.
                 if "effect" in r:
                     out["기권인데 effect 를 달았다"].add(cid)
+                # **이것이 「도망」의 진짜 지표다.** v46 의 되돌리는 선을
+                # 「기권한 조문 수」로 그었는데, 그 수는 **옳은 기권과 틀린
+                # 기권을 못 가른다.** 15~19 → 24 로 걸렸지만 실제로 손해가 난
+                # 자리는 없었다 (2026-09-23 · v46 판정). 정답이 «규칙» 인데
+                # 기권한 것만 센다.
+                if _GOLD.get(cid) in ("B", "M"):
+                    out["정답이 규칙인데 기권했다"].add(cid)
+            if _GOLD.get(cid) == "A빈" and r.get("status") == "UNSUPPORTED":
+                out["정답이 빈 배열인데 기권했다"].add(cid)
         if not rs:
             out["빈 배열"].add(cid)
         if invent.audit_names([x])["bad"]:
