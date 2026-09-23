@@ -180,3 +180,46 @@ def test_the_prompt_length_stays_inside_the_registered_bound():
     corpus = json.loads(__import__("pathlib").Path("data/corpus.json").read_text("utf-8"))
     lens = [len(build_user_prompt(c["text"], c["id"])) for c in corpus]
     assert sum(lens) / len(lens) < 8000
+
+
+# ── v46 · 목록에 없는 이름이 필요할 때 기권을 쓰라고 잇는다 ────────────────
+def _retry(errors):
+    import prompt
+    return prompt.build_retry_prompt("조문 본문", {"rules": []}, errors)
+
+
+def test_no_name_block_only_fires_on_missing_name_errors():
+    """**이름이 목록에 없을 때만** 붙는다.
+
+    연산자가 틀린 것(`eq`)은 기권할 일이 아니라 `==` 로 고칠 일이다.
+    거기까지 기권을 권하면 **어려우면 도망가라**를 가르치게 된다 — v5 가
+    회피로 무너진 그 길이다.
+    """
+    on = _retry(["카탈로그에 없는 변수: notice.methods. 쓸 수 있는 것: account.balance"])
+    off = _retry(["정의되지 않은 연산자: `eq`. 쓸 수 있는 것: =="])
+    assert "목록에 없는 이름이 필요할 때" in on
+    assert "목록에 없는 이름이 필요할 때" not in off
+    assert "UNSUPPORTED" in on
+
+
+def test_no_name_block_appears_once_however_many_errors():
+    """오류는 여덟 줄까지 들어간다. 줄마다 붙이면 같은 말이 여덟 번 나온다."""
+    p = _retry([f"카탈로그에 없는 변수: x{i}. 쓸 수 있는 것: y" for i in range(8)])
+    assert p.count("목록에 없는 이름이 필요할 때") == 1
+
+
+def test_no_name_block_names_nothing():
+    """**이름을 하나도 적지 않는다** — v34 가 메시지에 예시를 박아 실패했다."""
+    import catalog
+    p = _retry(["카탈로그에 없는 이벤트: PLEDGE. 쓸 수 있는 것: APP_LOGIN"])
+    block = p.split("[목록에 없는 이름이 필요할 때]")[1].split("문제만 고쳐서")[0]
+    for name in set(catalog.VARIABLES) | set(catalog.EVENTS):
+        assert name not in block, f"블록이 이름을 흘린다: {name}"
+
+
+def test_retry_prompt_is_unchanged_when_the_block_does_not_fire():
+    """안 걸리는 조문의 지문은 **한 글자도 안 는다.**"""
+    import prompt
+    errs = ["스키마 위반: 'condition' is a required property"]
+    got = prompt.build_retry_prompt("조문", {"rules": []}, errs)
+    assert "\n\n문제만 고쳐서" in got

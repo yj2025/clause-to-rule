@@ -212,6 +212,35 @@ def build_user_prompt(clause_text, clause_id=None, fewshot_indent=1):
             f"{head}[조문]\n{clause_text}\n\n[출력]")
 
 
+# v46 — **목록에 없는 이름이 필요할 때 기권을 쓰라고 잇는다.**
+#
+# 오류 메시지는 「쓸 수 있는 것: …」만 말한다. 그래서 모델은 목록에서 비슷한 것을
+# 찾고, 없으면 또 지어낸다. 시도 셋을 다 쓰고도 못 고치는 조문이 넷이다
+# (`KBONE-S2-R15` · `KBYY-S2-R09` · `KBYY-S2-R17` · `KBYY-S3-R05`).
+#
+# 지문에는 이미 둘 다 적혀 있다 — 2번(이름을 지어내지 않는다)과 5번(수단이 없으면
+# UNSUPPORTED). **2번을 어길 때가 바로 5번의 경우**인데 그 연결이 없다.
+#
+# `UNSUPPORTED` 는 **이미 15~19조문이 쓰는 수단**이다. 그래서 이것은 「안 쓰던 것을
+# 새로 쓰라」(v40 · 채택 거의 0)가 아니라 **「이미 쓰는 수단을 다른 자리에 쓰라」**
+# (v41 · 채택)다. 가설의 세 번째 시험이다.
+#
+# **이름을 하나도 적지 않는다** — v34 가 메시지에 예시를 박아 실패했다.
+# **오류 줄마다 붙이지 않는다** — 오류가 여덟 줄까지 들어가므로 한 번만 붙인다.
+_NO_NAME = ("카탈로그에 없는", "가 카탈로그에 없다",
+            "상품 키가 아님", "금지 대상이 아님")
+
+
+def _no_name_block(errors):
+    """이름이 목록에 없다는 오류가 하나라도 있을 때만 붙는다."""
+    if not any(any(k in str(e) for k in _NO_NAME) for e in errors):
+        return ""
+    return ("\n[목록에 없는 이름이 필요할 때]\n"
+            "  비슷한 다른 이름으로 바꾸지 않는다. 조문이 부르는 것이 목록에 "
+            "없으면\n"
+            '  그 rule 의 status 를 "UNSUPPORTED" 로 낸다 (지켜야 할 것 5).\n')
+
+
 def build_retry_prompt(clause_text, bad_output, errors, clause_id=None,
                       fewshot_indent=1):
     """검증에 걸린 출력을 고쳐 달라는 프롬프트.
@@ -232,5 +261,6 @@ def build_retry_prompt(clause_text, bad_output, errors, clause_id=None,
     shown = json.dumps(bad_output, ensure_ascii=False, indent=fewshot_indent)
     return (f"{build_user_prompt(clause_text, clause_id, fewshot_indent)}\n"
             f"{shown}\n\n"
-            f"[위 출력의 문제]\n{listed}\n\n"
+            f"[위 출력의 문제]\n{listed}\n"
+            f"{_no_name_block(errors)}\n"
             f"문제만 고쳐서 JSON 을 다시 낸다. 고칠 필요 없는 rule 은 그대로 둔다.\n\n[출력]")
