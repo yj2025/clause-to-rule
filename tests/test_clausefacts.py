@@ -64,3 +64,26 @@ def test_it_counts_the_prompt_contradiction():
                 has += "effect" in r
     assert n > 0 and has == 0, f"정답의 기권 rule {n}개 중 {has}개가 effect 를 단다"
     assert "기권인데 effect 를 달았다" in C.facts(C.load("v45"))
+
+
+def test_gold_abstains_without_a_condition():
+    """**기권할 때는 조건도 비운다** — 정답 28개 중 조건이 든 것은 둘뿐이다.
+
+    조건을 남기면 거기 적힌 이름이 계속 관문에 걸린다. `KBYY-S2-R09` 가
+    기권으로 바꾸고도 0점인 이유다 (2026-09-24 · v46 확인 라운드).
+    """
+    import json
+    import pathlib
+
+    import clausefacts as C
+    root = pathlib.Path(__file__).resolve().parent.parent
+    n = kept = 0
+    for p in sorted((root / "data" / "gold").glob("*.json")):
+        if p.name.startswith("_"):
+            continue
+        for r in (json.loads(p.read_text("utf-8")).get("rules") or []):
+            if r.get("status") == "UNSUPPORTED":
+                n += 1
+                kept += bool(r.get("condition"))
+    assert n >= 20 and kept <= 3, f"기권 rule {n}개 중 조건이 든 것 {kept}개"
+    assert "기권인데 조건이 남았다" in C.facts(C.load("v46"))
