@@ -84,6 +84,16 @@ def _six(tag):
     return out
 
 
+def final_hit(tags, needles):
+    """**최종**(best) 오류에 아직 남아 있는 조문 — 재시도가 못 고친 자리."""
+    out = set()
+    for t in tags:
+        for x in json.loads(Path(f"results/results_{t}.json").read_text("utf-8")):
+            if any(any(n in str(e) for n in needles) for e in (x.get("errors") or [])):
+                out.add(x["clause_id"])
+    return out
+
+
 def split(base_tags, needles, new_tags, least=3):
     """**닿는 쪽과 안 닿는 쪽을 갈라 ⑥ 을 견준다** (v37 이 쓴 방법).
 
@@ -117,6 +127,26 @@ def split(base_tags, needles, new_tags, least=3):
         for c, vs, t, v in moved:
             print(f"  {c:<16}{t:>5}  " + " · ".join(f"{x:4.0f}" for x in vs)
                   + f" → {v:.0f}")
+    # ── 닿는 쪽을 한 번 더 가른다 ────────────────────────────────────────
+    #
+    # **「재시도가 고친다」가 «옳게 고친다»는 뜻이 아니다.** 1차에 없는 이름을
+    # 썼다가 재시도에서 **목록 안의 엉뚱한 이름**으로 바꾸는 길이 있다 (⑮).
+    # 그래서 못 고치는 쪽과 스스로 고치는 쪽을 따로 본다.
+    import statistics as _st
+    stuck = sorted(set(inn) & final_hit(base_tags, needles))
+    fixed = sorted(set(inn) - set(stuck))
+    if stuck and fixed:
+        print(f"\n닿는 쪽을 한 번 더 가르면 — 못 고치는 {len(stuck)} · "
+              f"스스로 고치는 {len(fixed)}\n")
+        print(f"{'':<18}" + "".join(f"{t:>8}" for t in base_tags)
+              + f"{'폭':>13}" + "".join(f"{t:>8}" for t in new_tags))
+        for name, group in (("못 고치는 쪽", stuck), ("스스로 고치는 쪽", fixed)):
+            vs = [_st.mean([S[t][c] for c in group]) for t in base_tags]
+            print(f"{name:<18}" + "".join(f"{x:>8.1f}" for x in vs)
+                  + f"{min(vs):>6.1f}~{max(vs):<6.1f}"
+                  + "".join(f"{_st.mean([S[t][c] for c in group]):>8.1f}"
+                            for t in new_tags))
+
     print("\n※ 동전 조문은 이미 폭이 0~100 이라 «폭 밖»으로 안 나간다. "
           "평균 줄로 읽어야 한다.")
 
