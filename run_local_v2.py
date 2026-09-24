@@ -65,6 +65,16 @@ def prompt_fingerprint():
         "validator": h("".join(
             (Path(__file__).parent / f).read_text("utf-8")
             for f in ("validate.py", "invent.py", "vacuous.py", "grounding.py"))),
+        # 2026-09-24 — **같은 이유로 `prompt.py` 자체도 센다.** 위 주석이
+        # 「검증기가 바뀌면 재시도에 되먹이는 문구가 바뀐다」고 적어 두고,
+        # **재시도 지문을 만드는 코드 자체**는 빠뜨렸다. v46 이 그 코드에
+        # 조건부 블록을 붙였는데 **지문 해시가 v41 과 완전히 같았다** —
+        # 처방 전 라운드와 처방 후 라운드가 구별이 안 됐다. 판정선을 재는
+        # 도구가 「지문 1종이니 같은 구성」으로 읽고 섞을 뻔했다.
+        #
+        # `SYSTEM_PROMPT` 는 위에서 따로 세지만 그것만으로는 모자란다 —
+        # `build_retry_prompt` · 조건부 블록 · `_USAGE` 가 전부 이 파일에 있다.
+        "retry": h((Path(__file__).parent / "prompt.py").read_text("utf-8")),
     }
 
 MODEL = "Qwen/Qwen3-8B"
