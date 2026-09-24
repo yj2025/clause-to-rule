@@ -199,8 +199,10 @@ def test_every_record_says_what_made_it():
     fp = R.prompt_fingerprint()
     # vocab 은 2026-09-15 에 더했다 — 확장 여섯의 대상 목록·속성이 catalog 해시에 안 잡혔다
     # validator 는 2026-09-16 에 더했다 — 아래 시험이 이유다
+    # retry 는 2026-09-24 에 더했다 — v46 이 재시도 지문을 바꿨는데 해시가 v41 과
+    # 같았다. 처방 전후가 구별이 안 됐다 (`tests/test_fingerprint.py`)
     assert set(fp) == {"system", "fewshots", "n_fewshots", "catalog", "schema",
-                       "vocab", "validator"}
+                       "vocab", "validator", "retry"}
     assert fp["n_fewshots"] == 4
     assert all(isinstance(fp[k], str) and len(fp[k]) == 12
                for k in ("system", "fewshots", "catalog", "schema", "vocab",
