@@ -227,6 +227,11 @@ def build_user_prompt(clause_text, clause_id=None, fewshot_indent=1):
 #
 # **이름을 하나도 적지 않는다** — v34 가 메시지에 예시를 박아 실패했다.
 # **오류 줄마다 붙이지 않는다** — 오류가 여덟 줄까지 들어가므로 한 번만 붙인다.
+#
+# v50 — **마지막 줄을 더했다.** v46 이 기권을 늘리면서 「기권인데 조건이 남은
+# 조문」이 4~5 에서 7~9 로 늘었다. 조건을 남기면 그 안의 이름이 계속 관문에
+# 걸린다 (`KBYY-S2-R09` 가 기권으로 바꾸고도 0점인 이유다). 정답의 기권 rule
+# 28개 중 조건이 든 것은 둘뿐이고 effect 가 든 것은 하나도 없다.
 _NO_NAME = ("카탈로그에 없는", "가 카탈로그에 없다",
             "상품 키가 아님", "금지 대상이 아님")
 
@@ -238,7 +243,9 @@ def _no_name_block(errors):
     return ("\n[목록에 없는 이름이 필요할 때]\n"
             "  비슷한 다른 이름으로 바꾸지 않는다. 조문이 부르는 것이 목록에 "
             "없으면\n"
-            '  그 rule 의 status 를 "UNSUPPORTED" 로 낸다 (지켜야 할 것 5).\n')
+            '  그 rule 의 status 를 "UNSUPPORTED" 로 낸다 (지켜야 할 것 5).\n'
+            "  그 rule 에는 조건도 효과도 적지 않는다 — 옮길 수단이 없다고 "
+            "밝히는 자리다.\n")
 
 
 def build_retry_prompt(clause_text, bad_output, errors, clause_id=None,

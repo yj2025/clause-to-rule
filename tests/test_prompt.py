@@ -223,3 +223,40 @@ def test_retry_prompt_is_unchanged_when_the_block_does_not_fire():
     errs = ["스키마 위반: 'condition' is a required property"]
     got = prompt.build_retry_prompt("조문", {"rules": []}, errs)
     assert "\n\n문제만 고쳐서" in got
+
+
+# ── v50 · 기권할 때는 조건도 효과도 적지 않는다 ──────────────────────────
+def test_the_block_says_what_an_abstain_rule_looks_like():
+    """v46 이 「기권하라」만 말해서 조건이 남았다.
+
+    `KBYY-S2-R09` 가 status 를 UNSUPPORTED 로 바꾸고도 0점이다 — 조건에 남은
+    이름이 계속 관문에 걸린다. 정답의 기권 rule 28개 중 조건이 든 것은 둘,
+    effect 가 든 것은 없다.
+    """
+    p = _retry(["카탈로그에 없는 변수: notice.methods. 쓸 수 있는 것: account.balance"])
+    block = p.split("[목록에 없는 이름이 필요할 때]")[1].split("문제만 고쳐서")[0]
+    assert "조건도 효과도 적지 않는다" in block
+
+
+def test_the_abstain_shape_matches_the_gold():
+    """지문이 말하는 모양과 **정답의 모양이 같아야 한다.**
+
+    지문 5번은 아직 「effect 도 그렇게 적는다」고 한다 — 스키마·검증기·정답과
+    어긋난다. 그것은 v51 에서 1차 지문을 고칠 때 잡는다. 이 시험은 **정답이
+    실제로 어떤 모양인지**를 박아 둔다.
+    """
+    import json
+    import pathlib
+    root = pathlib.Path(__file__).resolve().parent.parent
+    n = with_cond = with_eff = 0
+    for f in sorted((root / "data" / "gold").glob("*.json")):
+        if f.name.startswith("_"):
+            continue
+        for r in (json.loads(f.read_text("utf-8")).get("rules") or []):
+            if r.get("status") == "UNSUPPORTED":
+                n += 1
+                with_cond += bool(r.get("condition"))
+                with_eff += "effect" in r
+    assert n >= 20
+    assert with_eff == 0, f"정답의 기권 rule {with_eff}개가 effect 를 단다"
+    assert with_cond <= 3, f"정답의 기권 rule {with_cond}개가 조건을 단다"
