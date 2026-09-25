@@ -236,6 +236,29 @@ def gate15(recs):
           "⑬ 도 못 본다. 정답에서는 0 이다 (`python mismatch.py --gold`).")
 
 
+def gate16(recs):
+    """⑯ 셈이 안 맞는 집계 비교 — 창보다 큰 개월수를 요구하거나, 창 길이보다
+    큰 값 이하를 요구한다.
+
+    2026-09-25 에 붙였다. ⑭(헛조건)의 **안 보이던 절반**이다 — ⑭ 는 「언제나
+    참」만 보는데, 「언제나 거짓」인 쪽은 아무도 안 봤다. v50 에서 연산자가
+    뒤집히며 죽은 조건이 헛조건이 되자 ⑭ 가 갑자기 올라 **처방의 부작용으로
+    읽힐 뻔했다.**
+    """
+    import dead
+    a = dead.audit([x for x in recs if x["run"] == 0])
+    if not a["checked"]:
+        return
+    print(f"\n⑯ 셈이 안 맞는 집계 비교 — 조건이 있는 rule {a['checked']}개 중 "
+          f"{a['bad']}개 = {a['rate']:.1f}% (판정선 ±{noise.FLOORS['⑯']:.1f}p)")
+    for cid, why, _ in a["examples"][:3]:
+        print(f"  {cid} · {why}")
+    if a["by_clause"]:
+        print("  조문: " + " · ".join(f"{c} {n}" for c, n in a["by_clause"].most_common()))
+    print("  **조문이 둘뿐이라 비율로 읽지 말 것** — rule 셋이 통째로 나타났다 "
+          "사라진다. 정답에서는 0 이다 (`python dead.py --gold`).")
+
+
 def gate10(recs):
     """⑩ 합성 — 조문을 **합쳐서** 한 고객의 금리를 낸다.
 
@@ -598,6 +621,7 @@ def main(argv=None):
     gate13(recs)
     gate14(recs)
     gate15(recs)
+    gate16(recs)
     meaning(recs)
     forms(recs, base)
     return 0
