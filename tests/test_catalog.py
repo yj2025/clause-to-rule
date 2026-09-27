@@ -174,3 +174,59 @@ def test_every_enum_value_knows_its_slot():
 def test_a_made_up_code_has_no_slot():
     import catalog
     assert catalog.slot_of("PLEDGE_NOT_ALLOWED") is None
+
+
+# ── v58 · 「규칙이 아닌 문장」 블록의 방아쇠를 넓힌다 ──────────────────────
+def test_non_binding_trigger_never_hits_a_clause_with_rules():
+    """**이 시험이 v58 의 유일한 위험을 막는다.**
+
+    제목만으로 가리면 `KBONE-S2-R12`(※ 「본인명의 계좌가 필요합니다」 · 정답
+    rule 1개)와 `KBONE-S2-R03`(※ 「전환가능 · 제외」 · 정답이 기권 2개)이 같이
+    걸린다. 코드 주석이 「계약해지방법은 일부러 뺐다」고 적어 둔 이유가 그것이다.
+    ※ 줄의 요건 동사로 가른다.
+    """
+    import json
+    import pathlib
+
+    import catalog
+    import gold
+    root = pathlib.Path(__file__).resolve().parent.parent
+    clauses = {c["id"]: c for c in json.loads(
+        (root / "data" / "corpus.json").read_text("utf-8"))}
+    bad = []
+    for p in sorted((root / "data" / "gold").glob("*.json")):
+        if p.name.startswith("_"):
+            continue
+        g = json.loads(p.read_text("utf-8"))
+        if not (g.get("rules") or []):
+            continue
+        text = clauses.get(p.stem, {}).get("text", "")
+        if catalog.wants_non_binding(text):
+            bad.append(f"{p.stem}({gold.group_of(g)} · rule {len(g['rules'])}개)")
+    assert not bad, "규칙이 있는 조문에 「규칙이 아니다」를 말하고 있다: " + ", ".join(bad)
+
+
+def test_the_two_known_risks_are_filtered_out():
+    import json
+    import pathlib
+
+    import catalog
+    root = pathlib.Path(__file__).resolve().parent.parent
+    clauses = {c["id"]: c for c in json.loads(
+        (root / "data" / "corpus.json").read_text("utf-8"))}
+    for cid in ("KBONE-S2-R12", "KBONE-S2-R03"):
+        assert not catalog.wants_non_binding(clauses[cid]["text"]), cid
+
+
+def test_the_five_new_targets_are_covered():
+    """v54 가 재시도 쪽에서 못 고친 다섯이 이 문으로는 닿아야 한다."""
+    import json
+    import pathlib
+
+    import catalog
+    root = pathlib.Path(__file__).resolve().parent.parent
+    clauses = {c["id"]: c for c in json.loads(
+        (root / "data" / "corpus.json").read_text("utf-8"))}
+    for cid in ("KBONE-S2-R04", "KBYY-S2-R03", "KBYY-S2-R06",
+                "KBYY-S2-R10", "KBYY-S2-R15"):
+        assert catalog.wants_non_binding(clauses[cid]["text"]), cid
