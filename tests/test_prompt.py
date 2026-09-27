@@ -262,22 +262,21 @@ def test_the_abstain_shape_matches_the_gold():
     assert with_cond <= 3, f"정답의 기권 rule {with_cond}개가 조건을 단다"
 
 
-# ── v54 · 옮길 것이 아예 없으면 rule 을 만들지 않는다 ────────────────────
-def test_the_block_separates_nothing_to_translate_from_cannot_translate():
-    """v46 이 「기권하라」만 말해서 **규칙이 아닌 서술**에도 기권 rule 이 붙었다.
+# ── v54 는 되돌렸다 (2026-09-28) ─────────────────────────────────────────
+def test_the_block_does_not_talk_about_not_making_rules():
+    """v54 의 두 줄을 되돌렸다. **다시 넣지 않도록 시험으로 막는다.**
 
-    정답이 «빈 배열»인 조문에 기권 rule 을 다는 자리가 3~4 에서 6 으로 늘었고
-    네 라운드 내내 6 이었다 — 「기본이율 적용」 · 「해지 방법」 같은 문장들이다.
-    지문 5번은 그 둘을 가르는데 블록이 한쪽만 되풀이하고 있었다.
+    본 축이 네 라운드 내내 6 으로 안 움직였고, `KBONE-S2-R16` 이 기권 rule 을
+    둘 더 붙여 ⑥ 75 → 0 이 됐다 — 모델이 「만들지 마라」 대신 「기권」을 읽었다.
+    같은 말은 v35 의 판단 블록(1차 지문)에 붙인다 (v58).
     """
     p = _retry(["카탈로그에 없는 변수: notice.methods. 쓸 수 있는 것: account.balance"])
     block = p.split("[목록에 없는 이름이 필요할 때]")[1].split("문제만 고쳐서")[0]
-    assert "rule 을 만들지 않는다" in block
-    assert "「옮길 것이 없다」와 「옮길 수 없다」는 다르다" in block
+    assert "rule 을 만들지 않는다" not in block
 
 
 def test_the_two_cases_match_the_system_prompt():
-    """블록이 가르는 둘은 **지문 5번이 이미 가르는 둘**이다. 말이 어긋나면 안 된다."""
+    """지문 5번이 가르는 둘은 그대로 있어야 한다 — v58 이 그것을 쓴다."""
     from prompt import SYSTEM_PROMPT
     assert "빈 배열" in SYSTEM_PROMPT
     assert "옮길 것이 없는 경우" in SYSTEM_PROMPT

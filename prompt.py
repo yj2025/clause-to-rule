@@ -250,10 +250,7 @@ def _no_name_block(errors):
             "없으면\n"
             '  그 rule 의 status 를 "UNSUPPORTED" 로 낸다 (지켜야 할 것 5).\n'
             "  그 rule 에는 조건도 효과도 적지 않는다 — 옮길 수단이 없다고 "
-            "밝히는 자리다.\n"
-            "  다만 그 문장에 옮길 조건도 효과도 없으면 기권이 아니라 rule 을 "
-            "만들지 않는다.\n"
-            "  「옮길 것이 없다」와 「옮길 수 없다」는 다르다.\n")
+            "밝히는 자리다.\n")
 
 
 def build_retry_prompt(clause_text, bad_output, errors, clause_id=None,
