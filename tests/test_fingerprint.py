@@ -10,8 +10,38 @@ def test_the_fingerprint_covers_every_file_that_changes_the_output():
     import run_local_v2 as R
     fp = R.prompt_fingerprint()
     for key in ("system", "fewshots", "catalog", "schema", "vocab",
-                "validator", "retry"):
+                "validator", "retry", "triggers"):
         assert key in fp, f"{key} 가 지문에 없다"
+
+
+def _touch(name):
+    """그 파일에 한 줄 더하고 지문이 바뀌는지 본다."""
+    import pathlib
+
+    import run_local_v2 as R
+    p = pathlib.Path(R.__file__).parent / name
+    before = R.prompt_fingerprint()
+    orig = p.read_text("utf-8")
+    try:
+        p.write_text(orig + "\n# 지문 해시 시험용 한 줄\n", "utf-8")
+        after = R.prompt_fingerprint()
+    finally:
+        p.write_text(orig, "utf-8")
+    return before, after
+
+
+def test_changing_a_block_trigger_changes_the_fingerprint():
+    """**이 시험이 v58 을 잡았어야 했다.**
+
+    조건부 블록을 어느 조문에 붙일지 정하는 방아쇠는 `catalog.py` 에 있다.
+    2026-09-24 에 `prompt.py` 만 넣고 이 파일을 빠뜨렸다 — 그래서 v36↔v37 과
+    v38↔v39 가 지문으로 구별되지 않았다.
+
+    **앞 시험은 키 목록만 열거해 이 구멍을 못 봤다.** 그래서 파일을 실제로
+    건드려 본다.
+    """
+    before, after = _touch("catalog.py")
+    assert before != after, "catalog.py 를 고쳐도 지문 해시가 안 바뀐다"
 
 
 def test_changing_the_retry_prompt_changes_the_fingerprint():

@@ -201,8 +201,12 @@ def test_every_record_says_what_made_it():
     # validator 는 2026-09-16 에 더했다 — 아래 시험이 이유다
     # retry 는 2026-09-24 에 더했다 — v46 이 재시도 지문을 바꿨는데 해시가 v41 과
     # 같았다. 처방 전후가 구별이 안 됐다 (`tests/test_fingerprint.py`)
+    # triggers 는 2026-09-28 에 더했다 — 조건부 블록을 어느 조문에 붙일지 정하는
+    # 방아쇠가 catalog.py 에 있는데 안 세고 있었다. v36↔v37 · v38↔v39 가
+    # 구별되지 않았다. **이 시험은 키 목록만 보므로 구멍을 못 잡는다** —
+    # 파일을 실제로 건드려 보는 것은 `tests/test_fingerprint.py` 다
     assert set(fp) == {"system", "fewshots", "n_fewshots", "catalog", "schema",
-                       "vocab", "validator", "retry"}
+                       "vocab", "validator", "retry", "triggers"}
     assert fp["n_fewshots"] == 4
     assert all(isinstance(fp[k], str) and len(fp[k]) == 12
                for k in ("system", "fewshots", "catalog", "schema", "vocab",

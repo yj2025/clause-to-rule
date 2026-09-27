@@ -75,6 +75,16 @@ def prompt_fingerprint():
         # `SYSTEM_PROMPT` 는 위에서 따로 세지만 그것만으로는 모자란다 —
         # `build_retry_prompt` · 조건부 블록 · `_USAGE` 가 전부 이 파일에 있다.
         "retry": h((Path(__file__).parent / "prompt.py").read_text("utf-8")),
+        # 2026-09-28 — **또 같은 구멍이 있었다.** `retry` 키가 `prompt.py` 만
+        # 세는데, **조건부 블록을 «어느 조문에 붙일지» 정하는 방아쇠는
+        # `catalog.py` 에 있다** (`wants_non_binding` · `wants_change_kinds` 등).
+        # 그것만 바꾸는 라운드는 지문 해시가 하나도 안 바뀐다.
+        #
+        # 실제로 물었다 — **v36↔v37 과 v38↔v39 가 지문으로 구별되지 않는다.**
+        # v37 은 「같은 네 줄을 그대로 두고 붙는 조문만 17 → 12 로 줄였다」는
+        # 라운드다. 판정선 계산에는 피해가 없었지만(섞어 쓴 표본이 전부 실제로
+        # 같은 코드였다) 「지문이 같으면 같은 구성」이라는 가정이 세 번 깨졌다.
+        "triggers": h((Path(__file__).parent / "catalog.py").read_text("utf-8")),
     }
 
 MODEL = "Qwen/Qwen3-8B"
