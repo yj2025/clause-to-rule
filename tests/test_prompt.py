@@ -260,3 +260,25 @@ def test_the_abstain_shape_matches_the_gold():
     assert n >= 20
     assert with_eff == 0, f"정답의 기권 rule {with_eff}개가 effect 를 단다"
     assert with_cond <= 3, f"정답의 기권 rule {with_cond}개가 조건을 단다"
+
+
+# ── v54 · 옮길 것이 아예 없으면 rule 을 만들지 않는다 ────────────────────
+def test_the_block_separates_nothing_to_translate_from_cannot_translate():
+    """v46 이 「기권하라」만 말해서 **규칙이 아닌 서술**에도 기권 rule 이 붙었다.
+
+    정답이 «빈 배열»인 조문에 기권 rule 을 다는 자리가 3~4 에서 6 으로 늘었고
+    네 라운드 내내 6 이었다 — 「기본이율 적용」 · 「해지 방법」 같은 문장들이다.
+    지문 5번은 그 둘을 가르는데 블록이 한쪽만 되풀이하고 있었다.
+    """
+    p = _retry(["카탈로그에 없는 변수: notice.methods. 쓸 수 있는 것: account.balance"])
+    block = p.split("[목록에 없는 이름이 필요할 때]")[1].split("문제만 고쳐서")[0]
+    assert "rule 을 만들지 않는다" in block
+    assert "「옮길 것이 없다」와 「옮길 수 없다」는 다르다" in block
+
+
+def test_the_two_cases_match_the_system_prompt():
+    """블록이 가르는 둘은 **지문 5번이 이미 가르는 둘**이다. 말이 어긋나면 안 된다."""
+    from prompt import SYSTEM_PROMPT
+    assert "빈 배열" in SYSTEM_PROMPT
+    assert "옮길 것이 없는 경우" in SYSTEM_PROMPT
+    assert "옮길 수 없는 경우" in SYSTEM_PROMPT
