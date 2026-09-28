@@ -10,14 +10,18 @@ import pytest
 
 # 2026-09-28 에 METHOD.md 를 더했다 — 판정하는 법이 라운드 판정문 곳곳에 흩어져
 # 있어서, 세션이 초기화되면 방법부터 다시 세워야 했다. 한 장으로 모았다.
+#
+# CLAUDE.md 도 같은 날 더했다. **읽는 문서가 아니라 세션이 자동으로 집어 가는
+# 설정**이라 성격이 다르지만, 루트의 `*.md` 를 전부 세는 이 시험에는 들어온다.
 DOCS = ("README.md", "ROUNDS.md", "EXPERIMENTS.md", "NOISE.md",
-        "CATALOG_PROPOSAL.md", "DECISIONS.md", "STATUS.md", "METHOD.md")
+        "CATALOG_PROPOSAL.md", "DECISIONS.md", "STATUS.md", "METHOD.md",
+        "CLAUDE.md")
 
 # 본문에서 `파일.md` 꼴로 부르는 것
 _REF = re.compile(r"`([A-Za-z0-9_./-]+\.(?:md|py))`")
 
 
-def test_the_doc_set_is_exactly_eight(root):
+def test_the_doc_set_is_exactly_nine(root):
     got = sorted(p.name for p in root.glob("*.md"))
     assert got == sorted(DOCS), (
         f"문서가 늘거나 줄었다: {got}. 라운드마다 파일을 새로 만들지 않는다 — "
