@@ -281,3 +281,28 @@ def test_the_two_cases_match_the_system_prompt():
     assert "빈 배열" in SYSTEM_PROMPT
     assert "옮길 것이 없는 경우" in SYSTEM_PROMPT
     assert "옮길 수 없는 경우" in SYSTEM_PROMPT
+
+
+def test_rule_five_matches_the_schema_and_the_gold():
+    """**v62 — 지문 5번이 스키마와 어긋나던 것을 고쳤다.**
+
+    「effect 도 그렇게 적는다」대로 하면 스키마 위반 + 카탈로그에 없는 effect 다.
+    정답의 기권 rule 28개는 전부 조건도 effect 도 없다. **다시 어긋나면 잡는다.**
+    """
+    from prompt import SYSTEM_PROMPT
+    assert "조건도 effect 도 적지 않는다" in SYSTEM_PROMPT
+    assert "effect 도 그렇게 적는다" not in SYSTEM_PROMPT
+
+
+def test_what_rule_five_says_passes_the_validator():
+    """지문이 말하는 대로 낸 출력이 관문을 통과해야 한다.
+
+    2026-09-28 전수 점검에서 5번만 어긋났다. 그 점검을 시험으로 굳힌다.
+    """
+    import validate as V
+    Q = "▪ 연 0.10% 를 적용한다"
+    out = {"rules": [{"rule_id": "T-1", "status": "UNSUPPORTED", "label": "t",
+                      "source": {"quote": Q}}]}
+    r = V.score_record(out, "조문 본문 ▪ 연 0.10% 를 적용한다")
+    for k in ("json_ok", "schema_ok", "catalog_ok", "quote_ok", "exec_ok"):
+        assert r[k], f"{k} 가 막는다: {r.get('errors')}"
