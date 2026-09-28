@@ -17,6 +17,8 @@
 상품 전환 effect · 적용 기준 금액 effect · 압류 계열 이벤트 · 출금 이벤트.
 """
 
+import re
+
 # ── 상품 (74) ───────────────────────────────────────────────────────────
 # 2026-09-20. 「KB국민ONE통장으로 자동전환」 처럼 **다른 상품을 가리키는** 조문이 있다.
 # 이름을 자유 문자열로 쓰면 ⑬ 이 막고 실행기도 못 읽는다. DB(`Products`)의 은행 채번
@@ -454,6 +456,27 @@ def wants_non_binding(text):
         return False
     notes = [l for l in text.split("\n") if l.strip().startswith("※")]
     return not any(w in l for l in notes for w in _REQUIREMENT_WORDS)
+
+
+# 2026-09-28 · v66. **「최대 N만원까지」를 문턱으로 읽는다.**
+#
+# `KBYY-S2-R07` 「▪ 연 1.9% (최대 100만원까지)」를 모델이 네 번 다
+# `reserved >= 1000000 → RATE_OVERRIDE` · `reserved > 1000000 → DISQUALIFY` 로 적는다.
+# 상한을 문턱으로, 더하기를 덮어쓰기로, 한도 초과를 자격 상실로 — **셋이 동시에**
+# 틀린다. `LIMIT_AMOUNT` 는 퓨샷 예시에 있는데 v58~v61 에서 **0조문**이다.
+#
+# 방아쇠는 **금액이 붙은 「최대 N만원」**이다. 46조문에서 **정확히 둘**이 걸리고
+# (`KBYY-S2-R07` · `KBYY-S2-R23`) 둘 다 정답이 `LIMIT_AMOUNT` 를 쓴다 (2026-09-28 실측).
+# 「한도 · 이내 · 까지 가능」으로 넓히면 「5년 이내」(`KBONE-S2-R17` · `KBYY-S2-R20`,
+# 정답 `DORMANT_CONTRIBUTION`)가 같이 걸려 v39 의 이득을 깰 수 있어 **일부러 좁혔다.**
+#
+# 이 트리거도 상품 두 개 46조문에서 고른 것이다.
+_CAP_AMOUNT = re.compile(r"최대\s*[\d,]+\s*만\s*원")
+
+
+def wants_limit_block(text):
+    """「한도와 금리를 적는 법」 블록을 붙일 조문인가 — 금액 상한이 적혀 있을 때만."""
+    return bool(_CAP_AMOUNT.search(text))
 
 
 def pick_products(text):

@@ -120,6 +120,18 @@ def _catalog_block(text):
         lines.append(f"  {'SERVICE_PROVIDE':<28}**계좌 밖의 서비스**를 준다 (수강권 · 신문 등). 예금과 무관하다")
         lines.append("  무엇이 바뀌는지로 고른다 — 계좌의 설정인가, 돈의 주인인가, 계좌 밖의 것인가")
 
+    # 2026-09-28 · v66. 「최대 N만원까지」를 문턱으로 읽고, 더하기를 덮어쓰기로,
+    # 한도 초과를 자격 상실로 적는다 (`KBYY-S2-R07` 네 번 다). 이름은 이미 있다 —
+    # `LIMIT_AMOUNT` 는 퓨샷에도 있는데 0조문이다. **차이를 말한다** (v36 · v39 의 모양).
+    if catalog.wants_limit_block(text):
+        lines.append("[한도와 금리를 적는 법]")
+        lines.append("  「최대 N까지」는 **상한**이다 — N 이상이어야 한다는 **문턱이 아니다**")
+        lines.append("  상한은 LIMIT_AMOUNT 로 적고 조건을 붙이지 않는다.")
+        lines.append("    한도를 넘는다고 예금 자격을 잃는 것이 아니다")
+        lines.append(f"  {'RATE_ADD':<28}기본금리에 **더한다** (우대금리)")
+        lines.append(f"  {'RATE_OVERRIDE':<28}기본금리를 **덮어쓴다** — "
+                     "조문이 「대신 적용한다」고 할 때만")
+
     restrictions = catalog.pick_restrictions(text)
     if restrictions:
         # 2026-09-22 · v36. **막는 효과가 둘인데 지문이 뜻을 안 말한다.**

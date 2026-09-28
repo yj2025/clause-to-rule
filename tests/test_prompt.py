@@ -310,3 +310,12 @@ def test_what_rule_five_says_passes_the_validator():
     r = V.score_record(out, "조문 본문 ▪ 연 0.10% 를 적용한다")
     for k in ("json_ok", "schema_ok", "catalog_ok", "quote_ok", "exec_ok"):
         assert r[k], f"{k} 가 막는다: {r.get('errors')}"
+
+
+def test_limit_block_says_cap_not_threshold():
+    """v66 — 블록은 방아쇠가 걸린 조문에만 붙고, 상한 · 더하기 · 덮어쓰기의 차이를 말한다."""
+    p = build_user_prompt("▪ 연 1.9% (최대 100만원까지)")
+    block = p.split("[한도와 금리를 적는 법]")[1]
+    assert "LIMIT_AMOUNT" in block and "문턱이 아니다" in block
+    assert "RATE_ADD" in block and "RATE_OVERRIDE" in block
+    assert "[한도와 금리를 적는 법]" not in build_user_prompt("▪ 연 1.9% (5년 이내)")

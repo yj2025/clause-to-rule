@@ -230,3 +230,25 @@ def test_the_five_new_targets_are_covered():
     for cid in ("KBONE-S2-R04", "KBYY-S2-R03", "KBYY-S2-R06",
                 "KBYY-S2-R10", "KBYY-S2-R15"):
         assert catalog.wants_non_binding(clauses[cid]["text"]), cid
+
+
+def test_limit_block_hits_exactly_the_two_limit_clauses():
+    """v66 — 「최대 N만원」 방아쇠는 정답이 LIMIT_AMOUNT 를 쓰는 두 조문에만 걸린다.
+
+    넓히면 「5년 이내」(정답 DORMANT_CONTRIBUTION)가 같이 걸려 v39 의 이득을 깰 수 있다.
+    """
+    import json
+    import pathlib
+
+    import catalog
+    root = pathlib.Path(__file__).resolve().parent.parent
+    clauses = json.loads((root / "data" / "corpus.json").read_text("utf-8"))
+    hit = sorted(c["id"] for c in clauses if catalog.wants_limit_block(c["text"]))
+    assert hit == ["KBYY-S2-R07", "KBYY-S2-R23"]
+    for cid in hit:
+        g = json.loads((root / "data" / "gold" / f"{cid}.json").read_text("utf-8"))
+        effs = {(r.get("effect") or {}).get("type") for r in g["rules"]}
+        assert "LIMIT_AMOUNT" in effs, cid
+    for cid in ("KBONE-S2-R17", "KBYY-S2-R20"):
+        text = next(c["text"] for c in clauses if c["id"] == cid)
+        assert not catalog.wants_limit_block(text), cid
