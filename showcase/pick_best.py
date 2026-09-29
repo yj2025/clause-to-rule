@@ -30,6 +30,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 import mismatch  # noqa: E402
 import vacuous  # noqa: E402
+import validate  # noqa: E402
 from engine import evaluate_rules  # noqa: E402
 from resolver import resolve  # noqa: E402
 
@@ -87,6 +88,38 @@ def check(rec, text):
     return out
 
 
+# 기계적으로만 고치는 것 — **뜻을 건드리지 않는 누락**만. 금리 effect 의 `unit` 을 빠뜨린
+# 조문이 kb10 에서 19건이었다(2026-09-29). 값은 조문에 적힌 대로이고 단위만 없다.
+# 가산·감산은 %p, 덮어쓰기는 절대 금리라 % 다. 고친 뒤 **검증기를 다시 통과해야** 쓴다.
+_UNIT = {"RATE_ADD": "%p", "RATE_SUBTRACT": "%p", "RATE_OVERRIDE": "%"}
+
+
+def patch_units(rules):
+    """(고친 rule 목록, [고친 자리 설명]). 고칠 것이 없으면 설명이 빈 목록이다."""
+    out, notes = [], []
+    for r in rules:
+        e = r.get("effect")
+        if r.get("status") == "OK" and isinstance(e, dict) \
+                and e.get("type") in _UNIT and not e.get("unit"):
+            r = copy.deepcopy(r)
+            r["effect"]["unit"] = _UNIT[e["type"]]
+            notes.append(f"{r.get('rule_id')}: effect.unit 없음 → \"{_UNIT[e['type']]}\" 를 채웠다")
+        out.append(r)
+    return out, notes
+
+
+def widen(rec, text):
+    """관문에서 떨어진 기록을 단위만 채워 다시 잰다. 다 통과하면 (고친 기록, 설명)."""
+    rules = (rec.get("output") or {}).get("rules") or []
+    fixed, notes = patch_units(rules)
+    if not notes:
+        return None
+    marks = validate.score_record({"rules": fixed}, text)
+    if not all(marks.get(g) for g in GATES):
+        return None
+    return {**rec, "final": marks, "output": {"rules": fixed}}, notes
+
+
 # ── 경계값 고객 ─────────────────────────────────────────────────────────
 
 def _leaves(node, out):
@@ -112,7 +145,7 @@ def _leaves(node, out):
 
 def _values(op, lit):
     if op == "in" and isinstance(lit, list) and lit:
-        return [lit[0], "__다른값__"]
+        return [lit[0], "(목록 밖의 값)"]
     if op == "has":
         return [[lit], []]
     if isinstance(lit, bool):
@@ -120,7 +153,7 @@ def _values(op, lit):
     if isinstance(lit, (int, float)):
         step = 1 if isinstance(lit, int) and abs(lit) < 1000 else max(1, abs(lit) // 100)
         return sorted({lit - step, lit, lit + step})
-    return [lit, "__다른값__"]
+    return [lit, "(목록 밖의 값)"]
 
 
 def _set(ctx, name, v):
@@ -144,9 +177,10 @@ def examples(rules, base):
                 vs.append(v)
     names = list(per_var)[:3]                  # 변수 셋까지만 — 표가 읽혀야 한다
     combos = list(itertools.product(*[per_var[n] for n in names])) if names else [()]
-    if len(combos) > MAX_CASES:                # 고르게 솎는다
-        step = len(combos) / MAX_CASES
-        combos = [combos[int(i * step)] for i in range(MAX_CASES)]
+    limit = 16 if len(names) == 1 else MAX_CASES   # 변수 하나면 경계를 다 보인다
+    if len(combos) > limit:                    # 고르게 솎는다
+        step = len(combos) / limit
+        combos = [combos[int(i * step)] for i in range(limit)]
     ok = [r for r in rules if r.get("status") == "OK"]
     out = []
     for combo in combos:
@@ -158,7 +192,10 @@ def examples(rules, base):
         out.append({
             "고객": {n: v for n, v in zip(names, combo)},
             "판별": {j.rule_id: j.status for j in js},
-            "최종금리": f"연 {res.final_rate_min}% ~ {res.final_rate_max}%",
+            # 걸린 금리 rule 이 없으면 기본이율을 찍지 않는다 — 그 값은 이 조문이 낸 것이 아니다
+            "최종금리": (f"연 {res.final_rate_min}% ~ {res.final_rate_max}%"
+                        if res.applied or res.unknown or res.overridden_rules
+                        else "— (이 조문으로 정해지지 않음)"),
             "자격상실": res.disqualified,
             "검토필요": res.needs_review,
             "그밖의효과": [json.dumps(e, ensure_ascii=False) if not isinstance(e, str) else e
@@ -185,6 +222,9 @@ def main(argv=None):
     ap.add_argument("--review", default=str(HERE / "review.json"))
     ap.add_argument("--top", type=int, default=3, help="상품당 best 몇 개")
     ap.add_argument("--out", default=str(HERE / "out"))
+    ap.add_argument("--widen", action="store_true",
+                    help="단위만 빠진 것을 채워 다시 재고, ⑭·⑮ 에만 걸린 것도 후보로 둔다")
+    ap.add_argument("--list", action="store_true", help="대조할 후보만 찍고 끝낸다")
     a = ap.parse_args(argv)
 
     clauses = {c["id"]: c for c in json.load(open(a.clauses, encoding="utf-8"))}
@@ -198,17 +238,24 @@ def main(argv=None):
         c = clauses.get(r["clause_id"])
         if c is None:
             continue
-        flags = check(r, c["text"])
+        flags, patches = check(r, c["text"]), []
+        if a.widen and any(k == "관문" for k, _ in flags):
+            w = widen(r, c["text"])
+            if w:
+                r, patches = w
+                flags = check(r, c["text"])
         rules = (r.get("output") or {}).get("rules") or []
         by_prod.setdefault(_prefix(r["clause_id"]), []).append(
-            {"clause": c, "rules": rules, "flags": flags,
+            {"clause": c, "rules": rules, "flags": flags, "patches": patches,
              "review": review.get(r["clause_id"])})
 
     report = []
     for pre, items in by_prod.items():
         pc = [x["clause"] for x in items]
         base = _base_rate(pc)
-        clean = [x for x in items if not x["flags"]]
+        soft = ("⑭", "⑮")          # --widen 일 때 후보로 두되 표시를 달고 나간다
+        clean = [x for x in items if not x["flags"] or
+                 (a.widen and all(k.startswith(soft) for k, _ in x["flags"]))]
         clean.sort(key=lambda x: (
             {"ok": 0, None: 1, "fix": 2}.get((x["review"] or {}).get("verdict"), 3),
             not _meaningful(x["rules"]),
@@ -216,7 +263,13 @@ def main(argv=None):
             -sum(1 for rr in x["rules"] if rr.get("status") == "OK" and rr.get("condition")),
         ))
         clean = [x for x in clean if (x["review"] or {}).get("verdict") != "drop"]
-        best = clean[:a.top]
+        if a.list:
+            for x in clean:
+                if x["review"] is None:
+                    print(x["clause"]["id"], "|", x["clause"]["label"][:30], "|",
+                          sorted({k for k, _ in x["flags"]}), "| 고침", len(x["patches"]))
+            continue
+        best = [x for x in clean if x["review"]][:a.top]     # 대조한 것만 best 로 낸다
         for x in best:
             x["examples"] = examples(x["rules"], base)
         info = names.get(pre, {"prefix": pre, "product": pre, "kind": ""})
@@ -225,12 +278,16 @@ def main(argv=None):
                        "all": [{"id": x["clause"]["id"], "label": x["clause"]["label"],
                                 "flags": x["flags"]} for x in items]})
 
+    if a.list:
+        return
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     (out / "kb10_best.json").write_text(json.dumps(
         [{**p, "best": [{"clause_id": x["clause"]["id"], "label": x["clause"]["label"],
                          "category": x["clause"]["category"], "source_text": x["clause"]["text"],
                          "rules": x["rules"], "review": x["review"],
+                         "patched": x["patches"],
+                         "flags": [f"{k}: {d}" for k, d in x["flags"]],
                          "examples": x["examples"]} for x in p["best"]]}
          for p in report], ensure_ascii=False, indent=1), "utf-8")
     (out / "kb10_best.md").write_text(render(report, a.results), "utf-8")
@@ -249,9 +306,12 @@ def render(report, src):
          "> **정답이 없는 상품이다.** 여기 «best» 는 «기계가 잡는 결함(관문 ①~⑤ · ⑭ 헛조건 · "
          "⑮ 뜻이 다른 변수)이 없고, 사람이 원문과 대조한 것» 이다. «정확도» 가 아니다.",
          "> 고객 예시는 조건의 경계값으로 만든 **합성 고객**이다.", "",
-         "## 한눈에", "", "| 분류 | 상품 | 조문 | 결함 없음 | best |", "|---|---|---:|---:|---:|"]
+         "## 한눈에", "", "| 분류 | 상품 | 조문 | 대조 후 남은 후보 | best |", "|---|---|---:|---:|---:|"]
     for p in report:
         L.append(f"| {p.get('kind','')} | {p['product']} | {p['n']} | {p['n_clean']} | {len(p['best'])} |")
+    notes = HERE / "notes.md"
+    if notes.exists():
+        L += ["", notes.read_text("utf-8").rstrip()]
     for p in report:
         L += ["", "---", "", f"## {p['product']}  ({p.get('kind','')})", "",
               f"기본이율 연 {p['base_rate']:.2f}% · 조문 {p['n']}개 중 결함 없음 {p['n_clean']}개"]
@@ -263,6 +323,11 @@ def render(report, src):
             L += ["", f"### {i}. {c['label']}  `{c['id']}` — {mark}", ""]
             if rv.get("note"):
                 L += [f"> {rv['note']}", ""]
+            if x.get("patches"):
+                L += ["**고친 자리** (모델 출력에서 뜻과 무관한 누락만 채웠다)", ""]
+                L += [f"* {n}" for n in x["patches"]] + [""]
+            if x.get("flags"):
+                L += ["**기계 검사 표시** — " + " · ".join(sorted({k for k, _ in x["flags"]})), ""]
             L += ["**원문**", "", "```", c["text"], "```", "", "**조건식 (모델 출력)**", "",
                   _fence([r for r in x["rules"]]), ""]
             ex = x.get("examples") or []
