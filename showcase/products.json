@@ -1,0 +1,102 @@
+[
+ {
+  "prefix": "KBGL",
+  "product": "KB골든라이프연금우대통장",
+  "kind": "입출금",
+  "document": "KB골든라이프연금우대통장 상품설명서",
+  "effective_date": "2025-01-13",
+  "url": "https://obank.kbstar.com/quics?asfilecode=566703&formDocNo=68882",
+  "clauses_all": 22,
+  "clauses": 21
+ },
+ {
+  "prefix": "KBSSG",
+  "product": "쓱머니KB통장",
+  "kind": "입출금",
+  "document": "쓱머니 KB통장 상품설명서",
+  "effective_date": "2026-04-08",
+  "url": "https://obank.kbstar.com/quics?asfilecode=566703&formDocNo=69785",
+  "clauses_all": 28,
+  "clauses": 27
+ },
+ {
+  "prefix": "KBNR",
+  "product": "KB나라사랑우대통장",
+  "kind": "입출금",
+  "document": "KB나라사랑우대통장 상품설명서",
+  "effective_date": "2026-03-09",
+  "url": "https://obank.kbstar.com/quics?asfilecode=566703&formDocNo=72454",
+  "clauses_all": 20,
+  "clauses": 19
+ },
+ {
+  "prefix": "KBSME",
+  "product": "KB 중소기업재직자 우대저축",
+  "kind": "적금",
+  "document": "KB중소기업재직자 우대저축 상품설명서",
+  "effective_date": "2026-08-21",
+  "url": "https://obank.kbstar.com/quics?asfilecode=566703&formDocNo=74796",
+  "clauses_all": 33,
+  "clauses": 32
+ },
+ {
+  "prefix": "KBMER",
+  "product": "KB가맹점우대적금",
+  "kind": "적금",
+  "document": "KB가맹점우대적금 상품설명서",
+  "effective_date": "2026-07-24",
+  "url": "https://obank.kbstar.com/quics?asfilecode=566703&formDocNo=74408",
+  "clauses_all": 29,
+  "clauses": 28
+ },
+ {
+  "prefix": "KBMY",
+  "product": "KB내맘대로적금",
+  "kind": "적금",
+  "document": "KB내맘대로적금 상품설명서",
+  "effective_date": "2024-12-30",
+  "url": "https://obank.kbstar.com/quics?asfilecode=566703&formDocNo=69004",
+  "clauses_all": 33,
+  "clauses": 32
+ },
+ {
+  "prefix": "KBHAP",
+  "product": "KB국민행복적금",
+  "kind": "적금",
+  "document": "KB국민행복적금 상품설명서",
+  "effective_date": "2026-07-24",
+  "url": "https://obank.kbstar.com/quics?asfilecode=566703&formDocNo=74415",
+  "clauses_all": 30,
+  "clauses": 29
+ },
+ {
+  "prefix": "KBSUP",
+  "product": "국민수퍼정기예금(개인)",
+  "kind": "정기예금",
+  "document": "국민수퍼정기예금 상품설명서",
+  "effective_date": "2026-07-21",
+  "url": "https://obank.kbstar.com/quics?asfilecode=566703&formDocNo=74388",
+  "clauses_all": 16,
+  "clauses": 15
+ },
+ {
+  "prefix": "KBSTR",
+  "product": "KB Star 정기예금",
+  "kind": "정기예금",
+  "document": "KB Star 정기예금 상품설명서",
+  "effective_date": "2026-07-21",
+  "url": "https://obank.kbstar.com/quics?asfilecode=566703&formDocNo=74384",
+  "clauses_all": 23,
+  "clauses": 22
+ },
+ {
+  "prefix": "KBGEN",
+  "product": "일반정기예금",
+  "kind": "정기예금",
+  "document": "일반정기예금 상품설명서",
+  "effective_date": "2026-07-21",
+  "url": "https://obank.kbstar.com/quics?asfilecode=566703&formDocNo=74389",
+  "clauses_all": 17,
+  "clauses": 16
+ }
+]

@@ -1,0 +1,5 @@
+# 진행 로그와 러너 부분결과 — 합쳐지면 results_<버전>.json 이 된다
+*.log
+.*_part_*.json
+.*.lock
+out/
