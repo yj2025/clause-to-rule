@@ -10,7 +10,7 @@ def test_the_fingerprint_covers_every_file_that_changes_the_output():
     import run_local_v2 as R
     fp = R.prompt_fingerprint()
     for key in ("system", "fewshots", "catalog", "schema", "vocab",
-                "validator", "retry", "triggers"):
+                "validator", "retry", "triggers", "runner"):
         assert key in fp, f"{key} 가 지문에 없다"
 
 
@@ -58,3 +58,13 @@ def test_changing_the_retry_prompt_changes_the_fingerprint():
     finally:
         p.write_text(orig, "utf-8")
     assert before != after, "prompt.py 를 고쳐도 지문 해시가 안 바뀐다"
+
+
+def test_changing_the_retry_loop_changes_the_fingerprint():
+    """**이 시험이 없으면 재시도 루프만 바꾼 라운드가 앞 라운드와 구별이 안 된다.**
+
+    재시도를 할지 말지는 `run_local_v2.run_clause` 가 정한다. 2026-09-29 에 그 루프만
+    바꾸는 처방을 준비하다 지문이 이 파일을 안 센다는 것을 봤다.
+    """
+    before, after = _touch("run_local_v2.py")
+    assert before != after, "run_local_v2.py 를 고쳐도 지문 해시가 안 바뀐다"

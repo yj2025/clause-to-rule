@@ -205,8 +205,10 @@ def test_every_record_says_what_made_it():
     # 방아쇠가 catalog.py 에 있는데 안 세고 있었다. v36↔v37 · v38↔v39 가
     # 구별되지 않았다. **이 시험은 키 목록만 보므로 구멍을 못 잡는다** —
     # 파일을 실제로 건드려 보는 것은 `tests/test_fingerprint.py` 다
+    # runner 는 2026-09-30 에 더했다 — 재시도 루프(`run_clause`)가 이 파일에 있는데
+    # 안 세고 있었다. 그 루프만 바꾸는 처방을 준비하다 봤다
     assert set(fp) == {"system", "fewshots", "n_fewshots", "catalog", "schema",
-                       "vocab", "validator", "retry", "triggers"}
+                       "vocab", "validator", "retry", "triggers", "runner"}
     assert fp["n_fewshots"] == 4
     assert all(isinstance(fp[k], str) and len(fp[k]) == 12
                for k in ("system", "fewshots", "catalog", "schema", "vocab",
