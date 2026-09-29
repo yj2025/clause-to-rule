@@ -185,10 +185,13 @@ def parse_json(raw):
 GATES = ("json_ok", "schema_ok", "catalog_ok", "quote_ok", "exec_ok")
 
 
-def _score_of(marks):
+def _score_of(marks, semantic=None):
     """시도 하나를 견주는 열쇠. 앞에 올수록 세다.
 
-    (통과한 관문 수, 오류가 적은 것)
+    (통과한 관문 수, 뜻 오류가 적은 것, 오류가 적은 것)
+
+    **뜻 오류**(`validate.semantic_errors`, 2026-09-30 · v70)는 관문 **다음** 자리다 —
+    관문을 잃으면서 뜻 오류를 없앤 시도는 고르지 않는다.
 
     **관문 수만으로는 부족하다.** v12 에서 확인했다 — 재시도가 지어낸 코드를
     고쳤는데 관문 수가 그대로라 "동점이면 앞" 규칙에 걸려 채택되지 않았다.
@@ -198,8 +201,9 @@ def _score_of(marks):
     위반이 셋인 것과 하나인 것은 다르다.
     """
     if not marks:
-        return (0, 0)
-    return (sum(1 for k in GATES if marks[k]), -len(marks.get("errors") or []))
+        return (0, 0, 0)
+    return (sum(1 for k in GATES if marks[k]), -len(semantic or []),
+            -len(marks.get("errors") or []))
 
 
 def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
@@ -241,26 +245,28 @@ def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
             raw_last = raw
             parsed = parse_json(raw)
             marks = validate.score_record(parsed, clause["text"])
+            # 관문이 못 보는 뜻 오류 — 관문 정의는 그대로 두고 재시도만 부른다 (v70)
+            sem = validate.semantic_errors(parsed, clause["text"])
             if first is None:
                 first = marks
 
-            got = _score_of(marks)
+            got = _score_of(marks, sem)
             if best is None or got > best[0]:
-                best = (got, attempts, marks, parsed, marks["errors"])
+                best = (got, attempts, marks, parsed, marks["errors"], sem)
 
-            if got[0] == len(GATES):
+            if got[0] == len(GATES) and not sem:
                 break
             if not allow_retry or parsed is None:
                 break
-            user = build_retry_prompt(clause["text"], parsed, marks["errors"],
+            user = build_retry_prompt(clause["text"], parsed, marks["errors"] + sem,
                                       clause["id"])
 
-        _, n_best, marks, output, errors = best
+        _, n_best, marks, output, errors, sem = best
         out.append({"clause_id": clause["id"], "run": run, "n_attempts": attempts,
                     "prompt": _FINGERPRINT,
                     "n_best": n_best,
                     "first": _marks(first), "final": _marks(marks),
-                    "errors": errors, "output": output,
+                    "errors": errors, "semantic_errors": sem, "output": output,
                     "raw_first": raw_first, "raw_last": raw_last,
                     "truncated": truncated})
     return out

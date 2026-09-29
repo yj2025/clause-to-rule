@@ -277,3 +277,58 @@ def test_the_fingerprint_moves_when_the_schema_moves():
     finally:
         schema.SCHEMA = old
         importlib.reload(R)
+
+
+# ── v70 · 관문을 다 넘어도 뜻 오류가 있으면 재시도한다 (2026-09-30) ──────────────
+CAP_TEXT = "▪ 연 1.9% (최대 100만원까지)"
+CAP_BAD = ('{"rules": [{"rule_id": "R", "status": "OK", '
+           '"source": {"quote": "▪ 연 1.9% (최대 100만원까지)"}, '
+           '"condition": {">=": [{"var": "account.reserved_amount"}, 1000000]}, '
+           '"effect": {"type": "RATE_ADD", "value": 1.9, "unit": "%p"}}]}')
+CAP_GOOD = ('{"rules": [{"rule_id": "R", "status": "OK", '
+            '"source": {"quote": "▪ 연 1.9% (최대 100만원까지)"}, '
+            '"condition": {">": [{"var": "account.reserved_amount"}, 0]}, '
+            '"effect": {"type": "RATE_ADD", "value": 1.9, "unit": "%p"}}]}')
+
+
+def test_a_cap_used_as_a_threshold_passes_every_gate():
+    """**이 처방이 필요한 이유** — 관문 다섯이 이 모양을 통과시킨다."""
+    import json
+
+    from validate import score_record, semantic_errors
+    m = score_record(json.loads(CAP_BAD), CAP_TEXT)
+    assert all(m[k] for k in R.GATES)
+    assert semantic_errors(json.loads(CAP_BAD), CAP_TEXT)
+
+
+def test_a_semantic_error_triggers_a_retry_even_when_every_gate_passes(monkeypatch):
+    r = _run_with([CAP_BAD, CAP_GOOD], monkeypatch, clause_text=CAP_TEXT)
+    assert r["n_attempts"] == 2 and r["n_best"] == 2
+    assert r["semantic_errors"] == []
+
+
+def test_a_semantic_fix_that_loses_a_gate_is_not_taken(monkeypatch):
+    # 뜻 오류는 없앴지만 인용이 틀려 관문을 잃은 재시도 — 1차를 낸다
+    lost = CAP_GOOD.replace("▪ 연 1.9% (최대 100만원까지)", "없는 문장")
+    r = _run_with([CAP_BAD, lost, lost], monkeypatch, clause_text=CAP_TEXT)
+    assert r["n_best"] == 1 and r["semantic_errors"]
+
+
+def test_no_semantic_error_without_a_cap_in_the_clause(monkeypatch):
+    r = _run_with([GOOD, BROKEN], monkeypatch)
+    assert r["n_attempts"] == 1 and r["semantic_errors"] == []
+
+
+def test_the_semantic_check_is_silent_on_the_gold(root):
+    """새 검사는 정답에서 0 이어야 한다 (`METHOD.md` 6절)."""
+    import json
+
+    from validate import semantic_errors
+    texts = {c["id"]: c["text"] for c in
+             json.loads((root / "data" / "corpus.json").read_text("utf-8"))}
+    hits = []
+    for p in sorted((root / "data" / "gold").glob("*.json")):
+        if p.name.startswith("_"):
+            continue
+        hits += semantic_errors(json.loads(p.read_text("utf-8")), texts[p.stem])
+    assert hits == []

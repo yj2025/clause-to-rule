@@ -13,6 +13,8 @@
 앞으로의 비교는 이 계약으로 한다.
 """
 
+import re
+
 import jsonschema
 
 import catalog
@@ -500,6 +502,63 @@ def check_executable(rule):
 
 
 # ── 레코드 한 건 채점 ───────────────────────────────────────────────────
+# 2026-09-30 · v70. **관문 다섯이 통과시키는 뜻 오류 중 짚을 수 있는 것.**
+#
+# `KBYY-S2-R07` 「▪ 연 1.9% (최대 100만원까지)」를 모델이 여덟 라운드 내내
+# `reserved >= 1000000 → RATE_OVERRIDE` · `reserved > 1000000 → DISQUALIFY` 로 적는다.
+# 관문을 다 넘으므로 재시도가 한 번도 안 돈다. v66 이 지문 블록으로 «미리» 말했는데 안 닿았다.
+#
+# **관문(①~⑤)의 정의는 안 바꾼다.** 여기서 찾은 것은 `score_record` 에 안 들어가고
+# 재시도 루프(`run_local_v2.run_clause`)만 쓴다 — 과거 라운드와 지표를 그대로 견주려고.
+#
+# 방아쇠는 v66 블록과 같은 「최대 N만원」이다(`catalog.wants_limit_block`). 정답 46조문에서
+# 0 · 여덟 라운드에서 `KBYY-S2-R07` 만 8/8 걸린다 (2026-09-30 실측).
+_CAP_AMOUNTS = re.compile(r"최대\s*([\d,]+)\s*만\s*원")
+
+
+def _thresholds(node, out):
+    """조건식에서 `var >= 수` · `var > 수` 를 전부 찾는다."""
+    if isinstance(node, dict):
+        for op, args in node.items():
+            if op in (">=", ">") and isinstance(args, list) and len(args) == 2 \
+                    and isinstance(args[0], dict) and isinstance(args[0].get("var"), str) \
+                    and isinstance(args[1], (int, float)) and not isinstance(args[1], bool):
+                out.append((args[0]["var"], op, args[1]))
+            _thresholds(args, out)
+    elif isinstance(node, list):
+        for x in node:
+            _thresholds(x, out)
+    return out
+
+
+def semantic_errors(output, clause_text):
+    """재시도가 짚을 뜻 오류. 관문과 따로 센다 — `score_record` 에는 안 들어간다."""
+    caps = {int(m.replace(",", "")) * 10000 for m in _CAP_AMOUNTS.findall(clause_text or "")}
+    if not caps or not isinstance(output, dict):
+        return []
+    errs = []
+    for r in output.get("rules") or []:
+        if not isinstance(r, dict) or r.get("status") != "OK":
+            continue
+        t = (r.get("effect") or {}).get("type")
+        if t not in catalog.RATE_EFFECTS and t != "DISQUALIFY":
+            continue
+        for var, op, n in _thresholds(r.get("condition"), []):
+            if n not in caps:
+                continue
+            won = f"{n // 10000}만원"
+            if t == "DISQUALIFY":
+                errs.append(f"{r.get('rule_id')}: 「최대 {won}」을 넘는다고 자격을 잃지 않는다 — "
+                            f"`{var} {op} {n}` → DISQUALIFY 를 지우고, 한도는 조건 없는 "
+                            f"LIMIT_AMOUNT rule 로 적는다")
+            else:
+                errs.append(f"{r.get('rule_id')}: 「최대 {won}」은 상한인데 금리 조건을 "
+                            f"`{var} {op} {n}` 으로 적었다 — 그러면 {n}원 이상인 고객만 금리를 "
+                            f"받는다. 금리 rule 의 조건에서 이 금액을 빼고, 한도는 조건 없는 "
+                            f"LIMIT_AMOUNT rule 로 따로 적는다")
+    return errs
+
+
 def score_record(output, clause_text):
     """생성물 하나 → ①~⑤ 와 ⑦.
 
