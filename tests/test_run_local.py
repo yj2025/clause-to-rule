@@ -332,3 +332,43 @@ def test_the_semantic_check_is_silent_on_the_gold(root):
             continue
         hits += semantic_errors(json.loads(p.read_text("utf-8")), texts[p.stem])
     assert hits == []
+
+
+# ── v74 · 조건을 단 LIMIT_AMOUNT 를 짚는다 (2026-09-30) ──────────────────────────
+LIM_TEXT = "적용한도 : 저금통 금액 설정은 최대 100만원(1만원 단위)까지 가능"
+LIM_BAD = ('{"rules": [{"rule_id": "R", "status": "OK", '
+           '"source": {"quote": "적용한도 : 저금통 금액 설정은 최대 100만원(1만원 단위)까지 가능"}, '
+           '"condition": {">": [{"var": "account.reserved_amount"}, 1000000]}, '
+           '"effect": {"type": "LIMIT_AMOUNT", "value": 1000000}}]}')
+LIM_GOOD = LIM_BAD.replace('{">": [{"var": "account.reserved_amount"}, 1000000]}', '{}')
+
+
+def test_a_conditioned_limit_is_a_semantic_error():
+    import json
+
+    from validate import semantic_errors
+    assert semantic_errors(json.loads(LIM_BAD), LIM_TEXT)
+    assert semantic_errors(json.loads(LIM_GOOD), LIM_TEXT) == []
+
+
+def test_a_conditioned_limit_is_caught_without_a_cap_in_the_text():
+    """「최대 N만원」 방아쇠와 따로 선다 — 조문 글에 기대지 않는다."""
+    import json
+
+    from validate import semantic_errors
+    assert semantic_errors(json.loads(LIM_BAD), "한도 문장")
+
+
+def test_an_abstained_limit_is_left_alone():
+    import json
+
+    from validate import semantic_errors
+    out = json.loads(LIM_BAD)
+    out["rules"][0]["status"] = "UNSUPPORTED"
+    assert semantic_errors(out, LIM_TEXT) == []
+
+
+def test_a_conditioned_limit_triggers_a_retry(monkeypatch):
+    r = _run_with([LIM_BAD, LIM_GOOD], monkeypatch, clause_text=LIM_TEXT)
+    assert r["n_attempts"] == 2 and r["n_best"] == 2
+    assert r["semantic_errors"] == []

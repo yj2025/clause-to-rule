@@ -531,12 +531,36 @@ def _thresholds(node, out):
     return out
 
 
+def _conditioned_limits(output):
+    """조건을 단 `LIMIT_AMOUNT` (v74).
+
+    2026-09-30. 한도는 누구에게나 걸리는 상한이다 — 정답의 `LIMIT_AMOUNT` 둘
+    (`KBYY-S2-R07` · `KBYY-S2-R23`)은 둘 다 조건이 없다. 모델은 v63 이후 R23 에 6번 ·
+    v71~v73 R07 에 3번 조건을 달았다(`> 1000000` · 앞 rule 의 조건을 베낀 것 등).
+    v66 블록도 v70 재시도 문구도 「조건 없는」이라고 말했는데 안 먹었다 — **조건을 단
+    그 rule 을 짚는다.** 「최대 N만원」 방아쇠와 달리 조문 글에 기대지 않는다
+    (정답 0 · kb10 105조문에서 1 — 그것도 틀린 출력이다).
+    """
+    errs = []
+    for r in output.get("rules") or []:
+        if not isinstance(r, dict) or r.get("status") != "OK":
+            continue
+        if (r.get("effect") or {}).get("type") != "LIMIT_AMOUNT" or not r.get("condition"):
+            continue
+        errs.append(f"{r.get('rule_id')}: LIMIT_AMOUNT 에 조건을 달았다 — 한도는 누구에게나 "
+                    f"걸리는 상한이라 조건이 없다. 이 rule 의 condition 을 {{}} 로 비운다. "
+                    f"금액이 한도를 넘는지 따지는 조건(`> N`)은 한도를 두 번 적은 것이다")
+    return errs
+
+
 def semantic_errors(output, clause_text):
     """재시도가 짚을 뜻 오류. 관문과 따로 센다 — `score_record` 에는 안 들어간다."""
-    caps = {int(m.replace(",", "")) * 10000 for m in _CAP_AMOUNTS.findall(clause_text or "")}
-    if not caps or not isinstance(output, dict):
+    if not isinstance(output, dict):
         return []
-    errs = []
+    errs = _conditioned_limits(output)
+    caps = {int(m.replace(",", "")) * 10000 for m in _CAP_AMOUNTS.findall(clause_text or "")}
+    if not caps:
+        return errs
     for r in output.get("rules") or []:
         if not isinstance(r, dict) or r.get("status") != "OK":
             continue
