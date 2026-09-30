@@ -1,0 +1,134 @@
+[
+ {
+  "clause_id": "KBYY-S2-R23",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "4d5050f4ca33",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "ec845b3ccebd",
+   "vocab": "13c46517e41c",
+   "validator": "0e415346e9f9",
+   "retry": "bc1d813ed78d",
+   "triggers": "45df5a63d380"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 4
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 4
+  },
+  "errors": [
+   "스키마 위반: 'condition' is a required property (위치 rules/1)",
+   "스키마 위반: 'condition' is a required property (위치 rules/2)",
+   "RATE_OVERRIDE 의 value 는 수여야 한다. '전환 전 금리' 은 계산할 수 없다 — 조문에 적힌 숫자를 그대로 넣는다",
+   "RATE_OVERRIDE 에 필요한 키가 없다: unit"
+  ],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBYY-S2-R23-01",
+     "status": "OK",
+     "label": "1인 1계좌 제한",
+     "source": {
+      "quote": "▪ 이 통장은「KB Young Youth 청소년통장」을 포함하여 1인 1계좌만 가입 가능하며, 공동명의로 가입할 수 없습니다."
+     },
+     "condition": {
+      "not": {
+       "in": [
+        {
+         "var": "customer.holder_type"
+        },
+        [
+         "INDIVIDUAL",
+         "SOLE_PROPRIETOR",
+         "REGISTERED_ASSOCIATION"
+        ]
+       ]
+      }
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S2-R23-02",
+     "status": "OK",
+     "label": "저금통 설정 한도",
+     "source": {
+      "quote": "▪ 부가서비스 저금통 설정은 최대 100만원까지 가능하며, 저금통 설정된 금액을 출금(이체)하고자 하는 경우, 필요금액만큼 저금통 금액 차감 후 처리하여야 합니다."
+     },
+     "effect": {
+      "type": "REQUIRE",
+      "value": 1000000
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S2-R23-03",
+     "status": "OK",
+     "label": "전환계좌 금리 적용 시기",
+     "source": {
+      "quote": "▪ 전환계좌의 경우 전환 후 최초 결산기(지난 결산일부터 결산일 전일까지)에 대해서는 전환 전(前) 예금의 금리를 적용하고, 다음 결산기부터 전환된 예금의 금리를 적용합니다."
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": "전환 전 금리"
+     }
+    },
+    {
+     "rule_id": "R-KBYY-S2-R23-04",
+     "status": "OK",
+     "label": "전환 시 재전환 제한",
+     "source": {
+      "quote": "▪ 이 통장에서 다른 통장으로의 전환 시 다음 결산일(매년 2월, 5월, 8월, 11월의 둘째 금요일)까지는 이 통장으로 재전환이 불가합니다."
+     },
+     "condition": {
+      "not": {
+       "in": [
+        {
+         "var": "contract.switch_date"
+        },
+        [
+         {
+          "month_of": [
+           2,
+           5,
+           8,
+           11
+          ],
+          "day": {
+           "weekday": "FRI",
+           "nth": 2
+          }
+         }
+        ]
+       ]
+      }
+     },
+     "effect": {
+      "type": "RESTRICT",
+      "target": "SWITCH_IN"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R23-01\",\n   \"status\": \"OK\",\n   \"label\": \"1인 1계좌 제한\",\n   \"source\": {\n    \"quote\": \"▪ 이 통장은「KB Young Youth 청소년통장」을 포함하여 1인 1계좌만 가입 가능하며, 공동명의로 가입할 수 없습니다.\"\n   },\n   \"condition\": {\n    \"not\": {\n     \"in\": [\n      {\n       \"var\": \"customer.holder_type\"\n      },\n      [\n       \"INDIVIDUAL\",\n       \"SOLE_PROPRIETOR\",\n       \"REGISTERED_ASSOCIATION\"\n      ]\n     ]\n    }\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R23-02\",\n   \"status\": \"OK\",\n   \"label\": \"저금통 설정 한도\",\n   \"source\": {\n    \"quote\": \"▪ 부가서비스 저금통 설정은 최대 100만원까지 가능하며, 저금통 설정된 금액을 출금(이체)하고자 하는 경우, 필요금액만큼 저금통 금액 차감 후 처리하여야 합니다.\"\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": 1000000\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R23-03\",\n   \"status\": \"OK\",\n   \"label\": \"전환계좌 금리 적용 시기\",\n   \"source\": {\n    \"quote\": \"▪ 전환계좌의 경우 전환 후 최초 결산기(지난 결산일부터 결산일 전일까지)에 대해서는 전환 전(前) 예금의 금리를 적용하고, 다음 결산기부터 전환된 예금의 금리를 적용합니다.\"\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": \"전환 전 금리\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R23-04\",\n   \"status\": \"OK\",\n   \"label\": \"전환 시 재전환 제한\",\n   \"source\": {\n    \"quote\": \"▪ 이 통장에서 다른 통장으로의 전환 시 다음 결산일(매년 2월, 5월, 8월, 11월의 둘째 금요일)까지는 이 통장으로 재전환이 불가합니다.\"\n   },\n   \"condition\": {\n    \"not\": {\n     \"in\": [\n      {\n       \"var\": \"contract.switch_date\"\n      },\n      [\n       {\n        \"month_of\": [2, 5, 8, 11],\n        \"day\": {\n         \"weekday\": \"FRI\",\n         \"nth\": 2\n        }\n       }\n      ]\n     ]\n    }\n   },\n   \"effect\": {\n    \"type\": \"RESTRICT\",\n    \"target\": \"SWITCH_IN\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-KBYY-S2-R23-01\",\n   \"status\": \"OK\",\n   \"label\": \"1인 1계좌 제한\",\n   \"source\": {\n    \"quote\": \"▪ 이 통장은「KB Young Youth 청소년통장」을 포함하여 1인 1계좌만 가입 가능하며, 공동명의로 가입할 수 없습니다.\"\n   },\n   \"condition\": {\n    \"not\": {\n     \"in\": [\n      {\n       \"var\": \"customer.holder_type\"\n      },\n      [\n       \"INDIVIDUAL\",\n       \"SOLE_PROPRIETOR\",\n       \"REGISTERED_ASSOCIATION\"\n      ]\n     ]\n    }\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R23-02\",\n   \"status\": \"OK\",\n   \"label\": \"저금통 설정 한도\",\n   \"source\": {\n    \"quote\": \"▪ 부가서비스 저금통 설정은 최대 100만원까지 가능하며, 저금통 설정된 금액을 출금(이체)하고자 하는 경우, 필요금액만큼 저금통 금액 차감 후 처리하여야 합니다.\"\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": 1000000\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R23-03\",\n   \"status\": \"OK\",\n   \"label\": \"전환계좌 금리 적용 시기\",\n   \"source\": {\n    \"quote\": \"▪ 전환계좌의 경우 전환 후 최초 결산기(지난 결산일부터 결산일 전일까지)에 대해서는 전환 전(前) 예금의 금리를 적용하고, 다음 결산기부터 전환된 예금의 금리를 적용합니다.\"\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": \"전환 전 금리\"\n   }\n  },\n  {\n   \"rule_id\": \"R-KBYY-S2-R23-04\",\n   \"status\": \"OK\",\n   \"label\": \"전환 시 재전환 제한\",\n   \"source\": {\n    \"quote\": \"▪ 이 통장에서 다른 통장으로의 전환 시 다음 결산일(매년 2월, 5월, 8월, 11월의 둘째 금요일)까지는 이 통장으로 재전환이 불가합니다.\"\n   },\n   \"condition\": {\n    \"not\": {\n     \"in\": [\n      {\n       \"var\": \"contract.switch_date\"\n      },\n      [\n       {\n        \"month_of\": [2, 5, 8, 11],\n        \"day\": {\n         \"weekday\": \"FRI\",\n         \"nth\": 2\n        }\n       }\n      ]\n     ]\n    }\n   },\n   \"effect\": {\n    \"type\": \"RESTRICT\",\n    \"target\": \"SWITCH_IN\"\n   }\n  }\n ]\n}",
+  "truncated": false
+ }
+]
