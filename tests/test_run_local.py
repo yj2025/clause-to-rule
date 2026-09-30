@@ -407,7 +407,7 @@ def test_an_upper_bound_on_a_disqualify_is_left_alone():
 
 # ── v82 · 「N년 이상 거래가 없는」을 거래가 있는 쪽으로 센 것 (2026-09-30) ─────────────
 ABS_TEXT = "(가) 예금잔액이 10,000원 미만이며, 1년 이상 입출금 거래가 없는 계좌"
-_WIN = '{"month_range": {"from": {"anchor": "contract.reference_date", "offset_months": -12}, "to": {"anchor": "contract.reference_date"}}}'
+_WIN = '{"month_range": {"from": {"anchor": "contract.reference_date", "offset_months": -12, "day": "first"}, "to": {"anchor": "contract.reference_date", "offset_months": -1, "day": "last"}}}'
 ABS_BAD = ('{"rules": [{"rule_id": "R", "status": "OK", "source": {"quote": "' + ABS_TEXT + '"}, '
            '"condition": {"and": [{"<": [{"var": "account.balance"}, 10000]}, '
            '{">=": [{"count_distinct_months": {"event": "WITHDRAWAL", "within": ' + _WIN + '}}, 12]}]}, '
@@ -448,3 +448,33 @@ def test_the_absence_check_needs_the_clause_wording():
 
     from validate import semantic_errors
     assert semantic_errors(json.loads(ABS_BAD), "잔액이 1만원 미만인 계좌") == []
+
+
+# ── v86 · 고친 condition 전체를 괄호까지 닫아 준다 (2026-10-01) ─────────────────────
+def test_the_absence_message_carries_the_whole_fixed_condition():
+    import json
+
+    from validate import semantic_errors
+    msg = semantic_errors(json.loads(ABS_BAD), ABS_TEXT)[0]
+    fix = json.loads(msg[msg.index("옮긴다:") + len("옮긴다:"):])
+    assert fix == json.loads(ABS_GOOD)["rules"][0]["condition"]
+
+
+def test_the_fixed_condition_is_no_longer_an_error():
+    import json
+
+    from validate import _absence_fixed, semantic_errors
+    out = json.loads(ABS_BAD)
+    out["rules"][0]["condition"] = _absence_fixed(out["rules"][0]["condition"], 1)
+    assert semantic_errors(out, ABS_TEXT) == []
+
+
+def test_the_years_come_from_the_rules_own_quote():
+    import json
+
+    from validate import semantic_errors
+    text = ABS_TEXT + "\n(나) 예금잔액이 10,000원 이상 50,000원 미만이며, 2년 이상 입출금 거래가 없는 계좌"
+    out = json.loads(ABS_BAD.replace(ABS_TEXT, "2년 이상 입출금 거래가 없는 계좌")
+                     .replace('"within": {"month_range"', '"x": {"month_range"'))
+    msg = semantic_errors(out, text)[0]
+    assert "「2년 이상" in msg and '"offset_months": -24' in msg

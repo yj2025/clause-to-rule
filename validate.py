@@ -13,6 +13,8 @@
 앞으로의 비교는 이 계약으로 한다.
 """
 
+import copy
+import json
 import re
 
 import jsonschema
@@ -590,6 +592,45 @@ def _presence(node, neg=False, out=None):
     return out
 
 
+# 2026-10-01 · v86. v82 의 말은 여덟 번 다 닿았다(세 번째 시도가 `not exists` 를 썼다). 그런데
+# 다섯은 `and` 의 한 항을 닫는 `}` 하나를 40번째 줄에서 빠뜨려 JSON 으로 안 읽혔고, R16 셋은 WITHDRAWAL
+# 만 적었다. 뼈대(`{"not": {"exists": …}}`)만 주지 말고 **고친 condition 전체를 괄호까지 닫아** 준다.
+# 모델 자신의 condition 에서 거래가 있는지 묻던 항만 바꾼다. 기간은 **조문의 N년으로 새로 짓는다** —
+# 모델이 쓴 `within` 은 R16 에서 「지난 한 달」(-1 ~ -1)이라 그대로 두면 N년이 한 달이 된다.
+def _no_transactions(years):
+    w = {"month_range": {
+        "from": {"anchor": "contract.reference_date", "offset_months": -12 * years, "day": "first"},
+        "to": {"anchor": "contract.reference_date", "offset_months": -1, "day": "last"}}}
+    return [{"not": {"exists": {"event": e, "within": w}}} for e in ("DEPOSIT", "WITHDRAWAL")]
+
+
+def _is_presence(node):
+    """거래가 있는지 묻는 항 하나 (and · or · not 으로 묶인 덩어리는 아니다)."""
+    return isinstance(node, dict) and not ({"and", "or", "not"} & set(node)) and bool(_presence(node))
+
+
+def _absence_fixed(cond, years):
+    """거래가 있는지 묻던 항을 「입금도 출금도 없음」 두 항으로 바꾼 condition."""
+    def walk(node):
+        if _is_presence(node):
+            return {"and": _no_transactions(years)}
+        if isinstance(node, dict):
+            out = {}
+            for k, v in node.items():
+                if k == "and" and isinstance(v, list):
+                    out[k] = [y for x in v
+                              for y in (_no_transactions(years) if _is_presence(x) else [walk(x)])]
+                elif k == "not":
+                    out[k] = v
+                else:
+                    out[k] = walk(v)
+            return out
+        if isinstance(node, list):
+            return [walk(x) for x in node]
+        return node
+    return walk(copy.deepcopy(cond))
+
+
 def _absence_errors(output, clause_text):
     m = _ABSENT.search(clause_text or "")
     if not m:
@@ -600,11 +641,15 @@ def _absence_errors(output, clause_text):
             continue
         found = _presence(r.get("condition"))
         if found:
-            errs.append(f"{r.get('rule_id')}: 「{m.group(1)}년 이상 거래가 없는」은 그 기간에 거래가 "
+            src = r.get("source") if isinstance(r.get("source"), dict) else {}
+            n = int((_ABSENT.search(str(src.get("quote") or "")) or m).group(1))
+            # 한 줄로 주면 중괄호 깊이를 놓친다 (`prompt.build_retry_prompt` 머리말) — 되돌려 주는 출력처럼 들여쓴다
+            fix = json.dumps(_absence_fixed(r.get("condition"), n), ensure_ascii=False, indent=1)
+            errs.append(f"{r.get('rule_id')}: 「{n}년 이상 거래가 없는」은 그 기간에 거래가 "
                         f"**한 번도 없다**는 뜻인데 조건이 거래가 있는지를 센다({', '.join(found)}) — "
                         f"그러면 거래가 있는 계좌가 걸리거나 조건이 늘 참이다. 기간 안에 입금도 출금도 "
-                        f"없음을 {{\"not\": {{\"exists\": {{\"event\": …, \"within\": …}}}}}} 로 "
-                        f"DEPOSIT · WITHDRAWAL 각각 적고 and 로 묶는다")
+                        f"없어야 한다(DEPOSIT · WITHDRAWAL 둘 다). 이 rule 의 condition 을 **통째로** "
+                        f"아래로 바꾼다 — 괄호 수까지 그대로 옮긴다:\n{fix}")
     return errs
 
 
