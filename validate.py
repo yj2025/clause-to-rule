@@ -559,11 +559,60 @@ def _conditioned_limits(output):
     return errs
 
 
+# 2026-09-30 · v82. 「N년 이상 입출금 거래가 **없는** 계좌」를 모델이 거래가 **있는** 쪽으로 센다.
+# `KBYY-S2-R19` 는 v40~v81 42/42, 쌍둥이 `KBONE-S2-R16` 은 기권한 여섯 번 말고 36/42 —
+# `count_distinct_months(WITHDRAWAL, 12개월) >= 12`(매달 출금한 계좌) · `>= 1` · 언제나 참인 `<= 12`.
+# 정답은 둘 다 `not exists` 다. 정답 0 · kb10 0 (방아쇠 조문이 없다).
+_ABSENT = re.compile(r"(\d+)\s*년\s*이상[^.\n]{0,15}거래\s*가\s*없")
+_COUNTS = ("count_events", "count_distinct_months")
+
+
+def _presence(node, neg=False, out=None):
+    """부정 밖에서 거래가 «있는지» 묻는 자리 — `exists` · 횟수 비교(`== 0` · `<= 0` · `< 1` 은 뺀다)."""
+    out = [] if out is None else out
+    if isinstance(node, dict):
+        for op, args in node.items():
+            if op == "not":
+                _presence(args, not neg, out)
+                continue
+            if op == "exists" and not neg:
+                out.append("exists")
+            if op in _ABOVE + _BELOW and not neg and isinstance(args, list) and len(args) == 2 \
+                    and isinstance(args[0], dict) and any(k in args[0] for k in _COUNTS) \
+                    and isinstance(args[1], (int, float)) and not isinstance(args[1], bool):
+                n = args[1]
+                if not ((op in ("==", "<=") and n == 0) or (op == "<" and n <= 1)):
+                    out.append(f"{op} {n}")
+            _presence(args, neg, out)
+    elif isinstance(node, list):
+        for x in node:
+            _presence(x, neg, out)
+    return out
+
+
+def _absence_errors(output, clause_text):
+    m = _ABSENT.search(clause_text or "")
+    if not m:
+        return []
+    errs = []
+    for r in output.get("rules") or []:
+        if not isinstance(r, dict) or r.get("status") != "OK":
+            continue
+        found = _presence(r.get("condition"))
+        if found:
+            errs.append(f"{r.get('rule_id')}: 「{m.group(1)}년 이상 거래가 없는」은 그 기간에 거래가 "
+                        f"**한 번도 없다**는 뜻인데 조건이 거래가 있는지를 센다({', '.join(found)}) — "
+                        f"그러면 거래가 있는 계좌가 걸리거나 조건이 늘 참이다. 기간 안에 입금도 출금도 "
+                        f"없음을 {{\"not\": {{\"exists\": {{\"event\": …, \"within\": …}}}}}} 로 "
+                        f"DEPOSIT · WITHDRAWAL 각각 적고 and 로 묶는다")
+    return errs
+
+
 def semantic_errors(output, clause_text):
     """재시도가 짚을 뜻 오류. 관문과 따로 센다 — `score_record` 에는 안 들어간다."""
     if not isinstance(output, dict):
         return []
-    errs = _conditioned_limits(output)
+    errs = _conditioned_limits(output) + _absence_errors(output, clause_text)
     caps = {int(m.replace(",", "")) * 10000 for m in _CAP_AMOUNTS.findall(clause_text or "")}
     if not caps:
         return errs

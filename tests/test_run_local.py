@@ -403,3 +403,48 @@ def test_an_upper_bound_on_a_disqualify_is_left_alone():
     out = json.loads(CAP_BELOW)
     out["rules"][0]["effect"] = {"type": "DISQUALIFY"}
     assert semantic_errors(out, CAP_TEXT) == []
+
+
+# ── v82 · 「N년 이상 거래가 없는」을 거래가 있는 쪽으로 센 것 (2026-09-30) ─────────────
+ABS_TEXT = "(가) 예금잔액이 10,000원 미만이며, 1년 이상 입출금 거래가 없는 계좌"
+_WIN = '{"month_range": {"from": {"anchor": "contract.reference_date", "offset_months": -12}, "to": {"anchor": "contract.reference_date"}}}'
+ABS_BAD = ('{"rules": [{"rule_id": "R", "status": "OK", "source": {"quote": "' + ABS_TEXT + '"}, '
+           '"condition": {"and": [{"<": [{"var": "account.balance"}, 10000]}, '
+           '{">=": [{"count_distinct_months": {"event": "WITHDRAWAL", "within": ' + _WIN + '}}, 12]}]}, '
+           '"effect": {"type": "RESTRICT"}}]}')
+ABS_GOOD = ('{"rules": [{"rule_id": "R", "status": "OK", "source": {"quote": "' + ABS_TEXT + '"}, '
+            '"condition": {"and": [{"<": [{"var": "account.balance"}, 10000]}, '
+            '{"not": {"exists": {"event": "DEPOSIT", "within": ' + _WIN + '}}}, '
+            '{"not": {"exists": {"event": "WITHDRAWAL", "within": ' + _WIN + '}}}]}, '
+            '"effect": {"type": "RESTRICT"}}]}')
+
+
+def test_counting_transactions_for_an_absence_clause_is_a_semantic_error():
+    import json
+
+    from validate import semantic_errors
+    assert semantic_errors(json.loads(ABS_BAD), ABS_TEXT)
+    assert semantic_errors(json.loads(ABS_GOOD), ABS_TEXT) == []
+
+
+def test_a_vacuous_count_is_caught_too():
+    import json
+
+    from validate import semantic_errors
+    out = json.loads(ABS_BAD.replace('">="', '"<="'))
+    assert semantic_errors(out, ABS_TEXT)
+
+
+def test_a_zero_count_means_absence_and_is_left_alone():
+    import json
+
+    from validate import semantic_errors
+    out = json.loads(ABS_BAD.replace('">="', '"=="').replace("}}, 12]", "}}, 0]"))
+    assert semantic_errors(out, ABS_TEXT) == []
+
+
+def test_the_absence_check_needs_the_clause_wording():
+    import json
+
+    from validate import semantic_errors
+    assert semantic_errors(json.loads(ABS_BAD), "잔액이 1만원 미만인 계좌") == []
