@@ -516,11 +516,17 @@ def check_executable(rule):
 _CAP_AMOUNTS = re.compile(r"최대\s*([\d,]+)\s*만\s*원")
 
 
+_ABOVE = (">=", ">")
+# v78 — 한도 금액을 금리 조건의 **위쪽 끝**으로 쓴 것. v70 이 `>=` 를 짚자 R07 이 `<=` 로
+# 뒤집었다(v70~v77 8/8). 뜻은 맞아 보이지만 금액이 0 인 고객도 금리를 받는다.
+_BELOW = ("<=", "<", "==", "!=")
+
+
 def _thresholds(node, out):
-    """조건식에서 `var >= 수` · `var > 수` 를 전부 찾는다."""
+    """조건식에서 `var <비교> 수` 를 전부 찾는다 (`_ABOVE` · `_BELOW`)."""
     if isinstance(node, dict):
         for op, args in node.items():
-            if op in (">=", ">") and isinstance(args, list) and len(args) == 2 \
+            if op in _ABOVE + _BELOW and isinstance(args, list) and len(args) == 2 \
                     and isinstance(args[0], dict) and isinstance(args[0].get("var"), str) \
                     and isinstance(args[1], (int, float)) and not isinstance(args[1], bool):
                 out.append((args[0]["var"], op, args[1]))
@@ -571,7 +577,14 @@ def semantic_errors(output, clause_text):
             if n not in caps:
                 continue
             won = f"{n // 10000}만원"
-            if t == "DISQUALIFY":
+            if op in _BELOW:
+                if t == "DISQUALIFY":
+                    continue
+                errs.append(f"{r.get('rule_id')}: 「최대 {won}」은 한도이지 금리를 받는 조건이 "
+                            f"아니다 — `{var} {op} {n}` 이면 금액이 0 인 고객도 금리를 받는다. "
+                            f"금리 조건에서 이 금액을 빼고, 금리가 붙는 대상이 **있는지**로 적는다 "
+                            f"(예: `{var} > 0`). 한도는 조건 없는 LIMIT_AMOUNT rule 로 따로 적는다")
+            elif t == "DISQUALIFY":
                 errs.append(f"{r.get('rule_id')}: 「최대 {won}」을 넘는다고 자격을 잃지 않는다 — "
                             f"`{var} {op} {n}` → DISQUALIFY 를 지우고, 한도는 조건 없는 "
                             f"LIMIT_AMOUNT rule 로 적는다")

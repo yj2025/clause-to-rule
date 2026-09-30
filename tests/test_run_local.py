@@ -372,3 +372,34 @@ def test_a_conditioned_limit_triggers_a_retry(monkeypatch):
     r = _run_with([LIM_BAD, LIM_GOOD], monkeypatch, clause_text=LIM_TEXT)
     assert r["n_attempts"] == 2 and r["n_best"] == 2
     assert r["semantic_errors"] == []
+
+
+# ── v78 · 한도 금액을 금리 조건의 위쪽 끝으로 쓴 것 (2026-09-30) ─────────────────
+CAP_BELOW = CAP_BAD.replace('">="', '"<="')
+
+
+def test_a_cap_used_as_an_upper_bound_on_the_rate_is_a_semantic_error():
+    import json
+
+    from validate import semantic_errors
+    errs = semantic_errors(json.loads(CAP_BELOW), CAP_TEXT)
+    assert errs and "> 0" in errs[0]
+    assert semantic_errors(json.loads(CAP_GOOD), CAP_TEXT) == []
+
+
+def test_the_v70_threshold_message_is_unchanged():
+    """`>=` 쪽 문구는 v70 그대로 — 과거 라운드와 같은 말을 한다."""
+    import json
+
+    from validate import semantic_errors
+    errs = semantic_errors(json.loads(CAP_BAD), CAP_TEXT)
+    assert len(errs) == 1 and "이상인 고객만" in errs[0]
+
+
+def test_an_upper_bound_on_a_disqualify_is_left_alone():
+    import json
+
+    from validate import semantic_errors
+    out = json.loads(CAP_BELOW)
+    out["rules"][0]["effect"] = {"type": "DISQUALIFY"}
+    assert semantic_errors(out, CAP_TEXT) == []
