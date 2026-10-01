@@ -653,11 +653,63 @@ def _absence_errors(output, clause_text):
     return errs
 
 
+# 2026-10-01 · v90. 「양도 및 상속에 의한 명의변경 불가능 · 담보제공 불가능」(`KBYY-S2-R17`)을
+# v40~v89 50/50 라운드가 `RESTRICT NAME_CHANGE` 에 **그 거래가 있었는지** 묻는 조건을 달고
+# (`exists NAME_CHANGE` · 첫 시도는 `event.type in [NAME_CHANGE]`), 담보제공은 44/50 기권했다.
+# 「불가능」은 늘 걸리는 금지다 — 조건이 붙으면 그 거래를 한 고객만 막는다. 정답은 둘 다 `{}`.
+# 쌍둥이 `KBONE-S2-R14` 는 같은 「담보제공 불가능」을 `RESTRICT PLEDGE` 로 옮긴다.
+# 기권 쪽은 quote 에 「불가」가 있고 「경우」가 없을 때만 짚는다 — 「…로 이용될 경우 … 제한조치」
+# (정답이 기권 · 조건을 옮길 변수가 없다)를 「송금지연」의 「금지」로 잘못 잡지 않으려고.
+# v86 처럼 **고친 rule 전체를 괄호까지 닫아** 준다.
+def _asks_event(node, ev):
+    if isinstance(node, dict):
+        if node.get("event") == ev:
+            return True
+        args = node.get("in")
+        if isinstance(args, list) and len(args) == 2 and args[0] == {"var": "event.type"} \
+                and isinstance(args[1], list) and ev in args[1]:
+            return True
+        return any(_asks_event(v, ev) for v in node.values())
+    if isinstance(node, list):
+        return any(_asks_event(v, ev) for v in node)
+    return False
+
+
+def _ban_errors(output):
+    errs = []
+    for r in output.get("rules") or []:
+        if not isinstance(r, dict):
+            continue
+        eff = r.get("effect") if isinstance(r.get("effect"), dict) else {}
+        src = r.get("source") if isinstance(r.get("source"), dict) else {}
+        quote = str(src.get("quote") or "")
+        target = eff.get("target")
+        if r.get("status") == "OK" and eff.get("type") == "RESTRICT" and isinstance(target, str) \
+                and _asks_event(r.get("condition"), target):
+            fixed = dict(r, condition={})
+            errs.append(f"{r.get('rule_id')}: 「불가능」은 늘 걸리는 금지다 — 조건이 {target} 거래가 "
+                        f"있었는지를 물어서 그 거래를 한 고객만 막는다. condition 을 {{}} 로 비운다. "
+                        f"이 rule 을 **통째로** 아래로 바꾼다 — 괄호 수까지 그대로 옮긴다:\n"
+                        + json.dumps(fixed, ensure_ascii=False, indent=1))
+        elif r.get("status") == "UNSUPPORTED" and "불가" in quote and "경우" not in quote:
+            found = catalog.pick_restrictions(quote)
+            if len(found) != 1:
+                continue
+            fixed = {"rule_id": r.get("rule_id"), "status": "OK", "label": r.get("label"),
+                     "source": src, "condition": {},
+                     "effect": {"type": "RESTRICT", "target": found[0]}}
+            errs.append(f"{r.get('rule_id')}: 「{quote.strip('▪ ').strip()}」은 옮길 수단이 있다 — "
+                        f"RESTRICT 의 대상 {found[0]}({catalog.RESTRICTIONS[found[0]]}). 조건 없는 금지다. "
+                        f"이 rule 을 **통째로** 아래로 바꾼다 — 괄호 수까지 그대로 옮긴다:\n"
+                        + json.dumps(fixed, ensure_ascii=False, indent=1))
+    return errs
+
+
 def semantic_errors(output, clause_text):
     """재시도가 짚을 뜻 오류. 관문과 따로 센다 — `score_record` 에는 안 들어간다."""
     if not isinstance(output, dict):
         return []
-    errs = _conditioned_limits(output) + _absence_errors(output, clause_text)
+    errs = _conditioned_limits(output) + _absence_errors(output, clause_text) + _ban_errors(output)
     caps = {int(m.replace(",", "")) * 10000 for m in _CAP_AMOUNTS.findall(clause_text or "")}
     if not caps:
         return errs

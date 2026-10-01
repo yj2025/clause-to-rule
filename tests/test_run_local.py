@@ -478,3 +478,48 @@ def test_the_years_come_from_the_rules_own_quote():
                      .replace('"within": {"month_range"', '"x": {"month_range"'))
     msg = semantic_errors(out, text)[0]
     assert "「2년 이상" in msg and '"offset_months": -24' in msg
+
+
+# ── v90 · 「불가능」에 그 거래가 있었는지 묻는 조건 · 수단이 있는데 기권 (2026-10-01) ────────
+BAN_NAME = {"rule_id": "R1", "status": "OK", "label": "명의변경 불가",
+            "source": {"quote": "▪ 양도 및 상속에 의한 명의변경 불가능"},
+            "condition": {"exists": {"event": "NAME_CHANGE"}},
+            "effect": {"type": "RESTRICT", "target": "NAME_CHANGE"}}
+BAN_PLEDGE = {"rule_id": "R2", "status": "UNSUPPORTED", "label": "담보제공 불가능",
+              "source": {"quote": "▪ 담보제공 불가능"}}
+
+
+def _msg_rule(msg):
+    return json.loads(msg[msg.index("옮긴다:") + len("옮긴다:"):])
+
+
+def test_a_ban_conditioned_on_its_own_event_is_a_semantic_error():
+    from validate import semantic_errors
+    errs = semantic_errors({"rules": [BAN_NAME]}, "")
+    assert len(errs) == 1 and _msg_rule(errs[0])["condition"] == {}
+
+
+def test_the_first_attempt_shape_event_type_in_is_caught_too():
+    from validate import semantic_errors
+    r = dict(BAN_NAME, condition={"in": [{"var": "event.type"}, ["NAME_CHANGE"]]})
+    assert semantic_errors({"rules": [r]}, "")
+
+
+def test_an_unconditional_ban_is_left_alone():
+    from validate import semantic_errors
+    assert semantic_errors({"rules": [dict(BAN_NAME, condition={})]}, "") == []
+
+
+def test_abstaining_on_a_ban_the_catalog_can_express_is_a_semantic_error():
+    from validate import semantic_errors
+    errs = semantic_errors({"rules": [BAN_PLEDGE]}, "")
+    fixed = _msg_rule(errs[0])
+    assert fixed["status"] == "OK" and fixed["effect"] == {"type": "RESTRICT", "target": "PLEDGE"}
+    assert fixed["condition"] == {} and fixed["source"] == BAN_PLEDGE["source"]
+
+
+def test_a_conditional_restriction_without_a_variable_stays_abstained():
+    from validate import semantic_errors
+    r = dict(BAN_PLEDGE, source={"quote": "▪ 사기이용계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 "
+                                          "금융거래 제한조치를 할 수 있음"})
+    assert semantic_errors({"rules": [r]}, "") == []
