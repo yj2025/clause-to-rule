@@ -309,10 +309,7 @@ _HINTS = {
     "account.reserved_amount":   ("저금통", "적립"),
     "customer.age":              ("세", "나이", "만 "),
     "customer.is_youth":         ("Youth", "청소년", "미성년"),
-    # 2026-10-01 · v94. `_USAGE` 는 v8 진단대로 「1인 1계좌」가 이것이라고 적어 뒀는데, 그 줄을 실을
-    # 방아쇠는 「보유 · 가입한」뿐이었다 — 「1인 1계좌」만 있는 조문 넷(코퍼스) · 아홉(kb10)에 **이 변수가
-    # 한 번도 안 실렸다.** 정답 넷이 다 이 변수로 옮기는데 v78~v93 생성물은 한 번도 안 썼다.
-    "customer.has_product":      ("보유", "가입한", "1인 1계좌", "1인1계좌"),
+    "customer.has_product":      ("보유", "가입한"),
     "customer.held_products":     ("보유", "기보유", "이미 보유"),
     "customer.held_categories":   ("입출금이자유로운예금", "입출금이 자유로운 예금", "예금 계좌가 필요"),
     "customer.is_first_deposit": ("첫 거래", "최초"),
