@@ -252,3 +252,15 @@ def test_limit_block_hits_exactly_the_two_limit_clauses():
     for cid in ("KBONE-S2-R17", "KBYY-S2-R20"):
         text = next(c["text"] for c in clauses if c["id"] == cid)
         assert not catalog.wants_limit_block(text), cid
+
+
+# ── v94 · 「1인 1계좌」에 has_product 를 싣는다 (2026-10-01) ─────────────────────────
+def test_one_account_per_person_offers_has_product():
+    import catalog as C
+    for text in ("▪ 실명의 개인(1인 1계좌)", "1인1계좌로 가입"):
+        assert "customer.has_product" in C.pick_candidates(text)[0]
+
+
+def test_the_usage_line_reaches_the_prompt_for_one_account_per_person():
+    from prompt import build_user_prompt
+    assert '"1인 1계좌" 가 이것이다' in build_user_prompt("▪ 실명의 개인(1인 1계좌)")
