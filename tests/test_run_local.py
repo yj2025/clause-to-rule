@@ -576,3 +576,43 @@ def test_a_short_broken_body_is_shown_whole():
     from prompt import build_json_retry_prompt
     p = build_json_retry_prompt("조문", BRACKETS, "Expecting ','", 4)
     assert BRACKETS in p and "생략" not in p
+
+
+# ── v100 · 잘린 출력은 JSON 재시도를 안 한다 · 재시도 중 OOM 은 그 조문만 멈춘다 (2026-10-02) ─────
+class OutOfMemoryError(RuntimeError):
+    pass
+
+
+def test_a_truncated_unparsable_output_is_not_retried(monkeypatch):
+    seq = [BROKEN, GOOD]
+
+    def fake(tok, model, user, temperature, max_new_tokens):
+        return (seq.pop(0), True)
+
+    monkeypatch.setattr(R, "_generate", fake)
+    r = R.run_clause(None, None, {"id": "T-01", "text": "만 19세 미만"}, runs=1)[0]
+    assert r["n_attempts"] == 1 and r["truncated"]
+
+
+def test_an_oom_during_a_retry_keeps_the_best_so_far(monkeypatch):
+    seq = [WEAK]
+
+    def fake(tok, model, user, temperature, max_new_tokens):
+        if not seq:
+            raise OutOfMemoryError("CUDA out of memory")
+        return (seq.pop(0), False)
+
+    monkeypatch.setattr(R, "_generate", fake)
+    r = R.run_clause(None, None, {"id": "T-01", "text": "만 19세 미만"}, runs=1)[0]
+    assert r["retry_oom"] and r["n_attempts"] == 1 and r["final"]["json_ok"]
+
+
+def test_an_oom_on_the_first_attempt_still_raises(monkeypatch):
+    import pytest
+
+    def fake(tok, model, user, temperature, max_new_tokens):
+        raise OutOfMemoryError("CUDA out of memory")
+
+    monkeypatch.setattr(R, "_generate", fake)
+    with pytest.raises(OutOfMemoryError):
+        R.run_clause(None, None, {"id": "T-01", "text": "만 19세 미만"}, runs=1)

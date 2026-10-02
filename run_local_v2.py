@@ -151,6 +151,15 @@ def load_model(name=MODEL):
     return tok, model
 
 
+def _free_cache():
+    try:
+        import torch
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+    except ImportError:
+        pass
+
+
 def _generate(tok, model, user, temperature, max_new_tokens):
     import torch
     conv = [{"role": "system", "content": SYSTEM_PROMPT},
@@ -251,11 +260,23 @@ def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
         first = None
         raw_first = raw_last = None
         truncated, attempts = False, 0
+        retry_oom = False
         best = None          # (관문 수, 시도번호, marks, output, errors)
 
         for attempt in range(max_attempts if allow_retry else 1):
             attempts += 1
-            raw, trunc = _generate(tok, model, user, temperature, max_new_tokens)
+            try:
+                raw, trunc = _generate(tok, model, user, temperature, max_new_tokens)
+            except Exception as e:
+                # v100 (2026-10-02). 재시도 입력이 길면 V100 32GB 에서 생성 중 OOM 이 난다 — v98 · v99 에서
+                # 프로세스가 통째로 죽고 같은 조문에서 여섯 번 되풀이했다. **재시도 중**의 OOM 은 그 조문의
+                # 재시도만 멈추고 그때까지 가장 나은 시도를 낸다. 첫 시도의 OOM 은 전처럼 올려 보낸다.
+                if attempts == 1 or type(e).__name__ != "OutOfMemoryError":
+                    raise
+                retry_oom = True
+                attempts -= 1
+                _free_cache()
+                break
             truncated = truncated or trunc
             if raw_first is None:
                 raw_first = raw
@@ -275,6 +296,10 @@ def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
                 break
             if not allow_retry:
                 break
+            if parsed is None and trunc:
+                # v100. 토큰 한도에서 잘린 출력은 다시 내도 또 잘린다(v98 `KBSSG-S2-R08` 세 시도 다) —
+                # 그리고 그 재시도가 입력+생성 6.7천 토큰으로 OOM 을 냈다(v99). 잘린 것은 재시도하지 않는다.
+                break
             if parsed is None:
                 # 2026-10-02 · v98. 읽히지 않는 출력은 **재시도 없이** 끝났다 — kb10 105조문 중
                 # 5~6조문이 세 라운드 다 같은 자리에서 괄호 짝(`]` ↔ `}`)을 틀리고 시도 1회로 끝났다.
@@ -293,7 +318,7 @@ def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
                     "first": _marks(first), "final": _marks(marks),
                     "errors": errors, "semantic_errors": sem, "output": output,
                     "raw_first": raw_first, "raw_last": raw_last,
-                    "truncated": truncated})
+                    "truncated": truncated, "retry_oom": retry_oom})
     return out
 
 
