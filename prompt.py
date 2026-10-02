@@ -288,3 +288,30 @@ def build_retry_prompt(clause_text, bad_output, errors, clause_id=None,
             f"[위 출력의 문제]\n{listed}\n"
             f"{_no_name_block(errors)}\n"
             f"문제만 고쳐서 JSON 을 다시 낸다. 고칠 필요 없는 rule 은 그대로 둔다.\n\n[출력]")
+
+
+def build_json_retry_prompt(clause_text, raw_body, parser_msg, line=None, truncated=False,
+                            clause_id=None, fewshot_indent=1):
+    """JSON 으로 읽히지 않은 출력을 다시 내게 하는 프롬프트 (2026-10-02 · v98).
+
+    전에는 읽히지 않으면 재시도 없이 끝났다 — `build_retry_prompt` 가 읽힌 출력을 받아서다.
+    kb10 에서 5~6조문이 세 라운드 다 같은 자리에서 괄호 짝을 틀리고 시도 1회로 끝났다
+    (`showcase/notes.md` 2026-10-02). 깨진 본문을 그대로 보여 주고 파서가 멈춘 줄을 짚는다.
+    """
+    lines = raw_body.split("\n")
+    where = ""
+    if line is not None:
+        lo, hi = max(0, line - 4), min(len(lines), line + 1)
+        near = "\n".join(f"{'>>' if i + 1 == line else '  '} {i + 1:4} {lines[i]}"
+                         for i in range(lo, hi))
+        where = f" ({line}번째 줄)\n{near}\n"
+    cut = ("  - 출력이 길이 한도에서 잘렸다. 같은 뜻을 더 짧게 낸다 — label 을 줄이고, "
+           "같은 조건을 되풀이하지 말고 `let` 으로 한 번만 적는다\n") if truncated else ""
+    return (f"{build_user_prompt(clause_text, clause_id, fewshot_indent)}\n"
+            f"{raw_body}\n\n"
+            f"[위 출력의 문제]\n"
+            f"  - JSON 으로 읽히지 않는다: {parser_msg}{where}"
+            f"  - 여는 괄호와 닫는 괄호({{ }} · [ ])의 짝을 맞춘다. 비교는 "
+            f"{{\"<\": [왼쪽, 오른쪽]}} 처럼 대괄호로 두 값을 묶고 대괄호로 닫는다\n"
+            f"{cut}"
+            f"뜻은 그대로 두고 괄호만 맞춰 JSON 전체를 다시 낸다.\n\n[출력]")

@@ -523,3 +523,40 @@ def test_a_conditional_restriction_without_a_variable_stays_abstained():
     r = dict(BAN_PLEDGE, source={"quote": "▪ 사기이용계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 "
                                           "금융거래 제한조치를 할 수 있음"})
     assert semantic_errors({"rules": [r]}, "") == []
+
+
+# ── v98 · 읽히지 않는 출력도 재시도한다 (2026-10-02) ───────────────────────────────
+def test_an_unparsable_first_attempt_is_retried(monkeypatch):
+    r = _run_with([BROKEN, GOOD], monkeypatch)
+    assert r["n_attempts"] == 2 and r["n_best"] == 2 and r["final"]["exec_ok"]
+
+
+def test_three_unparsable_attempts_still_end(monkeypatch):
+    r = _run_with([BROKEN, BROKEN, BROKEN], monkeypatch)
+    assert r["n_attempts"] == 3 and r["final"]["json_ok"] is False
+
+
+def test_the_json_retry_prompt_points_at_the_line(monkeypatch):
+    seen = []
+    seq = [BRACKETS, GOOD]
+
+    def fake(tok, model, user, temperature, max_new_tokens):
+        seen.append(user)
+        return (seq.pop(0), False)
+
+    monkeypatch.setattr(R, "_generate", fake)
+    R.run_clause(None, None, {"id": "T-01", "text": "만 19세 미만"}, runs=1)
+    assert "JSON 으로 읽히지 않는다" in seen[1] and ">>    4" in seen[1]
+
+
+BRACKETS = '{"rules": [\n {"condition": {"<": [\n  {"var": "customer.age"}\n }, 19]}}\n]}'
+
+
+def test_parse_error_reports_the_line():
+    body, msg, line = R.parse_error(BRACKETS)
+    assert msg and line == 4
+
+
+def test_parse_error_without_a_body():
+    body, msg, line = R.parse_error("규칙이 없다")
+    assert msg and line is None

@@ -21,7 +21,7 @@ from pathlib import Path
 import catalog
 import schema
 import validate
-from prompt import SYSTEM_PROMPT, build_retry_prompt, build_user_prompt
+from prompt import SYSTEM_PROMPT, build_json_retry_prompt, build_retry_prompt, build_user_prompt
 
 
 def prompt_fingerprint():
@@ -167,19 +167,36 @@ def _generate(tok, model, user, temperature, max_new_tokens):
     return tok.decode(gen, skip_special_tokens=True), truncated
 
 
-def parse_json(raw):
-    """코드펜스와 앞뒤 군더더기를 걷어내고 JSON 을 읽는다. 실패하면 None."""
+def _json_body(raw):
     s = raw.strip()
     if s.startswith("```"):
         s = s.split("```")[1] if len(s.split("```")) > 1 else s
         s = s[s.index("\n") + 1:] if "\n" in s else s
     i, j = s.find("{"), s.rfind("}")
-    if i < 0 or j < i:
+    return None if i < 0 or j < i else s[i:j + 1]
+
+
+def parse_json(raw):
+    """코드펜스와 앞뒤 군더더기를 걷어내고 JSON 을 읽는다. 실패하면 None."""
+    body = _json_body(raw)
+    if body is None:
         return None
     try:
-        return json.loads(s[i:j + 1])
+        return json.loads(body)
     except json.JSONDecodeError:
         return None
+
+
+def parse_error(raw):
+    """읽히지 않는 까닭 — (본문, 파서 메시지, 줄 번호). 본문이 없으면 줄 번호는 None."""
+    body = _json_body(raw)
+    if body is None:
+        return raw, "JSON 객체가 없다 — `{` 로 시작해 `}` 로 끝나는 본문이 안 보인다", None
+    try:
+        json.loads(body)
+    except json.JSONDecodeError as e:
+        return body, e.msg, e.lineno
+    return body, None, None
 
 
 GATES = ("json_ok", "schema_ok", "catalog_ok", "quote_ok", "exec_ok")
@@ -256,8 +273,16 @@ def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
 
             if got[0] == len(GATES) and not sem:
                 break
-            if not allow_retry or parsed is None:
+            if not allow_retry:
                 break
+            if parsed is None:
+                # 2026-10-02 · v98. 읽히지 않는 출력은 **재시도 없이** 끝났다 — kb10 105조문 중
+                # 5~6조문이 세 라운드 다 같은 자리에서 괄호 짝(`]` ↔ `}`)을 틀리고 시도 1회로 끝났다.
+                # 깨진 본문과 파서가 멈춘 줄을 보여 주고 다시 내게 한다.
+                body, msg, line = parse_error(raw)
+                user = build_json_retry_prompt(clause["text"], body, msg, line, trunc,
+                                               clause["id"])
+                continue
             user = build_retry_prompt(clause["text"], parsed, marks["errors"] + sem,
                                       clause["id"])
 
