@@ -335,6 +335,7 @@ FEWSHOT_HOLDER_CLAUSE = (
     "자세한 사항은 거래 영업점에 문의하시기 바랍니다."
 )
 
+# 2026-10-03 · v101 — 임의단체 값을 DB 이름(`ORGANIZATION`)으로. 「고유번호증을 제출한 경우」 단서는 DB 에 없다.
 FEWSHOT_HOLDER_OUTPUT = {
     "rules": [
         {
@@ -344,7 +345,7 @@ FEWSHOT_HOLDER_OUTPUT = {
             "source": {"quote": "법인과 공동명의 계좌는 가입할 수 없습니다"},
             "condition": {"not": {"in": [{"var": "customer.holder_type"},
                                          ["INDIVIDUAL", "SOLE_PROPRIETOR",
-                                          "REGISTERED_ASSOCIATION"]]}},
+                                          "ORGANIZATION"]]}},
             "effect": {"type": "DISQUALIFY"},
         }
     ]

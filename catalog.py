@@ -91,10 +91,15 @@ VARIABLES = {
 ENUM_VALUES = {
     "contract.channel":          ("BRANCH", "ONLINE", "INTERNET", "MOBILE", "ATM", "CALL"),
     "contract.termination_type": ("MATURITY", "EARLY", "PARTIAL", "MID_TERM", "NONE"),
-    # 임의단체는 관련서류(고유번호 등) 제출 여부로 둘로 가른다 — 조문이 그렇게 가른다.
-    "customer.holder_type":      ("INDIVIDUAL", "SOLE_PROPRIETOR",
-                                  "UNREGISTERED_ASSOCIATION", "REGISTERED_ASSOCIATION",
-                                  "JOINT", "CORPORATION"),
+    # 2026-10-03 · v101. **고객 DB 의 CHECK 가 값의 주인이다** (`datacheck.CHECKS`, `DECISIONS.md` 09-21).
+    # 전에는 임의단체를 서류 제출 여부로 둘(`UNREGISTERED_ASSOCIATION` · `REGISTERED_ASSOCIATION`)로 갈랐는데
+    # DB 는 `ORGANIZATION` 하나다. 정답은 09-21 에 DB 이름으로 고쳤고 카탈로그만 남아 있었다 —
+    # 프롬프트가 옛 값을 보여 줘 모델이 정답과 맞을 수 없는 값을 썼다. 「서류 미제출」 단서는 DB 에 없어
+    # `ORGANIZATION` 이 더 넓다(가입을 허락하는 자리라 오차가 고객에게 유리하다).
+    # `JOINT`(공동명의)는 DB 에 칼럼이 없지만 정답 둘이 쓴다 — **사용자 결정으로 일단 남긴다** (10-03).
+    # 실제 DB 에선 늘 거짓이라 덜 탈락시키는 쪽이다. `tests/test_datacheck.py` 의 xfail 이 지킨다.
+    "customer.holder_type":      ("INDIVIDUAL", "SOLE_PROPRIETOR", "CORPORATION", "ORGANIZATION",
+                                  "JOINT"),
 }
 
 # ── 이벤트 (10) ─────────────────────────────────────────────────────────

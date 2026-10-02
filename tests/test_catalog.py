@@ -252,3 +252,34 @@ def test_limit_block_hits_exactly_the_two_limit_clauses():
     for cid in ("KBONE-S2-R17", "KBYY-S2-R20"):
         text = next(c["text"] for c in clauses if c["id"] == cid)
         assert not catalog.wants_limit_block(text), cid
+
+
+# ── v101 · 명의 유형 값은 DB 의 CHECK 를 따른다 (2026-10-03) ───────────────────────
+def test_holder_type_values_follow_the_db_check():
+    import catalog as C
+    import datacheck as D
+    db = set(D.CHECKS["Customer_Defaults.customer_kind"])
+    ours = set(C.ENUM_VALUES["customer.holder_type"])
+    # JOINT(공동명의)만 DB 밖에 남긴다 — 사용자 결정 (10-03). 늘면 이 시험이 터진다
+    assert ours - db == {"JOINT"} and db <= ours
+
+
+def test_the_fewshot_uses_only_catalog_holder_values():
+    import json
+    import catalog as C
+    from schema import FEWSHOT_HOLDER_OUTPUT
+    text = json.dumps(FEWSHOT_HOLDER_OUTPUT)
+    for v in ("UNREGISTERED_ASSOCIATION", "REGISTERED_ASSOCIATION"):
+        assert f'"{v}"' not in text
+    assert "ORGANIZATION" in text and "ORGANIZATION" in C.ENUM_VALUES["customer.holder_type"]
+
+
+def test_values_inside_an_in_list_are_checked():
+    from validate import check_catalog
+    rule = {"condition": {"not": {"in": [{"var": "customer.holder_type"},
+                                         ["INDIVIDUAL", "REGISTERED_ASSOCIATION"]]}},
+            "effect": {"type": "DISQUALIFY"}}
+    errs = check_catalog(rule)
+    assert any("REGISTERED_ASSOCIATION" in e and "ORGANIZATION" in e for e in errs)
+    rule["condition"]["not"]["in"][1] = ["INDIVIDUAL", "ORGANIZATION"]
+    assert not any("값이 아님" in e for e in check_catalog(rule))

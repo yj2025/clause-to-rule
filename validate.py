@@ -327,6 +327,15 @@ def check_catalog(rule):
                 if not catalog.is_known_value(name, right):
                     errs.append(f"{name} 의 값이 아님: {right}. 쓸 수 있는 것: "
                                 f"{', '.join(catalog.ENUM_VALUES[name])}")
+            # 2026-10-03 · v101. `in` 의 **목록** 안 값은 안 봤다 — `holder_type in [..., "REGISTERED_ASSOCIATION"]`
+            # 이 ③ 을 조용히 통과했다(코퍼스 v86~v100 · kb10 다섯 판에서 DB 밖 값 9조문). 목록의 값도 본다.
+            elif (k == "in" and isinstance(left, dict) and left.get("var") in catalog.ENUM_VALUES
+                    and isinstance(right, list)):
+                name = left["var"]
+                bad = [x for x in right if isinstance(x, str) and not catalog.is_known_value(name, x)]
+                if bad:
+                    errs.append(f"{name} 의 값이 아님: {', '.join(bad)}. 쓸 수 있는 것: "
+                                f"{', '.join(catalog.ENUM_VALUES[name])}")
 
     # effect 의 문자열 값에 지어낸 코드를 담는 경로를 막는다.
     #

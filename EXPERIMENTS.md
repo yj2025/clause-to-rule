@@ -6839,3 +6839,47 @@ kb10 이 105조문을 한 프로세스로 끝낸 것은 09-29 이후 처음이�
 3. v70~v94 의 조문 맞춤 처방과 달리 **kb10 에서 측정 가능한 변화**가 났다 (① 99~100 → 101~105)
 
 재현: `python showcase/kb10cmp.py showcase/results_kb10.json showcase/results_kb10old.json showcase/results_kb10new.json showcase/results_kb10v100a.json showcase/results_kb10v100b.json`
+
+## v101 — 명의 유형 값을 **고객 DB 에 맞추고**, `in` 목록 안의 값도 검사한다 (사전 등록 · 2026-10-03)
+
+결과를 보기 전에 적는다. 10-03 우선순위 1 (`worklog/2026-10-03.md`). 판정은 **코퍼스 네 판(v101~v104) + kb10 두 판(`kb10v101a` · `b`)**.
+
+### 왜
+
+* 09-21 에 정답을 DB 의 `CHECK` 값(`INDIVIDUAL` · `SOLE_PROPRIETOR` · `CORPORATION` · `ORGANIZATION`)으로 고쳤는데 **카탈로그는 옛 값**
+  (`UNREGISTERED_ASSOCIATION` · `REGISTERED_ASSOCIATION` · …)을 그대로 뒀다(`DECISIONS.md` 「아직 안 한 것」). 모든 프롬프트의 예시
+  (`schema.FEWSHOT_HOLDER_OUTPUT`)도 `REGISTERED_ASSOCIATION` 을 가르쳤다
+* **검증기가 `in` 목록 안의 값을 안 봤다** — `holder_type in [..., "REGISTERED_ASSOCIATION"]` 이 ③ 을 통과했다. 같은 구멍으로 해지 유형에
+  지어낸 `"TERMINATION"` 도 통과했다
+* ⑥ 은 이 축을 못 본다(합성 프로필이 명의 유형을 `INDIVIDUAL` 로 고정). 진짜 DB(`realrun.py`)는 `/workspace/database` 가 없어 지금 못 돌린다
+
+### 바꾸는 것
+
+* `catalog.ENUM_VALUES["customer.holder_type"]` = DB 넷 + `JOINT`. `JOINT`(공동명의)는 DB 에 칼럼이 없지만 정답 둘이 써서 **사용자 결정으로 일단 남긴다** (10-03)
+* `schema.FEWSHOT_HOLDER_OUTPUT` 의 `REGISTERED_ASSOCIATION` → `ORGANIZATION` — **모든 조문의 프롬프트가 바뀐다** (그래서 코퍼스 네 판)
+* `validate.check_catalog` — enum 변수의 `in` 목록 안 값도 본다. **③ 의 채점 계약이 바뀐다.** 옛 판은 저장된 `final` 이 아니라
+  `python showcase/enumcheck.py` 로 **지금 검증기로 다시 재서** 견준다 (재채점: 코퍼스 ③ 31~32 → 27~29, kb10 67~70 → 65~66)
+* ⑭ 는 값 목록에서 무작위로 뽑아 재는데 다시 재도 v90~v93 이 2.3 · 2.3 · 2.3 · 2.2 로 같다
+* 지문 — fewshots 4d5050f4ca33→2d42e67c62d6 · vocab 13c46517e41c→56c26f6bce43 · validator ca3127bd5d55→576cf5ba93ab · triggers 45df5a63d380→ca81fb476dfe. 시험 셋 추가 (1027 통과)
+
+### 본 축 (조문 수 · 지금 검증기로 잼)
+
+| 축 | 견주는 판 | 예측 |
+|---|---|---|
+| **DB 밖 명의 유형을 쓴 조문** — 코퍼스 | v90~v93 · v100: **3 ×5** (`KBONE-S2-R01` · `KBYY-S2-R05` · `KBYY-S2-R23`) | **판마다 1 이하** |
+| **DB 밖 명의 유형을 쓴 조문** — kb10 | v100a · v100b · 지금 코드: **5 · 4 · 3** | **판마다 1 이하** |
+| 지어낸 해지 유형 (`TERMINATION` 등) — 코퍼스 | 2 ×5 (`KBONE-S2-R12` · `KBYY-S2-R14`) | 준다 |
+
+### 되돌리는 선 (v100 교훈 — **세는 대상을 좁게** 적는다)
+
+1. 코퍼스 ⑥ 네 판 평균이 v90~v93 평균(73.9)보다 판정선(±6.6p) 넘게 내려간다
+2. 앞의 처방이 풀린다 — R17 100 · R19 · R16 87.5 · R14 100 · R07 `> 0` 중 하나가 **네 판 중 둘 이상**에서
+3. kb10 대조의 ✅ 4 · ⚠ 1 중 하나가 **두 판 다** 관문을 잃는다 — 특히 `KBNR-S2-R01`(명의 유형 조문 · ✅)
+4. **도망** — 이번에 새로 걸리는 조문(위 본 축 · 지어낸 해지 유형 조문)이 값을 고치지 않고 그 rule 을 **지우거나 기권**한 칸이
+   코퍼스 · kb10 합쳐 절반 이상
+5. 관문 다섯 다(지금 검증기로 잼)가 코퍼스 네 판 평균 18 아래, 또는 kb10 두 판 다 50 아래
+
+### 예상
+
+**본 축은 본다.** 프롬프트가 맞는 값을 보여 주고, 틀린 값은 이제 ③ 이 짚어 재시도 문구가 「쓸 수 있는 것」을 준다(v70 이후
+재시도는 잘 닿았다). 걱정은 「서류 미제출 임의단체」 같은 조문이 `ORGANIZATION` 하나로 합쳐진 것을 받아들이지 못하고 기권하는 것(선 4).
