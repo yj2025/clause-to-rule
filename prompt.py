@@ -290,6 +290,9 @@ def build_retry_prompt(clause_text, bad_output, errors, clause_id=None,
             f"문제만 고쳐서 JSON 을 다시 낸다. 고칠 필요 없는 rule 은 그대로 둔다.\n\n[출력]")
 
 
+SHOW_FULL_BODY = 2500   # 자 — 이보다 긴 깨진 본문은 멈춘 줄 앞뒤만 싣는다 (v99)
+
+
 def build_json_retry_prompt(clause_text, raw_body, parser_msg, line=None, truncated=False,
                             clause_id=None, fewshot_indent=1):
     """JSON 으로 읽히지 않은 출력을 다시 내게 하는 프롬프트 (2026-10-02 · v98).
@@ -299,6 +302,16 @@ def build_json_retry_prompt(clause_text, raw_body, parser_msg, line=None, trunca
     (`showcase/notes.md` 2026-10-02). 깨진 본문을 그대로 보여 주고 파서가 멈춘 줄을 짚는다.
     """
     lines = raw_body.split("\n")
+    # v99 (2026-10-02). v98 은 깨진 본문을 통째로 실어, 7천~1만 자인 조문에서 재시도 입력이 6.5천~7.5천
+    # 토큰이 되어 생성 중 OOM 이 났다(`KBMY-S2-R08` 여섯 번 연속). 성공한 둘은 2천 자 · 3.5천~4.3천 토큰.
+    # 길면 멈춘 줄 앞뒤만 보여 주고 전체를 처음부터 다시 내게 한다.
+    shown = raw_body
+    if len(raw_body) > SHOW_FULL_BODY and line is not None:
+        lo, hi = max(0, line - 16), min(len(lines), line + 5)
+        shown = (f"… (앞 {lo}줄 생략) …\n" if lo else "") + "\n".join(lines[lo:hi]) + \
+                (f"\n… (뒤 {len(lines) - hi}줄 생략) …" if hi < len(lines) else "")
+    elif len(raw_body) > SHOW_FULL_BODY:
+        shown = raw_body[:SHOW_FULL_BODY] + "\n… (뒤 생략) …"
     where = ""
     if line is not None:
         lo, hi = max(0, line - 4), min(len(lines), line + 1)
@@ -307,11 +320,13 @@ def build_json_retry_prompt(clause_text, raw_body, parser_msg, line=None, trunca
         where = f" ({line}번째 줄)\n{near}\n"
     cut = ("  - 출력이 길이 한도에서 잘렸다. 같은 뜻을 더 짧게 낸다 — label 을 줄이고, "
            "같은 조건을 되풀이하지 말고 `let` 으로 한 번만 적는다\n") if truncated else ""
+    again = ("뜻은 그대로 두고 괄호만 맞춰 JSON 전체를 다시 낸다." if shown is raw_body else
+             "위는 출력의 일부다. 뜻은 그대로 두고 괄호만 맞춰 JSON 전체를 처음부터 다시 낸다.")
     return (f"{build_user_prompt(clause_text, clause_id, fewshot_indent)}\n"
-            f"{raw_body}\n\n"
+            f"{shown}\n\n"
             f"[위 출력의 문제]\n"
             f"  - JSON 으로 읽히지 않는다: {parser_msg}{where}"
             f"  - 여는 괄호와 닫는 괄호({{ }} · [ ])의 짝을 맞춘다. 비교는 "
             f"{{\"<\": [왼쪽, 오른쪽]}} 처럼 대괄호로 두 값을 묶고 대괄호로 닫는다\n"
             f"{cut}"
-            f"뜻은 그대로 두고 괄호만 맞춰 JSON 전체를 다시 낸다.\n\n[출력]")
+            f"{again}\n\n[출력]")

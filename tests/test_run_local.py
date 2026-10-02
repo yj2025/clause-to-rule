@@ -560,3 +560,19 @@ def test_parse_error_reports_the_line():
 def test_parse_error_without_a_body():
     body, msg, line = R.parse_error("규칙이 없다")
     assert msg and line is None
+
+
+# ── v99 · 긴 깨진 본문은 멈춘 줄 앞뒤만 싣는다 (2026-10-02) ──────────────────────────
+def test_a_long_broken_body_is_cut_around_the_line():
+    from prompt import SHOW_FULL_BODY, build_json_retry_prompt
+    body = "\n".join(f'  "k{i}": {i},' for i in range(400))
+    assert len(body) > SHOW_FULL_BODY
+    p = build_json_retry_prompt("조문", body, "Expecting ','", 200)
+    assert '"k199"' in p and '"k10":' not in p and '"k390"' not in p
+    assert "줄 생략" in p and "처음부터 다시 낸다" in p
+
+
+def test_a_short_broken_body_is_shown_whole():
+    from prompt import build_json_retry_prompt
+    p = build_json_retry_prompt("조문", BRACKETS, "Expecting ','", 4)
+    assert BRACKETS in p and "생략" not in p
