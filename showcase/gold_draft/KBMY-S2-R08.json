@@ -1,0 +1,224 @@
+{
+ "clause_id": "KBMY-S2-R08",
+ "label": "우대이율 (세금공제 전, 2024.12.30 기준)",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-03 · Claude). rule 11개 · OK 3 · UNSUPPORTED 8 (M 섞임). 우대 항목 표 아홉 행을 행마다 rule 로, 금리우대쿠폰 두 줄을 따로 뒀다. 전부 연 0.1%p RATE_ADD, 「모든 우대이율은 만기 해지 계좌에 대하여」→ guard MATURITY. **가장 큰 근사 — 사람 판단 필요:** 「9가지 중 6가지를 신규 시 선택」한 항목만 우대인데 선택 항목을 담을 변수가 없다. 선택 조건을 빼면 고르지 않은 항목도 우대를 받고 「최고 0.6%p」 상한도 빠진다(합산 상한은 결정 1-5 로 규칙이 아님). 둘 다 혜택을 더 주는 쪽이라 원칙 1 로 OK 를 유지했지만, 근사가 커서 전부 UNSUPPORTED 로 볼 여지도 있다. 01 급여이체: 창 = 신규월 1일 ~ 신규월+3개월 말일, 주1) 「급여이체 또는 대량이체 계약에 따른 … 건별 20만원 이상」→ where source SALARY_CONTRACT · min_amount 200000. 표의 「50만원 이상」이 월 합계인지 건별인지 불분명해 필요조건(건별 20만원)만 걸었다 — 우대 쪽 오차. 04 아파트관리비: AUTO_TRANSFER route APARTMENT_FEE (주2 의 「실제 출금월로 산정」은 이벤트 날짜가 받는다). 07 첫 거래: customer.is_first_deposit(첫 거래 여부)로 옮겼다 — 「신규 시 예·적금(청약 제외) 미보유」와 변수 정의가 같은 뜻인지 **사람 확인 필요**. UNSUPPORTED: 02 카드 결제계좌 지정, 03 회차별 납입 채널, 05 KB스타뱅킹 이체(이벤트에 채널이 없다 · APP_LOGIN 은 다른 개념), 06 은행 거래기간, 08 주택청약종합저축(상품 키 없음), 09 기념일 입력 — 각각 변수가 없다. 10·11 금리우대쿠폰은 쿠폰 어휘가 없고(notes.md 어휘 없음 ×2), 중도해지 미적용은 본체가 표현 불가라 같이 UNSUPPORTED(원칙 5). 「신규가입일 당시 게시한 우대이율 적용」은 출처 안내라 rule 이 아니다.",
+ "rules": [
+  {
+   "rule_id": "KBMY-S2-R08-01",
+   "status": "OK",
+   "label": "신규월~3개월 경과월에 급여이체 실적 → 우대이율 연 0.1%p (만기해지 계좌)",
+   "source": {
+    "quote": "1 | 급여이체 | 이 적금의 신규일이 포함된 달부터 3개월이 경과한 달까지 50만원 이상 급여이체 실적주1)이 발생한 월수가 1개월 이상인 경우"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.start_date",
+       "offset_months": 0,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.start_date",
+       "offset_months": 3,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "guard": {
+    "==": [
+     {
+      "var": "contract.termination_type"
+     },
+     "MATURITY"
+    ]
+   },
+   "condition": {
+    "exists": {
+     "event": "SALARY_TRANSFER",
+     "within": {
+      "ref": "$window"
+     },
+     "where": {
+      "source": [
+       "SALARY_CONTRACT"
+      ],
+      "min_amount": 200000
+     }
+    }
+   },
+   "effect": {
+    "type": "RATE_ADD",
+    "value": 0.1,
+    "unit": "%p",
+    "applies_to": "BASE_RATE"
+   }
+  },
+  {
+   "rule_id": "KBMY-S2-R08-02",
+   "status": "UNSUPPORTED",
+   "label": "카드결제계좌 우대 — 카드 결제계좌 지정 변수 없음",
+   "source": {
+    "quote": "2 | 카드결제계좌 | 이 적금의 신규일로부터 3개월이 속한 달의 말일 기준으로 KB국민카드 결제계좌가 KB국민은행 입출금이자유로운예금인 경우"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "KBMY-S2-R08-03",
+   "status": "UNSUPPORTED",
+   "label": "자동이체 저축 우대 — 회차별 납입 채널 변수 없음",
+   "source": {
+    "quote": "3 | 자동이체 저축 | 이 적금의 계약기간에 해당하는 개월 수 이상 회차를 납입한 계좌 중 총 납입 회차의 2/3 이상을 자동이체 등 창구 이외의 채널을 이용하여 입금한 경우"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "KBMY-S2-R08-04",
+   "status": "OK",
+   "label": "신규월~3개월 경과월에 아파트관리비 자동이체 실적 → 우대이율 연 0.1%p (만기해지 계좌)",
+   "source": {
+    "quote": "4 | 아파트관리비 이체 | 이 적금의 신규일이 포함된 달부터 3개월이 경과한 달까지 KB국민은행 입출금이자유로운예금을 통한 아파트관리비 자동이체 실적주2)이 있는 경우"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.start_date",
+       "offset_months": 0,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.start_date",
+       "offset_months": 3,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "guard": {
+    "==": [
+     {
+      "var": "contract.termination_type"
+     },
+     "MATURITY"
+    ]
+   },
+   "condition": {
+    "exists": {
+     "event": "AUTO_TRANSFER",
+     "within": {
+      "ref": "$window"
+     },
+     "where": {
+      "route": [
+       "APARTMENT_FEE"
+      ]
+     }
+    }
+   },
+   "effect": {
+    "type": "RATE_ADD",
+    "value": 0.1,
+    "unit": "%p",
+    "applies_to": "BASE_RATE"
+   }
+  },
+  {
+   "rule_id": "KBMY-S2-R08-05",
+   "status": "UNSUPPORTED",
+   "label": "KB스타뱅킹 이체 우대 — 채널별 이체 이벤트 없음",
+   "source": {
+    "quote": "5 | KB스타뱅킹 이체 | 이 적금의 신규일로부터 3개월이 속한 달까지 KB스타뱅킹을 통한 이체 거래주3) 실적이 있는 경우"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "KBMY-S2-R08-06",
+   "status": "UNSUPPORTED",
+   "label": "장기거래 우대 — 은행 거래기간 변수 없음",
+   "source": {
+    "quote": "6 | 장기거래 | 이 적금의 신규 시에 예금주의 KB국민은행 거래기간이 5년 이상인 경우"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "KBMY-S2-R08-07",
+   "status": "OK",
+   "label": "신규 시 예·적금 미보유(첫 거래) → 우대이율 연 0.1%p (만기해지 계좌)",
+   "source": {
+    "quote": "7 | 첫 거래 | 이 적금의 신규 시에 예∙적금(청약 관련상품 제외) 상품을 보유하지 않은 경우"
+   },
+   "guard": {
+    "==": [
+     {
+      "var": "contract.termination_type"
+     },
+     "MATURITY"
+    ]
+   },
+   "condition": {
+    "==": [
+     {
+      "var": "customer.is_first_deposit"
+     },
+     true
+    ]
+   },
+   "effect": {
+    "type": "RATE_ADD",
+    "value": 0.1,
+    "unit": "%p",
+    "applies_to": "BASE_RATE"
+   }
+  },
+  {
+   "rule_id": "KBMY-S2-R08-08",
+   "status": "UNSUPPORTED",
+   "label": "주택청약종합저축 보유 우대 — 상품 키에 주택청약종합저축 없음",
+   "source": {
+    "quote": "8 | 주택청약 종합저축 | 이 적금의 신규일로부터 3개월이 속한 달의 말일을 기준으로 주택청약종합저축을 보유한 경우"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "KBMY-S2-R08-09",
+   "status": "UNSUPPORTED",
+   "label": "소중한 날 우대 — 기념일 입력 변수 없음",
+   "source": {
+    "quote": "9 | 소중한 날 | 이 적금의 신규 시에 본인에게 의미 있는 날을 입력하고, 해당일이 적금 계약기간 이내인 경우"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "KBMY-S2-R08-10",
+   "status": "UNSUPPORTED",
+   "label": "금리우대쿠폰 우대금리 가산 — 쿠폰 적용 여부·쿠폰 금리 변수 없음",
+   "source": {
+    "quote": "▪ 금리우대쿠폰 : 이 적금의 신규 시 금리우대쿠폰을 적용한 경우 쿠폰 우대금리를 기본이율에 가산"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "KBMY-S2-R08-11",
+   "status": "UNSUPPORTED",
+   "label": "금리우대쿠폰은 재예치·중도해지 시 미적용 — 본체(쿠폰)가 표현 불가",
+   "source": {
+    "quote": "※ 금리우대쿠폰은 신규 시에만 사용 가능하며 재예치 또는 중도해지시 미적용"
+   },
+   "condition": {}
+  }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-03",
+  "basis": [
+   "오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED",
+   "다른 개념으로 바꿔 옮기지 않는다 (가맹점결제→DEPOSIT 제거)",
+   "본체가 표현 불가면 그 매개변수도 UNSUPPORTED (기간 등). 단순 안내는 빈 배열",
+   "결정 1-5 · 최저~최고 금리 범위·최고 한도는 합산 설정 — 규칙 아님",
+   "「만기해지 계좌에만 적용」은 guard 로 termination_type == MATURITY"
+  ]
+ }
+}

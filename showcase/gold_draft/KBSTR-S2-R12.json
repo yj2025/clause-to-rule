@@ -1,0 +1,294 @@
+{
+ "clause_id": "KBSTR-S2-R12",
+ "label": "중도해지이율 (산출근거) (세금공제 전, 2026.07.22 기준)",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-03 · Claude). rule 7개 · OK 1 · UNSUPPORTED 6 (M 섞임). 중도해지이율은 RATE_OVERRIDE 로 받는다(실행기 범위 2). 01 「1개월미만 | 0.1」: 중도해지(EARLY)이고 해지일 < 신규일 + 1개월이면 연 0.1%. 정기예금이라 예치기간이 신규일부터 하나뿐이어서 조건이 온전하다. 09-29 대조도 「1개월 미만(0.1%)만 맞다」고 했다(모델은 변수를 계약기간으로 잘못 썼다). 02~07: 값이 「기본이율 × 50~90% × 경과월수/계약월수 (최저금리)」라 수가 아니다 — 비율식 어휘가 없다 → UNSUPPORTED. **구간 조건은 날짜 비교로 온전히 표현되므로 남겼다**(DECISIONS 「UNSUPPORTED 인데 조건이 붙어 있어도 되나」 — effect 만 없는 경우). 첫 ▪ 「회전식 정기예금이 유리할 수 있음」은 권유라 rule 이 아니다. 「신규가입일 당시 … 고시한」은 출처 안내다. **사람 확인 필요:** 해지일(termination_date)과 지급청구일(payout_request_date) 중 무엇을 예치기간의 끝으로 볼지 — DB 에는 해지일만 있다.",
+ "rules": [
+  {
+   "rule_id": "KBSTR-S2-R12-01",
+   "status": "OK",
+   "label": "예치 1개월 미만 중도해지 → 중도해지이율 연 0.1%",
+   "source": {
+    "quote": "1개월미만 | 0.1"
+   },
+   "condition": {
+    "and": [
+     {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "EARLY"
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 1
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 0.1,
+    "unit": "%"
+   }
+  },
+  {
+   "rule_id": "KBSTR-S2-R12-02",
+   "status": "UNSUPPORTED",
+   "label": "중도해지이율 1개월이상~3개월미만 — 기본이율 × 비율 × 경과월수/계약월수 (비율식 없음)",
+   "source": {
+    "quote": "1개월이상~3개월미만 | 기본이율 X 50% X 경과월수/계약월수 (단, 최저금리는 0.1)"
+   },
+   "condition": {
+    "and": [
+     {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "EARLY"
+      ]
+     },
+     {
+      ">=": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 1
+       }
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 3
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "rule_id": "KBSTR-S2-R12-03",
+   "status": "UNSUPPORTED",
+   "label": "중도해지이율 3개월이상~6개월미만 — 기본이율 × 비율 × 경과월수/계약월수 (비율식 없음)",
+   "source": {
+    "quote": "3개월이상~6개월미만 | 기본이율 X 50% X 경과월수/계약월수 (단, 최저금리는 0.1)"
+   },
+   "condition": {
+    "and": [
+     {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "EARLY"
+      ]
+     },
+     {
+      ">=": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 3
+       }
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 6
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "rule_id": "KBSTR-S2-R12-04",
+   "status": "UNSUPPORTED",
+   "label": "중도해지이율 6개월이상~8개월미만 — 기본이율 × 비율 × 경과월수/계약월수 (비율식 없음)",
+   "source": {
+    "quote": "6개월이상~8개월미만 | 기본이율 X 60% X 경과월수/계약월수 (단, 최저금리는 0.2)"
+   },
+   "condition": {
+    "and": [
+     {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "EARLY"
+      ]
+     },
+     {
+      ">=": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 6
+       }
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 8
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "rule_id": "KBSTR-S2-R12-05",
+   "status": "UNSUPPORTED",
+   "label": "중도해지이율 8개월이상~10개월미만 — 기본이율 × 비율 × 경과월수/계약월수 (비율식 없음)",
+   "source": {
+    "quote": "8개월이상~10개월미만 | 기본이율 X 70% X 경과월수/계약월수 (단, 최저금리는 0.2)"
+   },
+   "condition": {
+    "and": [
+     {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "EARLY"
+      ]
+     },
+     {
+      ">=": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 8
+       }
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 10
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "rule_id": "KBSTR-S2-R12-06",
+   "status": "UNSUPPORTED",
+   "label": "중도해지이율 10개월이상~11개월미만 — 기본이율 × 비율 × 경과월수/계약월수 (비율식 없음)",
+   "source": {
+    "quote": "10개월이상~11개월미만 | 기본이율 X 80% X 경과월수/계약월수 (단, 최저금리는 0.2)"
+   },
+   "condition": {
+    "and": [
+     {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "EARLY"
+      ]
+     },
+     {
+      ">=": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 10
+       }
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 11
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "rule_id": "KBSTR-S2-R12-07",
+   "status": "UNSUPPORTED",
+   "label": "중도해지이율 11개월이상 — 기본이율 × 비율 × 경과월수/계약월수 (비율식 없음)",
+   "source": {
+    "quote": "11개월이상 | 기본이율 X 90% X 경과월수/계약월수 (단, 최저금리는 0.2)"
+   },
+   "condition": {
+    "and": [
+     {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "EARLY"
+      ]
+     },
+     {
+      ">=": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 11
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-03",
+  "basis": [
+   "오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED",
+   "실행기 범위 2 · 중도해지·만기후이율은 RATE_OVERRIDE 로 받는다 (경과기간 구간표·비율식은 막힘)",
+   "UNSUPPORTED 라도 조건이 온전히 표현되고 effect 만 없으면 조건을 남긴다"
+  ]
+ }
+}

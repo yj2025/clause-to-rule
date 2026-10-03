@@ -1,0 +1,244 @@
+{
+ "clause_id": "KBGL-S2-R05",
+ "label": "혜택1. 우대이율 (2025.01.13기준, 세금공제 전)",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-03 · Claude). rule 4개 · OK 3 · UNSUPPORTED 1 (M 섞임). 표 세 행 → 대상연금 입금 **건수**(count_events PENSION_RECEIPT)로 RATE_OVERRIDE. 표가 「우대이율 (기본이율 포함)」이라 더하기가 아니라 덮어쓰기다(0건이면 rule 이 안 걸리고 base_rate 0.1). 행은 서로 겹치지 않게 9 이상 / 6~8 / 1~5. 창: 「결산일 전월 말일 기준 직전 3개월」. 결산일은 같은 상품 R07 의 「매년 2·5·8·11월 둘째 금요일」이다(이 조문 밖의 정의를 가져왔다). n째 요일 기준점은 달의 1일·말일을 못 짚어 창의 양끝을 바깥으로 최대 6일씩 넓혔다(시작 = 결산월-3 의 그날 -13일, 끝 = 결산일 -8일) — 건수를 더 세는 쪽이라 우대 쪽 오차다(원칙 1). 기준일에서 **가장 가까운 지난 결산일**의 판정을 낸다. 대상연금 ①~⑦ 은 PENSION_RECEIPT(연금 수령) 하나로 받았다 — 「② 기타연금은 월 1회·건별 50만원 이상·적요 '연금'」 같은 인정 제한을 못 담아 더 세는 쪽 오차다(원칙 1). 04: 「적용금액 — 결산기 평균잔액 100만원 이하에만 우대이율, 초과분은 기본이율」은 잔액 구간별로 이율이 갈리는 이자 산출이라 담을 effect 가 없다(적용 기준 금액 · KBYY-S2-R11-01 과 같은 자리) → UNSUPPORTED. 01~03 이 이 한도를 빼고 전 잔액에 우대이율을 주는 것도 우대 쪽 오차다. 「최저 0.5%~최고 1.5%」 줄과 3층 연금 설명은 규칙이 아니다. **사람 판단 필요:** (1) 결산일 창의 근사 방식 (2) 판정 기준을 지난 결산일로 둘지 다가올 결산일로 둘지. 09-29 대조에서 모델은 한 달짜리 창에서 «입금 달 수 ≥ 9» 를 세어 늘 거짓이었다.",
+ "rules": [
+  {
+   "rule_id": "KBGL-S2-R05-01",
+   "status": "OK",
+   "label": "직전 3개월 대상연금 9건 이상 → 연 1.5% (기본이율 포함)",
+   "source": {
+    "quote": "9건 이상 | 연1.5%"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "month_of": [
+        2,
+        5,
+        8,
+        11
+       ],
+       "day": {
+        "weekday": "FRI",
+        "nth": 2
+       },
+       "offset_months": -3,
+       "offset_days": -13
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "month_of": [
+        2,
+        5,
+        8,
+        11
+       ],
+       "day": {
+        "weekday": "FRI",
+        "nth": 2
+       },
+       "offset_days": -8
+      }
+     }
+    }
+   },
+   "condition": {
+    ">=": [
+     {
+      "count_events": {
+       "event": "PENSION_RECEIPT",
+       "within": {
+        "ref": "$window"
+       }
+      }
+     },
+     9
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 1.5,
+    "unit": "%"
+   }
+  },
+  {
+   "rule_id": "KBGL-S2-R05-02",
+   "status": "OK",
+   "label": "직전 3개월 대상연금 6~8건 → 연 1.0% (기본이율 포함)",
+   "source": {
+    "quote": "6건 이상 ~ 8건 이하 | 연1.0%"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "month_of": [
+        2,
+        5,
+        8,
+        11
+       ],
+       "day": {
+        "weekday": "FRI",
+        "nth": 2
+       },
+       "offset_months": -3,
+       "offset_days": -13
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "month_of": [
+        2,
+        5,
+        8,
+        11
+       ],
+       "day": {
+        "weekday": "FRI",
+        "nth": 2
+       },
+       "offset_days": -8
+      }
+     }
+    }
+   },
+   "condition": {
+    "and": [
+     {
+      ">=": [
+       {
+        "count_events": {
+         "event": "PENSION_RECEIPT",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       6
+      ]
+     },
+     {
+      "<=": [
+       {
+        "count_events": {
+         "event": "PENSION_RECEIPT",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       8
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 1.0,
+    "unit": "%"
+   }
+  },
+  {
+   "rule_id": "KBGL-S2-R05-03",
+   "status": "OK",
+   "label": "직전 3개월 대상연금 1~5건 → 연 0.5% (기본이율 포함)",
+   "source": {
+    "quote": "1건 이상 ~ 5건 이하 | 연0.5%"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "month_of": [
+        2,
+        5,
+        8,
+        11
+       ],
+       "day": {
+        "weekday": "FRI",
+        "nth": 2
+       },
+       "offset_months": -3,
+       "offset_days": -13
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "month_of": [
+        2,
+        5,
+        8,
+        11
+       ],
+       "day": {
+        "weekday": "FRI",
+        "nth": 2
+       },
+       "offset_days": -8
+      }
+     }
+    }
+   },
+   "condition": {
+    "and": [
+     {
+      ">=": [
+       {
+        "count_events": {
+         "event": "PENSION_RECEIPT",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       1
+      ]
+     },
+     {
+      "<=": [
+       {
+        "count_events": {
+         "event": "PENSION_RECEIPT",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       5
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 0.5,
+    "unit": "%"
+   }
+  },
+  {
+   "rule_id": "KBGL-S2-R05-04",
+   "status": "UNSUPPORTED",
+   "label": "평균잔액 100만원 이하분에만 우대이율, 초과분은 기본이율 — 적용 기준 금액(잔액 구간) effect 없음",
+   "source": {
+    "quote": "- 적용금액 : 이 통장의 결산기 평균잔액 중 1백만원 이하의 금액까지는 우대이율을 적용하며, 1백만원을 초과하는 금액에 대하여는 기본이율 적용"
+   },
+   "condition": {}
+  }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-03",
+  "basis": [
+   "오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED",
+   "다른 개념으로 바꿔 옮기지 않는다 (가맹점결제→DEPOSIT 제거)",
+   "결정 1-5 · 최저~최고 금리 범위·최고 한도는 합산 설정 — 규칙 아님",
+   "실행기 범위 1 · 판별 + 적용 이율 고르기, 이자 금액·이자 산출은 범위 밖 (UNSUPPORTED)"
+  ]
+ }
+}

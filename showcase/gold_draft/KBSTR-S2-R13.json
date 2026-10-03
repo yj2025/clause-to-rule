@@ -1,0 +1,108 @@
+{
+ "clause_id": "KBSTR-S2-R13",
+ "label": "만기후이율 (산출근거) (세금공제 전, 2026.07.22 기준)",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-03 · Claude). rule 3개 · OK 1 · UNSUPPORTED 2 (M 섞임). 만기후이율도 RATE_OVERRIDE 로 받는다(실행기 범위 2). 「만기후」는 해지일 > 만기일. 03 「만기후 3개월초과 | 0.1」: 해지일 > 만기일 + 3개월이면 연 0.1% → OK. 01 「만기후 1개월이내 | 기본이율 X 50%」· 02 「1개월초과~3개월이내 | 기본이율 X 30%」: 값이 기본이율의 비율이라(기본이율도 계약기간별 표 R07) 수가 아니다 → UNSUPPORTED. 구간 조건(만기일 < 해지일 <= 만기일+1개월 · 만기일+1개월 < 해지일 <= 만기일+3개월)은 표현되므로 남겼다. **사람 판단 필요:** 만기후이율은 **만기 이후 기간에만** 붙고 만기까지는 약정이율이 붙는다. RATE_OVERRIDE 0.1 을 계좌 전체 이율로 내면 약정이율이 지워지는 것처럼 읽힌다 — 실행기 범위 2 가 이 꼴을 허락했지만, 「어느 기간의 이율인가」를 따로 담을지 정해야 한다. 09-29 대조에서 모델은 「기본이율 × 50%」를 50% 감산으로 적었고 경과기간 대신 계약기간을 썼다.",
+ "rules": [
+  {
+   "rule_id": "KBSTR-S2-R13-01",
+   "status": "UNSUPPORTED",
+   "label": "만기후 1개월 이내 — 기본이율 × 50% (비율식 없음)",
+   "source": {
+    "quote": "만기후 1개월이내 | 기본이율 X 50%"
+   },
+   "condition": {
+    "and": [
+     {
+      ">": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "var": "contract.maturity_date"
+       }
+      ]
+     },
+     {
+      "<=": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.maturity_date",
+        "offset_months": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "rule_id": "KBSTR-S2-R13-02",
+   "status": "UNSUPPORTED",
+   "label": "만기후 1개월 초과 ~ 3개월 이내 — 기본이율 × 30% (비율식 없음)",
+   "source": {
+    "quote": "만기후 1개월초과~3개월이내 | 기본이율 X 30%"
+   },
+   "condition": {
+    "and": [
+     {
+      ">": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.maturity_date",
+        "offset_months": 1
+       }
+      ]
+     },
+     {
+      "<=": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.maturity_date",
+        "offset_months": 3
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "rule_id": "KBSTR-S2-R13-03",
+   "status": "OK",
+   "label": "만기후 3개월 초과 해지 → 만기후이율 연 0.1%",
+   "source": {
+    "quote": "만기후 3개월초과 | 0.1"
+   },
+   "condition": {
+    ">": [
+     {
+      "var": "contract.termination_date"
+     },
+     {
+      "anchor": "contract.maturity_date",
+      "offset_months": 3
+     }
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 0.1,
+    "unit": "%"
+   }
+  }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-03",
+  "basis": [
+   "오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED",
+   "실행기 범위 2 · 중도해지·만기후이율은 RATE_OVERRIDE 로 받는다 (경과기간 구간표·비율식은 막힘)",
+   "UNSUPPORTED 라도 조건이 온전히 표현되고 effect 만 없으면 조건을 남긴다"
+  ]
+ }
+}

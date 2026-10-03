@@ -1,0 +1,137 @@
+{
+ "clause_id": "KBMER-S2-R07",
+ "label": "기본이율 (세금공제 전, 2026.07.24 기준)",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-03 · Claude). rule 4개 · 전부 OK. 계약기간별 기본이율 표 네 행을 행마다 RATE_OVERRIDE 로 옮겼다(경계: 이상 = >=, 미만 = <, 「36개월」은 == 36). 09-29 대조가 모델의 같은 출력을 「맞다」로 봤다. 단일 기본금리(KBYY-S2-R06 · 결정 1-4)와 달리 고객의 계약기간에 따라 기본이율이 갈리므로 판별이다. **사람 판단 필요 두 가지:** (1) 상품 설정 base_rate 1.95 는 첫 행 값이다 — 행을 rule 로 두면 6~12개월에는 같은 값을 덮어쓰는 셈이라 무해하지만, 표를 상품 설정 쪽(기간별 base_rate)으로 옮길지는 구조 문제다. (2) resolver 는 RATE_OVERRIDE 가 MET 이면 다른 금리 rule 을 지운다 — 상품 단위로 합치면 R08 의 우대이율(RATE_ADD)이 사라진다. 조문 단위 채점(⑥)에는 영향이 없다.",
+ "rules": [
+  {
+   "rule_id": "KBMER-S2-R07-01",
+   "status": "OK",
+   "label": "계약기간 6개월 이상 12개월 미만 기본이율 연 1.95%",
+   "source": {
+    "quote": "6개월이상 ~ 12개월미만 | 연 1.95%"
+   },
+   "condition": {
+    "and": [
+     {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       6
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.term_months"
+       },
+       12
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 1.95,
+    "unit": "%"
+   }
+  },
+  {
+   "rule_id": "KBMER-S2-R07-02",
+   "status": "OK",
+   "label": "계약기간 12개월 이상 24개월 미만 기본이율 연 2.25%",
+   "source": {
+    "quote": "12개월이상 ~ 24개월미만 | 연 2.25%"
+   },
+   "condition": {
+    "and": [
+     {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       12
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.term_months"
+       },
+       24
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 2.25,
+    "unit": "%"
+   }
+  },
+  {
+   "rule_id": "KBMER-S2-R07-03",
+   "status": "OK",
+   "label": "계약기간 24개월 이상 36개월 미만 기본이율 연 2.60%",
+   "source": {
+    "quote": "24개월이상 ~ 36개월미만 | 연 2.60%"
+   },
+   "condition": {
+    "and": [
+     {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       24
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.term_months"
+       },
+       36
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 2.6,
+    "unit": "%"
+   }
+  },
+  {
+   "rule_id": "KBMER-S2-R07-04",
+   "status": "OK",
+   "label": "계약기간 36개월 기본이율 연 3.00%",
+   "source": {
+    "quote": "36개월 | 연 3.00%"
+   },
+   "condition": {
+    "==": [
+     {
+      "var": "contract.term_months"
+     },
+     36
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 3.0,
+    "unit": "%"
+   }
+  }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-03",
+  "basis": [
+   "결정 1-4 · 기본금리 자리는 상품 설정(base_rate) — 단일 기본금리 조문은 빈 배열",
+   "실행기 범위 2 · 중도해지·만기후이율은 RATE_OVERRIDE 로 받는다 (경과기간 구간표·비율식은 막힘)",
+   "effect 의 value 에 자유 문자열을 쓰지 않는다"
+  ]
+ }
+}

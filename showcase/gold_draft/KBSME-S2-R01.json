@@ -1,0 +1,69 @@
+{
+ "clause_id": "KBSME-S2-R01",
+ "label": "가입대상",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-03 · Claude). rule 3개 · OK 2 · UNSUPPORTED 1 (M 섞임). 01: 「중소벤처기업진흥공단에서 상품가입을 승인한」은 가입 관문인데 공제 승인 여부를 가리킬 변수가 없다. 관문(REQUIRE/DISQUALIFY)은 근사가 금지되므로 UNSUPPORTED. 02: 「은행별 1인 1계좌」→ 이 은행에서 이 상품을 이미 보유하면 DISQUALIFY. 03: ※ 「개인사업자, 임의단체, 공동명의 가입 불가」→ SOLE_PROPRIETOR·ORGANIZATION·JOINT, 그리고 「실명의 개인」에서 확실히 나오는 CORPORATION 을 더해 in 으로 탈락시킨다. 여기 임의단체는 서류 제출 여부 단서가 없어 DB 의 ORGANIZATION 과 범위가 같다. 결과적으로 INDIVIDUAL 만 남는다. JOINT 는 DB 칼럼이 없어 실제로는 늘 거짓이다(덜 탈락 · 고객 유리). 「※ 외국인 가입 가능」은 허용 서술이라 rule 이 아니다(국적 변수도 카탈로그에 없다). 09-29 대조: 모델의 첫 rule 은 「개인이면 탈락」으로 거꾸로였고 둘째 rule(개인이 아니면 탈락)은 맞았다 — 03 이 그 둘째와 같은 뜻이다.",
+ "rules": [
+  {
+   "rule_id": "KBSME-S2-R01-01",
+   "status": "UNSUPPORTED",
+   "label": "중소벤처기업진흥공단 가입 승인 필요 — 공제 승인 여부 변수 없음",
+   "source": {
+    "quote": "「중소기업재직자 우대저축공제 약관」에 따라 중소벤처기업진흥공단에서 상품가입을 승인한 실명의 개인"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "KBSME-S2-R01-02",
+   "status": "OK",
+   "label": "이 은행에서 이 상품을 이미 보유하면 가입 불가 (은행별 1인 1계좌)",
+   "source": {
+    "quote": "(은행별 1인 1계좌)"
+   },
+   "condition": {
+    "==": [
+     {
+      "var": "customer.has_product"
+     },
+     true
+    ]
+   },
+   "effect": {
+    "type": "DISQUALIFY"
+   }
+  },
+  {
+   "rule_id": "KBSME-S2-R01-03",
+   "status": "OK",
+   "label": "개인사업자·임의단체·공동명의·법인 가입 불가",
+   "source": {
+    "quote": "실명의 개인 (은행별 1인 1계좌) ※ 외국인 가입 가능 ※ 개인사업자, 임의단체, 공동명의 가입 불가"
+   },
+   "condition": {
+    "in": [
+     {
+      "var": "customer.holder_type"
+     },
+     [
+      "SOLE_PROPRIETOR",
+      "ORGANIZATION",
+      "JOINT",
+      "CORPORATION"
+     ]
+    ]
+   },
+   "effect": {
+    "type": "DISQUALIFY"
+   }
+  }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-03",
+  "basis": [
+   "오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED",
+   "실행기 범위 9 · 「실명의 개인」의 명의 유형은 조문마다 ※ 줄로 판단 (전역 판정 없음)",
+   "2026-09-21 · holder_type 값은 고객 DB 이름(INDIVIDUAL·SOLE_PROPRIETOR·CORPORATION·ORGANIZATION, JOINT 는 남김)"
+  ]
+ }
+}

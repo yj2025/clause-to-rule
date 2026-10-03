@@ -1,0 +1,58 @@
+{
+ "clause_id": "KBGL-S2-R01",
+ "label": "가입대상",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-03 · Claude). rule 2개 · 전부 OK. (1) 「1인 1계좌」→ customer.has_product 참이면 DISQUALIFY (KBONE-S2-R01-01 과 같은 꼴). (2) 「실명의 개인」+「※ 관련서류 미제출 임의단체 포함」→ 법인만 확실히 탈락이다. 임의단체는 ※ 가 명시적으로 넣고, DB 의 ORGANIZATION 은 「서류 미제출」보다 넓지만 가입을 허락하는 자리라 넓은 쪽이 고객에게 유리하다(09-21 판단과 같다). 개인사업자는 이 조문이 말하지 않는다 — KBONE-S2-R01 은 ※ 로 「포함」을 적었고 이 조문은 안 적었다. 탈락시키면 불리한 오차라 목록에 안 넣었다(결정 9). 09-29 대조에서 모델은 「개인이면 가입 불가」로 거꾸로 적어 버렸다. **사람 판단 필요:** 개인사업자가 이 상품에 가입 가능한지(조문 밖 사실). 불가라면 02 에 SOLE_PROPRIETOR 를 더한다.",
+ "rules": [
+  {
+   "rule_id": "KBGL-S2-R01-01",
+   "status": "OK",
+   "label": "이미 이 상품을 보유하면 가입 불가 (1인 1계좌)",
+   "source": {
+    "quote": "▪ 실명의 개인(1인 1계좌)"
+   },
+   "condition": {
+    "==": [
+     {
+      "var": "customer.has_product"
+     },
+     true
+    ]
+   },
+   "effect": {
+    "type": "DISQUALIFY"
+   }
+  },
+  {
+   "rule_id": "KBGL-S2-R01-02",
+   "status": "OK",
+   "label": "법인은 가입 불가 (실명의 개인 · 임의단체는 포함)",
+   "source": {
+    "quote": "▪ 실명의 개인(1인 1계좌) ※ 관련서류 미제출 임의단체 포함"
+   },
+   "condition": {
+    "in": [
+     {
+      "var": "customer.holder_type"
+     },
+     [
+      "CORPORATION"
+     ]
+    ]
+   },
+   "effect": {
+    "type": "DISQUALIFY"
+   }
+  }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-03",
+  "basis": [
+   "오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED",
+   "같은 제약이 두 조문에 있으면 양쪽 다 rule 로 둔다",
+   "실행기 범위 9 · 「실명의 개인」의 명의 유형은 조문마다 ※ 줄로 판단 (전역 판정 없음)",
+   "2026-09-21 · holder_type 값은 고객 DB 이름(INDIVIDUAL·SOLE_PROPRIETOR·CORPORATION·ORGANIZATION, JOINT 는 남김)"
+  ]
+ }
+}

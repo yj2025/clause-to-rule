@@ -1,0 +1,69 @@
+{
+ "clause_id": "KBMER-S2-R01",
+ "label": "가입대상",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-03 · Claude). rule 3개 · OK 1 · UNSUPPORTED 2 (M 섞임). 01: 「만 14세 이상의 실명의 개인(개인사업자 포함)」의 나이 하한은 개인·개인사업자에게만 걸린다 (법인·임의단체에는 나이가 없다) — holder_type 이 INDIVIDUAL·SOLE_PROPRIETOR 이고 age < 14 이면 DISQUALIFY. 명의 유형 자체는 개인·개인사업자·법인·임의단체를 **모두** 허락하므로 명의 유형으로 탈락시키는 rule 은 없다(공동명의는 조문이 말하지 않는다). 02: 「금융기관은 제외」는 법인 중 금융기관을 가릴 변수가 없다 — 탈락 쪽이라 근사 금지, UNSUPPORTED. 03: 「1인(업체)당 최대 5계좌」는 같은 상품 보유 계좌 수가 필요한데 has_product 는 불리언이다 → UNSUPPORTED. has_product 로 「이미 보유하면 탈락」을 적으면 2~5번째 계좌를 막아 불리한 오차다.",
+ "rules": [
+  {
+   "rule_id": "KBMER-S2-R01-01",
+   "status": "OK",
+   "label": "개인·개인사업자가 만 14세 미만이면 가입 불가",
+   "source": {
+    "quote": "▪ 만 14세 이상의 실명의 개인(개인사업자 포함), 법인, 임의단체 (단, 금융기관은 제외)"
+   },
+   "condition": {
+    "and": [
+     {
+      "in": [
+       {
+        "var": "customer.holder_type"
+       },
+       [
+        "INDIVIDUAL",
+        "SOLE_PROPRIETOR"
+       ]
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "customer.age"
+       },
+       14
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "DISQUALIFY"
+   }
+  },
+  {
+   "rule_id": "KBMER-S2-R01-02",
+   "status": "UNSUPPORTED",
+   "label": "금융기관 가입 불가 — 금융기관 여부 변수 없음",
+   "source": {
+    "quote": "(단, 금융기관은 제외)"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "KBMER-S2-R01-03",
+   "status": "UNSUPPORTED",
+   "label": "1인(업체)당 최대 5계좌 — 보유 계좌 수 변수 없음",
+   "source": {
+    "quote": "※ 1인(업체)당 최대 5계좌까지 가입 가능합니다."
+   },
+   "condition": {}
+  }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-03",
+  "basis": [
+   "오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED",
+   "실행기 범위 9 · 「실명의 개인」의 명의 유형은 조문마다 ※ 줄로 판단 (전역 판정 없음)",
+   "2026-09-21 · holder_type 값은 고객 DB 이름(INDIVIDUAL·SOLE_PROPRIETOR·CORPORATION·ORGANIZATION, JOINT 는 남김)"
+  ]
+ }
+}

@@ -1,0 +1,87 @@
+{
+ "clause_id": "KBNR-S2-R05",
+ "label": "우대이율 (2026.03.09 기준 세금공제 전)",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-03 · Claude). rule 2개 · OK 1 · UNSUPPORTED 1 (M 섞임). 01: 「결산일의 전월 말일 기준 직전 3개월 동안 2개월 이상 급여이체 실적」→ count_distinct_months(SALARY_TRANSFER) >= 2 이면 RATE_ADD 1.9%p (base_rate 0.1 + 1.9 = 최종이율 조문 R06 의 최고 2.0%). 창은 KBGL-S2-R05 와 같다 — 결산일(같은 상품 R07: 2·5·8·11월 둘째 금요일)에서 거슬러 양끝을 최대 6일씩 바깥으로 넓혔다(우대 쪽 오차). 인정 범위 「국군재정관리단·육군 통합자금관리시스템·군인공제회 급여자료」와 「※ 각 호 이외의 급여이체는 미적용」은 담지 못했다 — SALARY_TRANSFER.source 의 SALARY_CONTRACT 로 좁히면 둘째·셋째 경로(계약이 아닐 수 있다)를 놓쳐 불리한 오차가 날 수 있어 필터를 걸지 않았다. 모든 급여이체를 세므로 우대 쪽 오차다(원칙 1). 02: 「적용한도 — 평균잔액 100만원 이하분만 우대」는 잔액 구간별 이율이라 effect 가 없다 → UNSUPPORTED (KBGL-S2-R05-04 와 같은 자리). **사람 판단 필요:** KBGL-S2-R05 와 같은 창 근사·결산일 선택.",
+ "rules": [
+  {
+   "rule_id": "KBNR-S2-R05-01",
+   "status": "OK",
+   "label": "직전 3개월 중 2개월 이상 급여이체 실적 → 우대이율 연 1.9%p",
+   "source": {
+    "quote": "▪ 우대이율 : 연 1.9%p ▪ 적용대상 : 결산일의 전월 말일을 기준으로 직전 3개월 동안 2개월 이상 이 통장으로 아래 한 항목 이상에 해당하는 급여이체 실적이 있는 경우"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "month_of": [
+        2,
+        5,
+        8,
+        11
+       ],
+       "day": {
+        "weekday": "FRI",
+        "nth": 2
+       },
+       "offset_months": -3,
+       "offset_days": -13
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "month_of": [
+        2,
+        5,
+        8,
+        11
+       ],
+       "day": {
+        "weekday": "FRI",
+        "nth": 2
+       },
+       "offset_days": -8
+      }
+     }
+    }
+   },
+   "condition": {
+    ">=": [
+     {
+      "count_distinct_months": {
+       "event": "SALARY_TRANSFER",
+       "within": {
+        "ref": "$window"
+       }
+      }
+     },
+     2
+    ]
+   },
+   "effect": {
+    "type": "RATE_ADD",
+    "value": 1.9,
+    "unit": "%p",
+    "applies_to": "BASE_RATE"
+   }
+  },
+  {
+   "rule_id": "KBNR-S2-R05-02",
+   "status": "UNSUPPORTED",
+   "label": "평균잔액 100만원 이하분에만 우대이율 — 적용 기준 금액(잔액 구간) effect 없음",
+   "source": {
+    "quote": "▪ 적용한도 : 이 통장의 결산기 평균잔액 중 100만원 이하의 금액까지는 기본이율과 우대이율을 합산하여 적용하며, 100만원을 초과하는 금액은 기본이율만 적용"
+   },
+   "condition": {}
+  }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-03",
+  "basis": [
+   "오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED",
+   "실행기 범위 1 · 판별 + 적용 이율 고르기, 이자 금액·이자 산출은 범위 밖 (UNSUPPORTED)"
+  ]
+ }
+}
