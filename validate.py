@@ -427,38 +427,6 @@ def _norm(s):
     return "".join(str(s).split())
 
 
-# 2026-10-03 · v105. 「바꿔 쓰지 말고 그대로 옮긴다」만으로는 안 고쳐졌다 — kb10 세 판에서 quote 오류 18칸이 전부 첫 시도부터
-# 있었고 세 시도 안에 하나도 안 고쳐졌다. 틀린 quote 25개 중 19개는 글자가 원문 **한 줄 안에** 다 있었다(머리 기호 `※` → `▪`,
-# 가운데 생략). v86 · v90 처럼 **옮길 글자를 준다** — 원문에서 가장 많이 겹치는 줄을 그대로 보여 준다.
-NEAR_MIN = 0.6     # quote 글자 중 이 비율 이상이 한 줄에 순서대로 있어야 그 줄을 보여 준다
-NEAR_MAX_LEN = 300  # 이보다 긴 줄은 겹치는 구간만 잘라 보여 준다 (원문의 부분 문자열이다)
-
-
-def nearest_line(quote, clause_text):
-    """원문 줄 중 quote 와 가장 많이 겹치는 것 → (보여 줄 원문 조각, 겹친 비율). 없으면 (None, 0)."""
-    import difflib
-    q = _norm(quote)
-    best = (None, 0.0)
-    for line in clause_text.split("\n"):
-        line = line.strip()
-        if not line or not q:
-            continue
-        sm = difflib.SequenceMatcher(None, q, _norm(line), autojunk=False)
-        k = sum(b.size for b in sm.get_matching_blocks()) / len(q)
-        if k > best[1]:
-            best = (line, k)
-    line, k = best
-    if line is None or k < NEAR_MIN:
-        return None, k
-    if len(line) > NEAR_MAX_LEN:
-        sm = difflib.SequenceMatcher(None, line, str(quote), autojunk=False)
-        blocks = [b for b in sm.get_matching_blocks() if b.size >= 3]
-        if blocks:
-            lo, hi = blocks[0].a, blocks[-1].a + blocks[-1].size
-            line = line[lo:hi].strip()
-    return line, k
-
-
 def check_quote(rule, clause_text):
     """④ quote 원문 일치 — 근거 문장을 **그대로** 옮겼나.
 
@@ -472,11 +440,8 @@ def check_quote(rule, clause_text):
     if not q:
         return ["source.quote 가 없다. 조문 원문에서 근거 문장을 그대로 옮겨야 한다"]
     if _norm(q) not in _norm(clause_text):
-        near, _ = nearest_line(q, clause_text or "")
-        hint = (f" 원문에서 가장 가까운 줄은 «{near}» 다 — 머리 기호(▪ ※ - 등)까지 이 글자 그대로, "
-                f"또는 그 안에서 이어진 부분만 옮긴다") if near else ""
         return [f"quote 가 조문 원문에 없다: {q[:40]!r}. "
-                f"요약하거나 바꿔 쓰지 말고 원문을 그대로 옮긴다.{hint}"]
+                f"요약하거나 바꿔 쓰지 말고 원문을 그대로 옮긴다"]
     return []
 
 
