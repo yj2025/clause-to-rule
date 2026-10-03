@@ -616,3 +616,33 @@ def test_an_oom_on_the_first_attempt_still_raises(monkeypatch):
     monkeypatch.setattr(R, "_generate", fake)
     with pytest.raises(OutOfMemoryError):
         R.run_clause(None, None, {"id": "T-01", "text": "만 19세 미만"}, runs=1)
+
+
+# ── v105 · 틀린 quote 에는 원문에서 가장 가까운 줄을 보여 준다 (2026-10-03) ──────────────
+Q_TEXT = "[금리]\n※ 결산기 평균잔액 100만원 이하의 금액에 대하여 적용 가능한 최고 금리 연2.0%\n▪ 다른 줄이다"
+
+
+def test_a_wrong_quote_gets_the_nearest_line():
+    from validate import check_quote
+    r = {"source": {"quote": "▪ 결산기 평균잔액 100만원 이하의 금액에 대하여 적용"}}
+    err = check_quote(r, Q_TEXT)[0]
+    assert "«※ 결산기 평균잔액 100만원 이하의 금액에 대하여 적용 가능한 최고 금리 연2.0%»" in err
+
+
+def test_the_shown_line_is_itself_a_valid_quote():
+    from validate import check_quote, nearest_line
+    near, k = nearest_line("▪ 결산기 평균잔액 100만원 이하 금액", Q_TEXT)
+    assert k >= 0.6 and check_quote({"source": {"quote": near}}, Q_TEXT) == []
+
+
+def test_an_unrelated_quote_gets_no_line():
+    from validate import check_quote
+    err = check_quote({"source": {"quote": "전혀 상관없는 문장을 지어냈다"}}, Q_TEXT)[0]
+    assert "가장 가까운 줄" not in err
+
+
+def test_a_long_line_is_cut_to_a_valid_window():
+    from validate import NEAR_MAX_LEN, check_quote, nearest_line
+    long = "가" * 200 + " 우대이율은 연 0.3%p 를 더한다 " + "나" * 200
+    near, _ = nearest_line("우대이율은 연 0.3%p 를 더한다", long)
+    assert len(near) < NEAR_MAX_LEN and check_quote({"source": {"quote": near}}, long) == []
