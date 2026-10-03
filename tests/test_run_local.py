@@ -616,3 +616,30 @@ def test_an_oom_on_the_first_attempt_still_raises(monkeypatch):
     monkeypatch.setattr(R, "_generate", fake)
     with pytest.raises(OutOfMemoryError):
         R.run_clause(None, None, {"id": "T-01", "text": "만 19세 미만"}, runs=1)
+
+
+# ── v109 · 중도해지 · 만기후 이율 구간표에 금리 rule 을 내면 기권으로 (2026-10-03) ─────────
+TIER_TEXT = ("[중도해지이율]\n1개월미만 | 0.1\n1개월이상~3개월미만 | 만기이율 X 50% X 경과월수/계약월수")
+TIER_RULE = {"rule_id": "R1", "status": "OK", "label": "1개월 미만", "source": {"quote": "1개월미만 | 0.1"},
+             "condition": {"<": [{"var": "contract.term_months"}, 1]},
+             "effect": {"type": "RATE_OVERRIDE", "value": 0.1, "unit": "%"}}
+
+
+def test_a_rate_rule_in_a_tiered_early_termination_table_is_flagged():
+    from validate import semantic_errors
+    errs = semantic_errors({"rules": [TIER_RULE]}, TIER_TEXT)
+    fixed = _msg_rule(errs[0])
+    assert fixed["status"] == "UNSUPPORTED" and "effect" not in fixed
+    assert fixed["condition"] == TIER_RULE["condition"] and fixed["source"] == TIER_RULE["source"]
+
+
+def test_a_flat_early_termination_rate_is_left_alone():
+    from validate import semantic_errors
+    assert semantic_errors({"rules": [TIER_RULE]}, "[중도해지이율] 연 0.1%") == []
+
+
+def test_the_abstained_form_is_not_flagged_again():
+    from validate import semantic_errors
+    r = {k: v for k, v in TIER_RULE.items() if k != "effect"}
+    r["status"] = "UNSUPPORTED"
+    assert semantic_errors({"rules": [r]}, TIER_TEXT) == []

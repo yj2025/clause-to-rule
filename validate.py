@@ -714,11 +714,38 @@ def _ban_errors(output):
     return errs
 
 
+# 2026-10-03 · v109. kb10 정답 초안으로 ⑥ 을 처음 재 보니 **빈 출력(81.5)이 모델(50~57)보다 높았다** — 옮길 수 없는 자리에
+# 금리 rule 을 낸다. 가장 큰 덩어리가 중도해지 · 만기후 이율의 **구간표**(「1개월 미만 0.1」 · 「만기이율 X 50% X 경과월수/계약월수」)다.
+# `DECISIONS.md` 실행기 범위 2: 중도해지 · 만기후 이율 자체는 범위 안이지만 **경과 개월을 세야 하는 구간표는 막힌다.**
+# 방아쇠: 조문에 중도해지 · 만기후 이율이 있고 **구간 · 비율 표시**(경과 · N개월 미만/이상 · X N%)가 있다 — kb10 11조문 · 코퍼스 0.
+# v105 교훈대로 rule 하나에 고칠 것 하나 — 그 rule 을 통째로 UNSUPPORTED 로 바꾼 꼴을 준다.
+_EARLY = re.compile(r"중도해지\s*이율|만기\s*후\s*이율")
+_TIERED = re.compile(r"경과|개월\s*미만|개월\s*이상|[Xx×]\s*\d+\s*%")
+
+
+def _tiered_rate_errors(output, clause_text):
+    if not (_EARLY.search(clause_text or "") and _TIERED.search(clause_text or "")):
+        return []
+    errs = []
+    for r in output.get("rules") or []:
+        if not isinstance(r, dict) or r.get("status") != "OK":
+            continue
+        if (r.get("effect") or {}).get("type") not in catalog.RATE_EFFECTS:
+            continue
+        fixed = {k: v for k, v in r.items() if k != "effect"}
+        fixed["status"] = "UNSUPPORTED"
+        errs.append(f"{r.get('rule_id')}: 이 조문의 중도해지 · 만기후 이율은 **경과 개월에 따라 갈리는 구간표**다 — 지금 수단으로는 "
+                    f"경과 개월을 셀 수 없어 옮기지 못한다. 금리를 지어 넣지 말고 이 rule 을 **통째로** 아래로 바꾼다 — 괄호 수까지 그대로 옮긴다:\n"
+                    + json.dumps(fixed, ensure_ascii=False, indent=1))
+    return errs
+
+
 def semantic_errors(output, clause_text):
     """재시도가 짚을 뜻 오류. 관문과 따로 센다 — `score_record` 에는 안 들어간다."""
     if not isinstance(output, dict):
         return []
-    errs = _conditioned_limits(output) + _absence_errors(output, clause_text) + _ban_errors(output)
+    errs = (_conditioned_limits(output) + _absence_errors(output, clause_text) + _ban_errors(output)
+            + _tiered_rate_errors(output, clause_text))
     caps = {int(m.replace(",", "")) * 10000 for m in _CAP_AMOUNTS.findall(clause_text or "")}
     if not caps:
         return errs

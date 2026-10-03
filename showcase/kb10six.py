@@ -14,7 +14,8 @@ sys.path.insert(0, ".")
 import gold  # noqa: E402
 from scoring import score  # noqa: E402
 
-BASE_RATE = {"KBGL": 0.1, "KBSSG": 0.1, "KBNR": 0.1, "KBSME": 2.0, "KBMER": 1.95, "KBMY": 2.25,
+# KBSME 는 kb10_best 의 2.0 이 아니라 조문 표(36개월 2.5%)를 따른다 — 2026-10-03 판단 (정답 초안 쟁점 3)
+BASE_RATE = {"KBGL": 0.1, "KBSSG": 0.1, "KBNR": 0.1, "KBSME": 2.5, "KBMER": 1.95, "KBMY": 2.25,
              "KBHAP": 3.7, "KBSUP": 0.0, "KBSTR": 2.05, "KBGEN": 0.0}
 DRAFT = {p.stem: json.loads(p.read_text("utf-8")) for p in sorted(Path("showcase/gold_draft").glob("*.json"))}
 P = gold.profiles()
