@@ -1,0 +1,381 @@
+{
+ "clause_id": "KBGEN-S2-R08",
+ "label": "이자계산방법 (산출근거) [세전]",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 10개 · OK 1 · UNSUPPORTED 9 (M 섞임). 본문은 이자계산 도해 이미지뿐이라 rule 이 없고, 붙은 참조표 둘(중도해지이율 · 만기후이율)이 내용이다. 01 「1개월미만 | 0.1」→ 중도해지이고 해지일 < 신규일 + 1개월이면 RATE_OVERRIDE 0.1 — 날짜 비교로 정확히 서는 고정 이율 행(10-05 기준 · KBSTR-S2-R12-01 과 같다). 일시예치식 정기예금이라 예치기간이 신규일부터 하나뿐이다. 02~07 「만기이율 × 50~90% × 경과월수/계약월수」는 비율식이라 UNSUPPORTED. 구간 조건은 날짜 비교로 온전히 표현되므로 남겼다(KBSTR-S2-R12 와 같다 · effect 만 없는 경우). 08·09 만기후 비율식 → UNSUPPORTED, 구간 조건은 남겼다. 10 「만기후 3개월초과 | 0.1」은 고정 이율이지만 RATE_OVERRIDE 로 두면 계좌 이율 전체가 0.1 이 되어 만기까지 붙는 약정이율(만기이율)까지 지운다 — 고객에게 불리한 쪽이라 UNSUPPORTED(10-05 기준). 조건은 남겼다. **사람 판단 필요:** (1) 10 은 이미 쓴 KBSTR-S2-R13-03(같은 행 · OK)과 판단이 갈린다 — 브리프를 따랐다. 같이 맞출지 정해야 한다. (2) 해지일(termination_date)과 지급청구일 중 무엇을 예치기간의 끝으로 볼지(KBSTR-S2-R12 와 같은 자리). [검증 메모] validate.semantic_errors 가 01 를 짚는다(v109 「구간표 중도해지이율 → 통째로 기권」). 처방(뜻 검사)에 정답을 맞추지 않는다는 브리프대로 따르지 않았다 — 10-05 기준이 고정 이율 행(1개월 미만 0.1%)은 날짜 비교로 정확히 서므로 OK 라고 정했다(KBSTR-S2-R12-01 · KBMY-S2-R11-01 과 같다).",
+ "rules": [
+  {
+   "rule_id": "KBGEN-S2-R08-01",
+   "status": "OK",
+   "label": "예치 1개월 미만 중도해지 → 중도해지이율 연 0.1%",
+   "source": {
+    "quote": "1개월미만 | 0.1"
+   },
+   "condition": {
+    "and": [
+     {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "EARLY"
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 1
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 0.1,
+    "unit": "%"
+   }
+  },
+  {
+   "rule_id": "KBGEN-S2-R08-02",
+   "status": "UNSUPPORTED",
+   "label": "중도해지이율 1개월이상~3개월미만 — 만기이율 × 50% × 경과월수/계약월수 (비율식 없음)",
+   "source": {
+    "quote": "1개월이상~3개월미만 | 만기이율 X 50% X 경과월수/계약월수 (단, 최저금리는 0.1)"
+   },
+   "condition": {
+    "and": [
+     {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "EARLY"
+      ]
+     },
+     {
+      ">=": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 1
+       }
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 3
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "rule_id": "KBGEN-S2-R08-03",
+   "status": "UNSUPPORTED",
+   "label": "중도해지이율 3개월이상~6개월미만 — 만기이율 × 50% × 경과월수/계약월수 (비율식 없음)",
+   "source": {
+    "quote": "3개월이상~6개월미만 | 만기이율 X 50% X 경과월수/계약월수 (단, 최저금리는 0.1)"
+   },
+   "condition": {
+    "and": [
+     {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "EARLY"
+      ]
+     },
+     {
+      ">=": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 3
+       }
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 6
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "rule_id": "KBGEN-S2-R08-04",
+   "status": "UNSUPPORTED",
+   "label": "중도해지이율 6개월이상~8개월미만 — 만기이율 × 60% × 경과월수/계약월수 (비율식 없음)",
+   "source": {
+    "quote": "6개월이상~8개월미만 | 만기이율 X 60% X 경과월수/계약월수 (단, 최저금리는 0.2)"
+   },
+   "condition": {
+    "and": [
+     {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "EARLY"
+      ]
+     },
+     {
+      ">=": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 6
+       }
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 8
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "rule_id": "KBGEN-S2-R08-05",
+   "status": "UNSUPPORTED",
+   "label": "중도해지이율 8개월이상~10개월미만 — 만기이율 × 70% × 경과월수/계약월수 (비율식 없음)",
+   "source": {
+    "quote": "8개월이상~10개월미만 | 만기이율 X 70% X 경과월수/계약월수 (단, 최저금리는 0.2)"
+   },
+   "condition": {
+    "and": [
+     {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "EARLY"
+      ]
+     },
+     {
+      ">=": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 8
+       }
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 10
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "rule_id": "KBGEN-S2-R08-06",
+   "status": "UNSUPPORTED",
+   "label": "중도해지이율 10개월이상~11개월미만 — 만기이율 × 80% × 경과월수/계약월수 (비율식 없음)",
+   "source": {
+    "quote": "10개월이상~11개월미만 | 만기이율 X 80% X 경과월수/계약월수 (단, 최저금리는 0.2)"
+   },
+   "condition": {
+    "and": [
+     {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "EARLY"
+      ]
+     },
+     {
+      ">=": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 10
+       }
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 11
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "rule_id": "KBGEN-S2-R08-07",
+   "status": "UNSUPPORTED",
+   "label": "중도해지이율 11개월이상 — 만기이율 × 90% × 경과월수/계약월수 (비율식 없음)",
+   "source": {
+    "quote": "11개월이상 | 만기이율 X 90% X 경과월수/계약월수 (단, 최저금리는 0.2)"
+   },
+   "condition": {
+    "and": [
+     {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "EARLY"
+      ]
+     },
+     {
+      ">=": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 11
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "rule_id": "KBGEN-S2-R08-08",
+   "status": "UNSUPPORTED",
+   "label": "만기후 1개월 이내 — 만기이율 × 50% (비율식 없음)",
+   "source": {
+    "quote": "만기후 1개월이내 | 만기이율 X 50%"
+   },
+   "condition": {
+    "and": [
+     {
+      ">": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "var": "contract.maturity_date"
+       }
+      ]
+     },
+     {
+      "<=": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.maturity_date",
+        "offset_months": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "rule_id": "KBGEN-S2-R08-09",
+   "status": "UNSUPPORTED",
+   "label": "만기후 1개월 초과 ~ 3개월 이내 — 만기이율 × 30% (비율식 없음)",
+   "source": {
+    "quote": "만기후 1개월초과~3개월이내 | 만기이율 X 30%"
+   },
+   "condition": {
+    "and": [
+     {
+      ">": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.maturity_date",
+        "offset_months": 1
+       }
+      ]
+     },
+     {
+      "<=": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.maturity_date",
+        "offset_months": 3
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "rule_id": "KBGEN-S2-R08-10",
+   "status": "UNSUPPORTED",
+   "label": "만기후 3개월 초과 0.1 — RATE_OVERRIDE 면 만기 전 약정이율까지 지운다",
+   "source": {
+    "quote": "만기후 3개월초과 | 0.1"
+   },
+   "condition": {
+    ">": [
+     {
+      "var": "contract.termination_date"
+     },
+     {
+      "anchor": "contract.maturity_date",
+      "offset_months": 3
+     }
+    ]
+   }
+  }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-05",
+  "basis": [
+   "오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED",
+   "10-05 · 중도해지·만기후 이율: 고정 이율 행은 OK, 비율식 행은 UNSUPPORTED, 만기후 RATE_OVERRIDE 가 약정이율을 지우면 UNSUPPORTED",
+   "실행기 범위 2 · 중도해지·만기후이율은 RATE_OVERRIDE 로 받는다 (경과기간 구간표·비율식은 막힘)",
+   "UNSUPPORTED 라도 조건이 온전히 표현되고 effect 만 없으면 조건을 남긴다"
+  ]
+ }
+}

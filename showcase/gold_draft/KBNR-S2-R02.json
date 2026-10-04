@@ -1,0 +1,14 @@
+{
+ "clause_id": "KBNR-S2-R02",
+ "label": "신규금액",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). 빈 배열 (A빈). 「제한없음」은 제약이 없다는 서술이라 옮길 effect 가 없다 — 코퍼스 KBYY-S2-R02 와 글자까지 같은 조문이라 같은 판단이다. LIMIT_AMOUNT 0 을 적으면 「한도 0원」이라는 정반대 뜻이 된다.",
+ "rules": [],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-05",
+  "basis": [
+   "effect 의 value 에 자유 문자열을 쓰지 않는다"
+  ]
+ }
+}

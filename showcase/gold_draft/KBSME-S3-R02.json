@@ -1,0 +1,24 @@
+{
+  "clause_id": "KBSME-S3-R02",
+  "label": "제공기간",
+  "reviewed": false,
+  "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 1개 · UNSUPPORTED (A기권). 이 상품의 연계·제휴서비스(S3)는 이행책임·제공기간·사전통지·제공요건만 있고 서비스 내용 조문이 없다 — 무엇을 주는지 SERVICE_PROVIDE 의 대상(NE Times 셋)에 없다. 제공기간은 그 본체의 매개변수라 원칙 5 로 같이 UNSUPPORTED (KBMY-S4-R03-01 · 사람 검토로 UNSUPPORTED 가 된 KBYY-S3-R02 와 같은 자리). 기간을 날짜 조건으로 옮길 수는 있어도 붙일 effect 가 없어 조건은 비웠다. **사람 판단 필요:** 서비스 내용이 문서에 없어 빈 배열로 볼 여지.",
+  "rules": [
+    {
+      "rule_id": "KBSME-S3-R02-01",
+      "status": "UNSUPPORTED",
+      "label": "연계·제휴서비스 제공기간 2026-08-21 ~ 2030-12-31 — 서비스 대상(본체)이 표현 불가",
+      "source": {
+        "quote": "- 2026년 8월 21일로부터 2030년 12월 31일까지"
+      },
+      "condition": {}
+    }
+  ],
+  "drafted": {
+    "by": "claude",
+    "at": "2026-10-05",
+    "basis": [
+      "본체가 표현 불가면 그 매개변수도 UNSUPPORTED (기간 등). 단순 안내는 빈 배열"
+    ]
+  }
+}

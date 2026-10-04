@@ -1,0 +1,208 @@
+{
+  "clause_id": "KBMY-S2-R17",
+  "label": "일부인출",
+  "reviewed": false,
+  "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 11개 · OK 2 · UNSUPPORTED 9 (M 섞임). 01: 「일부인출 ▪ 불가」→ RESTRICT PARTIAL_TERMINATION, 누구에게나 금지라 조건 {}(불이익이지만 빠진 조건이 없다 · KBONE-S2-R14 꼴). 문서 분할에서 중도해지이자 적용률 표와 (R13 의) 만기후이율 표가 이 조문에 붙어 행을 여기 둔다. 중도해지 표는 R11 의 표와 같은 내용이라 원칙 6 대로 양쪽에 둔다 — 02 「~ 1개월 | 0.1」 OK(해지일 < 신규일 + 1개월 · 중도해지, KBMY-S2-R11-01 과 같다), 03~08 비율식 UNSUPPORTED {}(적립식이라 구간이 입금 건마다 다르다). 「~ 1개월」은 1개월 미만으로 읽었다. 만기후 09·10 비율식, 11 「만기후 3개월초과 | 0.1」은 RATE_OVERRIDE 가 만기 전 약정이율까지 지워 UNSUPPORTED(10-05 기준), 구간 조건은 남겼다. **사람 판단 필요:** 표 행을 분할이 붙인 이 조문에 둘지(④ 인용이 조문 본문에서만 찾으므로 여기 둠 · KBYY-S3-R05 관례), KBSTR-S2-R13-03 의 OK 와 어긋나는 점. **semantic_errors 가 [] 가 아니다:** 02 에 v109 처방(구간표 금리 → 통째로 기권)의 뜻 검사가 걸린다. 정답은 처방에 맞추지 않는다 — 10-05 결정 쟁점 4(고정 이율 첫 행은 날짜 비교로 정확히 서므로 OK · KBMY-S2-R11-01)를 따랐다.",
+  "rules": [
+    {
+      "rule_id": "KBMY-S2-R17-01",
+      "status": "OK",
+      "label": "일부인출 불가",
+      "source": {
+        "quote": "▪ 불가"
+      },
+      "condition": {},
+      "effect": {
+        "type": "RESTRICT",
+        "target": "PARTIAL_TERMINATION"
+      }
+    },
+    {
+      "rule_id": "KBMY-S2-R17-02",
+      "status": "OK",
+      "label": "예치 1개월 미만 중도해지 → 중도해지이율 연 0.1%",
+      "source": {
+        "quote": "~ 1개월 | 0.1"
+      },
+      "condition": {
+        "and": [
+          {
+            "==": [
+              {
+                "var": "contract.termination_type"
+              },
+              "EARLY"
+            ]
+          },
+          {
+            "<": [
+              {
+                "var": "contract.termination_date"
+              },
+              {
+                "anchor": "contract.start_date",
+                "offset_months": 1
+              }
+            ]
+          }
+        ]
+      },
+      "effect": {
+        "type": "RATE_OVERRIDE",
+        "value": 0.1,
+        "unit": "%"
+      }
+    },
+    {
+      "rule_id": "KBMY-S2-R17-03",
+      "status": "UNSUPPORTED",
+      "label": "중도해지이율 1개월 ~ 3개월 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+      "source": {
+        "quote": "1개월 ~ 3개월 | 기본이율x 50% x 경과월수/계약월수 (최저0.1)"
+      },
+      "condition": {}
+    },
+    {
+      "rule_id": "KBMY-S2-R17-04",
+      "status": "UNSUPPORTED",
+      "label": "중도해지이율 3개월 ~ 6개월 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+      "source": {
+        "quote": "3개월 ~ 6개월 | 기본이율x 50% x 경과월수/계약월수 (최저0.1)"
+      },
+      "condition": {}
+    },
+    {
+      "rule_id": "KBMY-S2-R17-05",
+      "status": "UNSUPPORTED",
+      "label": "중도해지이율 6개월 ~ 8개월 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+      "source": {
+        "quote": "6개월 ~ 8개월 | 기본이율x60%x 경과월수/계약월수 (최저0.2)"
+      },
+      "condition": {}
+    },
+    {
+      "rule_id": "KBMY-S2-R17-06",
+      "status": "UNSUPPORTED",
+      "label": "중도해지이율 8개월 ~ 10개월 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+      "source": {
+        "quote": "8개월 ~ 10개월 | 기본이율x70%x 경과월수/계약월수 (최저0.2)"
+      },
+      "condition": {}
+    },
+    {
+      "rule_id": "KBMY-S2-R17-07",
+      "status": "UNSUPPORTED",
+      "label": "중도해지이율 10개월 ~ 11개월 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+      "source": {
+        "quote": "10개월 ~ 11개월 | 기본이율x80%x 경과월수/계약월수 (최저0.2)"
+      },
+      "condition": {}
+    },
+    {
+      "rule_id": "KBMY-S2-R17-08",
+      "status": "UNSUPPORTED",
+      "label": "중도해지이율 11개월 ~ — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+      "source": {
+        "quote": "11개월 ~ | 기본이율x90%x 경과월수/계약월수 (최저0.2)"
+      },
+      "condition": {}
+    },
+    {
+      "rule_id": "KBMY-S2-R17-09",
+      "status": "UNSUPPORTED",
+      "label": "만기후 1개월 이내 — 기본금리 × 50% (비율식 없음)",
+      "source": {
+        "quote": "만기후 1개월이내 | 기본이율 X 50%"
+      },
+      "condition": {
+        "and": [
+          {
+            ">": [
+              {
+                "var": "contract.termination_date"
+              },
+              {
+                "var": "contract.maturity_date"
+              }
+            ]
+          },
+          {
+            "<=": [
+              {
+                "var": "contract.termination_date"
+              },
+              {
+                "anchor": "contract.maturity_date",
+                "offset_months": 1
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "rule_id": "KBMY-S2-R17-10",
+      "status": "UNSUPPORTED",
+      "label": "만기후 1개월 초과 ~ 3개월 이내 — 기본금리 × 30% (비율식 없음)",
+      "source": {
+        "quote": "만기후 1개월초과 ~ 3개월이내 | 기본이율 X 30%"
+      },
+      "condition": {
+        "and": [
+          {
+            ">": [
+              {
+                "var": "contract.termination_date"
+              },
+              {
+                "anchor": "contract.maturity_date",
+                "offset_months": 1
+              }
+            ]
+          },
+          {
+            "<=": [
+              {
+                "var": "contract.termination_date"
+              },
+              {
+                "anchor": "contract.maturity_date",
+                "offset_months": 3
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "rule_id": "KBMY-S2-R17-11",
+      "status": "UNSUPPORTED",
+      "label": "만기후 3개월 초과 연 0.1% — RATE_OVERRIDE 는 만기 전 약정이율까지 지운다 (만기 이후 기간에만 붙는 이율을 담을 자리 없음)",
+      "source": {
+        "quote": "만기후 3개월초과 | 0.1"
+      },
+      "condition": {
+        ">": [
+          {
+            "var": "contract.termination_date"
+          },
+          {
+            "anchor": "contract.maturity_date",
+            "offset_months": 3
+          }
+        ]
+      }
+    }
+  ],
+  "drafted": {
+    "by": "claude",
+    "at": "2026-10-05",
+    "basis": [
+      "오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED",
+      "실행기 범위 2 · 중도해지·만기후이율은 RATE_OVERRIDE 로 받는다 (경과기간 구간표·비율식은 막힘)",
+      "2026-10-05 · 중도해지 고정 이율 행(날짜 비교로 정확히 섬)은 OK, 경과월수·비율식 행은 UNSUPPORTED · 만기후 이율을 RATE_OVERRIDE 로 두면 만기 전 약정이율까지 지우므로 UNSUPPORTED",
+      "UNSUPPORTED 라도 조건이 온전히 표현되고 effect 만 없으면 조건을 남긴다",
+      "같은 제약이 두 조문에 있으면 양쪽 다 rule 로 둔다"
+    ]
+  }
+}

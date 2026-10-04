@@ -1,0 +1,14 @@
+{
+  "clause_id": "KBSME-S2-R02",
+  "label": "상품유형",
+  "reviewed": false,
+  "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). 빈 배열 (A빈). 「자유적립식 예금」은 상품 분류 라벨이다(KBYY-S2-R03 관례).",
+  "rules": [],
+  "drafted": {
+    "by": "claude",
+    "at": "2026-10-05",
+    "basis": [
+      "2026-10-05 · 이자 지급 방식·이자 계산식 서술은 코퍼스 관례(KBYY-S2-R08 · KBONE-S2-R06)대로 UNSUPPORTED · 상품유형·개요·절차 안내는 빈 배열(S1-P01 관례)"
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+ "clause_id": "KBSUP-S1-P01",
+ "label": "상품 개요",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). 빈 배열 (A빈). 상품명 한 줄뿐이다 — 코퍼스 KBONE-S1-P01 · KBYY-S1-P01 관례.",
+ "rules": [],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-05",
+  "basis": [
+   "상품 개요·혜택을 말로만 언급한 줄은 rule 이 되지 않는다"
+  ]
+ }
+}

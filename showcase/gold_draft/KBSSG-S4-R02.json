@@ -1,0 +1,24 @@
+{
+ "clause_id": "KBSSG-S4-R02",
+ "label": "연계·제휴서비스 제공 기간",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 1개 · UNSUPPORTED (A기권). 제휴서비스(본체)가 표현 불가라 그 제공 조건 · 기간(SSG.COM 앱으로 가입 · 제휴사 계약기간 내)도 UNSUPPORTED(원칙 5 · KBMY-S4-R03 과 같은 자리). contract.channel 에 SSG.COM 앱 값이 없다.",
+ "rules": [
+  {
+   "rule_id": "KBSSG-S4-R02-01",
+   "status": "UNSUPPORTED",
+   "label": "SSG.COM 앱으로 가입한 통장에 제휴사 계약기간 내 제휴서비스 제공 — 서비스 대상·가입 경로 값 없음",
+   "source": {
+    "quote": "▪ 이 통장의 연계ㆍ제휴서비스는 SSG.COM 앱을 통해 가입한 「쓱머니 KB통장」 이용 시 제공합니다. (단, 제휴사와의 계약기간 내에 한함)"
+   },
+   "condition": {}
+  }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-05",
+  "basis": [
+   "본체가 표현 불가면 그 매개변수도 UNSUPPORTED (기간 등). 단순 안내는 빈 배열"
+  ]
+ }
+}

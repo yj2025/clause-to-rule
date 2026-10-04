@@ -1,0 +1,33 @@
+{
+ "clause_id": "KBSSG-S4-R01",
+ "label": "연계·제휴서비스 내용",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 2개 · 전부 UNSUPPORTED (A기권). 01: 제휴사 앞 금융거래정보 이용 · 제공 동의 후 이용 시 제휴서비스 제공(해지 시 미제공) — 동의 변수가 없고(notes.md 정보제공 동의), SERVICE_PROVIDE 의 대상에 SSG 제휴서비스가 없다. 02: 주4) 가입 시 SSG MONEY 잔액을 최초 1회 이 통장으로 자동입금 — 같은 이유로 대상이 없다. 주1)~주3) 은 제휴사 · 용어 설명이라 rule 이 아니다. 서비스 세부 표는 문서 분할로 S4-R05 끝에 붙어 있다(KBYY-S3-R05 와 같은 사정).",
+ "rules": [
+  {
+   "rule_id": "KBSSG-S4-R01-01",
+   "status": "UNSUPPORTED",
+   "label": "금융거래정보 제공 동의 후 이용 시 연계·제휴서비스 제공 (해지 시 미제공) — 동의 변수·서비스 대상 없음",
+   "source": {
+    "quote": "▪ 이 통장의 연계ㆍ제휴서비스는 제휴사 앞 금융거래정보 이용ㆍ제공 동의 후 「쓱머니 KB통장」 이용 시 제공합니다. (통장 해지 시 해당 서비스를 제공하지 않음)"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "KBSSG-S4-R01-02",
+   "status": "UNSUPPORTED",
+   "label": "가입 시 SSG MONEY 잔액 최초 1회 자동입금 — 서비스 대상 없음",
+   "source": {
+    "quote": "주4) 이 통장 가입 시 SSG.COM 쇼핑사이트에서 ‘SSG MONEY 충전결제’한 선불충전금(SSG MONEY) 잔액이 있을 경우 최초 1회에 한해 이 통장으로 자동입금 합니다."
+   },
+   "condition": {}
+  }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-05",
+  "basis": [
+   "본체가 표현 불가면 그 매개변수도 UNSUPPORTED (기간 등). 단순 안내는 빈 배열"
+  ]
+ }
+}

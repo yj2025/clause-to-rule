@@ -1,0 +1,25 @@
+{
+ "clause_id": "KBGL-S2-R08",
+ "label": "이자 계산방법 (산출근거)",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 1개 · UNSUPPORTED (A기권). 코퍼스 KBONE-S2-R06 정답과 글자까지 같은 조문이다 — 이자계산 기간과 매일 최종잔액 평균은 이자 산출이라 범위 밖이다. 「결산일 현재 고시하는 이율」을 RATE_OVERRIDE 로 적으면 함정 2.",
+ "rules": [
+  {
+   "rule_id": "KBGL-S2-R08-01",
+   "status": "UNSUPPORTED",
+   "label": "이자계산 기간과 일평균 최종잔액 기준 — 이자 산출(범위 밖)",
+   "source": {
+    "quote": "▪ 예금이자는 예금일부터 지급일 전일까지(결산시에는 지난 원가일부터 원가일 전일까지)를 이자계산 기간으로 하고, 매일의 최종잔액을 평균하여 결산일 현재 영업점에 고시하는 이율로 계산함"
+   },
+   "condition": {}
+  }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-05",
+  "basis": [
+   "실행기 범위 1 · 판별 + 적용 이율 고르기, 이자 금액·이자 산출은 범위 밖 (UNSUPPORTED)",
+   "코퍼스 KBONE-S2-R06 관례 (이자 계산식 서술은 UNSUPPORTED)"
+  ]
+ }
+}

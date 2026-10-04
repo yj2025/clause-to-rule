@@ -1,0 +1,194 @@
+{
+  "clause_id": "KBSME-S2-R12",
+  "label": "중도해지금리 (세금공제 전, 2026.08.21. 기준)",
+  "reviewed": false,
+  "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 10개 · OK 1 · UNSUPPORTED 9 (M 섞임). 이 조문에 중도해지금리 표와 (S2-R11 의) 만기후금리 표가 같이 붙어 있어 두 표의 행을 모두 여기 둔다. 중도해지 01 「1개월 미만 | 0.1」: 중도해지(EARLY)이고 해지일 < 신규일 + 1개월이면 연 0.1% — 계좌가 1개월이 안 됐으면 모든 입금 건이 1개월 미만이라 적립식에서도 정확히 선다(KBMY-S2-R11-01 과 같은 판단). 02~07: 「기본금리 × 50~90% × 경과월수/계약월수 (최저금리)」는 비율식과 입금 건별 경과월수가 필요하다(notes.md 어휘 없음) → UNSUPPORTED. 적립식은 구간이 입금 건마다 달라 계좌 단위 날짜 조건으로 못 세워 조건은 {} 로 뒀다(KBMY-S2-R11 과 같다). 만기후 08·09: 값이 기본금리 비율식 → UNSUPPORTED, 구간 조건은 남김. 10 「만기후 3개월 초과 | 0.1」: 수는 고정이지만 RATE_OVERRIDE 는 계좌 이율 전체를 0.1 로 덮어 만기 전 기간의 약정금리까지 지운다 — 고객에게 불리한 오차라 UNSUPPORTED(10-05 기준). 조건은 남겼다. 경과월수 정의 · 소수점 버림 · 「가입일 당시 게시한」은 산출 세부·출처 안내라 rule 이 아니다. **사람 판단 필요:** (1) KBSTR-S2-R13-03 은 같은 「만기후 3개월 초과 0.1」을 OK 로 두었다 — 10-05 기준(약정이율 삭제 여부)에 맞추면 그쪽도 UNSUPPORTED 가 되어야 한다. (2) 예치기간의 끝을 해지일로 볼지 지급청구일로 볼지(KBSTR-S2-R12 와 같은 질문).",
+  "rules": [
+    {
+      "rule_id": "KBSME-S2-R12-01",
+      "status": "OK",
+      "label": "예치 1개월 미만 중도해지 → 중도해지이율 연 0.1%",
+      "source": {
+        "quote": "1개월 미만 | 0.1"
+      },
+      "condition": {
+        "and": [
+          {
+            "==": [
+              {
+                "var": "contract.termination_type"
+              },
+              "EARLY"
+            ]
+          },
+          {
+            "<": [
+              {
+                "var": "contract.termination_date"
+              },
+              {
+                "anchor": "contract.start_date",
+                "offset_months": 1
+              }
+            ]
+          }
+        ]
+      },
+      "effect": {
+        "type": "RATE_OVERRIDE",
+        "value": 0.1,
+        "unit": "%"
+      }
+    },
+    {
+      "rule_id": "KBSME-S2-R12-02",
+      "status": "UNSUPPORTED",
+      "label": "중도해지이율 1개월 이상~3개월 미만 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+      "source": {
+        "quote": "1개월 이상~3개월 미만 | 기본금리 X 50% X 경과월수주)/계약월수(단, 최저금리는 0.1)"
+      },
+      "condition": {}
+    },
+    {
+      "rule_id": "KBSME-S2-R12-03",
+      "status": "UNSUPPORTED",
+      "label": "중도해지이율 3개월 이상~6개월 미만 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+      "source": {
+        "quote": "3개월 이상~6개월 미만 | 기본금리 X 50% X 경과월수/계약월수(단, 최저금리는 0.1)"
+      },
+      "condition": {}
+    },
+    {
+      "rule_id": "KBSME-S2-R12-04",
+      "status": "UNSUPPORTED",
+      "label": "중도해지이율 6개월 이상~8개월 미만 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+      "source": {
+        "quote": "6개월 이상~8개월 미만 | 기본금리 X 60% X 경과월수/계약월수(단, 최저금리는 0.2)"
+      },
+      "condition": {}
+    },
+    {
+      "rule_id": "KBSME-S2-R12-05",
+      "status": "UNSUPPORTED",
+      "label": "중도해지이율 8개월 이상~10개월 미만 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+      "source": {
+        "quote": "8개월 이상~10개월 미만 | 기본금리 X 70% X 경과월수/계약월수(단, 최저금리는 0.2)"
+      },
+      "condition": {}
+    },
+    {
+      "rule_id": "KBSME-S2-R12-06",
+      "status": "UNSUPPORTED",
+      "label": "중도해지이율 10개월 이상~11개월 미만 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+      "source": {
+        "quote": "10개월 이상~11개월 미만 | 기본금리 X 80% X 경과월수/계약월수(단, 최저금리는 0.2)"
+      },
+      "condition": {}
+    },
+    {
+      "rule_id": "KBSME-S2-R12-07",
+      "status": "UNSUPPORTED",
+      "label": "중도해지이율 11개월 이상 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+      "source": {
+        "quote": "11개월 이상 | 기본금리 X 90% X 경과월수/계약월수(단, 최저금리는 0.2)"
+      },
+      "condition": {}
+    },
+    {
+      "rule_id": "KBSME-S2-R12-08",
+      "status": "UNSUPPORTED",
+      "label": "만기후 1개월 이내 — 기본금리 × 50% (비율식 없음)",
+      "source": {
+        "quote": "만기후 1개월 이내 | 기본금리 X 50%"
+      },
+      "condition": {
+        "and": [
+          {
+            ">": [
+              {
+                "var": "contract.termination_date"
+              },
+              {
+                "var": "contract.maturity_date"
+              }
+            ]
+          },
+          {
+            "<=": [
+              {
+                "var": "contract.termination_date"
+              },
+              {
+                "anchor": "contract.maturity_date",
+                "offset_months": 1
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "rule_id": "KBSME-S2-R12-09",
+      "status": "UNSUPPORTED",
+      "label": "만기후 1개월 초과 ~ 3개월 이내 — 기본금리 × 30% (비율식 없음)",
+      "source": {
+        "quote": "만기후 1개월 초과 3개월 이내 | 기본금리 X 30%"
+      },
+      "condition": {
+        "and": [
+          {
+            ">": [
+              {
+                "var": "contract.termination_date"
+              },
+              {
+                "anchor": "contract.maturity_date",
+                "offset_months": 1
+              }
+            ]
+          },
+          {
+            "<=": [
+              {
+                "var": "contract.termination_date"
+              },
+              {
+                "anchor": "contract.maturity_date",
+                "offset_months": 3
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "rule_id": "KBSME-S2-R12-10",
+      "status": "UNSUPPORTED",
+      "label": "만기후 3개월 초과 연 0.1% — RATE_OVERRIDE 는 만기 전 약정이율까지 지운다 (만기 이후 기간에만 붙는 이율을 담을 자리 없음)",
+      "source": {
+        "quote": "만기후 3개월 초과 | 0.1"
+      },
+      "condition": {
+        ">": [
+          {
+            "var": "contract.termination_date"
+          },
+          {
+            "anchor": "contract.maturity_date",
+            "offset_months": 3
+          }
+        ]
+      }
+    }
+  ],
+  "drafted": {
+    "by": "claude",
+    "at": "2026-10-05",
+    "basis": [
+      "오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED",
+      "실행기 범위 2 · 중도해지·만기후이율은 RATE_OVERRIDE 로 받는다 (경과기간 구간표·비율식은 막힘)",
+      "2026-10-05 · 중도해지 고정 이율 행(날짜 비교로 정확히 섬)은 OK, 경과월수·비율식 행은 UNSUPPORTED · 만기후 이율을 RATE_OVERRIDE 로 두면 만기 전 약정이율까지 지우므로 UNSUPPORTED",
+      "UNSUPPORTED 라도 조건이 온전히 표현되고 effect 만 없으면 조건을 남긴다"
+    ]
+  }
+}

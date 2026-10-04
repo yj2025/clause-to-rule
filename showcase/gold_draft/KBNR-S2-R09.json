@@ -1,0 +1,305 @@
+{
+ "clause_id": "KBNR-S2-R09",
+ "label": "전자금융/ 자동화기기 수수료 면제",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 4개 · 전부 OK (B). 코퍼스 KBYY-S5-R02 · KBYY-S2-R12 와 같은 꼴이다. 대상수수료 둘(전자금융 이체수수료 → EBANK_TRANSFER, 자동화기기 시간외출금수수료 → ATM_WITHDRAW_AFTER_HOURS) × 면제 근거 둘(실적 · 신규) 로 rule 4개. 면제횟수 「제한없음」→ UNLIMITED. 면제기간 「이번달 11일부터 다음달 10일까지」는 코퍼스대로 기준일이 11일 이후면 전월 창, 1~10일이면 두 달 전 창을 본다. 실적: (1) 「계좌간 자동이체(적금·펀드·대출원리금, KB Wise플랜 적립이체 포함) 또는 각종 공과금(아파트관리비·지로·VAN·CMS) 자동납부」→ AUTO_TRANSFER. route 필터를 걸지 않았다 — 계좌간 자동이체와 VAN 은 route 값에 없어 필터를 걸면 인정 실적을 빠뜨린다(불리). 카드로 납부한 공과금도 세게 되는데 이 조문은 카드결제분을 빼지 않았고, 넓게 세는 쪽이라 면제 쪽 오차다(원칙 1). (2) 「KB국민카드 결제실적(현금서비스 포함)」→ CARD_USAGE. 주2) 「선결제분 제외」는 못 담았다 — 넓게 인정하는 쪽(원칙 1). 주1) 「실제 이체가 발생한 달 기준」은 이벤트 날짜가 받는다. ※ 신규·전환 면제: 기준일 <= 가입일 + 2개월 10일. 전환일을 contract.start_date 가 받는다고 읽은 것은 코퍼스 KBYY-S5-R02 와 같은 사람 확인 자리다. 「(※납부자자동이체 제외)」는 EBANK_TRANSFER 만 고르고 AUTO_DEBIT 을 안 넣는 것으로 담겼다. 「이 통장 거래 기준」은 실행기가 계좌 하나만 보므로 따로 rule 이 없다(DECISIONS 09-28 (다)1 과 같은 자리).",
+ "rules": [
+  {
+   "rule_id": "KBNR-S2-R09-01",
+   "status": "OK",
+   "label": "전월 자동이체·공과금·카드 결제실적 시 전자금융 이체수수료 면제 (제한없음)",
+   "source": {
+    "quote": "전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼 때)(※납부자자동이체 제외)"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "or": [
+     {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "and": [
+       {
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window2"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window2"
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "EBANK_TRANSFER",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBNR-S2-R09-02",
+   "status": "OK",
+   "label": "전월 자동이체·공과금·카드 결제실적 시 자동화기기 시간외출금수수료 면제 (제한없음)",
+   "source": {
+    "quote": "KB국민은행 자동화기기 시간외출금수수료"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "or": [
+     {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "and": [
+       {
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window2"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window2"
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "ATM_WITHDRAW_AFTER_HOURS",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBNR-S2-R09-03",
+   "status": "OK",
+   "label": "신규(전환)일로부터 다음 다음달 10일까지 전자금융 이체수수료 면제 (실적 무관)",
+   "source": {
+    "quote": "※ 이 통장의 신규 또는 전환일로부터 다음 다음달 10일까지는 은행거래실적에 관계없이 수수료 면제"
+   },
+   "condition": {
+    "<=": [
+     {
+      "var": "contract.reference_date"
+     },
+     {
+      "anchor": "contract.start_date",
+      "offset_months": 2,
+      "day": 10
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "EBANK_TRANSFER",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBNR-S2-R09-04",
+   "status": "OK",
+   "label": "신규(전환)일로부터 다음 다음달 10일까지 자동화기기 시간외출금수수료 면제 (실적 무관)",
+   "source": {
+    "quote": "※ 이 통장의 신규 또는 전환일로부터 다음 다음달 10일까지는 은행거래실적에 관계없이 수수료 면제"
+   },
+   "condition": {
+    "<=": [
+     {
+      "var": "contract.reference_date"
+     },
+     {
+      "anchor": "contract.start_date",
+      "offset_months": 2,
+      "day": 10
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "ATM_WITHDRAW_AFTER_HOURS",
+    "value": "UNLIMITED"
+   }
+  }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-05",
+  "basis": [
+   "오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED",
+   "다른 개념으로 바꿔 옮기지 않는다 (가맹점결제→DEPOSIT 제거)",
+   "effect 의 value 에 자유 문자열을 쓰지 않는다"
+  ]
+ }
+}

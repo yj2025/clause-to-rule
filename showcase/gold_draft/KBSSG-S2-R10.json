@@ -1,0 +1,94 @@
+{
+ "clause_id": "KBSSG-S2-R10",
+ "label": "수수료 면제 혜택",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 6개 · OK 5 · UNSUPPORTED 1 (M 섞임). 01~05: 「횟수 제한 없이 면제」→ 다섯 수수료마다 FEE_WAIVE UNLIMITED, 실적 조건이 없어 condition {}. ⑤ 의 ※ 「제휴 및 VAN사 자동화기기는 제외」는 ATM 종류를 가릴 속성이 없어 못 담았다 — 더 면제하는 쪽(원칙 1). 06: 회원 탈퇴 · 혁신금융서비스 종료 시 면제 박탈 — 변수가 없고 불이익 쪽이라 근사 금지 → UNSUPPORTED. 01~05 가 이 박탈을 빼고 늘 면제하는 것도 고객 쪽 오차다.",
+ "rules": [
+  {
+   "rule_id": "KBSSG-S2-R10-01",
+   "status": "OK",
+   "label": "인터넷뱅킹·스타뱅킹 다른은행 이체수수료 횟수 제한 없이 면제",
+   "source": {
+    "quote": "① KB국민은행 개인인터넷뱅킹, KB스타뱅킹을 통한 다른은행 이체수수료"
+   },
+   "condition": {},
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "EBANK_TRANSFER",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSSG-S2-R10-02",
+   "status": "OK",
+   "label": "납부자 자동이체 수수료 횟수 제한 없이 면제",
+   "source": {
+    "quote": "② 납부자 자동이체(타행 자동이체 포함) 수수료"
+   },
+   "condition": {},
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "AUTO_DEBIT",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSSG-S2-R10-03",
+   "status": "OK",
+   "label": "자동화기기 다른은행 이체수수료 횟수 제한 없이 면제",
+   "source": {
+    "quote": "③ KB국민은행 자동화기기(ATM) 다른은행 이체수수료"
+   },
+   "condition": {},
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "ATM_TRANSFER",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSSG-S2-R10-04",
+   "status": "OK",
+   "label": "자동화기기 시간외 출금수수료 횟수 제한 없이 면제",
+   "source": {
+    "quote": "④ KB국민은행 자동화기기(ATM) 시간외 출금수수료"
+   },
+   "condition": {},
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "ATM_WITHDRAW_AFTER_HOURS",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSSG-S2-R10-05",
+   "status": "OK",
+   "label": "다른은행 자동화기기 출금수수료 횟수 제한 없이 면제",
+   "source": {
+    "quote": "⑤ 다른은행 자동화기기(ATM) 출금수수료"
+   },
+   "condition": {},
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "OTHER_BANK_ATM_WITHDRAW",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSSG-S2-R10-06",
+   "status": "UNSUPPORTED",
+   "label": "SSG.COM 회원 탈퇴·혁신금융서비스 종료 시 수수료 면제 적용 불가 — 회원 탈퇴·서비스 종료 변수 없음",
+   "source": {
+    "quote": "※ SSG.COM 회원 탈퇴 또는 혁신금융서비스 종료 시 「KB제휴통장」으로 상품명이 변경되며 수수료 면제 적용 불가"
+   },
+   "condition": {}
+  }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-05",
+  "basis": [
+   "오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED"
+  ]
+ }
+}

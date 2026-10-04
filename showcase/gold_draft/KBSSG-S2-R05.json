@@ -1,0 +1,24 @@
+{
+ "clause_id": "KBSSG-S2-R05",
+ "label": "판매한도",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 1개 · UNSUPPORTED (A기권). 「판매한도 40만좌」는 판매 좌수가 차면 신규 가입을 막는 가입 관문이다 — 상품 전체의 판매 좌수를 가리킬 변수가 없다. DISQUALIFY 는 불이익이라 근사 금지. **사람 판단:** notes.md 는 판매한도를 「옳은 기권」으로 셌다. 고객이 아니라 은행의 판매 총량이라 빈 배열(예금 조건 아님 · 결정 1-3)로 볼 여지도 있다 — 가입 여부를 가르므로 기권 쪽에 뒀다.",
+ "rules": [
+  {
+   "rule_id": "KBSSG-S2-R05-01",
+   "status": "UNSUPPORTED",
+   "label": "판매한도 40만좌 — 판매 좌수 변수 없음",
+   "source": {
+    "quote": "▪ 40만좌(금융위원회 혁신금융서비스 지정 좌수)"
+   },
+   "condition": {}
+  }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-05",
+  "basis": [
+   "오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED"
+  ]
+ }
+}

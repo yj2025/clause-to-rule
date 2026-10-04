@@ -1,0 +1,115 @@
+{
+ "clause_id": "KBSSG-S2-R06",
+ "label": "이자계산방법 및 이자지급시기",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 4개 · 전부 UNSUPPORTED (A기권). 01: 이자계산기간 · 매일 최종잔액 평균 · 고시 이율로 계산 → 이자 산출(코퍼스 KBONE-S2-R06 관례). 02: 이자결산일(매월 제2금요일 또는 고객 요청 전일) · 이자지급일 → 이자 지급 시기(코퍼스 KBYY-S2-R08 관례 · 결산일은 month_of 로 계산되지만 이자 지급을 담을 effect 가 없다). 03: 「매월 제2금요일 다음날은 고객 요청에 의한 이자지급 제한」은 특정 거래를 막는 제약이지만 RESTRICT 의 대상에 이자지급이 없다 — 날짜 조건은 표현되나(기준일이 지난 제2금요일 + 1일과 같은 날 · 날짜 == 는 실행기가 날짜로 맞추지 않아 >= · <= 로 적었다) 다른 대상으로 옮기면 다른 개념이다(원칙 2). 조건은 온전하고 effect 만 없어 남겼다. 04: ※ 최종거래일 5년 경과 후 원금 가산 중단 · 일괄 지급 → KBYY-S2-R08-02 정답과 같이 {}. **사람 판단:** 03 을 02 의 매개변수(이자 지급 시기)로 보고 합칠지.",
+ "rules": [
+  {
+   "rule_id": "KBSSG-S2-R06-01",
+   "status": "UNSUPPORTED",
+   "label": "이자계산기간 · 일평균 최종잔액 · 고시 이율로 계산 — 이자 산출(범위 밖)",
+   "source": {
+    "quote": "▪ 예금이자는 아래의 이자계산기간 동안 매일의 최종잔액을 평균하여 이자결산일 현재 영업점 및 KB국민은행 홈페이지에 고시하는 이율로 계산함"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "KBSSG-S2-R06-02",
+   "status": "UNSUPPORTED",
+   "label": "이자결산일(매월 제2금요일 또는 고객 요청 전일)·이자지급일 — 이자 지급 effect 없음",
+   "source": {
+    "quote": "- 이자결산일 : 매월 제2금요일 또는 고객이 직접 이자지급 요청한 전일"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "KBSSG-S2-R06-03",
+   "status": "UNSUPPORTED",
+   "label": "매월 제2금요일 다음날은 고객 요청 이자지급 제한 — 이자지급 금지 대상 없음",
+   "source": {
+    "quote": "(단, 매월 제2금요일 다음날은 고객 요청에 의한 이자지급 제한)"
+   },
+   "condition": {
+    "and": [
+     {
+      ">=": [
+       {
+        "var": "contract.reference_date"
+       },
+       {
+        "anchor": "contract.reference_date",
+        "month_of": [
+         1,
+         2,
+         3,
+         4,
+         5,
+         6,
+         7,
+         8,
+         9,
+         10,
+         11,
+         12
+        ],
+        "day": {
+         "weekday": "FRI",
+         "nth": 2
+        },
+        "offset_days": 1
+       }
+      ]
+     },
+     {
+      "<=": [
+       {
+        "var": "contract.reference_date"
+       },
+       {
+        "anchor": "contract.reference_date",
+        "month_of": [
+         1,
+         2,
+         3,
+         4,
+         5,
+         6,
+         7,
+         8,
+         9,
+         10,
+         11,
+         12
+        ],
+        "day": {
+         "weekday": "FRI",
+         "nth": 2
+        },
+        "offset_days": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "rule_id": "KBSSG-S2-R06-04",
+   "status": "UNSUPPORTED",
+   "label": "최종거래일 5년 경과 후 원금 가산 중단·일괄 지급 — 이자 가산 effect 없음 (판별 범위 밖)",
+   "source": {
+    "quote": "※ 예금의 이자는 최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일의 다음 결산일에 일괄 계산하여 지급할 수 있습니다."
+   },
+   "condition": {}
+  }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-05",
+  "basis": [
+   "실행기 범위 1 · 판별 + 적용 이율 고르기, 이자 금액·이자 산출은 범위 밖 (UNSUPPORTED)",
+   "다른 개념으로 바꿔 옮기지 않는다 (가맹점결제→DEPOSIT 제거)",
+   "UNSUPPORTED 라도 조건이 온전히 표현되고 effect 만 없으면 조건을 남긴다",
+   "코퍼스 KBONE-S2-R06 · KBYY-S2-R08 관례 (이자 계산식·지급 시기는 UNSUPPORTED)"
+  ]
+ }
+}

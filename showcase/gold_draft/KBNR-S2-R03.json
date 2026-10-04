@@ -1,0 +1,35 @@
+{
+ "clause_id": "KBNR-S2-R03",
+ "label": "상품유형",
+ "reviewed": false,
+ "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 2개 · 전부 UNSUPPORTED (A기권). 코퍼스 KBONE-S2-R03 과 같은 조문(첫 줄 분류 라벨 + ※ 전환 두 줄)이라 그 판단을 따랐다. 첫 줄 「입출금이 자유로운 예금(저축예금 - MMDA 제외)」은 분류 라벨이라 rule 이 아니다(KBYY-S2-R03 빈 배열). ※ 두 줄은 전환 가능/제외라는 효과가 있지만 「동일 예금과목」·「개별상품에서 정한 기준」을 가릴 변수가 없다(PRODUCT_SWITCH_TO 는 있지만 어느 상품이 같은 과목인지 못 가린다). 두 번째 줄을 RESTRICT SWITCH_IN 으로 조건 없이 적으면 제외 대상이 아닌 상품에서 오는 전환까지 막는다(불리). **사람 판단 필요:** 브리프의 「상품유형은 빈 배열」 관례와 코퍼스 KBONE-S2-R03(UNSUPPORTED)이 이 조문에서 부딪친다 — ※ 전환 두 줄이 있어 코퍼스 쪽을 따랐다.",
+ "rules": [
+  {
+   "rule_id": "KBNR-S2-R03-01",
+   "status": "UNSUPPORTED",
+   "label": "동일 예금과목 상품 간 전환 가능 — 예금과목(상품 종류) 변수 없음",
+   "source": {
+    "quote": "※ 동일 예금과목 전환 가능"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "KBNR-S2-R03-02",
+   "status": "UNSUPPORTED",
+   "label": "전환신규 불가 상품은 전환 대상에서 제외 — 상품별 전환 가능 기준 변수 없음",
+   "source": {
+    "quote": "※ 개별상품에서 정한 기준에 의해 전환신규가 불가한 상품은 제외"
+   },
+   "condition": {}
+  }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-05",
+  "basis": [
+   "오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED",
+   "다른 개념으로 바꿔 옮기지 않는다 (가맹점결제→DEPOSIT 제거)",
+   "같은 제약이 두 조문에 있으면 양쪽 다 rule 로 둔다"
+  ]
+ }
+}
