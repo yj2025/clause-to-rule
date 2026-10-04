@@ -308,7 +308,10 @@ def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
                 user = build_json_retry_prompt(clause["text"], body, msg, line, trunc,
                                                clause["id"])
                 continue
-            user = build_retry_prompt(clause["text"], parsed, marks["errors"] + sem,
+            # 2026-10-04 · v113. **뜻 오류를 관문 오류보다 앞에 싣는다.** 재시도 프롬프트는 오류를 앞에서 8개만 싣는데
+            # (`prompt.build_retry_prompt`), 뜻 오류가 뒤에 붙어 관문 오류가 8개를 넘는 조문에선 **한 번도 안 보였다** —
+            # v109 의 문구가 잘린 조문 0/6 · 보인 조문 4/4 (kb10). 뜻 오류의 「통째로 바꾼 꼴」은 그 rule 의 관문 오류도 같이 없앤다.
+            user = build_retry_prompt(clause["text"], parsed, sem + marks["errors"],
                                       clause["id"])
 
         _, n_best, marks, output, errors, sem = best

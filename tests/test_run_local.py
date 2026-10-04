@@ -643,3 +643,14 @@ def test_the_abstained_form_is_not_flagged_again():
     r = {k: v for k, v in TIER_RULE.items() if k != "effect"}
     r["status"] = "UNSUPPORTED"
     assert semantic_errors({"rules": [r]}, TIER_TEXT) == []
+
+
+# ── v113 · 뜻 오류를 관문 오류보다 앞에 싣는다 (2026-10-04) ────────────────────────────
+def test_semantic_errors_come_before_gate_errors_in_the_retry(monkeypatch):
+    seen = []
+    monkeypatch.setattr(R, "build_retry_prompt",
+                        lambda text, out, errors, cid=None: seen.append(list(errors)) or "retry")
+    import validate
+    monkeypatch.setattr(validate, "semantic_errors", lambda out, text: ["뜻 오류"])
+    _run_with([WEAK, WEAK, WEAK], monkeypatch)
+    assert seen and seen[0][0] == "뜻 오류" and len(seen[0]) > 1
