@@ -740,12 +740,44 @@ def _tiered_rate_errors(output, clause_text):
     return errs
 
 
+# 2026-10-05 · v119. **같은 조건에 금리가 둘 이상** — 표의 행이 목록에 없는 것(적립 방식 정액/자유 · 쿠폰 · 플랜 등)으로도
+# 갈리는데, 모델이 적을 수 있는 축(계약기간 등)만 옮겨 같은 조건 rule 이 서로 다른 금리를 갖는다(`KBMY-S2-R07` 정액 · 자유 ×
+# 기간). 그 갈래를 적을 수 없으니 그 rule 들은 기권이 맞다. 정답(코퍼스 46 · kb10 초안 105) 0 · 코퍼스 출력 v86~v118 0 ·
+# kb10 출력 8조문. v105 교훈대로 rule 하나에 고칠 것 하나 — 기권으로 바꾼 꼴을 통째로 준다.
+def _rate_clash_errors(output):
+    import collections
+    groups = collections.defaultdict(list)
+    for r in output.get("rules") or []:
+        if not isinstance(r, dict) or r.get("status") != "OK":
+            continue
+        eff = r.get("effect") if isinstance(r.get("effect"), dict) else {}
+        if eff.get("type") not in catalog.RATE_EFFECTS:
+            continue
+        key = (json.dumps(r.get("condition"), sort_keys=True, ensure_ascii=False),
+               json.dumps(r.get("guard"), sort_keys=True, ensure_ascii=False), eff.get("type"))
+        groups[key].append(r)
+    errs = []
+    for rules in groups.values():
+        values = {json.dumps((r.get("effect") or {}).get("value")) for r in rules}
+        if len(values) < 2:
+            continue
+        shown = " · ".join(sorted(v.strip('"') for v in values))
+        for r in rules:
+            fixed = {k: v for k, v in r.items() if k != "effect"}
+            fixed["status"] = "UNSUPPORTED"
+            errs.append(f"{r.get('rule_id')}: 같은 조건에 금리가 둘 이상 붙었다({shown}) — 표의 행이 목록에 없는 것"
+                        f"(적립 방식 · 쿠폰 · 플랜 · 고객이 고른 항목 등)으로도 갈린다는 뜻이다. 그 갈래를 적을 수 없으니 "
+                        f"이 rule 을 **통째로** 아래로 바꾼다 — 괄호 수까지 그대로 옮긴다:\n"
+                        + json.dumps(fixed, ensure_ascii=False, indent=1))
+    return errs
+
+
 def semantic_errors(output, clause_text):
     """재시도가 짚을 뜻 오류. 관문과 따로 센다 — `score_record` 에는 안 들어간다."""
     if not isinstance(output, dict):
         return []
     errs = (_conditioned_limits(output) + _absence_errors(output, clause_text) + _ban_errors(output)
-            + _tiered_rate_errors(output, clause_text))
+            + _tiered_rate_errors(output, clause_text) + _rate_clash_errors(output))
     caps = {int(m.replace(",", "")) * 10000 for m in _CAP_AMOUNTS.findall(clause_text or "")}
     if not caps:
         return errs

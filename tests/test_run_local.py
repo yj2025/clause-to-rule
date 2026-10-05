@@ -654,3 +654,31 @@ def test_semantic_errors_come_before_gate_errors_in_the_retry(monkeypatch):
     monkeypatch.setattr(validate, "semantic_errors", lambda out, text: ["뜻 오류"])
     _run_with([WEAK, WEAK, WEAK], monkeypatch)
     assert seen and seen[0][0] == "뜻 오류" and len(seen[0]) > 1
+
+
+# ── v119 · 같은 조건에 금리가 둘 이상이면 기권 꼴로 (2026-10-05) ──────────────────────
+def _rate_rule(rid, value):
+    return {"rule_id": rid, "status": "OK", "label": "정액적립식 12개월", "source": {"quote": "12개월 | 연 2.0% | 연 1.8%"},
+            "condition": {">=": [{"var": "contract.term_months"}, 12]},
+            "effect": {"type": "RATE_OVERRIDE", "value": value, "unit": "%"}}
+
+
+def test_two_rates_on_the_same_condition_are_flagged():
+    from validate import semantic_errors
+    errs = semantic_errors({"rules": [_rate_rule("R1", 2.0), _rate_rule("R2", 1.8)]}, "조문")
+    assert len(errs) == 2
+    fixed = _msg_rule(errs[0])
+    assert fixed["status"] == "UNSUPPORTED" and "effect" not in fixed
+    assert fixed["condition"] == {">=": [{"var": "contract.term_months"}, 12]}
+
+
+def test_one_rate_per_condition_is_left_alone():
+    from validate import semantic_errors
+    r2 = _rate_rule("R2", 1.8)
+    r2["condition"] = {">=": [{"var": "contract.term_months"}, 24]}
+    assert semantic_errors({"rules": [_rate_rule("R1", 2.0), r2]}, "조문") == []
+
+
+def test_the_same_rate_twice_is_not_a_clash():
+    from validate import semantic_errors
+    assert semantic_errors({"rules": [_rate_rule("R1", 2.0), _rate_rule("R2", 2.0)]}, "조문") == []
