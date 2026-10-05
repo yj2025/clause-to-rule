@@ -283,3 +283,19 @@ def test_values_inside_an_in_list_are_checked():
     assert any("REGISTERED_ASSOCIATION" in e and "ORGANIZATION" in e for e in errs)
     rule["condition"]["not"]["in"][1] = ["INDIVIDUAL", "ORGANIZATION"]
     assert not any("값이 아님" in e for e in check_catalog(rule))
+
+
+# ── v117 · 금리 표 블록 (2026-10-05) ────────────────────────────────────────────
+def test_rate_table_block_fires_on_two_rates_only():
+    import catalog as C
+    from prompt import build_user_prompt
+    table = "[우대이율]\n9건 이상 | 연1.5%\n6건 이상 | 연1.0%"
+    assert C.wants_rate_table(table) and "[금리 표를 옮기는 법]" in build_user_prompt(table)
+    assert not C.wants_rate_table("▪ 우대이율 : 연 1.9%p") and "[금리 표를 옮기는 법]" not in build_user_prompt("▪ 우대이율 : 연 1.9%p")
+
+
+def test_rate_table_block_hits_one_corpus_clause():
+    import json
+    import catalog as C
+    hits = [c["id"] for c in json.load(open("data/corpus.json")) if C.wants_rate_table(c["text"])]
+    assert hits == ["KBYY-S2-R10"]

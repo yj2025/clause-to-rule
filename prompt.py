@@ -132,6 +132,14 @@ def _catalog_block(text):
         lines.append(f"  {'RATE_OVERRIDE':<28}기본금리를 **덮어쓴다** — "
                      "조문이 「대신 적용한다」고 할 때만")
 
+    # 2026-10-05 · v117 — 금리 표의 행마다 «그 행이 누구에게 걸리는지»를 목록의 이름으로 적을 수 있는지 먼저 보게 한다.
+    if catalog.wants_rate_table(text):
+        lines.append("[금리 표를 옮기는 법] 표의 행마다 «그 행이 어떤 고객에게 걸리는지»를 위 [변수] · [이벤트]로 적을 수 있는지 먼저 본다")
+        lines.append("  적을 수 있으면 OK 로 옮긴다 — 계약기간(contract.term_months) · 잔액 · 거래 실적처럼 목록에 있는 것으로 갈리는 행")
+        lines.append("  적을 수 없으면 그 행은 UNSUPPORTED 로 두고 effect 를 붙이지 않는다 — 적립 방식(정액/자유) · 쿠폰 · "
+                     "보험 플랜 · 고객이 고른 항목 · 경과월수 비율처럼 목록에 없는 것으로 갈리는 행. 금리를 지어 넣지 않는다")
+        lines.append("  「최저 ~ 최고」 · 「최고 연 N%」 · 예시처럼 여러 우대를 합친 결과를 말하는 줄은 규칙이 아니다")
+
     restrictions = catalog.pick_restrictions(text)
     if restrictions:
         # 2026-09-22 · v36. **막는 효과가 둘인데 지문이 뜻을 안 말한다.**

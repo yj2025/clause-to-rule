@@ -479,6 +479,18 @@ def wants_non_binding(text):
 _CAP_AMOUNT = re.compile(r"최대\s*[\d,]+\s*만\s*원")
 
 
+# 2026-10-05 · v117. kb10 정답 초안으로 ⑥ 을 재니 모델이 «옮길 수 없는 금리 표»에 금리 rule 을 지어낸다 —
+# 적립 방식(정액/자유) · 쿠폰 · 보험 플랜 · 고객이 고른 항목으로 행이 갈리는 표, 「최저 ~ 최고」 범위 안내.
+# 재시도 문구는 조문 하나씩만 잡았고(v109), RATE_OVERRIDE 를 일괄로 막으면 맞게 쓴 계약기간별 기본이율표를 잃는다(순변화 0).
+# **판단 기준을 주고 판단은 맡긴다**(v35 의 모양). 방아쇠: 소수 금리가 둘 이상 나오는 조문 — kb10 15 · 코퍼스 1(KBYY-S2-R10).
+_PCT = re.compile(r"(\d+\.\d+)\s*%")
+
+
+def wants_rate_table(text):
+    """금리 값이 둘 이상 나오는 조문(금리 표 · 범위 안내)인가."""
+    return len(set(_PCT.findall(text or ""))) >= 2
+
+
 def wants_limit_block(text):
     """「한도와 금리를 적는 법」 블록을 붙일 조문인가 — 금액 상한이 적혀 있을 때만."""
     return bool(_CAP_AMOUNT.search(text))
