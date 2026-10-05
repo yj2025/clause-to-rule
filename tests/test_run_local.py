@@ -666,7 +666,7 @@ def _rate_rule(rid, value):
 def test_two_rates_on_the_same_condition_are_flagged():
     from validate import semantic_errors
     errs = semantic_errors({"rules": [_rate_rule("R1", 2.0), _rate_rule("R2", 1.8)]}, "조문")
-    assert len(errs) == 2
+    assert len(errs) == 1 and errs[0].startswith("R1 · R2:")   # v121 — 묶음마다 한 번
     fixed = _msg_rule(errs[0])
     assert fixed["status"] == "UNSUPPORTED" and "effect" not in fixed
     assert fixed["condition"] == {">=": [{"var": "contract.term_months"}, 12]}
@@ -682,3 +682,35 @@ def test_one_rate_per_condition_is_left_alone():
 def test_the_same_rate_twice_is_not_a_clash():
     from validate import semantic_errors
     assert semantic_errors({"rules": [_rate_rule("R1", 2.0), _rate_rule("R2", 2.0)]}, "조문") == []
+
+
+# ── v121 · 구간표의 숫자 행 · 「금리」 표기 · 「불가」 대상 (2026-10-06) ─────────────────────
+def _early_rule(quote, value):
+    return {"rule_id": "E1", "status": "OK", "label": "1개월 미만", "source": {"quote": quote},
+            "condition": {"and": [{"==": [{"var": "contract.termination_type"}, "EARLY"]},
+                                  {"<": [{"var": "contract.termination_date"},
+                                         {"anchor": "contract.start_date", "offset_months": 1}]}]},
+            "effect": {"type": "RATE_OVERRIDE", "value": value, "unit": "%"}}
+
+
+EARLY_TEXT = "[중도해지금리]\n1개월 미만 | 0.1\n1개월 이상 | 기본금리 X 50% X 경과월수/계약월수"
+
+
+def test_the_fixed_row_of_a_tiered_table_is_left_alone():
+    from validate import semantic_errors
+    assert semantic_errors({"rules": [_early_rule("1개월 미만 | 0.1", 0.1)]}, EARLY_TEXT) == []
+
+
+def test_a_ratio_row_written_as_rate_geumri_is_flagged():
+    from validate import semantic_errors
+    errs = semantic_errors({"rules": [_early_rule("1개월 이상 | 기본금리 X 50% X 경과월수/계약월수", 1.0)]}, EARLY_TEXT)
+    assert len(errs) == 1 and "구간표" in errs[0]
+
+
+def test_ban_target_is_read_after_the_topic():
+    from validate import semantic_errors
+    r = {"rule_id": "B1", "status": "UNSUPPORTED", "label": "분할해지 불가",
+         "source": {"quote": "예금담보대출 설정 계좌는 분할해지 불가"}, "condition": {}}
+    assert semantic_errors({"rules": [r]}, "조문") == []
+    r["source"] = {"quote": "담보제공 불가"}
+    assert len(semantic_errors({"rules": [r]}, "조문")) == 1

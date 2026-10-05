@@ -684,6 +684,12 @@ def _asks_event(node, ev):
     return False
 
 
+def _ban_object(quote):
+    head = quote[:quote.index("불가")]
+    cut = max(head.rfind("은 "), head.rfind("는 "))
+    return head[cut + 2:] + "불가" if cut >= 0 else quote
+
+
 def _ban_errors(output):
     errs = []
     for r in output.get("rules") or []:
@@ -701,7 +707,9 @@ def _ban_errors(output):
                         f"이 rule 을 **통째로** 아래로 바꾼다 — 괄호 수까지 그대로 옮긴다:\n"
                         + json.dumps(fixed, ensure_ascii=False, indent=1))
         elif r.get("status") == "UNSUPPORTED" and "불가" in quote and "경우" not in quote:
-            found = catalog.pick_restrictions(quote)
+            # 2026-10-06 · v121. 「예금담보대출 설정 계좌는 분할해지 불가」(`KBSUP-S2-R04-11`)를 담보제공 금지로 읽었다 —
+            # 막는 것은 분할해지고 「담보」는 주어(계좌)를 꾸민다. 대상은 「불가」 앞 마지막 「은/는」 **뒤**에서만 찾는다.
+            found = catalog.pick_restrictions(_ban_object(quote))
             if len(found) != 1:
                 continue
             fixed = {"rule_id": r.get("rule_id"), "status": "OK", "label": r.get("label"),
@@ -719,8 +727,21 @@ def _ban_errors(output):
 # `DECISIONS.md` 실행기 범위 2: 중도해지 · 만기후 이율 자체는 범위 안이지만 **경과 개월을 세야 하는 구간표는 막힌다.**
 # 방아쇠: 조문에 중도해지 · 만기후 이율이 있고 **구간 · 비율 표시**(경과 · N개월 미만/이상 · X N%)가 있다 — kb10 11조문 · 코퍼스 0.
 # v105 교훈대로 rule 하나에 고칠 것 하나 — 그 rule 을 통째로 UNSUPPORTED 로 바꾼 꼴을 준다.
-_EARLY = re.compile(r"중도해지\s*이율|만기\s*후\s*이율")
+# 2026-10-06 · v121. 「중도해지금리 · 만기후금리」로 적는 상품(`KBSME-S2-R11` · `R12`)을 못 잡았다 — 「이율」만 보았다.
+_EARLY = re.compile(r"중도해지\s*(?:이율|금리)|만기\s*후\s*(?:이율|금리)")
 _TIERED = re.compile(r"경과|개월\s*미만|개월\s*이상|[Xx×]\s*\d+\s*%")
+
+
+# 2026-10-06 · v121. 구간표라도 **숫자만 있는 행**(「1개월 미만 | 0.1」)을 해지일 앵커로 옮긴 rule 은 옮길 수 있다 — 정답 초안
+# 여섯 자리(`KBGEN-S2-R08-01` 등)가 그 꼴이고 v109 가 그것까지 기권시키려 했다. 비율식(「기본금리 X 50%」)이 quote 에 있으면 그대로 짚는다.
+def _fixed_row(r):
+    quote = str((r.get("source") or {}).get("quote") or "")
+    value = (r.get("effect") or {}).get("value")
+    if not isinstance(value, (int, float)) or re.search(r"[Xx×]|%|경과월수", quote):
+        return False
+    if not re.search(r"(?<![\d.])" + re.escape(f"{value:g}") + r"(?![\d])", quote):
+        return False
+    return '"contract.termination_date"' in json.dumps(r.get("condition"))
 
 
 def _tiered_rate_errors(output, clause_text):
@@ -731,6 +752,8 @@ def _tiered_rate_errors(output, clause_text):
         if not isinstance(r, dict) or r.get("status") != "OK":
             continue
         if (r.get("effect") or {}).get("type") not in catalog.RATE_EFFECTS:
+            continue
+        if _fixed_row(r):
             continue
         fixed = {k: v for k, v in r.items() if k != "effect"}
         fixed["status"] = "UNSUPPORTED"
@@ -762,13 +785,16 @@ def _rate_clash_errors(output):
         if len(values) < 2:
             continue
         shown = " · ".join(sorted(v.strip('"') for v in values))
-        for r in rules:
-            fixed = {k: v for k, v in r.items() if k != "effect"}
-            fixed["status"] = "UNSUPPORTED"
-            errs.append(f"{r.get('rule_id')}: 같은 조건에 금리가 둘 이상 붙었다({shown}) — 표의 행이 목록에 없는 것"
-                        f"(적립 방식 · 쿠폰 · 플랜 · 고객이 고른 항목 등)으로도 갈린다는 뜻이다. 그 갈래를 적을 수 없으니 "
-                        f"이 rule 을 **통째로** 아래로 바꾼다 — 괄호 수까지 그대로 옮긴다:\n"
-                        + json.dumps(fixed, ensure_ascii=False, indent=1))
+        ids = " · ".join(str(r.get("rule_id")) for r in rules)
+        # 2026-10-06 · v121. v119 는 rule 마다 고친 꼴 전체를 실어(8~9개) 재시도 입력이 길어지고 재시도 OOM 이 1 · 2 → 4 · 5 로
+        # 늘었다 — 목표 `KBMY-S2-R07` · `KBMY-S4-R03` 이 두 판 다 OOM 으로 끊겼다. **묶음마다 한 번**, 고친 꼴은 첫 rule 하나만 준다.
+        fixed = {k: v for k, v in rules[0].items() if k != "effect"}
+        fixed["status"] = "UNSUPPORTED"
+        errs.append(f"{ids}: 같은 조건에 금리가 둘 이상 붙었다({shown}) — 표의 행이 목록에 없는 것"
+                    f"(적립 방식 · 쿠폰 · 플랜 · 고객이 고른 항목 등)으로도 갈린다는 뜻이다. 그 갈래를 적을 수 없으니 "
+                    f"이 rule {len(rules)}개를 **모두** 기권으로 바꾼다 — 각각 \"effect\" 를 지우고 \"status\" 를 \"UNSUPPORTED\" 로. "
+                    f"첫 rule 은 아래 꼴이 된다 — 나머지도 같은 식으로, 괄호 수까지 그대로 옮긴다:\n"
+                    + json.dumps(fixed, ensure_ascii=False, indent=1))
     return errs
 
 
