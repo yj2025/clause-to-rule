@@ -123,6 +123,17 @@ def _ctx(combo):
         "contract.termination_type", "contract.channel", "contract.base_rate",
         "account.balance", "account.reserved_amount", "customer.age"]
 
+    # 2026-10-05 · ⑥ 계약 변경. 해지일이 None 이고 「제공했다」에도 없어서, 해지일을 쓰는 rule(중도해지 · 만기후 이율의
+    # 「1개월 미만 0.1」 등)이 **모든 프로필에서 UNKNOWN** 이었다 — resolver 는 UNKNOWN 인 RATE_OVERRIDE 를 조용히 버려
+    # ⑥ 이 그 rule 과 빈 배열을 구별하지 못했다(kb10 정답 초안 독립 검토가 짚음). 축을 늘리지 않고(1024 그대로)
+    # 이미 있는 해지 유형 축에서 정한다 — 중도해지면 가입일 + 20일(1개월 미만), 만기해지면 만기일.
+    # 코퍼스 46조문은 v101~v114 일곱 판 다 ⑥ 이 안 바뀐다(해지일을 쓰는 정답이 없다). kb10 은 바뀐다.
+    import datetime as _dt
+    termination_date = (
+        (_dt.date.fromisoformat(era["start"]) + _dt.timedelta(days=20)).isoformat()
+        if combo["termination"] == "EARLY" else era["maturity"])
+    provided = provided + ["contract.termination_date"]
+
     return {
         "customer": {"age": combo["age"], "is_youth": combo["age"] < 19,
                      "has_product": combo["has_product"], "is_first_deposit": False,
@@ -140,7 +151,7 @@ def _ctx(combo):
         "contract": {"base_rate": 0.1, "channel": combo["channel"],
                      "start_date": era["start"], "maturity_date": era["maturity"],
                      "reference_date": era["reference"], "switch_date": None,
-                     "termination_date": None, "term_months": combo["term"],
+                     "termination_date": termination_date, "term_months": combo["term"],
                      "amount": combo["balance"], "monthly_amount": 0,
                      "termination_type": combo["termination"]},
         "events": ev,

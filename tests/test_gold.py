@@ -96,3 +96,17 @@ def test_targets_include_a_control_point():
 def test_targets_cover_several_categories(clauses):
     by = {c["id"]: c["category"] for c in clauses}
     assert len({by[t] for t in gold.TARGETS}) >= 4
+
+
+# ── 2026-10-05 · ⑥ 계약 변경: 프로필에 해지일 ─────────────────────────────────────────
+def test_profiles_carry_a_termination_date():
+    import gold
+    P = gold.profiles()
+    assert len(P) == 1024
+    for _, ctx in P:
+        c = ctx["contract"]
+        assert c["termination_date"] and "contract.termination_date" in ctx["_provided"]
+        if c["termination_type"] == "EARLY":
+            assert c["termination_date"] < c["maturity_date"]
+        else:
+            assert c["termination_date"] == c["maturity_date"]
