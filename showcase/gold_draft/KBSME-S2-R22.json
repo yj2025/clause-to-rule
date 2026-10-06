@@ -1,34 +1,40 @@
 {
-  "clause_id": "KBSME-S2-R22",
-  "label": "원금 및 이자 지급 제한",
-  "reviewed": false,
-  "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 2개 · 전부 UNSUPPORTED (A기권). 코퍼스 KBONE-S2-R15 · KBYY-S2-R18 과 같은 조문이고 판단을 따랐다. 01: 압류·가압류(확장 대기) 이벤트도, 질권이 «등록됐는지» 를 가리킬 변수도 없다 — RESTRICT PLEDGE 는 «질권설정을 막는다» 는 뜻이라 «질권이 걸리면 지급 제한» 과 다르다(원칙 2). 02: 예금잔액증명서 발급일 변수가 없다(contract.reference_date 로 바꾸면 다른 개념). ※ 민사집행법 압류 취소 신청과 주1)~주3) 용어 정의는 절차·용어 안내라 rule 이 아니다.",
-  "rules": [
-    {
-      "rule_id": "KBSME-S2-R22-01",
-      "status": "UNSUPPORTED",
-      "label": "압류·가압류·질권 등록 시 원금·이자 지급 제한 — 압류 계열 이벤트·질권 등록 여부 변수 없음",
-      "source": {
-        "quote": "- 계좌에 압류주1), 가압류주2), 질권주3) 등이 등록될 경우 원금 및 이자 지급이 제한될 수 있습니다."
-      },
-      "condition": {}
-    },
-    {
-      "rule_id": "KBSME-S2-R22-02",
-      "status": "UNSUPPORTED",
-      "label": "예금잔액증명서 발급 당일 잔액 변동 불가 — 발급일 변수 없음",
-      "source": {
-        "quote": "예금잔액증명서 발급 당일에는 입금·출금·이체 등 잔액 변동이 불가합니다."
-      },
-      "condition": {}
-    }
-  ],
-  "drafted": {
-    "by": "claude",
-    "at": "2026-10-05",
-    "basis": [
-      "다른 개념으로 바꿔 옮기지 않는다 (가맹점결제→DEPOSIT 제거)",
-      "본체가 표현 불가면 그 매개변수도 UNSUPPORTED (기간 등). 단순 안내는 빈 배열"
-    ]
+ "clause_id": "KBSME-S2-R22",
+ "label": "원금 및 이자 지급 제한",
+ "reviewed": true,
+ "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 2개 · 전부 UNSUPPORTED (A기권). 코퍼스 KBONE-S2-R15 · KBYY-S2-R18 과 같은 조문이고 판단을 따랐다. 01: 압류·가압류(확장 대기) 이벤트도, 질권이 «등록됐는지» 를 가리킬 변수도 없다 — RESTRICT PLEDGE 는 «질권설정을 막는다» 는 뜻이라 «질권이 걸리면 지급 제한» 과 다르다(원칙 2). 02: 예금잔액증명서 발급일 변수가 없다(contract.reference_date 로 바꾸면 다른 개념). ※ 민사집행법 압류 취소 신청과 주1)~주3) 용어 정의는 절차·용어 안내라 rule 이 아니다.",
+ "rules": [
+  {
+   "rule_id": "KBSME-S2-R22-01",
+   "status": "UNSUPPORTED",
+   "label": "압류·가압류·질권 등록 시 원금·이자 지급 제한 — 압류 계열 이벤트·질권 등록 여부 변수 없음",
+   "source": {
+    "quote": "- 계좌에 압류주1), 가압류주2), 질권주3) 등이 등록될 경우 원금 및 이자 지급이 제한될 수 있습니다."
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "KBSME-S2-R22-02",
+   "status": "UNSUPPORTED",
+   "label": "예금잔액증명서 발급 당일 잔액 변동 불가 — 발급일 변수 없음",
+   "source": {
+    "quote": "예금잔액증명서 발급 당일에는 입금·출금·이체 등 잔액 변동이 불가합니다."
+   },
+   "condition": {}
   }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-05",
+  "basis": [
+   "다른 개념으로 바꿔 옮기지 않는다 (가맹점결제→DEPOSIT 제거)",
+   "본체가 표현 불가면 그 매개변수도 UNSUPPORTED (기간 등). 단순 안내는 빈 배열"
+  ]
+ },
+ "human_review": {
+  "verdict": "맞음",
+  "comment": "",
+  "by": "사용자 (검토 페이지)",
+  "at": "2026-10-06T01:01:33.533Z"
+ }
 }

@@ -1,24 +1,30 @@
 {
-  "clause_id": "KBSME-S3-R04",
-  "label": "제공요건",
-  "reviewed": false,
-  "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 1개 · UNSUPPORTED (A기권). 제공요건 중 「가입」은 customer.has_product 로 서지만 「활동계좌」를 가리킬 변수가 없고(정의도 조문에 없다), 제공할 서비스가 SERVICE_PROVIDE 대상에 없다 → UNSUPPORTED. 조건이 온전하지 않아 {} 로 뒀다(has_product 만 남기면 «절반은 됐다» 로 읽힌다).",
-  "rules": [
-    {
-      "rule_id": "KBSME-S3-R04-01",
-      "status": "UNSUPPORTED",
-      "label": "이 상품 가입 + 활동계좌 보유 시 연계·제휴서비스 제공 — 활동계좌 변수·서비스 대상 없음",
-      "source": {
-        "quote": "- 「KB중소기업재직자 우대저축」을 가입하고 활동계좌를 보유한 경우"
-      },
-      "condition": {}
-    }
-  ],
-  "drafted": {
-    "by": "claude",
-    "at": "2026-10-05",
-    "basis": [
-      "본체가 표현 불가면 그 매개변수도 UNSUPPORTED (기간 등). 단순 안내는 빈 배열"
-    ]
+ "clause_id": "KBSME-S3-R04",
+ "label": "제공요건",
+ "reviewed": true,
+ "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 1개 · UNSUPPORTED (A기권). 제공요건 중 「가입」은 customer.has_product 로 서지만 「활동계좌」를 가리킬 변수가 없고(정의도 조문에 없다), 제공할 서비스가 SERVICE_PROVIDE 대상에 없다 → UNSUPPORTED. 조건이 온전하지 않아 {} 로 뒀다(has_product 만 남기면 «절반은 됐다» 로 읽힌다).",
+ "rules": [
+  {
+   "rule_id": "KBSME-S3-R04-01",
+   "status": "UNSUPPORTED",
+   "label": "이 상품 가입 + 활동계좌 보유 시 연계·제휴서비스 제공 — 활동계좌 변수·서비스 대상 없음",
+   "source": {
+    "quote": "- 「KB중소기업재직자 우대저축」을 가입하고 활동계좌를 보유한 경우"
+   },
+   "condition": {}
   }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-05",
+  "basis": [
+   "본체가 표현 불가면 그 매개변수도 UNSUPPORTED (기간 등). 단순 안내는 빈 배열"
+  ]
+ },
+ "human_review": {
+  "verdict": "맞음",
+  "comment": "",
+  "by": "사용자 (검토 페이지)",
+  "at": "2026-10-06T01:01:34.595Z"
+ }
 }

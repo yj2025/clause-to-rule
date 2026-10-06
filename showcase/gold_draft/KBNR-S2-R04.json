@@ -1,7 +1,7 @@
 {
  "clause_id": "KBNR-S2-R04",
  "label": "기본이율 (2026.03.09 기준, 세금공제 전)",
- "reviewed": false,
+ "reviewed": true,
  "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). 빈 배열 (A빈). 코퍼스 KBONE-S2-R04 · KBYY-S2-R06 과 같은 판단이다. 연 0.1% 는 상품 설정 base_rate(KBNR 0.1)이고, RATE_ADD 0.1 은 두 번 더해지며 RATE_OVERRIDE 0.1 은 R05 의 우대이율 1.9%p 를 지운다(KBONE-S2-R04 의 함정 2). ※ 「결산일 현재 영업점에 고시한 저축예금 기본이율로 계산」도 그 base_rate 가 무엇인지 말하는 출처 안내다.",
  "rules": [],
  "drafted": {
@@ -10,5 +10,11 @@
   "basis": [
    "결정 1-4 · 기본금리 자리는 상품 설정(base_rate) — 단일 기본금리 조문은 빈 배열"
   ]
+ },
+ "human_review": {
+  "verdict": "맞음",
+  "comment": "",
+  "by": "사용자 (검토 페이지)",
+  "at": "2026-10-06T01:01:20.899Z"
  }
 }

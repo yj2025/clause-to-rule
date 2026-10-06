@@ -1,7 +1,7 @@
 {
  "clause_id": "KBSSG-S2-R12",
  "label": "상품전환",
- "reviewed": false,
+ "reviewed": true,
  "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 2개 · 전부 OK (B). 「다른 예금에서 이 예금으로 전환 · 이 예금에서 다른 예금으로 전환 불가」→ RESTRICT SWITCH_IN · SWITCH_OUT, 누구에게나 걸려 condition {}. 불이익 effect 지만 빠진 조건이 없다(KBONE-S2-R14 담보제공 불가와 같은 꼴). notes.md 가 「어휘는 있는데 못 찾음」으로 센 자리다.",
  "rules": [
   {
@@ -37,5 +37,11 @@
   "basis": [
    "오차가 고객에게 유리하면 OK, 불리하면 UNSUPPORTED"
   ]
+ },
+ "human_review": {
+  "verdict": "맞음",
+  "comment": "",
+  "by": "사용자 (검토 페이지)",
+  "at": "2026-10-06T01:01:43.140Z"
  }
 }

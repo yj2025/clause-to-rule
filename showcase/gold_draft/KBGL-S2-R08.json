@@ -1,7 +1,7 @@
 {
  "clause_id": "KBGL-S2-R08",
  "label": "이자 계산방법 (산출근거)",
- "reviewed": false,
+ "reviewed": true,
  "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 1개 · UNSUPPORTED (A기권). 코퍼스 KBONE-S2-R06 정답과 글자까지 같은 조문이다 — 이자계산 기간과 매일 최종잔액 평균은 이자 산출이라 범위 밖이다. 「결산일 현재 고시하는 이율」을 RATE_OVERRIDE 로 적으면 함정 2.",
  "rules": [
   {
@@ -21,5 +21,11 @@
    "실행기 범위 1 · 판별 + 적용 이율 고르기, 이자 금액·이자 산출은 범위 밖 (UNSUPPORTED)",
    "코퍼스 KBONE-S2-R06 관례 (이자 계산식 서술은 UNSUPPORTED)"
   ]
+ },
+ "human_review": {
+  "verdict": "맞음",
+  "comment": "",
+  "by": "사용자 (검토 페이지)",
+  "at": "2026-10-06T01:02:00.370Z"
  }
 }

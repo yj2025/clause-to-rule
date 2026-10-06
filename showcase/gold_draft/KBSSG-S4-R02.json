@@ -1,7 +1,7 @@
 {
  "clause_id": "KBSSG-S4-R02",
  "label": "연계·제휴서비스 제공 기간",
- "reviewed": false,
+ "reviewed": true,
  "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 1개 · UNSUPPORTED (A기권). 제휴서비스(본체)가 표현 불가라 그 제공 조건 · 기간(SSG.COM 앱으로 가입 · 제휴사 계약기간 내)도 UNSUPPORTED(원칙 5 · KBMY-S4-R03 과 같은 자리). contract.channel 에 SSG.COM 앱 값이 없다.",
  "rules": [
   {
@@ -20,5 +20,11 @@
   "basis": [
    "본체가 표현 불가면 그 매개변수도 UNSUPPORTED (기간 등). 단순 안내는 빈 배열"
   ]
+ },
+ "human_review": {
+  "verdict": "맞음",
+  "comment": "",
+  "by": "사용자 (검토 페이지)",
+  "at": "2026-10-06T01:01:45.858Z"
  }
 }

@@ -1,42 +1,48 @@
 {
-  "clause_id": "KBSME-S4-R01",
-  "label": "기업지원금",
-  "reviewed": false,
-  "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 2개 · 전부 UNSUPPORTED (A기권). 기업지원금은 해지 유형에 따라 고객이 받는 급부라 고객을 가르지만, 금리·수수료·서비스 어디에도 대응이 없다(지급 금액은 실행기 범위 1 밖, «지급된다» 는 사실을 담을 effect 도 없다). 01 은 조건(만기해지)이 온전해 남겼다. 02 는 공단 심사 결과를 가릴 변수가 없어 {}. 「수령계좌로 입금」은 지급 절차, ※ 공제 약관 준용은 위임 안내라 rule 이 아니다. **사람 판단 필요:** 기업지원금은 공제(중진공)가 지급하는 것이라 결정 1-3(예금 조건만)으로 빈 배열로 볼 여지가 있다 — 이자 지급 시기(KBSME-S2-R06 · UNSUPPORTED) 관례에 맞춰 UNSUPPORTED 로 뒀다.",
-  "rules": [
-    {
-      "rule_id": "KBSME-S4-R01-01",
-      "status": "UNSUPPORTED",
-      "label": "만기해지 시 기업지원금 지급 — 기업지원금 지급 effect 없음",
-      "source": {
-        "quote": "중소기업이 「중소기업재직자 우대저축공제」에 적립하는 공제금으로 만기해지 시 지급"
-      },
-      "condition": {
-        "==": [
-          {
-            "var": "contract.termination_type"
-          },
-          "MATURITY"
-        ]
-      }
-    },
-    {
-      "rule_id": "KBSME-S4-R01-02",
-      "status": "UNSUPPORTED",
-      "label": "중도해지 시 공단 심사를 거쳐 기업지원금 지급 가능 — 심사 결과 변수·지급 effect 없음",
-      "source": {
-        "quote": "중도해지 시 사유에 따라 중소벤처기업진흥공단의 심사를 통해 기업지원금이 지급될 수 있음"
-      },
-      "condition": {}
-    }
-  ],
-  "drafted": {
-    "by": "claude",
-    "at": "2026-10-05",
-    "basis": [
-      "실행기 범위 1 · 판별 + 적용 이율 고르기, 이자 금액·이자 산출은 범위 밖 (UNSUPPORTED)",
-      "UNSUPPORTED 라도 조건이 온전히 표현되고 effect 만 없으면 조건을 남긴다",
-      "결정 1-3 · 조문의 범위는 예금 조건만 (보험약관·제3자 서비스 내용은 범위 밖)"
+ "clause_id": "KBSME-S4-R01",
+ "label": "기업지원금",
+ "reviewed": true,
+ "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 2개 · 전부 UNSUPPORTED (A기권). 기업지원금은 해지 유형에 따라 고객이 받는 급부라 고객을 가르지만, 금리·수수료·서비스 어디에도 대응이 없다(지급 금액은 실행기 범위 1 밖, «지급된다» 는 사실을 담을 effect 도 없다). 01 은 조건(만기해지)이 온전해 남겼다. 02 는 공단 심사 결과를 가릴 변수가 없어 {}. 「수령계좌로 입금」은 지급 절차, ※ 공제 약관 준용은 위임 안내라 rule 이 아니다. **사람 판단 필요:** 기업지원금은 공제(중진공)가 지급하는 것이라 결정 1-3(예금 조건만)으로 빈 배열로 볼 여지가 있다 — 이자 지급 시기(KBSME-S2-R06 · UNSUPPORTED) 관례에 맞춰 UNSUPPORTED 로 뒀다.",
+ "rules": [
+  {
+   "rule_id": "KBSME-S4-R01-01",
+   "status": "UNSUPPORTED",
+   "label": "만기해지 시 기업지원금 지급 — 기업지원금 지급 effect 없음",
+   "source": {
+    "quote": "중소기업이 「중소기업재직자 우대저축공제」에 적립하는 공제금으로 만기해지 시 지급"
+   },
+   "condition": {
+    "==": [
+     {
+      "var": "contract.termination_type"
+     },
+     "MATURITY"
     ]
+   }
+  },
+  {
+   "rule_id": "KBSME-S4-R01-02",
+   "status": "UNSUPPORTED",
+   "label": "중도해지 시 공단 심사를 거쳐 기업지원금 지급 가능 — 심사 결과 변수·지급 effect 없음",
+   "source": {
+    "quote": "중도해지 시 사유에 따라 중소벤처기업진흥공단의 심사를 통해 기업지원금이 지급될 수 있음"
+   },
+   "condition": {}
   }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-05",
+  "basis": [
+   "실행기 범위 1 · 판별 + 적용 이율 고르기, 이자 금액·이자 산출은 범위 밖 (UNSUPPORTED)",
+   "UNSUPPORTED 라도 조건이 온전히 표현되고 effect 만 없으면 조건을 남긴다",
+   "결정 1-3 · 조문의 범위는 예금 조건만 (보험약관·제3자 서비스 내용은 범위 밖)"
+  ]
+ },
+ "human_review": {
+  "verdict": "맞음",
+  "comment": "",
+  "by": "사용자 (검토 페이지)",
+  "at": "2026-10-06T01:01:35.210Z"
+ }
 }

@@ -1,35 +1,41 @@
 {
-  "clause_id": "KBMER-S2-R13",
-  "label": "만기후이율 (세금공제 전, 2026.07.24 기준)",
-  "reviewed": false,
-  "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 1개 · UNSUPPORTED (A기권). 만기후이율 표가 이 상품 문서에 없다. 「1. 기본이율: … 계약기간별 이율(우대이율 제외)」 정의가 붙은 것으로 보아 값은 기본이율의 비율이다(같은 은행 적금 KBMY · KBSME 의 표와 같은 꼴) → 비율식 어휘가 없어 UNSUPPORTED. 고정 행이 있더라도 만기후 이율을 RATE_OVERRIDE 로 두면 만기 전 약정이율까지 지운다(10-05 기준). 조건(해지일 > 만기일)은 남겼다. 기본이율 정의·소수점 절사는 rule 이 아니다.",
-  "rules": [
-    {
-      "rule_id": "KBMER-S2-R13-01",
-      "status": "UNSUPPORTED",
-      "label": "만기후 해지 시 경과기간별 만기후이율 — 표가 문서에 없고 값이 기본이율 비율식",
-      "source": {
-        "quote": "▪ 신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시한 경과기간별 만기후이율 적용"
-      },
-      "condition": {
-        ">": [
-          {
-            "var": "contract.termination_date"
-          },
-          {
-            "var": "contract.maturity_date"
-          }
-        ]
-      }
-    }
-  ],
-  "drafted": {
-    "by": "claude",
-    "at": "2026-10-05",
-    "basis": [
-      "실행기 범위 2 · 중도해지·만기후이율은 RATE_OVERRIDE 로 받는다 (경과기간 구간표·비율식은 막힘)",
-      "2026-10-05 · 중도해지 고정 이율 행(날짜 비교로 정확히 섬)은 OK, 경과월수·비율식 행은 UNSUPPORTED · 만기후 이율을 RATE_OVERRIDE 로 두면 만기 전 약정이율까지 지우므로 UNSUPPORTED",
-      "UNSUPPORTED 라도 조건이 온전히 표현되고 effect 만 없으면 조건을 남긴다"
+ "clause_id": "KBMER-S2-R13",
+ "label": "만기후이율 (세금공제 전, 2026.07.24 기준)",
+ "reviewed": true,
+ "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 1개 · UNSUPPORTED (A기권). 만기후이율 표가 이 상품 문서에 없다. 「1. 기본이율: … 계약기간별 이율(우대이율 제외)」 정의가 붙은 것으로 보아 값은 기본이율의 비율이다(같은 은행 적금 KBMY · KBSME 의 표와 같은 꼴) → 비율식 어휘가 없어 UNSUPPORTED. 고정 행이 있더라도 만기후 이율을 RATE_OVERRIDE 로 두면 만기 전 약정이율까지 지운다(10-05 기준). 조건(해지일 > 만기일)은 남겼다. 기본이율 정의·소수점 절사는 rule 이 아니다.",
+ "rules": [
+  {
+   "rule_id": "KBMER-S2-R13-01",
+   "status": "UNSUPPORTED",
+   "label": "만기후 해지 시 경과기간별 만기후이율 — 표가 문서에 없고 값이 기본이율 비율식",
+   "source": {
+    "quote": "▪ 신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시한 경과기간별 만기후이율 적용"
+   },
+   "condition": {
+    ">": [
+     {
+      "var": "contract.termination_date"
+     },
+     {
+      "var": "contract.maturity_date"
+     }
     ]
+   }
   }
+ ],
+ "drafted": {
+  "by": "claude",
+  "at": "2026-10-05",
+  "basis": [
+   "실행기 범위 2 · 중도해지·만기후이율은 RATE_OVERRIDE 로 받는다 (경과기간 구간표·비율식은 막힘)",
+   "2026-10-05 · 중도해지 고정 이율 행(날짜 비교로 정확히 섬)은 OK, 경과월수·비율식 행은 UNSUPPORTED · 만기후 이율을 RATE_OVERRIDE 로 두면 만기 전 약정이율까지 지우므로 UNSUPPORTED",
+   "UNSUPPORTED 라도 조건이 온전히 표현되고 effect 만 없으면 조건을 남긴다"
+  ]
+ },
+ "human_review": {
+  "verdict": "맞음",
+  "comment": "",
+  "by": "사용자 (검토 페이지)",
+  "at": "2026-10-06T00:53:46.622Z"
+ }
 }

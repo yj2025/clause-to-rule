@@ -1,7 +1,7 @@
 {
  "clause_id": "KBGL-S2-R10",
  "label": "혜택3. 환율우대 서비스",
- "reviewed": false,
+ "reviewed": true,
  "note": "초안 · 사람 검토 필요 (2026-10-03 · Claude). rule 3개 · 전부 UNSUPPORTED (A기권). 환율우대(현찰매매마진율 30%·50% 우대)와 해외 송금수수료 50% 우대는 금리도 수수료 면제(FEE_WAIVE 는 면제 횟수다)도 아니다 — 감면율을 담을 effect 와 환전·해외송금 수수료 대상이 없다 → UNSUPPORTED. FEE_WAIVE 나 RATE_SUBTRACT 로 옮기면 다른 개념이다(원칙 2). 조건은 표현되므로 남겼다: 01 이 통장 보유(has_product), 02·03 보유 + 전월 대상연금 수령(PENSION_RECEIPT, 전월 1일~말일). 「창구에서」는 거래 채널인데 contract.channel 은 가입 채널이라 조건에 넣지 않았다. 09-29 대조에서 모델은 마진율 우대를 금리 차감(RATE_SUBTRACT 30%)으로 적었다.",
  "rules": [
   {
@@ -116,5 +116,11 @@
    "다른 개념으로 바꿔 옮기지 않는다 (가맹점결제→DEPOSIT 제거)",
    "UNSUPPORTED 라도 조건이 온전히 표현되고 effect 만 없으면 조건을 남긴다"
   ]
+ },
+ "human_review": {
+  "verdict": "맞음",
+  "comment": "",
+  "by": "사용자 (검토 페이지)",
+  "at": "2026-10-06T01:02:00.188Z"
  }
 }

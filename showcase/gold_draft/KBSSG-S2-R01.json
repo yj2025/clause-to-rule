@@ -1,7 +1,7 @@
 {
  "clause_id": "KBSSG-S2-R01",
  "label": "가입대상",
- "reviewed": false,
+ "reviewed": true,
  "note": "초안 · 사람 검토 필요 (2026-10-03 · Claude). rule 4개 · OK 3 · UNSUPPORTED 1 (M 섞임). 01: 「만 17세 이상」→ age < 17 이면 DISQUALIFY. 02: 「1인 1계좌」→ has_product 참이면 DISQUALIFY. 03: ※ 「관련서류 미제출 임의단체, 개인사업자 및 공동명의 가입 불가」→ KBYY-S2-R01-02 와 같은 꼴(SOLE_PROPRIETOR·ORGANIZATION·JOINT)에 「실명의 개인」에서 확실한 CORPORATION 을 더했다. ORGANIZATION 은 「서류 미제출」보다 넓지만, 서류를 낸 임의단체도 「실명의 개인」이 아니므로 넓혀도 조문을 벗어나지 않는다. 04: 「비거주자 및 외국인 가입 불가」— 고객 DB 에는 customer_residency · customer_nationality 가 있으나 카탈로그에 없다(DECISIONS 09-21 할 일 4). 탈락 쪽이라 근사 금지 → UNSUPPORTED. 어휘가 들어오면 조건만 붙이면 된다.",
  "rules": [
   {
@@ -84,5 +84,11 @@
    "실행기 범위 9 · 「실명의 개인」의 명의 유형은 조문마다 ※ 줄로 판단 (전역 판정 없음)",
    "2026-09-21 · holder_type 값은 고객 DB 이름(INDIVIDUAL·SOLE_PROPRIETOR·CORPORATION·ORGANIZATION, JOINT 는 남김)"
   ]
+ },
+ "human_review": {
+  "verdict": "맞음",
+  "comment": "",
+  "by": "사용자 (검토 페이지)",
+  "at": "2026-10-06T00:53:36.873Z"
  }
 }

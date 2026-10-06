@@ -1,7 +1,7 @@
 {
  "clause_id": "KBSSG-S4-R05",
  "label": "연계·제휴서비스 변경 내용 사전 통지 방법",
- "reviewed": false,
+ "reviewed": true,
  "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 2개 · 전부 UNSUPPORTED (A기권). 본문(2개 이상 방법으로 6개월 전부터 고지 · 불가피한 경우 즉시 고지)은 은행의 통지 절차라 rule 이 아니다(코퍼스 KBYY-S3-R05 관례). 끝에 붙은 [참조표: 제휴사별 서비스] 는 S4-R01 의 「아래 표 참조」가 가리키는 표다 — 제휴사 행마다 급부(SSG.COM 앱 잔액 · 거래내역 조회 / SSG MONEY 자동입금 · SSG PAY 결제 연동)가 있지만 SERVICE_PROVIDE 의 대상에 없어 UNSUPPORTED. 고객센터 번호는 안내다. KBYY-S3-R05 처럼 표 행은 인용이 이 조문에 있어 여기 둔다.",
  "rules": [
   {
@@ -30,5 +30,11 @@
    "본체가 표현 불가면 그 매개변수도 UNSUPPORTED (기간 등). 단순 안내는 빈 배열",
    "코퍼스 KBYY-S3-R05 관례 (통지 절차는 rule 아님)"
   ]
+ },
+ "human_review": {
+  "verdict": "맞음",
+  "comment": "",
+  "by": "사용자 (검토 페이지)",
+  "at": "2026-10-06T01:01:47.558Z"
  }
 }

@@ -1,7 +1,7 @@
 {
  "clause_id": "KBGL-S2-R04",
  "label": "기본이율 (2025.01.13기준, 세금공제 전)",
- "reviewed": false,
+ "reviewed": true,
  "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). 빈 배열 (A빈). 연 0.10% 는 상품 설정 base_rate(0.1) 다. RATE_OVERRIDE 0.1 로 적으면 R05 의 우대이율을 지우고(KBONE-S2-R04 함정 2), RATE_ADD 로 적으면 두 번 더해진다. ※ 「결산일 현재 고시한 예금과목별 기본이율 적용」은 그 base_rate 의 출처 안내다 — 코퍼스 KBONE-S2-R04 정답과 글자까지 같다.",
  "rules": [],
  "drafted": {
@@ -10,5 +10,11 @@
   "basis": [
    "결정 1-4 · 기본금리는 상품 설정 base_rate — 「고시한 기본이율 적용」은 rule 없음 (KBONE-S2-R04 함정 2)"
   ]
+ },
+ "human_review": {
+  "verdict": "맞음",
+  "comment": "",
+  "by": "사용자 (검토 페이지)",
+  "at": "2026-10-06T01:02:00.719Z"
  }
 }

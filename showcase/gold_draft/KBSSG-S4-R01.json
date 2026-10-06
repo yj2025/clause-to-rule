@@ -1,7 +1,7 @@
 {
  "clause_id": "KBSSG-S4-R01",
  "label": "연계·제휴서비스 내용",
- "reviewed": false,
+ "reviewed": true,
  "note": "초안 · 사람 검토 필요 (2026-10-05 · Claude). rule 2개 · 전부 UNSUPPORTED (A기권). 01: 제휴사 앞 금융거래정보 이용 · 제공 동의 후 이용 시 제휴서비스 제공(해지 시 미제공) — 동의 변수가 없고(notes.md 정보제공 동의), SERVICE_PROVIDE 의 대상에 SSG 제휴서비스가 없다. 02: 주4) 가입 시 SSG MONEY 잔액을 최초 1회 이 통장으로 자동입금 — 같은 이유로 대상이 없다. 주1)~주3) 은 제휴사 · 용어 설명이라 rule 이 아니다. 서비스 세부 표는 문서 분할로 S4-R05 끝에 붙어 있다(KBYY-S3-R05 와 같은 사정).",
  "rules": [
   {
@@ -29,5 +29,11 @@
   "basis": [
    "본체가 표현 불가면 그 매개변수도 UNSUPPORTED (기간 등). 단순 안내는 빈 배열"
   ]
+ },
+ "human_review": {
+  "verdict": "맞음",
+  "comment": "",
+  "by": "사용자 (검토 페이지)",
+  "at": "2026-10-06T01:01:45.036Z"
  }
 }
