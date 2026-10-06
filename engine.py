@@ -350,6 +350,12 @@ def _count(op, spec, ctx, env):
         return None                       # 한 건이라도 맞는지 모르면 수도 모른다
     if op == "count_events":
         return len(evs)
+    if op == "sum_events":
+        # 금액이 하나라도 없으면 합도 모른다 — 0 으로 치면 «입금이 적은 고객»과 «금액을 모르는 고객»이 같은 답을 받는다
+        amounts = [e.get("amount") for e in evs]
+        if any(isinstance(a, bool) or not isinstance(a, (int, float)) for a in amounts):
+            return None
+        return sum(amounts)
     months = sorted({_date(e.get("date")).strftime("%Y-%m")
                      for e in evs if _date(e.get("date")) is not None})
     if op == "count_distinct_months":

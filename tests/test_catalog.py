@@ -19,7 +19,7 @@ def test_event_count():
 
 
 def test_operator_count():
-    assert len(C.OPERATORS) == 14
+    assert len(C.OPERATORS) == 15   # 10-06 sum_events
 
 
 def test_effect_count():

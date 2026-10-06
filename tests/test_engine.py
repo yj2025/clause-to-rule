@@ -266,3 +266,42 @@ def test_scoring_survives_malformed_generation(profiles=None):
     bad = [{"rule_id": "R", "source": {"quote": "x"},
             "condition": {"exists": []}, "effect": {"type": "DISQUALIFY"}}]
     assert outcome(bad, C, "SUM", 0.1)
+
+
+# ── 2026-10-06 · sum_events — 「합산 50만원 이상」 ───────────────────────────
+def _dep(*amounts, provided=True):
+    return {"customer": {}, "account": {}, "contract": {"reference_date": "2026-10-15"},
+            "events": {"DEPOSIT": [{"date": f"2026-09-{10 + i}", "amount": a} for i, a in enumerate(amounts)]},
+            "_provided": ["contract.reference_date"] + (["events.DEPOSIT"] if provided else [])}
+
+
+_SUM50 = {">=": [{"sum_events": {"event": "DEPOSIT"}}, 500000]}
+
+
+def test_sum_events_adds_amounts_across_deposits():
+    assert evaluate(_SUM50, _dep(300000, 200000)) is TV.T
+    assert evaluate(_SUM50, _dep(299999, 200000)) is TV.F
+
+
+def test_sum_events_with_no_deposits_is_zero_not_unknown():
+    assert evaluate(_SUM50, _dep()) is TV.F
+
+
+def test_sum_events_without_the_data_is_unknown():
+    assert evaluate(_SUM50, _dep(provided=False)) is TV.U
+
+
+def test_sum_events_with_a_missing_amount_is_unknown():
+    c = _dep(600000)
+    c["events"]["DEPOSIT"].append({"date": "2026-09-20"})
+    assert evaluate(_SUM50, c) is TV.U
+
+
+def test_sum_events_respects_the_window_and_where():
+    node = {">=": [{"sum_events": {"event": "DEPOSIT", "where": {"min_amount": 250000},
+                                   "within": {"month_range": {
+                                       "from": {"anchor": "contract.reference_date", "offset_months": -1, "day": "first"},
+                                       "to": {"anchor": "contract.reference_date", "offset_months": -1, "day": "last"}}}}},
+                    500000]}
+    assert evaluate(node, _dep(300000, 200000)) is TV.F      # 20만원 건은 where 로 빠진다
+    assert evaluate(node, _dep(300000, 260000)) is TV.T
