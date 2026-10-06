@@ -169,3 +169,42 @@ def test_making_fewer_rules_does_not_flatter_the_clause_rate(root):
     one = [{"clause_id": "KBYY-S2-R03", "run": 0, "output": {"rules": [
         {"effect": {"type": "RATE_ADD", "value": 0.7, "unit": "PERCENT_POINT"}}]}}]
     assert G.audit(one, texts)["rate"] == 100.0
+
+
+# 2026-10-06 · v123 — 고른 출력의 지어낸 수를 기권 꼴로
+def _ok(rid, typ, value):
+    return {"rule_id": rid, "status": "OK", "source": {"quote": "q"}, "condition": {},
+            "effect": {"type": typ, "value": value, "unit": "%"}}
+
+
+def test_an_invented_rate_becomes_unsupported():
+    out = {"rules": [_ok("R1", "RATE_OVERRIDE", 0.5)]}
+    new, changed = G.abstain_ungrounded(out, "급여이체 실적이 있는 국군 장병에게 우대이율을 제공")
+    assert changed == ["R1"]
+    assert new["rules"][0]["status"] == "UNSUPPORTED" and "effect" not in new["rules"][0]
+    assert out["rules"][0]["status"] == "OK"          # 입력은 그대로
+
+
+def test_a_rate_from_the_clause_stays():
+    out = {"rules": [_ok("R1", "RATE_ADD", 0.3)]}
+    new, changed = G.abstain_ungrounded(out, "우대이율 연 0.3%p")
+    assert changed == [] and new is out
+
+
+def test_unsupported_and_empty_are_left_alone():
+    assert G.abstain_ungrounded({"rules": []}, "x") == ({"rules": []}, [])
+    assert G.abstain_ungrounded(None, "x") == (None, [])
+
+
+def test_no_gold_rule_is_touched():
+    """정답(코퍼스 · kb10 초안)에 걸면 바뀌는 rule 이 없어야 한다."""
+    import json
+    from pathlib import Path
+    texts = {c["id"]: c["text"] for c in json.loads(Path("data/corpus.json").read_text("utf-8"))}
+    texts.update({c["id"]: c["text"] for c in json.loads(Path("showcase/clauses_key.json").read_text("utf-8"))})
+    hit = []
+    for p in [q for q in Path("data/gold").glob("*.json") if not q.name.startswith("_")] + list(Path("showcase/gold_draft").glob("*.json")):
+        g = json.loads(p.read_text("utf-8"))
+        _, changed = G.abstain_ungrounded({"rules": g.get("rules") or []}, texts[g["clause_id"]])
+        hit += [(p.stem, c) for c in changed]
+    assert hit == []

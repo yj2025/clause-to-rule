@@ -96,6 +96,27 @@ def check_rule(rule, clause_text, nums=None):
             f"조문의 수: {sorted(nums) if nums else '없음'}"]
 
 
+# 2026-10-06 · v123. **지어낸 수를 가진 OK rule 은 기권 꼴로 바꿔 낸다** — 재시도 없이, 고른 출력에만.
+# 사용자 검토(10-06 · `KBNR-S1-P01`)가 짚었다: 「누락된 조건이나 금리 · 금액을 추정하지 않는다」.
+# v121a 는 수가 하나도 없는 상품 개요에서 RATE_OVERRIDE 0.5 를 지어내 관문 다섯을 다 넘었다.
+# 지문에 문장을 더하는 대신 이 축(⑨)의 검사를 출력에 직접 건다 — 재시도가 아니라 OOM 이 없고,
+# 고른 뒤에 걸어 앞 판의 출력에 그대로 다시 걸 수 있다(미리 재기 = 실제).
+# 정답(코퍼스 46 · kb10 105)에 걸면 바뀌는 rule 이 0 이다(시험).
+def abstain_ungrounded(output, clause_text):
+    """(바꾼 출력, 기권으로 바꾼 rule_id 목록). 입력은 건드리지 않는다."""
+    if not isinstance(output, dict) or not isinstance(output.get("rules"), list):
+        return output, []
+    nums = numbers_in(clause_text)
+    rules, changed = [], []
+    for r in output["rules"]:
+        if isinstance(r, dict) and r.get("status") == "OK" and check_rule(r, clause_text, nums):
+            r = {k: v for k, v in r.items() if k != "effect"}
+            r["status"] = "UNSUPPORTED"
+            changed.append(r.get("rule_id"))
+        rules.append(r)
+    return ({**output, "rules": rules} if changed else output), changed
+
+
 def audit(recs, texts):
     rules = grounded = invented = 0
     by_clause = collections.Counter()
