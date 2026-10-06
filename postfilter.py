@@ -1,4 +1,4 @@
-"""앞 판의 결과에 v123 후처리(`grounding.abstain_ungrounded`)를 다시 건다 (2026-10-06).
+"""앞 판의 결과에 후처리를 다시 건다 — v123 `grounding.abstain_ungrounded` · v127 `reasons.tag_empty` (2026-10-06).
 
     python postfilter.py results/results_v121.json results/results_v123.json --clauses data/corpus.json
     python postfilter.py showcase/results_kb10v121a.json showcase/results_kb10v123a.json --clauses showcase/clauses_key.json
@@ -11,6 +11,7 @@ import json
 from pathlib import Path
 
 import grounding
+import reasons
 
 
 def main(argv=None):
@@ -24,6 +25,7 @@ def main(argv=None):
     n = 0
     for x in recs:
         x["output"], x["ungrounded"] = grounding.abstain_ungrounded(x.get("output"), texts[x["clause_id"]])
+        x["output"], _ = reasons.tag_empty(x["output"], texts[x["clause_id"]])   # v127
         x["postfilter_from"] = Path(a.src).name
         n += bool(x["ungrounded"])
     Path(a.dst).write_text(json.dumps(recs, ensure_ascii=False, indent=1), "utf-8")

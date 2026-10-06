@@ -20,6 +20,7 @@ from pathlib import Path
 
 import catalog
 import grounding
+import reasons
 import schema
 import validate
 from prompt import SYSTEM_PROMPT, build_json_retry_prompt, build_retry_prompt, build_user_prompt
@@ -65,7 +66,7 @@ def prompt_fingerprint():
         # 라운드라, 이 키가 없으면 v24 와 지문 해시가 완전히 같아 구별이 안 된다.
         "validator": h("".join(
             (Path(__file__).parent / f).read_text("utf-8")
-            for f in ("validate.py", "invent.py", "vacuous.py", "grounding.py"))),
+            for f in ("validate.py", "invent.py", "vacuous.py", "grounding.py", "reasons.py"))),
         # 2026-09-24 — **같은 이유로 `prompt.py` 자체도 센다.** 위 주석이
         # 「검증기가 바뀌면 재시도에 되먹이는 문구가 바뀐다」고 적어 두고,
         # **재시도 지문을 만드는 코드 자체**는 빠뜨렸다. v46 이 그 코드에
@@ -318,6 +319,8 @@ def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
         _, n_best, marks, output, errors, sem = best
         # v123 — 고른 출력에서 조문에 없는 수를 가진 OK rule 을 기권 꼴로 (grounding.abstain_ungrounded)
         output, ungrounded = grounding.abstain_ungrounded(output, clause["text"])
+        # v127 — 빈 배열이면 조문 머리말로 이유를 붙인다 (reasons.tag_empty · 지문은 그대로)
+        output, _ = reasons.tag_empty(output, clause["text"])
         out.append({"clause_id": clause["id"], "run": run, "n_attempts": attempts,
                     "prompt": _FINGERPRINT,
                     "n_best": n_best,
