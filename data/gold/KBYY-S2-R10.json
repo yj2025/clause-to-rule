@@ -30,5 +30,7 @@
   "agent": "승인",
   "reason": "최저~최고 금리는 합산 결과 서술(결정 5, aggregation). 빈 배열.",
   "at": "2026-09-18"
- }
+ },
+ "no_rule_reason": "PRODUCT_SETTING",
+ "no_rule_reason_by": "Claude 초안 2026-10-06 (사용자 위임 「진행해」 · 사람 확인 전)"
 }

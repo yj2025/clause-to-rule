@@ -127,7 +127,7 @@ def test_the_empty_array_scene_is_never_dropped():
 
     자리 번호로 찾지 않는다 — 차례는 v22 가 재는 변수다.
     """
-    assert FEWSHOT_INTRO_OUTPUT == {"rules": []}
+    assert FEWSHOT_INTRO_OUTPUT == {"rules": [], "no_rule_reason": "SUMMARY"}   # v125
     assert (FEWSHOT_INTRO_CLAUSE, FEWSHOT_INTRO_OUTPUT) in FEWSHOTS
 
 
@@ -311,7 +311,7 @@ def test_the_empty_array_example_is_last():
     차례 자체는 ⑦ 에 영향이 없었다 (v21 대 v22 가 같았다).
     그래도 근거 없이 바꾸지 않는다 — v19 구성으로 되돌린 상태다.
     """
-    assert FEWSHOTS[-1][1] == {"rules": []}
+    assert FEWSHOTS[-1][1]["rules"] == []   # v125 부터 no_rule_reason 이 붙는다
 
 
 def _rule(**kw):
@@ -443,3 +443,24 @@ def test_at_most_one_fewshot_quotes_a_bullet_line(root):
             if any((r.get("source") or {}).get("quote", "").startswith("▪")
                    for r in out.get("rules") or []))
     assert n <= 1, f"`▪` 를 인용하는 예시가 {n}개다 — v26 이 둘의 비용을 쟀다"
+
+
+# 2026-10-06 · v125 — 빈 배열의 이유
+def test_a_no_rule_reason_passes_the_schema_and_a_wrong_one_does_not():
+    import jsonschema
+    from schema import SCHEMA
+    jsonschema.validate({"rules": [], "no_rule_reason": "SUMMARY"}, SCHEMA)
+    jsonschema.validate({"rules": []}, SCHEMA)          # 없어도 ② 는 통과한다
+    import pytest as _p
+    with _p.raises(jsonschema.ValidationError):
+        jsonschema.validate({"rules": [], "no_rule_reason": "OTHER"}, SCHEMA)
+
+
+def test_every_empty_gold_has_a_reason():
+    import json
+    from pathlib import Path
+    from schema import NO_RULE_REASONS
+    for p in [*Path("data/gold").glob("K*.json"), *Path("showcase/gold_draft").glob("K*.json")]:
+        g = json.loads(p.read_text("utf-8"))
+        if not g.get("rules"):
+            assert g.get("no_rule_reason") in NO_RULE_REASONS, p.stem

@@ -166,7 +166,7 @@ def test_examples_are_neither_swapped_nor_added():
     """예시 넷이 예산이다. 맞바꿔도(v9·v18) 더해도(v21·v22) ⑦ 이 무너진다."""
     from schema import FEWSHOTS
     assert len(FEWSHOTS) == 4
-    assert any(o == {"rules": []} for _, o in FEWSHOTS)
+    assert any(o.get("rules") == [] for _, o in FEWSHOTS)   # v125 부터 no_rule_reason 이 붙는다
 
 
 def test_the_prompt_length_stays_inside_the_registered_bound():

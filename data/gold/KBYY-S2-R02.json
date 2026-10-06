@@ -9,5 +9,7 @@
   "at": "2026-09-14",
   "verdict": "빈 배열 유지",
   "note": "한도가 없다는 것을 규칙으로 적지 않는다. LIMIT_AMOUNT UNLIMITED 는 상위 한도를 덮어쓸 수 있어 뜻이 달라진다."
- }
+ },
+ "no_rule_reason": "PRODUCT_SETTING",
+ "no_rule_reason_by": "Claude 초안 2026-10-06 (사용자 위임 「진행해」 · 사람 확인 전)"
 }

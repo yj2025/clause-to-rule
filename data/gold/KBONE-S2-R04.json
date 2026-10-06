@@ -30,5 +30,7 @@
   "agent": "승인",
   "reason": "연 0.10% 는 base_rate(결정 4 임시 확정). ※ 고시 기본이율 줄도 base_rate 설명이라 빈 배열이 맞다.",
   "at": "2026-09-18"
- }
+ },
+ "no_rule_reason": "PRODUCT_SETTING",
+ "no_rule_reason_by": "Claude 초안 2026-10-06 (사용자 위임 「진행해」 · 사람 확인 전)"
 }

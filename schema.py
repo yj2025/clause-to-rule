@@ -285,10 +285,22 @@ _DEF_EVENTSPEC = {
     "additionalProperties": False,
 }
 
+# 2026-10-06 · v125. rules 가 빈 배열일 때 그 이유. 정답 48조문(kb10 36 · 코퍼스 12)에 붙였다.
+NO_RULE_REASONS = {
+    "LABEL": "상품유형 같은 분류 라벨",
+    "SUMMARY": "상품 개요 — 혜택 · 대상을 말로만 언급하고 기준과 값은 다른 조문에 있다",
+    "PRODUCT_SETTING": "기본이율 · 최종이율 · 「제한없음」 · 판매한도처럼 상품 단위의 설정값이나 합산 결과",
+    "NOTE_ONLY": "출처 · 절차 · 통지 · 정의 같은 안내 (표가 다른 조문에 있는 경우 포함)",
+}
+
+
 SCHEMA = {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
-    "properties": {"rules": {"type": "array", "items": _RULE}},
+    # 2026-10-06 · v125. 빈 배열의 **이유** — 사용자 검토 메모(`KBNR-S1-P01`): 「빈 배열 자체보다 이유와 보존 정보가 부족한 것이 문제」.
+    # 선택 필드다. 없어도 ② 는 통과하고 재시도를 부르지 않는다.
+    "properties": {"rules": {"type": "array", "items": _RULE},
+                   "no_rule_reason": {"enum": list(NO_RULE_REASONS)}},
     "required": ["rules"],
     "additionalProperties": False,
     # 조건식이 자기를 다시 부르므로 조각을 여기 두고 `$ref` 로 가리킨다
@@ -529,7 +541,7 @@ FEWSHOT_INTRO_CLAUSE = (
     "상품특징 : 자동이체를 등록한 고객에게 금리 혜택과 창구 수수료 감면을 "
     "제공하는 자유적립식 적금"
 )
-FEWSHOT_INTRO_OUTPUT = {"rules": []}
+FEWSHOT_INTRO_OUTPUT = {"rules": [], "no_rule_reason": "SUMMARY"}
 
 # **무거래 기간을 세는 법.** v17~v20 에서 산문으로 세 번 시도해 세 번 다 실패했다.
 # 이름만 주면 `contract.term_months`(가입기간)로 옮기고, 어휘에 설명 줄을 붙이면
