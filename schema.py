@@ -298,7 +298,8 @@ SCHEMA = {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
     # 2026-10-06 · v125. 빈 배열의 **이유** — 사용자 검토 메모(`KBNR-S1-P01`): 「빈 배열 자체보다 이유와 보존 정보가 부족한 것이 문제」.
-    # 선택 필드다. 없어도 ② 는 통과하고 재시도를 부르지 않는다.
+    # 선택 필드다. 없어도 ② 는 통과하고 재시도를 부르지 않는다. 지문 · 예시에서 모델에게 내라고 한 것은 v125 판정으로 되돌렸다 —
+    # 필드와 정답의 이유(48조문)는 남긴다(모델에게 보이지 않는다).
     "properties": {"rules": {"type": "array", "items": _RULE},
                    "no_rule_reason": {"enum": list(NO_RULE_REASONS)}},
     "required": ["rules"],
@@ -541,7 +542,7 @@ FEWSHOT_INTRO_CLAUSE = (
     "상품특징 : 자동이체를 등록한 고객에게 금리 혜택과 창구 수수료 감면을 "
     "제공하는 자유적립식 적금"
 )
-FEWSHOT_INTRO_OUTPUT = {"rules": [], "no_rule_reason": "SUMMARY"}
+FEWSHOT_INTRO_OUTPUT = {"rules": []}   # v125 에서 이유를 붙였다가 되돌림 (예시 자리를 건드리면 ⑦ 이 흔들린다 — v9 · v21 · v125)
 
 # **무거래 기간을 세는 법.** v17~v20 에서 산문으로 세 번 시도해 세 번 다 실패했다.
 # 이름만 주면 `contract.term_months`(가입기간)로 옮기고, 어휘에 설명 줄을 붙이면

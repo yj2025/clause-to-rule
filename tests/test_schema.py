@@ -127,7 +127,7 @@ def test_the_empty_array_scene_is_never_dropped():
 
     자리 번호로 찾지 않는다 — 차례는 v22 가 재는 변수다.
     """
-    assert FEWSHOT_INTRO_OUTPUT == {"rules": [], "no_rule_reason": "SUMMARY"}   # v125
+    assert FEWSHOT_INTRO_OUTPUT == {"rules": []}
     assert (FEWSHOT_INTRO_CLAUSE, FEWSHOT_INTRO_OUTPUT) in FEWSHOTS
 
 
