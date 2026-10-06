@@ -1,0 +1,22 @@
+{
+ "about": "KB스타통장 수수료 면제 묶음 — 수기 검토 시범의 경계값 사례 (2026-10-06). 예상 결과는 사람이 원문(상품설명서 2025.12.05 기준)만 보고 먼저 답했고, B7 · B9 · B10 은 Claude 답과 갈린 뒤 사람이 다시 보고 고쳤다. 실행기 검증의 정답으로 쓴다.",
+ "source": "docs/021_KB스타통장 상품설명서.txt",
+ "worksheet": "https://claude.ai/code/artifact/7c8fddd0-823e-43c3-bf78-1754c1ae4094",
+ "open_points": [
+  "「제휴 ATM」 정의가 원문에 없다 — ATM 운영기관 · 제휴 여부 데이터 필요 (B10)",
+  "특약 제4조(2023.04.17)에는 오픈뱅킹 · 결산이자 입금 제외가 없다 — 어느 문서가 기준인가"
+ ],
+ "cases": [
+  {"id": "B1",  "reference_date": "2026-10-15", "facts": "2025년 가입. 9월 중 다른 사람이 타행에서 보낸 입금 합계 499,999원", "fee": 1, "expected": "NOT_WAIVED", "first_answer": "NOT_WAIVED"},
+  {"id": "B2",  "reference_date": "2026-10-15", "facts": "B1 과 같고 입금 합계만 500,000원", "fee": 1, "expected": "WAIVED", "first_answer": "WAIVED"},
+  {"id": "B3",  "reference_date": "2026-10-15", "facts": "9월 입금 합계 600,000원, 그중 300,000원은 당행 본인 명의 계좌에서 이체", "fee": 1, "expected": "NOT_WAIVED", "first_answer": "NOT_WAIVED"},
+  {"id": "B4",  "reference_date": "2026-10-15", "facts": "9월 입금 합계 520,000원, 그중 30,000원은 결산이자", "fee": 1, "expected": "NOT_WAIVED", "first_answer": "NOT_WAIVED"},
+  {"id": "B5",  "reference_date": "2026-10-15", "facts": "9월 입금 없음. 이 통장에서 KB 리브 모바일 자동이체 출금 1건", "fee": 2, "expected": "WAIVED", "first_answer": "WAIVED"},
+  {"id": "B6",  "reference_date": "2026-10-15", "facts": "B5 와 같으나 리브 모바일 요금이 이 통장에 연결된 체크카드로 결제됨", "fee": 2, "expected": "NOT_WAIVED", "first_answer": "NOT_WAIVED"},
+  {"id": "B7",  "reference_date": "2026-10-05", "facts": "9월 입금 합계 500,000원, 8월 실적 없음", "fee": 1, "expected": "NOT_WAIVED", "first_answer": "WAIVED", "why": "10-05 는 9-11~10-10 기간 — 8월 실적을 본다"},
+  {"id": "B8",  "reference_date": "2026-10-10", "facts": "2026-08-20 신규. 8 · 9월 실적 없음", "fee": 1, "expected": "WAIVED", "first_answer": "WAIVED"},
+  {"id": "B9",  "reference_date": "2026-10-11", "facts": "B8 과 같음", "fee": 1, "expected": "NOT_WAIVED", "first_answer": "WAIVED", "why": "신규 특례는 10-10 까지, 9월 실적 없음"},
+  {"id": "B10", "reference_date": "2026-10-15", "facts": "9월 입금 합계 500,000원. 다른은행 제휴 ATM 에서 출금", "fee": 5, "expected": "NOT_WAIVED", "first_answer": "WAIVED", "why": "※ 제휴 · VAN사 ATM 제외"},
+  {"id": "B11", "reference_date": "2026-10-15", "facts": "9월 거래 기록을 받지 못함 (입금이 없다는 뜻이 아님)", "fee": 1, "expected": "UNKNOWN", "first_answer": "UNKNOWN"}
+ ]
+}
