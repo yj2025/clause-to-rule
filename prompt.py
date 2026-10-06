@@ -182,6 +182,12 @@ def _catalog_block(text):
         lines.append('  다만 그 문장에 **조건이 붙어 있으면** (「…인 경우에만 가능」 같은) '
                      '그것은 규칙이다')
 
+    # 2026-10-06 · sum_events. 조문이 「합산 N원」을 말할 때만 붙인다(코퍼스 0 · kb10 1 · KB스타통장).
+    if catalog.wants_sum(text):
+        lines.append('[금액을 더하는 법] 「합산 N원 이상」은 기간 안 금액의 합을 비교한다 — '
+                     '{">=": [{"sum_events": {"event": "DEPOSIT", "within": ...}}, 500000]}')
+        lines.append('  「건별 N원 이상」이면 합이 아니라 where 의 min_amount 다')
+
     # 2026-09-21 · 어휘 확장 2차 1순위. 조문이 「n째 요일」을 말할 때만 붙인다 —
     # 나머지 조문의 지문은 한 글자도 안 는다. few-shot 자리를 안 먹는 것이 요점이다
     # (장면 하나가 ⑦ 을 10.9p 무너뜨린다 — v21·v22).

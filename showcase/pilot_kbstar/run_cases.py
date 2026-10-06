@@ -5,6 +5,7 @@
 어휘가 모자란 자리를 두 가지로 메워 본다 — 정답을 고르려는 것이 아니라 **어느 쪽으로 메워도 틀리는 사례**를 보려는 것이다.
   favorable — 원칙 1(고객에게 불리한 근사 금지)대로 «입금이 있으면» 실적 인정 (KBMER-S2-R08 · KBGL-S2-R09 전례)
   per_event — «건별 50만원 이상 입금»으로 근사 (where.min_amount)
+  sum       — 10-06 에 넣은 sum_events 로 «합산 50만원 이상»을 그대로
 """
 import copy
 import json
@@ -29,7 +30,11 @@ def perf(win, variant):
     dep = {"event": "DEPOSIT", "within": {"ref": win}}
     if variant == "per_event":
         dep["where"] = {"min_amount": 500000}
-    return {"or": [{"exists": dep},
+    if variant == "sum":          # 10-06 · sum_events — 입금 속성(X1~X3)은 아직 못 거른다
+        first = {">=": [{"sum_events": dep}, 500000]}
+    else:
+        first = {"exists": dep}
+    return {"or": [first,
                    {"exists": {"event": "AUTO_TRANSFER", "within": {"ref": win}, "where": {"route": NOT_CARD}}}]}
 
 
@@ -82,18 +87,18 @@ def outcome(rules, case):
 
 def main():
     cases = json.loads((HERE / "cases.json").read_text("utf-8"))["cases"]
-    print(f"{'사례':5}{'사람(정답)':12}{'favorable':14}{'per_event':14}")
-    score = {"favorable": 0, "per_event": 0}
+    print(f"{'사례':5}{'사람(정답)':12}{'favorable':14}{'per_event':14}{'sum':14}")
+    score = {"favorable": 0, "per_event": 0, "sum": 0}
     for c in cases:
         row = [c["id"], c["expected"]]
-        for v in ("favorable", "per_event"):
+        for v in ("favorable", "per_event", "sum"):
             got = outcome(gold(v), c)
             score[v] += got == c["expected"]
             row.append(got + ("" if got == c["expected"] else " ✗"))
-        print(f"{row[0]:5}{row[1]:12}{row[2]:14}{row[3]:14}")
+        print(f"{row[0]:5}{row[1]:12}{row[2]:14}{row[3]:14}{row[4]:14}")
     print("맞음", score, "/", len(cases))
     (HERE / "gold_current_vocab.json").write_text(
-        json.dumps({v: gold(v) for v in ("favorable", "per_event")}, ensure_ascii=False, indent=1), "utf-8")
+        json.dumps({v: gold(v) for v in ("favorable", "per_event", "sum")}, ensure_ascii=False, indent=1), "utf-8")
 
 
 if __name__ == "__main__":

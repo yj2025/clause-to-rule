@@ -137,17 +137,20 @@ EVENT_ATTRIBUTES = {
     "PRODUCT_SWITCH":  {"direction": ("IN", "OUT")},
 }
 
-# ── 연산자 (14) ─────────────────────────────────────────────────────────
+# ── 연산자 (15) ─────────────────────────────────────────────────────────
 COMPARISONS = (">=", ">", "<=", "<", "==", "!=", "in")
 LOGICAL     = ("and", "or", "not")
 QUANTIFIERS = ("exists", "count_events",
-               "count_distinct_months", "count_consecutive_months")
+               "count_distinct_months", "count_consecutive_months", "sum_events")
 OPERATORS   = (">=", ">", "<=", "<", "==", "!=", "and", "or", "not", "in",
                "exists", "count_events",
-               "count_distinct_months", "count_consecutive_months")
+               "count_distinct_months", "count_consecutive_months", "sum_events")
 
 # 수를 돌려주는 것들. 비교의 피연산자 자리에 들어간다.
-COUNTERS = ("count_events", "count_distinct_months", "count_consecutive_months")
+# 2026-10-06 · `sum_events` — 기간 안 이벤트 금액의 합(원). 「전월 합산 50만원 이상 입금」을 옮길 수단이 없어
+# 건별 금액(`where.min_amount`)이나 «입금이 있으면»으로 근사했다 — KB스타통장 시범에서 B1 · B2 가 어느 근사로도 틀렸다.
+# 결정 문서 「어휘 확장 결정」(10-06 · 사용자 「입금 합계부터 넣어서 진행해」).
+COUNTERS = ("count_events", "count_distinct_months", "count_consecutive_months", "sum_events")
 
 # ── effect (10) ──────────────────────────────────────────────────────────
 # 이름 → 필수 키
@@ -375,6 +378,17 @@ def pick_services(text):
 # 틀린 모양을 고치는 것과 **없던 수단을 가르치는 것**은 다른 문제다.
 _NTH_WORDS = ("첫째", "둘째", "셋째", "넷째", "다섯째")
 _WEEKDAY_WORDS = ("월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일")
+
+
+_SUM = __import__("re").compile(r"(합산|합계)\s*\d")
+
+
+def wants_sum(text):
+    """조문이 「합산 50만원 이상」처럼 금액의 **합**을 말하나 (2026-10-06 · sum_events).
+
+    「이자를 합계(원미만 절사)」 같은 이자 산출 문장은 숫자가 바로 붙지 않아 걸리지 않는다.
+    """
+    return bool(_SUM.search(text))
 
 
 def wants_recurring_date(text):
