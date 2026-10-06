@@ -1,0 +1,1556 @@
+{
+ "favorable": [
+  {
+   "rule_id": "KBSTAR-FEE-1",
+   "status": "OK",
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "or": [
+     {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "and": [
+       {
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window2"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window2"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "EBANK_TRANSFER",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSTAR-FEE-1-NEW",
+   "status": "OK",
+   "condition": {
+    "<=": [
+     {
+      "var": "contract.reference_date"
+     },
+     {
+      "anchor": "contract.start_date",
+      "offset_months": 2,
+      "day": 10
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "EBANK_TRANSFER",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSTAR-FEE-2",
+   "status": "OK",
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "or": [
+     {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "and": [
+       {
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window2"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window2"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "AUTO_DEBIT",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSTAR-FEE-2-NEW",
+   "status": "OK",
+   "condition": {
+    "<=": [
+     {
+      "var": "contract.reference_date"
+     },
+     {
+      "anchor": "contract.start_date",
+      "offset_months": 2,
+      "day": 10
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "AUTO_DEBIT",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSTAR-FEE-3",
+   "status": "OK",
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "or": [
+     {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "and": [
+       {
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window2"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window2"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "ATM_TRANSFER",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSTAR-FEE-3-NEW",
+   "status": "OK",
+   "condition": {
+    "<=": [
+     {
+      "var": "contract.reference_date"
+     },
+     {
+      "anchor": "contract.start_date",
+      "offset_months": 2,
+      "day": 10
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "ATM_TRANSFER",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSTAR-FEE-4",
+   "status": "OK",
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "or": [
+     {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "and": [
+       {
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window2"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window2"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "ATM_WITHDRAW_AFTER_HOURS",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSTAR-FEE-4-NEW",
+   "status": "OK",
+   "condition": {
+    "<=": [
+     {
+      "var": "contract.reference_date"
+     },
+     {
+      "anchor": "contract.start_date",
+      "offset_months": 2,
+      "day": 10
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "ATM_WITHDRAW_AFTER_HOURS",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSTAR-FEE-5",
+   "status": "OK",
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "or": [
+     {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "and": [
+       {
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window2"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window2"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "OTHER_BANK_ATM_WITHDRAW",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSTAR-FEE-5-NEW",
+   "status": "OK",
+   "condition": {
+    "<=": [
+     {
+      "var": "contract.reference_date"
+     },
+     {
+      "anchor": "contract.start_date",
+      "offset_months": 2,
+      "day": 10
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "OTHER_BANK_ATM_WITHDRAW",
+    "value": "UNLIMITED"
+   }
+  }
+ ],
+ "per_event": [
+  {
+   "rule_id": "KBSTAR-FEE-1",
+   "status": "OK",
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "or": [
+     {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window"
+           },
+           "where": {
+            "min_amount": 500000
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "and": [
+       {
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window2"
+           },
+           "where": {
+            "min_amount": 500000
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window2"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "EBANK_TRANSFER",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSTAR-FEE-1-NEW",
+   "status": "OK",
+   "condition": {
+    "<=": [
+     {
+      "var": "contract.reference_date"
+     },
+     {
+      "anchor": "contract.start_date",
+      "offset_months": 2,
+      "day": 10
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "EBANK_TRANSFER",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSTAR-FEE-2",
+   "status": "OK",
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "or": [
+     {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window"
+           },
+           "where": {
+            "min_amount": 500000
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "and": [
+       {
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window2"
+           },
+           "where": {
+            "min_amount": 500000
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window2"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "AUTO_DEBIT",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSTAR-FEE-2-NEW",
+   "status": "OK",
+   "condition": {
+    "<=": [
+     {
+      "var": "contract.reference_date"
+     },
+     {
+      "anchor": "contract.start_date",
+      "offset_months": 2,
+      "day": 10
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "AUTO_DEBIT",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSTAR-FEE-3",
+   "status": "OK",
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "or": [
+     {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window"
+           },
+           "where": {
+            "min_amount": 500000
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "and": [
+       {
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window2"
+           },
+           "where": {
+            "min_amount": 500000
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window2"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "ATM_TRANSFER",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSTAR-FEE-3-NEW",
+   "status": "OK",
+   "condition": {
+    "<=": [
+     {
+      "var": "contract.reference_date"
+     },
+     {
+      "anchor": "contract.start_date",
+      "offset_months": 2,
+      "day": 10
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "ATM_TRANSFER",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSTAR-FEE-4",
+   "status": "OK",
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "or": [
+     {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window"
+           },
+           "where": {
+            "min_amount": 500000
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "and": [
+       {
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window2"
+           },
+           "where": {
+            "min_amount": 500000
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window2"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "ATM_WITHDRAW_AFTER_HOURS",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSTAR-FEE-4-NEW",
+   "status": "OK",
+   "condition": {
+    "<=": [
+     {
+      "var": "contract.reference_date"
+     },
+     {
+      "anchor": "contract.start_date",
+      "offset_months": 2,
+      "day": 10
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "ATM_WITHDRAW_AFTER_HOURS",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSTAR-FEE-5",
+   "status": "OK",
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "or": [
+     {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window"
+           },
+           "where": {
+            "min_amount": 500000
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "and": [
+       {
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$window2"
+           },
+           "where": {
+            "min_amount": 500000
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window2"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "OTHER_BANK_ATM_WITHDRAW",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBSTAR-FEE-5-NEW",
+   "status": "OK",
+   "condition": {
+    "<=": [
+     {
+      "var": "contract.reference_date"
+     },
+     {
+      "anchor": "contract.start_date",
+      "offset_months": 2,
+      "day": 10
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "OTHER_BANK_ATM_WITHDRAW",
+    "value": "UNLIMITED"
+   }
+  }
+ ]
+}
