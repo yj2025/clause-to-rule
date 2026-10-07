@@ -36,43 +36,75 @@ COUNT_WORD = {"count_events": "건수", "count_distinct_months": "실적이 있�
               "count_consecutive_months": "연속한 달 수", "sum_events": "금액 합계(원)"}
 
 
+_MONTH = {0: "이번 달", -1: "전월", -2: "전전월", 1: "다음 달", 2: "다음 다음 달"}
+
+
+def _month(n):
+    return _MONTH.get(n, f"{abs(n)}개월 {'후' if n > 0 else '전'}")
+
+
+_VAR_KO = {"contract.reference_date": "판정일", "customer.has_product": "이 상품 보유 여부"}
+
+
+def _var(name):
+    if name in _VAR_KO:
+        return _VAR_KO[name]
+    return catalog.VARIABLES.get(name, {}).get("desc", name)
+
+
 def _anchor(a):
+    """기준점 → 「이번 달 11일」 · 「가입일 기준 다음 다음 달 10일」."""
     if not isinstance(a, dict):
         return str(a)
-    base = catalog.VARIABLES.get(a.get("anchor"), {}).get("desc", a.get("anchor"))
-    s = base
-    if a.get("offset_months"):
-        s += f" {a['offset_months']:+d}개월"
-    if a.get("offset_days"):
-        s += f" {a['offset_days']:+d}일"
-    d = a.get("day")
+    base, m, d = a.get("anchor"), a.get("offset_months") or 0, a.get("day")
     if isinstance(d, int):
-        s += f"의 {d}일"
+        day = f"{d}일"
     elif d == "first":
-        s += "의 1일"
+        day = "1일"
     elif d == "last":
-        s += "의 말일"
+        day = "말일"
     elif isinstance(d, dict):
-        s += f"의 {d.get('nth')}째 {d.get('weekday')}"
+        day = f"{d.get('nth')}째 {_WEEKDAY.get(d.get('weekday'), d.get('weekday'))}요일"
+    else:
+        day = None
     if a.get("month_of"):
-        s += f" ({'·'.join(map(str, a['month_of']))}월)"
+        months = "·".join(map(str, a["month_of"]))
+        s = f"매년 {months}월의 {day}" if len(a["month_of"]) < 12 else f"매월 {day}"
+    elif base == "contract.reference_date":
+        s = f"{_month(m)} {day}" if day else ("판정일" if not m else f"판정일 {m:+d}개월")
+    else:
+        s = f"{_var(base)}" + (f" 기준 {_month(m)}" if m else "") + (f" {day}" if day else "")
+    days = a.get("offset_days")
+    if days == 1:
+        s += " 다음날"
+    elif days:
+        s += f" {days:+d}일"
     return s
 
 
+_WEEKDAY = {"MON": "월", "TUE": "화", "WED": "수", "THU": "목", "FRI": "금", "SAT": "토", "SUN": "일"}
+
+
 def _window(w, env):
+    """기간 → 「전월」 · 「직전 3개월」 · 「가입일 ~ 만기일」."""
     if isinstance(w, dict) and "ref" in w:
         w = env.get(str(w["ref"]).lstrip("$"), w)
     mr = (w or {}).get("month_range") if isinstance(w, dict) else None
     if not mr:
-        return "전 기간"
+        return "전체 기간"
     f, t = mr.get("from", {}), mr.get("to", {})
-    if f.get("offset_months") == t.get("offset_months") == -1 and f.get("day") == "first" and t.get("day") == "last":
-        return "전월(1일~말일)"
+    ref = f.get("anchor") == t.get("anchor") == "contract.reference_date"
+    fm, tm = f.get("offset_months") or 0, t.get("offset_months") or 0
+    if ref and f.get("day") == "first" and t.get("day") == "last":
+        if fm == tm:
+            return _month(fm)
+        if tm == -1 and fm < -1:
+            return f"직전 {-fm}개월"
     return f"{_anchor(f)} ~ {_anchor(t)}"
 
 
 def _event(spec, env):
-    s = f"{_window(spec.get('within'), env)} {catalog.EVENTS.get(spec.get('event'), spec.get('event'))}"
+    s = f"{_window(spec.get('within'), env)} 이 통장 {catalog.EVENTS.get(spec.get('event'), spec.get('event'))}"
     where = spec.get("where") or {}
     if "min_amount" in where:
         s += f"(건별 {where['min_amount']:,}원 이상)"
@@ -84,7 +116,7 @@ def _event(spec, env):
 
 def _operand(x, env):
     if isinstance(x, dict) and "var" in x:
-        return catalog.VARIABLES.get(x["var"], {}).get("desc", x["var"])
+        return _var(x["var"])
     if isinstance(x, dict) and "anchor" in x:
         return _anchor(x)
     if isinstance(x, dict) and len(x) == 1 and next(iter(x)) in COUNT_WORD:
@@ -112,9 +144,13 @@ def _cond(node, env):
         return {"아님": cond(arg, env)}
     if op == "exists":
         e = _event(arg, env)
-        return {"항목": e if e.endswith("실적") else f"{e} 실적", "비교": "있음", "값": True}
+        return {"항목": e if "실적" in e else f"{e} 실적", "비교": "있음", "값": True}
     a, b = arg
-    return {"항목": _operand(a, env), "비교": CMP.get(op, op), "값": ko(_operand(b, env))}
+    left, right = _operand(a, env), ko(_operand(b, env))
+    word = CMP.get(op, op)
+    if isinstance(a, dict) and catalog.VARIABLES.get(a.get("var"), {}).get("type") == "date":
+        word = {"이상": "이후(당일 포함)", "초과": "이후", "이하": "이전(당일 포함)", "미만": "이전"}.get(word, word)
+    return {"항목": left, "비교": word, "값": right}
 
 
 def result(eff):
@@ -136,15 +172,58 @@ def result(eff):
 
 def category(rule, label):
     t = ((rule.get("effect") or {}).get("type")) or ""
+    for words, cat in ((("상품 개요", "상품개요", "상품유형"), "상품 정보"), (("신규금액", "가입금액", "판매한도"), "가입금액·기간"),
+                       (("세제", "비과세"), "세제 혜택"), (("환율", "송금"), "수수료·부가혜택")):
+        if any(w in label for w in words):
+            return cat
     if t.startswith("RATE") or "이율" in label or "금리" in label:
         return "우대금리" if "우대" in label else "기본금리·이자"
     if t.startswith("FEE") or "수수료" in label:
         return "수수료·부가혜택"
+    if "이자" in label:
+        return "기본금리·이자"
     if t in ("DISQUALIFY", "REQUIRE") or "가입" in label:
         return "가입대상·자격"
     if "해지" in label or "만기" in label:
         return "중도해지·만기 후"
     return "기타"
+
+
+_DATE = __import__("re").compile(r"(\d{4})\.\s?(\d{1,2})\.\s?(\d{1,2})")
+_PAREN = __import__("re").compile(r"\s*\(.*\)\s*$")
+
+
+def _first_line(body):
+    for line in body.splitlines():
+        line = line.strip().lstrip("▪").strip()
+        if line:
+            return line
+    return ""
+
+
+def info_rule(clause_text, reason):
+    """빈 배열 조문 → «항상 적용» 설명 규칙. 값 · 기준일은 원문에서 그대로 자른다(지어 쓰지 않는다)."""
+    head = reasons.head_of(clause_text)
+    body = clause_text.split("\n", 1)[1] if "\n" in clause_text else ""
+    name = _PAREN.sub("", head) or head
+    line = _first_line(body)
+    res = {"동작": "안내", "대상": name, "값": line}
+    if reason == "SUMMARY":
+        feat = next((l.split(":", 1)[1].strip() for l in body.splitlines() if "상품특징" in l and ":" in l), line)
+        res = {"동작": "안내", "대상": "상품특징", "값": feat}
+    elif reason == "LABEL":
+        res = {"동작": "분류", "대상": "상품유형", "값": line}
+    elif reason == "PRODUCT_SETTING":
+        if "제한없음" in body.replace(" ", ""):
+            res = {"동작": "제한 없음", "대상": name}
+        elif "기본" in name:
+            res = {"동작": "적용", "대상": name, "값": line}
+    m = _DATE.search(head)
+    if m:
+        res["기준일"] = f"{m.group(1)}-{int(m.group(2)):02d}-{int(m.group(3)):02d}"
+    if "세금공제 전" in head:
+        res["비고"] = "세금공제 전"
+    return name, res, line
 
 
 def export(prefix, clauses, rules_by_clause, source):
@@ -155,8 +234,17 @@ def export(prefix, clauses, rules_by_clause, source):
         label = reasons.head_of(c["text"]) or c.get("label", "")
         rules = rules_by_clause.get(c["id"])
         if rules == []:
-            empty.append({"조문": c["id"], "원문 위치": label,
-                          "이유": NO_RULE_REASONS[reasons.classify(c["text"])]})
+            # 2026-10-07 · 설명 정보도 «항상 적용» 규칙으로 낸다 (사용자 요청). 실행기가 판정할 조건은 없다
+            reason = reasons.classify(c["text"])
+            name, res, line = info_rule(c["text"], reason)
+            n += 1
+            out_rules.append({"규칙 번호": f"R{n:03d}", "분류": category({}, name), "규칙 형태": "조건에 따른 결과",
+                              "조건": {"항목": "모든 계좌", "비교": "항상", "값": None}, "결과": [res],
+                              "근거": [{"원문 위치": label, "원문": line}],
+                              "실행": {"가능": False, "사유": "설명 정보 — 고객마다 달라지는 조건이 없다",
+                                       "설명 정보": NO_RULE_REASONS[reason]},
+                              "출처 rule": None})
+            empty.append({"조문": c["id"], "원문 위치": label, "이유": NO_RULE_REASONS[reason]})
             continue
         for r in rules or []:
             n += 1
@@ -167,7 +255,8 @@ def export(prefix, clauses, rules_by_clause, source):
                 c_ = {"모두": [cond(r["guard"], env), c_]}
             item = {"규칙 번호": f"R{n:03d}", "분류": category(r, label + r.get("label", "")),
                     "규칙 형태": "조건에 따른 결과", "조건": c_,
-                    "결과": [result(r.get("effect"))] if ok and r.get("effect") else [],
+                    "결과": [result(r.get("effect"))] if ok and r.get("effect") else
+                            [{"동작": "안내", "대상": (r.get("label") or "").split(" — ")[0]}],
                     "근거": [{"원문 위치": label, "원문": (r.get("source") or {}).get("quote", "")}],
                     "실행": {"가능": ok, "사유": None if ok else r.get("label", "")},
                     "출처 rule": r.get("rule_id")}
