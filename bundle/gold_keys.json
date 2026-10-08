@@ -1,0 +1,6958 @@
+{
+ "KBGL-K-product_type": {
+  "clauses": [
+   "KBGL-S2-R03"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBGL-S2-R03-01",
+    "status": "UNSUPPORTED",
+    "label": "동일 예금과목 상품 간 전환 가능 — 예금과목 변수 없음",
+    "source": {
+     "quote": "※ 동일 예금과목 상품 전환가능"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBGL-S2-R03-02",
+    "status": "UNSUPPORTED",
+    "label": "전환신규 불가 상품은 전환 대상에서 제외 — 상품별 전환 가능 기준 변수 없음",
+    "source": {
+     "quote": "※ 개별상품에서 정한 기준에 의해 전환신규가 불가한 상품은 제외"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBGL-K-product_feature": {
+  "clauses": [
+   "KBGL-S1-P01"
+  ],
+  "rules": []
+ },
+ "KBGL-K-eligibility_target": {
+  "clauses": [
+   "KBGL-S2-R01"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBGL-S2-R01-01",
+    "status": "OK",
+    "label": "이미 이 상품을 보유하면 가입 불가 (1인 1계좌)",
+    "source": {
+     "quote": "▪ 실명의 개인(1인 1계좌)"
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "customer.has_product"
+      },
+      true
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   },
+   {
+    "rule_id": "KBGL-S2-R01-02",
+    "status": "OK",
+    "label": "법인은 가입 불가 (실명의 개인 · 임의단체는 포함)",
+    "source": {
+     "quote": "▪ 실명의 개인(1인 1계좌) ※ 관련서류 미제출 임의단체 포함"
+    },
+    "condition": {
+     "in": [
+      {
+       "var": "customer.holder_type"
+      },
+      [
+       "CORPORATION"
+      ]
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   }
+  ]
+ },
+ "KBGL-K-deposit_amount": {
+  "clauses": [
+   "KBGL-S2-R02"
+  ],
+  "rules": []
+ },
+ "KBGL-K-base_rate": {
+  "clauses": [
+   "KBGL-S2-R04"
+  ],
+  "rules": []
+ },
+ "KBGL-K-preferential_rate": {
+  "clauses": [
+   "KBGL-S2-R05"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBGL-S2-R05-01",
+    "status": "OK",
+    "label": "직전 3개월 대상연금 9건 이상 → 연 1.5% (기본이율 포함)",
+    "source": {
+     "quote": "9건 이상 | 연1.5%"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -3,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "condition": {
+     ">=": [
+      {
+       "count_events": {
+        "event": "PENSION_RECEIPT",
+        "within": {
+         "ref": "$window"
+        }
+       }
+      },
+      9
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 1.5,
+     "unit": "%"
+    }
+   },
+   {
+    "rule_id": "KBGL-S2-R05-02",
+    "status": "OK",
+    "label": "직전 3개월 대상연금 6~8건 → 연 1.0% (기본이율 포함)",
+    "source": {
+     "quote": "6건 이상 ~ 8건 이하 | 연1.0%"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -3,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "condition": {
+     "and": [
+      {
+       ">=": [
+        {
+         "count_events": {
+          "event": "PENSION_RECEIPT",
+          "within": {
+           "ref": "$window"
+          }
+         }
+        },
+        6
+       ]
+      },
+      {
+       "<=": [
+        {
+         "count_events": {
+          "event": "PENSION_RECEIPT",
+          "within": {
+           "ref": "$window"
+          }
+         }
+        },
+        8
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 1.0,
+     "unit": "%"
+    }
+   },
+   {
+    "rule_id": "KBGL-S2-R05-03",
+    "status": "OK",
+    "label": "직전 3개월 대상연금 1~5건 → 연 0.5% (기본이율 포함)",
+    "source": {
+     "quote": "1건 이상 ~ 5건 이하 | 연0.5%"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -3,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "condition": {
+     "and": [
+      {
+       ">=": [
+        {
+         "count_events": {
+          "event": "PENSION_RECEIPT",
+          "within": {
+           "ref": "$window"
+          }
+         }
+        },
+        1
+       ]
+      },
+      {
+       "<=": [
+        {
+         "count_events": {
+          "event": "PENSION_RECEIPT",
+          "within": {
+           "ref": "$window"
+          }
+         }
+        },
+        5
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 0.5,
+     "unit": "%"
+    }
+   },
+   {
+    "rule_id": "KBGL-S2-R05-04",
+    "status": "UNSUPPORTED",
+    "label": "평균잔액 100만원 이하분에만 우대이율, 초과분은 기본이율 — 적용 기준 금액(잔액 구간) effect 없음",
+    "source": {
+     "quote": "- 적용금액 : 이 통장의 결산기 평균잔액 중 1백만원 이하의 금액까지는 우대이율을 적용하며, 1백만원을 초과하는 금액에 대하여는 기본이율 적용"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBGL-K-interest_payment": {
+  "clauses": [
+   "KBGL-S2-R07"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBGL-S2-R07-01",
+    "status": "UNSUPPORTED",
+    "label": "이자 결산·원금 가산 시기 — 이자 가산 effect 없음",
+    "source": {
+     "quote": "▪ 매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBGL-S2-R07-02",
+    "status": "UNSUPPORTED",
+    "label": "마지막 거래 후 5년 경과 시 원금 가산 중단·일괄 지급 — 이자 가산 effect 없음 (판별 범위 밖)",
+    "source": {
+     "quote": "※ 예금의 이자는 최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBGL-K-final_rate": {
+  "clauses": [
+   "KBGL-S2-R06"
+  ],
+  "rules": []
+ },
+ "KBGL-K-fee": {
+  "clauses": [
+   "KBGL-S2-R09"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBGL-S2-R09-01",
+    "status": "OK",
+    "label": "전월 대상실적(연금수령·카드결제·아파트관리비) 시 전자금융 이체수수료 면제",
+    "source": {
+     "quote": "① 전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른은행으로 보낼 때)"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "last"
+       }
+      }
+     },
+     "window2": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -2,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -2,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "condition": {
+     "or": [
+      {
+       "and": [
+        {
+         ">=": [
+          {
+           "var": "contract.reference_date"
+          },
+          {
+           "anchor": "contract.reference_date",
+           "offset_months": 0,
+           "day": 11
+          }
+         ]
+        },
+        {
+         "or": [
+          {
+           "exists": {
+            "event": "PENSION_RECEIPT",
+            "within": {
+             "ref": "$window"
+            }
+           }
+          },
+          {
+           "exists": {
+            "event": "CARD_USAGE",
+            "within": {
+             "ref": "$window"
+            }
+           }
+          },
+          {
+           "exists": {
+            "event": "AUTO_TRANSFER",
+            "within": {
+             "ref": "$window"
+            },
+            "where": {
+             "route": [
+              "APARTMENT_FEE"
+             ]
+            }
+           }
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "and": [
+        {
+         "<=": [
+          {
+           "var": "contract.reference_date"
+          },
+          {
+           "anchor": "contract.reference_date",
+           "offset_months": 0,
+           "day": 10
+          }
+         ]
+        },
+        {
+         "or": [
+          {
+           "exists": {
+            "event": "PENSION_RECEIPT",
+            "within": {
+             "ref": "$window2"
+            }
+           }
+          },
+          {
+           "exists": {
+            "event": "CARD_USAGE",
+            "within": {
+             "ref": "$window2"
+            }
+           }
+          },
+          {
+           "exists": {
+            "event": "AUTO_TRANSFER",
+            "within": {
+             "ref": "$window2"
+            },
+            "where": {
+             "route": [
+              "APARTMENT_FEE"
+             ]
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "EBANK_TRANSFER",
+     "value": "UNLIMITED"
+    }
+   },
+   {
+    "rule_id": "KBGL-S2-R09-02",
+    "status": "OK",
+    "label": "전월 대상실적(연금수령·카드결제·아파트관리비) 시 자동화기기 시간외출금수수료 면제",
+    "source": {
+     "quote": "② KB국민은행 자동화기기 시간외출금수수료"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "last"
+       }
+      }
+     },
+     "window2": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -2,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -2,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "condition": {
+     "or": [
+      {
+       "and": [
+        {
+         ">=": [
+          {
+           "var": "contract.reference_date"
+          },
+          {
+           "anchor": "contract.reference_date",
+           "offset_months": 0,
+           "day": 11
+          }
+         ]
+        },
+        {
+         "or": [
+          {
+           "exists": {
+            "event": "PENSION_RECEIPT",
+            "within": {
+             "ref": "$window"
+            }
+           }
+          },
+          {
+           "exists": {
+            "event": "CARD_USAGE",
+            "within": {
+             "ref": "$window"
+            }
+           }
+          },
+          {
+           "exists": {
+            "event": "AUTO_TRANSFER",
+            "within": {
+             "ref": "$window"
+            },
+            "where": {
+             "route": [
+              "APARTMENT_FEE"
+             ]
+            }
+           }
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "and": [
+        {
+         "<=": [
+          {
+           "var": "contract.reference_date"
+          },
+          {
+           "anchor": "contract.reference_date",
+           "offset_months": 0,
+           "day": 10
+          }
+         ]
+        },
+        {
+         "or": [
+          {
+           "exists": {
+            "event": "PENSION_RECEIPT",
+            "within": {
+             "ref": "$window2"
+            }
+           }
+          },
+          {
+           "exists": {
+            "event": "CARD_USAGE",
+            "within": {
+             "ref": "$window2"
+            }
+           }
+          },
+          {
+           "exists": {
+            "event": "AUTO_TRANSFER",
+            "within": {
+             "ref": "$window2"
+            },
+            "where": {
+             "route": [
+              "APARTMENT_FEE"
+             ]
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "ATM_WITHDRAW_AFTER_HOURS",
+     "value": "UNLIMITED"
+    }
+   },
+   {
+    "rule_id": "KBGL-S2-R09-03",
+    "status": "OK",
+    "label": "전월 대상실적(연금수령·카드결제·아파트관리비) 시 납부자자동이체 수수료 면제",
+    "source": {
+     "quote": "④ 납부자자동이체(타행 자동이체포함)수수료"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "last"
+       }
+      }
+     },
+     "window2": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -2,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -2,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "condition": {
+     "or": [
+      {
+       "and": [
+        {
+         ">=": [
+          {
+           "var": "contract.reference_date"
+          },
+          {
+           "anchor": "contract.reference_date",
+           "offset_months": 0,
+           "day": 11
+          }
+         ]
+        },
+        {
+         "or": [
+          {
+           "exists": {
+            "event": "PENSION_RECEIPT",
+            "within": {
+             "ref": "$window"
+            }
+           }
+          },
+          {
+           "exists": {
+            "event": "CARD_USAGE",
+            "within": {
+             "ref": "$window"
+            }
+           }
+          },
+          {
+           "exists": {
+            "event": "AUTO_TRANSFER",
+            "within": {
+             "ref": "$window"
+            },
+            "where": {
+             "route": [
+              "APARTMENT_FEE"
+             ]
+            }
+           }
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "and": [
+        {
+         "<=": [
+          {
+           "var": "contract.reference_date"
+          },
+          {
+           "anchor": "contract.reference_date",
+           "offset_months": 0,
+           "day": 10
+          }
+         ]
+        },
+        {
+         "or": [
+          {
+           "exists": {
+            "event": "PENSION_RECEIPT",
+            "within": {
+             "ref": "$window2"
+            }
+           }
+          },
+          {
+           "exists": {
+            "event": "CARD_USAGE",
+            "within": {
+             "ref": "$window2"
+            }
+           }
+          },
+          {
+           "exists": {
+            "event": "AUTO_TRANSFER",
+            "within": {
+             "ref": "$window2"
+            },
+            "where": {
+             "route": [
+              "APARTMENT_FEE"
+             ]
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "AUTO_DEBIT",
+     "value": "UNLIMITED"
+    }
+   },
+   {
+    "rule_id": "KBGL-S2-R09-04",
+    "status": "OK",
+    "label": "신규(전환)일부터 다음 다음 달 10일까지 전자금융 이체수수료 면제 (실적 무관)",
+    "source": {
+     "quote": "※ 단, 이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제합니다."
+    },
+    "condition": {
+     "<=": [
+      {
+       "var": "contract.reference_date"
+      },
+      {
+       "anchor": "contract.start_date",
+       "offset_months": 2,
+       "day": 10
+      }
+     ]
+    },
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "EBANK_TRANSFER",
+     "value": "UNLIMITED"
+    }
+   },
+   {
+    "rule_id": "KBGL-S2-R09-05",
+    "status": "OK",
+    "label": "신규(전환)일부터 다음 다음 달 10일까지 자동화기기 시간외출금수수료 면제 (실적 무관)",
+    "source": {
+     "quote": "※ 단, 이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제합니다."
+    },
+    "condition": {
+     "<=": [
+      {
+       "var": "contract.reference_date"
+      },
+      {
+       "anchor": "contract.start_date",
+       "offset_months": 2,
+       "day": 10
+      }
+     ]
+    },
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "ATM_WITHDRAW_AFTER_HOURS",
+     "value": "UNLIMITED"
+    }
+   },
+   {
+    "rule_id": "KBGL-S2-R09-06",
+    "status": "OK",
+    "label": "신규(전환)일부터 다음 다음 달 10일까지 납부자자동이체 수수료 면제 (실적 무관)",
+    "source": {
+     "quote": "※ 단, 이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제합니다."
+    },
+    "condition": {
+     "<=": [
+      {
+       "var": "contract.reference_date"
+      },
+      {
+       "anchor": "contract.start_date",
+       "offset_months": 2,
+       "day": 10
+      }
+     ]
+    },
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "AUTO_DEBIT",
+     "value": "UNLIMITED"
+    }
+   },
+   {
+    "rule_id": "KBGL-S2-R09-07",
+    "status": "UNSUPPORTED",
+    "label": "창구 출금 동시 타행이체 송금수수료 면제(월5회) — 창구 송금수수료 대상 없음",
+    "source": {
+     "quote": "③ KB국민은행 창구를 이용하여 이 통장에서 출금과 동시에 다른은행으로 이체할 때 발생하는 송금수수료(월5회)"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBGL-K-partner_benefit": {
+  "clauses": [
+   "KBGL-S2-R10"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBGL-S2-R10-01",
+    "status": "UNSUPPORTED",
+    "label": "보유 고객 창구 외국통화매매 현찰매매마진율 30% 우대 — 환율우대 effect 없음",
+    "source": {
+     "quote": "▪ 이 통장 보유 고객 ㅇ KB국민은행 창구에서 외국통화매매시 현찰매매마진율의30%를 우대"
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "customer.has_product"
+      },
+      true
+     ]
+    }
+   },
+   {
+    "rule_id": "KBGL-S2-R10-02",
+    "status": "UNSUPPORTED",
+    "label": "보유 + 전월 대상연금 수령 고객 현찰매매마진율 50% 우대 — 환율우대 effect 없음",
+    "source": {
+     "quote": "▪ 이 통장을 보유하고 전월 우대이율 적용대상에서 정한“대상연금”수령실적이 있는 고객 ㅇ KB국민은행 창구에서 외국통화매매시 현찰매매마진율의 50%를 우대"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "condition": {
+     "and": [
+      {
+       "==": [
+        {
+         "var": "customer.has_product"
+        },
+        true
+       ]
+      },
+      {
+       "exists": {
+        "event": "PENSION_RECEIPT",
+        "within": {
+         "ref": "$window"
+        }
+       }
+      }
+     ]
+    }
+   },
+   {
+    "rule_id": "KBGL-S2-R10-03",
+    "status": "UNSUPPORTED",
+    "label": "보유 + 전월 대상연금 수령 고객 해외 송금수수료 50% 우대 — 수수료 감면율 effect·해외송금 대상 없음",
+    "source": {
+     "quote": "ㅇ KB국민은행 창구에서 해외 당발송금 시 해외 송금수수료의 50%를 우대"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "condition": {
+     "and": [
+      {
+       "==": [
+        {
+         "var": "customer.has_product"
+        },
+        true
+       ]
+      },
+      {
+       "exists": {
+        "event": "PENSION_RECEIPT",
+        "within": {
+         "ref": "$window"
+        }
+       }
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "KBSSG-K-product_name": {
+  "clauses": [
+   "KBSSG-S2-R13"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSSG-S2-R13-01",
+    "status": "UNSUPPORTED",
+    "label": "SSG.COM 회원 탈퇴·혁신금융서비스 종료 시 「KB제휴통장」으로 상품명 변경 — 사건 변수·상품 키 없음",
+    "source": {
+     "quote": "▪ SSG.COM 회원 탈퇴 또는 혁신금융서비스 종료 시 「KB제휴통장」으로 상품명 변경"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBSSG-K-product_type": {
+  "clauses": [
+   "KBSSG-S2-R03"
+  ],
+  "rules": []
+ },
+ "KBSSG-K-product_feature": {
+  "clauses": [
+   "KBSSG-S1-P01"
+  ],
+  "rules": []
+ },
+ "KBSSG-K-eligibility_target": {
+  "clauses": [
+   "KBSSG-S2-R01"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSSG-S2-R01-01",
+    "status": "OK",
+    "label": "만 17세 미만이면 가입 불가",
+    "source": {
+     "quote": "▪ 만 17세 이상의 실명의 개인(1인 1계좌)"
+    },
+    "condition": {
+     "<": [
+      {
+       "var": "customer.age"
+      },
+      17
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   },
+   {
+    "rule_id": "KBSSG-S2-R01-02",
+    "status": "OK",
+    "label": "이미 이 상품을 보유하면 가입 불가 (1인 1계좌)",
+    "source": {
+     "quote": "▪ 만 17세 이상의 실명의 개인(1인 1계좌)"
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "customer.has_product"
+      },
+      true
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   },
+   {
+    "rule_id": "KBSSG-S2-R01-03",
+    "status": "OK",
+    "label": "임의단체·개인사업자·공동명의·법인 가입 불가",
+    "source": {
+     "quote": "실명의 개인(1인 1계좌) ※ 관련서류 미제출 임의단체, 개인사업자 및 공동명의 가입 불가"
+    },
+    "condition": {
+     "in": [
+      {
+       "var": "customer.holder_type"
+      },
+      [
+       "SOLE_PROPRIETOR",
+       "ORGANIZATION",
+       "JOINT",
+       "CORPORATION"
+      ]
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   },
+   {
+    "rule_id": "KBSSG-S2-R01-04",
+    "status": "UNSUPPORTED",
+    "label": "비거주자·외국인 가입 불가 — 거주자·국적 변수가 카탈로그에 없음",
+    "source": {
+     "quote": "※ 비거주자 및 외국인 가입 불가"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBSSG-K-base_rate": {
+  "clauses": [
+   "KBSSG-S2-R07"
+  ],
+  "rules": []
+ },
+ "KBSSG-K-preferential_rate": {
+  "clauses": [
+   "KBSSG-S2-R08"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSSG-S2-R08-01",
+    "status": "UNSUPPORTED",
+    "label": "신규 우대금리 연 1.5%p (최초 가입일로부터 1년 이내) — 「가입일 기준 최근 6개월 국민은행 입출금통장 미보유」 변수 없음",
+    "source": {
+     "quote": "신규 우대금리 | 연 1.5%p | 최초 가입일로부터 1년 이내 | - 「쓱머니 KB통장」 최초 신규 가입일 기준 최근 6개월 동안 국민은행 입출금통장을 보유하지 않은 경우"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSSG-S2-R08-02",
+    "status": "UNSUPPORTED",
+    "label": "신규 우대금리 연 0.4%p (최초 가입 후 1년 초과 3년 이내) — 같은 미보유 조건 변수 없음",
+    "source": {
+     "quote": "연 0.4%p | 최초 가입 후 1년 초과 3년이내"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSSG-S2-R08-03",
+    "status": "UNSUPPORTED",
+    "label": "쓱페이 우대금리 연 1.4%p (1년 이내 · SSG PAY 등록일부터) — SSG PAY 결제계좌 등록 변수 없음",
+    "source": {
+     "quote": "쓱페이 우대금리 | 연 1.4%p | 최초 가입일로부터 1년 이내 | - SSG PAY에 「쓱머니 KB통장」을 결제계좌로 등록한 경우"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSSG-S2-R08-04",
+    "status": "OK",
+    "label": "입금우대 연 0.5%p — 전월(1일~말일) 이 통장 입금이력 (적용기간: 이번달 제2금요일 다음날 ~ 다음달 제2금요일)",
+    "source": {
+     "quote": "[입금우대: 연 0.5%p] - 이 통장으로 전월(1일~말일)에 합산 50만원 이상 입금이력이 있는 경우"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "last"
+       }
+      }
+     },
+     "window2": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -2,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -2,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "condition": {
+     "or": [
+      {
+       "and": [
+        {
+         ">": [
+          {
+           "var": "contract.reference_date"
+          },
+          {
+           "anchor": "contract.reference_date",
+           "month_of": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+           ],
+           "day": {
+            "weekday": "FRI",
+            "nth": 2
+           }
+          }
+         ]
+        },
+        {
+         ">=": [
+          {
+           "anchor": "contract.reference_date",
+           "month_of": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+           ],
+           "day": {
+            "weekday": "FRI",
+            "nth": 2
+           }
+          },
+          {
+           "anchor": "contract.reference_date",
+           "offset_months": 0,
+           "day": "first"
+          }
+         ]
+        },
+        {
+         ">=": [
+          {
+           "sum_events": {
+            "event": "DEPOSIT",
+            "within": {
+             "ref": "$window"
+            }
+           }
+          },
+          500000
+         ]
+        }
+       ]
+      },
+      {
+       "and": [
+        {
+         "or": [
+          {
+           "<": [
+            {
+             "anchor": "contract.reference_date",
+             "month_of": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12
+             ],
+             "day": {
+              "weekday": "FRI",
+              "nth": 2
+             }
+            },
+            {
+             "anchor": "contract.reference_date",
+             "offset_months": 0,
+             "day": "first"
+            }
+           ]
+          },
+          {
+           "<=": [
+            {
+             "var": "contract.reference_date"
+            },
+            {
+             "anchor": "contract.reference_date",
+             "month_of": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12
+             ],
+             "day": {
+              "weekday": "FRI",
+              "nth": 2
+             }
+            }
+           ]
+          }
+         ]
+        },
+        {
+         ">=": [
+          {
+           "sum_events": {
+            "event": "DEPOSIT",
+            "within": {
+             "ref": "$window2"
+            }
+           }
+          },
+          500000
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_ADD",
+     "value": 0.5,
+     "unit": "%p"
+    }
+   },
+   {
+    "rule_id": "KBSSG-S2-R08-05",
+    "status": "UNSUPPORTED",
+    "label": "혜택 수신(마케팅) 동의 우대 연 0.5%p — 양사 마케팅 동의 변수 없음",
+    "source": {
+     "quote": "[혜택 수신(마케팅) 동의: 연 0.5%p] - 전월 말일 기준 SSG.COM과 KB국민은행 양사 모두 혜택 수신(마케팅) 동의가 되어 있는 경우"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSSG-S2-R08-06",
+    "status": "UNSUPPORTED",
+    "label": "적용한도 — 매일 최종잔액 중 2백만원 이하 금액에만 우대 (잔액 구간별 이율 · 적용 기준 금액 effect 없음)",
+    "source": {
+     "quote": "▪ 적용한도 : 매일의 최종 잔액 중 2백만원 이하 금액"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSSG-S2-R08-07",
+    "status": "UNSUPPORTED",
+    "label": "해지 후 재가입 시 모든 우대금리 적용 불가 — 이 상품 과거 가입 이력 변수 없음",
+    "source": {
+     "quote": "▪ 우대금리는 최초 가입한 경우에만 적용되며, 해지 후 재가입한 경우 모든 우대금리 적용 불가"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSSG-S2-R08-08",
+    "status": "UNSUPPORTED",
+    "label": "SSG.COM 회원 탈퇴·혁신금융서비스 종료 시 모든 우대금리 적용 불가 — 회원 탈퇴·서비스 종료 변수 없음",
+    "source": {
+     "quote": "▪ 최초 가입한 경우라도 SSG.COM 회원 탈퇴 또는 혁신금융서비스 종료 시 「KB제휴통장」으로 상품명이 변경되며 모든 우대금리 적용 불가"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBSSG-K-interest_payment": {
+  "clauses": [
+   "KBSSG-S2-R06"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSSG-S2-R06-01",
+    "status": "UNSUPPORTED",
+    "label": "이자계산기간 · 일평균 최종잔액 · 고시 이율로 계산 — 이자 산출(범위 밖)",
+    "source": {
+     "quote": "▪ 예금이자는 아래의 이자계산기간 동안 매일의 최종잔액을 평균하여 이자결산일 현재 영업점 및 KB국민은행 홈페이지에 고시하는 이율로 계산함"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSSG-S2-R06-02",
+    "status": "UNSUPPORTED",
+    "label": "이자결산일(매월 제2금요일 또는 고객 요청 전일)·이자지급일 — 이자 지급 effect 없음",
+    "source": {
+     "quote": "- 이자결산일 : 매월 제2금요일 또는 고객이 직접 이자지급 요청한 전일"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSSG-S2-R06-03",
+    "status": "UNSUPPORTED",
+    "label": "매월 제2금요일 다음날은 고객 요청 이자지급 제한 — 이자지급 금지 대상 없음",
+    "source": {
+     "quote": "(단, 매월 제2금요일 다음날은 고객 요청에 의한 이자지급 제한)"
+    },
+    "condition": {
+     "and": [
+      {
+       ">=": [
+        {
+         "var": "contract.reference_date"
+        },
+        {
+         "anchor": "contract.reference_date",
+         "month_of": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+         ],
+         "day": {
+          "weekday": "FRI",
+          "nth": 2
+         },
+         "offset_days": 1
+        }
+       ]
+      },
+      {
+       "<=": [
+        {
+         "var": "contract.reference_date"
+        },
+        {
+         "anchor": "contract.reference_date",
+         "month_of": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+         ],
+         "day": {
+          "weekday": "FRI",
+          "nth": 2
+         },
+         "offset_days": 1
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "rule_id": "KBSSG-S2-R06-04",
+    "status": "UNSUPPORTED",
+    "label": "최종거래일 5년 경과 후 원금 가산 중단·일괄 지급 — 이자 가산 effect 없음 (판별 범위 밖)",
+    "source": {
+     "quote": "※ 예금의 이자는 최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일의 다음 결산일에 일괄 계산하여 지급할 수 있습니다."
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBSSG-K-final_rate": {
+  "clauses": [
+   "KBSSG-S2-R09"
+  ],
+  "rules": []
+ },
+ "KBSSG-K-fee": {
+  "clauses": [
+   "KBSSG-S2-R10"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSSG-S2-R10-01",
+    "status": "OK",
+    "label": "인터넷뱅킹·스타뱅킹 다른은행 이체수수료 횟수 제한 없이 면제",
+    "source": {
+     "quote": "① KB국민은행 개인인터넷뱅킹, KB스타뱅킹을 통한 다른은행 이체수수료"
+    },
+    "condition": {},
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "EBANK_TRANSFER",
+     "value": "UNLIMITED"
+    }
+   },
+   {
+    "rule_id": "KBSSG-S2-R10-02",
+    "status": "OK",
+    "label": "납부자 자동이체 수수료 횟수 제한 없이 면제",
+    "source": {
+     "quote": "② 납부자 자동이체(타행 자동이체 포함) 수수료"
+    },
+    "condition": {},
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "AUTO_DEBIT",
+     "value": "UNLIMITED"
+    }
+   },
+   {
+    "rule_id": "KBSSG-S2-R10-03",
+    "status": "OK",
+    "label": "자동화기기 다른은행 이체수수료 횟수 제한 없이 면제",
+    "source": {
+     "quote": "③ KB국민은행 자동화기기(ATM) 다른은행 이체수수료"
+    },
+    "condition": {},
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "ATM_TRANSFER",
+     "value": "UNLIMITED"
+    }
+   },
+   {
+    "rule_id": "KBSSG-S2-R10-04",
+    "status": "OK",
+    "label": "자동화기기 시간외 출금수수료 횟수 제한 없이 면제",
+    "source": {
+     "quote": "④ KB국민은행 자동화기기(ATM) 시간외 출금수수료"
+    },
+    "condition": {},
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "ATM_WITHDRAW_AFTER_HOURS",
+     "value": "UNLIMITED"
+    }
+   },
+   {
+    "rule_id": "KBSSG-S2-R10-05",
+    "status": "OK",
+    "label": "다른은행 자동화기기 출금수수료 횟수 제한 없이 면제",
+    "source": {
+     "quote": "⑤ 다른은행 자동화기기(ATM) 출금수수료"
+    },
+    "condition": {},
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "OTHER_BANK_ATM_WITHDRAW",
+     "value": "UNLIMITED"
+    }
+   },
+   {
+    "rule_id": "KBSSG-S2-R10-06",
+    "status": "UNSUPPORTED",
+    "label": "SSG.COM 회원 탈퇴·혁신금융서비스 종료 시 수수료 면제 적용 불가 — 회원 탈퇴·서비스 종료 변수 없음",
+    "source": {
+     "quote": "※ SSG.COM 회원 탈퇴 또는 혁신금융서비스 종료 시 「KB제휴통장」으로 상품명이 변경되며 수수료 면제 적용 불가"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBSSG-K-partner_benefit": {
+  "clauses": [
+   "KBSSG-S4-R01",
+   "KBSSG-S4-R02",
+   "KBSSG-S4-R03",
+   "KBSSG-S4-R04",
+   "KBSSG-S4-R05"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSSG-S4-R01-01",
+    "status": "UNSUPPORTED",
+    "label": "금융거래정보 제공 동의 후 이용 시 연계·제휴서비스 제공 (해지 시 미제공) — 동의 변수·서비스 대상 없음",
+    "source": {
+     "quote": "▪ 이 통장의 연계ㆍ제휴서비스는 제휴사 앞 금융거래정보 이용ㆍ제공 동의 후 「쓱머니 KB통장」 이용 시 제공합니다. (통장 해지 시 해당 서비스를 제공하지 않음)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSSG-S4-R01-02",
+    "status": "UNSUPPORTED",
+    "label": "가입 시 SSG MONEY 잔액 최초 1회 자동입금 — 서비스 대상 없음",
+    "source": {
+     "quote": "주4) 이 통장 가입 시 SSG.COM 쇼핑사이트에서 ‘SSG MONEY 충전결제’한 선불충전금(SSG MONEY) 잔액이 있을 경우 최초 1회에 한해 이 통장으로 자동입금 합니다."
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSSG-S4-R02-01",
+    "status": "UNSUPPORTED",
+    "label": "SSG.COM 앱으로 가입한 통장에 제휴사 계약기간 내 제휴서비스 제공 — 서비스 대상·가입 경로 값 없음",
+    "source": {
+     "quote": "▪ 이 통장의 연계ㆍ제휴서비스는 SSG.COM 앱을 통해 가입한 「쓱머니 KB통장」 이용 시 제공합니다. (단, 제휴사와의 계약기간 내에 한함)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSSG-S4-R03-01",
+    "status": "UNSUPPORTED",
+    "label": "금융거래정보 이용·제공 동의 시 제휴서비스 제공 — 동의 변수·서비스 대상 없음",
+    "source": {
+     "quote": "▪ 이 통장의 연계ㆍ제휴서비스는 제휴사 앞 금융거래정보 이용ㆍ제공 동의를 하고 「쓱머니 KB통장」을 이용 시 제공합니다."
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSSG-S4-R04-01",
+    "status": "UNSUPPORTED",
+    "label": "제휴서비스 축소·변경 시 상응하는 다른 서비스 제공 — 축소·변경 사건 변수 없음",
+    "source": {
+     "quote": "▪ KB국민은행은 연계∙제휴서비스 등을 부당하게 축소하거나 변경하지 않으며, 불가피하게 축소하거나 변경하는 경우 그에 상응하는 다른 연계∙제휴 서비스를 제공합니다."
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSSG-S4-R05-01",
+    "status": "UNSUPPORTED",
+    "label": "SSG.COM 앱 내 이 통장 잔액·거래내역 조회 서비스 — 서비스 대상 없음",
+    "source": {
+     "quote": "▪ SSG.COM 앱 內 KB국민은행 전용페이지에서 이 통장의 잔액 및 거래내역 조회"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSSG-S4-R05-02",
+    "status": "UNSUPPORTED",
+    "label": "SSG MONEY 자동입금 · SSG PAY 결제 연동 서비스 — 서비스 대상 없음",
+    "source": {
+     "quote": "▪ SSG MONEY주3)를 이 통장으로 자동 입금 주4) ▪ SSG PAY 결제 연동"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBSSG-K-product_conversion": {
+  "clauses": [
+   "KBSSG-S2-R12"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSSG-S2-R12-01",
+    "status": "OK",
+    "label": "다른 예금에서 이 예금으로 전환 불가",
+    "source": {
+     "quote": "▪ 불가(다른 예금에서 이 예금으로 전환 또는 이 예금에서 다른 예금으로 전환 불가)"
+    },
+    "condition": {},
+    "effect": {
+     "type": "RESTRICT",
+     "target": "SWITCH_IN"
+    }
+   },
+   {
+    "rule_id": "KBSSG-S2-R12-02",
+    "status": "OK",
+    "label": "이 예금에서 다른 예금으로 전환 불가",
+    "source": {
+     "quote": "▪ 불가(다른 예금에서 이 예금으로 전환 또는 이 예금에서 다른 예금으로 전환 불가)"
+    },
+    "condition": {},
+    "effect": {
+     "type": "RESTRICT",
+     "target": "SWITCH_OUT"
+    }
+   }
+  ]
+ },
+ "KBNR-K-product_type": {
+  "clauses": [
+   "KBNR-S2-R03"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBNR-S2-R03-01",
+    "status": "UNSUPPORTED",
+    "label": "동일 예금과목 상품 간 전환 가능 — 예금과목(상품 종류) 변수 없음",
+    "source": {
+     "quote": "※ 동일 예금과목 전환 가능"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBNR-S2-R03-02",
+    "status": "UNSUPPORTED",
+    "label": "전환신규 불가 상품은 전환 대상에서 제외 — 상품별 전환 가능 기준 변수 없음",
+    "source": {
+     "quote": "※ 개별상품에서 정한 기준에 의해 전환신규가 불가한 상품은 제외"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBNR-K-product_feature": {
+  "clauses": [
+   "KBNR-S1-P01"
+  ],
+  "rules": []
+ },
+ "KBNR-K-eligibility_target": {
+  "clauses": [
+   "KBNR-S2-R01"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBNR-S2-R01-01",
+    "status": "OK",
+    "label": "이미 이 상품을 보유하면 가입 불가 (1인 1계좌)",
+    "source": {
+     "quote": "▪ 실명의 개인 (1인1계좌)"
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "customer.has_product"
+      },
+      true
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   },
+   {
+    "rule_id": "KBNR-S2-R01-02",
+    "status": "OK",
+    "label": "법인은 실명의 개인이 아니므로 가입 불가",
+    "source": {
+     "quote": "▪ 실명의 개인 (1인1계좌)"
+    },
+    "condition": {
+     "in": [
+      {
+       "var": "customer.holder_type"
+      },
+      [
+       "CORPORATION"
+      ]
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   }
+  ]
+ },
+ "KBNR-K-deposit_amount": {
+  "clauses": [
+   "KBNR-S2-R02"
+  ],
+  "rules": []
+ },
+ "KBNR-K-base_rate": {
+  "clauses": [
+   "KBNR-S2-R04"
+  ],
+  "rules": []
+ },
+ "KBNR-K-preferential_rate": {
+  "clauses": [
+   "KBNR-S2-R05"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBNR-S2-R05-01",
+    "status": "OK",
+    "label": "직전 3개월 중 2개월 이상 급여이체 실적 → 우대이율 연 1.9%p",
+    "source": {
+     "quote": "▪ 우대이율 : 연 1.9%p ▪ 적용대상 : 결산일의 전월 말일을 기준으로 직전 3개월 동안 2개월 이상 이 통장으로 아래 한 항목 이상에 해당하는 급여이체 실적이 있는 경우"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -3,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "condition": {
+     ">=": [
+      {
+       "count_distinct_months": {
+        "event": "SALARY_TRANSFER",
+        "within": {
+         "ref": "$window"
+        }
+       }
+      },
+      2
+     ]
+    },
+    "effect": {
+     "type": "RATE_ADD",
+     "value": 1.9,
+     "unit": "%p",
+     "applies_to": "BASE_RATE"
+    }
+   },
+   {
+    "rule_id": "KBNR-S2-R05-02",
+    "status": "UNSUPPORTED",
+    "label": "평균잔액 100만원 이하분에만 우대이율 — 적용 기준 금액(잔액 구간) effect 없음",
+    "source": {
+     "quote": "▪ 적용한도 : 이 통장의 결산기 평균잔액 중 100만원 이하의 금액까지는 기본이율과 우대이율을 합산하여 적용하며, 100만원을 초과하는 금액은 기본이율만 적용"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBNR-K-interest_payment": {
+  "clauses": [
+   "KBNR-S2-R07"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBNR-S2-R07-01",
+    "status": "UNSUPPORTED",
+    "label": "이자 결산·원금 가산 시기 — 이자 가산 effect 없음",
+    "source": {
+     "quote": "▪ 매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBNR-S2-R07-02",
+    "status": "UNSUPPORTED",
+    "label": "마지막 거래 후 5년 경과 시 원금 가산 중단·일괄 지급 — 이자 가산 effect 없음 (판별 범위 밖)",
+    "source": {
+     "quote": "※ 예금의 이자는 최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌 해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다."
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBNR-K-final_rate": {
+  "clauses": [
+   "KBNR-S2-R06"
+  ],
+  "rules": []
+ },
+ "KBNR-K-fee": {
+  "clauses": [
+   "KBNR-S2-R09"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBNR-S2-R09-01",
+    "status": "OK",
+    "label": "전월 자동이체·공과금·카드 결제실적 시 전자금융 이체수수료 면제 (제한없음)",
+    "source": {
+     "quote": "전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼 때)(※납부자자동이체 제외)"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "last"
+       }
+      }
+     },
+     "window2": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -2,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -2,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "condition": {
+     "or": [
+      {
+       "and": [
+        {
+         ">=": [
+          {
+           "var": "contract.reference_date"
+          },
+          {
+           "anchor": "contract.reference_date",
+           "offset_months": 0,
+           "day": 11
+          }
+         ]
+        },
+        {
+         "or": [
+          {
+           "exists": {
+            "event": "AUTO_TRANSFER",
+            "within": {
+             "ref": "$window"
+            }
+           }
+          },
+          {
+           "exists": {
+            "event": "CARD_USAGE",
+            "within": {
+             "ref": "$window"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "and": [
+        {
+         "<=": [
+          {
+           "var": "contract.reference_date"
+          },
+          {
+           "anchor": "contract.reference_date",
+           "offset_months": 0,
+           "day": 10
+          }
+         ]
+        },
+        {
+         "or": [
+          {
+           "exists": {
+            "event": "AUTO_TRANSFER",
+            "within": {
+             "ref": "$window2"
+            }
+           }
+          },
+          {
+           "exists": {
+            "event": "CARD_USAGE",
+            "within": {
+             "ref": "$window2"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "EBANK_TRANSFER",
+     "value": "UNLIMITED"
+    }
+   },
+   {
+    "rule_id": "KBNR-S2-R09-02",
+    "status": "OK",
+    "label": "전월 자동이체·공과금·카드 결제실적 시 자동화기기 시간외출금수수료 면제 (제한없음)",
+    "source": {
+     "quote": "KB국민은행 자동화기기 시간외출금수수료"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "last"
+       }
+      }
+     },
+     "window2": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -2,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -2,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "condition": {
+     "or": [
+      {
+       "and": [
+        {
+         ">=": [
+          {
+           "var": "contract.reference_date"
+          },
+          {
+           "anchor": "contract.reference_date",
+           "offset_months": 0,
+           "day": 11
+          }
+         ]
+        },
+        {
+         "or": [
+          {
+           "exists": {
+            "event": "AUTO_TRANSFER",
+            "within": {
+             "ref": "$window"
+            }
+           }
+          },
+          {
+           "exists": {
+            "event": "CARD_USAGE",
+            "within": {
+             "ref": "$window"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "and": [
+        {
+         "<=": [
+          {
+           "var": "contract.reference_date"
+          },
+          {
+           "anchor": "contract.reference_date",
+           "offset_months": 0,
+           "day": 10
+          }
+         ]
+        },
+        {
+         "or": [
+          {
+           "exists": {
+            "event": "AUTO_TRANSFER",
+            "within": {
+             "ref": "$window2"
+            }
+           }
+          },
+          {
+           "exists": {
+            "event": "CARD_USAGE",
+            "within": {
+             "ref": "$window2"
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "ATM_WITHDRAW_AFTER_HOURS",
+     "value": "UNLIMITED"
+    }
+   },
+   {
+    "rule_id": "KBNR-S2-R09-03",
+    "status": "OK",
+    "label": "신규(전환)일로부터 다음 다음달 10일까지 전자금융 이체수수료 면제 (실적 무관)",
+    "source": {
+     "quote": "※ 이 통장의 신규 또는 전환일로부터 다음 다음달 10일까지는 은행거래실적에 관계없이 수수료 면제"
+    },
+    "condition": {
+     "<=": [
+      {
+       "var": "contract.reference_date"
+      },
+      {
+       "anchor": "contract.start_date",
+       "offset_months": 2,
+       "day": 10
+      }
+     ]
+    },
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "EBANK_TRANSFER",
+     "value": "UNLIMITED"
+    }
+   },
+   {
+    "rule_id": "KBNR-S2-R09-04",
+    "status": "OK",
+    "label": "신규(전환)일로부터 다음 다음달 10일까지 자동화기기 시간외출금수수료 면제 (실적 무관)",
+    "source": {
+     "quote": "※ 이 통장의 신규 또는 전환일로부터 다음 다음달 10일까지는 은행거래실적에 관계없이 수수료 면제"
+    },
+    "condition": {
+     "<=": [
+      {
+       "var": "contract.reference_date"
+      },
+      {
+       "anchor": "contract.start_date",
+       "offset_months": 2,
+       "day": 10
+      }
+     ]
+    },
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "ATM_WITHDRAW_AFTER_HOURS",
+     "value": "UNLIMITED"
+    }
+   }
+  ]
+ },
+ "KBSME-K-product_type": {
+  "clauses": [
+   "KBSME-S2-R02"
+  ],
+  "rules": []
+ },
+ "KBSME-K-product_feature": {
+  "clauses": [
+   "KBSME-S1-P01"
+  ],
+  "rules": []
+ },
+ "KBSME-K-eligibility_target": {
+  "clauses": [
+   "KBSME-S2-R01"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSME-S2-R01-01",
+    "status": "UNSUPPORTED",
+    "label": "중소벤처기업진흥공단 가입 승인 필요 — 공제 승인 여부 변수 없음",
+    "source": {
+     "quote": "「중소기업재직자 우대저축공제 약관」에 따라 중소벤처기업진흥공단에서 상품가입을 승인한 실명의 개인"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSME-S2-R01-02",
+    "status": "OK",
+    "label": "이 은행에서 이 상품을 이미 보유하면 가입 불가 (은행별 1인 1계좌)",
+    "source": {
+     "quote": "(은행별 1인 1계좌)"
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "customer.has_product"
+      },
+      true
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   },
+   {
+    "rule_id": "KBSME-S2-R01-03",
+    "status": "OK",
+    "label": "개인사업자·임의단체·공동명의·법인 가입 불가",
+    "source": {
+     "quote": "실명의 개인 (은행별 1인 1계좌) ※ 외국인 가입 가능 ※ 개인사업자, 임의단체, 공동명의 가입 불가"
+    },
+    "condition": {
+     "in": [
+      {
+       "var": "customer.holder_type"
+      },
+      [
+       "SOLE_PROPRIETOR",
+       "ORGANIZATION",
+       "JOINT",
+       "CORPORATION"
+      ]
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   }
+  ]
+ },
+ "KBSME-K-application_selection": {
+  "clauses": [
+   "KBSME-S2-R07"
+  ],
+  "rules": []
+ },
+ "KBSME-K-saving_amount": {
+  "clauses": [
+   "KBSME-S2-R04"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSME-S2-R04-01",
+    "status": "UNSUPPORTED",
+    "label": "월 저축금액 10만원 미만이면 가입 불가 — 월 납입액이 비면 모든 고객을 탈락시킨다",
+    "source": {
+     "quote": "월 10만원 이상 50만원 이하로 만기일 전날까지 입금 가능"
+    },
+    "condition": {
+     "<": [
+      {
+       "var": "contract.monthly_amount"
+      },
+      100000
+     ]
+    }
+   },
+   {
+    "rule_id": "KBSME-S2-R04-02",
+    "status": "UNSUPPORTED",
+    "label": "월 저축금액 50만원 초과면 가입 불가 — 월 납입액이 비면 모든 고객을 탈락시킨다",
+    "source": {
+     "quote": "월 10만원 이상 50만원 이하로 만기일 전날까지 입금 가능"
+    },
+    "condition": {
+     ">": [
+      {
+       "var": "contract.monthly_amount"
+      },
+      500000
+     ]
+    }
+   },
+   {
+    "rule_id": "KBSME-S2-R04-03",
+    "status": "UNSUPPORTED",
+    "label": "저축금액은 중소벤처기업진흥공단이 승인한 금액이어야 함 — 승인 금액 변수 없음",
+    "source": {
+     "quote": "※ 「중소기업재직자 우대저축공제 약관」에 따라 중소벤처기업진흥공단에서 승인한 금액"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSME-S2-R04-04",
+    "status": "UNSUPPORTED",
+    "label": "월 1회 · 신규 가입금액으로만 입금 — 입금 회차 · 금액 일치를 담을 수단 없음",
+    "source": {
+     "quote": "※ 월 1회, 신규 가입금액으로만 입금 가능"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBSME-K-base_rate": {
+  "clauses": [
+   "KBSME-S2-R08"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSME-S2-R08-01",
+    "status": "OK",
+    "label": "급여 입금 개월수가 계약기간의 1/2 이상이면 우대금리 연 1.0%p (만기해지 계좌)",
+    "source": {
+     "quote": "급여이체 (연 1.0%p) | 이 적금의 신규일이 포함된 달부터 만기 전전월 말일까지 본인명의 KB국민은행 입출금통장에서 급여주1)가 입금된 개월수가 계약기간의 1/2 이상인 경우"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.start_date",
+        "offset_months": 0,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.maturity_date",
+        "offset_months": -2,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "guard": {
+     "==": [
+      {
+       "var": "contract.termination_type"
+      },
+      "MATURITY"
+     ]
+    },
+    "condition": {
+     "or": [
+      {
+       "and": [
+        {
+         "==": [
+          {
+           "var": "contract.term_months"
+          },
+          36
+         ]
+        },
+        {
+         ">=": [
+          {
+           "count_distinct_months": {
+            "event": "SALARY_TRANSFER",
+            "within": {
+             "ref": "$window"
+            },
+            "where": {
+             "min_amount": 200000
+            }
+           }
+          },
+          18
+         ]
+        }
+       ]
+      },
+      {
+       "and": [
+        {
+         "==": [
+          {
+           "var": "contract.term_months"
+          },
+          60
+         ]
+        },
+        {
+         ">=": [
+          {
+           "count_distinct_months": {
+            "event": "SALARY_TRANSFER",
+            "within": {
+             "ref": "$window"
+            },
+            "where": {
+             "min_amount": 200000
+            }
+           }
+          },
+          30
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_ADD",
+     "value": 1.0,
+     "unit": "%p",
+     "applies_to": "BASE_RATE"
+    }
+   },
+   {
+    "rule_id": "KBSME-S2-R08-02",
+    "status": "OK",
+    "label": "KB국민카드 결제대금 출금 개월수가 계약기간의 1/2 이상이면 우대금리 연 1.0%p (만기해지 계좌)",
+    "source": {
+     "quote": "KB카드 (연 1.0%p) | 이 적금의 신규일이 포함된 달부터 만기 전전월 말일까지 본인명의 KB국민은행 입출금통장에서 KB국민카드(신용/체크/BC) 결제대금출금주2)(현금서비스 포함)이 발생한 개월수가 계약기간의 1/2 이상인 경우"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.start_date",
+        "offset_months": 0,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.maturity_date",
+        "offset_months": -2,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "guard": {
+     "==": [
+      {
+       "var": "contract.termination_type"
+      },
+      "MATURITY"
+     ]
+    },
+    "condition": {
+     "or": [
+      {
+       "and": [
+        {
+         "==": [
+          {
+           "var": "contract.term_months"
+          },
+          36
+         ]
+        },
+        {
+         ">=": [
+          {
+           "count_distinct_months": {
+            "event": "CARD_USAGE",
+            "within": {
+             "ref": "$window"
+            }
+           }
+          },
+          18
+         ]
+        }
+       ]
+      },
+      {
+       "and": [
+        {
+         "==": [
+          {
+           "var": "contract.term_months"
+          },
+          60
+         ]
+        },
+        {
+         ">=": [
+          {
+           "count_distinct_months": {
+            "event": "CARD_USAGE",
+            "within": {
+             "ref": "$window"
+            }
+           }
+          },
+          30
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_ADD",
+     "value": 1.0,
+     "unit": "%p",
+     "applies_to": "BASE_RATE"
+    }
+   }
+  ]
+ },
+ "KBSME-K-interest_payment": {
+  "clauses": [
+   "KBSME-S2-R06"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSME-S2-R06-01",
+    "status": "UNSUPPORTED",
+    "label": "만기일시지급 — 이자 지급 시기 effect 없음 (판별 범위 밖)",
+    "source": {
+     "quote": "- 만기일시지급식: 만기(후)해지 또는 중도해지 시 이자 지급"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBSME-K-final_rate": {
+  "clauses": [
+   "KBSME-S2-R09"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSME-S2-R09-01",
+    "status": "UNSUPPORTED",
+    "label": "금리우대쿠폰 우대금리 가산 — 쿠폰 적용 여부·쿠폰 금리 변수 없음",
+    "source": {
+     "quote": "※ 가입 시 금리우대쿠폰을 적용한 경우 최종금리에 쿠폰의 우대금리를 더함"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSME-S2-R09-02",
+    "status": "UNSUPPORTED",
+    "label": "중도해지 시 쿠폰 우대금리 미적용 — 본체(쿠폰)가 표현 불가",
+    "source": {
+     "quote": "※ 중도해지 시 쿠폰의 우대금리가 적용되지 않음"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBSME-K-early_termination": {
+  "clauses": [
+   "KBSME-S2-R12"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSME-S2-R12-01",
+    "status": "OK",
+    "label": "예치 1개월 미만 중도해지 → 중도해지이율 연 0.1%",
+    "source": {
+     "quote": "1개월 미만 | 0.1"
+    },
+    "condition": {
+     "and": [
+      {
+       "==": [
+        {
+         "var": "contract.termination_type"
+        },
+        "EARLY"
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.start_date",
+         "offset_months": 1
+        }
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 0.1,
+     "unit": "%"
+    }
+   },
+   {
+    "rule_id": "KBSME-S2-R12-02",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 1개월 이상~3개월 미만 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "1개월 이상~3개월 미만 | 기본금리 X 50% X 경과월수주)/계약월수(단, 최저금리는 0.1)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSME-S2-R12-03",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 3개월 이상~6개월 미만 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "3개월 이상~6개월 미만 | 기본금리 X 50% X 경과월수/계약월수(단, 최저금리는 0.1)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSME-S2-R12-04",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 6개월 이상~8개월 미만 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "6개월 이상~8개월 미만 | 기본금리 X 60% X 경과월수/계약월수(단, 최저금리는 0.2)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSME-S2-R12-05",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 8개월 이상~10개월 미만 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "8개월 이상~10개월 미만 | 기본금리 X 70% X 경과월수/계약월수(단, 최저금리는 0.2)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSME-S2-R12-06",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 10개월 이상~11개월 미만 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "10개월 이상~11개월 미만 | 기본금리 X 80% X 경과월수/계약월수(단, 최저금리는 0.2)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSME-S2-R12-07",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 11개월 이상 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "11개월 이상 | 기본금리 X 90% X 경과월수/계약월수(단, 최저금리는 0.2)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSME-S2-R12-08",
+    "status": "UNSUPPORTED",
+    "label": "만기후 1개월 이내 — 기본금리 × 50% (비율식 없음)",
+    "source": {
+     "quote": "만기후 1개월 이내 | 기본금리 X 50%"
+    },
+    "condition": {
+     "and": [
+      {
+       ">": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "var": "contract.maturity_date"
+        }
+       ]
+      },
+      {
+       "<=": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.maturity_date",
+         "offset_months": 1
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "rule_id": "KBSME-S2-R12-09",
+    "status": "UNSUPPORTED",
+    "label": "만기후 1개월 초과 ~ 3개월 이내 — 기본금리 × 30% (비율식 없음)",
+    "source": {
+     "quote": "만기후 1개월 초과 3개월 이내 | 기본금리 X 30%"
+    },
+    "condition": {
+     "and": [
+      {
+       ">": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.maturity_date",
+         "offset_months": 1
+        }
+       ]
+      },
+      {
+       "<=": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.maturity_date",
+         "offset_months": 3
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "rule_id": "KBSME-S2-R12-10",
+    "status": "UNSUPPORTED",
+    "label": "만기후 3개월 초과 연 0.1% — RATE_OVERRIDE 는 만기 전 약정이율까지 지운다 (만기 이후 기간에만 붙는 이율을 담을 자리 없음)",
+    "source": {
+     "quote": "만기후 3개월 초과 | 0.1"
+    },
+    "condition": {
+     ">": [
+      {
+       "var": "contract.termination_date"
+      },
+      {
+       "anchor": "contract.maturity_date",
+       "offset_months": 3
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "KBSME-K-partner_benefit": {
+  "clauses": [
+   "KBSME-S3-R02"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSME-S3-R02-01",
+    "status": "UNSUPPORTED",
+    "label": "연계·제휴서비스 제공기간 2026-08-21 ~ 2030-12-31 — 서비스 대상(본체)이 표현 불가",
+    "source": {
+     "quote": "- 2026년 8월 21일로부터 2030년 12월 31일까지"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBSME-K-government_employer_support": {
+  "clauses": [
+   "KBSME-S4-R01"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSME-S4-R01-01",
+    "status": "UNSUPPORTED",
+    "label": "만기해지 시 기업지원금 지급 — 기업지원금 지급 effect 없음",
+    "source": {
+     "quote": "중소기업이 「중소기업재직자 우대저축공제」에 적립하는 공제금으로 만기해지 시 지급"
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "contract.termination_type"
+      },
+      "MATURITY"
+     ]
+    }
+   },
+   {
+    "rule_id": "KBSME-S4-R01-02",
+    "status": "UNSUPPORTED",
+    "label": "중도해지 시 공단 심사를 거쳐 기업지원금 지급 가능 — 심사 결과 변수·지급 effect 없음",
+    "source": {
+     "quote": "중도해지 시 사유에 따라 중소벤처기업진흥공단의 심사를 통해 기업지원금이 지급될 수 있음"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBMER-K-product_type": {
+  "clauses": [
+   "KBMER-S2-R02"
+  ],
+  "rules": []
+ },
+ "KBMER-K-product_feature": {
+  "clauses": [
+   "KBMER-S1-P01"
+  ],
+  "rules": []
+ },
+ "KBMER-K-eligibility_target": {
+  "clauses": [
+   "KBMER-S2-R01"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBMER-S2-R01-01",
+    "status": "OK",
+    "label": "개인·개인사업자가 만 14세 미만이면 가입 불가",
+    "source": {
+     "quote": "▪ 만 14세 이상의 실명의 개인(개인사업자 포함), 법인, 임의단체 (단, 금융기관은 제외)"
+    },
+    "condition": {
+     "and": [
+      {
+       "in": [
+        {
+         "var": "customer.holder_type"
+        },
+        [
+         "INDIVIDUAL",
+         "SOLE_PROPRIETOR"
+        ]
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "customer.age"
+        },
+        14
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   },
+   {
+    "rule_id": "KBMER-S2-R01-02",
+    "status": "UNSUPPORTED",
+    "label": "금융기관 가입 불가 — 금융기관 여부 변수 없음",
+    "source": {
+     "quote": "(단, 금융기관은 제외)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMER-S2-R01-03",
+    "status": "UNSUPPORTED",
+    "label": "1인(업체)당 최대 5계좌 — 보유 계좌 수 변수 없음",
+    "source": {
+     "quote": "※ 1인(업체)당 최대 5계좌까지 가입 가능합니다."
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBMER-K-base_rate": {
+  "clauses": [
+   "KBMER-S2-R07"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBMER-S2-R07-01",
+    "status": "OK",
+    "label": "계약기간 6개월 이상 12개월 미만 기본이율 연 1.95%",
+    "source": {
+     "quote": "6개월이상 ~ 12개월미만 | 연 1.95%"
+    },
+    "condition": {
+     "and": [
+      {
+       ">=": [
+        {
+         "var": "contract.term_months"
+        },
+        6
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.term_months"
+        },
+        12
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 1.95,
+     "unit": "%"
+    }
+   },
+   {
+    "rule_id": "KBMER-S2-R07-02",
+    "status": "OK",
+    "label": "계약기간 12개월 이상 24개월 미만 기본이율 연 2.25%",
+    "source": {
+     "quote": "12개월이상 ~ 24개월미만 | 연 2.25%"
+    },
+    "condition": {
+     "and": [
+      {
+       ">=": [
+        {
+         "var": "contract.term_months"
+        },
+        12
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.term_months"
+        },
+        24
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 2.25,
+     "unit": "%"
+    }
+   },
+   {
+    "rule_id": "KBMER-S2-R07-03",
+    "status": "OK",
+    "label": "계약기간 24개월 이상 36개월 미만 기본이율 연 2.60%",
+    "source": {
+     "quote": "24개월이상 ~ 36개월미만 | 연 2.60%"
+    },
+    "condition": {
+     "and": [
+      {
+       ">=": [
+        {
+         "var": "contract.term_months"
+        },
+        24
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.term_months"
+        },
+        36
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 2.6,
+     "unit": "%"
+    }
+   },
+   {
+    "rule_id": "KBMER-S2-R07-04",
+    "status": "OK",
+    "label": "계약기간 36개월 기본이율 연 3.00%",
+    "source": {
+     "quote": "36개월 | 연 3.00%"
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "contract.term_months"
+      },
+      36
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 3.0,
+     "unit": "%"
+    }
+   }
+  ]
+ },
+ "KBMER-K-preferential_rate": {
+  "clauses": [
+   "KBMER-S2-R08"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBMER-S2-R08-01",
+    "status": "UNSUPPORTED",
+    "label": "가맹점결제계좌 우대이율 연 0.3%p — 가맹점 대금 입금 이벤트 없음",
+    "source": {
+     "quote": "[1]가맹점결제계좌 우대이율 | 신규일로부터 3개월이 되는 날이 속한 달에 KB국민은행계좌로 KB국민카드(KB국민BC카드 포함) 가맹점 대금 이체실적(공동망 가맹점 매입분 포함)이 있는 경우 | 연0.3%p"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMER-S2-R08-02",
+    "status": "OK",
+    "label": "신규 3개월째 달에 KB국민카드 이용실적이 있으면 우대이율 연 0.1%p (만기해지 계좌)",
+    "source": {
+     "quote": "[2]KB국민카드 우대이율 | 신규일로부터 3개월이 되는 날이 속한 달에 30만원 이상의 KB국민카드 (신용/체크, 개인/기업, KB국민BC카드 포함) 이용실적주 (매입전표만 인정)이 있는 경우 | 연0.1%p"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.start_date",
+        "offset_months": 3,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.start_date",
+        "offset_months": 3,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "guard": {
+     "==": [
+      {
+       "var": "contract.termination_type"
+      },
+      "MATURITY"
+     ]
+    },
+    "condition": {
+     "exists": {
+      "event": "CARD_USAGE",
+      "within": {
+       "ref": "$window"
+      }
+     }
+    },
+    "effect": {
+     "type": "RATE_ADD",
+     "value": 0.1,
+     "unit": "%p",
+     "applies_to": "BASE_RATE"
+    }
+   },
+   {
+    "rule_id": "KBMER-S2-R08-03",
+    "status": "UNSUPPORTED",
+    "label": "만기해지 시 적립금액 1천만원 이상이면 우대이율 연 0.1%p — 만기해지 시 적립금액을 가리킬 변수 없음 (잔액은 해지 뒤 0 이 될 수 있다)",
+    "source": {
+     "quote": "만기해지 시 적립금액(이자금액 제외)이 1천만원 이상인 경우 | 연0.1%p"
+    },
+    "guard": {
+     "==": [
+      {
+       "var": "contract.termination_type"
+      },
+      "MATURITY"
+     ]
+    },
+    "condition": {
+     ">=": [
+      {
+       "var": "account.balance"
+      },
+      10000000
+     ]
+    }
+   }
+  ]
+ },
+ "KBMER-K-final_rate": {
+  "clauses": [
+   "KBMER-S2-R09"
+  ],
+  "rules": []
+ },
+ "KBMER-K-early_termination": {
+  "clauses": [
+   "KBMER-S2-R11"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBMER-S2-R11-01",
+    "status": "UNSUPPORTED",
+    "label": "중도해지 시 예치기간별 중도해지이율 — 표가 문서에 없고 값이 기본이율 비율식",
+    "source": {
+     "quote": "▪ 신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시한 예치기간별 중도해지이율 적용"
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "contract.termination_type"
+      },
+      "EARLY"
+     ]
+    }
+   }
+  ]
+ },
+ "KBMY-K-product_type": {
+  "clauses": [
+   "KBMY-S2-R02"
+  ],
+  "rules": []
+ },
+ "KBMY-K-product_feature": {
+  "clauses": [
+   "KBMY-S1-P01"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBMY-S1-P01-01",
+    "status": "OK",
+    "label": "영업점(대면) 채널로는 가입 불가 — 비대면채널 전용",
+    "source": {
+     "quote": "비대면채널 전용 DIY(Do-It-Yourself)형 상품"
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "contract.channel"
+      },
+      "BRANCH"
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   }
+  ]
+ },
+ "KBMY-K-eligibility_target": {
+  "clauses": [
+   "KBMY-S2-R01"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBMY-S2-R01-01",
+    "status": "OK",
+    "label": "만 14세 미만이면 가입 불가",
+    "source": {
+     "quote": "▪ 만 14세 이상의 실명의 개인 (공동명의 불가)"
+    },
+    "condition": {
+     "<": [
+      {
+       "var": "customer.age"
+      },
+      14
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   },
+   {
+    "rule_id": "KBMY-S2-R01-02",
+    "status": "OK",
+    "label": "공동명의·법인 가입 불가",
+    "source": {
+     "quote": "▪ 만 14세 이상의 실명의 개인 (공동명의 불가)"
+    },
+    "condition": {
+     "in": [
+      {
+       "var": "customer.holder_type"
+      },
+      [
+       "JOINT",
+       "CORPORATION"
+      ]
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   },
+   {
+    "rule_id": "KBMY-S2-R01-03",
+    "status": "UNSUPPORTED",
+    "label": "자유적립식 예금 1인 최대 5계좌 — 보유 계좌 수 변수 없음",
+    "source": {
+     "quote": "※ 자유적립식 예금은 1인 최대 5계좌까지 가입 가능합니다."
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBMY-K-base_rate": {
+  "clauses": [
+   "KBMY-S2-R07"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBMY-S2-R07-01",
+    "status": "UNSUPPORTED",
+    "label": "기본이율 6개월 이상 12개월 미만 자유적립식 연 2.25% — 적립 방식(정액/자유) 변수 없음",
+    "source": {
+     "quote": "6개월 이상 12개월 미만 | 자유적립식: 연 2.25%"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R07-02",
+    "status": "UNSUPPORTED",
+    "label": "기본이율 12개월 이상 24개월 미만 자유적립식 연 2.50% — 적립 방식(정액/자유) 변수 없음",
+    "source": {
+     "quote": "12개월 이상 24개월 미만 | 자유적립식: 연 2.50%"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R07-03",
+    "status": "UNSUPPORTED",
+    "label": "기본이율 24개월 이상 36개월 미만 자유적립식 연 2.70% — 적립 방식(정액/자유) 변수 없음",
+    "source": {
+     "quote": "24개월 이상 36개월 미만 | 자유적립식: 연 2.70%"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R07-04",
+    "status": "UNSUPPORTED",
+    "label": "기본이율 36개월 자유적립식 연 2.90% — 적립 방식(정액/자유) 변수 없음",
+    "source": {
+     "quote": "36개월 | 자유적립식: 연 2.90%"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R07-05",
+    "status": "UNSUPPORTED",
+    "label": "기본이율 6개월 이상 12개월 미만 정액적립식 연 2.30% — 적립 방식(정액/자유) 변수 없음",
+    "source": {
+     "quote": "6개월 이상 12개월 미만 | 정액적립식: 연 2.30%"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R07-06",
+    "status": "UNSUPPORTED",
+    "label": "기본이율 12개월 이상 24개월 미만 정액적립식 연 2.55% — 적립 방식(정액/자유) 변수 없음",
+    "source": {
+     "quote": "12개월 이상 24개월 미만 | 정액적립식: 연 2.55%"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R07-07",
+    "status": "UNSUPPORTED",
+    "label": "기본이율 24개월 이상 36개월 미만 정액적립식 연 2.75% — 적립 방식(정액/자유) 변수 없음",
+    "source": {
+     "quote": "24개월 이상 36개월 미만 | 정액적립식: 연 2.75%"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R07-08",
+    "status": "UNSUPPORTED",
+    "label": "기본이율 36개월 정액적립식 연 2.95% — 적립 방식(정액/자유) 변수 없음",
+    "source": {
+     "quote": "36개월 | 정액적립식: 연 2.95%"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBMY-K-preferential_rate": {
+  "clauses": [
+   "KBMY-S2-R08"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBMY-S2-R08-01",
+    "status": "OK",
+    "label": "신규월~3개월 경과월에 급여이체 실적 → 우대이율 연 0.1%p (만기해지 계좌)",
+    "source": {
+     "quote": "1 | 급여이체 | 이 적금의 신규일이 포함된 달부터 3개월이 경과한 달까지 50만원 이상 급여이체 실적주1)이 발생한 월수가 1개월 이상인 경우"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.start_date",
+        "offset_months": 0,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.start_date",
+        "offset_months": 3,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "guard": {
+     "==": [
+      {
+       "var": "contract.termination_type"
+      },
+      "MATURITY"
+     ]
+    },
+    "condition": {
+     "exists": {
+      "event": "SALARY_TRANSFER",
+      "within": {
+       "ref": "$window"
+      },
+      "where": {
+       "source": [
+        "SALARY_CONTRACT"
+       ],
+       "min_amount": 200000
+      }
+     }
+    },
+    "effect": {
+     "type": "RATE_ADD",
+     "value": 0.1,
+     "unit": "%p",
+     "applies_to": "BASE_RATE"
+    }
+   },
+   {
+    "rule_id": "KBMY-S2-R08-02",
+    "status": "UNSUPPORTED",
+    "label": "카드결제계좌 우대 — 카드 결제계좌 지정 변수 없음",
+    "source": {
+     "quote": "2 | 카드결제계좌 | 이 적금의 신규일로부터 3개월이 속한 달의 말일 기준으로 KB국민카드 결제계좌가 KB국민은행 입출금이자유로운예금인 경우"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R08-03",
+    "status": "UNSUPPORTED",
+    "label": "자동이체 저축 우대 — 회차별 납입 채널 변수 없음",
+    "source": {
+     "quote": "3 | 자동이체 저축 | 이 적금의 계약기간에 해당하는 개월 수 이상 회차를 납입한 계좌 중 총 납입 회차의 2/3 이상을 자동이체 등 창구 이외의 채널을 이용하여 입금한 경우"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R08-04",
+    "status": "OK",
+    "label": "신규월~3개월 경과월에 아파트관리비 자동이체 실적 → 우대이율 연 0.1%p (만기해지 계좌)",
+    "source": {
+     "quote": "4 | 아파트관리비 이체 | 이 적금의 신규일이 포함된 달부터 3개월이 경과한 달까지 KB국민은행 입출금이자유로운예금을 통한 아파트관리비 자동이체 실적주2)이 있는 경우"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.start_date",
+        "offset_months": 0,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.start_date",
+        "offset_months": 3,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "guard": {
+     "==": [
+      {
+       "var": "contract.termination_type"
+      },
+      "MATURITY"
+     ]
+    },
+    "condition": {
+     "exists": {
+      "event": "AUTO_TRANSFER",
+      "within": {
+       "ref": "$window"
+      },
+      "where": {
+       "route": [
+        "APARTMENT_FEE"
+       ]
+      }
+     }
+    },
+    "effect": {
+     "type": "RATE_ADD",
+     "value": 0.1,
+     "unit": "%p",
+     "applies_to": "BASE_RATE"
+    }
+   },
+   {
+    "rule_id": "KBMY-S2-R08-05",
+    "status": "UNSUPPORTED",
+    "label": "KB스타뱅킹 이체 우대 — 채널별 이체 이벤트 없음",
+    "source": {
+     "quote": "5 | KB스타뱅킹 이체 | 이 적금의 신규일로부터 3개월이 속한 달까지 KB스타뱅킹을 통한 이체 거래주3) 실적이 있는 경우"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R08-06",
+    "status": "UNSUPPORTED",
+    "label": "장기거래 우대 — 은행 거래기간 변수 없음",
+    "source": {
+     "quote": "6 | 장기거래 | 이 적금의 신규 시에 예금주의 KB국민은행 거래기간이 5년 이상인 경우"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R08-07",
+    "status": "OK",
+    "label": "신규 시 예·적금 미보유(첫 거래) → 우대이율 연 0.1%p (만기해지 계좌)",
+    "source": {
+     "quote": "7 | 첫 거래 | 이 적금의 신규 시에 예∙적금(청약 관련상품 제외) 상품을 보유하지 않은 경우"
+    },
+    "guard": {
+     "==": [
+      {
+       "var": "contract.termination_type"
+      },
+      "MATURITY"
+     ]
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "customer.is_first_deposit"
+      },
+      true
+     ]
+    },
+    "effect": {
+     "type": "RATE_ADD",
+     "value": 0.1,
+     "unit": "%p",
+     "applies_to": "BASE_RATE"
+    }
+   },
+   {
+    "rule_id": "KBMY-S2-R08-08",
+    "status": "UNSUPPORTED",
+    "label": "주택청약종합저축 보유 우대 — 상품 키에 주택청약종합저축 없음",
+    "source": {
+     "quote": "8 | 주택청약 종합저축 | 이 적금의 신규일로부터 3개월이 속한 달의 말일을 기준으로 주택청약종합저축을 보유한 경우"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R08-09",
+    "status": "UNSUPPORTED",
+    "label": "소중한 날 우대 — 기념일 입력 변수 없음",
+    "source": {
+     "quote": "9 | 소중한 날 | 이 적금의 신규 시에 본인에게 의미 있는 날을 입력하고, 해당일이 적금 계약기간 이내인 경우"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R08-10",
+    "status": "UNSUPPORTED",
+    "label": "금리우대쿠폰 우대금리 가산 — 쿠폰 적용 여부·쿠폰 금리 변수 없음",
+    "source": {
+     "quote": "▪ 금리우대쿠폰 : 이 적금의 신규 시 금리우대쿠폰을 적용한 경우 쿠폰 우대금리를 기본이율에 가산"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R08-11",
+    "status": "UNSUPPORTED",
+    "label": "금리우대쿠폰은 재예치·중도해지 시 미적용 — 본체(쿠폰)가 표현 불가",
+    "source": {
+     "quote": "※ 금리우대쿠폰은 신규 시에만 사용 가능하며 재예치 또는 중도해지시 미적용"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBMY-K-final_rate": {
+  "clauses": [
+   "KBMY-S2-R09"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBMY-S2-R09-01",
+    "status": "UNSUPPORTED",
+    "label": "금리우대쿠폰 적용 시 쿠폰 금리 가산 — 쿠폰 적용 여부·쿠폰 금리 변수 없음",
+    "source": {
+     "quote": "※ 신규 가입 시 금리우대쿠폰을 적용한 경우 쿠폰 금리가 최종 이율에 가산됨"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBMY-K-partial_withdrawal": {
+  "clauses": [
+   "KBMY-S2-R17"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBMY-S2-R17-01",
+    "status": "OK",
+    "label": "일부인출 불가",
+    "source": {
+     "quote": "▪ 불가"
+    },
+    "condition": {},
+    "effect": {
+     "type": "RESTRICT",
+     "target": "PARTIAL_TERMINATION"
+    }
+   },
+   {
+    "rule_id": "KBMY-S2-R17-02",
+    "status": "OK",
+    "label": "예치 1개월 미만 중도해지 → 중도해지이율 연 0.1%",
+    "source": {
+     "quote": "~ 1개월 | 0.1"
+    },
+    "condition": {
+     "and": [
+      {
+       "==": [
+        {
+         "var": "contract.termination_type"
+        },
+        "EARLY"
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.start_date",
+         "offset_months": 1
+        }
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 0.1,
+     "unit": "%"
+    }
+   },
+   {
+    "rule_id": "KBMY-S2-R17-03",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 1개월 ~ 3개월 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "1개월 ~ 3개월 | 기본이율x 50% x 경과월수/계약월수 (최저0.1)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R17-04",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 3개월 ~ 6개월 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "3개월 ~ 6개월 | 기본이율x 50% x 경과월수/계약월수 (최저0.1)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R17-05",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 6개월 ~ 8개월 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "6개월 ~ 8개월 | 기본이율x60%x 경과월수/계약월수 (최저0.2)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R17-06",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 8개월 ~ 10개월 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "8개월 ~ 10개월 | 기본이율x70%x 경과월수/계약월수 (최저0.2)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R17-07",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 10개월 ~ 11개월 — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "10개월 ~ 11개월 | 기본이율x80%x 경과월수/계약월수 (최저0.2)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R17-08",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 11개월 ~ — 기본금리 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "11개월 ~ | 기본이율x90%x 경과월수/계약월수 (최저0.2)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R17-09",
+    "status": "UNSUPPORTED",
+    "label": "만기후 1개월 이내 — 기본금리 × 50% (비율식 없음)",
+    "source": {
+     "quote": "만기후 1개월이내 | 기본이율 X 50%"
+    },
+    "condition": {
+     "and": [
+      {
+       ">": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "var": "contract.maturity_date"
+        }
+       ]
+      },
+      {
+       "<=": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.maturity_date",
+         "offset_months": 1
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "rule_id": "KBMY-S2-R17-10",
+    "status": "UNSUPPORTED",
+    "label": "만기후 1개월 초과 ~ 3개월 이내 — 기본금리 × 30% (비율식 없음)",
+    "source": {
+     "quote": "만기후 1개월초과 ~ 3개월이내 | 기본이율 X 30%"
+    },
+    "condition": {
+     "and": [
+      {
+       ">": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.maturity_date",
+         "offset_months": 1
+        }
+       ]
+      },
+      {
+       "<=": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.maturity_date",
+         "offset_months": 3
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "rule_id": "KBMY-S2-R17-11",
+    "status": "UNSUPPORTED",
+    "label": "만기후 3개월 초과 연 0.1% — RATE_OVERRIDE 는 만기 전 약정이율까지 지운다 (만기 이후 기간에만 붙는 이율을 담을 자리 없음)",
+    "source": {
+     "quote": "만기후 3개월초과 | 0.1"
+    },
+    "condition": {
+     ">": [
+      {
+       "var": "contract.termination_date"
+      },
+      {
+       "anchor": "contract.maturity_date",
+       "offset_months": 3
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "KBMY-K-auto_renewal": {
+  "clauses": [
+   "KBMY-S2-R16"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBMY-S2-R16-01",
+    "status": "UNSUPPORTED",
+    "label": "재예치 계좌는 첫거래우대이율 미적용 — 재예치 여부 변수 없음",
+    "source": {
+     "quote": "① 첫거래우대이율 미적용"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBMY-K-early_termination": {
+  "clauses": [
+   "KBMY-S2-R11"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBMY-S2-R11-01",
+    "status": "OK",
+    "label": "예치 1개월 미만 중도해지 → 중도해지이율 연 0.1%",
+    "source": {
+     "quote": "1개월미만 | 0.1"
+    },
+    "condition": {
+     "and": [
+      {
+       "==": [
+        {
+         "var": "contract.termination_type"
+        },
+        "EARLY"
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.start_date",
+         "offset_months": 1
+        }
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 0.1,
+     "unit": "%"
+    }
+   },
+   {
+    "rule_id": "KBMY-S2-R11-02",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 1개월이상 ~ 3개월미만 — 기본이율 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "1개월이상 ~ 3개월미만 | 기본이율 X 50% X 경과월수/계약월수 (단, 최저금리는 0.1)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R11-03",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 3개월이상 ~ 6개월미만 — 기본이율 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "3개월이상 ~ 6개월미만 | 기본이율 X 50% X 경과월수/계약월수 (단, 최저금리는 0.1)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R11-04",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 6개월이상 ~ 8개월미만 — 기본이율 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "6개월이상 ~ 8개월미만 | 기본이율 X 60% X 경과월수/계약월수 (단, 최저금리는 0.2)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R11-05",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 8개월이상 ~ 10개월미만 — 기본이율 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "8개월이상 ~ 10개월미만 | 기본이율 X 70% X 경과월수/계약월수 (단, 최저금리는 0.2)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R11-06",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 10개월이상 ~ 11개월미만 — 기본이율 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "10개월이상 ~ 11개월미만 | 기본이율 X 80% X 경과월수/계약월수 (단, 최저금리는 0.2)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S2-R11-07",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 11개월이상 — 기본이율 × 비율 × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "11개월이상 | 기본이율 X 90% X 경과월수/계약월수 (단, 최저금리는 0.2)"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBMY-K-partner_benefit": {
+  "clauses": [
+   "KBMY-S4-R01",
+   "KBMY-S4-R02",
+   "KBMY-S4-R03",
+   "KBMY-S4-R04",
+   "KBMY-S4-R05"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBMY-S4-R01-01",
+    "status": "UNSUPPORTED",
+    "label": "신규 시 고른 보험 플랜 1가지 제공 — 보험 서비스 대상·선택 플랜 변수 없음",
+    "source": {
+     "quote": "▪ 보험내용: 다음의 4가지 플랜 중 신규 시 선택한 1가지 제공 (아래 표 참조)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S4-R02-01",
+    "status": "UNSUPPORTED",
+    "label": "제휴서비스 축소·변경 시 상응하는 다른 서비스 제공 — 축소·변경 사건 변수·보험 서비스 대상 없음",
+    "source": {
+     "quote": "▪ KB국민은행은 연계·제휴서비스를 부당하게 축소·변경하지 않으며, 불가피하게 축소하거나 변경하는 경우 그에 상응하는 다른 연계·제휴서비스를 제공"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S4-R03-01",
+    "status": "UNSUPPORTED",
+    "label": "보험가입 서비스 제공기간 1년(1년 단위 갱신) — 보험 서비스 대상 없음",
+    "source": {
+     "quote": "▪ 제공기간: 보험 개시일은 적금 신규 다음 날로 하며, 보험개시일로부터 1년(1년 단위 갱신). 단, 보장기간은 적금 계약기간을 초과할 수 없으며,"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S4-R03-02",
+    "status": "UNSUPPORTED",
+    "label": "중도해지 시 보험가입 서비스 제공 중단 — 서비스 중단 effect 없음",
+    "source": {
+     "quote": "적금의 중도해지 시에는 보험가입 서비스 제공 중단"
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "contract.termination_type"
+      },
+      "EARLY"
+     ]
+    }
+   },
+   {
+    "rule_id": "KBMY-S4-R05-01",
+    "status": "UNSUPPORTED",
+    "label": "보험가입·제3자 정보제공 동의 고객만 보험 서비스 대상 — 동의 변수·보험 서비스 대상 없음",
+    "source": {
+     "quote": "▪ 보험가입대상: 신규 시 보험가입 및 개인(신용)정보의 제3자 제공에 동의한 고객"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBMY-S4-R05-02",
+    "status": "UNSUPPORTED",
+    "label": "명의변경으로 예금주가 바뀌면 보험가입 서비스 미제공 — 서비스 중단 effect 없음",
+    "source": {
+     "quote": "- 명의변경으로 인한 예금주 변경 시 보험가입서비스가 제공되지 않습니다."
+    },
+    "condition": {
+     "exists": {
+      "event": "NAME_CHANGE"
+     }
+    }
+   }
+  ]
+ },
+ "KBHAP-K-product_type": {
+  "clauses": [
+   "KBHAP-S2-R03"
+  ],
+  "rules": []
+ },
+ "KBHAP-K-product_feature": {
+  "clauses": [
+   "KBHAP-S1-P01"
+  ],
+  "rules": []
+ },
+ "KBHAP-K-eligibility_target": {
+  "clauses": [
+   "KBHAP-S2-R01"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBHAP-S2-R01-01",
+    "status": "UNSUPPORTED",
+    "label": "가입대상 범주(기초생활수급자·북한이탈주민·결혼이민자 등) 밖이면 가입 불가 — 범주 변수 없음",
+    "source": {
+     "quote": "▪ 기초생활수급자(소년소녀가장 포함), 북한이탈주민, 결혼이민자, 근로장려금수급자, 한부모가족지원 보호대상자, 만65세 이상 차상위계층, 생계곤란 보훈대상자(생활조정수당, 생활지원금, 생계지원금 수급자)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBHAP-S2-R01-02",
+    "status": "UNSUPPORTED",
+    "label": "증빙서류 제출 후 가입 가능 — 서류 제출 여부 변수 없음",
+    "source": {
+     "quote": "※ 증빙서류 제출 후 가입 가능"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBHAP-K-base_rate": {
+  "clauses": [
+   "KBHAP-S2-R08"
+  ],
+  "rules": []
+ },
+ "KBHAP-K-preferential_rate": {
+  "clauses": [
+   "KBHAP-S2-R09"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBHAP-S2-R09-01",
+    "status": "UNSUPPORTED",
+    "label": "정액적립식 우대이율 연 2.0%p — 적립 방식·회차 납입 변수 없음",
+    "source": {
+     "quote": "[1]정액적립식: 연2.0%p ※ 전 회차 월 저축금을 납입하고 만기해지하는 경우 계약기간 동안 적용"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBHAP-S2-R09-02",
+    "status": "UNSUPPORTED",
+    "label": "자유적립식 우대이율 연 1.0%p — 적립 방식 변수 없음",
+    "source": {
+     "quote": "[2]자유적립식: 연1.0%p ※ 만기해지하는 경우 계약기간 동안 적용"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBHAP-K-final_rate": {
+  "clauses": [
+   "KBHAP-S2-R10"
+  ],
+  "rules": []
+ },
+ "KBHAP-K-early_termination": {
+  "clauses": [
+   "KBHAP-S2-R12"
+  ],
+  "rules": []
+ },
+ "KBSUP-K-product_name": {
+  "clauses": [
+   "KBSUP-S1-P01"
+  ],
+  "rules": []
+ },
+ "KBSUP-K-product_type": {
+  "clauses": [
+   "KBSUP-S2-R02"
+  ],
+  "rules": []
+ },
+ "KBSUP-K-deposit_amount": {
+  "clauses": [
+   "KBSUP-S2-R04"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSUP-S2-R04-01",
+    "status": "OK",
+    "label": "가입금액 1백만원 미만이면 가입 불가",
+    "source": {
+     "quote": "▪ 1백만원 이상(원 단위."
+    },
+    "condition": {
+     "<": [
+      {
+       "var": "contract.amount"
+      },
+      1000000
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-02",
+    "status": "UNSUPPORTED",
+    "label": "추가입금은 신규 포함 30회까지 — 입금 회차 변수 없음 (회차는 범위 밖)",
+    "source": {
+     "quote": "신규계좌 포함 30회까지 추가입금 가능"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-03",
+    "status": "UNSUPPORTED",
+    "label": "법인 신규 시 CD금리연동형은 영업점만 가능 — 상품 갈래(금리 유형) 변수 없음",
+    "source": {
+     "quote": "※ 단, CD금리연동형은 영업점만 가능"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-04",
+    "status": "UNSUPPORTED",
+    "label": "영업점에서 신규(추가입금)한 미성년자 예금은 영업점에서만 해지 — 가입 채널과 해지 채널을 따로 담을 변수 없음",
+    "source": {
+     "quote": "※ 영업점에서 신규(추가입금)한 미성년자 명의 예금의 해지는 영업점에서만 가능"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-05",
+    "status": "OK",
+    "label": "고객센터로는 중도해지 불가 (만기해지만)",
+    "source": {
+     "quote": "※ 고객센터 해지 시 만기해지만 가능"
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "contract.channel"
+      },
+      "CALL"
+     ]
+    },
+    "effect": {
+     "type": "RESTRICT",
+     "target": "EARLY_TERMINATION"
+    }
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-06",
+    "status": "OK",
+    "label": "고객센터로는 미성년자 예금 해지 불가",
+    "source": {
+     "quote": "미성년자 예금 해지 불가"
+    },
+    "condition": {
+     "and": [
+      {
+       "==": [
+        {
+         "var": "contract.channel"
+        },
+        "CALL"
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "customer.age"
+        },
+        19
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RESTRICT",
+     "target": "TERMINATION"
+    }
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-07",
+    "status": "OK",
+    "label": "가입일로부터 1개월 경과 전에는 분할해지 불가",
+    "source": {
+     "quote": "▪ 분할해지 가능 - 가입일로부터 1개월이상 경과주)된 고정금리형에 한하여"
+    },
+    "condition": {
+     "<": [
+      {
+       "var": "contract.reference_date"
+      },
+      {
+       "anchor": "contract.start_date",
+       "offset_months": 1
+      }
+     ]
+    },
+    "effect": {
+     "type": "RESTRICT",
+     "target": "PARTIAL_TERMINATION"
+    }
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-08",
+    "status": "UNSUPPORTED",
+    "label": "분할해지 계좌별 3회(해지 포함)·총 15회 — 분할해지 횟수 변수 없음",
+    "source": {
+     "quote": "계좌별로 3회(해지 포함)까지 총 15회 범위내에서 가능"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-09",
+    "status": "UNSUPPORTED",
+    "label": "분할해지 후 잔액 100만원 이상 유지 — 인출 후 잔액을 담을 변수 없음 (건별 거래 검증)",
+    "source": {
+     "quote": "▫ 인출금액의 제한은 없으나 분할해지 후 계좌별 잔액이 100만원 이상 유지되어야 가능"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-10",
+    "status": "UNSUPPORTED",
+    "label": "분할해지분 금리는 가입 당시 예치기간별 기본이율 — 이자 산출 (판별 범위 밖)",
+    "source": {
+     "quote": "▫ 분할해지의 경우 금리는 가입 당시 예치기간별 기본이율 적용 (월이자복리식의 경우도 단리계산)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-11",
+    "status": "UNSUPPORTED",
+    "label": "단위기간금리연동형·CD금리연동형·예금담보대출 설정 계좌는 분할해지 불가 — 상품 갈래·담보 설정 변수 없음",
+    "source": {
+     "quote": "▫ 단위기간금리연동형, CD금리연동형, 예금담보대출 설정 계좌는 분할해지 불가"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-12",
+    "status": "UNSUPPORTED",
+    "label": "만기일이 휴일이라 직전 영업일 해지 시 해당일수만큼 약정이자 차감 — 이자 산출 (판별 범위 밖)",
+    "source": {
+     "quote": "▪ 만기일이 토요일 또는 법정공휴일(일요일 포함)인 경우 직전 영업일에 해지 시 해당일수만큼 약정이자를 차감하고 지급"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-13",
+    "status": "UNSUPPORTED",
+    "label": "고정금리형 1개월~3개월 미만 기본이율(만기이자 1.90 · 월이자 없음) — 상품 갈래(금리 유형)·이자 지급 방식 변수 없음",
+    "source": {
+     "quote": "1개월~3개월 미만 | 기본이율 만기이자: 1.90 1개월~3개월 미만 | 기본이율 월이자: -"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-14",
+    "status": "UNSUPPORTED",
+    "label": "고정금리형 3개월~6개월 미만 기본이율(만기이자 2.25 · 월이자 2.15) — 상품 갈래(금리 유형)·이자 지급 방식 변수 없음",
+    "source": {
+     "quote": "3개월~6개월 미만 | 기본이율 만기이자: 2.25 3개월~6개월 미만 | 기본이율 월이자: 2.15"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-15",
+    "status": "UNSUPPORTED",
+    "label": "고정금리형 6개월~1년 미만 기본이율(만기이자 2.25 · 월이자 2.15) — 상품 갈래(금리 유형)·이자 지급 방식 변수 없음",
+    "source": {
+     "quote": "6개월~1년 미만 | 기본이율 만기이자: 2.25 6개월~1년 미만 | 기본이율 월이자: 2.15"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-16",
+    "status": "UNSUPPORTED",
+    "label": "고정금리형 1년~2년 미만 기본이율(만기이자 2.30 · 월이자 2.20) — 상품 갈래(금리 유형)·이자 지급 방식 변수 없음",
+    "source": {
+     "quote": "1년~2년 미만 | 기본이율 만기이자: 2.30 1년~2년 미만 | 기본이율 월이자: 2.20"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-17",
+    "status": "UNSUPPORTED",
+    "label": "고정금리형 2년~3년 미만 기본이율(만기이자 2.35 · 월이자 2.25) — 상품 갈래(금리 유형)·이자 지급 방식 변수 없음",
+    "source": {
+     "quote": "2년~3년 미만 | 기본이율 만기이자: 2.35 2년~3년 미만 | 기본이율 월이자: 2.25"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-18",
+    "status": "UNSUPPORTED",
+    "label": "고정금리형 3년 기본이율(만기이자 2.45 · 월이자 2.35) — 상품 갈래(금리 유형)·이자 지급 방식 변수 없음",
+    "source": {
+     "quote": "3년 | 기본이율 만기이자: 2.45 3년 | 기본이율 월이자: 2.35"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-19",
+    "status": "UNSUPPORTED",
+    "label": "단위기간 금리연동형 30~90일 1.85 — 상품 갈래·연동단위기간 변수 없음",
+    "source": {
+     "quote": "30 ~ 90일 | 1.85"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-20",
+    "status": "UNSUPPORTED",
+    "label": "단위기간 금리연동형 91~180일 2.15 — 상품 갈래·연동단위기간 변수 없음",
+    "source": {
+     "quote": "91 ~ 180일 | 2.15"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-21",
+    "status": "UNSUPPORTED",
+    "label": "단위기간 금리연동형 181일 2.35 — 상품 갈래·연동단위기간 변수 없음",
+    "source": {
+     "quote": "181일 | 2.35"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R04-22",
+    "status": "UNSUPPORTED",
+    "label": "CD금리연동형 이율 = CD금리 − 0.5 (모든 기간·지급식) — CD금리 변수·연동 금리 effect 없음",
+    "source": {
+     "quote": "6개월 | 만기이자지급식: - 0.5"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBSUP-K-contract_term": {
+  "clauses": [
+   "KBSUP-S2-R03"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSUP-S2-R03-01",
+    "status": "OK",
+    "label": "계약기간이 1개월 미만이거나 36개월 초과면 가입 불가 (세 갈래 공통 범위)",
+    "source": {
+     "quote": "▪ 고정금리형 | 1개월 이상 36개월 이하(일 단위/월 단위)"
+    },
+    "condition": {
+     "or": [
+      {
+       "<": [
+        {
+         "var": "contract.term_months"
+        },
+        1
+       ]
+      },
+      {
+       ">": [
+        {
+         "var": "contract.term_months"
+        },
+        36
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   },
+   {
+    "rule_id": "KBSUP-S2-R03-02",
+    "status": "UNSUPPORTED",
+    "label": "단위기간 금리연동형 가입기간 12~36개월 — 상품 갈래(금리 유형) 변수 없음",
+    "source": {
+     "quote": "▪ 단위기간 금리연동형 | 12개월 이상 36개월 이하(월 단위)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R03-03",
+    "status": "UNSUPPORTED",
+    "label": "연동(회전)단위기간 1~6개월·30~181일 — 단위기간 변수 없음",
+    "source": {
+     "quote": "▫ 연동(회전)단위기간 : 1개월~6개월 월단위 또는 30일~181일 일단위"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R03-04",
+    "status": "UNSUPPORTED",
+    "label": "CD금리연동형 가입기간 6개월·1년·2년·3년 — 상품 갈래(금리 유형) 변수 없음",
+    "source": {
+     "quote": "▪ CD금리연동형 | 6개월, 1년, 2년, 3년"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R03-05",
+    "status": "UNSUPPORTED",
+    "label": "CD금리연동형 만기이자지급식(3개월 복리, 만기 지급) — 이자 지급 방식 (판별 범위 밖)",
+    "source": {
+     "quote": "만기이자지급식 | 매 3개월마다 기간별 이자를 복리로 계산하여 만기시에 원금과 함께 지급"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R03-06",
+    "status": "UNSUPPORTED",
+    "label": "CD금리연동형 3개월이자지급식 — 이자 지급 방식 (판별 범위 밖)",
+    "source": {
+     "quote": "3개월이자지급식 | 매 3개월 경과 약정일에 이자지급"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R03-07",
+    "status": "UNSUPPORTED",
+    "label": "CD금리연동형 월이자지급식 — 이자 지급 방식 (판별 범위 밖)",
+    "source": {
+     "quote": "월이자지급식 | 매월 약정일에 이자지급"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBSUP-K-preferential_rate": {
+  "clauses": [
+   "KBSUP-S2-R05"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSUP-S2-R05-01",
+    "status": "UNSUPPORTED",
+    "label": "금리우대쿠폰 우대금리 가산 — 쿠폰 적용 여부·쿠폰 금리 변수 없음",
+    "source": {
+     "quote": "▪ 금리우대쿠폰 : 이 예금의 신규 시 금리우대쿠폰을 적용한 경우 쿠폰 우대금리를 기본이율에 가산"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R05-02",
+    "status": "UNSUPPORTED",
+    "label": "금리우대쿠폰은 신규 시에만 · 중도해지 시 미적용 — 본체(쿠폰)가 표현 불가",
+    "source": {
+     "quote": "※ 금리우대쿠폰은 신규 시에만 사용 가능하며 중도해지시 미적용"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R05-03",
+    "status": "UNSUPPORTED",
+    "label": "비과세가계저축·중장기주택부금 만기계좌 해지 후 2개월 이내 1년 이상 가입 시 연 0.1%p — 타 상품 만기해지 이력·가족 명의 변수 없음",
+    "source": {
+     "quote": "☞ 비과세가계저축 및 중장기주택부금 만기계좌를 해지일로부터 2개월 이내에 본인이나 배우자 또는 직계존비속 명의로 계약기간 1년 이상 가입하는 계좌 : 연 0.1%p"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R05-04",
+    "status": "UNSUPPORTED",
+    "label": "월이자지급식 — 이자 지급 방식 (판별 범위 밖)",
+    "source": {
+     "quote": "월이자지급식 | 매월 단리로 이자를 계산하여 매월 약정일에 지급"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R05-05",
+    "status": "UNSUPPORTED",
+    "label": "월이자복리식 — 이자 지급 방식 (판별 범위 밖)",
+    "source": {
+     "quote": "월이자복리식 | 매월 복리로 이자를 계산하여 만기시 원금과 함께 지급"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R05-06",
+    "status": "UNSUPPORTED",
+    "label": "이자복리식 — 이자 지급 방식 (판별 범위 밖)",
+    "source": {
+     "quote": "이자복리식 | 연동 단위기간별 이자를 복리로 계산하여 만기시 원금과 함께 지급"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R05-07",
+    "status": "OK",
+    "label": "예치 1개월 미만 중도해지 → 중도해지이율 연 0.1%",
+    "source": {
+     "quote": "1개월미만 | 0.1"
+    },
+    "condition": {
+     "and": [
+      {
+       "==": [
+        {
+         "var": "contract.termination_type"
+        },
+        "EARLY"
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.start_date",
+         "offset_months": 1
+        }
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 0.1,
+     "unit": "%"
+    }
+   },
+   {
+    "rule_id": "KBSUP-S2-R05-08",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 1개월이상~3개월미만 — 약정이율 × 50% × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "1개월이상~3개월미만 | 약정이율 X 50% X 경과월수/계약월수(단, 최저금리는 0.1)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R05-09",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 3개월이상~6개월미만 — 약정이율 × 50% × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "3개월이상~6개월미만 | 약정이율 X 50% X 경과월수/계약월수(단, 최저금리는 0.1)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R05-10",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 6개월이상~8개월미만 — 약정이율 × 60% × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "6개월이상~8개월미만 | 약정이율 X 60% X 경과월수/계약월수(단, 최저금리는 0.2)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R05-11",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 8개월이상~10개월미만 — 약정이율 × 70% × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "8개월이상~10개월미만 | 약정이율 X 70% X 경과월수/계약월수(단, 최저금리는 0.2)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R05-12",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 10개월이상~11개월미만 — 약정이율 × 80% × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "10개월이상~11개월미만 | 약정이율 X 80% X 경과월수/계약월수(단, 최저금리는 0.2)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R05-13",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 11개월이상 — 약정이율 × 90% × 경과월수/계약월수 (비율식·입금 건별 경과월수 없음)",
+    "source": {
+     "quote": "11개월이상 | 약정이율 X 90% X 경과월수/계약월수(단, 최저금리는 0.2)"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R05-14",
+    "status": "UNSUPPORTED",
+    "label": "만기후 1개월 이내 — 약정이율 × 50% (비율식 없음)",
+    "source": {
+     "quote": "만기후 1개월이내 | 약정이율 X 50%"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R05-15",
+    "status": "UNSUPPORTED",
+    "label": "만기후 1개월 초과 ~ 3개월 이내 — 약정이율 × 30% (비율식 없음)",
+    "source": {
+     "quote": "만기후 1개월 초과~3개월이내 | 약정이율 X 30%"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R05-16",
+    "status": "UNSUPPORTED",
+    "label": "만기후 3개월 초과 0.1 — RATE_OVERRIDE 면 만기 전 약정이율까지 지운다",
+    "source": {
+     "quote": "만기후 3개월 초과 | 0.1"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSUP-S2-R05-17",
+    "status": "UNSUPPORTED",
+    "label": "만기후 3개월 이내 0.20 / 초과 0.10 (두 번째 표) — 어느 갈래의 표인지 변수 없음 · 만기후 이율 자리 없음",
+    "source": {
+     "quote": "만기후 3개월 이내 | 0.20 만기후 3개월 초과 | 0.10"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBSTR-K-product_type": {
+  "clauses": [
+   "KBSTR-S2-R02"
+  ],
+  "rules": []
+ },
+ "KBSTR-K-product_feature": {
+  "clauses": [
+   "KBSTR-S1-P01"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSTR-S1-P01-01",
+    "status": "OK",
+    "label": "영업점(대면) 채널로는 가입 불가 — 비대면 전용",
+    "source": {
+     "quote": "인터넷뱅킹 등 비대면채널을 통해서만 가입 가능한 온라인 전용 정기예금"
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "contract.channel"
+      },
+      "BRANCH"
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   }
+  ]
+ },
+ "KBSTR-K-base_rate": {
+  "clauses": [
+   "KBSTR-S2-R07"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSTR-S2-R07-01",
+    "status": "OK",
+    "label": "계약기간 1개월 이상 3개월 미만 기본이율 연 2.05%",
+    "source": {
+     "quote": "1개월 이상 3개월 미만 | 연 2.05%"
+    },
+    "condition": {
+     "and": [
+      {
+       ">=": [
+        {
+         "var": "contract.term_months"
+        },
+        1
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.term_months"
+        },
+        3
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 2.05,
+     "unit": "%"
+    }
+   },
+   {
+    "rule_id": "KBSTR-S2-R07-02",
+    "status": "OK",
+    "label": "계약기간 3개월 이상 6개월 미만 기본이율 연 2.25%",
+    "source": {
+     "quote": "3개월 이상 6개월 미만 | 연 2.25%"
+    },
+    "condition": {
+     "and": [
+      {
+       ">=": [
+        {
+         "var": "contract.term_months"
+        },
+        3
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.term_months"
+        },
+        6
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 2.25,
+     "unit": "%"
+    }
+   },
+   {
+    "rule_id": "KBSTR-S2-R07-03",
+    "status": "OK",
+    "label": "계약기간 6개월 이상 9개월 미만 기본이율 연 2.35%",
+    "source": {
+     "quote": "6개월 이상 9개월 미만 | 연 2.35%"
+    },
+    "condition": {
+     "and": [
+      {
+       ">=": [
+        {
+         "var": "contract.term_months"
+        },
+        6
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.term_months"
+        },
+        9
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 2.35,
+     "unit": "%"
+    }
+   },
+   {
+    "rule_id": "KBSTR-S2-R07-04",
+    "status": "OK",
+    "label": "계약기간 9개월 이상 12개월 미만 기본이율 연 2.35%",
+    "source": {
+     "quote": "9개월 이상 12개월 미만 | 연 2.35%"
+    },
+    "condition": {
+     "and": [
+      {
+       ">=": [
+        {
+         "var": "contract.term_months"
+        },
+        9
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.term_months"
+        },
+        12
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 2.35,
+     "unit": "%"
+    }
+   },
+   {
+    "rule_id": "KBSTR-S2-R07-05",
+    "status": "OK",
+    "label": "계약기간 12개월 이상 24개월 미만 기본이율 연 2.40%",
+    "source": {
+     "quote": "12개월 이상 24개월 미만 | 연 2.40%"
+    },
+    "condition": {
+     "and": [
+      {
+       ">=": [
+        {
+         "var": "contract.term_months"
+        },
+        12
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.term_months"
+        },
+        24
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 2.4,
+     "unit": "%"
+    }
+   },
+   {
+    "rule_id": "KBSTR-S2-R07-06",
+    "status": "OK",
+    "label": "계약기간 24개월 이상 36개월 미만 기본이율 연 2.40%",
+    "source": {
+     "quote": "24개월 이상 36개월 미만 | 연 2.40%"
+    },
+    "condition": {
+     "and": [
+      {
+       ">=": [
+        {
+         "var": "contract.term_months"
+        },
+        24
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.term_months"
+        },
+        36
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 2.4,
+     "unit": "%"
+    }
+   },
+   {
+    "rule_id": "KBSTR-S2-R07-07",
+    "status": "OK",
+    "label": "계약기간 36개월 기본이율 연 2.40%",
+    "source": {
+     "quote": "36개월 | 연 2.40%"
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "contract.term_months"
+      },
+      36
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 2.4,
+     "unit": "%"
+    }
+   }
+  ]
+ },
+ "KBSTR-K-preferential_rate": {
+  "clauses": [
+   "KBSTR-S2-R08"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSTR-S2-R08-01",
+    "status": "UNSUPPORTED",
+    "label": "금리우대쿠폰 우대금리 가산 — 쿠폰 적용 여부·쿠폰 금리 변수 없음",
+    "source": {
+     "quote": "▪ 금리우대쿠폰 : 이 예금의 신규 시 금리우대쿠폰을 적용한 경우 쿠폰 우대금리를 기본이율에 가산"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBSTR-S2-R08-02",
+    "status": "UNSUPPORTED",
+    "label": "금리우대쿠폰은 신규 시에만 · 재예치·중도해지 시 미적용 — 본체(쿠폰)가 표현 불가",
+    "source": {
+     "quote": "※ 금리우대쿠폰은 신규 시에만 사용 가능하며 재예치 또는 중도해지시 미적용"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBSTR-K-final_rate": {
+  "clauses": [
+   "KBSTR-S2-R09"
+  ],
+  "rules": []
+ },
+ "KBSTR-K-early_termination": {
+  "clauses": [
+   "KBSTR-S2-R12"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBSTR-S2-R12-01",
+    "status": "OK",
+    "label": "예치 1개월 미만 중도해지 → 중도해지이율 연 0.1%",
+    "source": {
+     "quote": "1개월미만 | 0.1"
+    },
+    "condition": {
+     "and": [
+      {
+       "==": [
+        {
+         "var": "contract.termination_type"
+        },
+        "EARLY"
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.start_date",
+         "offset_months": 1
+        }
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RATE_OVERRIDE",
+     "value": 0.1,
+     "unit": "%"
+    }
+   },
+   {
+    "rule_id": "KBSTR-S2-R12-02",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 1개월이상~3개월미만 — 기본이율 × 비율 × 경과월수/계약월수 (비율식 없음)",
+    "source": {
+     "quote": "1개월이상~3개월미만 | 기본이율 X 50% X 경과월수/계약월수 (단, 최저금리는 0.1)"
+    },
+    "condition": {
+     "and": [
+      {
+       "==": [
+        {
+         "var": "contract.termination_type"
+        },
+        "EARLY"
+       ]
+      },
+      {
+       ">=": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.start_date",
+         "offset_months": 1
+        }
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.start_date",
+         "offset_months": 3
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "rule_id": "KBSTR-S2-R12-03",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 3개월이상~6개월미만 — 기본이율 × 비율 × 경과월수/계약월수 (비율식 없음)",
+    "source": {
+     "quote": "3개월이상~6개월미만 | 기본이율 X 50% X 경과월수/계약월수 (단, 최저금리는 0.1)"
+    },
+    "condition": {
+     "and": [
+      {
+       "==": [
+        {
+         "var": "contract.termination_type"
+        },
+        "EARLY"
+       ]
+      },
+      {
+       ">=": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.start_date",
+         "offset_months": 3
+        }
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.start_date",
+         "offset_months": 6
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "rule_id": "KBSTR-S2-R12-04",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 6개월이상~8개월미만 — 기본이율 × 비율 × 경과월수/계약월수 (비율식 없음)",
+    "source": {
+     "quote": "6개월이상~8개월미만 | 기본이율 X 60% X 경과월수/계약월수 (단, 최저금리는 0.2)"
+    },
+    "condition": {
+     "and": [
+      {
+       "==": [
+        {
+         "var": "contract.termination_type"
+        },
+        "EARLY"
+       ]
+      },
+      {
+       ">=": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.start_date",
+         "offset_months": 6
+        }
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.start_date",
+         "offset_months": 8
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "rule_id": "KBSTR-S2-R12-05",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 8개월이상~10개월미만 — 기본이율 × 비율 × 경과월수/계약월수 (비율식 없음)",
+    "source": {
+     "quote": "8개월이상~10개월미만 | 기본이율 X 70% X 경과월수/계약월수 (단, 최저금리는 0.2)"
+    },
+    "condition": {
+     "and": [
+      {
+       "==": [
+        {
+         "var": "contract.termination_type"
+        },
+        "EARLY"
+       ]
+      },
+      {
+       ">=": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.start_date",
+         "offset_months": 8
+        }
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.start_date",
+         "offset_months": 10
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "rule_id": "KBSTR-S2-R12-06",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 10개월이상~11개월미만 — 기본이율 × 비율 × 경과월수/계약월수 (비율식 없음)",
+    "source": {
+     "quote": "10개월이상~11개월미만 | 기본이율 X 80% X 경과월수/계약월수 (단, 최저금리는 0.2)"
+    },
+    "condition": {
+     "and": [
+      {
+       "==": [
+        {
+         "var": "contract.termination_type"
+        },
+        "EARLY"
+       ]
+      },
+      {
+       ">=": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.start_date",
+         "offset_months": 10
+        }
+       ]
+      },
+      {
+       "<": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.start_date",
+         "offset_months": 11
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "rule_id": "KBSTR-S2-R12-07",
+    "status": "UNSUPPORTED",
+    "label": "중도해지이율 11개월이상 — 기본이율 × 비율 × 경과월수/계약월수 (비율식 없음)",
+    "source": {
+     "quote": "11개월이상 | 기본이율 X 90% X 경과월수/계약월수 (단, 최저금리는 0.2)"
+    },
+    "condition": {
+     "and": [
+      {
+       "==": [
+        {
+         "var": "contract.termination_type"
+        },
+        "EARLY"
+       ]
+      },
+      {
+       ">=": [
+        {
+         "var": "contract.termination_date"
+        },
+        {
+         "anchor": "contract.start_date",
+         "offset_months": 11
+        }
+       ]
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "KBGEN-K-product_type": {
+  "clauses": [
+   "KBGEN-S2-R02"
+  ],
+  "rules": []
+ },
+ "KBGEN-K-product_feature": {
+  "clauses": [
+   "KBGEN-S1-P01"
+  ],
+  "rules": []
+ },
+ "KBONE-K-product_type": {
+  "clauses": [
+   "KBONE-S2-R03"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBONE-S2-R03-01",
+    "status": "UNSUPPORTED",
+    "label": "동일 예금과목 상품 간 전환 가능 — 예금과목(상품 종류) 변수 없음",
+    "source": {
+     "quote": "※ 동일 예금과목 상품 전환가능"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBONE-S2-R03-02",
+    "status": "UNSUPPORTED",
+    "label": "전환신규 불가 상품은 전환 대상에서 제외 — 상품별 전환 가능 기준 변수 없음",
+    "source": {
+     "quote": "※ 개별상품에서 정한 기준에 의해 전환신규가 불가한 상품은 제외"
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBONE-K-product_feature": {
+  "clauses": [
+   "KBONE-S1-P01"
+  ],
+  "rules": []
+ },
+ "KBONE-K-eligibility_target": {
+  "clauses": [
+   "KBONE-S2-R01"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBONE-S2-R01-01",
+    "status": "OK",
+    "label": "이미 이 상품을 보유하면 가입 불가 (1인 1계좌)",
+    "source": {
+     "quote": "▪ 실명의 개인(1인 1계좌)"
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "customer.has_product"
+      },
+      true
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   },
+   {
+    "rule_id": "KBONE-S2-R01-02",
+    "status": "OK",
+    "label": "실명의 개인·개인사업자·서류미제출 임의단체가 아니면 가입 불가",
+    "source": {
+     "quote": "▪ 실명의 개인(1인 1계좌) ※ 개인사업자 및 관련서류 미제출 임의단체 포함"
+    },
+    "condition": {
+     "not": {
+      "in": [
+       {
+        "var": "customer.holder_type"
+       },
+       [
+        "INDIVIDUAL",
+        "SOLE_PROPRIETOR",
+        "ORGANIZATION"
+       ]
+      ]
+     }
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   }
+  ]
+ },
+ "KBONE-K-base_rate": {
+  "clauses": [
+   "KBONE-S2-R04"
+  ],
+  "rules": []
+ },
+ "KBONE-K-interest_payment": {
+  "clauses": [
+   "KBONE-S2-R05"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBONE-S2-R05-01",
+    "status": "UNSUPPORTED",
+    "label": "보통예금 이자 결산·원금 가산 시기 — 예금 종류 변수·이자 가산 effect 없음",
+    "source": {
+     "quote": "▪ 보통예금 : 이자는 매년 6, 12월의 둘째 금요일에 결산하여 다음날 원금에 더함"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBONE-S2-R05-02",
+    "status": "UNSUPPORTED",
+    "label": "저축예금 이자 결산·원금 가산 시기 — 예금 종류 변수·이자 가산 effect 없음",
+    "source": {
+     "quote": "▪ 저축예금 : 이자는 매년 2, 5, 8, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBONE-S2-R05-03",
+    "status": "UNSUPPORTED",
+    "label": "마지막 거래 후 5년 경과 시 원금 가산 중단·일괄 지급 — 이자 가산 effect 없음 (판별 범위 밖)",
+    "source": {
+     "quote": "※ 예금의 이자는 최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌 해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다."
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBONE-K-termination_method": {
+  "clauses": [
+   "KBONE-S2-R12"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBONE-S2-R12-01",
+    "status": "OK",
+    "label": "인터넷뱅킹·스타뱅킹 해지 시 본인명의 입출금계좌가 없으면 그 경로로 해지 불가",
+    "source": {
+     "quote": "※ 개인인터넷뱅킹, KB스타뱅킹을 통한 해지 시 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다."
+    },
+    "condition": {
+     "and": [
+      {
+       "in": [
+        {
+         "var": "contract.channel"
+        },
+        [
+         "INTERNET",
+         "MOBILE"
+        ]
+       ]
+      },
+      {
+       "not": {
+        "in": [
+         "DEMAND_DEPOSIT",
+         {
+          "var": "customer.held_categories"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    "effect": {
+     "type": "RESTRICT",
+     "target": "TERMINATION"
+    }
+   }
+  ]
+ },
+ "KBONE-K-tax": {
+  "clauses": [
+   "KBONE-S2-R10"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBONE-S2-R10-01",
+    "status": "OK",
+    "label": "비과세종합저축 가입 가능",
+    "source": {
+     "quote": "▪ 비과세종합저축으로 가입가능"
+    },
+    "condition": {},
+    "effect": {
+     "type": "TAX_EXEMPT_ELIGIBLE"
+    }
+   }
+  ]
+ },
+ "KBONE-K-transaction_restriction": {
+  "clauses": [
+   "KBONE-S2-R16",
+   "KBONE-S2-R20"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBONE-S2-R16-01",
+    "status": "OK",
+    "label": "소액·장기 무거래 계좌 거래중지 (입출금·잔액조회·이관 제한) — 편입일 기준 무거래 기간으로 판별",
+    "source": {
+     "quote": "▪ 다음의 경우에 해당하는 경우 입출금, 잔액조회, 이관 등의 거래 제한 (가) 예금잔액이 10,000원 미만이며, 1년이상 입출금거래가 없는 계좌 (나) 예금잔액이 10,000원 이상 50,000원 미만이며, 2년이상 입출금거래가 없는 계좌 (다) 예금잔액이 50,000원 이상 100,000원 미만이며, 3년이상 입출금거래가 없는 계좌"
+    },
+    "let": {
+     "y1": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "month_of": [
+         6,
+         12
+        ],
+        "day": {
+         "weekday": "FRI",
+         "nth": 3
+        },
+        "offset_days": 1,
+        "offset_months": -12
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "month_of": [
+         6,
+         12
+        ],
+        "day": {
+         "weekday": "FRI",
+         "nth": 3
+        },
+        "offset_days": 1
+       }
+      }
+     },
+     "y2": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "month_of": [
+         6,
+         12
+        ],
+        "day": {
+         "weekday": "FRI",
+         "nth": 3
+        },
+        "offset_days": 1,
+        "offset_months": -24
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "month_of": [
+         6,
+         12
+        ],
+        "day": {
+         "weekday": "FRI",
+         "nth": 3
+        },
+        "offset_days": 1
+       }
+      }
+     },
+     "y3": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "month_of": [
+         6,
+         12
+        ],
+        "day": {
+         "weekday": "FRI",
+         "nth": 3
+        },
+        "offset_days": 1,
+        "offset_months": -36
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "month_of": [
+         6,
+         12
+        ],
+        "day": {
+         "weekday": "FRI",
+         "nth": 3
+        },
+        "offset_days": 1
+       }
+      }
+     }
+    },
+    "condition": {
+     "or": [
+      {
+       "and": [
+        {
+         "<": [
+          {
+           "var": "account.balance"
+          },
+          10000
+         ]
+        },
+        {
+         "and": [
+          {
+           "not": {
+            "exists": {
+             "event": "DEPOSIT",
+             "within": {
+              "ref": "$y1"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "WITHDRAWAL",
+             "within": {
+              "ref": "$y1"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "SALARY_TRANSFER",
+             "within": {
+              "ref": "$y1"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "AUTO_TRANSFER",
+             "within": {
+              "ref": "$y1"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "PENSION_RECEIPT",
+             "within": {
+              "ref": "$y1"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "NAME_CHANGE",
+             "within": {
+              "ref": "$y1"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "CARD_USAGE",
+             "within": {
+              "ref": "$y1"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "FX_TRANSACTION",
+             "within": {
+              "ref": "$y1"
+             }
+            }
+           }
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "and": [
+        {
+         ">=": [
+          {
+           "var": "account.balance"
+          },
+          10000
+         ]
+        },
+        {
+         "<": [
+          {
+           "var": "account.balance"
+          },
+          50000
+         ]
+        },
+        {
+         "and": [
+          {
+           "not": {
+            "exists": {
+             "event": "DEPOSIT",
+             "within": {
+              "ref": "$y2"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "WITHDRAWAL",
+             "within": {
+              "ref": "$y2"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "SALARY_TRANSFER",
+             "within": {
+              "ref": "$y2"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "AUTO_TRANSFER",
+             "within": {
+              "ref": "$y2"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "PENSION_RECEIPT",
+             "within": {
+              "ref": "$y2"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "NAME_CHANGE",
+             "within": {
+              "ref": "$y2"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "CARD_USAGE",
+             "within": {
+              "ref": "$y2"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "FX_TRANSACTION",
+             "within": {
+              "ref": "$y2"
+             }
+            }
+           }
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "and": [
+        {
+         ">=": [
+          {
+           "var": "account.balance"
+          },
+          50000
+         ]
+        },
+        {
+         "<": [
+          {
+           "var": "account.balance"
+          },
+          100000
+         ]
+        },
+        {
+         "and": [
+          {
+           "not": {
+            "exists": {
+             "event": "DEPOSIT",
+             "within": {
+              "ref": "$y3"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "WITHDRAWAL",
+             "within": {
+              "ref": "$y3"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "SALARY_TRANSFER",
+             "within": {
+              "ref": "$y3"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "AUTO_TRANSFER",
+             "within": {
+              "ref": "$y3"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "PENSION_RECEIPT",
+             "within": {
+              "ref": "$y3"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "NAME_CHANGE",
+             "within": {
+              "ref": "$y3"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "CARD_USAGE",
+             "within": {
+              "ref": "$y3"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "FX_TRANSACTION",
+             "within": {
+              "ref": "$y3"
+             }
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RESTRICT",
+     "target": "ALL_TRANSACTIONS"
+    }
+   },
+   {
+    "rule_id": "KBONE-S2-R20-01",
+    "status": "OK",
+    "label": "이미 이 상품을 보유하면 가입 불가 (1인 1계좌)",
+    "source": {
+     "quote": "▪ 이 상품은 1인 1계좌만 가입이 가능합니다."
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "customer.has_product"
+      },
+      true
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   },
+   {
+    "rule_id": "KBONE-S2-R20-02",
+    "status": "OK",
+    "label": "수수료 면제 미사용 횟수 이월 불가",
+    "source": {
+     "quote": "▪ 수수료 면제 미사용 횟수는 이월되지 않습니다."
+    },
+    "condition": {},
+    "effect": {
+     "type": "FEE_WAIVE_NO_CARRYOVER"
+    }
+   },
+   {
+    "rule_id": "KBONE-S2-R20-04",
+    "status": "UNSUPPORTED",
+    "label": "피해의심 거래계좌·사기이용 계좌 지정 시 금융거래 제한조치 — 계좌 지정 여부 변수 없음",
+    "source": {
+     "quote": "▪ 통장이 ‘전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법’ 에서 정의한 피해의심 거래계좌 및 사기이용 계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치를 할 수 있습니다."
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBONE-K-fee": {
+  "clauses": [
+   "KBONE-S2-R07"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBONE-S2-R07-01",
+    "status": "OK",
+    "label": "면제 잔여횟수 이월 불가",
+    "source": {
+     "quote": "수수료면제 잔여횟수는 이월되지 않습니다"
+    },
+    "condition": {},
+    "effect": {
+     "type": "FEE_WAIVE_NO_CARRYOVER"
+    }
+   }
+  ]
+ },
+ "KBONE-K-assignment_collateral": {
+  "clauses": [
+   "KBONE-S2-R14"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBONE-S2-R14-01",
+    "status": "OK",
+    "label": "담보제공 불가",
+    "source": {
+     "quote": "▪ 담보제공 불가능"
+    },
+    "condition": {},
+    "effect": {
+     "type": "RESTRICT",
+     "target": "PLEDGE"
+    }
+   }
+  ]
+ },
+ "KBYY-K-product_type": {
+  "clauses": [
+   "KBYY-S2-R03"
+  ],
+  "rules": []
+ },
+ "KBYY-K-product_feature": {
+  "clauses": [
+   "KBYY-S1-P01"
+  ],
+  "rules": []
+ },
+ "KBYY-K-eligibility_target": {
+  "clauses": [
+   "KBYY-S2-R01"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBYY-S2-R01-01",
+    "status": "OK",
+    "label": "만 19세 미만이 아니면 가입 불가",
+    "source": {
+     "quote": "만 19세 미만 실명의 개인"
+    },
+    "condition": {
+     "not": {
+      "<": [
+       {
+        "var": "customer.age"
+       },
+       19
+      ]
+     }
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   },
+   {
+    "rule_id": "KBYY-S2-R01-02",
+    "status": "OK",
+    "label": "개인사업자·서류미제출 임의단체·공동명의면 가입 불가",
+    "source": {
+     "quote": "※ 개인사업자 및 서류미제출 임의단체, 공동명의 가입 불가"
+    },
+    "condition": {
+     "in": [
+      {
+       "var": "customer.holder_type"
+      },
+      [
+       "SOLE_PROPRIETOR",
+       "ORGANIZATION",
+       "JOINT"
+      ]
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   },
+   {
+    "rule_id": "KBYY-S2-R01-03",
+    "status": "OK",
+    "label": "이미 이 상품을 보유하면 가입 불가 (1인 1계좌)",
+    "source": {
+     "quote": "※「KB Young Youth 청소년통장」을 포함하여 1인 1계좌"
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "customer.has_product"
+      },
+      true
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   }
+  ]
+ },
+ "KBYY-K-deposit_amount": {
+  "clauses": [
+   "KBYY-S2-R02"
+  ],
+  "rules": []
+ },
+ "KBYY-K-base_rate": {
+  "clauses": [
+   "KBYY-S2-R06"
+  ],
+  "rules": []
+ },
+ "KBYY-K-event_special_rate": {
+  "clauses": [
+   "KBYY-S2-R07"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBYY-S2-R07-01",
+    "status": "OK",
+    "label": "저금통 설정금액 특별금리",
+    "source": {
+     "quote": "연 1.9% (최대 100만원까지)\n- 적용대상 : 부가서비스의 \"저금통\" 으로 설정된 금액"
+    },
+    "condition": {
+     ">": [
+      {
+       "var": "account.reserved_amount"
+      },
+      0
+     ]
+    },
+    "effect": {
+     "type": "RATE_ADD",
+     "value": 1.9,
+     "unit": "%p",
+     "applies_to": "BASE_RATE"
+    }
+   },
+   {
+    "rule_id": "KBYY-S2-R07-02",
+    "status": "OK",
+    "label": "저금통 설정금액 한도 100만원",
+    "source": {
+     "quote": "적용한도 : 저금통 금액 설정은 최대 100만원(1만원 단위)까지 가능"
+    },
+    "condition": {},
+    "effect": {
+     "type": "LIMIT_AMOUNT",
+     "value": 1000000
+    }
+   }
+  ]
+ },
+ "KBYY-K-interest_payment": {
+  "clauses": [
+   "KBYY-S2-R08"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBYY-S2-R08-01",
+    "status": "UNSUPPORTED",
+    "label": "이자 결산·원금 가산 시기 — 결산일 날짜 표현도 이자 가산 effect 도 없음",
+    "source": {
+     "quote": "▪ 매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBYY-S2-R08-02",
+    "status": "UNSUPPORTED",
+    "label": "마지막 거래 후 5년 경과 시 원금 가산 중단·일괄 지급 — 이자 가산 effect 없음 (판별 범위 밖)",
+    "source": {
+     "quote": "※ 예금의 이자는 최종거래일로부터 5년이 경과한 날부터는 이자에 원금을 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다."
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBYY-K-final_rate": {
+  "clauses": [
+   "KBYY-S2-R10"
+  ],
+  "rules": []
+ },
+ "KBYY-K-termination_method": {
+  "clauses": [
+   "KBYY-S2-R15"
+  ],
+  "rules": []
+ },
+ "KBYY-K-tax": {
+  "clauses": [
+   "KBYY-S2-R13"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBYY-S2-R13-01",
+    "status": "OK",
+    "label": "비과세종합저축 가입 가능",
+    "source": {
+     "quote": "▪ 비과세종합저축으로 가입 가능"
+    },
+    "condition": {},
+    "effect": {
+     "type": "TAX_EXEMPT_ELIGIBLE"
+    }
+   }
+  ]
+ },
+ "KBYY-K-transaction_restriction": {
+  "clauses": [
+   "KBYY-S2-R19",
+   "KBYY-S2-R23"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBYY-S2-R19-01",
+    "status": "OK",
+    "label": "소액·장기 무거래 계좌 거래중지 (입출금·잔액조회·이관 제한) — 편입일 기준 무거래 기간으로 판별",
+    "source": {
+     "quote": "다음의 경우에 해당하는 경우 입출금, 잔액조회, 이관 등의 거래 제한\n(가) 예금잔액이 10,000원 미만이며, 1년 이상 입출금 거래가 없는 계좌\n(나) 예금잔액이 10,000원 이상 50,000원 미만이며, 2년 이상 입출금 거래가 없는 계좌\n(다) 예금잔액이 50,000원 이상 100,000원 미만이며, 3년 이상 입출금 거래가 없는 계좌"
+    },
+    "let": {
+     "y1": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "month_of": [
+         6,
+         12
+        ],
+        "day": {
+         "weekday": "FRI",
+         "nth": 3
+        },
+        "offset_days": 1,
+        "offset_months": -12
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "month_of": [
+         6,
+         12
+        ],
+        "day": {
+         "weekday": "FRI",
+         "nth": 3
+        },
+        "offset_days": 1
+       }
+      }
+     },
+     "y2": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "month_of": [
+         6,
+         12
+        ],
+        "day": {
+         "weekday": "FRI",
+         "nth": 3
+        },
+        "offset_days": 1,
+        "offset_months": -24
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "month_of": [
+         6,
+         12
+        ],
+        "day": {
+         "weekday": "FRI",
+         "nth": 3
+        },
+        "offset_days": 1
+       }
+      }
+     },
+     "y3": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "month_of": [
+         6,
+         12
+        ],
+        "day": {
+         "weekday": "FRI",
+         "nth": 3
+        },
+        "offset_days": 1,
+        "offset_months": -36
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "month_of": [
+         6,
+         12
+        ],
+        "day": {
+         "weekday": "FRI",
+         "nth": 3
+        },
+        "offset_days": 1
+       }
+      }
+     }
+    },
+    "condition": {
+     "or": [
+      {
+       "and": [
+        {
+         "<": [
+          {
+           "var": "account.balance"
+          },
+          10000
+         ]
+        },
+        {
+         "and": [
+          {
+           "not": {
+            "exists": {
+             "event": "DEPOSIT",
+             "within": {
+              "ref": "$y1"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "WITHDRAWAL",
+             "within": {
+              "ref": "$y1"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "SALARY_TRANSFER",
+             "within": {
+              "ref": "$y1"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "AUTO_TRANSFER",
+             "within": {
+              "ref": "$y1"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "PENSION_RECEIPT",
+             "within": {
+              "ref": "$y1"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "NAME_CHANGE",
+             "within": {
+              "ref": "$y1"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "CARD_USAGE",
+             "within": {
+              "ref": "$y1"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "FX_TRANSACTION",
+             "within": {
+              "ref": "$y1"
+             }
+            }
+           }
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "and": [
+        {
+         ">=": [
+          {
+           "var": "account.balance"
+          },
+          10000
+         ]
+        },
+        {
+         "<": [
+          {
+           "var": "account.balance"
+          },
+          50000
+         ]
+        },
+        {
+         "and": [
+          {
+           "not": {
+            "exists": {
+             "event": "DEPOSIT",
+             "within": {
+              "ref": "$y2"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "WITHDRAWAL",
+             "within": {
+              "ref": "$y2"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "SALARY_TRANSFER",
+             "within": {
+              "ref": "$y2"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "AUTO_TRANSFER",
+             "within": {
+              "ref": "$y2"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "PENSION_RECEIPT",
+             "within": {
+              "ref": "$y2"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "NAME_CHANGE",
+             "within": {
+              "ref": "$y2"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "CARD_USAGE",
+             "within": {
+              "ref": "$y2"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "FX_TRANSACTION",
+             "within": {
+              "ref": "$y2"
+             }
+            }
+           }
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "and": [
+        {
+         ">=": [
+          {
+           "var": "account.balance"
+          },
+          50000
+         ]
+        },
+        {
+         "<": [
+          {
+           "var": "account.balance"
+          },
+          100000
+         ]
+        },
+        {
+         "and": [
+          {
+           "not": {
+            "exists": {
+             "event": "DEPOSIT",
+             "within": {
+              "ref": "$y3"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "WITHDRAWAL",
+             "within": {
+              "ref": "$y3"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "SALARY_TRANSFER",
+             "within": {
+              "ref": "$y3"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "AUTO_TRANSFER",
+             "within": {
+              "ref": "$y3"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "PENSION_RECEIPT",
+             "within": {
+              "ref": "$y3"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "NAME_CHANGE",
+             "within": {
+              "ref": "$y3"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "CARD_USAGE",
+             "within": {
+              "ref": "$y3"
+             }
+            }
+           }
+          },
+          {
+           "not": {
+            "exists": {
+             "event": "FX_TRANSACTION",
+             "within": {
+              "ref": "$y3"
+             }
+            }
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "RESTRICT",
+     "target": "ALL_TRANSACTIONS"
+    }
+   },
+   {
+    "rule_id": "KBYY-S2-R23-01",
+    "status": "OK",
+    "label": "이미 이 상품을 보유하면 가입 불가 (1인 1계좌)",
+    "source": {
+     "quote": "▪ 이 통장은「KB Young Youth 청소년통장」을 포함하여 1인 1계좌만 가입 가능하며,"
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "customer.has_product"
+      },
+      true
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   },
+   {
+    "rule_id": "KBYY-S2-R23-02",
+    "status": "OK",
+    "label": "공동명의면 가입 불가",
+    "source": {
+     "quote": "공동명의로 가입할 수 없습니다."
+    },
+    "condition": {
+     "==": [
+      {
+       "var": "customer.holder_type"
+      },
+      "JOINT"
+     ]
+    },
+    "effect": {
+     "type": "DISQUALIFY"
+    }
+   },
+   {
+    "rule_id": "KBYY-S2-R23-03",
+    "status": "OK",
+    "label": "저금통 설정금액 한도 100만원",
+    "source": {
+     "quote": "▪ 부가서비스 저금통 설정은 최대 100만원까지 가능하며,"
+    },
+    "condition": {},
+    "effect": {
+     "type": "LIMIT_AMOUNT",
+     "value": 1000000
+    }
+   },
+   {
+    "rule_id": "KBYY-S2-R23-04",
+    "status": "UNSUPPORTED",
+    "label": "저금통 설정금액은 차감 후에야 출금(이체) 가능 — 차감 effect 없음",
+    "source": {
+     "quote": "저금통 설정된 금액을 출금(이체)하고자 하는 경우, 필요금액만큼 저금통 금액 차감 후 처리하여야 합니다."
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBYY-S2-R23-05",
+    "status": "UNSUPPORTED",
+    "label": "전환계좌의 전환 후 최초 결산기는 전환 전 예금 금리 적용 — 결산일 변수도 전환 전 금리 값도 없음",
+    "source": {
+     "quote": "▪ 전환계좌의 경우 전환 후 최초 결산기(지난 결산일부터 결산일 전일까지)에 대해서는 전환 전(前) 예금의 금리를 적용하고, 다음 결산기부터 전환된 예금의 금리를 적용합니다."
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBYY-S2-R23-06",
+    "status": "UNSUPPORTED",
+    "label": "다른 통장으로 전환 시 다음 결산일까지 재전환 불가 — 결산일 변수 없음",
+    "source": {
+     "quote": "▪ 이 통장에서 다른 통장으로의 전환 시 다음 결산일(매년 2월, 5월, 8월, 11월의 둘째 금요일)까지는 이 통장으로 재전환이 불가합니다."
+    },
+    "condition": {}
+   }
+  ]
+ },
+ "KBYY-K-fee": {
+  "clauses": [
+   "KBYY-S2-R12"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBYY-S2-R12-01",
+    "status": "OK",
+    "label": "전월 카드 결제실적 시 전자금융 이체수수료 면제 (제한 없음)",
+    "source": {
+     "quote": "면제조건: 전월 중 이 통장에서 KB국민카드(신용/체크/KB국민비씨 카드포함) 결제실적(현금서비스 포함)이 있는 경우"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "last"
+       }
+      }
+     },
+     "window2": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -2,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -2,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "condition": {
+     "or": [
+      {
+       "and": [
+        {
+         ">=": [
+          {
+           "var": "contract.reference_date"
+          },
+          {
+           "anchor": "contract.reference_date",
+           "offset_months": 0,
+           "day": 11
+          }
+         ]
+        },
+        {
+         "exists": {
+          "event": "CARD_USAGE",
+          "within": {
+           "ref": "$window"
+          }
+         }
+        }
+       ]
+      },
+      {
+       "and": [
+        {
+         "<=": [
+          {
+           "var": "contract.reference_date"
+          },
+          {
+           "anchor": "contract.reference_date",
+           "offset_months": 0,
+           "day": 10
+          }
+         ]
+        },
+        {
+         "exists": {
+          "event": "CARD_USAGE",
+          "within": {
+           "ref": "$window2"
+          }
+         }
+        }
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "EBANK_TRANSFER",
+     "value": "UNLIMITED"
+    }
+   },
+   {
+    "rule_id": "KBYY-S2-R12-02",
+    "status": "OK",
+    "label": "전월 카드 결제실적 시 자동화기기 시간외출금수수료 면제 (제한 없음)",
+    "source": {
+     "quote": "면제조건: 전월 중 이 통장에서 KB국민카드(신용/체크/KB국민비씨 카드포함) 결제실적(현금서비스 포함)이 있는 경우"
+    },
+    "let": {
+     "window": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -1,
+        "day": "last"
+       }
+      }
+     },
+     "window2": {
+      "month_range": {
+       "from": {
+        "anchor": "contract.reference_date",
+        "offset_months": -2,
+        "day": "first"
+       },
+       "to": {
+        "anchor": "contract.reference_date",
+        "offset_months": -2,
+        "day": "last"
+       }
+      }
+     }
+    },
+    "condition": {
+     "or": [
+      {
+       "and": [
+        {
+         ">=": [
+          {
+           "var": "contract.reference_date"
+          },
+          {
+           "anchor": "contract.reference_date",
+           "offset_months": 0,
+           "day": 11
+          }
+         ]
+        },
+        {
+         "exists": {
+          "event": "CARD_USAGE",
+          "within": {
+           "ref": "$window"
+          }
+         }
+        }
+       ]
+      },
+      {
+       "and": [
+        {
+         "<=": [
+          {
+           "var": "contract.reference_date"
+          },
+          {
+           "anchor": "contract.reference_date",
+           "offset_months": 0,
+           "day": 10
+          }
+         ]
+        },
+        {
+         "exists": {
+          "event": "CARD_USAGE",
+          "within": {
+           "ref": "$window2"
+          }
+         }
+        }
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "ATM_WITHDRAW_AFTER_HOURS",
+     "value": "UNLIMITED"
+    }
+   },
+   {
+    "rule_id": "KBYY-S2-R12-03",
+    "status": "OK",
+    "label": "신규(전환)일로부터 다음 다음 달 10일까지 전자금융 이체수수료 면제(실적 무관)",
+    "source": {
+     "quote": "※ 이 통장의 신규(전환)일로부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
+    },
+    "condition": {
+     "<=": [
+      {
+       "var": "contract.reference_date"
+      },
+      {
+       "anchor": "contract.start_date",
+       "offset_months": 2,
+       "day": 10
+      }
+     ]
+    },
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "EBANK_TRANSFER",
+     "value": "UNLIMITED"
+    }
+   },
+   {
+    "rule_id": "KBYY-S2-R12-04",
+    "status": "OK",
+    "label": "신규(전환)일로부터 다음 다음 달 10일까지 자동화기기 시간외출금수수료 면제(실적 무관)",
+    "source": {
+     "quote": "※ 이 통장의 신규(전환)일로부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
+    },
+    "condition": {
+     "<=": [
+      {
+       "var": "contract.reference_date"
+      },
+      {
+       "anchor": "contract.start_date",
+       "offset_months": 2,
+       "day": 10
+      }
+     ]
+    },
+    "effect": {
+     "type": "FEE_WAIVE",
+     "target": "ATM_WITHDRAW_AFTER_HOURS",
+     "value": "UNLIMITED"
+    }
+   }
+  ]
+ },
+ "KBYY-K-assignment_collateral": {
+  "clauses": [
+   "KBYY-S2-R16",
+   "KBYY-S2-R17"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBYY-S2-R16-01",
+    "status": "OK",
+    "label": "질권설정 불가",
+    "source": {
+     "quote": "불가"
+    },
+    "condition": {},
+    "effect": {
+     "type": "RESTRICT",
+     "target": "PLEDGE"
+    }
+   },
+   {
+    "rule_id": "KBYY-S2-R17-01",
+    "status": "OK",
+    "label": "양도·상속에 의한 명의변경 불가",
+    "source": {
+     "quote": "▪ 양도 및 상속에 의한 명의변경 불가능"
+    },
+    "condition": {},
+    "effect": {
+     "type": "RESTRICT",
+     "target": "NAME_CHANGE"
+    }
+   },
+   {
+    "rule_id": "KBYY-S2-R17-02",
+    "status": "OK",
+    "label": "담보제공 불가",
+    "source": {
+     "quote": "▪ 담보제공 불가능"
+    },
+    "condition": {},
+    "effect": {
+     "type": "RESTRICT",
+     "target": "PLEDGE"
+    }
+   }
+  ]
+ },
+ "KBYY-K-partner_benefit": {
+  "clauses": [
+   "KBYY-S2-R11",
+   "KBYY-S3-R02",
+   "KBYY-S3-R04",
+   "KBYY-S3-R05"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBYY-S2-R11-01",
+    "status": "UNSUPPORTED",
+    "label": "저금통 설정금액에 특별금리 제공 — 적용 기준 금액 effect 없음, 금리값도 이 조문에 없음",
+    "source": {
+     "quote": "계좌의 출금가능 잔액 범위 내에서 저금통으로 설정된 금액에 대해 특별금리 제공"
+    },
+    "condition": {
+     "and": [
+      {
+       ">": [
+        {
+         "var": "account.reserved_amount"
+        },
+        0
+       ]
+      },
+      {
+       "<=": [
+        {
+         "var": "account.reserved_amount"
+        },
+        {
+         "var": "account.balance"
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "rule_id": "KBYY-S2-R11-02",
+    "status": "UNSUPPORTED",
+    "label": "저금통 설정금액은 계좌 출금(이체) 불가 — 적용 기준 금액 없음 (설정금액만큼만 막는다)",
+    "source": {
+     "quote": "저금통으로 설정된 금액은 계좌 출금(이체)이 불가하며, 필요 금액만큼 저금통 금액 차감 처리 후 계좌출금(이체) 가능"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBYY-S2-R11-03",
+    "status": "OK",
+    "label": "다른 예금 상품 전환 시 저금통 자동 해제",
+    "source": {
+     "quote": "다른 예금 상품으로 전환하는 경우 저금통은 자동 해제됨"
+    },
+    "condition": {
+     "exists": {
+      "event": "PRODUCT_SWITCH",
+      "where": {
+       "direction": [
+        "OUT"
+       ]
+      }
+     }
+    },
+    "effect": {
+     "type": "STATE_CHANGE",
+     "target": "RESERVE_OFF"
+    }
+   },
+   {
+    "rule_id": "KBYY-S2-R11-04",
+    "status": "UNSUPPORTED",
+    "label": "이 상품으로 전환 시 결산일 이후 저금통 설정 가능 — 결산일 변수·설정가능 effect 없음",
+    "source": {
+     "quote": "다른 예금 상품에서 이 상품으로 전환하는 경우 도래하는 결산일 이후 저금통 설정 가능"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBYY-S2-R11-05",
+    "status": "UNSUPPORTED",
+    "label": "실제 잔액이 설정금액보다 적으면 실제 잔액에 특별금리 — 적용 기준 금액 effect 없음",
+    "source": {
+     "quote": "거래 정정 등 부득이한 사유로 저금통 설정금액보다 실제 잔액이 더 적은 경우에는 실제 잔액에 대하여 결산일 현재 지점에 게시한 특별금리 적용"
+    },
+    "condition": {
+     "<": [
+      {
+       "var": "account.balance"
+      },
+      {
+       "var": "account.reserved_amount"
+      }
+     ]
+    }
+   },
+   {
+    "rule_id": "KBYY-S3-R02-01",
+    "status": "OK",
+    "label": "NE Times 무료체험프로그램 제공기간 1년(1년 단위 갱신)",
+    "source": {
+     "quote": "▪ 가입일로부터 1년(1년 단위 갱신)."
+    },
+    "condition": {},
+    "effect": {
+     "type": "SERVICE_PROVIDE",
+     "target": "NE_TIMES_TRIAL",
+     "value": 1,
+     "unit": "년",
+     "renewable": true
+    }
+   },
+   {
+    "rule_id": "KBYY-S3-R04-01",
+    "status": "UNSUPPORTED",
+    "label": "제휴서비스 축소·변경 시 상응하는 다른 서비스 제공 — 축소·변경 사건 변수 없음",
+    "source": {
+     "quote": "▪ KB국민은행은 연계·제휴서비스를 부당하게 축소하거나 변경하지 않으며, 불가피하게 축소하거나 변경하는 경우 그에 상응하는 다른 연계·제휴서비스를 제공"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBYY-S3-R05-01",
+    "status": "OK",
+    "label": "만 7세–만 18세 NE Times 온라인수강권 1개월 제공",
+    "source": {
+     "quote": "NE Times(www.netimes.co.kr) | 만 7세 – 만 18세 온라인수강권 1개월 및 영자신문 2회"
+    },
+    "condition": {
+     "and": [
+      {
+       ">=": [
+        {
+         "var": "customer.age"
+        },
+        7
+       ]
+      },
+      {
+       "<=": [
+        {
+         "var": "customer.age"
+        },
+        18
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "SERVICE_PROVIDE",
+     "target": "NE_TIMES_ONLINE_COURSE",
+     "value": 1,
+     "unit": "개월"
+    }
+   },
+   {
+    "rule_id": "KBYY-S3-R05-02",
+    "status": "OK",
+    "label": "만 7세–만 18세 NE Times 영자신문 2회 제공",
+    "source": {
+     "quote": "NE Times(www.netimes.co.kr) | 만 7세 – 만 18세 온라인수강권 1개월 및 영자신문 2회"
+    },
+    "condition": {
+     "and": [
+      {
+       ">=": [
+        {
+         "var": "customer.age"
+        },
+        7
+       ]
+      },
+      {
+       "<=": [
+        {
+         "var": "customer.age"
+        },
+        18
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "SERVICE_PROVIDE",
+     "target": "NE_TIMES_NEWSPAPER",
+     "value": 2,
+     "unit": "회"
+    }
+   }
+  ]
+ },
+ "KBYY-K-product_conversion": {
+  "clauses": [
+   "KBYY-S2-R04",
+   "KBYY-S2-R05"
+  ],
+  "rules": [
+   {
+    "rule_id": "KBYY-S2-R04-01",
+    "status": "OK",
+    "label": "만 19세 도달 시 KB국민ONE통장으로 자동전환",
+    "source": {
+     "quote": "매년 첫 영업일에 가입자의 연령이 만 19세인 경우 「KB국민ONE통장」으로 자동전환"
+    },
+    "condition": {
+     "and": [
+      {
+       "==": [
+        {
+         "var": "customer.age"
+        },
+        19
+       ]
+      },
+      {
+       "not": {
+        "in": [
+         "KB국민ONE통장",
+         {
+          "var": "customer.held_products"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    "effect": {
+     "type": "PRODUCT_SWITCH_TO",
+     "target": "KB국민ONE통장"
+    }
+   },
+   {
+    "rule_id": "KBYY-S2-R04-02",
+    "status": "OK",
+    "label": "KB국민ONE통장 기보유 시 KB종합통장으로 자동전환",
+    "source": {
+     "quote": "단, KB국민ONE통장을 이미 보유하고 있는 경우에는 「KB종합통장」으로 자동전환"
+    },
+    "condition": {
+     "and": [
+      {
+       "==": [
+        {
+         "var": "customer.age"
+        },
+        19
+       ]
+      },
+      {
+       "in": [
+        "KB국민ONE통장",
+        {
+         "var": "customer.held_products"
+        }
+       ]
+      }
+     ]
+    },
+    "effect": {
+     "type": "PRODUCT_SWITCH_TO",
+     "target": "KB종합통장"
+    }
+   },
+   {
+    "rule_id": "KBYY-S2-R05-01",
+    "status": "UNSUPPORTED",
+    "label": "기존 저축예금 통장 전환 가능 — 예금과목 세부 구분(저축예금 · MMDA · 증권통장) 변수 없음",
+    "source": {
+     "quote": "▪ 기존 저축예금 통장 전환 가능"
+    },
+    "condition": {}
+   },
+   {
+    "rule_id": "KBYY-S2-R05-02",
+    "status": "UNSUPPORTED",
+    "label": "공동명의·KB증권통장·MMDA통장 전환 불가 — 예금과목 세부 구분(저축예금 · MMDA · 증권통장) 변수 없음",
+    "source": {
+     "quote": "※ 단, 공동명의 계좌, KB증권통장, MMDA통장은 전환 불가"
+    },
+    "condition": {}
+   }
+  ]
+ }
+}

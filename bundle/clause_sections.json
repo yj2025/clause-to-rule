@@ -1,0 +1,1634 @@
+{
+ "mapped": {
+  "KBYY-S1-P01": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1771,
+   "score": 0.88,
+   "keys": [
+    {
+     "key": "product_feature",
+     "role": "주"
+    },
+    {
+     "key": "event_special_rate",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBYY-S2-R01": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1773,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "eligibility_target",
+     "role": "주"
+    },
+    {
+     "key": "eligibility_restriction",
+     "role": "참고"
+    },
+    {
+     "key": "account_limit",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBYY-S2-R02": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1774,
+   "score": 0.67,
+   "keys": [
+    {
+     "key": "deposit_amount",
+     "role": "주"
+    }
+   ]
+  },
+  "KBYY-S2-R03": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1775,
+   "score": 0.88,
+   "keys": [
+    {
+     "key": "product_type",
+     "role": "주"
+    }
+   ]
+  },
+  "KBYY-S2-R04": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1776,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "product_conversion",
+     "role": "주"
+    }
+   ]
+  },
+  "KBYY-S2-R05": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1777,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "product_conversion",
+     "role": "주"
+    }
+   ]
+  },
+  "KBYY-S2-R06": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1778,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "base_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBYY-S2-R07": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1779,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "event_special_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBYY-S2-R08": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1780,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "interest_payment",
+     "role": "주"
+    }
+   ]
+  },
+  "KBYY-S2-R09": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1782,
+   "score": 0.87,
+   "keys": [
+    {
+     "key": "event_special_rate",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBYY-S2-R10": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1783,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "event_special_rate",
+     "role": "참고"
+    },
+    {
+     "key": "final_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBYY-S2-R11": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1784,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "event_special_rate",
+     "role": "참고"
+    },
+    {
+     "key": "partner_benefit",
+     "role": "주"
+    },
+    {
+     "key": "product_conversion",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBYY-S2-R12": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1785,
+   "score": 0.62,
+   "keys": [
+    {
+     "key": "fee",
+     "role": "주"
+    }
+   ]
+  },
+  "KBYY-S2-R13": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1786,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "tax",
+     "role": "주"
+    }
+   ]
+  },
+  "KBYY-S2-R15": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1788,
+   "score": 0.79,
+   "keys": [
+    {
+     "key": "termination_method",
+     "role": "주"
+    }
+   ]
+  },
+  "KBYY-S2-R16": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1789,
+   "score": 0.5,
+   "keys": [
+    {
+     "key": "assignment_collateral",
+     "role": "주"
+    }
+   ]
+  },
+  "KBYY-S2-R17": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1790,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "ownership_name_change",
+     "role": "참고"
+    },
+    {
+     "key": "assignment_collateral",
+     "role": "주"
+    }
+   ]
+  },
+  "KBYY-S2-R19": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1792,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "transaction_restriction",
+     "role": "주"
+    }
+   ]
+  },
+  "KBYY-S2-R23": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1796,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "eligibility_restriction",
+     "role": "참고"
+    },
+    {
+     "key": "account_limit",
+     "role": "참고"
+    },
+    {
+     "key": "transaction_restriction",
+     "role": "주"
+    }
+   ]
+  },
+  "KBYY-S3-R02": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1799,
+   "score": 0.88,
+   "keys": [
+    {
+     "key": "partner_benefit",
+     "role": "주"
+    }
+   ]
+  },
+  "KBYY-S3-R04": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1801,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "partner_benefit",
+     "role": "주"
+    }
+   ]
+  },
+  "KBYY-S3-R05": {
+   "product": "KB Young Youth 통장",
+   "section_id": 1802,
+   "score": 0.64,
+   "keys": [
+    {
+     "key": "partner_benefit",
+     "role": "주"
+    }
+   ]
+  },
+  "KBONE-S1-P01": {
+   "product": "KB국민ONE통장",
+   "section_id": 1894,
+   "score": 0.88,
+   "keys": [
+    {
+     "key": "product_feature",
+     "role": "주"
+    }
+   ]
+  },
+  "KBONE-S2-R01": {
+   "product": "KB국민ONE통장",
+   "section_id": 1896,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "eligibility_target",
+     "role": "주"
+    },
+    {
+     "key": "account_limit",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBONE-S2-R03": {
+   "product": "KB국민ONE통장",
+   "section_id": 1898,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "product_type",
+     "role": "주"
+    },
+    {
+     "key": "product_conversion",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBONE-S2-R04": {
+   "product": "KB국민ONE통장",
+   "section_id": 1899,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "base_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBONE-S2-R05": {
+   "product": "KB국민ONE통장",
+   "section_id": 1900,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "interest_payment",
+     "role": "주"
+    }
+   ]
+  },
+  "KBONE-S2-R07": {
+   "product": "KB국민ONE통장",
+   "section_id": 1902,
+   "score": 0.98,
+   "keys": [
+    {
+     "key": "fee",
+     "role": "주"
+    }
+   ]
+  },
+  "KBONE-S2-R10": {
+   "product": "KB국민ONE통장",
+   "section_id": 1908,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "tax",
+     "role": "주"
+    }
+   ]
+  },
+  "KBONE-S2-R12": {
+   "product": "KB국민ONE통장",
+   "section_id": 1910,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "termination_method",
+     "role": "주"
+    }
+   ]
+  },
+  "KBONE-S2-R14": {
+   "product": "KB국민ONE통장",
+   "section_id": 1912,
+   "score": 0.76,
+   "keys": [
+    {
+     "key": "assignment_collateral",
+     "role": "주"
+    }
+   ]
+  },
+  "KBONE-S2-R16": {
+   "product": "KB국민ONE통장",
+   "section_id": 1914,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "transaction_restriction",
+     "role": "주"
+    }
+   ]
+  },
+  "KBONE-S2-R20": {
+   "product": "KB국민ONE통장",
+   "section_id": 1918,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "account_limit",
+     "role": "참고"
+    },
+    {
+     "key": "transaction_restriction",
+     "role": "주"
+    },
+    {
+     "key": "fee",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBGL-S1-P01": {
+   "product": "KB골든라이프연금우대통장",
+   "section_id": 1840,
+   "score": 0.88,
+   "keys": [
+    {
+     "key": "product_feature",
+     "role": "주"
+    }
+   ]
+  },
+  "KBGL-S2-R01": {
+   "product": "KB골든라이프연금우대통장",
+   "section_id": 1842,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "eligibility_target",
+     "role": "주"
+    },
+    {
+     "key": "account_limit",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBGL-S2-R02": {
+   "product": "KB골든라이프연금우대통장",
+   "section_id": 1843,
+   "score": 0.67,
+   "keys": [
+    {
+     "key": "deposit_amount",
+     "role": "주"
+    }
+   ]
+  },
+  "KBGL-S2-R03": {
+   "product": "KB골든라이프연금우대통장",
+   "section_id": 1844,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "product_type",
+     "role": "주"
+    },
+    {
+     "key": "product_conversion",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBGL-S2-R04": {
+   "product": "KB골든라이프연금우대통장",
+   "section_id": 1845,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "base_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBGL-S2-R05": {
+   "product": "KB골든라이프연금우대통장",
+   "section_id": 1848,
+   "score": 0.62,
+   "keys": [
+    {
+     "key": "preferential_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBGL-S2-R06": {
+   "product": "KB골든라이프연금우대통장",
+   "section_id": 1849,
+   "score": 0.45,
+   "keys": [
+    {
+     "key": "final_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBGL-S2-R07": {
+   "product": "KB골든라이프연금우대통장",
+   "section_id": 1850,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "interest_payment",
+     "role": "주"
+    }
+   ]
+  },
+  "KBGL-S2-R09": {
+   "product": "KB골든라이프연금우대통장",
+   "section_id": 1852,
+   "score": 0.98,
+   "keys": [
+    {
+     "key": "preferential_rate",
+     "role": "참고"
+    },
+    {
+     "key": "fee",
+     "role": "주"
+    }
+   ]
+  },
+  "KBGL-S2-R10": {
+   "product": "KB골든라이프연금우대통장",
+   "section_id": 1853,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "preferential_rate",
+     "role": "참고"
+    },
+    {
+     "key": "partner_benefit",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSSG-S1-P01": {
+   "product": "쓱머니KB통장",
+   "section_id": 3389,
+   "score": 0.9,
+   "keys": [
+    {
+     "key": "product_feature",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSSG-S2-R01": {
+   "product": "쓱머니KB통장",
+   "section_id": 3391,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "eligibility_target",
+     "role": "주"
+    },
+    {
+     "key": "eligibility_restriction",
+     "role": "참고"
+    },
+    {
+     "key": "account_limit",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBSSG-S2-R03": {
+   "product": "쓱머니KB통장",
+   "section_id": 3393,
+   "score": 0.88,
+   "keys": [
+    {
+     "key": "product_type",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSSG-S2-R06": {
+   "product": "쓱머니KB통장",
+   "section_id": 3396,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "interest_payment",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSSG-S2-R07": {
+   "product": "쓱머니KB통장",
+   "section_id": 3397,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "base_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSSG-S2-R08": {
+   "product": "쓱머니KB통장",
+   "section_id": 3398,
+   "score": 0.75,
+   "keys": [
+    {
+     "key": "preferential_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSSG-S2-R09": {
+   "product": "쓱머니KB통장",
+   "section_id": 3399,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "final_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSSG-S2-R10": {
+   "product": "쓱머니KB통장",
+   "section_id": 3400,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "fee",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSSG-S2-R12": {
+   "product": "쓱머니KB통장",
+   "section_id": 3402,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "product_conversion",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSSG-S2-R13": {
+   "product": "쓱머니KB통장",
+   "section_id": 3403,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "product_name",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSSG-S4-R01": {
+   "product": "쓱머니KB통장",
+   "section_id": 3415,
+   "score": 0.79,
+   "keys": [
+    {
+     "key": "partner_benefit",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSSG-S4-R02": {
+   "product": "쓱머니KB통장",
+   "section_id": 3416,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "partner_benefit",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSSG-S4-R03": {
+   "product": "쓱머니KB통장",
+   "section_id": 3417,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "partner_benefit",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSSG-S4-R04": {
+   "product": "쓱머니KB통장",
+   "section_id": 3418,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "partner_benefit",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSSG-S4-R05": {
+   "product": "쓱머니KB통장",
+   "section_id": 3419,
+   "score": 0.61,
+   "keys": [
+    {
+     "key": "partner_benefit",
+     "role": "주"
+    }
+   ]
+  },
+  "KBNR-S1-P01": {
+   "product": "KB나라사랑우대통장",
+   "section_id": 2090,
+   "score": 0.89,
+   "keys": [
+    {
+     "key": "product_feature",
+     "role": "주"
+    }
+   ]
+  },
+  "KBNR-S2-R01": {
+   "product": "KB나라사랑우대통장",
+   "section_id": 2092,
+   "score": 0.83,
+   "keys": [
+    {
+     "key": "eligibility_target",
+     "role": "주"
+    },
+    {
+     "key": "account_limit",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBNR-S2-R02": {
+   "product": "KB나라사랑우대통장",
+   "section_id": 2093,
+   "score": 0.67,
+   "keys": [
+    {
+     "key": "deposit_amount",
+     "role": "주"
+    }
+   ]
+  },
+  "KBNR-S2-R03": {
+   "product": "KB나라사랑우대통장",
+   "section_id": 2094,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "product_type",
+     "role": "주"
+    },
+    {
+     "key": "product_conversion",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBNR-S2-R04": {
+   "product": "KB나라사랑우대통장",
+   "section_id": 2095,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "base_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBNR-S2-R05": {
+   "product": "KB나라사랑우대통장",
+   "section_id": 2096,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "preferential_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBNR-S2-R06": {
+   "product": "KB나라사랑우대통장",
+   "section_id": 2097,
+   "score": 0.75,
+   "keys": [
+    {
+     "key": "final_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBNR-S2-R07": {
+   "product": "KB나라사랑우대통장",
+   "section_id": 2098,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "interest_payment",
+     "role": "주"
+    }
+   ]
+  },
+  "KBNR-S2-R09": {
+   "product": "KB나라사랑우대통장",
+   "section_id": 2100,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "fee",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSME-S1-P01": {
+   "product": "KB 중소기업재직자 우대저축",
+   "section_id": 2857,
+   "score": 0.9,
+   "keys": [
+    {
+     "key": "product_feature",
+     "role": "주"
+    },
+    {
+     "key": "government_employer_support",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBSME-S2-R01": {
+   "product": "KB 중소기업재직자 우대저축",
+   "section_id": 2859,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "eligibility_target",
+     "role": "주"
+    },
+    {
+     "key": "eligibility_restriction",
+     "role": "참고"
+    },
+    {
+     "key": "account_limit",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBSME-S2-R02": {
+   "product": "KB 중소기업재직자 우대저축",
+   "section_id": 2860,
+   "score": 0.78,
+   "keys": [
+    {
+     "key": "product_type",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSME-S2-R04": {
+   "product": "KB 중소기업재직자 우대저축",
+   "section_id": 2862,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "saving_amount",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSME-S2-R06": {
+   "product": "KB 중소기업재직자 우대저축",
+   "section_id": 2864,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "interest_payment",
+     "role": "주"
+    },
+    {
+     "key": "early_termination",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBSME-S2-R07": {
+   "product": "KB 중소기업재직자 우대저축",
+   "section_id": 2865,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "application_selection",
+     "role": "주"
+    },
+    {
+     "key": "government_employer_support",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBSME-S2-R08": {
+   "product": "KB 중소기업재직자 우대저축",
+   "section_id": 2866,
+   "score": 0.11,
+   "keys": [
+    {
+     "key": "base_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSME-S2-R09": {
+   "product": "KB 중소기업재직자 우대저축",
+   "section_id": 2868,
+   "score": 0.81,
+   "keys": [
+    {
+     "key": "event_special_rate",
+     "role": "참고"
+    },
+    {
+     "key": "final_rate",
+     "role": "주"
+    },
+    {
+     "key": "early_termination",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBSME-S2-R12": {
+   "product": "KB 중소기업재직자 우대저축",
+   "section_id": 2871,
+   "score": 0.3,
+   "keys": [
+    {
+     "key": "early_termination",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSME-S3-R02": {
+   "product": "KB 중소기업재직자 우대저축",
+   "section_id": 2889,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "partner_benefit",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSME-S4-R01": {
+   "product": "KB 중소기업재직자 우대저축",
+   "section_id": 2893,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "application_selection",
+     "role": "참고"
+    },
+    {
+     "key": "early_termination",
+     "role": "참고"
+    },
+    {
+     "key": "government_employer_support",
+     "role": "주"
+    }
+   ]
+  },
+  "KBMER-S1-P01": {
+   "product": "KB가맹점우대적금",
+   "section_id": 1807,
+   "score": 0.93,
+   "keys": [
+    {
+     "key": "product_feature",
+     "role": "주"
+    }
+   ]
+  },
+  "KBMER-S2-R01": {
+   "product": "KB가맹점우대적금",
+   "section_id": 1809,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "eligibility_target",
+     "role": "주"
+    },
+    {
+     "key": "account_limit",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBMER-S2-R02": {
+   "product": "KB가맹점우대적금",
+   "section_id": 1810,
+   "score": 0.78,
+   "keys": [
+    {
+     "key": "product_type",
+     "role": "주"
+    }
+   ]
+  },
+  "KBMER-S2-R07": {
+   "product": "KB가맹점우대적금",
+   "section_id": 1815,
+   "score": 0.89,
+   "keys": [
+    {
+     "key": "base_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBMER-S2-R08": {
+   "product": "KB가맹점우대적금",
+   "section_id": 1816,
+   "score": 0.9,
+   "keys": [
+    {
+     "key": "preferential_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBMER-S2-R09": {
+   "product": "KB가맹점우대적금",
+   "section_id": 1817,
+   "score": 0.55,
+   "keys": [
+    {
+     "key": "final_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBMER-S2-R11": {
+   "product": "KB가맹점우대적금",
+   "section_id": 1819,
+   "score": 0.59,
+   "keys": [
+    {
+     "key": "early_termination",
+     "role": "주"
+    }
+   ]
+  },
+  "KBMY-S1-P01": {
+   "product": "KB내맘대로적금",
+   "section_id": 2177,
+   "score": 0.93,
+   "keys": [
+    {
+     "key": "product_feature",
+     "role": "주"
+    }
+   ]
+  },
+  "KBMY-S2-R01": {
+   "product": "KB내맘대로적금",
+   "section_id": 2179,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "eligibility_target",
+     "role": "주"
+    },
+    {
+     "key": "account_limit",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBMY-S2-R02": {
+   "product": "KB내맘대로적금",
+   "section_id": 2180,
+   "score": 0.87,
+   "keys": [
+    {
+     "key": "product_type",
+     "role": "주"
+    }
+   ]
+  },
+  "KBMY-S2-R07": {
+   "product": "KB내맘대로적금",
+   "section_id": 2185,
+   "score": 0.93,
+   "keys": [
+    {
+     "key": "base_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBMY-S2-R08": {
+   "product": "KB내맘대로적금",
+   "section_id": 2186,
+   "score": 0.39,
+   "keys": [
+    {
+     "key": "payment_limit",
+     "role": "참고"
+    },
+    {
+     "key": "preferential_rate",
+     "role": "주"
+    },
+    {
+     "key": "event_special_rate",
+     "role": "참고"
+    },
+    {
+     "key": "early_termination",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBMY-S2-R09": {
+   "product": "KB내맘대로적금",
+   "section_id": 2187,
+   "score": 0.24,
+   "keys": [
+    {
+     "key": "event_special_rate",
+     "role": "참고"
+    },
+    {
+     "key": "final_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBMY-S2-R11": {
+   "product": "KB내맘대로적금",
+   "section_id": 2189,
+   "score": 0.43,
+   "keys": [
+    {
+     "key": "early_termination",
+     "role": "주"
+    }
+   ]
+  },
+  "KBMY-S2-R16": {
+   "product": "KB내맘대로적금",
+   "section_id": 2194,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "preferential_rate",
+     "role": "참고"
+    },
+    {
+     "key": "auto_renewal",
+     "role": "주"
+    }
+   ]
+  },
+  "KBMY-S2-R17": {
+   "product": "KB내맘대로적금",
+   "section_id": 2195,
+   "score": 0.01,
+   "keys": [
+    {
+     "key": "partial_withdrawal",
+     "role": "주"
+    }
+   ]
+  },
+  "KBMY-S4-R01": {
+   "product": "KB내맘대로적금",
+   "section_id": 2208,
+   "score": 0.09,
+   "keys": [
+    {
+     "key": "partner_benefit",
+     "role": "주"
+    }
+   ]
+  },
+  "KBMY-S4-R02": {
+   "product": "KB내맘대로적금",
+   "section_id": 2209,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "partner_benefit",
+     "role": "주"
+    }
+   ]
+  },
+  "KBMY-S4-R03": {
+   "product": "KB내맘대로적금",
+   "section_id": 2210,
+   "score": 0.24,
+   "keys": [
+    {
+     "key": "early_termination",
+     "role": "참고"
+    },
+    {
+     "key": "partner_benefit",
+     "role": "주"
+    }
+   ]
+  },
+  "KBMY-S4-R04": {
+   "product": "KB내맘대로적금",
+   "section_id": 2211,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "partner_benefit",
+     "role": "주"
+    }
+   ]
+  },
+  "KBMY-S4-R05": {
+   "product": "KB내맘대로적금",
+   "section_id": 2212,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "ownership_name_change",
+     "role": "참고"
+    },
+    {
+     "key": "partner_benefit",
+     "role": "주"
+    }
+   ]
+  },
+  "KBHAP-S1-P01": {
+   "product": "KB국민행복적금",
+   "section_id": 1978,
+   "score": 0.9,
+   "keys": [
+    {
+     "key": "product_feature",
+     "role": "주"
+    }
+   ]
+  },
+  "KBHAP-S2-R01": {
+   "product": "KB국민행복적금",
+   "section_id": 1980,
+   "score": 0.9,
+   "keys": [
+    {
+     "key": "eligibility_target",
+     "role": "주"
+    },
+    {
+     "key": "required_evidence",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBHAP-S2-R03": {
+   "product": "KB국민행복적금",
+   "section_id": 1982,
+   "score": 0.87,
+   "keys": [
+    {
+     "key": "product_type",
+     "role": "주"
+    }
+   ]
+  },
+  "KBHAP-S2-R08": {
+   "product": "KB국민행복적금",
+   "section_id": 1987,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "base_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBHAP-S2-R09": {
+   "product": "KB국민행복적금",
+   "section_id": 1988,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "preferential_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBHAP-S2-R10": {
+   "product": "KB국민행복적금",
+   "section_id": 1989,
+   "score": 0.84,
+   "keys": [
+    {
+     "key": "final_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBHAP-S2-R12": {
+   "product": "KB국민행복적금",
+   "section_id": 1991,
+   "score": 0.59,
+   "keys": [
+    {
+     "key": "early_termination",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSUP-S1-P01": {
+   "product": "국민수퍼정기예금(개인)",
+   "section_id": 3284,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "product_name",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSUP-S2-R02": {
+   "product": "국민수퍼정기예금(개인)",
+   "section_id": 3287,
+   "score": 0.67,
+   "keys": [
+    {
+     "key": "product_type",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSUP-S2-R03": {
+   "product": "국민수퍼정기예금(개인)",
+   "section_id": 3288,
+   "score": 0.68,
+   "keys": [
+    {
+     "key": "contract_term",
+     "role": "주"
+    },
+    {
+     "key": "rate_structure",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBSUP-S2-R04": {
+   "product": "국민수퍼정기예금(개인)",
+   "section_id": 3289,
+   "score": 0.08,
+   "keys": [
+    {
+     "key": "deposit_amount",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSUP-S2-R05": {
+   "product": "국민수퍼정기예금(개인)",
+   "section_id": 3296,
+   "score": 0.54,
+   "keys": [
+    {
+     "key": "rate_structure",
+     "role": "참고"
+    },
+    {
+     "key": "preferential_rate",
+     "role": "주"
+    },
+    {
+     "key": "event_special_rate",
+     "role": "참고"
+    },
+    {
+     "key": "early_termination",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBSTR-S1-P01": {
+   "product": "KB Star 정기예금",
+   "section_id": 1704,
+   "score": 0.84,
+   "keys": [
+    {
+     "key": "product_feature",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSTR-S2-R02": {
+   "product": "KB Star 정기예금",
+   "section_id": 1707,
+   "score": 0.67,
+   "keys": [
+    {
+     "key": "product_type",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSTR-S2-R07": {
+   "product": "KB Star 정기예금",
+   "section_id": 1712,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "base_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSTR-S2-R08": {
+   "product": "KB Star 정기예금",
+   "section_id": 1713,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "preferential_rate",
+     "role": "주"
+    },
+    {
+     "key": "event_special_rate",
+     "role": "참고"
+    },
+    {
+     "key": "early_termination",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBSTR-S2-R09": {
+   "product": "KB Star 정기예금",
+   "section_id": 1714,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "final_rate",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSTR-S2-R12": {
+   "product": "KB Star 정기예금",
+   "section_id": 1717,
+   "score": 0.71,
+   "keys": [
+    {
+     "key": "early_termination",
+     "role": "주"
+    }
+   ]
+  },
+  "KBSTR-S2-R17": {
+   "product": "KB Star 정기예금",
+   "section_id": 1722,
+   "score": 1.0,
+   "keys": [
+    {
+     "key": "fee",
+     "role": "참고"
+    }
+   ]
+  },
+  "KBGEN-S1-P01": {
+   "product": "일반정기예금",
+   "section_id": 3422,
+   "score": 0.89,
+   "keys": [
+    {
+     "key": "product_feature",
+     "role": "주"
+    }
+   ]
+  },
+  "KBGEN-S2-R02": {
+   "product": "일반정기예금",
+   "section_id": 3425,
+   "score": 0.67,
+   "keys": [
+    {
+     "key": "product_type",
+     "role": "주"
+    }
+   ]
+  }
+ },
+ "missing": [
+  [
+   "KBYY-S2-R14",
+   0.33
+  ],
+  [
+   "KBYY-S2-R18",
+   0.1
+  ],
+  [
+   "KBYY-S2-R20",
+   0.13
+  ],
+  [
+   "KBYY-S2-R22",
+   0.12
+  ],
+  [
+   "KBYY-S3-R01",
+   0.28
+  ],
+  [
+   "KBYY-S3-R03",
+   0.13
+  ],
+  [
+   "KBYY-S5-R01",
+   0.46
+  ],
+  [
+   "KBYY-S5-R02",
+   0.46
+  ],
+  [
+   "KBYY-S5-R03",
+   0.13
+  ],
+  [
+   "KBONE-S2-R06",
+   0.24
+  ],
+  [
+   "KBONE-S2-R11",
+   0.43
+  ],
+  [
+   "KBONE-S2-R15",
+   0.31
+  ],
+  [
+   "KBONE-S2-R17",
+   0.13
+  ],
+  [
+   "KBGL-S2-R08",
+   0.24
+  ],
+  [
+   "KBSSG-S2-R05",
+   0.27
+  ],
+  [
+   "KBSSG-S3-R01",
+   0.19
+  ],
+  [
+   "KBNR-S2-R08",
+   0.28
+  ],
+  [
+   "KBSME-S2-R10",
+   0.25
+  ],
+  [
+   "KBSME-S2-R11",
+   0.37
+  ],
+  [
+   "KBSME-S2-R22",
+   0.08
+  ],
+  [
+   "KBSME-S3-R04",
+   0.59
+  ],
+  [
+   "KBMER-S2-R10",
+   0.45
+  ],
+  [
+   "KBMER-S2-R13",
+   0.31
+  ],
+  [
+   "KBMER-S2-R23",
+   0.14
+  ],
+  [
+   "KBMY-S2-R10",
+   0.2
+  ],
+  [
+   "KBMY-S2-R13",
+   0.24
+  ],
+  [
+   "KBHAP-S2-R11",
+   0.2
+  ],
+  [
+   "KBHAP-S2-R14",
+   0.46
+  ],
+  [
+   "KBSTR-S2-R11",
+   0.15
+  ],
+  [
+   "KBSTR-S2-R13",
+   0.47
+  ],
+  [
+   "KBGEN-S2-R08",
+   0.54
+  ]
+ ]
+}
