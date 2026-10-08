@@ -1,4 +1,4 @@
-"""explain.py — 모르는 조건을 «조건부»로 보이는 층 (2026-10-08)."""
+"""explain.py — 모르는 조건을 «조건부»로 넘기는 JSON (2026-10-08)."""
 import copy
 import json
 
@@ -16,6 +16,10 @@ def _run(prefix, **kw):
     return X.explain(X.load_gold(prefix), ctx, BASE_RATE[prefix])
 
 
+def _rule(out, rid):
+    return next(it for it in out["rules"] if it["rule_id"] == rid)
+
+
 def test_transactions_are_never_declared():
     """거래 내역을 «제공했다»로 선언하면 실적 0건(NOT_MET)이 되어 혜택을 «못 받는다»로 단정한다."""
     ctx = X.user_ctx(TODAY, **BASIC)
@@ -24,34 +28,34 @@ def test_transactions_are_never_declared():
 
 def test_salary_preference_is_conditional_not_assumed():
     out = _run("KBNR")
-    assert out["금리 범위"] == [0.1, 2.0]
-    sal = [it for it in out["항목"] if it["rule_id"] == "KBNR-S2-R05-01"][0]
-    assert sal["상태"] == "조건부" and sal["구분"] == "혜택"
-    assert sal["거래 내역(모으지 않음)"] == ["급여이체"]
-    assert "급여이체 실적" in sal["근거"]
+    assert out["rate_range"] == [0.1, 2.0]
+    sal = _rule(out, "KBNR-S2-R05-01")
+    assert sal["status"] == "CONDITIONAL" and sal["side"] == "BENEFIT"
+    assert sal["missing_events"] == ["SALARY_TRANSFER"] and sal["missing_inputs"] == []
+    assert sal["effect"]["type"] == "RATE_ADD" and sal["effect"]["value"] == 1.9
+    assert "급여이체 실적" in sal["quote"]
 
 
-def test_underage_is_disqualified_and_benefits_hidden():
+def test_underage_is_disqualified():
     out = _run("KBSSG", age=15)
-    assert out["가입 불가 확정"]
-    text = X.render(out)
-    assert "가입할 수 없습니다" in text and "면제" not in text
+    assert out["disqualified"] and _rule(out, "KBSSG-S2-R01-01")["status"] == "APPLIES"
 
 
 def test_unknown_override_widens_range():
-    """resolver 는 UNKNOWN RATE_OVERRIDE 를 구간에 안 넣는다 — 연금 9건 이상 연 1.5% 가 «0.10% 확정»으로 보이면 안 된다."""
+    """resolver 는 UNKNOWN RATE_OVERRIDE 를 구간에 안 넣는다 — 연금 9건 이상 연 1.5% 가 «0.10% 확정»이 되면 안 된다."""
     out = _run("KBGL", age=70)
-    assert out["금리 범위"] == [0.1, 1.5]
-    tiers = [it for it in out["항목"] if it["결과"].get("값") == "연 1.5%"]
-    assert tiers and tiers[0]["구분"] == "혜택"
+    assert out["rate_range"] == [0.1, 1.5]
+    tiers = [it for it in out["rules"] if (it["effect"] or {}).get("value") == 1.5]
+    assert tiers and tiers[0]["side"] == "BENEFIT"
 
 
 def test_termination_rates_stay_out_of_range():
-    """중도해지 이율은 «지금 받는 금리»가 아니다 — 구간에 안 넣고 «주의»로만."""
+    """중도해지 이율은 «지금 받는 금리»가 아니다 — 구간에 안 넣고 CAUTION 으로만."""
     out = _run("KBSME", maturity="2028-06-10")
-    assert out["금리 범위"][0] == BASE_RATE["KBSME"]
-    early = [it for it in out["항목"] if it["결과"].get("값") == "연 0.1%"]
-    assert early and all(it["구분"] == "주의" for it in early)
+    assert out["rate_range"][0] == BASE_RATE["KBSME"]
+    early = [it for it in out["rules"] if (it["effect"] or {}).get("value") == 0.1]
+    assert early and all(it["side"] == "CAUTION" for it in early)
+    assert "contract.termination_date" in early[0]["missing_inputs"]
 
 
 def test_prune_keeps_the_judgement():
@@ -70,29 +74,17 @@ def test_prune_keeps_the_judgement():
     assert n > 0
 
 
-def test_every_product_renders_and_input_untouched():
+def test_every_product_and_input_untouched():
     for prefix in BASE_RATE:
         rules = X.load_gold(prefix)
         before = copy.deepcopy(rules)
-        ctx = X.user_ctx(TODAY, **BASIC)
-        text = X.render(X.explain(rules, ctx, BASE_RATE[prefix]))
-        assert text.startswith("■") and "None" not in text
+        out = X.explain(rules, X.user_ctx(TODAY, **BASIC), BASE_RATE[prefix])
+        json.dumps(out)
+        assert {it["status"] for it in out["rules"]} <= {"APPLIES", "CONDITIONAL", "NOT_APPLICABLE", "ERROR"}
         assert rules == before
 
 
-def test_cli_json(capsys):
-    X.main(["KBNR", "--today", TODAY, "--start", "2025-03-02", "--json"])
+def test_cli(capsys):
+    X.main(["KBNR", "--today", TODAY, "--start", "2025-03-02"])
     out = json.loads(capsys.readouterr().out)
-    assert out["기본이율"] == BASE_RATE["KBNR"]
-
-
-def test_date_conditions_read_as_sentences():
-    """「해지일 가입일 기준 다음 달 이전」은 못 읽는다(10-08 사용자) — 날짜 비교는 문장으로 옮긴다."""
-    early = {"and": [{"==": [{"var": "contract.termination_type"}, "EARLY"]},
-                     {"<": [{"var": "contract.termination_date"}, {"anchor": "contract.start_date", "offset_months": 1}]}]}
-    assert X.cond_sentence(early, {}) == "가입 후 1개월이 되기 전에 중도해지하면"
-    grace = {"<=": [{"var": "contract.reference_date"}, {"anchor": "contract.start_date", "offset_months": 2, "day": 10}]}
-    assert X.cond_sentence(grace, {}) == "가입한 달의 다음다음 달 10일까지"
-    text = X.render(_run("KBSME", maturity="2028-06-10"))
-    assert "가입 후 1개월이 되기 전에 중도해지하면 → 이율 연 0.1% 적용" in text
-    assert "기준 다음 달 이전" not in text
+    assert out["base_rate"] == BASE_RATE["KBNR"]
