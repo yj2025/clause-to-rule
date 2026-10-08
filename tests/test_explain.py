@@ -88,3 +88,13 @@ def test_cli(capsys):
     X.main(["KBNR", "--today", TODAY, "--start", "2025-03-02"])
     out = json.loads(capsys.readouterr().out)
     assert out["base_rate"] == BASE_RATE["KBNR"]
+
+
+def test_let_keeps_only_what_the_pruned_condition_calls():
+    """오늘이 8일이면 「11일 이후 → 전월」 갈래가 걷힌다 — 그 갈래의 기간(window)도 넘기지 않는다."""
+    fee = _rule(_run("KBNR"), "KBNR-S2-R09-01")
+    assert set(fee["let"]) == {"window2"}
+    for prefix in BASE_RATE:
+        for it in _run(prefix)["rules"]:
+            assert set(it.get("let", {})) == X._refs(it["condition"]) & set(it.get("let", {}))
+            assert X._refs(it["condition"]) <= set(it.get("let", {}))

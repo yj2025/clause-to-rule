@@ -125,6 +125,31 @@ def prune(node, ctx, env):
     return node
 
 
+def _refs(node, out=None):
+    """조건식이 부르는 `let` 이름들 (`{"ref": "$window"}` → window)."""
+    out = set() if out is None else out
+    if isinstance(node, dict):
+        if isinstance(node.get("ref"), str):
+            out.add(node["ref"].lstrip("$"))
+        for v in node.values():
+            _refs(v, out)
+    elif isinstance(node, list):
+        for v in node:
+            _refs(v, out)
+    return out
+
+
+def used_let(condition, env):
+    """걷어 낸 조건식이 아직 부르는 `let` 만 남긴다 — 갈래를 걷으면 그 갈래의 기간이 안 쓰인 채 남는다."""
+    keep, todo = set(), _refs(condition)
+    while todo:
+        name = todo.pop()
+        if name in env and name not in keep:
+            keep.add(name)
+            todo |= _refs(env[name])
+    return {k: v for k, v in env.items() if k in keep}
+
+
 def _side(eff, base_rate=0.0):
     t = (eff or {}).get("type")
     if t == "RATE_OVERRIDE" and isinstance(eff.get("value"), (int, float)):
@@ -146,8 +171,8 @@ def explain(rules_by_clause, ctx, base_rate=0.0, aggregation="SUM"):
             it = {"clause_id": cid, "rule_id": r.get("rule_id"), "status": status, "side": _side(r.get("effect"), base_rate),
                   "condition": prune(r.get("condition"), ctx, env) if j.status == "UNKNOWN" else r.get("condition"),
                   "effect": r.get("effect"), "quote": (r.get("source") or {}).get("quote", "")}
-            if env:
-                it["let"] = env
+            if used_let(it["condition"], env):
+                it["let"] = used_let(it["condition"], env)
             if status == "CONDITIONAL":
                 it["missing_inputs"], it["missing_events"] = _missing(r, ctx)
             if j.error:
