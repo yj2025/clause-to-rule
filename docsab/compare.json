@@ -1,0 +1,4087 @@
+[
+ {
+  "product": "KB스타통장",
+  "key": "product_name",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_name",
+   "summary": "KB스타통장",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1150"
+   ],
+   "note": ""
+  },
+  "상품설명서": {
+   "key": "product_name",
+   "summary": "KB스타통장은 소득이 있는 누구나 혜택을 받을 수 있는 통장입니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "3151"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타통장",
+  "key": "product_type",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_type",
+   "summary": "보통예금, 저축예금",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1151"
+   ],
+   "note": ""
+  },
+  "상품설명서": {
+   "key": "product_type",
+   "summary": "KB스타통장은 입출금이 자유로운 예금(보통예금, 저축예금)으로, 동일 예금과목 상품 전환 가능합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "3156"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타통장",
+  "key": "eligibility_target",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "eligibility_target",
+   "summary": "실명이 확인된 개인이며, 1인당 1개의 통장만 개설 가능",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1150"
+   ],
+   "note": ""
+  },
+  "상품설명서": {
+   "key": "eligibility_target",
+   "summary": "KB스타통장은 실명의 개인(1인 1계좌)이 가입 대상이며, 개인사업자 및 관련서류 미제출 임의단체도 포함됩니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "3154"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타통장",
+  "key": "fee",
+  "class": "둘 다 · 특약에 숫자 더",
+  "특약": {
+   "key": "fee",
+   "summary": "전월 입금 50만원 이상 또는 KB 리브 모바일 자동이체 출금 이력이 있는 경우, 면제 기간은 이번달 11일 ~ 다음달 10일이며, 면제 횟수는 제한 없음. 면제 대상 수수료는 전자금융을 통한 다른은행 이체수수료, 자동이체 수수료, 자동화기기 출금수수료 등",
+   "conditions": [
+    "전월(1일~말일) 중 이 통장에서 아래 실적 중 하나 이상 발생된 경우",
+    "면제 기간 : 이번달 11일 ~ 다음달 10일",
+    "면제 횟수 : 제한없음"
+   ],
+   "exceptions": [
+    "※ 당행 본인 명의 계좌에서 이체된 건 및 본인의 주민등록번호로 입금된 건 제외",
+    "※ 체크카드 및 신용카드를 통해 출금된 건 제외",
+    "※ 다른은행 자동화기기의 경우 제휴 ATM 및 VAN사(효성·나이스·한네트 등) 자동화기기 제외"
+   ],
+   "source_section_ids": [
+    "1153",
+    "1154",
+    "1155",
+    "1156"
+   ],
+   "note": ""
+  },
+  "상품설명서": {
+   "key": "fee",
+   "summary": "KB스타통장은 수수료 면제 혜택을 제공하며, 전월 입금 이력 또는 KB 리브 모바일 자동이체 출금 이력이 있는 경우 수수료가 면제됩니다.",
+   "conditions": [
+    "이 통장으로 전월(1일~말일) 중 아래 실적 중 1가지 이상 충족한 경우",
+    "① 합산 50만원 이상 입금 이력이 있는 경우",
+    "② KB 리브 모바일(KB Liiv M) 자동이체 출금 이력이 있는 경우"
+   ],
+   "exceptions": [
+    "당행 본인 명의 계좌에서 이체된 건 및 본인의 주민등록번호로 입금된 건 제외",
+    "당행 오픈뱅킹을 통해 타금융기관에서 이체된 건 제외",
+    "결산이자 입금 건 제외",
+    "다른은행 ATM의 경우 제휴 ATM 및 VAN사(효성·나이스·한네트 등) ATM 제외"
+   ],
+   "source_section_ids": [
+    "3160"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타통장",
+  "key": "product_feature",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "product_feature",
+   "summary": "KB스타통장은 소득이 있는 누구나 혜택을 받을 수 있는 통장입니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "3152"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타통장",
+  "key": "deposit_amount",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "deposit_amount",
+   "summary": "KB스타통장은 신규 금액에 제한이 없습니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "3155"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타통장",
+  "key": "base_rate",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "base_rate",
+   "summary": "KB스타통장의 기본이율은 연 0.10%이며, 결산일 현재 영업점에 고시한 예금과목별 기본이율이 적용됩니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "3157"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타통장",
+  "key": "interest_payment",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "interest_payment",
+   "summary": "KB스타통장의 이자는 보통예금은 매년 6월, 12월의 둘째 금요일에 결산하여 다음날 원금에 더하고, 저축예금은 매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 더합니다.",
+   "conditions": [],
+   "exceptions": [
+    "최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다."
+   ],
+   "source_section_ids": [
+    "3158"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타통장",
+  "key": "termination_method",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "termination_method",
+   "summary": "KB스타통장은 영업점, 개인인터넷뱅킹, KB 스타뱅킹을 통해 해지 가능하며, 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "3166"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타통장",
+  "key": "tax",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "tax",
+   "summary": "KB스타통장은 비과세종합저축으로 가입이 가능하며, 관련세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있습니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "3164"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타통장",
+  "key": "transaction_restriction",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "transaction_restriction",
+   "summary": "KB스타통장은 예금잔액이 10,000원 미만이며 1년 이상 입출금거래가 없는 계좌, 10,000원 이상 50,000원 미만이며 2년 이상 입출금거래가 없는 계좌, 50,000원 이상 100,000원 미만이며 3년 이상 입출금거래가 없는 계좌에 대해 거래 제한이 적용됩니다.",
+   "conditions": [],
+   "exceptions": [
+    "무거래기간 산정기준은 입출금 거래 또는 명의변경 거래 최종 발생일로부터 산정됩니다.",
+    "편입시기는 연 2회(매년 6월, 12월 셋째 금요일 기준으로 익일인 토요일에 편입)",
+    "거래를 다시 시작하고자 하는 경우 본인 확인 및 금융거래 목적을 확인한 후 가능합니다."
+   ],
+   "source_section_ids": [
+    "3170"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타통장",
+  "key": "assignment_collateral",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "assignment_collateral",
+   "summary": "KB스타통장은 질권설정이 불가능하며, 양도는 가능하지만 담보제공은 불가능합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "3167",
+    "3168"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타통장",
+  "key": "partner_benefit",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "partner_benefit",
+   "summary": "KB스타통장은 인컴박스 서비스를 제공하여 다양한 출처의 불규칙한 입금 거래를 한 눈에 확인할 수 있습니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "3161"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 별별통장2",
+  "key": "product_name",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_name",
+   "summary": "KB 별별통장2",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "490"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "product_name",
+   "summary": "KB 별별통장2",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2343"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 별별통장2",
+  "key": "product_type",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_type",
+   "summary": "예금과목은 '저축예금'으로 합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "490"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "product_type",
+   "summary": "입출금이 자유로운 예금(저축예금)",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2348"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 별별통장2",
+  "key": "eligibility_target",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "eligibility_target",
+   "summary": "만 14세 이상의 실명 확인된 개인이 가입대상입니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "491"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "eligibility_target",
+   "summary": "만 14세 이상의 실명의 개인(1인 1계좌), 개인사업자 및 공동명의 가입 불가, 외국인은 비대면으로 입출금통장 가입이 가능한 경우에 한함",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2346"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 별별통장2",
+  "key": "eligibility_restriction",
+  "class": "특약만 채움",
+  "특약": {
+   "key": "eligibility_restriction",
+   "summary": "1인 1계좌만 가입 가능하며, 개인사업자 및 공동명의 가입은 불가능합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "493",
+    "494"
+   ],
+   "note": null
+  },
+  "상품설명서": null
+ },
+ {
+  "product": "KB 별별통장2",
+  "key": "base_rate",
+  "class": "둘 다 · 설명서에 숫자 더",
+  "특약": {
+   "key": "base_rate",
+   "summary": "결산일 현재 지점 및 KB국민은행 홈페이지에 게시한 기본금리를 적용합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "497"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "base_rate",
+   "summary": "기본금리는 연 0.1%이며, 결산일 현재 지점 및 KB국민은행 홈페이지에 고시한 예금과목별 기본금리 적용",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2351"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 별별통장2",
+  "key": "preferential_rate",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "preferential_rate",
+   "summary": "최초 가입 시 연 1.9%p 우대금리 제공, 결산기 평균잔액 중 3백만원 이하 금액에 대해 최초 가입일로부터 1년 경과 후 우대금리 적용 가능.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "499",
+    "500"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "preferential_rate",
+   "summary": "우대금리는 연 1.9%p이며, 최초 가입일로부터 1년 경과 후 최초로 도래하는 결산일까지 적용, 3백만원 이하의 금액까지는 기본금리와 우대금리를 합산하여 적용",
+   "conditions": [
+    "최초 가입일로부터 1년 경과 후 최초로 도래하는 결산일까지 적용",
+    "3백만원 이하의 금액까지는 기본금리와 우대금리를 합산하여 적용"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "2352"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 별별통장2",
+  "key": "fee",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "fee",
+   "summary": "KB국민은행 인터넷ㆍ폰ㆍKB스타뱅킹을 통한 다른은행 이체 수수료, 납부자 자동이체 수수료, ATM 이체 및 시간외 출금 수수료 등 5가지 수수료가 면제됩니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "501"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "fee",
+   "summary": "이 통장을 통한 거래에서 발생한 아래의 수수료에 대해 횟수 제한없이 면제: KB국민은행 인터넷·폰·KB스타뱅킹을 통한 다른은행 이체 수수료, 납부자 자동이체(다른은행 자동이체 포함) 수수료, KB국민은행 ATM 다른은행 이체 수수료, KB국민은행 ATM 시간외 출금 수수료, 다른은행 ATM 시간외 출금 수수료(단, 제휴 ATM 및 VAN사(효성·나이스·한네트 등) ATM 제외)",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2356"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 별별통장2",
+  "key": "transaction_restriction",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "transaction_restriction",
+   "summary": "자동전환 후 수수료 면제 및 금리, 거래중지계좌 편입 여부 등은 자동전환 상품 기준에 따릅니다. 'KB 별별통장' 보유 시 가입 불가, 다른 통장과의 전환 불가, 비과세종합저축 가입 불가.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "511",
+    "512",
+    "513",
+    "514"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "transaction_restriction",
+   "summary": "자동전환 후 수수료 면제 및 금리, 거래중지계좌 편입 여부 등은 KB 스타통장(또는 KB 종합통장)에서 정한 기준에 따름, 이 통장은 「KB 별별통장」 보유 상태에서는 가입이 불가합니다, 이 통장은 다른 통장에서 이 통장으로 전환 및 이 통장에서 다른 통장으로 자동전환 이외의 전환은 불가합니다, 이 통장은 1 인 1 계좌만 가입 가능한 상품이며, 우대금리는 최초 가입시만 제공하고 재 가입시에는 제공하지 않습니다, 이 통장은 비과세종합저축으로 가입 불가합니다, 통장이 ‘전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법’ 에서 정의한 피해의심 거래계좌 및 사기이용 계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치 를 할 수 있습니다",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2365"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 별별통장2",
+  "key": "partner_benefit",
+  "class": "둘 다 · 숫자 서로 다름",
+  "특약": {
+   "key": "partner_benefit",
+   "summary": "별 적립 및 스타벅스 쿠폰 제공, 별 적립은 월 최대 5회, 쿠폰은 월 최대 2매 제공, 제공기간은 2027년 12월 31일까지, 연계·제휴서비스 변경 시 사전 통지 및 대체 서비스 제공.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "503",
+    "504",
+    "505",
+    "506"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "partner_benefit",
+   "summary": "별 적립: 이 통장으로 스타벅스 앱에서 「계좌 간편결제」를 이용하여 결제하고 스타벅스 방문별 적립 대상인 경우, 월 결제이용 횟수에 따라 차등하여 스타벅스 별주를 최대 월 15개까지 제공, 스타벅스 쿠폰: 이 통장을 최초 가입하고, 매월 말 기준 개인정보수집이용 동의서 동의와 스타벅스 앱 내 계좌 간편결제서비스가 등록된 경우에 한해, 입금쿠폰 및 출금쿠폰 월 최대 2매씩 총 13개월동안 최대 24매 제공",
+   "conditions": [
+    "별 적립: 월 결제이용 횟수에 따라 차등하여 스타벅스 별주를 최대 월 15개까지 제공",
+    "스타벅스 쿠폰: 이 통장을 최초 가입하고, 매월 말 기준 개인정보수집이용 동의서 동의와 스타벅스 앱 내 계좌 간편결제서비스가 등록된 경우에 한해, 입금쿠폰 및 출금쿠폰 월 최대 2매씩 총 13개월동안 최대 24매 제공"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "2368"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 별별통장2",
+  "key": "product_conversion",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_conversion",
+   "summary": "2028년 11월 1일 자동전환, 'KB스타통장' 보유 시 'KB종합통장'으로 전환.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "496"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "product_conversion",
+   "summary": "이 통장은 일괄적으로 2028년 11월 1일에 「KB스타통장」(주)으로 자동전환, 「KB스타통장」을 이미 보유한 경우는 「KB종합통장」으로 자동전환, 자동전환일 전 영업일까지 고객이 신청한 방법으로 자동전환일에 통지, 자세한 내용은 「붙임. 자동전환 상품 주요 혜택」 참조",
+   "conditions": [
+    "자동전환일 전 영업일까지 고객이 신청한 방법으로 자동전환일에 통지",
+    "자세한 내용은 「붙임. 자동전환 상품 주요 혜택」 참조"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "2350"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 별별통장2",
+  "key": "product_feature",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "product_feature",
+   "summary": "스타벅스 앱 계좌간편 결제 및 통장 입출금 거래 실적에 따라 혜택을 받을 수 있는 제휴전용 통장",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2344"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 별별통장2",
+  "key": "deposit_amount",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "deposit_amount",
+   "summary": "가입금액은 제한이 없음",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2347"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 별별통장2",
+  "key": "interest_payment",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "interest_payment",
+   "summary": "이자는 매년 2, 5, 8, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함",
+   "conditions": [],
+   "exceptions": [
+    "최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있음"
+   ],
+   "source_section_ids": [
+    "2354"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 별별통장2",
+  "key": "final_rate",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "final_rate",
+   "summary": "최종금리는 연 0.1% ~ 연 2.0%이며, 최고금리는 신규가입일 당시 지점 및 KB국민은행 홈페이지에 게시한 우대금리 적용 시",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2353"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 별별통장2",
+  "key": "tax",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "tax",
+   "summary": "비과세종합저축으로 가입 불가",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2358"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 별별통장2",
+  "key": "assignment_collateral",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "assignment_collateral",
+   "summary": "양도 불가, 담보제공 불가, 질권설정 불가",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2359",
+    "2360"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 프리N통장",
+  "key": "product_name",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_name",
+   "summary": "KB 프리N통장",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "868"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "product_name",
+   "summary": "KB 프리N통장은 소득 입금에 따른 특별금리와 다양한 소득을 관리할 수 있는 인컴박스 혜택을 제공하는 입출금통장입니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2928"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 프리N통장",
+  "key": "product_type",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_type",
+   "summary": "보통예금, 저축예금",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "868"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "product_type",
+   "summary": "KB 프리N통장은 입출금이 자유로운 예금으로, 보통예금과 저축예금으로 구분됩니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2933",
+    "2934"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 프리N통장",
+  "key": "eligibility_target",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "eligibility_target",
+   "summary": "실명이 확인된 개인(개인 사업자 및 서류미제출 임의단체 포함)",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "870",
+    "871",
+    "872"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "eligibility_target",
+   "summary": "KB 프리N통장은 실명의 개인(1인 1계좌)이 가입 가능하며, 개인사업자 및 관련서류 미제출 임의단체도 가입 가능합니다. 비거주자와 공동명의는 가입 불가합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2931"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 프리N통장",
+  "key": "eligibility_restriction",
+  "class": "특약만 채움",
+  "특약": {
+   "key": "eligibility_restriction",
+   "summary": "공동명의 불가, 비거주자 불가",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "872"
+   ],
+   "note": null
+  },
+  "상품설명서": null
+ },
+ {
+  "product": "KB 프리N통장",
+  "key": "account_limit",
+  "class": "특약만 채움",
+  "특약": {
+   "key": "account_limit",
+   "summary": "1인 1계좌",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "871"
+   ],
+   "note": null
+  },
+  "상품설명서": null
+ },
+ {
+  "product": "KB 프리N통장",
+  "key": "base_rate",
+  "class": "둘 다 · 설명서에 숫자 더",
+  "특약": {
+   "key": "base_rate",
+   "summary": "결산일 현재 지점 및 KB 국민은행 홈페이지에 게시한 예금과목별 기본금리 적용",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "877"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "base_rate",
+   "summary": "KB 프리N통장의 기본금리는 연 0.1%이며, 결산일 현재 지점 및 KB국민은행 홈페이지에 고시한 예금과목별 기본금리가 적용됩니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2938"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 프리N통장",
+  "key": "event_special_rate",
+  "class": "둘 다 · 숫자 같고 예외 수 다름",
+  "특약": {
+   "key": "event_special_rate",
+   "summary": "결산기 평균잔액 200만원 이하 금액에 연 1.4% 특별금리 적용, 신규 가입일부터 1년 경과 후 최초 도래하는 결산일까지 적용, 조건 충족 시 적용 (최근 6개월 중 보통예금 2개월 이상, 저축예금 1개월 이상 월 합산 50만원 이상 입금)",
+   "conditions": [
+    "결산기 평균잔액 200만원 이하",
+    "신규 가입일부터 1년 경과 후 최초 도래하는 결산일까지",
+    "최근 6개월 중 보통예금 2개월 이상 월 합산 50만원 이상 입금",
+    "최근 3개월 중 저축예금 1개월 이상 월 합산 50만원 이상 입금"
+   ],
+   "exceptions": [
+    "신규 가입 후 처음 도래하는 결산일에는 조건 충족 여부에 관계없이 특별금리 적용"
+   ],
+   "source_section_ids": [
+    "879",
+    "880",
+    "881"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "event_special_rate",
+   "summary": "KB 프리N통장의 특별금리는 연 1.4%로, 결산기 평균잔액 200만원 이하 금액까지 적용됩니다. 특별금리 적용 조건은 월 합산 입금 금액이 50만원 이상인 달이 최근 6개월 중 2개월 이상 또는 최근 3개월 중 1개월 이상이어야 합니다.",
+   "conditions": [
+    "월 합산 입금 금액이 50만원 이상인 달이 최근 6개월 중 2개월 이상",
+    "월 합산 입금 금액이 50만원 이상인 달이 최근 3개월 중 1개월 이상"
+   ],
+   "exceptions": [
+    "특별금리 적용 한도는 결산기 평균잔액 200만원 이하 금액까지",
+    "특별금리 적용 기간은 신규 가입일부터 1년 경과 후 처음 도래하는 결산일까지",
+    "특별금리 적용 조건 충족 여부에 관계없이 신규 가입 후 처음 도래하는 결산일에는 특별금리 적용",
+    "전환계좌의 경우 전환 전 상품의 금리가 적용되며, 다음 결산기부터 이 통장의 금리 적용"
+   ],
+   "source_section_ids": [
+    "2939"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 프리N통장",
+  "key": "interest_payment",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "interest_payment",
+   "summary": "보통예금은 매년 6월, 12월 둘째 금요일 결산, 저축예금은 매년 2월, 5월, 8월, 11월 둘째 금요일 결산",
+   "conditions": [
+    "보통예금: 매년 6월, 12월 둘째 금요일 결산",
+    "저축예금: 매년 2월, 5월, 8월, 11월 둘째 금요일 결산"
+   ],
+   "exceptions": [
+    "이자지급을 제외한 최종 거래일부터 5년 경과한 날부터 원금에 더하지 않고, 계좌 해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급"
+   ],
+   "source_section_ids": [
+    "875",
+    "876"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "interest_payment",
+   "summary": "KB 프리N통장의 이자는 보통예금은 매년 6월, 12월의 둘째 금요일에 결산하여 다음날 원금에 더하고, 저축예금은 매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 더합니다.",
+   "conditions": [],
+   "exceptions": [
+    "이자는 이자지급을 제외한 최종 거래일부터 5년이 경과한 날부터는 원금에 더하지 않고, 계좌 해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있음"
+   ],
+   "source_section_ids": [
+    "2937"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 프리N통장",
+  "key": "fee",
+  "class": "둘 다 · 숫자 서로 다름",
+  "특약": {
+   "key": "fee",
+   "summary": "전월 중 입금 50만원 이상 또는 KB 리브모바일 자동이체 출금 이력 시 수수료면제, 면제 기간: 이번달 11일부터 다음달 10일까지, 면제 횟수 제한 없음, 면제 대상 수수료 포함",
+   "conditions": [
+    "전월 중 입금 50만원 이상",
+    "KB 리브모바일 자동이체 출금 이력",
+    "면제 기간: 이번달 11일부터 다음달 10일까지",
+    "면제 횟수 제한 없음"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "884",
+    "885",
+    "886",
+    "887"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "fee",
+   "summary": "KB 프리N통장은 수수료 면제 조건 충족 시, KB국민은행 인터넷·모바일뱅킹 다른은행 이체수수료, 타행자동이체 수수료, KB국민은행 ATM 다른은행 이체수수료, KB국민은행 ATM 시간외 출금수수료, 다른은행 ATM 출금수수료(제휴 ATM 및 VAN사 ATM 제외)를 면제합니다.",
+   "conditions": [
+    "전월(1일~말일) 중 합산 50만원 이상 입금 이력이 있는 경우",
+    "KB리브모바일 자동이체 출금 이력이 있는 경우"
+   ],
+   "exceptions": [
+    "KB국민은행 본인 명의 계좌에서 이체된 건 및 본인의 주민등록번호로 입금된 건 제외",
+    "KB국민은행 오픈뱅킹을 통해 타금융기관에서 이체된 건 제외",
+    "결산이자 입금 건 제외",
+    "체크카드 및 신용카드를 통해 출금된 건 제외"
+   ],
+   "source_section_ids": [
+    "2943"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 프리N통장",
+  "key": "product_conversion",
+  "class": "특약만 채움",
+  "특약": {
+   "key": "product_conversion",
+   "summary": "다른 상품에서 이 통장으로 전환 시, 전환 후 처음 도래하는 결산기에는 전환 전 상품의 금리 적용, 다음 결산기부터 이 통장의 금리 적용, 특별금리는 최초 전환일 기준 1년 경과 후 처음 도래하는 결산일까지 적용",
+   "conditions": [
+    "다른 상품에서 이 통장으로 전환 시",
+    "전환 후 처음 도래하는 결산기에는 전환 전 상품의 금리 적용",
+    "특별금리는 최초 전환일 기준 1년 경과 후 처음 도래하는 결산일까지 적용"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "882"
+   ],
+   "note": null
+  },
+  "상품설명서": null
+ },
+ {
+  "product": "KB 프리N통장",
+  "key": "product_feature",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "product_feature",
+   "summary": "KB 프리N통장은 소득 입금에 따른 특별금리와 다양한 소득을 관리할 수 있는 인컴박스 혜택을 제공하는 입출금통장입니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2929"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 프리N통장",
+  "key": "deposit_amount",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "deposit_amount",
+   "summary": "KB 프리N통장은 가입금액에 제한이 없습니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2932"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 프리N통장",
+  "key": "final_rate",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "final_rate",
+   "summary": "KB 프리N통장의 최종금리는 최저 연 0.1%~최고 연 1.5%로, 결산기 평균잔액에 따라 기본금리와 특별금리를 합한 금리가 적용됩니다.",
+   "conditions": [],
+   "exceptions": [
+    "특별금리는 특별금리 적용조건을 충족한 계좌에 한하여 정해진 기간 동안 적용"
+   ],
+   "source_section_ids": [
+    "2940"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 프리N통장",
+  "key": "tax",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "tax",
+   "summary": "KB 프리N통장은 비과세종합저축으로 가입 가능하며, 관련 세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있습니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2944"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 프리N통장",
+  "key": "transaction_restriction",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "transaction_restriction",
+   "summary": "KB 프리N통장은 예금잔액이 10,000원 미만이며 1년 이상 입출금 거래가 없는 계좌, 10,000원 이상 50,000원 미만이며 2년 이상 입출금 거래가 없는 계좌, 50,000원 이상 100,000원 미만이며 3년 이상 입출금 거래가 없는 계좌에 대해 거래 제한이 적용됩니다.",
+   "conditions": [],
+   "exceptions": [
+    "무거래기간 산정기준: 입출금 거래 또는 명의변경 거래 최종 발생일로부터 산정",
+    "편입시기: 연 2회(매년 6월, 12월 셋째 금요일 기준으로 다음날인 토요일에 편입)",
+    "거래를 다시 시작하고자 하는 경우 본인 확인 및 금융거래목적 확인 후 가능"
+   ],
+   "source_section_ids": [
+    "2949"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 프리N통장",
+  "key": "assignment_collateral",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "assignment_collateral",
+   "summary": "KB 프리N통장은 양도가 가능하지만, 질권설정과 담보제공은 불가능합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2945",
+    "2946",
+    "2947"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 프리N통장",
+  "key": "partner_benefit",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "partner_benefit",
+   "summary": "KB 프리N통장은 다양한 소득 입금 내역을 한 눈에 확인할 수 있는 인컴박스 혜택을 제공하며, 인컴박스는 5개까지 설정 가능하고, 각 인컴박스별로 3개의 키워드를 지정할 수 있습니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2942"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "쓱머니KB통장",
+  "key": "product_name",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_name",
+   "summary": "이 통장은 SSG.COM 회원탈퇴 시 또는 혁신금융서비스 종료 시 'KB 제휴통장'으로 상품명이 변경됩니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1406"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "product_name",
+   "summary": "상품명은 '쓱머니 KB통장'입니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    3388,
+    3403
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "쓱머니KB통장",
+  "key": "product_type",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_type",
+   "summary": "이 통장의 예금과목은 '저축예금'으로 합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1401"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "product_type",
+   "summary": "상품유형은 입출금이 자유로운 예금(저축예금)입니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    3393
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "쓱머니KB통장",
+  "key": "eligibility_target",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "eligibility_target",
+   "summary": "이 통장의 가입대상은 '금융실명거래 및 비밀보장에 관한 법률'에 따라 실명이 확인된 만 17세 이상의 개인이며, 1인 1계좌만 가입 가능합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1402"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "eligibility_target",
+   "summary": "만 17세 이상의 실명의 개인(1인 1계좌)이 가입대상입니다.",
+   "conditions": [
+    "1인 1계좌",
+    "비거주자 및 외국인 가입 불가",
+    "임의단체, 개인사업자 및 공동명의 가입 불가"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    3391
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "쓱머니KB통장",
+  "key": "preferential_rate",
+  "class": "둘 다 · 숫자 서로 다름",
+  "특약": {
+   "key": "preferential_rate",
+   "summary": "이 통장의 우대금리는 신규고객 우대금리, 쓱페이 등록 우대금리, 쓱받는 우대금리(입금우대 및 혜택 수신(마케팅) 동의)가 있으며, 최초 가입일로부터 1년 이내 적용됩니다. 우대금리 적용 조건은 SSG.COM 가입 여부, 쓱페이 등록 여부, 입금 내역 및 혜택 수신 동의 여부 등입니다.",
+   "conditions": [
+    "신규 우대금리: 최초 가입일로부터 1년 이내, 최근 6개월 동안 국민은행 입출금통장을 보유하지 않은 경우",
+    "쓱페이 우대금리: SSG PAY에 '쓱머니 KB 통장'을 결제계좌로 등록한 경우",
+    "쓱받는 우대금리: 전월에 합산 50만원 이상 입금이력 또는 SSG.COM과 KB 국민은행 양사 모두 혜택 수신(마케팅) 동의가 되어 있는 경우"
+   ],
+   "exceptions": [
+    "이 통장을 해지 후 재 가입한 경우",
+    "이 통장의 상품명이 'KB 제휴통장'으로 변경된 경우"
+   ],
+   "source_section_ids": [
+    "1411",
+    "1412"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "preferential_rate",
+   "summary": "우대금리는 최고 연 3.9%p이며, 최초 가입 시 적용되며 해지 후 재가입 시 적용 불가입니다.",
+   "conditions": [
+    "최초 가입 시 적용",
+    "해지 후 재가입 시 적용 불가",
+    "SSG.COM 회원 탈퇴 또는 혁신금융서비스 종료 시 적용 불가",
+    "우대금리 적용한도: 매일의 최종 잔액 중 2백만원 이하 금액"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    3398,
+    3411
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "쓱머니KB통장",
+  "key": "interest_payment",
+  "class": "둘 다 · 설명서에 숫자 더",
+  "특약": {
+   "key": "interest_payment",
+   "summary": "이 통장의 이자는 매월 제2 금요일 또는 고객이 직접 이자지급을 요청한 전일에 결산되며, 다음날에 지급됩니다. 매월 제2 금요일 다음날은 고객의 요청에 의한 직접 이자지급이 제한됩니다. 이자지급은 매일의 최종잔액을 평균한 금액에 따라 금리가 차등 적용됩니다.",
+   "conditions": [
+    "이자계산기간: 최초 예금일 또는 직전 이자지급일로부터 다음 이자지급일(또는 해지일) 전일까지",
+    "이자결산일: 매월 제2 금요일 또는 고객이 직접 이자지급을 요청한 전일",
+    "이자지급일: 이자결산일 다음날"
+   ],
+   "exceptions": [
+    "매월 제2 금요일 다음날은 고객의 요청에 의한 직접 이자지급이 제한됩니다"
+   ],
+   "source_section_ids": [
+    "1408",
+    "1409"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "interest_payment",
+   "summary": "이자계산기간 동안 매일의 최종잔액을 평균하여 이자결산일 현재 고시된 이율로 계산하며, 매월 제2금요일 또는 고객 요청 시 이자지급이 이루어집니다.",
+   "conditions": [
+    "이자계산기간: 최초 예금일(또는 직전 이자지급일)부터 다음 이자지급일(또는 해지일) 전일까지",
+    "이자결산일: 매월 제2금요일 또는 고객 요청일",
+    "이자지급일: 이자결산일 다음날",
+    "최종거래일로부터 5년이 경과한 날부터 이자를 원금에 더하지 않음",
+    "계좌해지 또는 추가 입출금 거래 발생일의 다음 결산일에 일괄 계산하여 지급"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    3396
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "쓱머니KB통장",
+  "key": "transaction_restriction",
+  "class": "둘 다 · 설명서에 숫자 더",
+  "특약": {
+   "key": "transaction_restriction",
+   "summary": "다른 통장에서 이 통장으로 전환 또는 이 통장에서 다른 통장으로 전환은 불가능하며, 이 통장은 비과세종합저축으로 가입이 불가능합니다.",
+   "conditions": [
+    "다른 통장에서 이 통장으로 전환 또는 이 통장에서 다른 통장으로 전환은 불가능합니다"
+   ],
+   "exceptions": [
+    "이 통장은 비과세종합저축으로 가입이 불가능합니다"
+   ],
+   "source_section_ids": [
+    "1415",
+    "1416"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "transaction_restriction",
+   "summary": "예금잔액이 10,000원 미만이며 1년 이상 입출금거래가 없는 계좌, 50,000원 미만이며 2년 이상 입출금거래가 없는 계좌, 100,000원 미만이며 3년 이상 입출금거래가 없는 계좌는 거래제한이 적용됩니다.",
+   "conditions": [
+    "예금잔액 10,000원 미만, 1년 이상 입출금거래 없음",
+    "예금잔액 50,000원 미만, 2년 이상 입출금거래 없음",
+    "예금잔액 100,000원 미만, 3년 이상 입출금거래 없음",
+    "무거래기간 산정기준: 입출금 거래 또는 명의변경 거래 최종 발생일부터",
+    "편입시기: 연 2회(매년 6월, 12월 셋째 금요일 기준으로 익일인 토요일에 편입)"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    3407,
+    3411
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "쓱머니KB통장",
+  "key": "fee",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "fee",
+   "summary": "이 통장을 통한 거래 시 KB 국민은행 개인인터넷뱅킹, KB 스타뱅킹을 통한 다른은행 이체수수료, 납부자 자동이체 수수료, KB 국민은행 자동화기기(ATM) 다른은행 이체수수료, KB 국민은행 자동화기기(ATM) 시간외 출금수수료, 다른은행 자동화기기(ATM) 출금수수료가 면제됩니다.",
+   "conditions": [
+    "KB 국민은행 개인인터넷뱅킹, KB 스타뱅킹을 통한 다른은행 이체수수료: 무제한 면제(단, KB 제휴통장으로)",
+    "KB 국민은행 자동화기기(ATM) 다른은행 이체수수료: 상품명이 변경된 경우 제외",
+    "다른은행 자동화기기(ATM) 출금수수료: 제휴 ATM 및 VAN 사(ATM) 제외"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "1413"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "fee",
+   "summary": "KB국민은행 개인인터넷뱅킹, KB스타뱅킹을 통한 다른은행 이체수수료, 납부자 자동이체 수수료, ATM 다른은행 이체수수료, ATM 시간외 출금수수료, 다른은행 ATM 출금수수료 등이 면제됩니다.",
+   "conditions": [
+    "KB국민은행 개인인터넷뱅킹, KB스타뱅킹을 통한 다른은행 이체수수료",
+    "납부자 자동이체(타행 자동이체 포함) 수수료",
+    "KB국민은행 ATM 다른은행 이체수수료",
+    "KB국민은행 ATM 시간외 출금수수료",
+    "다른은행 ATM 출금수수료",
+    "다른은행 ATM의 경우 제휴 및 VAN사 자동화기기는 제외",
+    "SSG.COM 회원 탈퇴 또는 혁신금융서비스 종료 시 수수료 면제 적용 불가"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    3400
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "쓱머니KB통장",
+  "key": "partner_benefit",
+  "class": "둘 다 · 특약에 숫자 더",
+  "특약": {
+   "key": "partner_benefit",
+   "summary": "이 통장은 SSG.COM과 SSG PAY와 연계되어 있으며, SSG.COM 앱 내 KB 국민은행 전용페이지에서 잔액 및 거래내역을 조회할 수 있고, SSG PAY 결제 연동 및 SSG MONEY 자동 입금 서비스를 제공합니다. 연계 서비스는 SSG.COM을 통해 가입한 '쓱머니 KB 통장' 이용 시 제공되며, 제휴사 앞 금융거래정보 이용ㆍ제공 동의를 하여야 합니다.",
+   "conditions": [
+    "제휴사 앞 금융거래정보 이용ㆍ제공 동의를 하고 '쓱머니 KB 통장'을 이용 시 제공합니다",
+    "제휴사와의 계약기간 내에 한함"
+   ],
+   "exceptions": [
+    "KB 국민은행은 연계ㆍ제휴 서비스 등을 부당하게 축소하거나 변경하지 않으며, 불가피하게 축소하거나 변경하는 경우 그에 상응하는 다른 연계ㆍ제휴 서비스를 제공합니다",
+    "서비스 변경 내용 사전 통지 방법: 서면, 우편, 팩스, 전화, E-mail, LMS 등의 방법 중 2 개 이상의 방법으로 축소, 변경되기 6 개월 전부터 매월 고지합니다"
+   ],
+   "source_section_ids": [
+    "1418",
+    "1419",
+    "1420",
+    "1421",
+    "1422"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "partner_benefit",
+   "summary": "SSG.COM과 연계하여 SSG.COM 앱 내 잔액 및 거래내역 조회, SSG PAY 결제 연동, SSG MONEY 자동 입금 등의 혜택을 제공합니다.",
+   "conditions": [
+    "제휴사 앞 금융거래정보 이용ㆍ제공 동의",
+    "SSG.COM 앱을 통해 가입한 「쓱머니 KB통장」 이용 시 제공",
+    "제휴사와의 계약기간 내에 한함",
+    "SSG.COM 앱 내 KB국민은행 전용페이지에서 잔액 및 거래내역 조회",
+    "SSG PAY 결제 연동",
+    "SSG MONEY 자동 입금",
+    "제휴사와의 계약기간 내에 한함"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    3415,
+    3416,
+    3417,
+    3418,
+    3419
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "쓱머니KB통장",
+  "key": "product_feature",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "product_feature",
+   "summary": "매일 이자받기 및 각종 우대금리 등 다양한 혜택을 제공하는 SSG.COM 제휴 전용 입출금통장입니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    3389
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "쓱머니KB통장",
+  "key": "deposit_amount",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "deposit_amount",
+   "summary": "가입금액은 제한이 없습니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    3392
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "쓱머니KB통장",
+  "key": "base_rate",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "base_rate",
+   "summary": "기본금리는 연 0.10%이며, 결산일 현재 영업점 및 KB국민은행 홈페이지에 고시한 예금과목별 기본금리가 적용됩니다.",
+   "conditions": [
+    "2026.04.08 기준",
+    "세금공제 전"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    3397
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "쓱머니KB통장",
+  "key": "final_rate",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "final_rate",
+   "summary": "최종금리는 최저 연 0.1% ~ 최고 연 4.0%이며, 최고금리는 신규가입일 당시 고시된 우대금리를 적용 시 제공됩니다.",
+   "conditions": [
+    "2026.04.08 기준",
+    "세금공제 전",
+    "최고금리는 신규가입일 당시 고시된 우대금리를 적용 시 제공"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    3399
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "쓱머니KB통장",
+  "key": "termination_method",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "termination_method",
+   "summary": "계약해지 방법은 영업점 방문, 개인인터넷뱅킹, KB 스타뱅킹을 통해 가능하며, 해지잔액을 입금할 수 있는 본인명의의 입출금이 자유로운 예금 계좌가 필요합니다.",
+   "conditions": [
+    "영업점 방문",
+    "개인인터넷뱅킹",
+    "KB 스타뱅킹",
+    "해지잔액을 입금할 수 있는 본인명의의 입출금이 자유로운 예금 계좌 필요"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    3404
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "쓱머니KB통장",
+  "key": "tax",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "tax",
+   "summary": "비과세종합저축으로 가입 불가합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    3401
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "쓱머니KB통장",
+  "key": "assignment_collateral",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "assignment_collateral",
+   "summary": "양도 및 담보제공은 불가능합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    3405
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "쓱머니KB통장",
+  "key": "product_conversion",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "product_conversion",
+   "summary": "다른 예금에서 이 예금으로 전환 또는 이 예금에서 다른 예금으로 전환은 불가능합니다.",
+   "conditions": [
+    "1인 1계좌만 가입 가능",
+    "통장 해지 후 재가입 시 모든 우대금리 적용 불가",
+    "다른 예금에서 이 예금으로 전환 불가",
+    "이 예금에서 다른 예금으로 전환 불가"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    3402,
+    3411
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "product_name",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_name",
+   "summary": "KB Young Youth 통장",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "182"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "product_name",
+   "summary": "KB Young Youth 통장",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1770"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "product_type",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_type",
+   "summary": "저축예금",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "187"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "product_type",
+   "summary": "입출금이 자유로운 예금(저축예금)",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1775"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "eligibility_target",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "eligibility_target",
+   "summary": "만 19세 미만 실명의 개인",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "182"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "eligibility_target",
+   "summary": "만 19세 미만 실명의 개인",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1773"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "eligibility_restriction",
+  "class": "특약만 채움",
+  "특약": {
+   "key": "eligibility_restriction",
+   "summary": "공동명의 가입 불가",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "183"
+   ],
+   "note": null
+  },
+  "상품설명서": null
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "account_limit",
+  "class": "특약만 채움",
+  "특약": {
+   "key": "account_limit",
+   "summary": "1인 1계좌만 가입 가능",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "183"
+   ],
+   "note": null
+  },
+  "상품설명서": null
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "base_rate",
+  "class": "둘 다 · 설명서에 숫자 더",
+  "특약": {
+   "key": "base_rate",
+   "summary": "결산일 현재 영업점에 게시한 기본이율 적용",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "189",
+    "190"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "base_rate",
+   "summary": "연 0.1%",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1778"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "partner_benefit",
+  "class": "둘 다 · 설명서에 숫자 더",
+  "특약": {
+   "key": "partner_benefit",
+   "summary": "저금통 서비스 및 수수료 면제 서비스 제공",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "192",
+    "193"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "partner_benefit",
+   "summary": "제공기간: 가입일로부터 1년(1년 단위 갱신). 이행책임: KB국민은행은 연계·제휴서비스를 부당하게 축소하거나 변경하지 않으며, 불가피하게 축소하거나 변경하는 경우 그에 상응하는 다른 연계·제휴서비스를 제공. 변경·종료에 대한 사전통지: 서면, 우편, 전자우편, 전화, 팩스, 휴대전화 문자메시지 또는 이에 준하는 전자적 의사표시 중 2개 이상의 방법으로 축소·변경 6개월 전부터 매월 고지",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1799",
+    "1801",
+    "1802"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "ownership_name_change",
+  "class": "특약만 채움",
+  "특약": {
+   "key": "ownership_name_change",
+   "summary": "상속, 양도에 의한 명의변경 불가",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "197"
+   ],
+   "note": null
+  },
+  "상품설명서": null
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "product_conversion",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_conversion",
+   "summary": "연령 만 19세 시 자동 전환, 전환 시 이율 적용 기준 명시",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "186",
+    "185",
+    "195",
+    "196"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "product_conversion",
+   "summary": "매년 첫 영업일에 가입자의 연령이 만 19세인 경우 「KB 국민ONE 통장」으로 자동전환. 기존 저축예금 통장 전환 가능",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1776",
+    "1777"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "fee",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "fee",
+   "summary": "KB 국민카드 결제실적 시 수수료 면제",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "193"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "fee",
+   "summary": "면제조건: 전월 중 이 통장에서 KB국민카드(신용/체크/KB국민비씨 카드포함) 결제실적 (현금서비스 포함)이 있는 경우",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1785"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "product_feature",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "product_feature",
+   "summary": "계좌 안의 계좌 '저금통'으로 특별우대금리와 수수료면제 서비스를 제공하는 만 19세 미만 Youth 고객 맞춤 입출금이 자유로운 예금",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1771"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "deposit_amount",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "deposit_amount",
+   "summary": "제한없음",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1774"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "event_special_rate",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "event_special_rate",
+   "summary": "특별금리 (세금공제 전, 2026.08.04 기준) : 연 1.9% (최대 100만원까지) - 적용대상 : 부가서비스의 '저금통'으로 설정된 금액 - 적용한도 : 저금통 금액 설정은 최대 100만원(1만원 단위)까지 가능",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1779"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "interest_payment",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "interest_payment",
+   "summary": "매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1780"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "final_rate",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "final_rate",
+   "summary": "최종금리 (세금공제 전, 2026.08.04 기준) : 최저 연 0.1% ~ 최고 연 2.0%",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1783"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "termination_method",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "termination_method",
+   "summary": "지점 방문을 통해 해지 가능",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1788"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "tax",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "tax",
+   "summary": "비과세종합저축으로 가입 가능",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1786"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "transaction_restriction",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "transaction_restriction",
+   "summary": "예금잔액이 10,000원 미만이며, 1년 이상 입출금 거래가 없는 계좌, 예금잔액이 10,000원 이상 50,000원 미만이며, 2년 이상 입출금 거래가 없는 계좌, 예금잔액이 50,000원 이상 100,000원 미만이며, 3년 이상 입출금 거래가 없는 계좌",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1792"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB Young Youth 통장",
+  "key": "assignment_collateral",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "assignment_collateral",
+   "summary": "불가",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1789"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "product_name",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_name",
+   "summary": "KB스타적금Ⅲ",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "631"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "product_name",
+   "summary": "KB스타적금Ⅲ",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2593"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "product_type",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_type",
+   "summary": "정기적금",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "632"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "product_type",
+   "summary": "자유적립식 예금",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2596"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "eligibility_target",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "eligibility_target",
+   "summary": "만 19세 이상 실명의 개인",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "631"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "eligibility_target",
+   "summary": "만 19세 이상 실명의 개인 (1인 1계좌)",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2595"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "eligibility_restriction",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "eligibility_restriction",
+   "summary": "개인사업자, 임의단체 및 공동명의는 가입 불가",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "631"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "eligibility_restriction",
+   "summary": "개인사업자, 임의단체 및 공동명의 가입 불가",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2595"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "account_limit",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "account_limit",
+   "summary": "1인 1계좌",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "631"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "account_limit",
+   "summary": "1인 1계좌",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2595"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "saving_amount",
+  "class": "둘 다 · 특약에 숫자 더",
+  "특약": {
+   "key": "saving_amount",
+   "summary": "매월 1만원 이상 30만원 이하",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "634"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "saving_amount",
+   "summary": "매월 자유롭게 저축 가능 (만기일 전일까지)",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2597"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "payment_limit",
+  "class": "특약만 채움",
+  "특약": {
+   "key": "payment_limit",
+   "summary": "매월 1만원 이상 30만원 이하",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "634"
+   ],
+   "note": null
+  },
+  "상품설명서": null
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "contract_term",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "contract_term",
+   "summary": "12개월",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "632"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "contract_term",
+   "summary": "12개월",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2598"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "base_rate",
+  "class": "둘 다 · 설명서에 숫자 더",
+  "특약": {
+   "key": "base_rate",
+   "summary": "가입일 당시 영업점 및 KB국민은행 홈페이지에 게시한 이율 적용",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "636",
+    "637",
+    "638",
+    "639",
+    "640"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "base_rate",
+   "summary": "연 2.0%",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2602"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "preferential_rate",
+  "class": "둘 다 · 설명서에 숫자 더",
+  "특약": {
+   "key": "preferential_rate",
+   "summary": "제7조에서 정하는 조건 충족 시 우대이율 적용",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "636",
+    "637",
+    "640",
+    "641"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "preferential_rate",
+   "summary": "연 3.0%p (최고 연 5.0%)",
+   "conditions": [
+    "최근 1년 동안 KB 국민은행 상품을 보유하지 않았거나 '입출금이 자유로운 예금'만 보유한 고객",
+    "예치기간이 1개월 미만인 중도해지계좌는 우대이율 미적용"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "2603",
+    "2604",
+    "2609"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "event_special_rate",
+  "class": "특약만 채움",
+  "특약": {
+   "key": "event_special_rate",
+   "summary": "가입 시 금리우대쿠폰 적용 시 최종이율에 쿠폰 우대금리 추가",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "640"
+   ],
+   "note": null
+  },
+  "상품설명서": null
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "early_termination",
+  "class": "둘 다 · 설명서에 숫자 더",
+  "특약": {
+   "key": "early_termination",
+   "summary": "중도해지 시 중도해지이율 적용",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "638"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "early_termination",
+   "summary": "중도해지 시 이자를 일시에 지급",
+   "conditions": [
+    "중도해지이율 적용",
+    "예치기간이 1개월 미만인 중도해지계좌는 우대이율 미적용",
+    "중도해지이자 계산방법: 입금금액마다 입금일부터 중도해지일 전일까지의 기간에 대하여 예치기간별 중도해지이율로 계산한 이자를 합계"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "2608",
+    "2609",
+    "2610"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "auto_termination",
+  "class": "특약만 채움",
+  "특약": {
+   "key": "auto_termination",
+   "summary": "만기일에 자동 해지",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "645"
+   ],
+   "note": null
+  },
+  "상품설명서": null
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "partial_withdrawal",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "partial_withdrawal",
+   "summary": "만기 전 일부 해지 불가",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "647"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "partial_withdrawal",
+   "summary": "불가능",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2614"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "early_maturity_payment",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "early_maturity_payment",
+   "summary": "만기앞당김 지급 불가",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "648"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "early_maturity_payment",
+   "summary": "불가능",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2615"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "product_feature",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "product_feature",
+   "summary": "최근 1년 동안 KB 국민은행 상품을 보유하지 않은 신규 또는 장기미거래 고객에게 우대이율을 제공하는 적립식 상품",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2593"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "deposit_amount",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "deposit_amount",
+   "summary": "월 1만원 이상 30만원 이하",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2597"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "interest_payment",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "interest_payment",
+   "summary": "만기일시지급식",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2601"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "final_rate",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "final_rate",
+   "summary": "최저 연 2.0% ~ 최고 연 5.0%",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2605"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "auto_renewal",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "auto_renewal",
+   "summary": "불가능",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2613"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "termination_method",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "termination_method",
+   "summary": "KB스타뱅킹, 인터넷뱅킹, 영업점 및 고객센터를 통해 해지",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2618"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "tax",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "tax",
+   "summary": "비과세종합저축으로 가입 가능",
+   "conditions": [
+    "계약기간 만료일 이후의 이자는 과세대상"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "2612"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB스타적금Ⅲ",
+  "key": "assignment_collateral",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "assignment_collateral",
+   "summary": "질권설정 및 양도 가능 (계좌 잔액의 95%까지 예금담보대출 가능)",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2616",
+    "2617"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "product_name",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_name",
+   "summary": "KB국민프리미엄적금 (정액적립식)",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "957"
+   ],
+   "note": ""
+  },
+  "상품설명서": {
+   "key": "product_name",
+   "summary": "KB국민프리미엄적금",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1945"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "product_type",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_type",
+   "summary": "정기적금",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "957"
+   ],
+   "note": ""
+  },
+  "상품설명서": {
+   "key": "product_type",
+   "summary": "정액적립식/자유적립식 예금",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1949"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "contract_term",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "contract_term",
+   "summary": "12개월 이상 60개월 이내 월단위",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "957"
+   ],
+   "note": ""
+  },
+  "상품설명서": {
+   "key": "contract_term",
+   "summary": "12개월 이상 ~ 60개월 이하(월단위)",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1951"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "base_rate",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "base_rate",
+   "summary": "신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시된 이율을 적용합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "960",
+    "961",
+    "962",
+    "963"
+   ],
+   "note": ""
+  },
+  "상품설명서": {
+   "key": "base_rate",
+   "summary": "기본이율은 신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시된 계약기간별 기본이율 적용",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1954"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "preferential_rate",
+  "class": "둘 다 · 숫자 같고 예외 수 다름",
+  "특약": {
+   "key": "preferential_rate",
+   "summary": "가입자가 특정 조건을 충족할 경우 기본이율에 우대이율을 가산하여 지급합니다.",
+   "conditions": [
+    "KB국민은행 거래 업체(단체) 소속 5인 이상 가입",
+    "KB국민은행 거래 고객중 금리우대쿠폰주 소지 고객",
+    "병역명문가, 입영대상자, 현역군인, 태권도 단(품)증 소지 고객"
+   ],
+   "exceptions": [
+    "각 호를 중복하여 적용하지 않습니다"
+   ],
+   "source_section_ids": [
+    "961",
+    "962",
+    "963"
+   ],
+   "note": ""
+  },
+  "상품설명서": {
+   "key": "preferential_rate",
+   "summary": "우대이율은 신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시된 우대이율 적용 ※ 만기해지하는 경우에만 해당 계약기간 동안 적용",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1955"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "event_special_rate",
+  "class": "특약만 채움",
+  "특약": {
+   "key": "event_special_rate",
+   "summary": "KB국민은행 Youth고객, 첫거래고객, 우수고객, 비활동고객 등을 대상으로 이메일 등을 통해 제공",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "961"
+   ],
+   "note": ""
+  },
+  "상품설명서": {
+   "key": "event_special_rate",
+   "summary": null,
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [],
+   "note": "근거가 부족합니다."
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "early_termination",
+  "class": "둘 다 · 숫자 같고 예외 수 다름",
+  "특약": {
+   "key": "early_termination",
+   "summary": "만기일 전에 지급청구한 경우 월저축금마다 입금일부터 지급일 전날까지의 기간에 대해 중도해지이율로 셈한 이자를 원금에 더하여 지급합니다.",
+   "conditions": [],
+   "exceptions": [
+    "만기일 후 지급청구한 경우 만기지급액에 만기후이율로 셈한 이자를 더하여 지급합니다."
+   ],
+   "source_section_ids": [
+    "965",
+    "966"
+   ],
+   "note": ""
+  },
+  "상품설명서": {
+   "key": "early_termination",
+   "summary": "중도해지이율은 신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시된 예치기간별 중도해지이율 적용",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1958",
+    "1959"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "product_feature",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "product_feature",
+   "summary": "단체가입고객 또는 병역명문가 등에게 우대금리를 제공하는 적립식 상품",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1946"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "eligibility_target",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "eligibility_target",
+   "summary": "실명의 개인 (1 인 1 계좌)",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1948"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "eligibility_restriction",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "eligibility_restriction",
+   "summary": "이 상품은 공동명의로 가입할 수 없습니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1974"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "account_limit",
+  "class": "둘 다 비움",
+  "특약": null,
+  "상품설명서": {
+   "key": "account_limit",
+   "summary": null,
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [],
+   "note": "근거가 부족합니다."
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "required_evidence",
+  "class": "둘 다 비움",
+  "특약": null,
+  "상품설명서": {
+   "key": "required_evidence",
+   "summary": null,
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [],
+   "note": "근거가 부족합니다."
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "deposit_amount",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "deposit_amount",
+   "summary": "회차별 1 만원 이상 원단위로, 매월(월 초일부터 말일까지) 3 백만원 이내에서 저축 가능 ※ 자유적립식은 만기 1 개월 전까지 저축 가능",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1952"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "saving_amount",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "saving_amount",
+   "summary": "회차별 1 만원 이상 원단위로, 매월(월 초일부터 말일까지) 3 백만원 이내에서 저축 가능 ※ 자유적립식은 만기 1 개월 전까지 저축 가능",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1952"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "interest_payment",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "interest_payment",
+   "summary": "만기일시지급식: 만기(후) 또는 중도해지 요청시 이자를 지급",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1953"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "final_rate",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "final_rate",
+   "summary": "최종이율은 신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시된 단체가입/나라사랑 /쿠폰우대 및 교차거래 우대이율 모두 적용할 경우 최고이율",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1956"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "early_maturity_payment",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "early_maturity_payment",
+   "summary": "정액적립식: 가능 ▪ 자유적립식: 불가",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1965"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "partial_withdrawal",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "partial_withdrawal",
+   "summary": "불가",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1964"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "auto_renewal",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "auto_renewal",
+   "summary": "불가",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1963"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "auto_termination",
+  "class": "둘 다 비움",
+  "특약": null,
+  "상품설명서": {
+   "key": "auto_termination",
+   "summary": null,
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [],
+   "note": "근거가 부족합니다."
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "termination_method",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "termination_method",
+   "summary": "영업점, 인터넷뱅킹, KB 스타뱅킹, 고객센터를 통해 해지 가능 ※ 고객센터 통한 해지 시 만기해지만 가능하며 미성년자 예금 해지 불가 ※ 영업점에서 신규한 미성년자 명의의 예금 해지는 영업점에서만 가능 ▪ 만기 자동해지 가능 ※ 만기 자동해지를 신청하는 경우 지정계좌로 입금 가능",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1962"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "tax",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "tax",
+   "summary": "비과세종합저축으로 가입 가능 ※ 관련세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있음 ※ 계약기간 만료일 이후의 이자는 과세됨",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1961"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "transaction_restriction",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "transaction_restriction",
+   "summary": "이 상품은 공동명의로 가입할 수 없습니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1974"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "loan_linkage",
+  "class": "둘 다 비움",
+  "특약": null,
+  "상품설명서": {
+   "key": "loan_linkage",
+   "summary": null,
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [],
+   "note": "근거가 부족합니다."
+  }
+ },
+ {
+  "product": "KB국민프리미엄적금 (정액적립식)",
+  "key": "assignment_collateral",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "assignment_collateral",
+   "summary": "질권설정: 가능 ▪ 양도 가능 ▪ 예금담보대출은 계좌잔액의 95%까지 가능",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "1966",
+    "1967"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "product_name",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_name",
+   "summary": "KB 장기간부 도약적금",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "681"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "product_name",
+   "summary": "KB 장기간부 도약적금",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2704"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "product_type",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_type",
+   "summary": "예금과목은 정기적금이며, 상품유형은 자유적립식 예금입니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "681"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "product_type",
+   "summary": "자유적립식 예금",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2709"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "eligibility_target",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "eligibility_target",
+   "summary": "군인공제회 C&C에서 발급한 ‘장기간부 도약적금 가입자격 확인서’를 제출한 고객으로, 육/해/공군사관학교, 국군간호사관학교 등 졸업 후 임용된 장교 및 부사관, 군 복무 중 선발된 장교 및 부사관, 기타 군인사법에 따른 확인서 발급 대상자입니다.",
+   "conditions": [
+    "683",
+    "684",
+    "685",
+    "686"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "683",
+    "684",
+    "685",
+    "686"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "eligibility_target",
+   "summary": "육/해/공군사관학교, 육군3사관학교, 국군간호사관학교, 국방첨단과학기술사관학교 졸업 후 임용된 장교 및 공군항공과학고등학교 졸업 후 임용된 부사관, 군 복무 중 장기복무자, 기타 군인사법에서 정하는 ‘장기간부 도약적금 가입자격 확인서’ 발급 대상자",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2707"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "application_selection",
+  "class": "둘 다 비움",
+  "특약": {
+   "key": "application_selection",
+   "summary": null,
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [],
+   "note": "근거가 부족합니다."
+  },
+  "상품설명서": {
+   "key": "application_selection",
+   "summary": null,
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [],
+   "note": "근거가 부족하여 요약 불가"
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "eligibility_restriction",
+  "class": "둘 다 · 설명서에 숫자 더",
+  "특약": {
+   "key": "eligibility_restriction",
+   "summary": "개인사업자 및 임의단체, 공동명의 가입이 불가하며, 복무기간 중 1번만 가입 가능하고, 해지 후 다시 가입할 수 없습니다. 또한, 금융기관(군인공제회 포함)을 통틀어 1인 1계좌만 가입 가능합니다.",
+   "conditions": [
+    "688",
+    "689",
+    "690"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "688",
+    "689",
+    "690"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "eligibility_restriction",
+   "summary": "복무기간 중 1 인 1 회만 가입 가능(동일인 기준 1 인 1 회), 해지 후 재가입 불가",
+   "conditions": [],
+   "exceptions": [
+    "해지 후 재가입 불가"
+   ],
+   "source_section_ids": [
+    "2708"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "payment_limit",
+  "class": "특약만 채움",
+  "특약": {
+   "key": "payment_limit",
+   "summary": "월 최대 30 만원까지 저축할 수 있습니다.",
+   "conditions": [
+    "692"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "692"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "payment_limit",
+   "summary": null,
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [],
+   "note": "근거가 부족하여 요약 불가"
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "contract_term",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "contract_term",
+   "summary": "계약기간은 36개월입니다.",
+   "conditions": [
+    "691"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "691"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "contract_term",
+   "summary": "36 개월",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2710"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "base_rate",
+  "class": "둘 다 · 설명서에 숫자 더",
+  "특약": {
+   "key": "base_rate",
+   "summary": "기본금리는 가입일 당시 지점 및 KB 국민은행 홈페이지에 게시한 기본금리를 적용합니다.",
+   "conditions": [
+    "699",
+    "700",
+    "701",
+    "702",
+    "703",
+    "704"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "699",
+    "700",
+    "701",
+    "702",
+    "703",
+    "704"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "base_rate",
+   "summary": "연 5.5%",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2714"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "preferential_rate",
+  "class": "둘 다 · 설명서에 숫자 더",
+  "특약": {
+   "key": "preferential_rate",
+   "summary": "우대금리는 제9 조에서 정한 제공조건을 충족한 경우 적용되며, 우대금리는 제공조건을 달성한 만기해지 계좌에 계약기간 동안 적용됩니다.",
+   "conditions": [
+    "699",
+    "700",
+    "705"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "699",
+    "700",
+    "705"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "preferential_rate",
+   "summary": "연 0.5%p, 급여이체 우대금리 (연 0.5%p)",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2715"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "government_employer_support",
+  "class": "둘 다 · 설명서에 숫자 더",
+  "특약": {
+   "key": "government_employer_support",
+   "summary": "재정지원금은 ‘장기간부 도약적금’ 가입자의 목돈마련 지원을 위해 정부 예산으로 지급되며, 재정지원금은 만기해지 시 또는 특별중도해지 시 지급되며, 재정지원금에는 기본금리와 중도해지금리가 적용되며, 만기후이자는 제공되지 않습니다.",
+   "conditions": [
+    "707",
+    "708",
+    "709",
+    "710",
+    "711",
+    "712"
+   ],
+   "exceptions": [
+    "703",
+    "714",
+    "715",
+    "726"
+   ],
+   "source_section_ids": [
+    "707",
+    "708",
+    "709",
+    "710",
+    "711",
+    "712"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "government_employer_support",
+   "summary": "재정지원금: 적금 가입일부터 예금주가 납입한 금액에 대하여 100% 매칭한 금액, 재정지원금에는 만기후이자를 지급하지 않음",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2722"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "product_feature",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "product_feature",
+   "summary": "군 장기복무 장교 및 부사관의 자산형성을 지원하는 정부지원 저축상품",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2705"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "account_limit",
+  "class": "둘 다 비움",
+  "특약": null,
+  "상품설명서": {
+   "key": "account_limit",
+   "summary": null,
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [],
+   "note": "근거가 부족하여 요약 불가"
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "required_evidence",
+  "class": "둘 다 비움",
+  "특약": null,
+  "상품설명서": {
+   "key": "required_evidence",
+   "summary": null,
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [],
+   "note": "근거가 부족하여 요약 불가"
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "saving_amount",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "saving_amount",
+   "summary": "가입금액: 10 만원 이상~30 만원 이하, 납입한도: 매월 30 만원 이하, 납입금액: 입금 건별 1 만원 이상~30 만원 이하",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2711"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "sales_period",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "sales_period",
+   "summary": "매월 1 일부터 12 일까지",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2712"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "interest_payment",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "interest_payment",
+   "summary": "만기일시지급식: 만기(후) 또는 (특별)중도해지 시 이자를 지급",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2717"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "final_rate",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "final_rate",
+   "summary": "최저 연 5.5%~최고 연 6.0%",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2716"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "early_maturity_payment",
+  "class": "둘 다 비움",
+  "특약": null,
+  "상품설명서": {
+   "key": "early_maturity_payment",
+   "summary": null,
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [],
+   "note": "근거가 부족하여 요약 불가"
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "partial_withdrawal",
+  "class": "둘 다 비움",
+  "특약": null,
+  "상품설명서": {
+   "key": "partial_withdrawal",
+   "summary": null,
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [],
+   "note": "근거가 부족하여 요약 불가"
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "auto_renewal",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "auto_renewal",
+   "summary": "불가",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2725"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "auto_termination",
+  "class": "둘 다 비움",
+  "특약": null,
+  "상품설명서": {
+   "key": "auto_termination",
+   "summary": null,
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [],
+   "note": "근거가 부족하여 요약 불가"
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "early_termination",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "early_termination",
+   "summary": "중도해지금리: 가입일 당시 지점 및 KB 국민은행 홈페이지에 게시한 예치기간별 중도해지금리 적용",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2719",
+    "2720"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "tax",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "tax",
+   "summary": "비과세종합저축으로 가입 가능, 계약기간 만료일 이후의 이자는 과세됨",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2724"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "loan_linkage",
+  "class": "둘 다 비움",
+  "특약": null,
+  "상품설명서": {
+   "key": "loan_linkage",
+   "summary": null,
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [],
+   "note": "근거가 부족하여 요약 불가"
+  }
+ },
+ {
+  "product": "KB 장기간부 도약적금",
+  "key": "assignment_collateral",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "assignment_collateral",
+   "summary": "질권설정 가능",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2728",
+    "2729"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB사학연금평생안심통장",
+  "key": "product_name",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_name",
+   "summary": "KB사학연금평생안심통장",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "569"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "product_name",
+   "summary": "KB사학연금평생안심통장",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2504"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB사학연금평생안심통장",
+  "key": "product_type",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_type",
+   "summary": "이 예금의 예금과목은 저축예금으로 합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "569"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "product_type",
+   "summary": "입출금이자유로운예금(저축예금)",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2509"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB사학연금평생안심통장",
+  "key": "eligibility_target",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "eligibility_target",
+   "summary": "이 예금의 가입대상은 실명의 개인으로서 사립학교교직원연금을 수령하는 고객으로 합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "570"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "eligibility_target",
+   "summary": "실명의 개인으로 사립학교교직원연금을 수령하는 고객 (1 인 1 계좌)",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2507"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB사학연금평생안심통장",
+  "key": "base_rate",
+  "class": "둘 다 · 설명서에 숫자 더",
+  "특약": {
+   "key": "base_rate",
+   "summary": "기본이율은 결산일 현재 영업점에 고시한 저축예금 기본이율을 적용합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "584"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "base_rate",
+   "summary": "기본이율은 연 0.1% (결산일 현재 영업점에 고시된 저축예금 기본이율 적용)",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2511"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB사학연금평생안심통장",
+  "key": "preferential_rate",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "preferential_rate",
+   "summary": "결산기 평균잔액 중 1 백만원 이하의 금액까지는 우대이율 연2.0%를 적용하며, 1 백만원을 초과하는 금액에 대하여는 기본이율을 적용합니다.",
+   "conditions": [
+    "※ 단, 우대이율은 기본이율을 포함합니다."
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "585"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "preferential_rate",
+   "summary": "우대이율은 연 2.0% (우대이율은 기본이율을 포함) - 적용한도 : 결산기 평균잔액 중 1백만원 이하의 금액까지는 우대이율 적용하며, 1백만원을 초과하는 금액에 대하여는 기본이율을 적용",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2512"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB사학연금평생안심통장",
+  "key": "tax",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "tax",
+   "summary": "이 예금은 비과세종합저축으로 가입할 수 있습니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "586"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "tax",
+   "summary": "비과세종합저축으로 가입 가능",
+   "conditions": [
+    "관련 세법 개정 시 세율이 변경되거나 세금이 부과될 수 있음"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "2518"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB사학연금평생안심통장",
+  "key": "transaction_restriction",
+  "class": "둘 다 · 설명서에 숫자 더",
+  "특약": {
+   "key": "transaction_restriction",
+   "summary": "이 예금은 사립학교교직원연금 급여로 입금이 제한되며, 압류금지 대상금액 이하로 입금이 제한되며, 압류명령에 의한 지급제한이 되지 않으며, 상계, 양도, 담보제공, 자동대출계좌 사용, 인터넷뱅킹 신규시 모계좌 출금 등록, 결제계좌 지정 시 직접 납부, 계좌 전환 등 거래 제한이 있습니다.",
+   "conditions": [
+    "이 예금은 사립학교교직원연금 급여로 입금자원이 제한되며, 사립학교교직원연금 급여 이외의 자금은 입금 할 수 없습니다.",
+    "이 예금으로의 입금은 사립학교교직원연금법 제 40 조 2 항, 민사집행법 시행령 제 2 조에서 정하는 사립학교교직원연금 급여 압류금지 대상금액 이하로 입금 건당 금액을 제한합니다.",
+    "이 예금으로 매월 수령하는 사학연금 급여액이 관련 법에서 정하는 압류금지 대상금액을 초과하는 경우 압류금지 대상금액 까지만 이 통장으로 입금되므로 압류금지 대상금액을 초과한 금액은 입금이 제한되지 않는 별도의 통장으로 수령해야 합니다.",
+    "이 예금은 관련 법에 따라 법원의 압류명령에 의한 지급제한이 되지 않습니다",
+    "이 예금은 은행이 상계할 수 없습니다",
+    "이 예금은 양도 및 담보제공 할 수 없습니다",
+    "이 예금은 통장자동대출계좌로 사용할 수 없습니다.",
+    "인터넷뱅킹을 통한 예·부적금 신규시 모계좌로 출금 등록 할 수 없습니다.",
+    "이 예금을 신용카드 결제계좌나 공과금 등 대금납부 목적의 계좌로 지정한 경우에 결제ㆍ납부 금액이 부족하거나 결제ㆍ납부 취소 등이 발생한 때에는 제4 조에 따라 고객이 영업점 창구에서 결제ㆍ납부금액을 직접 납부하거나 별도 지정계좌로 입금 또는 직접 수령하는 방법으로 처리하여야 합니다.",
+    "다른 입출금이자유로운예금에서 이 예금으로 전환 및 이 예금에서 다른 입출금이자유로운예금으로 전환 할 수 없습니다."
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "572",
+    "573",
+    "574",
+    "576",
+    "577",
+    "578",
+    "579",
+    "580",
+    "581",
+    "582"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "transaction_restriction",
+   "summary": "사립학교교직원연금 급여(건별 250만원 이하)만 입금 가능, 양도 및 담보제공 불가, 통장자동대출계좌로 사용 불가, 인터넷뱅킹을 통한 예·부적금 신규 시 모계좌로 출금 등록 불가",
+   "conditions": [
+    "이자원가를 제외한 신용카드 캐시백 등 모든 입금거래 불가",
+    "계좌간 자동이체 약정시 입금계좌로 등록 불가 (출금계좌 등록은 가능)",
+    "신용카드 결제계좌나 공과금 등의 대금납부 목적의 계좌로 지정한 경우 결제·납부금액이 부족하거나 결제·납부취소 등이 발생한 때에는 고객이 영업점 창구에서 결제·납부금액을 직접 납부하거나 별도 지정계좌로 입금 또는 직접 수령",
+    "사립학교교직원연금공단에 연금수령계좌로 신고 시 압류방지전용통장임을 반드시 통지하시기 바랍니다. (미통지 시 연금이 입금되지 않을 수 있습니다.)",
+    "통장이 ‘전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법’ 에서 정의한 피해의심거래계좌 및 사기이용 계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치를 할 수 있습니다."
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "2517",
+    "2527"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB사학연금평생안심통장",
+  "key": "fee",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "fee",
+   "summary": "이 예금으로 전월 중 사립학교교직원연금 급여 입금실적이 있는 경우 이번 달 11일부터 다음 달 10일까지 아래의 수수료를 횟수 제한없이 면제합니다. 또한 신규시에는 이체실적에 관계없이 신규일로부터 다음 다음 달 10 일까지 제1 항의 수수료를 면제합니다.",
+   "conditions": [
+    "이 예금으로 전월 중 사립학교교직원연금 급여 입금실적이 있는 경우 이번 달 11일부터 다음 달 10일까지 아래의 수수료를 횟수 제한없이 면제합니다.",
+    "이 예금의 신규시에는 이체실적에 관계없이 신규일로부터 다음 다음 달 10 일까지 제1 항의 수수료를 면제합니다."
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "588",
+    "589"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "fee",
+   "summary": "전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 다른은행 이체수수료, KB국민은행 자동화기기 시간외 출금수수료 및 다른은행 이체수수료, KB국민은행 창구를 이용하여 이 통장에서 연동한 다른은행 이체수수료 면제",
+   "conditions": [
+    "이 예금에 전월 중 사립학교교직원연금 급여 이체 실적이 있는 경우 이번 달 11일부터 다음 달 10일까지 면제 (단, 신규시에는 이체실적에 관계없이 신규일로부터 다음 다음 달 10일까지 면제)",
+    "면제횟수: 제한없음"
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "2516"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB사학연금평생안심통장",
+  "key": "product_feature",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "product_feature",
+   "summary": "사학연금 급여가 생활비로 사용될 수 있도록 압류가 금지되고, 연금수령 실적이 있는 경우 각종 은행거래 수수료를 면제해주는 압류방지 전용통장",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2505"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB사학연금평생안심통장",
+  "key": "deposit_amount",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "deposit_amount",
+   "summary": "0원 계좌로만 개설 가능",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2508"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB사학연금평생안심통장",
+  "key": "interest_payment",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "interest_payment",
+   "summary": "매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함",
+   "conditions": [
+    "예금의 이자는 최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다."
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "2514"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB사학연금평생안심통장",
+  "key": "termination_method",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "termination_method",
+   "summary": "영업점, 개인인터넷뱅킹, KB 스타뱅킹을 통해 해지 가능",
+   "conditions": [
+    "개인인터넷뱅킹, KB 스타뱅킹을 통한 해지 시 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다."
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "2520"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB사학연금평생안심통장",
+  "key": "assignment_collateral",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "assignment_collateral",
+   "summary": "양도 및 담보제공 불가능",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2521",
+    "2522"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB사학연금평생안심통장",
+  "key": "product_conversion",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "product_conversion",
+   "summary": "다른 입출금이 자유로운 예금에서 이 통장으로 전환 가능, 이 통장에서 다른 입출금이 자유로운 예금으로 전환 불가",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2510"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "product_name",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "product_name",
+   "summary": "KB맑은하늘적금",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "445"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "product_name",
+   "summary": "KB 맑은하늘적금",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2249"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "product_type",
+  "class": "둘 다 · 특약에 숫자 더",
+  "특약": {
+   "key": "product_type",
+   "summary": "정기적금",
+   "conditions": [
+    "계약기간은 1년, 2년, 3년으로 합니다."
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "446"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "product_type",
+   "summary": "자유적립식 예금",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2253"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "eligibility_target",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "eligibility_target",
+   "summary": "실명의 개인으로 1인 최대 3계좌까지 가입 가능하며, 공동명의로는 가입이 불가합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "445"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "eligibility_target",
+   "summary": "실명의 개인, 1인 최대 3 계좌까지 가입 가능, 개인사업자 및 서류 미제출 임의단체 가입 가능, 공동명의 가입 불가",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2252"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "saving_amount",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "saving_amount",
+   "summary": "매월 1만원 이상 100만원 이하 원 단위 금액을 만기 전일까지 자유롭게 저축할 수 있습니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "447"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "saving_amount",
+   "summary": "매월 1만원 이상 100만원 이하 금액을 자유롭게 저축, 만기일 전일까지 저축 가능",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2255"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "payment_limit",
+  "class": "특약만 채움",
+  "특약": {
+   "key": "payment_limit",
+   "summary": "매월 1만원 이상 100만원 이하 원 단위 금액을 만기 전일까지 자유롭게 저축할 수 있습니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "447"
+   ],
+   "note": null
+  },
+  "상품설명서": null
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "contract_term",
+  "class": "둘 다 · 숫자 · 예외 수 같음",
+  "특약": {
+   "key": "contract_term",
+   "summary": "계약기간은 1년, 2년, 3년으로 합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "446"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "contract_term",
+   "summary": "1년제, 2년제, 3년제",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2254"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "base_rate",
+  "class": "둘 다 · 설명서에 숫자 더",
+  "특약": {
+   "key": "base_rate",
+   "summary": "이 적금의 이율은 신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시한 이율을 적용합니다.",
+   "conditions": [
+    "계약기간 동안 기본이율과 우대이율을 합하여 적용합니다."
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "449",
+    "450"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "base_rate",
+   "summary": "1년제: 연 2.65%, 2년제: 연 2.75%, 3년제: 연 3.05%",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2256"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "preferential_rate",
+  "class": "둘 다 · 숫자 서로 다름",
+  "특약": {
+   "key": "preferential_rate",
+   "summary": "우대이율은 제6조에서 정하는 조건을 충족하는 경우 적용합니다.",
+   "conditions": [
+    "만기해지 할 때까지 이 적금을 종이통장으로 발행한 이력이 없는 경우",
+    "영업점의 디지털창구 및 KB 태블릿브랜치, 비대면채널(인터넷뱅킹/ KB 스타뱅킹/ 스마트상담부)을 통해 이 적금을 가입한 경우",
+    "신규일이 포함된 월의 1 일부터 만기일이 포함된 월을 기준으로 전전월 말일까지, 본인 명의 KB 국민(신용/체크)카드 대중교통 이용실적 1) 발생월수가 계약기간의 1/2 이상인 경우",
+    "만기해지 할 때까지 이 적금 전용화면을 통해 미세먼지 관련 퀴즈(총 3 문항)를 모두 맞춘 경우"
+   ],
+   "exceptions": [
+    "대중교통 미션 우대이율의 경우 신규 가입 할 때 ‘상품별 선택 개인(신용)정보 수집·이용·제공’에 동의하는 경우에 한하여 제공되며, 신규 가입 이후 동의 여부 변경이 불가 합니다."
+   ],
+   "source_section_ids": [
+    "449",
+    "450",
+    "452",
+    "453"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "preferential_rate",
+   "summary": "우대이율은 미션 달성 시 적용, 1년제 최고 연 0.8%p, 2년제 최고 연 0.9%p, 3년제 최고 연 1.0%p",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2257"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "early_termination",
+  "class": "둘 다 · 설명서에 숫자 더",
+  "특약": {
+   "key": "early_termination",
+   "summary": "중도해지 시에는 금리우대쿠폰 우대금리 적용되지 않습니다.",
+   "conditions": [
+    "신규 시 금리우대쿠폰을 적용한 경우 쿠폰 우대금리를 기본이율에 가산합니다.",
+    "보험가입 서비스 제공이 중단됩니다."
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "453",
+    "457"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "early_termination",
+   "summary": "중도해지 시 이율은 계약기간에 따라 적용, 1개월 미만: 0.1%, 1개월 이상 ~ 3개월 미만: 기본이율 X 50% X 경과월수/계약월수 (최저 0.1%), 3개월 이상 ~ 6개월 미만: 기본이율 X 50% X 경과월수/계약월수 (최저 0.1%), 6개월 이상 ~ 8개월 미만: 기본이율 X 60% X 경과월수/계약월수 (최저 0.2%), 8개월 이상 ~ 10개월 미만: 기본이율 X 70% X 경과월수/계약월수 (최저 0.2%), 10개월 이상 ~ 11개월 미만: 기본이율 X 80% X 경과월수/계약월수 (최저 0.2%), 11개월 이상: 기본이율 X 90% X 경과월수/계약월수 (최저 0.2%)",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2261",
+    "2262"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "partner_benefit",
+  "class": "둘 다 · 특약에 숫자 더",
+  "특약": {
+   "key": "partner_benefit",
+   "summary": "신규 시 보험가입 및 개인(신용)정보의 제3자 제공에 동의한 고객에게 ‘대중교통상해 및 자전거상해’ 관련 ㈜KB 손해보험 단체보험 제공",
+   "conditions": [
+    "보험 개시일은 이 적금 신규 다음 날로 하며, 보험개시일로부터 1 년(1 년 단위 갱신)으로 합니다.",
+    "보험 서비스 내용은 ‘대중교통상해 및 자전거상해’ 관련 ㈜KB 손해보험 단체보험으로, 보장금액은 최대 2억원 및 30만원 등으로 구성되어 있습니다."
+   ],
+   "exceptions": [],
+   "source_section_ids": [
+    "455",
+    "456",
+    "457",
+    "458"
+   ],
+   "note": null
+  },
+  "상품설명서": {
+   "key": "partner_benefit",
+   "summary": "대중교통상해 및 자전거상해 관련 ㈜KB손해보험 단체보험 가입 서비스 제공, 보장기간: 보험 개시일로부터 1년 (1년 단위 갱신), 보험가입 서비스 제공 조건: 신규 시 보험가입 및 개인(신용)정보의 제3자 제공에 동의한 고객, 보험서비스 변경·종료 시 사전통지",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2282",
+    "2283",
+    "2284",
+    "2285",
+    "2286"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "early_maturity_payment",
+  "class": "특약만 채움",
+  "특약": {
+   "key": "early_maturity_payment",
+   "summary": "만기앞당김 지급이 불가합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "460"
+   ],
+   "note": null
+  },
+  "상품설명서": null
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "partial_withdrawal",
+  "class": "특약만 채움",
+  "특약": {
+   "key": "partial_withdrawal",
+   "summary": "만기 전 일부 금액만 해지 불가합니다.",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "461"
+   ],
+   "note": null
+  },
+  "상품설명서": null
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "product_feature",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "product_feature",
+   "summary": "친환경 특화 상품으로, 생활 속 작은 실천에 대해 우대금리를 제공하고, 대중교통/자전거상해 관련 무료 보험서비스(최대 2억원 보장)를 제공",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2250"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "deposit_amount",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "deposit_amount",
+   "summary": "매월 1만원 이상 100만원 이하 금액을 자유롭게 저축, 만기일 전일까지 저축 가능",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2255"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "interest_payment",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "interest_payment",
+   "summary": "만기일시지급식: 만기(후) 또는 중도해지 요청 시 이자를 지급",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2259"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "final_rate",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "final_rate",
+   "summary": "1년제: 최저 연 2.65% ~ 최고 연 3.45%, 2년제: 최저 연 2.75% ~ 최고 연 3.65%, 3년제: 최저 연 3.05% ~ 최고 연 4.05%",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2258"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "termination_method",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "termination_method",
+   "summary": "영업점, 인터넷뱅킹, KB 스타뱅킹, 고객센터를 통해 해지 가능, 만기 자동해지 가능, 만기일이 토요일 또는 법정공휴일인 경우 직전 영업일에 해지 시 해당 일수만큼 약정이자를 차감하고 지급",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2266"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "tax",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "tax",
+   "summary": "비과세종합저축으로 가입 가능, 계약기간 만료일 이후의 이자는 과세됨",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2264"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "transaction_restriction",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "transaction_restriction",
+   "summary": "티머니 계열 체크카드는 후불교통카드(RF) 기능이 아닌 충전식 선불교통카드로 대중교통 이용실적에 포함되지 않음",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2279"
+   ],
+   "note": null
+  }
+ },
+ {
+  "product": "KB맑은하늘적금",
+  "key": "assignment_collateral",
+  "class": "설명서만 채움",
+  "특약": null,
+  "상품설명서": {
+   "key": "assignment_collateral",
+   "summary": "질권설정, 양도, 담보제공 가능 (계좌잔액의 95%까지 예금담보대출 가능)",
+   "conditions": [],
+   "exceptions": [],
+   "source_section_ids": [
+    "2273",
+    "2274",
+    "2275"
+   ],
+   "note": null
+  }
+ }
+]

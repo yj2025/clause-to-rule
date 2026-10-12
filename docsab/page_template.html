@@ -1,0 +1,457 @@
+<title>특약 · 상품설명서 요약 대조</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* 레이아웃: 위에 설정 · 집계, 상품 칩 줄, 그 아래 key 마다 두 문서를 좌우로 (폰에서는 위아래) */
+:root{
+  --bg:#f5f6f8; --surface:#ffffff; --fg:#1d232b; --muted:#5d6672; --line:#dde1e7;
+  --tos:#2c4f86; --tos-soft:#e7edf7; --man:#9a5b1c; --man-soft:#f7ede2;
+  --ok:#2f7a4f; --ok-soft:#e4f2ea; --warn:#a2441f; --warn-soft:#f8e6de; --chip:#eceff3;
+  --sans:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#14181d; --surface:#1b2027; --fg:#e4e8ee; --muted:#9aa4b1; --line:#2c333d;
+  --tos:#8fb0e6; --tos-soft:#1f2b3d; --man:#e0a868; --man-soft:#33261a;
+  --ok:#7fcf9f; --ok-soft:#1b2f24; --warn:#f0a07e; --warn-soft:#3a2219; --chip:#252b34; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14181d; --surface:#1b2027; --fg:#e4e8ee; --muted:#9aa4b1; --line:#2c333d;
+  --tos:#8fb0e6; --tos-soft:#1f2b3d; --man:#e0a868; --man-soft:#33261a;
+  --ok:#7fcf9f; --ok-soft:#1b2f24; --warn:#f0a07e; --warn-soft:#3a2219; --chip:#252b34; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.6}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:28px 64px;display:grid;gap:22px}
+h1{font-size:1.6rem;line-height:1.3;margin:0;text-wrap:balance;font-weight:700;letter-spacing:-.01em}
+h2{font-size:1.2rem;margin:0;text-wrap:balance}
+.lede{color:var(--muted);margin:6px 0 0;max-width:70ch}
+.meta{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.82rem;color:var(--muted);margin-top:10px}
+.meta code{font-family:var(--mono);font-size:.78rem}
+.top{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+.top h1{min-width:0}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:.85rem;align-items:center}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:baseline}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:grid;gap:2px}
+.stat b{font-size:1.35rem;font-variant-numeric:tabular-nums}
+.stat span{font-size:.8rem;color:var(--muted)}
+.bar{display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--chip)}
+.controls{display:grid;gap:10px;position:sticky;top:env(safe-area-inset-top,0px);z-index:2;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line)}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.row .lab{font-size:.75rem;letter-spacing:.06em;color:var(--muted);margin-right:4px;text-transform:uppercase}
+button.chip{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:4px 12px;cursor:pointer}
+button.chip:hover{border-color:var(--muted)}
+button.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+button.chip:focus-visible{outline:2px solid var(--tos);outline-offset:2px}
+.phead{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}
+.phead .sub{color:var(--muted);font-size:.85rem}
+.keys{display:grid;gap:12px}
+.key{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.khead{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line)}
+.khead h3{font-size:.98rem;margin:0;font-weight:600}
+.khead code{font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+.pill{font-size:.72rem;border-radius:999px;padding:2px 8px;background:var(--chip);color:var(--muted);white-space:nowrap}
+.pill.tos{background:var(--tos-soft);color:var(--tos)}
+.pill.man{background:var(--man-soft);color:var(--man)}
+.pill.diff{background:var(--warn-soft);color:var(--warn)}
+.verified{font-size:.85rem;padding:8px 14px;border-bottom:1px solid var(--line)}
+.verified.doc{background:var(--warn-soft);color:var(--warn)}
+.verified.noise{background:var(--ok-soft);color:var(--ok)}
+.cols{display:grid;grid-template-columns:1fr 1fr}
+.col{padding:12px 14px;min-width:0;display:grid;gap:6px;align-content:start}
+.col+.col{border-left:1px solid var(--line)}
+.col .who{font-size:.72rem;letter-spacing:.08em;font-weight:600}
+.col.a .who{color:var(--tos)} .col.b .who{color:var(--man)}
+.col.a{box-shadow:inset 3px 0 0 var(--tos)} .col.b{box-shadow:inset 3px 0 0 var(--man)}
+.col p{margin:0}
+.col.empty p{color:var(--muted);font-style:italic}
+.col ul{margin:0;padding-left:1.1em;display:grid;gap:2px;font-size:.88rem}
+.col .lbl{font-size:.75rem;color:var(--muted);margin-top:4px}
+.note{font-size:.82rem;color:var(--muted)}
+.foot{font-size:.82rem;color:var(--muted);max-width:75ch}
+.final{display:grid;gap:18px;border-top:2px solid var(--fg);padding-top:26px;margin-top:10px}
+.final .eyebrow{font-size:.75rem;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.final h2{font-size:1.45rem}
+.final .lede{margin:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:8px;align-content:start;min-width:0}
+.panel h3{font-size:1rem;margin:0}
+.panel ol{margin:0;padding-left:1.2em;display:grid;gap:6px;font-size:.9rem}
+.tbl{overflow-x:auto}
+.tbl table{border-collapse:collapse;width:100%;font-size:.86rem}
+.tbl th,.tbl td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl th{font-size:.75rem;color:var(--muted);font-weight:600}
+.tbl code{font-family:var(--mono);font-size:.78rem}
+.screen{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:10px;max-width:520px}
+.screen .tag{font-size:.72rem;color:var(--muted)}
+.screen .big{font-size:1.05rem;font-weight:600}
+.screen .ask{display:flex;flex-wrap:wrap;gap:6px}
+.screen .ask span{font-size:.8rem;border:1px dashed var(--muted);border-radius:6px;padding:2px 8px;color:var(--muted)}
+.screen .q{font-size:.8rem;color:var(--muted)}
+.fitems{display:grid;gap:10px}
+.fitem{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:6px;min-width:0}
+.fitem .khead{padding:0;border:0}
+.fitem p{margin:0}
+.fitem ul{margin:0;padding-left:1.1em;display:grid;gap:3px;font-size:.88rem}
+.src{font-family:var(--mono);font-size:.72rem;color:var(--muted);white-space:nowrap}
+.ui{font-size:.72rem;border-radius:999px;padding:1px 7px;background:var(--tos-soft);color:var(--tos);margin-left:4px;white-space:nowrap}
+.only{font-size:.72rem;border-radius:999px;padding:1px 7px;background:var(--man-soft);color:var(--man);margin-left:4px;white-space:nowrap}
+.diffbox{font-size:.85rem;background:var(--warn-soft);color:var(--warn);border-radius:6px;padding:6px 10px}
+details.raw{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+details.raw summary{cursor:pointer;font-weight:600}
+details.raw pre{overflow-x:auto;font-family:var(--mono);font-size:.76rem;line-height:1.5;margin:10px 0 0;max-height:520px}
+.qwen{display:grid;gap:18px;border-top:2px solid var(--fg);padding-top:26px;margin-top:10px}
+.sev{font-size:.72rem;border-radius:4px;padding:1px 6px;margin-right:6px;white-space:nowrap;background:var(--chip);color:var(--muted)}
+.sev.s1{background:var(--warn-soft);color:var(--warn)}
+.sev.s2{background:var(--man-soft);color:var(--man)}
+.verdict{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--fg);border-radius:8px;padding:12px 16px;font-size:.95rem}
+.vs{display:grid;grid-template-columns:minmax(120px,.7fr) 1fr 1fr;gap:0;font-size:.86rem}
+.vs>div{padding:7px 10px;border-bottom:1px solid var(--line);min-width:0}
+.vs .h{font-size:.72rem;color:var(--muted);font-weight:600}
+.vs code{font-family:var(--mono);font-size:.74rem;color:var(--muted)}
+.flag{display:block;font-size:.75rem;color:var(--warn);margin-top:2px}
+@media (max-width:720px){.vs{grid-template-columns:1fr}.vs .h{display:none}.vs>div:nth-child(3n+1){background:var(--chip)}}
+.mtbl{overflow-x:auto}
+.mtbl table{border-collapse:collapse;width:100%;font-size:.88rem;font-variant-numeric:tabular-nums}
+.mtbl th,.mtbl td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.mtbl thead th{font-size:.78rem;color:var(--muted);font-weight:600}
+.mtbl td.n{text-align:right}
+.mtbl .best{font-weight:700}
+.mtbl th.grp{background:var(--chip);font-size:.8rem;color:var(--fg)}
+.mtbl tbody th{font-weight:500;white-space:nowrap}
+.mcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.mcards ul{margin:0;padding-left:1.1em;display:grid;gap:4px;font-size:.88rem}
+.fail{background:var(--warn-soft);color:var(--warn);border-radius:8px;padding:10px 14px;font-size:.9rem}
+@media (max-width:720px){.cols{grid-template-columns:1fr}.col+.col{border-left:0;border-top:1px solid var(--line)}}
+@media (prefers-reduced-motion:no-preference){.key{transition:border-color .15s}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="top"><h1>특약 · 상품설명서 요약 대조</h1>
+      <button type="button" class="chip theme" id="theme" aria-label="화면 테마 바꾸기">테마: 시스템</button></div>
+    <p class="lede">같은 상품을 특약 조항만, 상품설명서 조항만 따로 넣고 같은 지시문으로 key별 요약을 뽑은 결과입니다. 요약끼리 다른 곳이 곧 문서끼리 다른 곳은 아닙니다. 원문을 대조한 key 네 곳에는 결론을 붙였습니다.</p>
+    <div class="meta">
+      <span>2026-10-12</span><span>모델 <code>Qwen/Qwen3-8B</code> · 생각 모드 끔 · 온도 0</span>
+      <span>입력 팀 요약입력 <code>요약입력_상품별.json</code> · 공통약관 제외</span>
+      <span>지시문에서 «특약 우선» · «공통약관» 문장만 뺌</span>
+    </div>
+  </header>
+
+  <section class="stats" id="stats" aria-label="10상품 집계"></section>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--man)"></i>상품설명서만 채움</span>
+    <span><i class="sw" style="background:var(--fg)"></i>둘 다 채움</span>
+    <span><i class="sw" style="background:var(--tos)"></i>특약만 채움</span>
+    <span><i class="sw" style="background:var(--line)"></i>둘 다 비움</span>
+  </div>
+
+  <div class="controls">
+    <div class="row" id="prods" role="group" aria-label="상품"></div>
+    <div class="row" id="filters" role="group" aria-label="보기"><span class="lab">보기</span></div>
+  </div>
+
+  <section id="product" aria-live="polite"></section>
+
+
+  <section class="final" id="final" aria-labelledby="final-h">
+    <div class="eyebrow">최종 결과물 · 목표 형식</div>
+    <h2 id="final-h">KB스타통장 요약은 이렇게 나와야 합니다</h2>
+    <p class="lede">특약과 상품설명서 원문 15개 조항을 사람이 직접 읽고 16개 key를 채운 목표 결과물입니다. 모델 출력이 아닙니다. 모델 요약을 이 결과물과 견주면 무엇이 빠졌는지 볼 수 있습니다.</p>
+    <div class="grid2">
+      <div class="panel"><h3>원칙</h3><ol>
+        <li><b>두 문서를 합쳐 한 결과만 냅니다.</b> 특약만 쓰면 16개 key 중 4개만 채워지고 금리 · 세제 · 해지가 빠집니다.</li>
+        <li><b>부딪히는 곳은 드러냅니다.</b> 한쪽을 조용히 고르지 않고 <code>doc_diff</code>에 남깁니다.</li>
+        <li><b>조건은 충족을 가정하지 않습니다.</b> 서비스가 모르는 거래 조건은 사용자에게 물을 입력으로 표시합니다.</li>
+        <li><b>예외(※ · 단)는 하나도 빼지 않습니다.</b> 같은 원문에서도 요약 중에 예외가 빠진 사례가 있었습니다.</li>
+        <li><b>숫자는 원문 그대로, 줄마다 근거 조항을 답니다.</b></li>
+      </ol></div>
+      <div class="panel"><h3>팀 형식에 더한 필드</h3><div class="tbl"><table>
+        <thead><tr><th>필드</th><th>왜</th></tr></thead><tbody>
+        <tr><td><code>src</code> (줄마다)</td><td>key 단위 출처로는 어느 문장이 어느 문서에서 왔는지 모릅니다</td></tr>
+        <tr><td><code>only_in</code> · <code>doc_diff</code></td><td>기준 문서를 정하기 전에 두 문서 차이가 보여야 팀이 판단합니다</td></tr>
+        <tr><td><code>user_input</code></td><td>조건부로 보여 줄 때 사용자에게 무엇을 물을지 바로 나옵니다</td></tr>
+        <tr><td><code>condition_logic</code> · <code>special</code></td><td>«둘 중 하나», 신규 특례 같은 구조가 문장에 묻히지 않습니다</td></tr>
+        <tr><td><code>as_of</code></td><td>고시 이율은 바뀝니다. 기준일과 함께 보여 줍니다</td></tr>
+        </tbody></table></div></div>
+    </div>
+    <div class="grid2">
+      <div class="panel"><h3>화면에서는 이렇게 보입니다</h3>
+        <div class="screen" aria-label="수수료 면제 표시 예">
+          <div class="tag">수수료 면제 · 조건부</div>
+          <div class="big">전월 입금 합계 50만원 이상이거나 KB 리브 모바일 자동이체 출금이 있으면, 이번달 11일 ~ 다음달 10일 다른은행 이체 · ATM 수수료가 면제됩니다.</div>
+          <div class="q">입금 합계에서 빠지는 것: 본인 명의 당행 계좌 이체 · 본인 주민번호 입금 · 오픈뱅킹 이체 · 결산이자</div>
+          <div class="q">가입 후 다음 다음 달 10일까지는 실적과 관계없이 면제</div>
+          <div class="ask"><span>물어볼 입력: 전월 입금 합계</span><span>KB 리브 모바일 자동이체 있음 / 없음</span></div>
+        </div>
+      </div>
+      <div class="panel"><h3>모델 요약과 견주면</h3><ol>
+        <li>특약판: fee 예외 3개. 오픈뱅킹 · 결산이자 제외가 없습니다 (문서 차이).</li>
+        <li>설명서판: fee 예외 4개. 신규 특례(다음 다음 달 10일)와 면제 횟수가 요약에서 빠졌습니다.</li>
+        <li>두 판 모두 줄마다 출처가 없고, 물어볼 입력이 표시되지 않습니다.</li>
+      </ol></div>
+    </div>
+    <div class="fitems" id="fitems"></div>
+    <details class="raw"><summary>JSON 전체 보기</summary>
+      <div class="row" style="margin-top:8px"><button type="button" class="chip" id="copyjson">JSON 복사</button><span class="note" id="copymsg"></span></div>
+      <pre id="rawjson"></pre></details>
+  </section>
+
+
+  <section class="qwen" id="qwen" aria-labelledby="qwen-h">
+    <div class="eyebrow">시험 결과</div>
+    <h2 id="qwen-h">Qwen3-8B 혼자 이 형식을 낼 수 있나</h2>
+    <p class="lede">위 목표 형식의 필드 규칙만 지시문에 넣고(KB스타통장 정답 내용은 넣지 않음), 특약과 상품설명서 조항을 합쳐 한 번 돌렸습니다. Qwen3-8B · 생각 모드 끔 · 온도 0 · 최대 6,144토큰.</p>
+    <div class="verdict" id="qverdict"></div>
+    <div class="stats" id="qstats"></div>
+    <p class="note" style="margin:0">기계 채점은 글자 겹침으로 맞춰 봐서 후하게 나옵니다. 모델이 원문 조항을 통째로 복사한 줄도 그 안에 목표 문장이 들어 있으면 «맞음»으로 셉니다. 아래 문제 목록은 출력을 직접 읽고 확인한 것입니다.</p>
+    <div class="grid2">
+      <div class="panel"><h3>잘한 것</h3><ol id="qgood"></ol></div>
+      <div class="panel"><h3>문제</h3><ol id="qbad"></ol></div>
+    </div>
+    <div class="panel"><h3>key별 요약 문장 — 목표 vs Qwen3-8B</h3><div class="vs" id="qvs"></div></div>
+    <details class="raw"><summary>Qwen3-8B 원본 출력 (JSON)</summary><pre id="qraw"></pre></details>
+  </section>
+
+
+  <section class="qwen" id="models" aria-labelledby="models-h">
+    <div class="eyebrow">시험 결과 · 모델 비교</div>
+    <h2 id="models-h">Gemma 4 · Qwen3 · EXAONE, 두 가지 입력으로</h2>
+    <p class="lede" id="mnote"></p>
+    <div class="verdict" id="mverdict"></div>
+    <div class="note" id="mfail"></div>
+    <div class="mtbl"><table id="mtable"></table></div>
+    <p class="note" style="margin:0">«조건·예외 줄»은 글자 겹침으로 맞춘 기계 채점이라 후합니다. «헛표시»는 목표에 없는 곳에 붙인 표시 수입니다. 아래 카드의 문제는 출력을 직접 읽고 확인한 것입니다.</p>
+    <div class="mcards" id="mcards"></div>
+    <div id="mraw" style="display:grid;gap:8px"></div>
+  </section>
+
+
+  <section class="qwen" id="multi" aria-labelledby="multi-h">
+    <div class="eyebrow">상품 3개 · 역할 나누기</div>
+    <h2 id="multi-h">상품을 늘려 다시 보고, 코드 후처리를 붙이면</h2>
+    <p class="lede">KB 프리N통장 · KB 별별통장2의 목표 결과물을 모델 출력을 보기 전에 원문만으로 만들고, Gemma 4 31B · Gemma 4 12B · Qwen3-8B(4비트)에 KB스타통장과 같은 조건(요약입력 조항 · 목표 형식 지시문 · 입력 한도 10,240)으로 넣었습니다. 프리N통장은 두 문서의 조건이 같아 «문서 차이 없음»이 정답이고, 별별통장2는 차이가 세 곳 있습니다.</p>
+    <div class="verdict" id="multiverdict"></div>
+    <div class="mtbl"><table id="multitable"></table></div>
+    <p class="note" style="margin:0">«→» 왼쪽은 모델 출력 그대로, 오른쪽은 후처리(<code>postcheck.py</code>)를 붙인 뒤입니다. 후처리는 모델이 쓴 문서 차이 · 한쪽에만 표시를 버리고 원문 대조로 다시 붙이며, 조건 문장에 물을 입력을 표로 붙이고, 원문의 제외 · 불가 문장이 출력에 없으면 «누락 의심»으로 남깁니다.</p>
+    <div class="grid2">
+      <div class="panel"><h3>후처리가 하는 일</h3><ol>
+        <li><b>문서 차이</b> — 같은 key 를 두 문서가 다룰 때, 조건 · 예외 문장(제외 · 불가 · 포함 · 이상 · 미만 …)이 상대 문서 전체에 없으면 표시. 낱말 단위로 대조하고 흔한 낱말은 가볍게 셉니다.</li>
+        <li><b>누락 의심</b> — 원문의 제외 · 불가 문장이 출력 어디에도 없으면 목록으로. 재시도나 사람 검토에 씁니다.</li>
+        <li><b>물을 입력</b> — 조건 문장의 낱말(입금 합계 · 자동이체 · 잔액 · 인정단어 · 결제 횟수 …)로 표에서 붙입니다.</li>
+        <li><b>출처</b> — 줄에 출처가 없으면 그 key 의 조항 번호를 붙입니다.</li>
+      </ol></div>
+      <div class="panel"><h3>문서 차이 찾기 정확도 (원문만, 세 상품 목표 기준)</h3><div id="diffacc"></div></div>
+    </div>
+    <div class="mcards" id="multicards"></div>
+  </section>
+
+  <p class="foot">원본 출력은 <code>model/M2-2/docsab/out.jsonl</code>, key 분류는 <code>compare.json</code>에 있습니다. «숫자 서로 다름»은 요약 문장에서 숫자와 단위를 뽑아 견준 기계 분류입니다. 원문을 대조하지 않은 key는 판단을 붙이지 않았습니다.</p>
+</div>
+
+<script>
+const DATA = /*__DATA__*/[];
+const GROUP = c => c==="설명서만 채움" ? "man" : c==="특약만 채움" ? "tos" : c==="둘 다 비움" ? "none" : "both";
+const FILTERS = [
+  ["all","전체"],["diff","차이 있는 것"],["man","설명서만"],["tos","특약만"],["both","둘 다 채움"],["checked","원문 대조함"]
+];
+const isDiff = k => GROUP(k.class)!=="both" ? GROUP(k.class)!=="none" : k.class!=="둘 다 · 숫자 · 예외 수 같음";
+let state = {p:0, f:"all"};
+try{ const s=JSON.parse(localStorage.getItem("docsab-view")||"{}"); if(Number.isInteger(s.p)&&DATA[s.p]) state.p=s.p; if(s.f) state.f=s.f; }catch(e){}
+const h = location.hash.match(/^#p(\d+)$/); if(h && DATA[+h[1]-1]) state.p=+h[1]-1;
+
+function el(tag, attrs={}, ...kids){ const e=document.createElement(tag);
+  for(const [k,v] of Object.entries(attrs)){ if(k==="class") e.className=v; else if(k==="text") e.textContent=v; else e.setAttribute(k,v); }
+  for(const c of kids) if(c!=null) e.append(c); return e; }
+
+function stats(){
+  const all = DATA.flatMap(p=>p.keys); const n=all.length; const cnt={man:0,tos:0,both:0,none:0};
+  all.forEach(k=>cnt[GROUP(k.class)]++);
+  const pct=x=>Math.round(100*x/n);
+  const box=document.getElementById("stats");
+  [[`${DATA.length}상품 · ${n} key`,"비교한 범위"],[`${pct(cnt.man)}%`,`상품설명서만 채움 (${cnt.man})`],
+   [`${pct(cnt.both)}%`,`둘 다 채움 (${cnt.both})`],[`${pct(cnt.tos)}%`,`특약만 채움 (${cnt.tos})`]]
+   .forEach(([b,s])=>box.append(el("div",{class:"stat"},el("b",{text:b}),el("span",{text:s}))));
+  const bar=el("div",{class:"bar","aria-hidden":"true"});
+  [["man","var(--man)"],["both","var(--fg)"],["tos","var(--tos)"],["none","var(--line)"]].forEach(([g,c])=>
+    bar.append(el("i",{style:`width:${100*cnt[g]/n}%;background:${c}`})));
+  box.append(el("div",{class:"stat",style:"grid-column:1/-1"},bar));
+}
+
+function controls(){
+  const pr=document.getElementById("prods"); pr.replaceChildren(el("span",{class:"lab",text:"상품"}));
+  DATA.forEach((p,i)=>{ const b=el("button",{class:"chip",type:"button","aria-pressed":String(i===state.p),text:p.name});
+    b.onclick=()=>{state.p=i; save(); render();}; pr.append(b); });
+  const fr=document.getElementById("filters"); fr.replaceChildren(el("span",{class:"lab",text:"보기"}));
+  FILTERS.forEach(([id,lab])=>{ const b=el("button",{class:"chip",type:"button","aria-pressed":String(id===state.f),text:lab});
+    b.onclick=()=>{state.f=id; save(); render();}; fr.append(b); });
+}
+function save(){ try{localStorage.setItem("docsab-view",JSON.stringify(state));}catch(e){} try{history.replaceState(null,"",`#p${state.p+1}`);}catch(e){} }
+
+function col(side, item){
+  const who = side==="a" ? "특약" : "상품설명서";
+  const c = el("div",{class:`col ${side}${item&&item.summary?"":" empty"}`}, el("div",{class:"who",text:who}));
+  if(!item || !item.summary){ c.append(el("p",{text:"근거 없음"})); if(item&&item.note) c.append(el("div",{class:"note",text:item.note})); return c; }
+  c.append(el("p",{text:item.summary}));
+  for(const [f,lab] of [["conditions","조건"],["exceptions","예외"]]){
+    if(item[f]&&item[f].length){ c.append(el("div",{class:"lbl",text:`${lab} ${item[f].length}`}));
+      const ul=el("ul"); item[f].forEach(x=>ul.append(el("li",{text:String(x)}))); c.append(ul); } }
+  if(item.note) c.append(el("div",{class:"note",text:`note: ${item.note}`}));
+  return c;
+}
+function pill(k){
+  const g=GROUP(k.class);
+  if(g==="man") return el("span",{class:"pill man",text:"설명서만"});
+  if(g==="tos") return el("span",{class:"pill tos",text:"특약만"});
+  if(g==="none") return el("span",{class:"pill",text:"둘 다 비움"});
+  const t=k.class.replace("둘 다 · ","");
+  return el("span",{class:"pill"+(t==="숫자 · 예외 수 같음"?"":" diff"),text:t});
+}
+
+function render(){
+  controls();
+  const p=DATA[state.p]; const out=document.getElementById("product");
+  const keys=p.keys.filter(k=> state.f==="all" ? true : state.f==="diff" ? isDiff(k) : state.f==="checked" ? !!k.verified : GROUP(k.class)===state.f);
+  const head=el("div",{class:"phead"}, el("h2",{text:p.name}),
+    el("span",{class:"sub",text:`특약 조항 ${p.na} · 상품설명서 조항 ${p.nb} · key ${p.keys.length}개 중 ${keys.length}개 표시`}));
+  const list=el("div",{class:"keys"});
+  if(!keys.length) list.append(el("p",{class:"note",text:"이 보기에 해당하는 key가 없습니다. 다른 보기를 고르세요."}));
+  keys.forEach(k=>{
+    const card=el("article",{class:"key"},
+      el("div",{class:"khead"}, el("h3",{text:k.name}), el("code",{text:k.key}), pill(k)));
+    if(k.verified) card.append(el("div",{class:`verified ${k.verified[0]}`,text:k.verified[1]}));
+    card.append(el("div",{class:"cols"}, col("a",k.a), col("b",k.b)));
+    list.append(card);
+  });
+  out.replaceChildren(el("div",{style:"display:grid;gap:14px"},head,list));
+}
+const TARGET = /*__TARGET__*/null;
+function srcTag(a){ return el("span",{class:"src",text:" §"+a.join(" · §")}); }
+function renderFinal(){
+  if(!TARGET) return;
+  const box=document.getElementById("fitems");
+  TARGET.items.forEach(it=>{
+    const c=el("article",{class:"fitem"}, el("div",{class:"khead"}, el("h3",{text:it.name}), el("code",{text:it.key}),
+      it.as_of? el("span",{class:"pill",text:"기준일 "+it.as_of}):null, srcTag(it.source_section_ids)));
+    c.append(el("p",{text:it.summary}));
+    if(it.benefit) c.append(el("div",{class:"lbl note",text:"혜택: "+it.benefit}));
+    if(it.conditions&&it.conditions.length){
+      c.append(el("div",{class:"note",text:"조건"+(it.condition_logic?" — "+it.condition_logic:"")}));
+      const ul=el("ul"); it.conditions.forEach(x=>{ const li=el("li",{text:x.text});
+        if(x.user_input) li.append(el("span",{class:"ui",text:"입력: "+x.user_input})); li.append(srcTag(x.src)); ul.append(li); });
+      c.append(ul); }
+    if(it.exceptions&&it.exceptions.length){
+      c.append(el("div",{class:"note",text:"예외 "+it.exceptions.length}));
+      const ul=el("ul"); it.exceptions.forEach(x=>{ const li=el("li",{text:x.text});
+        if(x.only_in) li.append(el("span",{class:"only",text:x.only_in+"에만"})); li.append(srcTag(x.src)); ul.append(li); });
+      c.append(ul); }
+    if(it.special){ const d=el("div",{class:"note",text:"특례 · 참고: "+it.special.text}); d.append(srcTag(it.special.src)); c.append(d); }
+    if(it.doc_diff) c.append(el("div",{class:"diffbox",text:"문서 차이 — "+it.doc_diff}));
+    if(it.note) c.append(el("div",{class:"note",text:"note: "+it.note}));
+    box.append(c);
+  });
+  const raw=JSON.stringify(TARGET,null,1); document.getElementById("rawjson").textContent=raw;
+  document.getElementById("copyjson").onclick=()=>{ const m=document.getElementById("copymsg");
+    Promise.resolve().then(()=>navigator.clipboard.writeText(raw)).then(()=>{m.textContent="복사했습니다";},()=>{
+      const r=document.createRange(); r.selectNodeContents(document.getElementById("rawjson"));
+      const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); m.textContent="복사가 막혀 있어 JSON을 선택해 두었습니다. Ctrl+C로 복사하세요"; }); };
+}
+const QWEN = /*__QWEN__*/null;
+function renderQwen(){
+  if(!QWEN||!TARGET) return;
+  const T=QWEN.score;
+  document.getElementById("qverdict").textContent=QWEN.review.verdict;
+  const st=document.getElementById("qstats");
+  [[`${T.filled}/${T.keys}`,"key 채움"],[`${T.lines_hit}/${T.lines}`,"조건·예외 줄 (기계 · 후함)"],[`${QWEN.blob}/${QWEN.nlines}`,"원문 통째 복사한 줄"],
+   [`${T.diff_hit}/${T.diff_need}`,"문서 차이 짚음"],[`${T.ui_hit}/${T.ui_need}`,"물을 입력 표시"],[`${T.asof_hit}/${T.asof_need}`,"기준일"]]
+   .forEach(([b,t])=>st.append(el("div",{class:"stat"},el("b",{text:b}),el("span",{text:t}))));
+  const g=document.getElementById("qgood"); QWEN.review.good.forEach(x=>g.append(el("li",{text:x})));
+  const b=document.getElementById("qbad"); QWEN.review.bad.forEach(x=>{
+    const li=el("li"); li.append(el("span",{class:"sev "+(x.sev==="뜻 오류"?"s1":x.sev==="못 함"?"s2":""),text:x.sev}));
+    li.append(el("code",{class:"src",text:x.key+" "})); li.append(document.createTextNode(x.text)); b.append(li); });
+  const vs=document.getElementById("qvs");
+  ["key","목표","Qwen3-8B"].forEach(h=>vs.append(el("div",{class:"h",text:h})));
+  const M={}; (QWEN.items||[]).forEach(i=>M[i.key]=i);
+  const flags={}; QWEN.review.bad.forEach(x=>(flags[x.key]=flags[x.key]||[]).push(x.sev));
+  TARGET.items.forEach(t=>{ const m=M[t.key]||{};
+    vs.append(el("div",{},el("span",{text:t.name}),el("br"),el("code",{text:t.key})));
+    vs.append(el("div",{text:t.summary}));
+    const c=el("div",{text:m.summary||"(없음)"}); if(flags[t.key]) c.append(el("span",{class:"flag",text:"⚑ "+[...new Set(flags[t.key])].join(" · ")})); vs.append(c); });
+  document.getElementById("qraw").textContent=JSON.stringify({items:QWEN.items},null,1);
+}
+const MODELS = /*__MODELS__*/null;
+function renderModels(){
+  if(!MODELS) return;
+  document.getElementById("mnote").textContent="KB스타통장을 목표 형식 지시문과 함께 넣고 key별 JSON을 받았습니다. "+MODELS.note;
+  document.getElementById("mfail").textContent=MODELS.exaone;
+  if(MODELS.verdict) document.getElementById("mverdict").textContent=MODELS.verdict;
+  const R=MODELS.runs, t=document.getElementById("mtable");
+  const cols=[
+    ["key 채움", r=>`${r.score.filled}/${r.score.keys}`],
+    ["조건·예외 줄 (기계)", r=>`${r.score.lines_hit}/${r.score.lines}`],
+    ["원문 통째 복사", r=>`${r.blob}/${r.nlines}`],
+    ["문서 차이 (헛표시)", r=>`${r.score.diff_hit}/${r.score.diff_need} (${r.score.diff_false})`],
+    ["물을 입력", r=>`${r.score.ui_hit}/${r.score.ui_need}`],
+    ["뜻 오류", r=>String(r.review.bad.filter(b=>b[0]==="뜻 오류").length)],
+    ["형식", r=>r.repaired?"깨짐":"읽힘"],
+    ["생성", r=>`${r.gen_tokens}토큰 · ${Math.round(r.sec)}초`],
+  ];
+  const head=el("tr",{},el("th",{text:"모델"})); cols.forEach(c=>head.append(el("th",{text:c[0]}))); t.append(el("thead",{},head));
+  const tb=el("tbody");
+  [...new Set(R.map(r=>r.input))].forEach(inp=>{
+    tb.append(el("tr",{},el("th",{colspan:String(cols.length+1),class:"grp",text:"입력: "+inp})));
+    R.filter(r=>r.input===inp).forEach(r=>{ const tr=el("tr",{},el("th",{text:r.model}));
+      cols.forEach(c=>tr.append(el("td",{class:"n",text:c[1](r)}))); tb.append(tr); });
+  });
+  t.append(tb);
+  const cards=document.getElementById("mcards");
+  R.forEach(r=>{ const c=el("div",{class:"panel"},el("h3",{text:r.name}));
+    c.append(el("div",{class:"note",text:"잘한 것"})); const g=el("ul"); r.review.good.forEach(x=>g.append(el("li",{text:x}))); c.append(g);
+    c.append(el("div",{class:"note",text:"문제"})); const b=el("ul"); r.review.bad.forEach(([sev,x])=>{ const li=el("li");
+      li.append(el("span",{class:"sev "+(sev==="뜻 오류"?"s1":sev==="못 함"||sev==="헛표시"?"s2":""),text:sev})); li.append(document.createTextNode(x)); b.append(li); });
+    c.append(b); cards.append(c); });
+  const raw=document.getElementById("mraw");
+  R.forEach(r=>{ const d=el("details",{class:"raw"},el("summary",{text:r.name+" 원본 출력 (JSON)"})); const pre=el("pre"); pre.textContent=JSON.stringify({items:r.items},null,1); d.append(pre); raw.append(d); });
+}
+const MULTI = /*__MULTI__*/null;
+function renderMulti(){
+  if(!MULTI) return;
+  if(MULTI.verdict) document.getElementById("multiverdict").textContent=MULTI.verdict;
+  const t=document.getElementById("multitable");
+  const cols=["모델","형식","key 채움","조건·예외 줄 (기계)","문서 차이 (헛표시)","물을 입력","누락 의심","생성"];
+  const hr=el("tr"); cols.forEach(c=>hr.append(el("th",{text:c}))); t.append(el("thead",{},hr));
+  const tb=el("tbody"); let prod=null;
+  MULTI.rows.forEach(r=>{
+    if(r.product!==prod){ prod=r.product; tb.append(el("tr",{},el("th",{colspan:String(cols.length),class:"grp",text:prod}))); }
+    const tr=el("tr",{},el("th",{text:r.model}));
+    if(!r.before){ tr.append(el("td",{class:"n",text:r.missing?"결과 없음":"JSON 깨짐"})); for(let i=0;i<cols.length-3;i++) tr.append(el("td",{class:"n",text:"—"}));
+      tr.append(el("td",{class:"n",text:r.gen_tokens?`${r.gen_tokens}토큰 · ${Math.round(r.sec)}초`:"—"})); tb.append(tr); return; }
+    const b=r.before,a=r.after;
+    [["읽힘"],[`${b.filled}/${b.keys}`],[`${b.lines_hit}/${b.lines}`],
+     [`${b.diff_hit}/${b.diff_need} (${b.diff_false}) → ${a.diff_hit}/${a.diff_need} (${a.diff_false})`],
+     [`${b.ui_hit} → ${a.ui_hit} / ${b.ui_need}`],[String(r.missing_flags)],[`${r.gen_tokens}토큰 · ${Math.round(r.sec)}초`]]
+     .forEach(([v])=>tr.append(el("td",{class:"n",text:v})));
+    tb.append(tr);
+  });
+  t.append(tb);
+  const acc=document.getElementById("diffacc");
+  if(MULTI.diffacc){ const ul=el("ul"); MULTI.diffacc.forEach(x=>ul.append(el("li",{text:x}))); acc.append(ul); }
+  const cards=document.getElementById("multicards");
+  MULTI.rows.filter(r=>r.review&&r.review.length).forEach(r=>{
+    const c=el("div",{class:"panel"},el("h3",{text:`${r.product} · ${r.model}`})); const ul=el("ul");
+    r.review.forEach(([sev,x])=>{ const li=el("li"); li.append(el("span",{class:"sev "+(sev==="뜻 오류"?"s1":sev==="못 함"||sev==="형식 깨짐"?"s2":""),text:sev})); li.append(document.createTextNode(x)); ul.append(li); });
+    c.append(ul); cards.append(c); });
+}
+const THEMES=[["system","시스템"],["light","라이트"],["dark","다크"]];
+let theme="system"; try{ theme=localStorage.getItem("docsab-theme")||"system"; }catch(e){}
+function applyTheme(){
+  if(theme==="system") document.documentElement.removeAttribute("data-theme");
+  else document.documentElement.setAttribute("data-theme",theme);
+  document.getElementById("theme").textContent="테마: "+THEMES.find(t=>t[0]===theme)[1];
+}
+document.getElementById("theme").onclick=()=>{
+  const i=THEMES.findIndex(t=>t[0]===theme); theme=THEMES[(i+1)%THEMES.length][0];
+  try{ localStorage.setItem("docsab-theme",theme); }catch(e){} applyTheme();
+};
+if(!THEMES.some(t=>t[0]===theme)) theme="system";
+applyTheme(); stats(); render(); renderFinal(); renderQwen(); renderModels(); renderMulti();
+</script>

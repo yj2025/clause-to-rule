@@ -1,0 +1,428 @@
+{
+ "rows": [
+  {
+   "product": "KB스타통장",
+   "model": "Gemma 4 31B",
+   "parsed": true,
+   "gen_tokens": 2740,
+   "sec": 634.1,
+   "review": [
+    [
+     "잘함",
+     "fee 조건 논리 OR · 물을 입력 · 제외 조건 · «오픈뱅킹 · 결산이자는 설명서에만» 문서 차이"
+    ],
+    [
+     "못 함",
+     "가입대상 공동명의 불가 · 가입대상 문서 차이"
+    ]
+   ],
+   "before": {
+    "filled": 16,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 17,
+    "src_ok": 17,
+    "ui_need": 5,
+    "ui_hit": 2,
+    "only_need": 2,
+    "only_hit": 2,
+    "only_false": 0,
+    "diff_need": 2,
+    "diff_hit": 1,
+    "diff_false": 0,
+    "asof_need": 1,
+    "asof_hit": 1
+   },
+   "after": {
+    "filled": 16,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 17,
+    "src_ok": 17,
+    "ui_need": 5,
+    "ui_hit": 5,
+    "only_need": 2,
+    "only_hit": 2,
+    "only_false": 0,
+    "diff_need": 2,
+    "diff_hit": 2,
+    "diff_false": 1,
+    "asof_need": 1,
+    "asof_hit": 1
+   },
+   "missing_flags": 2,
+   "diff_found": [
+    "product_type",
+    "eligibility_target",
+    "fee"
+   ]
+  },
+  {
+   "product": "KB스타통장",
+   "model": "Gemma 4 12B",
+   "parsed": true,
+   "gen_tokens": 2879,
+   "sec": 576.8,
+   "review": [
+    [
+     "잘함",
+     "fee 조건 논리 · 제외 조건 다 옮김"
+    ],
+    [
+     "뜻 오류",
+     "거래중지 세 구간 통째로 빠짐"
+    ]
+   ],
+   "before": {
+    "filled": 15,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 13,
+    "src_ok": 13,
+    "ui_need": 5,
+    "ui_hit": 0,
+    "only_need": 2,
+    "only_hit": 0,
+    "only_false": 6,
+    "diff_need": 2,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 1,
+    "asof_hit": 1
+   },
+   "after": {
+    "filled": 15,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 13,
+    "src_ok": 13,
+    "ui_need": 5,
+    "ui_hit": 2,
+    "only_need": 2,
+    "only_hit": 0,
+    "only_false": 2,
+    "diff_need": 2,
+    "diff_hit": 2,
+    "diff_false": 1,
+    "asof_need": 1,
+    "asof_hit": 1
+   },
+   "missing_flags": 2,
+   "diff_found": [
+    "product_type",
+    "eligibility_target",
+    "fee"
+   ]
+  },
+  {
+   "product": "KB스타통장",
+   "model": "Qwen3-8B 4비트",
+   "parsed": true,
+   "gen_tokens": 3782,
+   "sec": 467.9,
+   "review": [
+    [
+     "뜻 오류",
+     "fee 조건에 50만원 · 리브모바일 빠짐 · «모두 충족»"
+    ],
+    [
+     "헛표시",
+     "doc_diff 를 거의 모든 key 에"
+    ]
+   ],
+   "before": {
+    "filled": 15,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 10,
+    "src_ok": 10,
+    "ui_need": 5,
+    "ui_hit": 3,
+    "only_need": 2,
+    "only_hit": 1,
+    "only_false": 21,
+    "diff_need": 2,
+    "diff_hit": 2,
+    "diff_false": 13,
+    "asof_need": 1,
+    "asof_hit": 1
+   },
+   "after": {
+    "filled": 15,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 10,
+    "src_ok": 10,
+    "ui_need": 5,
+    "ui_hit": 3,
+    "only_need": 2,
+    "only_hit": 0,
+    "only_false": 0,
+    "diff_need": 2,
+    "diff_hit": 2,
+    "diff_false": 1,
+    "asof_need": 1,
+    "asof_hit": 1
+   },
+   "missing_flags": 5,
+   "diff_found": [
+    "product_type",
+    "eligibility_target",
+    "fee"
+   ]
+  },
+  {
+   "product": "KB 프리N통장",
+   "model": "Gemma 4 31B",
+   "parsed": true,
+   "gen_tokens": 3087,
+   "sec": 757.4,
+   "review": [
+    [
+     "잘함",
+     "fee 제외 조건 4개 · 특별금리 «인정단어» 조건 · 예금과목별 조건 논리 모두 맞음 · 문서 차이 헛표시 없음"
+    ],
+    [
+     "덜 나눔",
+     "제외 조건을 조건 문장 안 괄호로 묶음 (기계 점수가 낮게 나온 까닭)"
+    ]
+   ],
+   "before": {
+    "filled": 17,
+    "keys": 17,
+    "lines": 27,
+    "lines_hit": 16,
+    "src_ok": 16,
+    "ui_need": 7,
+    "ui_hit": 4,
+    "only_need": 0,
+    "only_hit": 0,
+    "only_false": 0,
+    "diff_need": 0,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 3,
+    "asof_hit": 3
+   },
+   "after": {
+    "filled": 17,
+    "keys": 17,
+    "lines": 27,
+    "lines_hit": 16,
+    "src_ok": 16,
+    "ui_need": 7,
+    "ui_hit": 5,
+    "only_need": 0,
+    "only_hit": 0,
+    "only_false": 0,
+    "diff_need": 0,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 3,
+    "asof_hit": 3
+   },
+   "missing_flags": 7,
+   "diff_found": []
+  },
+  {
+   "product": "KB 프리N통장",
+   "model": "Gemma 4 12B",
+   "parsed": false,
+   "gen_tokens": 3140,
+   "sec": 609.6,
+   "review": [
+    [
+     "형식 깨짐",
+     "JSON 이 안 읽힘(콤마 빠짐) — 입력이 길어지면 12B 는 형식을 놓친다 (KB스타통장 원문 전체와 같은 증상)"
+    ]
+   ]
+  },
+  {
+   "product": "KB 프리N통장",
+   "model": "Qwen3-8B 4비트",
+   "parsed": true,
+   "gen_tokens": 2593,
+   "sec": 328.8,
+   "review": [
+    [
+     "뜻 오류",
+     "특별금리 조건에서 «인정단어»가 빠짐 — 아무 입금이나 50만원이면 되는 것처럼 읽힘"
+    ],
+    [
+     "못 함",
+     "fee 제외 조건 전부 빠짐 · 조건 논리 없음"
+    ]
+   ],
+   "before": {
+    "filled": 17,
+    "keys": 17,
+    "lines": 27,
+    "lines_hit": 9,
+    "src_ok": 9,
+    "ui_need": 7,
+    "ui_hit": 0,
+    "only_need": 0,
+    "only_hit": 0,
+    "only_false": 18,
+    "diff_need": 0,
+    "diff_hit": 0,
+    "diff_false": 1,
+    "asof_need": 3,
+    "asof_hit": 1
+   },
+   "after": {
+    "filled": 17,
+    "keys": 17,
+    "lines": 27,
+    "lines_hit": 9,
+    "src_ok": 9,
+    "ui_need": 7,
+    "ui_hit": 7,
+    "only_need": 0,
+    "only_hit": 0,
+    "only_false": 0,
+    "diff_need": 0,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 3,
+    "asof_hit": 1
+   },
+   "missing_flags": 12,
+   "diff_found": []
+  },
+  {
+   "product": "KB 별별통장2",
+   "model": "Gemma 4 31B",
+   "parsed": true,
+   "gen_tokens": 2883,
+   "sec": 649.3,
+   "review": [
+    [
+     "잘함",
+     "양도 · 담보 · 질권 모두 불가(KB스타통장과 반대)를 맞게 · fee 는 실적 조건 없는 면제로 맞게 · 외국인 조건에 «설명서에만»"
+    ],
+    [
+     "못 함",
+     "쿠폰의 입금 인정 제외(오픈뱅킹 · 결산이자 등) · 출금 인정 기준(기업 · 선불카드 제외) 빠짐 — 설명서에만 있는 핵심 차이 · 문서 차이 0/3"
+    ]
+   ],
+   "before": {
+    "filled": 17,
+    "keys": 17,
+    "lines": 22,
+    "lines_hit": 10,
+    "src_ok": 10,
+    "ui_need": 5,
+    "ui_hit": 2,
+    "only_need": 6,
+    "only_hit": 1,
+    "only_false": 0,
+    "diff_need": 3,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 3,
+    "asof_hit": 2
+   },
+   "after": {
+    "filled": 17,
+    "keys": 17,
+    "lines": 22,
+    "lines_hit": 10,
+    "src_ok": 10,
+    "ui_need": 5,
+    "ui_hit": 3,
+    "only_need": 6,
+    "only_hit": 1,
+    "only_false": 3,
+    "diff_need": 3,
+    "diff_hit": 3,
+    "diff_false": 1,
+    "asof_need": 3,
+    "asof_hit": 2
+   },
+   "missing_flags": 20,
+   "diff_found": [
+    "eligibility_target",
+    "preferential_rate",
+    "transaction_restriction",
+    "partner_benefit"
+   ]
+  },
+  {
+   "product": "KB 별별통장2",
+   "model": "Gemma 4 12B",
+   "parsed": true,
+   "gen_tokens": 2339,
+   "sec": 409.5,
+   "review": [
+    [
+     "잘함",
+     "양도 · 담보 · 질권 불가, 무조건 면제 맞게"
+    ],
+    [
+     "덜 나눔",
+     "제외 조건을 조건 칸에 · 쿠폰 입금 · 출금 인정 기준 빠짐 · 물을 입력 0"
+    ]
+   ],
+   "before": {
+    "filled": 17,
+    "keys": 17,
+    "lines": 22,
+    "lines_hit": 7,
+    "src_ok": 0,
+    "ui_need": 5,
+    "ui_hit": 0,
+    "only_need": 6,
+    "only_hit": 1,
+    "only_false": 0,
+    "diff_need": 3,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 3,
+    "asof_hit": 3
+   },
+   "after": {
+    "filled": 17,
+    "keys": 17,
+    "lines": 22,
+    "lines_hit": 7,
+    "src_ok": 7,
+    "ui_need": 5,
+    "ui_hit": 3,
+    "only_need": 6,
+    "only_hit": 1,
+    "only_false": 1,
+    "diff_need": 3,
+    "diff_hit": 3,
+    "diff_false": 1,
+    "asof_need": 3,
+    "asof_hit": 3
+   },
+   "missing_flags": 15,
+   "diff_found": [
+    "eligibility_target",
+    "preferential_rate",
+    "transaction_restriction",
+    "partner_benefit"
+   ]
+  },
+  {
+   "product": "KB 별별통장2",
+   "model": "Qwen3-8B 4비트",
+   "missing": true,
+   "review": [
+    [
+     "실패",
+     "입력 9,013토큰에서 OOM — 어텐션 한 번에 9.7GiB 필요. V100 에 긴 입력용 효율 커널이 없어서다. 비교 조건을 지키려고 입력을 줄이지 않았다"
+    ]
+   ]
+  }
+ ],
+ "diffacc": [
+  "세 상품의 목표 문서 차이 key 5개를 모두 찾음 (KB스타통장 2 · 프리N통장 0 · 별별통장2 3)",
+  "헛표시 2 key — KB스타통장 상품유형(«개별상품 기준 전환 불가 제외»는 실제로 설명서에만 있음, 목표에서는 다른 key 에 둠) · 별별통장2 우대금리(«300만원 초과분은 기본금리»는 특약에 암묵적으로만)",
+  "프리N통장(차이 없음)에서 헛표시 0",
+  "문턱은 이 세 상품으로 맞췄다 — 다른 상품에서는 따로 확인해야 한다"
+ ],
+ "verdict": "상품을 셋으로 늘려도 Gemma 4 31B 가 가장 나았습니다 — 프리N통장의 «인정단어» 조건과 제외 조건, 별별통장2의 «양도 · 담보 · 질권 모두 불가»와 «무조건 면제»를 맞게 옮겼습니다. 그래도 31B 역시 별별통장2에서 설명서에만 있는 쿠폰 인정 기준을 빠뜨려 문서 차이를 못 짚었습니다. Qwen3-8B(4비트)는 프리N통장에서 «인정단어»를 빠뜨리는 뜻 오류를 냈고 별별통장2는 OOM, Gemma 4 12B 는 입력이 길면 JSON 이 깨졌습니다. 후처리를 붙이면 모델과 상관없이 문서 차이는 목표대로 표시되고(헛표시 0~1) 물을 입력도 대부분 채워집니다. 모델이 빠뜨린 줄은 후처리가 «누락 의심»으로 알려 줄 뿐 대신 채우지는 않으니, 재시도나 사람 검토로 이어 붙여야 합니다."
+}

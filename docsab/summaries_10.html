@@ -1,0 +1,4378 @@
+<title>특약 · 상품설명서 요약 대조</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* 레이아웃: 위에 설정 · 집계, 상품 칩 줄, 그 아래 key 마다 두 문서를 좌우로 (폰에서는 위아래) */
+:root{
+  --bg:#f5f6f8; --surface:#ffffff; --fg:#1d232b; --muted:#5d6672; --line:#dde1e7;
+  --tos:#2c4f86; --tos-soft:#e7edf7; --man:#9a5b1c; --man-soft:#f7ede2;
+  --ok:#2f7a4f; --ok-soft:#e4f2ea; --warn:#a2441f; --warn-soft:#f8e6de; --chip:#eceff3;
+  --sans:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#14181d; --surface:#1b2027; --fg:#e4e8ee; --muted:#9aa4b1; --line:#2c333d;
+  --tos:#8fb0e6; --tos-soft:#1f2b3d; --man:#e0a868; --man-soft:#33261a;
+  --ok:#7fcf9f; --ok-soft:#1b2f24; --warn:#f0a07e; --warn-soft:#3a2219; --chip:#252b34; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14181d; --surface:#1b2027; --fg:#e4e8ee; --muted:#9aa4b1; --line:#2c333d;
+  --tos:#8fb0e6; --tos-soft:#1f2b3d; --man:#e0a868; --man-soft:#33261a;
+  --ok:#7fcf9f; --ok-soft:#1b2f24; --warn:#f0a07e; --warn-soft:#3a2219; --chip:#252b34; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.6}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:28px 64px;display:grid;gap:22px}
+h1{font-size:1.6rem;line-height:1.3;margin:0;text-wrap:balance;font-weight:700;letter-spacing:-.01em}
+h2{font-size:1.2rem;margin:0;text-wrap:balance}
+.lede{color:var(--muted);margin:6px 0 0;max-width:70ch}
+.meta{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.82rem;color:var(--muted);margin-top:10px}
+.meta code{font-family:var(--mono);font-size:.78rem}
+.top{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+.top h1{min-width:0}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:.85rem;align-items:center}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:baseline}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:grid;gap:2px}
+.stat b{font-size:1.35rem;font-variant-numeric:tabular-nums}
+.stat span{font-size:.8rem;color:var(--muted)}
+.bar{display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--chip)}
+.controls{display:grid;gap:10px;position:sticky;top:env(safe-area-inset-top,0px);z-index:2;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line)}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.row .lab{font-size:.75rem;letter-spacing:.06em;color:var(--muted);margin-right:4px;text-transform:uppercase}
+button.chip{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:4px 12px;cursor:pointer}
+button.chip:hover{border-color:var(--muted)}
+button.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+button.chip:focus-visible{outline:2px solid var(--tos);outline-offset:2px}
+.phead{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}
+.phead .sub{color:var(--muted);font-size:.85rem}
+.keys{display:grid;gap:12px}
+.key{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.khead{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line)}
+.khead h3{font-size:.98rem;margin:0;font-weight:600}
+.khead code{font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+.pill{font-size:.72rem;border-radius:999px;padding:2px 8px;background:var(--chip);color:var(--muted);white-space:nowrap}
+.pill.tos{background:var(--tos-soft);color:var(--tos)}
+.pill.man{background:var(--man-soft);color:var(--man)}
+.pill.diff{background:var(--warn-soft);color:var(--warn)}
+.verified{font-size:.85rem;padding:8px 14px;border-bottom:1px solid var(--line)}
+.verified.doc{background:var(--warn-soft);color:var(--warn)}
+.verified.noise{background:var(--ok-soft);color:var(--ok)}
+.cols{display:grid;grid-template-columns:1fr 1fr}
+.col{padding:12px 14px;min-width:0;display:grid;gap:6px;align-content:start}
+.col+.col{border-left:1px solid var(--line)}
+.col .who{font-size:.72rem;letter-spacing:.08em;font-weight:600}
+.col.a .who{color:var(--tos)} .col.b .who{color:var(--man)}
+.col.a{box-shadow:inset 3px 0 0 var(--tos)} .col.b{box-shadow:inset 3px 0 0 var(--man)}
+.col p{margin:0}
+.col.empty p{color:var(--muted);font-style:italic}
+.col ul{margin:0;padding-left:1.1em;display:grid;gap:2px;font-size:.88rem}
+.col .lbl{font-size:.75rem;color:var(--muted);margin-top:4px}
+.note{font-size:.82rem;color:var(--muted)}
+.foot{font-size:.82rem;color:var(--muted);max-width:75ch}
+.final{display:grid;gap:18px;border-top:2px solid var(--fg);padding-top:26px;margin-top:10px}
+.final .eyebrow{font-size:.75rem;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.final h2{font-size:1.45rem}
+.final .lede{margin:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:8px;align-content:start;min-width:0}
+.panel h3{font-size:1rem;margin:0}
+.panel ol{margin:0;padding-left:1.2em;display:grid;gap:6px;font-size:.9rem}
+.tbl{overflow-x:auto}
+.tbl table{border-collapse:collapse;width:100%;font-size:.86rem}
+.tbl th,.tbl td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl th{font-size:.75rem;color:var(--muted);font-weight:600}
+.tbl code{font-family:var(--mono);font-size:.78rem}
+.screen{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:10px;max-width:520px}
+.screen .tag{font-size:.72rem;color:var(--muted)}
+.screen .big{font-size:1.05rem;font-weight:600}
+.screen .ask{display:flex;flex-wrap:wrap;gap:6px}
+.screen .ask span{font-size:.8rem;border:1px dashed var(--muted);border-radius:6px;padding:2px 8px;color:var(--muted)}
+.screen .q{font-size:.8rem;color:var(--muted)}
+.fitems{display:grid;gap:10px}
+.fitem{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:6px;min-width:0}
+.fitem .khead{padding:0;border:0}
+.fitem p{margin:0}
+.fitem ul{margin:0;padding-left:1.1em;display:grid;gap:3px;font-size:.88rem}
+.src{font-family:var(--mono);font-size:.72rem;color:var(--muted);white-space:nowrap}
+.ui{font-size:.72rem;border-radius:999px;padding:1px 7px;background:var(--tos-soft);color:var(--tos);margin-left:4px;white-space:nowrap}
+.only{font-size:.72rem;border-radius:999px;padding:1px 7px;background:var(--man-soft);color:var(--man);margin-left:4px;white-space:nowrap}
+.diffbox{font-size:.85rem;background:var(--warn-soft);color:var(--warn);border-radius:6px;padding:6px 10px}
+details.raw{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+details.raw summary{cursor:pointer;font-weight:600}
+details.raw pre{overflow-x:auto;font-family:var(--mono);font-size:.76rem;line-height:1.5;margin:10px 0 0;max-height:520px}
+.qwen{display:grid;gap:18px;border-top:2px solid var(--fg);padding-top:26px;margin-top:10px}
+.sev{font-size:.72rem;border-radius:4px;padding:1px 6px;margin-right:6px;white-space:nowrap;background:var(--chip);color:var(--muted)}
+.sev.s1{background:var(--warn-soft);color:var(--warn)}
+.sev.s2{background:var(--man-soft);color:var(--man)}
+.verdict{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--fg);border-radius:8px;padding:12px 16px;font-size:.95rem}
+.vs{display:grid;grid-template-columns:minmax(120px,.7fr) 1fr 1fr;gap:0;font-size:.86rem}
+.vs>div{padding:7px 10px;border-bottom:1px solid var(--line);min-width:0}
+.vs .h{font-size:.72rem;color:var(--muted);font-weight:600}
+.vs code{font-family:var(--mono);font-size:.74rem;color:var(--muted)}
+.flag{display:block;font-size:.75rem;color:var(--warn);margin-top:2px}
+@media (max-width:720px){.vs{grid-template-columns:1fr}.vs .h{display:none}.vs>div:nth-child(3n+1){background:var(--chip)}}
+.mtbl{overflow-x:auto}
+.mtbl table{border-collapse:collapse;width:100%;font-size:.88rem;font-variant-numeric:tabular-nums}
+.mtbl th,.mtbl td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.mtbl thead th{font-size:.78rem;color:var(--muted);font-weight:600}
+.mtbl td.n{text-align:right}
+.mtbl .best{font-weight:700}
+.mtbl th.grp{background:var(--chip);font-size:.8rem;color:var(--fg)}
+.mtbl tbody th{font-weight:500;white-space:nowrap}
+.mcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.mcards ul{margin:0;padding-left:1.1em;display:grid;gap:4px;font-size:.88rem}
+.fail{background:var(--warn-soft);color:var(--warn);border-radius:8px;padding:10px 14px;font-size:.9rem}
+@media (max-width:720px){.cols{grid-template-columns:1fr}.col+.col{border-left:0;border-top:1px solid var(--line)}}
+@media (prefers-reduced-motion:no-preference){.key{transition:border-color .15s}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="top"><h1>특약 · 상품설명서 요약 대조</h1>
+      <button type="button" class="chip theme" id="theme" aria-label="화면 테마 바꾸기">테마: 시스템</button></div>
+    <p class="lede">같은 상품을 특약 조항만, 상품설명서 조항만 따로 넣고 같은 지시문으로 key별 요약을 뽑은 결과입니다. 요약끼리 다른 곳이 곧 문서끼리 다른 곳은 아닙니다. 원문을 대조한 key 네 곳에는 결론을 붙였습니다.</p>
+    <div class="meta">
+      <span>2026-10-12</span><span>모델 <code>Qwen/Qwen3-8B</code> · 생각 모드 끔 · 온도 0</span>
+      <span>입력 팀 요약입력 <code>요약입력_상품별.json</code> · 공통약관 제외</span>
+      <span>지시문에서 «특약 우선» · «공통약관» 문장만 뺌</span>
+    </div>
+  </header>
+
+  <section class="stats" id="stats" aria-label="10상품 집계"></section>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--man)"></i>상품설명서만 채움</span>
+    <span><i class="sw" style="background:var(--fg)"></i>둘 다 채움</span>
+    <span><i class="sw" style="background:var(--tos)"></i>특약만 채움</span>
+    <span><i class="sw" style="background:var(--line)"></i>둘 다 비움</span>
+  </div>
+
+  <div class="controls">
+    <div class="row" id="prods" role="group" aria-label="상품"></div>
+    <div class="row" id="filters" role="group" aria-label="보기"><span class="lab">보기</span></div>
+  </div>
+
+  <section id="product" aria-live="polite"></section>
+
+
+  <section class="final" id="final" aria-labelledby="final-h">
+    <div class="eyebrow">최종 결과물 · 목표 형식</div>
+    <h2 id="final-h">KB스타통장 요약은 이렇게 나와야 합니다</h2>
+    <p class="lede">특약과 상품설명서 원문 15개 조항을 사람이 직접 읽고 16개 key를 채운 목표 결과물입니다. 모델 출력이 아닙니다. 모델 요약을 이 결과물과 견주면 무엇이 빠졌는지 볼 수 있습니다.</p>
+    <div class="grid2">
+      <div class="panel"><h3>원칙</h3><ol>
+        <li><b>두 문서를 합쳐 한 결과만 냅니다.</b> 특약만 쓰면 16개 key 중 4개만 채워지고 금리 · 세제 · 해지가 빠집니다.</li>
+        <li><b>부딪히는 곳은 드러냅니다.</b> 한쪽을 조용히 고르지 않고 <code>doc_diff</code>에 남깁니다.</li>
+        <li><b>조건은 충족을 가정하지 않습니다.</b> 서비스가 모르는 거래 조건은 사용자에게 물을 입력으로 표시합니다.</li>
+        <li><b>예외(※ · 단)는 하나도 빼지 않습니다.</b> 같은 원문에서도 요약 중에 예외가 빠진 사례가 있었습니다.</li>
+        <li><b>숫자는 원문 그대로, 줄마다 근거 조항을 답니다.</b></li>
+      </ol></div>
+      <div class="panel"><h3>팀 형식에 더한 필드</h3><div class="tbl"><table>
+        <thead><tr><th>필드</th><th>왜</th></tr></thead><tbody>
+        <tr><td><code>src</code> (줄마다)</td><td>key 단위 출처로는 어느 문장이 어느 문서에서 왔는지 모릅니다</td></tr>
+        <tr><td><code>only_in</code> · <code>doc_diff</code></td><td>기준 문서를 정하기 전에 두 문서 차이가 보여야 팀이 판단합니다</td></tr>
+        <tr><td><code>user_input</code></td><td>조건부로 보여 줄 때 사용자에게 무엇을 물을지 바로 나옵니다</td></tr>
+        <tr><td><code>condition_logic</code> · <code>special</code></td><td>«둘 중 하나», 신규 특례 같은 구조가 문장에 묻히지 않습니다</td></tr>
+        <tr><td><code>as_of</code></td><td>고시 이율은 바뀝니다. 기준일과 함께 보여 줍니다</td></tr>
+        </tbody></table></div></div>
+    </div>
+    <div class="grid2">
+      <div class="panel"><h3>화면에서는 이렇게 보입니다</h3>
+        <div class="screen" aria-label="수수료 면제 표시 예">
+          <div class="tag">수수료 면제 · 조건부</div>
+          <div class="big">전월 입금 합계 50만원 이상이거나 KB 리브 모바일 자동이체 출금이 있으면, 이번달 11일 ~ 다음달 10일 다른은행 이체 · ATM 수수료가 면제됩니다.</div>
+          <div class="q">입금 합계에서 빠지는 것: 본인 명의 당행 계좌 이체 · 본인 주민번호 입금 · 오픈뱅킹 이체 · 결산이자</div>
+          <div class="q">가입 후 다음 다음 달 10일까지는 실적과 관계없이 면제</div>
+          <div class="ask"><span>물어볼 입력: 전월 입금 합계</span><span>KB 리브 모바일 자동이체 있음 / 없음</span></div>
+        </div>
+      </div>
+      <div class="panel"><h3>모델 요약과 견주면</h3><ol>
+        <li>특약판: fee 예외 3개. 오픈뱅킹 · 결산이자 제외가 없습니다 (문서 차이).</li>
+        <li>설명서판: fee 예외 4개. 신규 특례(다음 다음 달 10일)와 면제 횟수가 요약에서 빠졌습니다.</li>
+        <li>두 판 모두 줄마다 출처가 없고, 물어볼 입력이 표시되지 않습니다.</li>
+      </ol></div>
+    </div>
+    <div class="fitems" id="fitems"></div>
+    <details class="raw"><summary>JSON 전체 보기</summary>
+      <div class="row" style="margin-top:8px"><button type="button" class="chip" id="copyjson">JSON 복사</button><span class="note" id="copymsg"></span></div>
+      <pre id="rawjson"></pre></details>
+  </section>
+
+
+  <section class="qwen" id="qwen" aria-labelledby="qwen-h">
+    <div class="eyebrow">시험 결과</div>
+    <h2 id="qwen-h">Qwen3-8B 혼자 이 형식을 낼 수 있나</h2>
+    <p class="lede">위 목표 형식의 필드 규칙만 지시문에 넣고(KB스타통장 정답 내용은 넣지 않음), 특약과 상품설명서 조항을 합쳐 한 번 돌렸습니다. Qwen3-8B · 생각 모드 끔 · 온도 0 · 최대 6,144토큰.</p>
+    <div class="verdict" id="qverdict"></div>
+    <div class="stats" id="qstats"></div>
+    <p class="note" style="margin:0">기계 채점은 글자 겹침으로 맞춰 봐서 후하게 나옵니다. 모델이 원문 조항을 통째로 복사한 줄도 그 안에 목표 문장이 들어 있으면 «맞음»으로 셉니다. 아래 문제 목록은 출력을 직접 읽고 확인한 것입니다.</p>
+    <div class="grid2">
+      <div class="panel"><h3>잘한 것</h3><ol id="qgood"></ol></div>
+      <div class="panel"><h3>문제</h3><ol id="qbad"></ol></div>
+    </div>
+    <div class="panel"><h3>key별 요약 문장 — 목표 vs Qwen3-8B</h3><div class="vs" id="qvs"></div></div>
+    <details class="raw"><summary>Qwen3-8B 원본 출력 (JSON)</summary><pre id="qraw"></pre></details>
+  </section>
+
+
+  <section class="qwen" id="models" aria-labelledby="models-h">
+    <div class="eyebrow">시험 결과 · 모델 비교</div>
+    <h2 id="models-h">Gemma 4 · Qwen3 · EXAONE, 두 가지 입력으로</h2>
+    <p class="lede" id="mnote"></p>
+    <div class="verdict" id="mverdict"></div>
+    <div class="note" id="mfail"></div>
+    <div class="mtbl"><table id="mtable"></table></div>
+    <p class="note" style="margin:0">«조건·예외 줄»은 글자 겹침으로 맞춘 기계 채점이라 후합니다. «헛표시»는 목표에 없는 곳에 붙인 표시 수입니다. 아래 카드의 문제는 출력을 직접 읽고 확인한 것입니다.</p>
+    <div class="mcards" id="mcards"></div>
+    <div id="mraw" style="display:grid;gap:8px"></div>
+  </section>
+
+
+  <section class="qwen" id="multi" aria-labelledby="multi-h">
+    <div class="eyebrow">상품 3개 · 역할 나누기</div>
+    <h2 id="multi-h">상품을 늘려 다시 보고, 코드 후처리를 붙이면</h2>
+    <p class="lede">KB 프리N통장 · KB 별별통장2의 목표 결과물을 모델 출력을 보기 전에 원문만으로 만들고, Gemma 4 31B · Gemma 4 12B · Qwen3-8B(4비트)에 KB스타통장과 같은 조건(요약입력 조항 · 목표 형식 지시문 · 입력 한도 10,240)으로 넣었습니다. 프리N통장은 두 문서의 조건이 같아 «문서 차이 없음»이 정답이고, 별별통장2는 차이가 세 곳 있습니다.</p>
+    <div class="verdict" id="multiverdict"></div>
+    <div class="mtbl"><table id="multitable"></table></div>
+    <p class="note" style="margin:0">«→» 왼쪽은 모델 출력 그대로, 오른쪽은 후처리(<code>postcheck.py</code>)를 붙인 뒤입니다. 후처리는 모델이 쓴 문서 차이 · 한쪽에만 표시를 버리고 원문 대조로 다시 붙이며, 조건 문장에 물을 입력을 표로 붙이고, 원문의 제외 · 불가 문장이 출력에 없으면 «누락 의심»으로 남깁니다.</p>
+    <div class="grid2">
+      <div class="panel"><h3>후처리가 하는 일</h3><ol>
+        <li><b>문서 차이</b> — 같은 key 를 두 문서가 다룰 때, 조건 · 예외 문장(제외 · 불가 · 포함 · 이상 · 미만 …)이 상대 문서 전체에 없으면 표시. 낱말 단위로 대조하고 흔한 낱말은 가볍게 셉니다.</li>
+        <li><b>누락 의심</b> — 원문의 제외 · 불가 문장이 출력 어디에도 없으면 목록으로. 재시도나 사람 검토에 씁니다.</li>
+        <li><b>물을 입력</b> — 조건 문장의 낱말(입금 합계 · 자동이체 · 잔액 · 인정단어 · 결제 횟수 …)로 표에서 붙입니다.</li>
+        <li><b>출처</b> — 줄에 출처가 없으면 그 key 의 조항 번호를 붙입니다.</li>
+      </ol></div>
+      <div class="panel"><h3>문서 차이 찾기 정확도 (원문만, 세 상품 목표 기준)</h3><div id="diffacc"></div></div>
+    </div>
+    <div class="mcards" id="multicards"></div>
+  </section>
+
+  <p class="foot">원본 출력은 <code>model/M2-2/docsab/out.jsonl</code>, key 분류는 <code>compare.json</code>에 있습니다. «숫자 서로 다름»은 요약 문장에서 숫자와 단위를 뽑아 견준 기계 분류입니다. 원문을 대조하지 않은 key는 판단을 붙이지 않았습니다.</p>
+</div>
+
+<script>
+const DATA = [{"name": "KB스타통장", "na": 6, "nb": 15, "keys": [{"key": "product_name", "name": "상품명·식별자", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "KB스타통장"}, "b": {"summary": "KB스타통장은 소득이 있는 누구나 혜택을 받을 수 있는 통장입니다."}, "verified": null}, {"key": "product_type", "name": "상품유형·예금과목", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "보통예금, 저축예금"}, "b": {"summary": "KB스타통장은 입출금이 자유로운 예금(보통예금, 저축예금)으로, 동일 예금과목 상품 전환 가능합니다."}, "verified": null}, {"key": "product_feature", "name": "상품특징·성격", "class": "설명서만 채움", "a": null, "b": {"summary": "KB스타통장은 소득이 있는 누구나 혜택을 받을 수 있는 통장입니다."}, "verified": null}, {"key": "eligibility_target", "name": "가입대상·자격조건", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "실명이 확인된 개인이며, 1인당 1개의 통장만 개설 가능"}, "b": {"summary": "KB스타통장은 실명의 개인(1인 1계좌)이 가입 대상이며, 개인사업자 및 관련서류 미제출 임의단체도 포함됩니다."}, "verified": ["doc", "문서 차이 확인 — «개인사업자 · 서류 미제출 임의단체 포함»은 상품설명서에만 있다"]}, {"key": "deposit_amount", "name": "신규·가입·예치금액 조건", "class": "설명서만 채움", "a": null, "b": {"summary": "KB스타통장은 신규 금액에 제한이 없습니다."}, "verified": null}, {"key": "base_rate", "name": "기본금리·기본이율·적용이율", "class": "설명서만 채움", "a": null, "b": {"summary": "KB스타통장의 기본이율은 연 0.10%이며, 결산일 현재 영업점에 고시한 예금과목별 기본이율이 적용됩니다."}, "verified": null}, {"key": "interest_payment", "name": "이자지급 시기·방법", "class": "설명서만 채움", "a": null, "b": {"summary": "KB스타통장의 이자는 보통예금은 매년 6월, 12월의 둘째 금요일에 결산하여 다음날 원금에 더하고, 저축예금은 매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 더합니다.", "exceptions": ["최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다."]}, "verified": null}, {"key": "termination_method", "name": "계약해지 방법·채널", "class": "설명서만 채움", "a": null, "b": {"summary": "KB스타통장은 영업점, 개인인터넷뱅킹, KB 스타뱅킹을 통해 해지 가능하며, 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다."}, "verified": null}, {"key": "tax", "name": "세제·과세·비과세", "class": "설명서만 채움", "a": null, "b": {"summary": "KB스타통장은 비과세종합저축으로 가입이 가능하며, 관련세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있습니다."}, "verified": null}, {"key": "transaction_restriction", "name": "거래·이용·입출금 제한", "class": "설명서만 채움", "a": null, "b": {"summary": "KB스타통장은 예금잔액이 10,000원 미만이며 1년 이상 입출금거래가 없는 계좌, 10,000원 이상 50,000원 미만이며 2년 이상 입출금거래가 없는 계좌, 50,000원 이상 100,000원 미만이며 3년 이상 입출금거래가 없는 계좌에 대해 거래 제한이 적용됩니다.", "exceptions": ["무거래기간 산정기준은 입출금 거래 또는 명의변경 거래 최종 발생일로부터 산정됩니다.", "편입시기는 연 2회(매년 6월, 12월 셋째 금요일 기준으로 익일인 토요일에 편입)", "거래를 다시 시작하고자 하는 경우 본인 확인 및 금융거래 목적을 확인한 후 가능합니다."]}, "verified": null}, {"key": "fee", "name": "수수료·수수료면제", "class": "둘 다 · 특약에 숫자 더", "a": {"summary": "전월 입금 50만원 이상 또는 KB 리브 모바일 자동이체 출금 이력이 있는 경우, 면제 기간은 이번달 11일 ~ 다음달 10일이며, 면제 횟수는 제한 없음. 면제 대상 수수료는 전자금융을 통한 다른은행 이체수수료, 자동이체 수수료, 자동화기기 출금수수료 등", "conditions": ["전월(1일~말일) 중 이 통장에서 아래 실적 중 하나 이상 발생된 경우", "면제 기간 : 이번달 11일 ~ 다음달 10일", "면제 횟수 : 제한없음"], "exceptions": ["※ 당행 본인 명의 계좌에서 이체된 건 및 본인의 주민등록번호로 입금된 건 제외", "※ 체크카드 및 신용카드를 통해 출금된 건 제외", "※ 다른은행 자동화기기의 경우 제휴 ATM 및 VAN사(효성·나이스·한네트 등) 자동화기기 제외"]}, "b": {"summary": "KB스타통장은 수수료 면제 혜택을 제공하며, 전월 입금 이력 또는 KB 리브 모바일 자동이체 출금 이력이 있는 경우 수수료가 면제됩니다.", "conditions": ["이 통장으로 전월(1일~말일) 중 아래 실적 중 1가지 이상 충족한 경우", "① 합산 50만원 이상 입금 이력이 있는 경우", "② KB 리브 모바일(KB Liiv M) 자동이체 출금 이력이 있는 경우"], "exceptions": ["당행 본인 명의 계좌에서 이체된 건 및 본인의 주민등록번호로 입금된 건 제외", "당행 오픈뱅킹을 통해 타금융기관에서 이체된 건 제외", "결산이자 입금 건 제외", "다른은행 ATM의 경우 제휴 ATM 및 VAN사(효성·나이스·한네트 등) ATM 제외"]}, "verified": ["doc", "문서 차이 확인 — 오픈뱅킹 이체 · 결산이자 입금 제외는 상품설명서에만 있다"]}, {"key": "assignment_collateral", "name": "양도·질권·담보제공", "class": "설명서만 채움", "a": null, "b": {"summary": "KB스타통장은 질권설정이 불가능하며, 양도는 가능하지만 담보제공은 불가능합니다."}, "verified": null}, {"key": "partner_benefit", "name": "부가·제휴·연계 혜택", "class": "설명서만 채움", "a": null, "b": {"summary": "KB스타통장은 인컴박스 서비스를 제공하여 다양한 출처의 불규칙한 입금 거래를 한 눈에 확인할 수 있습니다."}, "verified": null}]}, {"name": "KB 별별통장2", "na": 17, "nb": 19, "keys": [{"key": "product_name", "name": "상품명·식별자", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "KB 별별통장2"}, "b": {"summary": "KB 별별통장2"}, "verified": null}, {"key": "product_type", "name": "상품유형·예금과목", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "예금과목은 '저축예금'으로 합니다."}, "b": {"summary": "입출금이 자유로운 예금(저축예금)"}, "verified": null}, {"key": "product_feature", "name": "상품특징·성격", "class": "설명서만 채움", "a": null, "b": {"summary": "스타벅스 앱 계좌간편 결제 및 통장 입출금 거래 실적에 따라 혜택을 받을 수 있는 제휴전용 통장"}, "verified": null}, {"key": "eligibility_target", "name": "가입대상·자격조건", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "만 14세 이상의 실명 확인된 개인이 가입대상입니다."}, "b": {"summary": "만 14세 이상의 실명의 개인(1인 1계좌), 개인사업자 및 공동명의 가입 불가, 외국인은 비대면으로 입출금통장 가입이 가능한 경우에 한함"}, "verified": null}, {"key": "deposit_amount", "name": "신규·가입·예치금액 조건", "class": "설명서만 채움", "a": null, "b": {"summary": "가입금액은 제한이 없음"}, "verified": null}, {"key": "base_rate", "name": "기본금리·기본이율·적용이율", "class": "둘 다 · 설명서에 숫자 더", "a": {"summary": "결산일 현재 지점 및 KB국민은행 홈페이지에 게시한 기본금리를 적용합니다."}, "b": {"summary": "기본금리는 연 0.1%이며, 결산일 현재 지점 및 KB국민은행 홈페이지에 고시한 예금과목별 기본금리 적용"}, "verified": null}, {"key": "preferential_rate", "name": "우대금리·우대이율 조건", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "최초 가입 시 연 1.9%p 우대금리 제공, 결산기 평균잔액 중 3백만원 이하 금액에 대해 최초 가입일로부터 1년 경과 후 우대금리 적용 가능."}, "b": {"summary": "우대금리는 연 1.9%p이며, 최초 가입일로부터 1년 경과 후 최초로 도래하는 결산일까지 적용, 3백만원 이하의 금액까지는 기본금리와 우대금리를 합산하여 적용", "conditions": ["최초 가입일로부터 1년 경과 후 최초로 도래하는 결산일까지 적용", "3백만원 이하의 금액까지는 기본금리와 우대금리를 합산하여 적용"]}, "verified": null}, {"key": "interest_payment", "name": "이자지급 시기·방법", "class": "설명서만 채움", "a": null, "b": {"summary": "이자는 매년 2, 5, 8, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함", "exceptions": ["최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있음"]}, "verified": null}, {"key": "final_rate", "name": "최고·최종 공시금리", "class": "설명서만 채움", "a": null, "b": {"summary": "최종금리는 연 0.1% ~ 연 2.0%이며, 최고금리는 신규가입일 당시 지점 및 KB국민은행 홈페이지에 게시한 우대금리 적용 시"}, "verified": null}, {"key": "tax", "name": "세제·과세·비과세", "class": "설명서만 채움", "a": null, "b": {"summary": "비과세종합저축으로 가입 불가"}, "verified": null}, {"key": "transaction_restriction", "name": "거래·이용·입출금 제한", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "자동전환 후 수수료 면제 및 금리, 거래중지계좌 편입 여부 등은 자동전환 상품 기준에 따릅니다. 'KB 별별통장' 보유 시 가입 불가, 다른 통장과의 전환 불가, 비과세종합저축 가입 불가."}, "b": {"summary": "자동전환 후 수수료 면제 및 금리, 거래중지계좌 편입 여부 등은 KB 스타통장(또는 KB 종합통장)에서 정한 기준에 따름, 이 통장은 「KB 별별통장」 보유 상태에서는 가입이 불가합니다, 이 통장은 다른 통장에서 이 통장으로 전환 및 이 통장에서 다른 통장으로 자동전환 이외의 전환은 불가합니다, 이 통장은 1 인 1 계좌만 가입 가능한 상품이며, 우대금리는 최초 가입시만 제공하고 재 가입시에는 제공하지 않습니다, 이 통장은 비과세종합저축으로 가입 불가합니다, 통장이 ‘전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법’ 에서 정의한 피해의심 거래계좌 및 사기이용 계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치 를 할 수 있습니다"}, "verified": null}, {"key": "fee", "name": "수수료·수수료면제", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "KB국민은행 인터넷ㆍ폰ㆍKB스타뱅킹을 통한 다른은행 이체 수수료, 납부자 자동이체 수수료, ATM 이체 및 시간외 출금 수수료 등 5가지 수수료가 면제됩니다."}, "b": {"summary": "이 통장을 통한 거래에서 발생한 아래의 수수료에 대해 횟수 제한없이 면제: KB국민은행 인터넷·폰·KB스타뱅킹을 통한 다른은행 이체 수수료, 납부자 자동이체(다른은행 자동이체 포함) 수수료, KB국민은행 ATM 다른은행 이체 수수료, KB국민은행 ATM 시간외 출금 수수료, 다른은행 ATM 시간외 출금 수수료(단, 제휴 ATM 및 VAN사(효성·나이스·한네트 등) ATM 제외)"}, "verified": null}, {"key": "assignment_collateral", "name": "양도·질권·담보제공", "class": "설명서만 채움", "a": null, "b": {"summary": "양도 불가, 담보제공 불가, 질권설정 불가"}, "verified": null}, {"key": "partner_benefit", "name": "부가·제휴·연계 혜택", "class": "둘 다 · 숫자 서로 다름", "a": {"summary": "별 적립 및 스타벅스 쿠폰 제공, 별 적립은 월 최대 5회, 쿠폰은 월 최대 2매 제공, 제공기간은 2027년 12월 31일까지, 연계·제휴서비스 변경 시 사전 통지 및 대체 서비스 제공."}, "b": {"summary": "별 적립: 이 통장으로 스타벅스 앱에서 「계좌 간편결제」를 이용하여 결제하고 스타벅스 방문별 적립 대상인 경우, 월 결제이용 횟수에 따라 차등하여 스타벅스 별주를 최대 월 15개까지 제공, 스타벅스 쿠폰: 이 통장을 최초 가입하고, 매월 말 기준 개인정보수집이용 동의서 동의와 스타벅스 앱 내 계좌 간편결제서비스가 등록된 경우에 한해, 입금쿠폰 및 출금쿠폰 월 최대 2매씩 총 13개월동안 최대 24매 제공", "conditions": ["별 적립: 월 결제이용 횟수에 따라 차등하여 스타벅스 별주를 최대 월 15개까지 제공", "스타벅스 쿠폰: 이 통장을 최초 가입하고, 매월 말 기준 개인정보수집이용 동의서 동의와 스타벅스 앱 내 계좌 간편결제서비스가 등록된 경우에 한해, 입금쿠폰 및 출금쿠폰 월 최대 2매씩 총 13개월동안 최대 24매 제공"]}, "verified": ["noise", "모델 흔들림 — 두 원문 모두 «월 최대 5회 · 별 최대 월 15개». 특약판 요약이 숫자를 뭉갰다"]}, {"key": "product_conversion", "name": "상품·계좌 전환", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "2028년 11월 1일 자동전환, 'KB스타통장' 보유 시 'KB종합통장'으로 전환."}, "b": {"summary": "이 통장은 일괄적으로 2028년 11월 1일에 「KB스타통장」(주)으로 자동전환, 「KB스타통장」을 이미 보유한 경우는 「KB종합통장」으로 자동전환, 자동전환일 전 영업일까지 고객이 신청한 방법으로 자동전환일에 통지, 자세한 내용은 「붙임. 자동전환 상품 주요 혜택」 참조", "conditions": ["자동전환일 전 영업일까지 고객이 신청한 방법으로 자동전환일에 통지", "자세한 내용은 「붙임. 자동전환 상품 주요 혜택」 참조"]}, "verified": null}, {"key": "eligibility_restriction", "name": "가입제한·제외조건", "class": "특약만 채움", "a": {"summary": "1인 1계좌만 가입 가능하며, 개인사업자 및 공동명의 가입은 불가능합니다."}, "b": null, "verified": null}]}, {"name": "KB 프리N통장", "na": 15, "nb": 20, "keys": [{"key": "product_name", "name": "상품명·식별자", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "KB 프리N통장"}, "b": {"summary": "KB 프리N통장은 소득 입금에 따른 특별금리와 다양한 소득을 관리할 수 있는 인컴박스 혜택을 제공하는 입출금통장입니다."}, "verified": null}, {"key": "product_type", "name": "상품유형·예금과목", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "보통예금, 저축예금"}, "b": {"summary": "KB 프리N통장은 입출금이 자유로운 예금으로, 보통예금과 저축예금으로 구분됩니다."}, "verified": null}, {"key": "product_feature", "name": "상품특징·성격", "class": "설명서만 채움", "a": null, "b": {"summary": "KB 프리N통장은 소득 입금에 따른 특별금리와 다양한 소득을 관리할 수 있는 인컴박스 혜택을 제공하는 입출금통장입니다."}, "verified": null}, {"key": "eligibility_target", "name": "가입대상·자격조건", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "실명이 확인된 개인(개인 사업자 및 서류미제출 임의단체 포함)"}, "b": {"summary": "KB 프리N통장은 실명의 개인(1인 1계좌)이 가입 가능하며, 개인사업자 및 관련서류 미제출 임의단체도 가입 가능합니다. 비거주자와 공동명의는 가입 불가합니다."}, "verified": null}, {"key": "deposit_amount", "name": "신규·가입·예치금액 조건", "class": "설명서만 채움", "a": null, "b": {"summary": "KB 프리N통장은 가입금액에 제한이 없습니다."}, "verified": null}, {"key": "base_rate", "name": "기본금리·기본이율·적용이율", "class": "둘 다 · 설명서에 숫자 더", "a": {"summary": "결산일 현재 지점 및 KB 국민은행 홈페이지에 게시한 예금과목별 기본금리 적용"}, "b": {"summary": "KB 프리N통장의 기본금리는 연 0.1%이며, 결산일 현재 지점 및 KB국민은행 홈페이지에 고시한 예금과목별 기본금리가 적용됩니다."}, "verified": null}, {"key": "event_special_rate", "name": "이벤트·쿠폰·특별금리", "class": "둘 다 · 숫자 같고 예외 수 다름", "a": {"summary": "결산기 평균잔액 200만원 이하 금액에 연 1.4% 특별금리 적용, 신규 가입일부터 1년 경과 후 최초 도래하는 결산일까지 적용, 조건 충족 시 적용 (최근 6개월 중 보통예금 2개월 이상, 저축예금 1개월 이상 월 합산 50만원 이상 입금)", "conditions": ["결산기 평균잔액 200만원 이하", "신규 가입일부터 1년 경과 후 최초 도래하는 결산일까지", "최근 6개월 중 보통예금 2개월 이상 월 합산 50만원 이상 입금", "최근 3개월 중 저축예금 1개월 이상 월 합산 50만원 이상 입금"], "exceptions": ["신규 가입 후 처음 도래하는 결산일에는 조건 충족 여부에 관계없이 특별금리 적용"]}, "b": {"summary": "KB 프리N통장의 특별금리는 연 1.4%로, 결산기 평균잔액 200만원 이하 금액까지 적용됩니다. 특별금리 적용 조건은 월 합산 입금 금액이 50만원 이상인 달이 최근 6개월 중 2개월 이상 또는 최근 3개월 중 1개월 이상이어야 합니다.", "conditions": ["월 합산 입금 금액이 50만원 이상인 달이 최근 6개월 중 2개월 이상", "월 합산 입금 금액이 50만원 이상인 달이 최근 3개월 중 1개월 이상"], "exceptions": ["특별금리 적용 한도는 결산기 평균잔액 200만원 이하 금액까지", "특별금리 적용 기간은 신규 가입일부터 1년 경과 후 처음 도래하는 결산일까지", "특별금리 적용 조건 충족 여부에 관계없이 신규 가입 후 처음 도래하는 결산일에는 특별금리 적용", "전환계좌의 경우 전환 전 상품의 금리가 적용되며, 다음 결산기부터 이 통장의 금리 적용"]}, "verified": null}, {"key": "interest_payment", "name": "이자지급 시기·방법", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "보통예금은 매년 6월, 12월 둘째 금요일 결산, 저축예금은 매년 2월, 5월, 8월, 11월 둘째 금요일 결산", "conditions": ["보통예금: 매년 6월, 12월 둘째 금요일 결산", "저축예금: 매년 2월, 5월, 8월, 11월 둘째 금요일 결산"], "exceptions": ["이자지급을 제외한 최종 거래일부터 5년 경과한 날부터 원금에 더하지 않고, 계좌 해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급"]}, "b": {"summary": "KB 프리N통장의 이자는 보통예금은 매년 6월, 12월의 둘째 금요일에 결산하여 다음날 원금에 더하고, 저축예금은 매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 더합니다.", "exceptions": ["이자는 이자지급을 제외한 최종 거래일부터 5년이 경과한 날부터는 원금에 더하지 않고, 계좌 해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있음"]}, "verified": null}, {"key": "final_rate", "name": "최고·최종 공시금리", "class": "설명서만 채움", "a": null, "b": {"summary": "KB 프리N통장의 최종금리는 최저 연 0.1%~최고 연 1.5%로, 결산기 평균잔액에 따라 기본금리와 특별금리를 합한 금리가 적용됩니다.", "exceptions": ["특별금리는 특별금리 적용조건을 충족한 계좌에 한하여 정해진 기간 동안 적용"]}, "verified": null}, {"key": "tax", "name": "세제·과세·비과세", "class": "설명서만 채움", "a": null, "b": {"summary": "KB 프리N통장은 비과세종합저축으로 가입 가능하며, 관련 세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있습니다."}, "verified": null}, {"key": "transaction_restriction", "name": "거래·이용·입출금 제한", "class": "설명서만 채움", "a": null, "b": {"summary": "KB 프리N통장은 예금잔액이 10,000원 미만이며 1년 이상 입출금 거래가 없는 계좌, 10,000원 이상 50,000원 미만이며 2년 이상 입출금 거래가 없는 계좌, 50,000원 이상 100,000원 미만이며 3년 이상 입출금 거래가 없는 계좌에 대해 거래 제한이 적용됩니다.", "exceptions": ["무거래기간 산정기준: 입출금 거래 또는 명의변경 거래 최종 발생일로부터 산정", "편입시기: 연 2회(매년 6월, 12월 셋째 금요일 기준으로 다음날인 토요일에 편입)", "거래를 다시 시작하고자 하는 경우 본인 확인 및 금융거래목적 확인 후 가능"]}, "verified": null}, {"key": "fee", "name": "수수료·수수료면제", "class": "둘 다 · 숫자 서로 다름", "a": {"summary": "전월 중 입금 50만원 이상 또는 KB 리브모바일 자동이체 출금 이력 시 수수료면제, 면제 기간: 이번달 11일부터 다음달 10일까지, 면제 횟수 제한 없음, 면제 대상 수수료 포함", "conditions": ["전월 중 입금 50만원 이상", "KB 리브모바일 자동이체 출금 이력", "면제 기간: 이번달 11일부터 다음달 10일까지", "면제 횟수 제한 없음"]}, "b": {"summary": "KB 프리N통장은 수수료 면제 조건 충족 시, KB국민은행 인터넷·모바일뱅킹 다른은행 이체수수료, 타행자동이체 수수료, KB국민은행 ATM 다른은행 이체수수료, KB국민은행 ATM 시간외 출금수수료, 다른은행 ATM 출금수수료(제휴 ATM 및 VAN사 ATM 제외)를 면제합니다.", "conditions": ["전월(1일~말일) 중 합산 50만원 이상 입금 이력이 있는 경우", "KB리브모바일 자동이체 출금 이력이 있는 경우"], "exceptions": ["KB국민은행 본인 명의 계좌에서 이체된 건 및 본인의 주민등록번호로 입금된 건 제외", "KB국민은행 오픈뱅킹을 통해 타금융기관에서 이체된 건 제외", "결산이자 입금 건 제외", "체크카드 및 신용카드를 통해 출금된 건 제외"]}, "verified": ["noise", "모델 흔들림 — 특약 원문에도 제외 조건 4개가 다 있는데 특약판 요약에서 빠졌다"]}, {"key": "assignment_collateral", "name": "양도·질권·담보제공", "class": "설명서만 채움", "a": null, "b": {"summary": "KB 프리N통장은 양도가 가능하지만, 질권설정과 담보제공은 불가능합니다."}, "verified": null}, {"key": "partner_benefit", "name": "부가·제휴·연계 혜택", "class": "설명서만 채움", "a": null, "b": {"summary": "KB 프리N통장은 다양한 소득 입금 내역을 한 눈에 확인할 수 있는 인컴박스 혜택을 제공하며, 인컴박스는 5개까지 설정 가능하고, 각 인컴박스별로 3개의 키워드를 지정할 수 있습니다."}, "verified": null}, {"key": "eligibility_restriction", "name": "가입제한·제외조건", "class": "특약만 채움", "a": {"summary": "공동명의 불가, 비거주자 불가"}, "b": null, "verified": null}, {"key": "account_limit", "name": "계좌수·중복가입 제한", "class": "특약만 채움", "a": {"summary": "1인 1계좌"}, "b": null, "verified": null}, {"key": "product_conversion", "name": "상품·계좌 전환", "class": "특약만 채움", "a": {"summary": "다른 상품에서 이 통장으로 전환 시, 전환 후 처음 도래하는 결산기에는 전환 전 상품의 금리 적용, 다음 결산기부터 이 통장의 금리 적용, 특별금리는 최초 전환일 기준 1년 경과 후 처음 도래하는 결산일까지 적용", "conditions": ["다른 상품에서 이 통장으로 전환 시", "전환 후 처음 도래하는 결산기에는 전환 전 상품의 금리 적용", "특별금리는 최초 전환일 기준 1년 경과 후 처음 도래하는 결산일까지 적용"]}, "b": null, "verified": null}]}, {"name": "쓱머니KB통장", "na": 15, "nb": 22, "keys": [{"key": "product_name", "name": "상품명·식별자", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "이 통장은 SSG.COM 회원탈퇴 시 또는 혁신금융서비스 종료 시 'KB 제휴통장'으로 상품명이 변경됩니다."}, "b": {"summary": "상품명은 '쓱머니 KB통장'입니다."}, "verified": null}, {"key": "product_type", "name": "상품유형·예금과목", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "이 통장의 예금과목은 '저축예금'으로 합니다."}, "b": {"summary": "상품유형은 입출금이 자유로운 예금(저축예금)입니다."}, "verified": null}, {"key": "product_feature", "name": "상품특징·성격", "class": "설명서만 채움", "a": null, "b": {"summary": "매일 이자받기 및 각종 우대금리 등 다양한 혜택을 제공하는 SSG.COM 제휴 전용 입출금통장입니다."}, "verified": null}, {"key": "eligibility_target", "name": "가입대상·자격조건", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "이 통장의 가입대상은 '금융실명거래 및 비밀보장에 관한 법률'에 따라 실명이 확인된 만 17세 이상의 개인이며, 1인 1계좌만 가입 가능합니다."}, "b": {"summary": "만 17세 이상의 실명의 개인(1인 1계좌)이 가입대상입니다.", "conditions": ["1인 1계좌", "비거주자 및 외국인 가입 불가", "임의단체, 개인사업자 및 공동명의 가입 불가"]}, "verified": null}, {"key": "deposit_amount", "name": "신규·가입·예치금액 조건", "class": "설명서만 채움", "a": null, "b": {"summary": "가입금액은 제한이 없습니다."}, "verified": null}, {"key": "base_rate", "name": "기본금리·기본이율·적용이율", "class": "설명서만 채움", "a": null, "b": {"summary": "기본금리는 연 0.10%이며, 결산일 현재 영업점 및 KB국민은행 홈페이지에 고시한 예금과목별 기본금리가 적용됩니다.", "conditions": ["2026.04.08 기준", "세금공제 전"]}, "verified": null}, {"key": "preferential_rate", "name": "우대금리·우대이율 조건", "class": "둘 다 · 숫자 서로 다름", "a": {"summary": "이 통장의 우대금리는 신규고객 우대금리, 쓱페이 등록 우대금리, 쓱받는 우대금리(입금우대 및 혜택 수신(마케팅) 동의)가 있으며, 최초 가입일로부터 1년 이내 적용됩니다. 우대금리 적용 조건은 SSG.COM 가입 여부, 쓱페이 등록 여부, 입금 내역 및 혜택 수신 동의 여부 등입니다.", "conditions": ["신규 우대금리: 최초 가입일로부터 1년 이내, 최근 6개월 동안 국민은행 입출금통장을 보유하지 않은 경우", "쓱페이 우대금리: SSG PAY에 '쓱머니 KB 통장'을 결제계좌로 등록한 경우", "쓱받는 우대금리: 전월에 합산 50만원 이상 입금이력 또는 SSG.COM과 KB 국민은행 양사 모두 혜택 수신(마케팅) 동의가 되어 있는 경우"], "exceptions": ["이 통장을 해지 후 재 가입한 경우", "이 통장의 상품명이 'KB 제휴통장'으로 변경된 경우"]}, "b": {"summary": "우대금리는 최고 연 3.9%p이며, 최초 가입 시 적용되며 해지 후 재가입 시 적용 불가입니다.", "conditions": ["최초 가입 시 적용", "해지 후 재가입 시 적용 불가", "SSG.COM 회원 탈퇴 또는 혁신금융서비스 종료 시 적용 불가", "우대금리 적용한도: 매일의 최종 잔액 중 2백만원 이하 금액"]}, "verified": null}, {"key": "interest_payment", "name": "이자지급 시기·방법", "class": "둘 다 · 설명서에 숫자 더", "a": {"summary": "이 통장의 이자는 매월 제2 금요일 또는 고객이 직접 이자지급을 요청한 전일에 결산되며, 다음날에 지급됩니다. 매월 제2 금요일 다음날은 고객의 요청에 의한 직접 이자지급이 제한됩니다. 이자지급은 매일의 최종잔액을 평균한 금액에 따라 금리가 차등 적용됩니다.", "conditions": ["이자계산기간: 최초 예금일 또는 직전 이자지급일로부터 다음 이자지급일(또는 해지일) 전일까지", "이자결산일: 매월 제2 금요일 또는 고객이 직접 이자지급을 요청한 전일", "이자지급일: 이자결산일 다음날"], "exceptions": ["매월 제2 금요일 다음날은 고객의 요청에 의한 직접 이자지급이 제한됩니다"]}, "b": {"summary": "이자계산기간 동안 매일의 최종잔액을 평균하여 이자결산일 현재 고시된 이율로 계산하며, 매월 제2금요일 또는 고객 요청 시 이자지급이 이루어집니다.", "conditions": ["이자계산기간: 최초 예금일(또는 직전 이자지급일)부터 다음 이자지급일(또는 해지일) 전일까지", "이자결산일: 매월 제2금요일 또는 고객 요청일", "이자지급일: 이자결산일 다음날", "최종거래일로부터 5년이 경과한 날부터 이자를 원금에 더하지 않음", "계좌해지 또는 추가 입출금 거래 발생일의 다음 결산일에 일괄 계산하여 지급"]}, "verified": null}, {"key": "final_rate", "name": "최고·최종 공시금리", "class": "설명서만 채움", "a": null, "b": {"summary": "최종금리는 최저 연 0.1% ~ 최고 연 4.0%이며, 최고금리는 신규가입일 당시 고시된 우대금리를 적용 시 제공됩니다.", "conditions": ["2026.04.08 기준", "세금공제 전", "최고금리는 신규가입일 당시 고시된 우대금리를 적용 시 제공"]}, "verified": null}, {"key": "termination_method", "name": "계약해지 방법·채널", "class": "설명서만 채움", "a": null, "b": {"summary": "계약해지 방법은 영업점 방문, 개인인터넷뱅킹, KB 스타뱅킹을 통해 가능하며, 해지잔액을 입금할 수 있는 본인명의의 입출금이 자유로운 예금 계좌가 필요합니다.", "conditions": ["영업점 방문", "개인인터넷뱅킹", "KB 스타뱅킹", "해지잔액을 입금할 수 있는 본인명의의 입출금이 자유로운 예금 계좌 필요"]}, "verified": null}, {"key": "tax", "name": "세제·과세·비과세", "class": "설명서만 채움", "a": null, "b": {"summary": "비과세종합저축으로 가입 불가합니다."}, "verified": null}, {"key": "transaction_restriction", "name": "거래·이용·입출금 제한", "class": "둘 다 · 설명서에 숫자 더", "a": {"summary": "다른 통장에서 이 통장으로 전환 또는 이 통장에서 다른 통장으로 전환은 불가능하며, 이 통장은 비과세종합저축으로 가입이 불가능합니다.", "conditions": ["다른 통장에서 이 통장으로 전환 또는 이 통장에서 다른 통장으로 전환은 불가능합니다"], "exceptions": ["이 통장은 비과세종합저축으로 가입이 불가능합니다"]}, "b": {"summary": "예금잔액이 10,000원 미만이며 1년 이상 입출금거래가 없는 계좌, 50,000원 미만이며 2년 이상 입출금거래가 없는 계좌, 100,000원 미만이며 3년 이상 입출금거래가 없는 계좌는 거래제한이 적용됩니다.", "conditions": ["예금잔액 10,000원 미만, 1년 이상 입출금거래 없음", "예금잔액 50,000원 미만, 2년 이상 입출금거래 없음", "예금잔액 100,000원 미만, 3년 이상 입출금거래 없음", "무거래기간 산정기준: 입출금 거래 또는 명의변경 거래 최종 발생일부터", "편입시기: 연 2회(매년 6월, 12월 셋째 금요일 기준으로 익일인 토요일에 편입)"]}, "verified": null}, {"key": "fee", "name": "수수료·수수료면제", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "이 통장을 통한 거래 시 KB 국민은행 개인인터넷뱅킹, KB 스타뱅킹을 통한 다른은행 이체수수료, 납부자 자동이체 수수료, KB 국민은행 자동화기기(ATM) 다른은행 이체수수료, KB 국민은행 자동화기기(ATM) 시간외 출금수수료, 다른은행 자동화기기(ATM) 출금수수료가 면제됩니다.", "conditions": ["KB 국민은행 개인인터넷뱅킹, KB 스타뱅킹을 통한 다른은행 이체수수료: 무제한 면제(단, KB 제휴통장으로)", "KB 국민은행 자동화기기(ATM) 다른은행 이체수수료: 상품명이 변경된 경우 제외", "다른은행 자동화기기(ATM) 출금수수료: 제휴 ATM 및 VAN 사(ATM) 제외"]}, "b": {"summary": "KB국민은행 개인인터넷뱅킹, KB스타뱅킹을 통한 다른은행 이체수수료, 납부자 자동이체 수수료, ATM 다른은행 이체수수료, ATM 시간외 출금수수료, 다른은행 ATM 출금수수료 등이 면제됩니다.", "conditions": ["KB국민은행 개인인터넷뱅킹, KB스타뱅킹을 통한 다른은행 이체수수료", "납부자 자동이체(타행 자동이체 포함) 수수료", "KB국민은행 ATM 다른은행 이체수수료", "KB국민은행 ATM 시간외 출금수수료", "다른은행 ATM 출금수수료", "다른은행 ATM의 경우 제휴 및 VAN사 자동화기기는 제외", "SSG.COM 회원 탈퇴 또는 혁신금융서비스 종료 시 수수료 면제 적용 불가"]}, "verified": null}, {"key": "assignment_collateral", "name": "양도·질권·담보제공", "class": "설명서만 채움", "a": null, "b": {"summary": "양도 및 담보제공은 불가능합니다."}, "verified": null}, {"key": "partner_benefit", "name": "부가·제휴·연계 혜택", "class": "둘 다 · 특약에 숫자 더", "a": {"summary": "이 통장은 SSG.COM과 SSG PAY와 연계되어 있으며, SSG.COM 앱 내 KB 국민은행 전용페이지에서 잔액 및 거래내역을 조회할 수 있고, SSG PAY 결제 연동 및 SSG MONEY 자동 입금 서비스를 제공합니다. 연계 서비스는 SSG.COM을 통해 가입한 '쓱머니 KB 통장' 이용 시 제공되며, 제휴사 앞 금융거래정보 이용ㆍ제공 동의를 하여야 합니다.", "conditions": ["제휴사 앞 금융거래정보 이용ㆍ제공 동의를 하고 '쓱머니 KB 통장'을 이용 시 제공합니다", "제휴사와의 계약기간 내에 한함"], "exceptions": ["KB 국민은행은 연계ㆍ제휴 서비스 등을 부당하게 축소하거나 변경하지 않으며, 불가피하게 축소하거나 변경하는 경우 그에 상응하는 다른 연계ㆍ제휴 서비스를 제공합니다", "서비스 변경 내용 사전 통지 방법: 서면, 우편, 팩스, 전화, E-mail, LMS 등의 방법 중 2 개 이상의 방법으로 축소, 변경되기 6 개월 전부터 매월 고지합니다"]}, "b": {"summary": "SSG.COM과 연계하여 SSG.COM 앱 내 잔액 및 거래내역 조회, SSG PAY 결제 연동, SSG MONEY 자동 입금 등의 혜택을 제공합니다.", "conditions": ["제휴사 앞 금융거래정보 이용ㆍ제공 동의", "SSG.COM 앱을 통해 가입한 「쓱머니 KB통장」 이용 시 제공", "제휴사와의 계약기간 내에 한함", "SSG.COM 앱 내 KB국민은행 전용페이지에서 잔액 및 거래내역 조회", "SSG PAY 결제 연동", "SSG MONEY 자동 입금", "제휴사와의 계약기간 내에 한함"]}, "verified": null}, {"key": "product_conversion", "name": "상품·계좌 전환", "class": "설명서만 채움", "a": null, "b": {"summary": "다른 예금에서 이 예금으로 전환 또는 이 예금에서 다른 예금으로 전환은 불가능합니다.", "conditions": ["1인 1계좌만 가입 가능", "통장 해지 후 재가입 시 모든 우대금리 적용 불가", "다른 예금에서 이 예금으로 전환 불가", "이 예금에서 다른 예금으로 전환 불가"]}, "verified": null}]}, {"name": "KB Young Youth 통장", "na": 12, "nb": 24, "keys": [{"key": "product_name", "name": "상품명·식별자", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "KB Young Youth 통장"}, "b": {"summary": "KB Young Youth 통장"}, "verified": null}, {"key": "product_type", "name": "상품유형·예금과목", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "저축예금"}, "b": {"summary": "입출금이 자유로운 예금(저축예금)"}, "verified": null}, {"key": "product_feature", "name": "상품특징·성격", "class": "설명서만 채움", "a": null, "b": {"summary": "계좌 안의 계좌 '저금통'으로 특별우대금리와 수수료면제 서비스를 제공하는 만 19세 미만 Youth 고객 맞춤 입출금이 자유로운 예금"}, "verified": null}, {"key": "eligibility_target", "name": "가입대상·자격조건", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "만 19세 미만 실명의 개인"}, "b": {"summary": "만 19세 미만 실명의 개인"}, "verified": null}, {"key": "deposit_amount", "name": "신규·가입·예치금액 조건", "class": "설명서만 채움", "a": null, "b": {"summary": "제한없음"}, "verified": null}, {"key": "base_rate", "name": "기본금리·기본이율·적용이율", "class": "둘 다 · 설명서에 숫자 더", "a": {"summary": "결산일 현재 영업점에 게시한 기본이율 적용"}, "b": {"summary": "연 0.1%"}, "verified": null}, {"key": "event_special_rate", "name": "이벤트·쿠폰·특별금리", "class": "설명서만 채움", "a": null, "b": {"summary": "특별금리 (세금공제 전, 2026.08.04 기준) : 연 1.9% (최대 100만원까지) - 적용대상 : 부가서비스의 '저금통'으로 설정된 금액 - 적용한도 : 저금통 금액 설정은 최대 100만원(1만원 단위)까지 가능"}, "verified": null}, {"key": "interest_payment", "name": "이자지급 시기·방법", "class": "설명서만 채움", "a": null, "b": {"summary": "매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함"}, "verified": null}, {"key": "final_rate", "name": "최고·최종 공시금리", "class": "설명서만 채움", "a": null, "b": {"summary": "최종금리 (세금공제 전, 2026.08.04 기준) : 최저 연 0.1% ~ 최고 연 2.0%"}, "verified": null}, {"key": "termination_method", "name": "계약해지 방법·채널", "class": "설명서만 채움", "a": null, "b": {"summary": "지점 방문을 통해 해지 가능"}, "verified": null}, {"key": "tax", "name": "세제·과세·비과세", "class": "설명서만 채움", "a": null, "b": {"summary": "비과세종합저축으로 가입 가능"}, "verified": null}, {"key": "transaction_restriction", "name": "거래·이용·입출금 제한", "class": "설명서만 채움", "a": null, "b": {"summary": "예금잔액이 10,000원 미만이며, 1년 이상 입출금 거래가 없는 계좌, 예금잔액이 10,000원 이상 50,000원 미만이며, 2년 이상 입출금 거래가 없는 계좌, 예금잔액이 50,000원 이상 100,000원 미만이며, 3년 이상 입출금 거래가 없는 계좌"}, "verified": null}, {"key": "fee", "name": "수수료·수수료면제", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "KB 국민카드 결제실적 시 수수료 면제"}, "b": {"summary": "면제조건: 전월 중 이 통장에서 KB국민카드(신용/체크/KB국민비씨 카드포함) 결제실적 (현금서비스 포함)이 있는 경우"}, "verified": null}, {"key": "assignment_collateral", "name": "양도·질권·담보제공", "class": "설명서만 채움", "a": null, "b": {"summary": "불가"}, "verified": null}, {"key": "partner_benefit", "name": "부가·제휴·연계 혜택", "class": "둘 다 · 설명서에 숫자 더", "a": {"summary": "저금통 서비스 및 수수료 면제 서비스 제공"}, "b": {"summary": "제공기간: 가입일로부터 1년(1년 단위 갱신). 이행책임: KB국민은행은 연계·제휴서비스를 부당하게 축소하거나 변경하지 않으며, 불가피하게 축소하거나 변경하는 경우 그에 상응하는 다른 연계·제휴서비스를 제공. 변경·종료에 대한 사전통지: 서면, 우편, 전자우편, 전화, 팩스, 휴대전화 문자메시지 또는 이에 준하는 전자적 의사표시 중 2개 이상의 방법으로 축소·변경 6개월 전부터 매월 고지"}, "verified": null}, {"key": "product_conversion", "name": "상품·계좌 전환", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "연령 만 19세 시 자동 전환, 전환 시 이율 적용 기준 명시"}, "b": {"summary": "매년 첫 영업일에 가입자의 연령이 만 19세인 경우 「KB 국민ONE 통장」으로 자동전환. 기존 저축예금 통장 전환 가능"}, "verified": null}, {"key": "eligibility_restriction", "name": "가입제한·제외조건", "class": "특약만 채움", "a": {"summary": "공동명의 가입 불가"}, "b": null, "verified": null}, {"key": "account_limit", "name": "계좌수·중복가입 제한", "class": "특약만 채움", "a": {"summary": "1인 1계좌만 가입 가능"}, "b": null, "verified": null}, {"key": "ownership_name_change", "name": "명의변경·소유권 변경", "class": "특약만 채움", "a": {"summary": "상속, 양도에 의한 명의변경 불가"}, "b": null, "verified": null}]}, {"name": "KB스타적금Ⅲ", "na": 12, "nb": 21, "keys": [{"key": "product_name", "name": "상품명·식별자", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "KB스타적금Ⅲ"}, "b": {"summary": "KB스타적금Ⅲ"}, "verified": null}, {"key": "product_type", "name": "상품유형·예금과목", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "정기적금"}, "b": {"summary": "자유적립식 예금"}, "verified": null}, {"key": "product_feature", "name": "상품특징·성격", "class": "설명서만 채움", "a": null, "b": {"summary": "최근 1년 동안 KB 국민은행 상품을 보유하지 않은 신규 또는 장기미거래 고객에게 우대이율을 제공하는 적립식 상품"}, "verified": null}, {"key": "eligibility_target", "name": "가입대상·자격조건", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "만 19세 이상 실명의 개인"}, "b": {"summary": "만 19세 이상 실명의 개인 (1인 1계좌)"}, "verified": null}, {"key": "eligibility_restriction", "name": "가입제한·제외조건", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "개인사업자, 임의단체 및 공동명의는 가입 불가"}, "b": {"summary": "개인사업자, 임의단체 및 공동명의 가입 불가"}, "verified": null}, {"key": "account_limit", "name": "계좌수·중복가입 제한", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "1인 1계좌"}, "b": {"summary": "1인 1계좌"}, "verified": null}, {"key": "deposit_amount", "name": "신규·가입·예치금액 조건", "class": "설명서만 채움", "a": null, "b": {"summary": "월 1만원 이상 30만원 이하"}, "verified": null}, {"key": "saving_amount", "name": "저축·납입금액 조건", "class": "둘 다 · 특약에 숫자 더", "a": {"summary": "매월 1만원 이상 30만원 이하"}, "b": {"summary": "매월 자유롭게 저축 가능 (만기일 전일까지)"}, "verified": null}, {"key": "contract_term", "name": "계약·가입·저축기간", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "12개월"}, "b": {"summary": "12개월"}, "verified": null}, {"key": "base_rate", "name": "기본금리·기본이율·적용이율", "class": "둘 다 · 설명서에 숫자 더", "a": {"summary": "가입일 당시 영업점 및 KB국민은행 홈페이지에 게시한 이율 적용"}, "b": {"summary": "연 2.0%"}, "verified": null}, {"key": "preferential_rate", "name": "우대금리·우대이율 조건", "class": "둘 다 · 설명서에 숫자 더", "a": {"summary": "제7조에서 정하는 조건 충족 시 우대이율 적용"}, "b": {"summary": "연 3.0%p (최고 연 5.0%)", "conditions": ["최근 1년 동안 KB 국민은행 상품을 보유하지 않았거나 '입출금이 자유로운 예금'만 보유한 고객", "예치기간이 1개월 미만인 중도해지계좌는 우대이율 미적용"]}, "verified": null}, {"key": "interest_payment", "name": "이자지급 시기·방법", "class": "설명서만 채움", "a": null, "b": {"summary": "만기일시지급식"}, "verified": null}, {"key": "final_rate", "name": "최고·최종 공시금리", "class": "설명서만 채움", "a": null, "b": {"summary": "최저 연 2.0% ~ 최고 연 5.0%"}, "verified": null}, {"key": "early_maturity_payment", "name": "만기앞당김 지급", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "만기앞당김 지급 불가"}, "b": {"summary": "불가능"}, "verified": null}, {"key": "partial_withdrawal", "name": "일부인출·분할인출·일부해지", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "만기 전 일부 해지 불가"}, "b": {"summary": "불가능"}, "verified": null}, {"key": "auto_renewal", "name": "자동재예치·자동갱신", "class": "설명서만 채움", "a": null, "b": {"summary": "불가능"}, "verified": null}, {"key": "early_termination", "name": "중도해지·중도해지이율", "class": "둘 다 · 설명서에 숫자 더", "a": {"summary": "중도해지 시 중도해지이율 적용"}, "b": {"summary": "중도해지 시 이자를 일시에 지급", "conditions": ["중도해지이율 적용", "예치기간이 1개월 미만인 중도해지계좌는 우대이율 미적용", "중도해지이자 계산방법: 입금금액마다 입금일부터 중도해지일 전일까지의 기간에 대하여 예치기간별 중도해지이율로 계산한 이자를 합계"]}, "verified": null}, {"key": "termination_method", "name": "계약해지 방법·채널", "class": "설명서만 채움", "a": null, "b": {"summary": "KB스타뱅킹, 인터넷뱅킹, 영업점 및 고객센터를 통해 해지"}, "verified": null}, {"key": "tax", "name": "세제·과세·비과세", "class": "설명서만 채움", "a": null, "b": {"summary": "비과세종합저축으로 가입 가능", "conditions": ["계약기간 만료일 이후의 이자는 과세대상"]}, "verified": null}, {"key": "assignment_collateral", "name": "양도·질권·담보제공", "class": "설명서만 채움", "a": null, "b": {"summary": "질권설정 및 양도 가능 (계좌 잔액의 95%까지 예금담보대출 가능)"}, "verified": null}, {"key": "payment_limit", "name": "회차·월·연·총 납입한도", "class": "특약만 채움", "a": {"summary": "매월 1만원 이상 30만원 이하"}, "b": null, "verified": null}, {"key": "event_special_rate", "name": "이벤트·쿠폰·특별금리", "class": "특약만 채움", "a": {"summary": "가입 시 금리우대쿠폰 적용 시 최종이율에 쿠폰 우대금리 추가"}, "b": null, "verified": null}, {"key": "auto_termination", "name": "자동해지·만기자동해지", "class": "특약만 채움", "a": {"summary": "만기일에 자동 해지"}, "b": null, "verified": null}]}, {"name": "KB국민프리미엄적금 (정액적립식)", "na": 8, "nb": 20, "keys": [{"key": "product_name", "name": "상품명·식별자", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "KB국민프리미엄적금 (정액적립식)"}, "b": {"summary": "KB국민프리미엄적금"}, "verified": null}, {"key": "product_type", "name": "상품유형·예금과목", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "정기적금"}, "b": {"summary": "정액적립식/자유적립식 예금"}, "verified": null}, {"key": "product_feature", "name": "상품특징·성격", "class": "설명서만 채움", "a": null, "b": {"summary": "단체가입고객 또는 병역명문가 등에게 우대금리를 제공하는 적립식 상품"}, "verified": null}, {"key": "eligibility_target", "name": "가입대상·자격조건", "class": "설명서만 채움", "a": null, "b": {"summary": "실명의 개인 (1 인 1 계좌)"}, "verified": null}, {"key": "eligibility_restriction", "name": "가입제한·제외조건", "class": "설명서만 채움", "a": null, "b": {"summary": "이 상품은 공동명의로 가입할 수 없습니다."}, "verified": null}, {"key": "account_limit", "name": "계좌수·중복가입 제한", "class": "둘 다 비움", "a": null, "b": {"note": "근거가 부족합니다."}, "verified": null}, {"key": "required_evidence", "name": "증빙서류·확인자료", "class": "둘 다 비움", "a": null, "b": {"note": "근거가 부족합니다."}, "verified": null}, {"key": "deposit_amount", "name": "신규·가입·예치금액 조건", "class": "설명서만 채움", "a": null, "b": {"summary": "회차별 1 만원 이상 원단위로, 매월(월 초일부터 말일까지) 3 백만원 이내에서 저축 가능 ※ 자유적립식은 만기 1 개월 전까지 저축 가능"}, "verified": null}, {"key": "saving_amount", "name": "저축·납입금액 조건", "class": "설명서만 채움", "a": null, "b": {"summary": "회차별 1 만원 이상 원단위로, 매월(월 초일부터 말일까지) 3 백만원 이내에서 저축 가능 ※ 자유적립식은 만기 1 개월 전까지 저축 가능"}, "verified": null}, {"key": "contract_term", "name": "계약·가입·저축기간", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "12개월 이상 60개월 이내 월단위"}, "b": {"summary": "12개월 이상 ~ 60개월 이하(월단위)"}, "verified": null}, {"key": "base_rate", "name": "기본금리·기본이율·적용이율", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시된 이율을 적용합니다."}, "b": {"summary": "기본이율은 신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시된 계약기간별 기본이율 적용"}, "verified": null}, {"key": "preferential_rate", "name": "우대금리·우대이율 조건", "class": "둘 다 · 숫자 같고 예외 수 다름", "a": {"summary": "가입자가 특정 조건을 충족할 경우 기본이율에 우대이율을 가산하여 지급합니다.", "conditions": ["KB국민은행 거래 업체(단체) 소속 5인 이상 가입", "KB국민은행 거래 고객중 금리우대쿠폰주 소지 고객", "병역명문가, 입영대상자, 현역군인, 태권도 단(품)증 소지 고객"], "exceptions": ["각 호를 중복하여 적용하지 않습니다"]}, "b": {"summary": "우대이율은 신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시된 우대이율 적용 ※ 만기해지하는 경우에만 해당 계약기간 동안 적용"}, "verified": null}, {"key": "event_special_rate", "name": "이벤트·쿠폰·특별금리", "class": "특약만 채움", "a": {"summary": "KB국민은행 Youth고객, 첫거래고객, 우수고객, 비활동고객 등을 대상으로 이메일 등을 통해 제공"}, "b": {"note": "근거가 부족합니다."}, "verified": null}, {"key": "interest_payment", "name": "이자지급 시기·방법", "class": "설명서만 채움", "a": null, "b": {"summary": "만기일시지급식: 만기(후) 또는 중도해지 요청시 이자를 지급"}, "verified": null}, {"key": "final_rate", "name": "최고·최종 공시금리", "class": "설명서만 채움", "a": null, "b": {"summary": "최종이율은 신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시된 단체가입/나라사랑 /쿠폰우대 및 교차거래 우대이율 모두 적용할 경우 최고이율"}, "verified": null}, {"key": "early_maturity_payment", "name": "만기앞당김 지급", "class": "설명서만 채움", "a": null, "b": {"summary": "정액적립식: 가능 ▪ 자유적립식: 불가"}, "verified": null}, {"key": "partial_withdrawal", "name": "일부인출·분할인출·일부해지", "class": "설명서만 채움", "a": null, "b": {"summary": "불가"}, "verified": null}, {"key": "auto_renewal", "name": "자동재예치·자동갱신", "class": "설명서만 채움", "a": null, "b": {"summary": "불가"}, "verified": null}, {"key": "auto_termination", "name": "자동해지·만기자동해지", "class": "둘 다 비움", "a": null, "b": {"note": "근거가 부족합니다."}, "verified": null}, {"key": "early_termination", "name": "중도해지·중도해지이율", "class": "둘 다 · 숫자 같고 예외 수 다름", "a": {"summary": "만기일 전에 지급청구한 경우 월저축금마다 입금일부터 지급일 전날까지의 기간에 대해 중도해지이율로 셈한 이자를 원금에 더하여 지급합니다.", "exceptions": ["만기일 후 지급청구한 경우 만기지급액에 만기후이율로 셈한 이자를 더하여 지급합니다."]}, "b": {"summary": "중도해지이율은 신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시된 예치기간별 중도해지이율 적용"}, "verified": null}, {"key": "termination_method", "name": "계약해지 방법·채널", "class": "설명서만 채움", "a": null, "b": {"summary": "영업점, 인터넷뱅킹, KB 스타뱅킹, 고객센터를 통해 해지 가능 ※ 고객센터 통한 해지 시 만기해지만 가능하며 미성년자 예금 해지 불가 ※ 영업점에서 신규한 미성년자 명의의 예금 해지는 영업점에서만 가능 ▪ 만기 자동해지 가능 ※ 만기 자동해지를 신청하는 경우 지정계좌로 입금 가능"}, "verified": null}, {"key": "tax", "name": "세제·과세·비과세", "class": "설명서만 채움", "a": null, "b": {"summary": "비과세종합저축으로 가입 가능 ※ 관련세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있음 ※ 계약기간 만료일 이후의 이자는 과세됨"}, "verified": null}, {"key": "transaction_restriction", "name": "거래·이용·입출금 제한", "class": "설명서만 채움", "a": null, "b": {"summary": "이 상품은 공동명의로 가입할 수 없습니다."}, "verified": null}, {"key": "loan_linkage", "name": "관련대출·대출계좌 이용", "class": "둘 다 비움", "a": null, "b": {"note": "근거가 부족합니다."}, "verified": null}, {"key": "assignment_collateral", "name": "양도·질권·담보제공", "class": "설명서만 채움", "a": null, "b": {"summary": "질권설정: 가능 ▪ 양도 가능 ▪ 예금담보대출은 계좌잔액의 95%까지 가능"}, "verified": null}]}, {"name": "KB 장기간부 도약적금", "na": 31, "nb": 26, "keys": [{"key": "product_name", "name": "상품명·식별자", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "KB 장기간부 도약적금"}, "b": {"summary": "KB 장기간부 도약적금"}, "verified": null}, {"key": "product_type", "name": "상품유형·예금과목", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "예금과목은 정기적금이며, 상품유형은 자유적립식 예금입니다."}, "b": {"summary": "자유적립식 예금"}, "verified": null}, {"key": "product_feature", "name": "상품특징·성격", "class": "설명서만 채움", "a": null, "b": {"summary": "군 장기복무 장교 및 부사관의 자산형성을 지원하는 정부지원 저축상품"}, "verified": null}, {"key": "eligibility_target", "name": "가입대상·자격조건", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "군인공제회 C&C에서 발급한 ‘장기간부 도약적금 가입자격 확인서’를 제출한 고객으로, 육/해/공군사관학교, 국군간호사관학교 등 졸업 후 임용된 장교 및 부사관, 군 복무 중 선발된 장교 및 부사관, 기타 군인사법에 따른 확인서 발급 대상자입니다.", "conditions": ["683", "684", "685", "686"]}, "b": {"summary": "육/해/공군사관학교, 육군3사관학교, 국군간호사관학교, 국방첨단과학기술사관학교 졸업 후 임용된 장교 및 공군항공과학고등학교 졸업 후 임용된 부사관, 군 복무 중 장기복무자, 기타 군인사법에서 정하는 ‘장기간부 도약적금 가입자격 확인서’ 발급 대상자"}, "verified": null}, {"key": "application_selection", "name": "가입신청·자격조회·선정 절차", "class": "둘 다 비움", "a": {"note": "근거가 부족합니다."}, "b": {"note": "근거가 부족하여 요약 불가"}, "verified": null}, {"key": "eligibility_restriction", "name": "가입제한·제외조건", "class": "둘 다 · 설명서에 숫자 더", "a": {"summary": "개인사업자 및 임의단체, 공동명의 가입이 불가하며, 복무기간 중 1번만 가입 가능하고, 해지 후 다시 가입할 수 없습니다. 또한, 금융기관(군인공제회 포함)을 통틀어 1인 1계좌만 가입 가능합니다.", "conditions": ["688", "689", "690"]}, "b": {"summary": "복무기간 중 1 인 1 회만 가입 가능(동일인 기준 1 인 1 회), 해지 후 재가입 불가", "exceptions": ["해지 후 재가입 불가"]}, "verified": null}, {"key": "account_limit", "name": "계좌수·중복가입 제한", "class": "둘 다 비움", "a": null, "b": {"note": "근거가 부족하여 요약 불가"}, "verified": null}, {"key": "required_evidence", "name": "증빙서류·확인자료", "class": "둘 다 비움", "a": null, "b": {"note": "근거가 부족하여 요약 불가"}, "verified": null}, {"key": "saving_amount", "name": "저축·납입금액 조건", "class": "설명서만 채움", "a": null, "b": {"summary": "가입금액: 10 만원 이상~30 만원 이하, 납입한도: 매월 30 만원 이하, 납입금액: 입금 건별 1 만원 이상~30 만원 이하"}, "verified": null}, {"key": "payment_limit", "name": "회차·월·연·총 납입한도", "class": "특약만 채움", "a": {"summary": "월 최대 30 만원까지 저축할 수 있습니다.", "conditions": ["692"]}, "b": {"note": "근거가 부족하여 요약 불가"}, "verified": null}, {"key": "contract_term", "name": "계약·가입·저축기간", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "계약기간은 36개월입니다.", "conditions": ["691"]}, "b": {"summary": "36 개월"}, "verified": null}, {"key": "sales_period", "name": "판매·모집기간", "class": "설명서만 채움", "a": null, "b": {"summary": "매월 1 일부터 12 일까지"}, "verified": null}, {"key": "base_rate", "name": "기본금리·기본이율·적용이율", "class": "둘 다 · 설명서에 숫자 더", "a": {"summary": "기본금리는 가입일 당시 지점 및 KB 국민은행 홈페이지에 게시한 기본금리를 적용합니다.", "conditions": ["699", "700", "701", "702", "703", "704"]}, "b": {"summary": "연 5.5%"}, "verified": null}, {"key": "preferential_rate", "name": "우대금리·우대이율 조건", "class": "둘 다 · 설명서에 숫자 더", "a": {"summary": "우대금리는 제9 조에서 정한 제공조건을 충족한 경우 적용되며, 우대금리는 제공조건을 달성한 만기해지 계좌에 계약기간 동안 적용됩니다.", "conditions": ["699", "700", "705"]}, "b": {"summary": "연 0.5%p, 급여이체 우대금리 (연 0.5%p)"}, "verified": null}, {"key": "interest_payment", "name": "이자지급 시기·방법", "class": "설명서만 채움", "a": null, "b": {"summary": "만기일시지급식: 만기(후) 또는 (특별)중도해지 시 이자를 지급"}, "verified": null}, {"key": "final_rate", "name": "최고·최종 공시금리", "class": "설명서만 채움", "a": null, "b": {"summary": "최저 연 5.5%~최고 연 6.0%"}, "verified": null}, {"key": "early_maturity_payment", "name": "만기앞당김 지급", "class": "둘 다 비움", "a": null, "b": {"note": "근거가 부족하여 요약 불가"}, "verified": null}, {"key": "partial_withdrawal", "name": "일부인출·분할인출·일부해지", "class": "둘 다 비움", "a": null, "b": {"note": "근거가 부족하여 요약 불가"}, "verified": null}, {"key": "auto_renewal", "name": "자동재예치·자동갱신", "class": "설명서만 채움", "a": null, "b": {"summary": "불가"}, "verified": null}, {"key": "auto_termination", "name": "자동해지·만기자동해지", "class": "둘 다 비움", "a": null, "b": {"note": "근거가 부족하여 요약 불가"}, "verified": null}, {"key": "early_termination", "name": "중도해지·중도해지이율", "class": "설명서만 채움", "a": null, "b": {"summary": "중도해지금리: 가입일 당시 지점 및 KB 국민은행 홈페이지에 게시한 예치기간별 중도해지금리 적용"}, "verified": null}, {"key": "tax", "name": "세제·과세·비과세", "class": "설명서만 채움", "a": null, "b": {"summary": "비과세종합저축으로 가입 가능, 계약기간 만료일 이후의 이자는 과세됨"}, "verified": null}, {"key": "loan_linkage", "name": "관련대출·대출계좌 이용", "class": "둘 다 비움", "a": null, "b": {"note": "근거가 부족하여 요약 불가"}, "verified": null}, {"key": "assignment_collateral", "name": "양도·질권·담보제공", "class": "설명서만 채움", "a": null, "b": {"summary": "질권설정 가능"}, "verified": null}, {"key": "government_employer_support", "name": "정부·기업·재정 지원금·기여금", "class": "둘 다 · 설명서에 숫자 더", "a": {"summary": "재정지원금은 ‘장기간부 도약적금’ 가입자의 목돈마련 지원을 위해 정부 예산으로 지급되며, 재정지원금은 만기해지 시 또는 특별중도해지 시 지급되며, 재정지원금에는 기본금리와 중도해지금리가 적용되며, 만기후이자는 제공되지 않습니다.", "conditions": ["707", "708", "709", "710", "711", "712"], "exceptions": ["703", "714", "715", "726"]}, "b": {"summary": "재정지원금: 적금 가입일부터 예금주가 납입한 금액에 대하여 100% 매칭한 금액, 재정지원금에는 만기후이자를 지급하지 않음"}, "verified": null}]}, {"name": "KB사학연금평생안심통장", "na": 17, "nb": 17, "keys": [{"key": "product_name", "name": "상품명·식별자", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "KB사학연금평생안심통장"}, "b": {"summary": "KB사학연금평생안심통장"}, "verified": null}, {"key": "product_type", "name": "상품유형·예금과목", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "이 예금의 예금과목은 저축예금으로 합니다."}, "b": {"summary": "입출금이자유로운예금(저축예금)"}, "verified": null}, {"key": "product_feature", "name": "상품특징·성격", "class": "설명서만 채움", "a": null, "b": {"summary": "사학연금 급여가 생활비로 사용될 수 있도록 압류가 금지되고, 연금수령 실적이 있는 경우 각종 은행거래 수수료를 면제해주는 압류방지 전용통장"}, "verified": null}, {"key": "eligibility_target", "name": "가입대상·자격조건", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "이 예금의 가입대상은 실명의 개인으로서 사립학교교직원연금을 수령하는 고객으로 합니다."}, "b": {"summary": "실명의 개인으로 사립학교교직원연금을 수령하는 고객 (1 인 1 계좌)"}, "verified": null}, {"key": "deposit_amount", "name": "신규·가입·예치금액 조건", "class": "설명서만 채움", "a": null, "b": {"summary": "0원 계좌로만 개설 가능"}, "verified": null}, {"key": "base_rate", "name": "기본금리·기본이율·적용이율", "class": "둘 다 · 설명서에 숫자 더", "a": {"summary": "기본이율은 결산일 현재 영업점에 고시한 저축예금 기본이율을 적용합니다."}, "b": {"summary": "기본이율은 연 0.1% (결산일 현재 영업점에 고시된 저축예금 기본이율 적용)"}, "verified": null}, {"key": "preferential_rate", "name": "우대금리·우대이율 조건", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "결산기 평균잔액 중 1 백만원 이하의 금액까지는 우대이율 연2.0%를 적용하며, 1 백만원을 초과하는 금액에 대하여는 기본이율을 적용합니다.", "conditions": ["※ 단, 우대이율은 기본이율을 포함합니다."]}, "b": {"summary": "우대이율은 연 2.0% (우대이율은 기본이율을 포함) - 적용한도 : 결산기 평균잔액 중 1백만원 이하의 금액까지는 우대이율 적용하며, 1백만원을 초과하는 금액에 대하여는 기본이율을 적용"}, "verified": null}, {"key": "interest_payment", "name": "이자지급 시기·방법", "class": "설명서만 채움", "a": null, "b": {"summary": "매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함", "conditions": ["예금의 이자는 최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다."]}, "verified": null}, {"key": "termination_method", "name": "계약해지 방법·채널", "class": "설명서만 채움", "a": null, "b": {"summary": "영업점, 개인인터넷뱅킹, KB 스타뱅킹을 통해 해지 가능", "conditions": ["개인인터넷뱅킹, KB 스타뱅킹을 통한 해지 시 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다."]}, "verified": null}, {"key": "tax", "name": "세제·과세·비과세", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "이 예금은 비과세종합저축으로 가입할 수 있습니다."}, "b": {"summary": "비과세종합저축으로 가입 가능", "conditions": ["관련 세법 개정 시 세율이 변경되거나 세금이 부과될 수 있음"]}, "verified": null}, {"key": "transaction_restriction", "name": "거래·이용·입출금 제한", "class": "둘 다 · 설명서에 숫자 더", "a": {"summary": "이 예금은 사립학교교직원연금 급여로 입금이 제한되며, 압류금지 대상금액 이하로 입금이 제한되며, 압류명령에 의한 지급제한이 되지 않으며, 상계, 양도, 담보제공, 자동대출계좌 사용, 인터넷뱅킹 신규시 모계좌 출금 등록, 결제계좌 지정 시 직접 납부, 계좌 전환 등 거래 제한이 있습니다.", "conditions": ["이 예금은 사립학교교직원연금 급여로 입금자원이 제한되며, 사립학교교직원연금 급여 이외의 자금은 입금 할 수 없습니다.", "이 예금으로의 입금은 사립학교교직원연금법 제 40 조 2 항, 민사집행법 시행령 제 2 조에서 정하는 사립학교교직원연금 급여 압류금지 대상금액 이하로 입금 건당 금액을 제한합니다.", "이 예금으로 매월 수령하는 사학연금 급여액이 관련 법에서 정하는 압류금지 대상금액을 초과하는 경우 압류금지 대상금액 까지만 이 통장으로 입금되므로 압류금지 대상금액을 초과한 금액은 입금이 제한되지 않는 별도의 통장으로 수령해야 합니다.", "이 예금은 관련 법에 따라 법원의 압류명령에 의한 지급제한이 되지 않습니다", "이 예금은 은행이 상계할 수 없습니다", "이 예금은 양도 및 담보제공 할 수 없습니다", "이 예금은 통장자동대출계좌로 사용할 수 없습니다.", "인터넷뱅킹을 통한 예·부적금 신규시 모계좌로 출금 등록 할 수 없습니다.", "이 예금을 신용카드 결제계좌나 공과금 등 대금납부 목적의 계좌로 지정한 경우에 결제ㆍ납부 금액이 부족하거나 결제ㆍ납부 취소 등이 발생한 때에는 제4 조에 따라 고객이 영업점 창구에서 결제ㆍ납부금액을 직접 납부하거나 별도 지정계좌로 입금 또는 직접 수령하는 방법으로 처리하여야 합니다.", "다른 입출금이자유로운예금에서 이 예금으로 전환 및 이 예금에서 다른 입출금이자유로운예금으로 전환 할 수 없습니다."]}, "b": {"summary": "사립학교교직원연금 급여(건별 250만원 이하)만 입금 가능, 양도 및 담보제공 불가, 통장자동대출계좌로 사용 불가, 인터넷뱅킹을 통한 예·부적금 신규 시 모계좌로 출금 등록 불가", "conditions": ["이자원가를 제외한 신용카드 캐시백 등 모든 입금거래 불가", "계좌간 자동이체 약정시 입금계좌로 등록 불가 (출금계좌 등록은 가능)", "신용카드 결제계좌나 공과금 등의 대금납부 목적의 계좌로 지정한 경우 결제·납부금액이 부족하거나 결제·납부취소 등이 발생한 때에는 고객이 영업점 창구에서 결제·납부금액을 직접 납부하거나 별도 지정계좌로 입금 또는 직접 수령", "사립학교교직원연금공단에 연금수령계좌로 신고 시 압류방지전용통장임을 반드시 통지하시기 바랍니다. (미통지 시 연금이 입금되지 않을 수 있습니다.)", "통장이 ‘전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법’ 에서 정의한 피해의심거래계좌 및 사기이용 계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치를 할 수 있습니다."]}, "verified": null}, {"key": "fee", "name": "수수료·수수료면제", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "이 예금으로 전월 중 사립학교교직원연금 급여 입금실적이 있는 경우 이번 달 11일부터 다음 달 10일까지 아래의 수수료를 횟수 제한없이 면제합니다. 또한 신규시에는 이체실적에 관계없이 신규일로부터 다음 다음 달 10 일까지 제1 항의 수수료를 면제합니다.", "conditions": ["이 예금으로 전월 중 사립학교교직원연금 급여 입금실적이 있는 경우 이번 달 11일부터 다음 달 10일까지 아래의 수수료를 횟수 제한없이 면제합니다.", "이 예금의 신규시에는 이체실적에 관계없이 신규일로부터 다음 다음 달 10 일까지 제1 항의 수수료를 면제합니다."]}, "b": {"summary": "전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 다른은행 이체수수료, KB국민은행 자동화기기 시간외 출금수수료 및 다른은행 이체수수료, KB국민은행 창구를 이용하여 이 통장에서 연동한 다른은행 이체수수료 면제", "conditions": ["이 예금에 전월 중 사립학교교직원연금 급여 이체 실적이 있는 경우 이번 달 11일부터 다음 달 10일까지 면제 (단, 신규시에는 이체실적에 관계없이 신규일로부터 다음 다음 달 10일까지 면제)", "면제횟수: 제한없음"]}, "verified": null}, {"key": "assignment_collateral", "name": "양도·질권·담보제공", "class": "설명서만 채움", "a": null, "b": {"summary": "양도 및 담보제공 불가능"}, "verified": null}, {"key": "product_conversion", "name": "상품·계좌 전환", "class": "설명서만 채움", "a": null, "b": {"summary": "다른 입출금이 자유로운 예금에서 이 통장으로 전환 가능, 이 통장에서 다른 입출금이 자유로운 예금으로 전환 불가"}, "verified": null}]}, {"name": "KB맑은하늘적금", "na": 14, "nb": 26, "keys": [{"key": "product_name", "name": "상품명·식별자", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "KB맑은하늘적금"}, "b": {"summary": "KB 맑은하늘적금"}, "verified": null}, {"key": "product_type", "name": "상품유형·예금과목", "class": "둘 다 · 특약에 숫자 더", "a": {"summary": "정기적금", "conditions": ["계약기간은 1년, 2년, 3년으로 합니다."]}, "b": {"summary": "자유적립식 예금"}, "verified": null}, {"key": "product_feature", "name": "상품특징·성격", "class": "설명서만 채움", "a": null, "b": {"summary": "친환경 특화 상품으로, 생활 속 작은 실천에 대해 우대금리를 제공하고, 대중교통/자전거상해 관련 무료 보험서비스(최대 2억원 보장)를 제공"}, "verified": null}, {"key": "eligibility_target", "name": "가입대상·자격조건", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "실명의 개인으로 1인 최대 3계좌까지 가입 가능하며, 공동명의로는 가입이 불가합니다."}, "b": {"summary": "실명의 개인, 1인 최대 3 계좌까지 가입 가능, 개인사업자 및 서류 미제출 임의단체 가입 가능, 공동명의 가입 불가"}, "verified": null}, {"key": "deposit_amount", "name": "신규·가입·예치금액 조건", "class": "설명서만 채움", "a": null, "b": {"summary": "매월 1만원 이상 100만원 이하 금액을 자유롭게 저축, 만기일 전일까지 저축 가능"}, "verified": null}, {"key": "saving_amount", "name": "저축·납입금액 조건", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "매월 1만원 이상 100만원 이하 원 단위 금액을 만기 전일까지 자유롭게 저축할 수 있습니다."}, "b": {"summary": "매월 1만원 이상 100만원 이하 금액을 자유롭게 저축, 만기일 전일까지 저축 가능"}, "verified": null}, {"key": "contract_term", "name": "계약·가입·저축기간", "class": "둘 다 · 숫자 · 예외 수 같음", "a": {"summary": "계약기간은 1년, 2년, 3년으로 합니다."}, "b": {"summary": "1년제, 2년제, 3년제"}, "verified": null}, {"key": "base_rate", "name": "기본금리·기본이율·적용이율", "class": "둘 다 · 설명서에 숫자 더", "a": {"summary": "이 적금의 이율은 신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시한 이율을 적용합니다.", "conditions": ["계약기간 동안 기본이율과 우대이율을 합하여 적용합니다."]}, "b": {"summary": "1년제: 연 2.65%, 2년제: 연 2.75%, 3년제: 연 3.05%"}, "verified": null}, {"key": "preferential_rate", "name": "우대금리·우대이율 조건", "class": "둘 다 · 숫자 서로 다름", "a": {"summary": "우대이율은 제6조에서 정하는 조건을 충족하는 경우 적용합니다.", "conditions": ["만기해지 할 때까지 이 적금을 종이통장으로 발행한 이력이 없는 경우", "영업점의 디지털창구 및 KB 태블릿브랜치, 비대면채널(인터넷뱅킹/ KB 스타뱅킹/ 스마트상담부)을 통해 이 적금을 가입한 경우", "신규일이 포함된 월의 1 일부터 만기일이 포함된 월을 기준으로 전전월 말일까지, 본인 명의 KB 국민(신용/체크)카드 대중교통 이용실적 1) 발생월수가 계약기간의 1/2 이상인 경우", "만기해지 할 때까지 이 적금 전용화면을 통해 미세먼지 관련 퀴즈(총 3 문항)를 모두 맞춘 경우"], "exceptions": ["대중교통 미션 우대이율의 경우 신규 가입 할 때 ‘상품별 선택 개인(신용)정보 수집·이용·제공’에 동의하는 경우에 한하여 제공되며, 신규 가입 이후 동의 여부 변경이 불가 합니다."]}, "b": {"summary": "우대이율은 미션 달성 시 적용, 1년제 최고 연 0.8%p, 2년제 최고 연 0.9%p, 3년제 최고 연 1.0%p"}, "verified": null}, {"key": "interest_payment", "name": "이자지급 시기·방법", "class": "설명서만 채움", "a": null, "b": {"summary": "만기일시지급식: 만기(후) 또는 중도해지 요청 시 이자를 지급"}, "verified": null}, {"key": "final_rate", "name": "최고·최종 공시금리", "class": "설명서만 채움", "a": null, "b": {"summary": "1년제: 최저 연 2.65% ~ 최고 연 3.45%, 2년제: 최저 연 2.75% ~ 최고 연 3.65%, 3년제: 최저 연 3.05% ~ 최고 연 4.05%"}, "verified": null}, {"key": "early_termination", "name": "중도해지·중도해지이율", "class": "둘 다 · 설명서에 숫자 더", "a": {"summary": "중도해지 시에는 금리우대쿠폰 우대금리 적용되지 않습니다.", "conditions": ["신규 시 금리우대쿠폰을 적용한 경우 쿠폰 우대금리를 기본이율에 가산합니다.", "보험가입 서비스 제공이 중단됩니다."]}, "b": {"summary": "중도해지 시 이율은 계약기간에 따라 적용, 1개월 미만: 0.1%, 1개월 이상 ~ 3개월 미만: 기본이율 X 50% X 경과월수/계약월수 (최저 0.1%), 3개월 이상 ~ 6개월 미만: 기본이율 X 50% X 경과월수/계약월수 (최저 0.1%), 6개월 이상 ~ 8개월 미만: 기본이율 X 60% X 경과월수/계약월수 (최저 0.2%), 8개월 이상 ~ 10개월 미만: 기본이율 X 70% X 경과월수/계약월수 (최저 0.2%), 10개월 이상 ~ 11개월 미만: 기본이율 X 80% X 경과월수/계약월수 (최저 0.2%), 11개월 이상: 기본이율 X 90% X 경과월수/계약월수 (최저 0.2%)"}, "verified": null}, {"key": "termination_method", "name": "계약해지 방법·채널", "class": "설명서만 채움", "a": null, "b": {"summary": "영업점, 인터넷뱅킹, KB 스타뱅킹, 고객센터를 통해 해지 가능, 만기 자동해지 가능, 만기일이 토요일 또는 법정공휴일인 경우 직전 영업일에 해지 시 해당 일수만큼 약정이자를 차감하고 지급"}, "verified": null}, {"key": "tax", "name": "세제·과세·비과세", "class": "설명서만 채움", "a": null, "b": {"summary": "비과세종합저축으로 가입 가능, 계약기간 만료일 이후의 이자는 과세됨"}, "verified": null}, {"key": "transaction_restriction", "name": "거래·이용·입출금 제한", "class": "설명서만 채움", "a": null, "b": {"summary": "티머니 계열 체크카드는 후불교통카드(RF) 기능이 아닌 충전식 선불교통카드로 대중교통 이용실적에 포함되지 않음"}, "verified": null}, {"key": "assignment_collateral", "name": "양도·질권·담보제공", "class": "설명서만 채움", "a": null, "b": {"summary": "질권설정, 양도, 담보제공 가능 (계좌잔액의 95%까지 예금담보대출 가능)"}, "verified": null}, {"key": "partner_benefit", "name": "부가·제휴·연계 혜택", "class": "둘 다 · 특약에 숫자 더", "a": {"summary": "신규 시 보험가입 및 개인(신용)정보의 제3자 제공에 동의한 고객에게 ‘대중교통상해 및 자전거상해’ 관련 ㈜KB 손해보험 단체보험 제공", "conditions": ["보험 개시일은 이 적금 신규 다음 날로 하며, 보험개시일로부터 1 년(1 년 단위 갱신)으로 합니다.", "보험 서비스 내용은 ‘대중교통상해 및 자전거상해’ 관련 ㈜KB 손해보험 단체보험으로, 보장금액은 최대 2억원 및 30만원 등으로 구성되어 있습니다."]}, "b": {"summary": "대중교통상해 및 자전거상해 관련 ㈜KB손해보험 단체보험 가입 서비스 제공, 보장기간: 보험 개시일로부터 1년 (1년 단위 갱신), 보험가입 서비스 제공 조건: 신규 시 보험가입 및 개인(신용)정보의 제3자 제공에 동의한 고객, 보험서비스 변경·종료 시 사전통지"}, "verified": null}, {"key": "payment_limit", "name": "회차·월·연·총 납입한도", "class": "특약만 채움", "a": {"summary": "매월 1만원 이상 100만원 이하 원 단위 금액을 만기 전일까지 자유롭게 저축할 수 있습니다."}, "b": null, "verified": null}, {"key": "early_maturity_payment", "name": "만기앞당김 지급", "class": "특약만 채움", "a": {"summary": "만기앞당김 지급이 불가합니다."}, "b": null, "verified": null}, {"key": "partial_withdrawal", "name": "일부인출·분할인출·일부해지", "class": "특약만 채움", "a": {"summary": "만기 전 일부 금액만 해지 불가합니다."}, "b": null, "verified": null}]}];
+const GROUP = c => c==="설명서만 채움" ? "man" : c==="특약만 채움" ? "tos" : c==="둘 다 비움" ? "none" : "both";
+const FILTERS = [
+  ["all","전체"],["diff","차이 있는 것"],["man","설명서만"],["tos","특약만"],["both","둘 다 채움"],["checked","원문 대조함"]
+];
+const isDiff = k => GROUP(k.class)!=="both" ? GROUP(k.class)!=="none" : k.class!=="둘 다 · 숫자 · 예외 수 같음";
+let state = {p:0, f:"all"};
+try{ const s=JSON.parse(localStorage.getItem("docsab-view")||"{}"); if(Number.isInteger(s.p)&&DATA[s.p]) state.p=s.p; if(s.f) state.f=s.f; }catch(e){}
+const h = location.hash.match(/^#p(\d+)$/); if(h && DATA[+h[1]-1]) state.p=+h[1]-1;
+
+function el(tag, attrs={}, ...kids){ const e=document.createElement(tag);
+  for(const [k,v] of Object.entries(attrs)){ if(k==="class") e.className=v; else if(k==="text") e.textContent=v; else e.setAttribute(k,v); }
+  for(const c of kids) if(c!=null) e.append(c); return e; }
+
+function stats(){
+  const all = DATA.flatMap(p=>p.keys); const n=all.length; const cnt={man:0,tos:0,both:0,none:0};
+  all.forEach(k=>cnt[GROUP(k.class)]++);
+  const pct=x=>Math.round(100*x/n);
+  const box=document.getElementById("stats");
+  [[`${DATA.length}상품 · ${n} key`,"비교한 범위"],[`${pct(cnt.man)}%`,`상품설명서만 채움 (${cnt.man})`],
+   [`${pct(cnt.both)}%`,`둘 다 채움 (${cnt.both})`],[`${pct(cnt.tos)}%`,`특약만 채움 (${cnt.tos})`]]
+   .forEach(([b,s])=>box.append(el("div",{class:"stat"},el("b",{text:b}),el("span",{text:s}))));
+  const bar=el("div",{class:"bar","aria-hidden":"true"});
+  [["man","var(--man)"],["both","var(--fg)"],["tos","var(--tos)"],["none","var(--line)"]].forEach(([g,c])=>
+    bar.append(el("i",{style:`width:${100*cnt[g]/n}%;background:${c}`})));
+  box.append(el("div",{class:"stat",style:"grid-column:1/-1"},bar));
+}
+
+function controls(){
+  const pr=document.getElementById("prods"); pr.replaceChildren(el("span",{class:"lab",text:"상품"}));
+  DATA.forEach((p,i)=>{ const b=el("button",{class:"chip",type:"button","aria-pressed":String(i===state.p),text:p.name});
+    b.onclick=()=>{state.p=i; save(); render();}; pr.append(b); });
+  const fr=document.getElementById("filters"); fr.replaceChildren(el("span",{class:"lab",text:"보기"}));
+  FILTERS.forEach(([id,lab])=>{ const b=el("button",{class:"chip",type:"button","aria-pressed":String(id===state.f),text:lab});
+    b.onclick=()=>{state.f=id; save(); render();}; fr.append(b); });
+}
+function save(){ try{localStorage.setItem("docsab-view",JSON.stringify(state));}catch(e){} try{history.replaceState(null,"",`#p${state.p+1}`);}catch(e){} }
+
+function col(side, item){
+  const who = side==="a" ? "특약" : "상품설명서";
+  const c = el("div",{class:`col ${side}${item&&item.summary?"":" empty"}`}, el("div",{class:"who",text:who}));
+  if(!item || !item.summary){ c.append(el("p",{text:"근거 없음"})); if(item&&item.note) c.append(el("div",{class:"note",text:item.note})); return c; }
+  c.append(el("p",{text:item.summary}));
+  for(const [f,lab] of [["conditions","조건"],["exceptions","예외"]]){
+    if(item[f]&&item[f].length){ c.append(el("div",{class:"lbl",text:`${lab} ${item[f].length}`}));
+      const ul=el("ul"); item[f].forEach(x=>ul.append(el("li",{text:String(x)}))); c.append(ul); } }
+  if(item.note) c.append(el("div",{class:"note",text:`note: ${item.note}`}));
+  return c;
+}
+function pill(k){
+  const g=GROUP(k.class);
+  if(g==="man") return el("span",{class:"pill man",text:"설명서만"});
+  if(g==="tos") return el("span",{class:"pill tos",text:"특약만"});
+  if(g==="none") return el("span",{class:"pill",text:"둘 다 비움"});
+  const t=k.class.replace("둘 다 · ","");
+  return el("span",{class:"pill"+(t==="숫자 · 예외 수 같음"?"":" diff"),text:t});
+}
+
+function render(){
+  controls();
+  const p=DATA[state.p]; const out=document.getElementById("product");
+  const keys=p.keys.filter(k=> state.f==="all" ? true : state.f==="diff" ? isDiff(k) : state.f==="checked" ? !!k.verified : GROUP(k.class)===state.f);
+  const head=el("div",{class:"phead"}, el("h2",{text:p.name}),
+    el("span",{class:"sub",text:`특약 조항 ${p.na} · 상품설명서 조항 ${p.nb} · key ${p.keys.length}개 중 ${keys.length}개 표시`}));
+  const list=el("div",{class:"keys"});
+  if(!keys.length) list.append(el("p",{class:"note",text:"이 보기에 해당하는 key가 없습니다. 다른 보기를 고르세요."}));
+  keys.forEach(k=>{
+    const card=el("article",{class:"key"},
+      el("div",{class:"khead"}, el("h3",{text:k.name}), el("code",{text:k.key}), pill(k)));
+    if(k.verified) card.append(el("div",{class:`verified ${k.verified[0]}`,text:k.verified[1]}));
+    card.append(el("div",{class:"cols"}, col("a",k.a), col("b",k.b)));
+    list.append(card);
+  });
+  out.replaceChildren(el("div",{style:"display:grid;gap:14px"},head,list));
+}
+const TARGET = {
+ "product_id": 9,
+ "product_name": "KB스타통장",
+ "basis": "특약 + 상품설명서를 합쳐 작성. 두 문서가 다르면 doc_diff 에 적고 덮지 않는다",
+ "items": [
+  {"key": "product_name", "name": "상품명·식별자", "summary": "KB스타통장", "source_section_ids": [3151]},
+  {"key": "product_type", "name": "상품유형·예금과목", "summary": "입출금이 자유로운 예금이며, 예금과목은 보통예금과 저축예금이다.", "source_section_ids": [1151, 3156]},
+  {"key": "product_feature", "name": "상품특징·성격", "summary": "'소득이 있는 누구나' 혜택을 받을 수 있는 통장", "source_section_ids": [3152]},
+  {"key": "eligibility_target", "name": "가입대상·자격조건", "summary": "실명이 확인된 개인이 가입할 수 있고, 1인 1계좌만 개설할 수 있다.",
+   "exceptions": [{"text": "공동명의 가입 불가", "src": [3154, 3174]}],
+   "doc_diff": "상품설명서의 '※ 개인사업자 및 관련서류 미제출 임의단체 포함'은 특약에 없다. 특약은 '실명이 확인된 개인'이라고만 쓴다",
+   "source_section_ids": [1150, 3154]},
+  {"key": "eligibility_restriction", "name": "가입제한·제외조건", "summary": "공동명의로는 가입할 수 없다.",
+   "note": "주 근거 조항이 없어 참고 조항(가입대상 · 이용제한)에서 옮김", "source_section_ids": [3154, 3174]},
+  {"key": "account_limit", "name": "계좌수·중복가입 제한", "summary": "1인 1계좌만 가입할 수 있다.", "source_section_ids": [1150, 3154, 3174]},
+  {"key": "deposit_amount", "name": "신규·가입·예치금액 조건", "summary": "신규금액 제한 없음", "source_section_ids": [3155]},
+  {"key": "base_rate", "name": "기본금리·기본이율·적용이율", "summary": "기본이율 연 0.10% (세금공제 전). 결산일 현재 영업점에 고시한 예금과목별 기본이율을 적용한다.",
+   "as_of": "2025.12.05", "note": "고시 이율이라 바뀔 수 있다 — 기준일과 함께 보여 준다", "source_section_ids": [3157]},
+  {"key": "interest_payment", "name": "이자지급 시기·방법", "summary": "보통예금은 매년 6·12월, 저축예금은 매년 2·5·8·11월의 둘째 금요일에 결산해 다음날 원금에 더한다.",
+   "exceptions": [{"text": "최종거래일로부터 5년이 지난 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산해 지급할 수 있다", "src": [3158]}],
+   "source_section_ids": [3158]},
+  {"key": "termination_method", "name": "계약해지 방법·채널", "summary": "영업점, 개인인터넷뱅킹, KB스타뱅킹에서 해지할 수 있다.",
+   "conditions": [{"text": "개인인터넷뱅킹 · KB스타뱅킹으로 해지할 때는 해지잔액을 받을 본인명의 입출금이자유로운예금 계좌가 필요", "src": [3166]}],
+   "source_section_ids": [3166]},
+  {"key": "tax", "name": "세제·과세·비과세", "summary": "비과세종합저축으로 가입할 수 있다.",
+   "exceptions": [{"text": "관련세법이 개정되면 세율이 변경되거나 세금이 부과될 수 있다", "src": [3164]}],
+   "source_section_ids": [3164]},
+  {"key": "transaction_restriction", "name": "거래·이용·입출금 제한", "summary": "잔액과 무거래 기간에 따라 거래중지 계좌로 편입되어 입출금 · 잔액조회 · 이관 등이 제한된다. 사기이용 의심 계좌도 거래가 제한될 수 있다.",
+   "conditions": [
+     {"text": "잔액 10,000원 미만 + 1년 이상 입출금거래 없음", "user_input": "잔액 · 최종 거래일", "src": [3170]},
+     {"text": "잔액 10,000원 이상 50,000원 미만 + 2년 이상 입출금거래 없음", "user_input": "잔액 · 최종 거래일", "src": [3170]},
+     {"text": "잔액 50,000원 이상 100,000원 미만 + 3년 이상 입출금거래 없음", "user_input": "잔액 · 최종 거래일", "src": [3170]},
+     {"text": "전기통신금융사기 피해방지법상 피해의심 거래계좌 · 사기이용계좌로 이용된 경우 이체 · 송금지연 · 지급정지 등 제한", "src": [3174]}
+   ],
+   "condition_logic": "거래중지 세 구간 중 하나에 해당하면 편입",
+   "special": {"text": "무거래기간은 입출금 또는 명의변경 거래 최종 발생일부터 센다. 편입은 연 2회(매년 6월 · 12월 셋째 금요일 기준, 다음날 토요일). 다시 거래하려면 본인 확인과 금융거래 목적 확인을 거친다", "src": [3170]},
+   "source_section_ids": [3170, 3174]},
+  {"key": "fee", "name": "수수료·수수료면제", "summary": "전월(1일~말일)에 아래 실적 중 하나가 있으면 이번달 11일~다음달 10일 동안 아래 수수료를 횟수 제한 없이 면제한다.",
+   "benefit": "인터넷·폰·모바일뱅킹 다른은행 이체수수료 · 납부자 자동이체(타행 포함) 수수료 · KB ATM 다른은행 이체수수료 · KB ATM 시간외 출금수수료 · 다른은행 ATM 출금수수료",
+   "conditions": [
+     {"text": "전월 합산 50만원 이상 입금 이력", "user_input": "전월 입금 합계", "src": [1153, 3160]},
+     {"text": "전월 KB 리브 모바일(KB Liiv M) 자동이체 출금 이력", "user_input": "있음 / 없음 질문", "src": [1153, 3160]}
+   ],
+   "condition_logic": "둘 중 하나 이상",
+   "exceptions": [
+     {"text": "당행 본인 명의 계좌에서 이체된 건 · 본인 주민등록번호로 입금된 건은 입금 실적에서 제외", "src": [1153, 3160]},
+     {"text": "당행 오픈뱅킹으로 타금융기관에서 이체된 건은 입금 실적에서 제외", "src": [3160], "only_in": "상품설명서"},
+     {"text": "결산이자 입금 건은 입금 실적에서 제외", "src": [3160], "only_in": "상품설명서"},
+     {"text": "체크카드 · 신용카드로 출금된 건은 자동이체 실적에서 제외", "src": [1153, 3160]},
+     {"text": "다른은행 ATM 중 제휴 ATM · VAN사(효성·나이스·한네트 등) ATM은 면제 대상 아님", "src": [1156, 3160]}
+   ],
+   "special": {"text": "신규(또는 전환)일부터 다음 다음 달 10일까지는 거래실적과 관계없이 면제", "src": [1154, 3160]},
+   "doc_diff": "오픈뱅킹 이체 · 결산이자 입금 제외는 상품설명서에만 있다. 특약만 따르면 면제를 실제보다 넓게 보여 준다. 기준 문서는 팀 결정 대기",
+   "source_section_ids": [1153, 1154, 1155, 1156, 3160]},
+  {"key": "assignment_collateral", "name": "양도·질권·담보제공", "summary": "양도는 가능하고, 담보제공과 질권설정은 불가하다.", "source_section_ids": [3167, 3168]},
+  {"key": "partner_benefit", "name": "부가·제휴·연계 혜택", "summary": "인컴박스 서비스 — 여러 출처의 불규칙한 입금을 보낸 사람 키워드별로 모아 카드형 · 달력형으로 보여 주는 입금관리 서비스.",
+   "conditions": [{"text": "박스마다 입금 적요(보낸 사람) 키워드 3개까지, 계좌마다 인컴박스 3개까지 설정", "src": [3161]}],
+   "special": {"text": "이용 경로: KB스타뱅킹 앱 > 전체계좌조회 > KB스타통장 계좌 하단 [인컴박스]", "src": [3161]},
+   "source_section_ids": [3161]},
+  {"key": "product_conversion", "name": "상품·계좌 전환", "summary": "같은 예금과목의 상품으로 전환할 수 있다.",
+   "exceptions": [{"text": "개별상품에서 정한 기준에 따라 전환신규가 불가한 상품은 제외", "src": [3156]}],
+   "note": "주 근거 조항이 없어 참고 조항(상품유형)에서 옮김", "source_section_ids": [3156]}
+ ]
+}
+;
+function srcTag(a){ return el("span",{class:"src",text:" §"+a.join(" · §")}); }
+function renderFinal(){
+  if(!TARGET) return;
+  const box=document.getElementById("fitems");
+  TARGET.items.forEach(it=>{
+    const c=el("article",{class:"fitem"}, el("div",{class:"khead"}, el("h3",{text:it.name}), el("code",{text:it.key}),
+      it.as_of? el("span",{class:"pill",text:"기준일 "+it.as_of}):null, srcTag(it.source_section_ids)));
+    c.append(el("p",{text:it.summary}));
+    if(it.benefit) c.append(el("div",{class:"lbl note",text:"혜택: "+it.benefit}));
+    if(it.conditions&&it.conditions.length){
+      c.append(el("div",{class:"note",text:"조건"+(it.condition_logic?" — "+it.condition_logic:"")}));
+      const ul=el("ul"); it.conditions.forEach(x=>{ const li=el("li",{text:x.text});
+        if(x.user_input) li.append(el("span",{class:"ui",text:"입력: "+x.user_input})); li.append(srcTag(x.src)); ul.append(li); });
+      c.append(ul); }
+    if(it.exceptions&&it.exceptions.length){
+      c.append(el("div",{class:"note",text:"예외 "+it.exceptions.length}));
+      const ul=el("ul"); it.exceptions.forEach(x=>{ const li=el("li",{text:x.text});
+        if(x.only_in) li.append(el("span",{class:"only",text:x.only_in+"에만"})); li.append(srcTag(x.src)); ul.append(li); });
+      c.append(ul); }
+    if(it.special){ const d=el("div",{class:"note",text:"특례 · 참고: "+it.special.text}); d.append(srcTag(it.special.src)); c.append(d); }
+    if(it.doc_diff) c.append(el("div",{class:"diffbox",text:"문서 차이 — "+it.doc_diff}));
+    if(it.note) c.append(el("div",{class:"note",text:"note: "+it.note}));
+    box.append(c);
+  });
+  const raw=JSON.stringify(TARGET,null,1); document.getElementById("rawjson").textContent=raw;
+  document.getElementById("copyjson").onclick=()=>{ const m=document.getElementById("copymsg");
+    Promise.resolve().then(()=>navigator.clipboard.writeText(raw)).then(()=>{m.textContent="복사했습니다";},()=>{
+      const r=document.createRange(); r.selectNodeContents(document.getElementById("rawjson"));
+      const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); m.textContent="복사가 막혀 있어 JSON을 선택해 두었습니다. Ctrl+C로 복사하세요"; }); };
+}
+const QWEN = {"items": [{"key": "product_name", "summary": "상품명은 KB스타통장입니다.", "source_section_ids": [3151]}, {"key": "product_type", "summary": "이 상품은 보통예금, 저축예금으로 분류됩니다.", "benefit": "동일 예금과목 상품 전환 가능", "conditions": [{"text": "이 통장의 예금과목은 보통예금, 저축예금으로 합니다.", "src": [1151, 3156]}], "condition_logic": "모두 충족", "source_section_ids": [1151, 3156]}, {"key": "product_feature", "summary": "소득이 있는 누구나 혜택을 받을 수 있는 통장입니다.", "source_section_ids": [3152]}, {"key": "eligibility_target", "summary": "실명의 개인(1인 1계좌)이 가입대상입니다.", "conditions": [{"text": "이 통장의 가입대상은 금융실명거래 및 비밀보장에 관한 법률에 따라 실명이 확인된 개인이며, 1인 당 1개의 통장만 개설할 수 있습니다.", "src": [1150]}, {"text": "실명의 개인(1 인 1 계좌) ※ 개인사업자 및 관련서류 미제출 임의단체 포함 ※ 공동명의 가입 불가", "src": [3154], "only_in": "상품설명서"}], "condition_logic": "모두 충족", "source_section_ids": [1150, 3154]}, {"key": "eligibility_restriction", "summary": "1인 1계좌만 가입 가능하며, 공동명의 가입 불가", "exceptions": [{"text": "통장이 ‘전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법’ 에서 정의한 피해의심 거래계좌 및 사기이용 계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치 를 할 수 있습니다.", "src": [3174], "only_in": "상품설명서"}], "source_section_ids": [3174]}, {"key": "account_limit", "summary": "1인 1계좌만 가입 가능", "exceptions": [{"text": "통장이 ‘전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법’ 에서 정의한 피해의심 거래계좌 및 사기이용 계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치 를 할 수 있습니다.", "src": [3174], "only_in": "상품설명서"}], "source_section_ids": [3174]}, {"key": "deposit_amount", "summary": "신규금액은 제한이 없습니다.", "conditions": [{"text": "신규금액은 제한없음", "src": [3155]}], "condition_logic": "모두 충족", "source_section_ids": [3155]}, {"key": "base_rate", "summary": "기본이율은 연 0.10%입니다.", "benefit": "결산일 현재 영업점에 고시한 예금과목별 기본이율 적용", "as_of": "2025.12.05", "conditions": [{"text": "기본이율 (2025.12.05. 기준, 세금공제 전) ▪ 연 0.10% ※ 결산일 현재 영업점에 고시한 예금과목별 기본이율 적용", "src": [3157]}], "condition_logic": "모두 충족", "source_section_ids": [3157]}, {"key": "interest_payment", "summary": "보통예금은 매년 6월, 12월, 저축예금은 2월, 5월, 8월, 11월에 이자가 결산됩니다.", "benefit": "최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다.", "conditions": [{"text": "보통예금 : 이자는 매년 6, 12월의 둘째 금요일에 결산하여 다음날 원금에 더함 ▪ 저축예금 : 이자는 매년 2, 5, 8, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함", "src": [3158]}], "condition_logic": "모두 충족", "source_section_ids": [3158]}, {"key": "termination_method", "summary": "영업점, 개인인터넷뱅킹, KB 스타뱅킹을 통해 계약해지가 가능합니다.", "conditions": [{"text": "영업점, 개인인터넷뱅킹, KB 스타뱅킹을 통해 해지 가능 ※ 개인인터넷뱅킹, KB 스타뱅킹을 통한 해지 시 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다.", "src": [3166]}], "condition_logic": "모두 충족", "source_section_ids": [3166]}, {"key": "tax", "summary": "비과세종합저축으로 가입이 가능합니다.", "exceptions": [{"text": "관련세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있음", "src": [3164]}], "source_section_ids": [3164]}, {"key": "transaction_restriction", "summary": "예금잔액이 일정 금액 미만이고 무거래 기간이 경과한 경우 거래 제한이 적용됩니다.", "conditions": [{"text": "다음의 경우에 해당하는 경우 입출금, 잔액조회, 이관 등의 거래 제한 (가) 예금잔액이 10,000원 미만이며, 1년이상 입출금거래가 없는 계좌 (나) 예금잔액이 10,000원 이상 50,000원 미만이며, 2년이상 입출금거래가 없는 계좌 (다) 예금잔액이 50,000원 이상 100,000원 미만이며, 3년이상 입출금거래가 없는 계좌", "src": [3170]}], "condition_logic": "모두 충족", "source_section_ids": [3170]}, {"key": "fee", "summary": "수수료 면제 혜택이 제공됩니다.", "benefit": "수수료 면제 조건 충족 시 해당 수수료가 면제됩니다.", "conditions": [{"text": "면제 조건 : 전월(1일~말일) 중 이 통장에서 아래 실적 중 하나 이상 발생된 경우 - 합산 50만원 이상 입금 이력이 있는 경우 ※ 당행 본인 명의 계좌에서 이체된 건 및 본인의 주민등록번호로 입금된 건 제외 - KB 리브 모바일(KB Liiv M) 자동이체 출금 이력이 있는 경우 ※ 체크카드 및 신용카드를 통해 출금된 건 제외", "src": [1153], "only_in": "특약"}, {"text": "면제 기간 : 이번달 11일 ~ 다음달 10일 ※ 이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제", "src": [1154], "only_in": "특약"}, {"text": "면제 횟수 : 제한없음", "src": [1155], "only_in": "특약"}, {"text": "면제 대상 수수료 - 전자금융(인터넷∙폰∙모바일뱅킹)을 통한 다른은행 이체수수료 - 납부자 자동이체 (타행 자동이체 포함)수수료 - KB국민은행 자동화기기 다른은행 이체수수료 - KB국민은행 자동화기기 시간외 출금수수료 - 다른은행 자동화기기 출금수수료 ※ 다른은행 자동화기기의 경우 제휴 ATM 및 VAN사(효성·나이스·한네트 등) 자동화기기 제외", "src": [1156], "only_in": "특약"}, {"text": "면제조건 : 이 통장으로 전월(1일~말일) 중 아래 실적 중 1가지 이상 충족한 경우 ① 합산 50만원 이상 입금 이력이 있는 경우 ※ 당행 본인 명의 계좌에서 이체된 건 및 본인의 주민등록번호로 입금된 건 제외 ※ 당행 오픈뱅킹을 통해 타금융기관에서 이체된 건 제외 ※ 결산이자 입금 건 제외 ② KB 리브 모바일(KB Liiv M) 자동이체 출금 이력이 있는 경우 ※ 체크카드 및 신용카드를 통해 출금된 건 제외", "src": [3160], "only_in": "상품설명서"}, {"text": "수수료 면제 기간 : 이번달 11일 ~ 다음달 10일 ※ 이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제", "src": [3160], "only_in": "상품설명서"}, {"text": "수수료 면제 횟수 : 제한없음", "src": [3160], "only_in": "상품설명서"}], "condition_logic": "모두 충족", "exceptions": [{"text": "다른은행 자동화기기의 경우 제휴 ATM 및 VAN사(효성·나이스·한네트 등) 자동화기기 제외", "src": [1156], "only_in": "특약"}, {"text": "다른은행 ATM의 경우 제휴 ATM 및 VAN사(효성·나이스·한네트 등) ATM 제외", "src": [3160], "only_in": "상품설명서"}], "special": {"text": "이 통장으로 전월(1일~말일) 중 아래 실적 중 1가지 이상 충족한 경우 ① 합산 50만원 이상 입금 이력이 있는 경우 ※ 당행 본인 명의 계좌에서 이체된 건 및 본인의 주민등록번호로 입금된 건 제외 ※ 당행 오픈뱅킹을 통해 타금융기관에서 이체된 건 제외 ※ 결산이자 입금 건 제외 ② KB 리브 모바일(KB Liiv M) 자동이체 출금 이력이 있는 경우 ※ 체크카드 및 신용카드를 통해 출금된 건 제외", "src": [3160]}, "source_section_ids": [1153, 1154, 1155, 1156, 3160]}, {"key": "assignment_collateral", "summary": "질권설정은 불가능하며, 양도는 가능합니다.", "conditions": [{"text": "질권설정 불가", "src": [3167]}, {"text": "양도 가능", "src": [3168]}], "condition_logic": "모두 충족", "source_section_ids": [3167, 3168]}, {"key": "partner_benefit", "summary": "인컴박스 서비스를 통해 다양한 출처의 불규칙한 입금 거래를 한 눈에 확인할 수 있습니다.", "benefit": "인컴박스별로 입금 적요(보낸 사람)를 키워드로 설정 가능", "conditions": [{"text": "인컴박스 서비스 ▪ 다양한 출처의 불규칙한 입금 거래를 한 눈에 확인할 수 있는 입금관리 서비스 ※ 인컴박스별로 입금 적요(보낸 사람)를 키워드로 설정 (박스 별 키워드는 3개까지 설정 가능) ☞ 해당 적요 입금건에 대해 카드형/달력형 입금 정보 제공 ※ 계좌별 인컴박스는 3개까지 설정 가능. ▪ 이용 경로 : KB스타뱅킹 앱 > 전체계좌조회 > KB스타통장 계좌 하단 [인컴박스]", "src": [3161]}], "condition_logic": "모두 충족", "source_section_ids": [3161]}, {"key": "product_conversion", "summary": "동일 예금과목 상품 전환 가능", "conditions": [{"text": "상품유형 ▪ 입출금이 자유로운 예금(보통예금, 저축예금) ※ 동일 예금과목 상품 전환가능 ※ 개별상품에서 정한 기준에 의해 전환신규가 불가한 상품은 제외", "src": [3156]}], "condition_logic": "모두 충족", "source_section_ids": [3156]}], "score": {"filled": 16, "keys": 16, "lines": 20, "lines_hit": 17, "src_ok": 17, "ui_need": 5, "ui_hit": 0, "only_need": 2, "only_hit": 2, "only_false": 11, "diff_need": 2, "diff_hit": 0, "diff_false": 0, "asof_need": 1, "asof_hit": 1}, "nlines": 24, "blob": 8, "review": {"good": ["JSON 한 번에 읽힘 · 잘림 없음 (입력 4,020토큰 · 생성 3,534토큰 · 286초)", "16개 key 모두 채움 · 목표에 없는 key 없음", "숫자를 지어내거나 바꾼 곳 없음 · 기본이율 기준일 2025.12.05 잡음", "줄마다 단 근거 조항 번호(src)가 원문과 맞음"], "bad": [{"sev": "뜻 오류", "key": "fee", "text": "수수료 면제 조건을 «모두 충족»으로 적음. 원문은 «아래 실적 중 하나 이상». 11개 key 전부에 조건 수와 상관없이 «모두 충족»을 붙였다"}, {"sev": "뜻 오류", "key": "assignment_collateral", "text": "«담보제공 불가»가 빠짐 (§3168). 질권설정 불가 · 양도 가능만 남았다"}, {"sev": "못 함", "key": "fee", "text": "문서 차이(doc_diff) 0/2. 오픈뱅킹 이체 · 결산이자 제외가 상품설명서에만 있다는 것을 짚지 못함. only_in 은 «이 줄이 어느 문서 조항인가» 표시로 써서 fee 9줄 전부에 붙였다"}, {"sev": "못 함", "key": "fee", "text": "물을 입력(user_input) 0/5. 전월 입금 합계 · 자동이체 여부 · 잔액 · 최종 거래일 어느 것도 표시하지 않음"}, {"sev": "덜 나눔", "key": "fee", "text": "조건 · 예외 24줄 중 8줄이 원문 조항 통째 복사. fee 요약은 «수수료 면제 혜택이 제공됩니다»뿐이고 제외 조건이 덩어리 안에 묻힘"}, {"sev": "자리 틀림", "key": "transaction_restriction", "text": "사기이용계좌 거래 제한을 가입제한 · 계좌수 key 의 예외로 넣음. 편입 시기 · 거래 재개 절차가 빠짐"}, {"sev": "자리 틀림", "key": "interest_payment", "text": "«5년 지나면 원금에 더하지 않음» 규칙을 혜택(benefit) 칸에 넣음"}], "verdict": "Qwen3-8B 혼자서는 «원문을 key별로 나눠 담기»까지 됩니다. 목표 형식의 핵심인 조건 논리 · 문서 차이 · 물을 입력은 못 하고, 뜻이 틀린 곳이 두 군데 나왔습니다. 문서 차이 찾기 · 예외 개수 검사 · 출처 달기는 코드가, 물을 입력은 사람이 정한 표가 맡고, 모델은 요약 문장과 조건 나누기만 맡기는 쪽이 맞습니다."}};
+function renderQwen(){
+  if(!QWEN||!TARGET) return;
+  const T=QWEN.score;
+  document.getElementById("qverdict").textContent=QWEN.review.verdict;
+  const st=document.getElementById("qstats");
+  [[`${T.filled}/${T.keys}`,"key 채움"],[`${T.lines_hit}/${T.lines}`,"조건·예외 줄 (기계 · 후함)"],[`${QWEN.blob}/${QWEN.nlines}`,"원문 통째 복사한 줄"],
+   [`${T.diff_hit}/${T.diff_need}`,"문서 차이 짚음"],[`${T.ui_hit}/${T.ui_need}`,"물을 입력 표시"],[`${T.asof_hit}/${T.asof_need}`,"기준일"]]
+   .forEach(([b,t])=>st.append(el("div",{class:"stat"},el("b",{text:b}),el("span",{text:t}))));
+  const g=document.getElementById("qgood"); QWEN.review.good.forEach(x=>g.append(el("li",{text:x})));
+  const b=document.getElementById("qbad"); QWEN.review.bad.forEach(x=>{
+    const li=el("li"); li.append(el("span",{class:"sev "+(x.sev==="뜻 오류"?"s1":x.sev==="못 함"?"s2":""),text:x.sev}));
+    li.append(el("code",{class:"src",text:x.key+" "})); li.append(document.createTextNode(x.text)); b.append(li); });
+  const vs=document.getElementById("qvs");
+  ["key","목표","Qwen3-8B"].forEach(h=>vs.append(el("div",{class:"h",text:h})));
+  const M={}; (QWEN.items||[]).forEach(i=>M[i.key]=i);
+  const flags={}; QWEN.review.bad.forEach(x=>(flags[x.key]=flags[x.key]||[]).push(x.sev));
+  TARGET.items.forEach(t=>{ const m=M[t.key]||{};
+    vs.append(el("div",{},el("span",{text:t.name}),el("br"),el("code",{text:t.key})));
+    vs.append(el("div",{text:t.summary}));
+    const c=el("div",{text:m.summary||"(없음)"}); if(flags[t.key]) c.append(el("span",{class:"flag",text:"⚑ "+[...new Set(flags[t.key])].join(" · ")})); vs.append(c); });
+  document.getElementById("qraw").textContent=JSON.stringify({items:QWEN.items},null,1);
+}
+const MODELS = {
+ "runs": [
+  {
+   "nlines": 24,
+   "blob": 8,
+   "score": {
+    "filled": 16,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 17,
+    "src_ok": 17,
+    "ui_need": 5,
+    "ui_hit": 0,
+    "only_need": 2,
+    "only_hit": 2,
+    "only_false": 11,
+    "diff_need": 2,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 1,
+    "asof_hit": 1
+   },
+   "gen_tokens": 3534,
+   "sec": 286.0,
+   "items": [
+    {
+     "key": "product_name",
+     "summary": "상품명은 KB스타통장입니다.",
+     "source_section_ids": [
+      3151
+     ]
+    },
+    {
+     "key": "product_type",
+     "summary": "이 상품은 보통예금, 저축예금으로 분류됩니다.",
+     "benefit": "동일 예금과목 상품 전환 가능",
+     "conditions": [
+      {
+       "text": "이 통장의 예금과목은 보통예금, 저축예금으로 합니다.",
+       "src": [
+        1151,
+        3156
+       ]
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "source_section_ids": [
+      1151,
+      3156
+     ]
+    },
+    {
+     "key": "product_feature",
+     "summary": "소득이 있는 누구나 혜택을 받을 수 있는 통장입니다.",
+     "source_section_ids": [
+      3152
+     ]
+    },
+    {
+     "key": "eligibility_target",
+     "summary": "실명의 개인(1인 1계좌)이 가입대상입니다.",
+     "conditions": [
+      {
+       "text": "이 통장의 가입대상은 금융실명거래 및 비밀보장에 관한 법률에 따라 실명이 확인된 개인이며, 1인 당 1개의 통장만 개설할 수 있습니다.",
+       "src": [
+        1150
+       ]
+      },
+      {
+       "text": "실명의 개인(1 인 1 계좌) ※ 개인사업자 및 관련서류 미제출 임의단체 포함 ※ 공동명의 가입 불가",
+       "src": [
+        3154
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "source_section_ids": [
+      1150,
+      3154
+     ]
+    },
+    {
+     "key": "eligibility_restriction",
+     "summary": "1인 1계좌만 가입 가능하며, 공동명의 가입 불가",
+     "exceptions": [
+      {
+       "text": "통장이 ‘전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법’ 에서 정의한 피해의심 거래계좌 및 사기이용 계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치 를 할 수 있습니다.",
+       "src": [
+        3174
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "source_section_ids": [
+      3174
+     ]
+    },
+    {
+     "key": "account_limit",
+     "summary": "1인 1계좌만 가입 가능",
+     "exceptions": [
+      {
+       "text": "통장이 ‘전기통신금융사기 피해 방지 및 피해금 환급에 관한 특별법’ 에서 정의한 피해의심 거래계좌 및 사기이용 계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치 를 할 수 있습니다.",
+       "src": [
+        3174
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "source_section_ids": [
+      3174
+     ]
+    },
+    {
+     "key": "deposit_amount",
+     "summary": "신규금액은 제한이 없습니다.",
+     "conditions": [
+      {
+       "text": "신규금액은 제한없음",
+       "src": [
+        3155
+       ]
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "source_section_ids": [
+      3155
+     ]
+    },
+    {
+     "key": "base_rate",
+     "summary": "기본이율은 연 0.10%입니다.",
+     "benefit": "결산일 현재 영업점에 고시한 예금과목별 기본이율 적용",
+     "as_of": "2025.12.05",
+     "conditions": [
+      {
+       "text": "기본이율 (2025.12.05. 기준, 세금공제 전) ▪ 연 0.10% ※ 결산일 현재 영업점에 고시한 예금과목별 기본이율 적용",
+       "src": [
+        3157
+       ]
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "source_section_ids": [
+      3157
+     ]
+    },
+    {
+     "key": "interest_payment",
+     "summary": "보통예금은 매년 6월, 12월, 저축예금은 2월, 5월, 8월, 11월에 이자가 결산됩니다.",
+     "benefit": "최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다.",
+     "conditions": [
+      {
+       "text": "보통예금 : 이자는 매년 6, 12월의 둘째 금요일에 결산하여 다음날 원금에 더함 ▪ 저축예금 : 이자는 매년 2, 5, 8, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함",
+       "src": [
+        3158
+       ]
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "source_section_ids": [
+      3158
+     ]
+    },
+    {
+     "key": "termination_method",
+     "summary": "영업점, 개인인터넷뱅킹, KB 스타뱅킹을 통해 계약해지가 가능합니다.",
+     "conditions": [
+      {
+       "text": "영업점, 개인인터넷뱅킹, KB 스타뱅킹을 통해 해지 가능 ※ 개인인터넷뱅킹, KB 스타뱅킹을 통한 해지 시 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다.",
+       "src": [
+        3166
+       ]
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "source_section_ids": [
+      3166
+     ]
+    },
+    {
+     "key": "tax",
+     "summary": "비과세종합저축으로 가입이 가능합니다.",
+     "exceptions": [
+      {
+       "text": "관련세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있음",
+       "src": [
+        3164
+       ]
+      }
+     ],
+     "source_section_ids": [
+      3164
+     ]
+    },
+    {
+     "key": "transaction_restriction",
+     "summary": "예금잔액이 일정 금액 미만이고 무거래 기간이 경과한 경우 거래 제한이 적용됩니다.",
+     "conditions": [
+      {
+       "text": "다음의 경우에 해당하는 경우 입출금, 잔액조회, 이관 등의 거래 제한 (가) 예금잔액이 10,000원 미만이며, 1년이상 입출금거래가 없는 계좌 (나) 예금잔액이 10,000원 이상 50,000원 미만이며, 2년이상 입출금거래가 없는 계좌 (다) 예금잔액이 50,000원 이상 100,000원 미만이며, 3년이상 입출금거래가 없는 계좌",
+       "src": [
+        3170
+       ]
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "source_section_ids": [
+      3170
+     ]
+    },
+    {
+     "key": "fee",
+     "summary": "수수료 면제 혜택이 제공됩니다.",
+     "benefit": "수수료 면제 조건 충족 시 해당 수수료가 면제됩니다.",
+     "conditions": [
+      {
+       "text": "면제 조건 : 전월(1일~말일) 중 이 통장에서 아래 실적 중 하나 이상 발생된 경우 - 합산 50만원 이상 입금 이력이 있는 경우 ※ 당행 본인 명의 계좌에서 이체된 건 및 본인의 주민등록번호로 입금된 건 제외 - KB 리브 모바일(KB Liiv M) 자동이체 출금 이력이 있는 경우 ※ 체크카드 및 신용카드를 통해 출금된 건 제외",
+       "src": [
+        1153
+       ],
+       "only_in": "특약"
+      },
+      {
+       "text": "면제 기간 : 이번달 11일 ~ 다음달 10일 ※ 이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제",
+       "src": [
+        1154
+       ],
+       "only_in": "특약"
+      },
+      {
+       "text": "면제 횟수 : 제한없음",
+       "src": [
+        1155
+       ],
+       "only_in": "특약"
+      },
+      {
+       "text": "면제 대상 수수료 - 전자금융(인터넷∙폰∙모바일뱅킹)을 통한 다른은행 이체수수료 - 납부자 자동이체 (타행 자동이체 포함)수수료 - KB국민은행 자동화기기 다른은행 이체수수료 - KB국민은행 자동화기기 시간외 출금수수료 - 다른은행 자동화기기 출금수수료 ※ 다른은행 자동화기기의 경우 제휴 ATM 및 VAN사(효성·나이스·한네트 등) 자동화기기 제외",
+       "src": [
+        1156
+       ],
+       "only_in": "특약"
+      },
+      {
+       "text": "면제조건 : 이 통장으로 전월(1일~말일) 중 아래 실적 중 1가지 이상 충족한 경우 ① 합산 50만원 이상 입금 이력이 있는 경우 ※ 당행 본인 명의 계좌에서 이체된 건 및 본인의 주민등록번호로 입금된 건 제외 ※ 당행 오픈뱅킹을 통해 타금융기관에서 이체된 건 제외 ※ 결산이자 입금 건 제외 ② KB 리브 모바일(KB Liiv M) 자동이체 출금 이력이 있는 경우 ※ 체크카드 및 신용카드를 통해 출금된 건 제외",
+       "src": [
+        3160
+       ],
+       "only_in": "상품설명서"
+      },
+      {
+       "text": "수수료 면제 기간 : 이번달 11일 ~ 다음달 10일 ※ 이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제",
+       "src": [
+        3160
+       ],
+       "only_in": "상품설명서"
+      },
+      {
+       "text": "수수료 면제 횟수 : 제한없음",
+       "src": [
+        3160
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "exceptions": [
+      {
+       "text": "다른은행 자동화기기의 경우 제휴 ATM 및 VAN사(효성·나이스·한네트 등) 자동화기기 제외",
+       "src": [
+        1156
+       ],
+       "only_in": "특약"
+      },
+      {
+       "text": "다른은행 ATM의 경우 제휴 ATM 및 VAN사(효성·나이스·한네트 등) ATM 제외",
+       "src": [
+        3160
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "special": {
+      "text": "이 통장으로 전월(1일~말일) 중 아래 실적 중 1가지 이상 충족한 경우 ① 합산 50만원 이상 입금 이력이 있는 경우 ※ 당행 본인 명의 계좌에서 이체된 건 및 본인의 주민등록번호로 입금된 건 제외 ※ 당행 오픈뱅킹을 통해 타금융기관에서 이체된 건 제외 ※ 결산이자 입금 건 제외 ② KB 리브 모바일(KB Liiv M) 자동이체 출금 이력이 있는 경우 ※ 체크카드 및 신용카드를 통해 출금된 건 제외",
+      "src": [
+       3160
+      ]
+     },
+     "source_section_ids": [
+      1153,
+      1154,
+      1155,
+      1156,
+      3160
+     ]
+    },
+    {
+     "key": "assignment_collateral",
+     "summary": "질권설정은 불가능하며, 양도는 가능합니다.",
+     "conditions": [
+      {
+       "text": "질권설정 불가",
+       "src": [
+        3167
+       ]
+      },
+      {
+       "text": "양도 가능",
+       "src": [
+        3168
+       ]
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "source_section_ids": [
+      3167,
+      3168
+     ]
+    },
+    {
+     "key": "partner_benefit",
+     "summary": "인컴박스 서비스를 통해 다양한 출처의 불규칙한 입금 거래를 한 눈에 확인할 수 있습니다.",
+     "benefit": "인컴박스별로 입금 적요(보낸 사람)를 키워드로 설정 가능",
+     "conditions": [
+      {
+       "text": "인컴박스 서비스 ▪ 다양한 출처의 불규칙한 입금 거래를 한 눈에 확인할 수 있는 입금관리 서비스 ※ 인컴박스별로 입금 적요(보낸 사람)를 키워드로 설정 (박스 별 키워드는 3개까지 설정 가능) ☞ 해당 적요 입금건에 대해 카드형/달력형 입금 정보 제공 ※ 계좌별 인컴박스는 3개까지 설정 가능. ▪ 이용 경로 : KB스타뱅킹 앱 > 전체계좌조회 > KB스타통장 계좌 하단 [인컴박스]",
+       "src": [
+        3161
+       ]
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "source_section_ids": [
+      3161
+     ]
+    },
+    {
+     "key": "product_conversion",
+     "summary": "동일 예금과목 상품 전환 가능",
+     "conditions": [
+      {
+       "text": "상품유형 ▪ 입출금이 자유로운 예금(보통예금, 저축예금) ※ 동일 예금과목 상품 전환가능 ※ 개별상품에서 정한 기준에 의해 전환신규가 불가한 상품은 제외",
+       "src": [
+        3156
+       ]
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "source_section_ids": [
+      3156
+     ]
+    }
+   ],
+   "repaired": null,
+   "name": "Qwen3-8B · fp16 · 요약입력 조항",
+   "model": "Qwen3-8B · fp16",
+   "input": "요약입력 조항",
+   "review": {
+    "good": [
+     "16/16 key · 숫자 지어냄 없음",
+     "only_in 2/2 맞게 표시"
+    ],
+    "bad": [
+     [
+      "뜻 오류",
+      "fee 조건을 «모두 충족»으로 (원문: 하나 이상)"
+     ],
+     [
+      "뜻 오류",
+      "«담보제공 불가» 빠짐"
+     ],
+     [
+      "못 함",
+      "doc_diff 0/2 · user_input 0/5"
+     ],
+     [
+      "덜 나눔",
+      "24줄 중 8줄 원문 통째 복사"
+     ]
+    ]
+   }
+  },
+  {
+   "nlines": 22,
+   "blob": 0,
+   "score": {
+    "filled": 15,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 10,
+    "src_ok": 10,
+    "ui_need": 5,
+    "ui_hit": 3,
+    "only_need": 2,
+    "only_hit": 1,
+    "only_false": 21,
+    "diff_need": 2,
+    "diff_hit": 2,
+    "diff_false": 13,
+    "asof_need": 1,
+    "asof_hit": 1
+   },
+   "gen_tokens": 3782,
+   "sec": 467.9,
+   "items": [
+    {
+     "key": "product_type",
+     "summary": "보통예금, 저축예금으로 가입 가능",
+     "benefit": "입출금 자유로운 예금",
+     "conditions": [
+      {
+       "text": "1인 1계좌로 가입 가능",
+       "user_input": "개인 여부",
+       "src": [
+        1150,
+        3154
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "exceptions": [],
+     "special": {
+      "text": "동일 예금과목 상품 전환 가능",
+      "src": [
+       3156
+      ]
+     },
+     "as_of": "2025.12.05",
+     "doc_diff": "특약과 상품설명서 모두 포함",
+     "note": "상품유형은 보통예금, 저축예금으로 구성됨"
+    },
+    {
+     "key": "product_feature",
+     "summary": "소득이 있는 누구나 혜택을 받을 수 있는 통장",
+     "benefit": "소득이 있는 고객 대상 혜택",
+     "conditions": [],
+     "condition_logic": "모두 충족",
+     "exceptions": [],
+     "special": {
+      "text": "소득이 있는 고객 대상 혜택",
+      "src": [
+       3152
+      ]
+     },
+     "as_of": "",
+     "doc_diff": "상품설명서에만 포함됨",
+     "note": "상품특징은 소득이 있는 고객 대상 혜택"
+    },
+    {
+     "key": "eligibility_target",
+     "summary": "실명의 개인(1인 1계좌)",
+     "benefit": "개인 및 개인사업자 포함",
+     "conditions": [
+      {
+       "text": "실명의 개인(1인 1계좌)",
+       "user_input": "개인 여부",
+       "src": [
+        1150,
+        3154
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "exceptions": [],
+     "special": {
+      "text": "개인사업자 및 관련서류 미제출 임의단체 포함",
+      "src": [
+       3154
+      ]
+     },
+     "as_of": "",
+     "doc_diff": "특약과 상품설명서 모두 포함",
+     "note": "가입대상은 실명의 개인(1인 1계좌)"
+    },
+    {
+     "key": "eligibility_restriction",
+     "summary": "1인 1계좌, 공동명의 불가",
+     "benefit": "공동명의 가입 불가",
+     "conditions": [
+      {
+       "text": "1인 1계좌로 가입 가능",
+       "user_input": "개인 여부",
+       "src": [
+        1150,
+        3154
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "exceptions": [
+      {
+       "text": "피해의심 거래계좌 및 사기이용 계좌로 이용될 경우 거래 제한",
+       "src": [
+        3174
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "special": {
+      "text": "1인 1계좌로 가입 가능",
+      "src": [
+       3154
+      ]
+     },
+     "as_of": "",
+     "doc_diff": "특약과 상품설명서 모두 포함",
+     "note": "가입제한사항은 1인 1계좌, 공동명의 불가"
+    },
+    {
+     "key": "account_limit",
+     "summary": "1인 1계좌로 가입 가능",
+     "benefit": "공동명의 가입 불가",
+     "conditions": [
+      {
+       "text": "1인 1계좌로 가입 가능",
+       "user_input": "개인 여부",
+       "src": [
+        1150,
+        3154
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "exceptions": [],
+     "special": {
+      "text": "1인 1계좌로 가입 가능",
+      "src": [
+       3154
+      ]
+     },
+     "as_of": "",
+     "doc_diff": "특약과 상품설명서 모두 포함",
+     "note": "계좌수 제한은 1인 1계좌로 가입 가능"
+    },
+    {
+     "key": "deposit_amount",
+     "summary": "신규금액 제한 없음",
+     "benefit": "최소 입금금액 없음",
+     "conditions": [],
+     "condition_logic": "모두 충족",
+     "exceptions": [],
+     "special": {
+      "text": "신규금액 제한 없음",
+      "src": [
+       3155
+      ]
+     },
+     "as_of": "",
+     "doc_diff": "상품설명서에만 포함됨",
+     "note": "신규금액은 제한 없음"
+    },
+    {
+     "key": "base_rate",
+     "summary": "기본이율 연 0.10%",
+     "benefit": "연 0.10% 기본이율 적용",
+     "conditions": [],
+     "condition_logic": "모두 충족",
+     "exceptions": [],
+     "special": {
+      "text": "기본이율은 결산일 현재 영업점에 고시한 예금과목별 기본이율 적용",
+      "src": [
+       3157
+      ]
+     },
+     "as_of": "2025.12.05",
+     "doc_diff": "상품설명서에만 포함됨",
+     "note": "기본이율은 연 0.10%로 적용"
+    },
+    {
+     "key": "interest_payment",
+     "summary": "이자지급시기 및 방식",
+     "benefit": "매년 특정 시점에 이자가 결산됨",
+     "conditions": [
+      {
+       "text": "보통예금: 매년 6, 12월 둘째 금요일 결산",
+       "user_input": "",
+       "src": [
+        3158
+       ],
+       "only_in": "상품설명서"
+      },
+      {
+       "text": "저축예금: 매년 2, 5, 8, 11월 둘째 금요일 결산",
+       "user_input": "",
+       "src": [
+        3158
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "exceptions": [
+      {
+       "text": "최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급",
+       "src": [
+        3158
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "special": {
+      "text": "이자지급시기 및 방식",
+      "src": [
+       3158
+      ]
+     },
+     "as_of": "",
+     "doc_diff": "상품설명서에만 포함됨",
+     "note": "이자지급시기는 예금과목에 따라 달라짐"
+    },
+    {
+     "key": "termination_method",
+     "summary": "계약해지 방법",
+     "benefit": "영업점, 개인인터넷뱅킹, KB 스타뱅킹을 통해 해지 가능",
+     "conditions": [
+      {
+       "text": "해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요",
+       "user_input": "계좌 여부",
+       "src": [
+        3166
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "exceptions": [],
+     "special": {
+      "text": "해지 방법은 영업점, 개인인터넷뱅킹, KB 스타뱅킹을 통해 가능",
+      "src": [
+       3166
+      ]
+     },
+     "as_of": "",
+     "doc_diff": "상품설명서에만 포함됨",
+     "note": "계약해지 방법은 영업점, 개인인터넷뱅킹, KB 스타뱅킹을 통해 가능"
+    },
+    {
+     "key": "tax",
+     "summary": "세제관련",
+     "benefit": "비과세종합저축으로 가입 가능",
+     "conditions": [],
+     "condition_logic": "모두 충족",
+     "exceptions": [
+      {
+       "text": "관련세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있음",
+       "src": [
+        3164
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "special": {
+      "text": "비과세종합저축으로 가입 가능",
+      "src": [
+       3164
+      ]
+     },
+     "as_of": "",
+     "doc_diff": "상품설명서에만 포함됨",
+     "note": "세제관련은 비과세종합저축으로 가입 가능"
+    },
+    {
+     "key": "transaction_restriction",
+     "summary": "거래중지 조건",
+     "benefit": "무거래 계좌에 대해 거래 제한",
+     "conditions": [
+      {
+       "text": "예금잔액이 10,000원 미만이며, 1년 이상 입출금거래가 없는 계좌",
+       "user_input": "잔액 및 거래 기록",
+       "src": [
+        3170
+       ],
+       "only_in": "상품설명서"
+      },
+      {
+       "text": "예금잔액이 10,000원 이상 50,000원 미만이며, 2년 이상 입출금거래가 없는 계좌",
+       "user_input": "잔액 및 거래 기록",
+       "src": [
+        3170
+       ],
+       "only_in": "상품설명서"
+      },
+      {
+       "text": "예금잔액이 50,000원 이상 100,000원 미만이며, 3년 이상 입출금거래가 없는 계좌",
+       "user_input": "잔액 및 거래 기록",
+       "src": [
+        3170
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "exceptions": [],
+     "special": {
+      "text": "무거래기간 산정기준: 입출금 거래 또는 명의변경 거래 최종 발생일로 부터 산정",
+      "src": [
+       3170
+      ]
+     },
+     "as_of": "",
+     "doc_diff": "상품설명서에만 포함됨",
+     "note": "거래중지 조건은 잔액 및 거래 기록에 따라 달라짐"
+    },
+    {
+     "key": "fee",
+     "summary": "수수료면제 혜택",
+     "benefit": "이체수수료, 자동이체수수료 면제",
+     "conditions": [
+      {
+       "text": "전월(1일~말일) 중 이 통장에서 아래 실적 중 하나 이상 발생된 경우",
+       "user_input": "실적 확인",
+       "src": [
+        1153,
+        3160
+       ],
+       "only_in": "특약, 상품설명서"
+      },
+      {
+       "text": "이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제",
+       "user_input": "신규일 확인",
+       "src": [
+        1154,
+        3160
+       ],
+       "only_in": "특약, 상품설명서"
+      },
+      {
+       "text": "수수료 면제 횟수: 제한없음",
+       "user_input": "",
+       "src": [
+        1155,
+        3160
+       ],
+       "only_in": "특약, 상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "exceptions": [
+      {
+       "text": "당행 본인 명의 계좌에서 이체된 건 및 본인의 주민등록번호로 입금된 건 제외",
+       "src": [
+        1153,
+        3160
+       ],
+       "only_in": "특약, 상품설명서"
+      },
+      {
+       "text": "체크카드 및 신용카드를 통해 출금된 건 제외",
+       "src": [
+        1153,
+        3160
+       ],
+       "only_in": "특약, 상품설명서"
+      },
+      {
+       "text": "결산이자 입금 건 제외",
+       "src": [
+        3160
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "special": {
+      "text": "수수료 면제 대상: 이체수수료, 자동이체수수료 등",
+      "src": [
+       1153,
+       1155,
+       1156,
+       3160
+      ]
+     },
+     "as_of": "",
+     "doc_diff": "특약과 상품설명서 모두 포함",
+     "note": "수수료면제 혜택은 실적 및 신규일에 따라 달라짐"
+    },
+    {
+     "key": "assignment_collateral",
+     "summary": "양도 및 담보제공",
+     "benefit": "양도 가능, 담보제공 불가능",
+     "conditions": [
+      {
+       "text": "질권설정 불가",
+       "user_input": "",
+       "src": [
+        3167
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "exceptions": [],
+     "special": {
+      "text": "양도 가능, 담보제공 불가능",
+      "src": [
+       3168
+      ]
+     },
+     "as_of": "",
+     "doc_diff": "상품설명서에만 포함됨",
+     "note": "양도 가능, 담보제공 불가능"
+    },
+    {
+     "key": "partner_benefit",
+     "summary": "인컴박스 서비스",
+     "benefit": "입금 관리 서비스 제공",
+     "conditions": [
+      {
+       "text": "인컴박스별로 입금 적요(보낸 사람)를 키워드로 설정",
+       "user_input": "키워드 설정 여부",
+       "src": [
+        3161
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "exceptions": [],
+     "special": {
+      "text": "인컴박스 서비스 이용 경로: KB스타뱅킹 앱",
+      "src": [
+       3161
+      ]
+     },
+     "as_of": "",
+     "doc_diff": "상품설명서에만 포함됨",
+     "note": "인컴박스 서비스는 입금 관리 서비스 제공"
+    },
+    {
+     "key": "product_conversion",
+     "summary": "상품·계좌 전환",
+     "benefit": "동일 예금과목 상품 전환 가능",
+     "conditions": [
+      {
+       "text": "개별상품에서 정한 기준에 의해 전환신규가 불가한 상품은 제외",
+       "user_input": "전환 가능 여부",
+       "src": [
+        3156
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "exceptions": [],
+     "special": {
+      "text": "동일 예금과목 상품 전환 가능",
+      "src": [
+       3156
+      ]
+     },
+     "as_of": "",
+     "doc_diff": "상품설명서에만 포함됨",
+     "note": "상품·계좌 전환은 동일 예금과목 상품 전환 가능"
+    }
+   ],
+   "repaired": null,
+   "name": "Qwen3-8B · 4비트 · 요약입력 조항",
+   "model": "Qwen3-8B · 4비트",
+   "input": "요약입력 조항",
+   "review": {
+    "good": [
+     "거래중지 세 구간을 줄로 나누고 물을 입력(잔액 · 거래 기록) 표시",
+     "결산이자 제외를 «상품설명서에만»으로 맞게 표시"
+    ],
+    "bad": [
+     [
+      "뜻 오류",
+      "fee 조건에 «50만원 입금» · «리브 모바일 자동이체»가 없음 — «아래 실적 중 하나 이상»만 옮김. 조건 논리도 «모두 충족»"
+     ],
+     [
+      "뜻 오류",
+      "오픈뱅킹 이체 제외 빠짐"
+     ],
+     [
+      "헛표시",
+      "doc_diff 를 16개 key 거의 전부에 «모두 포함» · «설명서에만 포함» 식으로 붙임 (헛표시 13). 맞은 2/2 도 이 덕분"
+     ],
+     [
+      "못 함",
+      "상품명 key 비움 · 사기이용계좌 제한 빠짐"
+     ]
+    ]
+   }
+  },
+  {
+   "nlines": 33,
+   "blob": 0,
+   "score": {
+    "filled": 15,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 13,
+    "src_ok": 13,
+    "ui_need": 5,
+    "ui_hit": 0,
+    "only_need": 2,
+    "only_hit": 0,
+    "only_false": 6,
+    "diff_need": 2,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 1,
+    "asof_hit": 1
+   },
+   "gen_tokens": 2879,
+   "sec": 576.8,
+   "items": [
+    {
+     "key": "product_name",
+     "summary": "KB스타통장",
+     "source_section_ids": [
+      3151
+     ]
+    },
+    {
+     "key": "product_type",
+     "summary": "보통예금, 저축예금",
+     "source_section_ids": [
+      1151,
+      3156
+     ]
+    },
+    {
+     "key": "product_feature",
+     "summary": "‘소득이 있는 누구나’ 혜택을 받을 수 있는 통장",
+     "source_section_ids": [
+      3152
+     ]
+    },
+    {
+     "key": "eligibility_target",
+     "summary": "금융실명거래 및 비밀보장에 관한 법률에 따라 실명이 확인된 개인",
+     "conditions": [
+      {
+       "text": "1인 당 1개의 통장만 개설할 수 있습니다.",
+       "src": [
+        1150
+       ]
+      },
+      {
+       "text": "실명의 개인(1 인 1 계좌)",
+       "src": [
+        3154
+       ]
+      }
+     ],
+     "exceptions": [
+      {
+       "text": "개인사업자 및 관련서류 미제출 임의단체 포함",
+       "src": [
+        3154
+       ],
+       "only_in": "상품설명서"
+      },
+      {
+       "text": "공동명의 가입 불가",
+       "src": [
+        3154
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "source_section_ids": [
+      1150,
+      3154
+     ]
+    },
+    {
+     "key": "eligibility_restriction",
+     "summary": "공동명의 가입 불가",
+     "exceptions": [
+      {
+       "text": "개인사업자 및 관련서류 미제출 임의단체 포함",
+       "src": [
+        3154
+       ],
+       "only_in": "상품설명서"
+      },
+      {
+       "text": "공동명의 가입 불가",
+       "src": [
+        3154
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "source_section_ids": [
+      3154
+     ]
+    },
+    {
+     "key": "account_limit",
+     "summary": "1인 1계좌만 가입 가능",
+     "exceptions": [
+      {
+       "text": "공동명의로 가입할 수 없습니다.",
+       "src": [
+        3174
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "source_section_ids": [
+      3174
+     ]
+    },
+    {
+     "key": "deposit_amount",
+     "summary": "제한없음",
+     "source_section_ids": [
+      3155
+     ]
+    },
+    {
+     "key": "base_rate",
+     "summary": "연 0.10% (2025.12.05. 기준, 세금공제 전)",
+     "conditions": [
+      {
+       "text": "결산일 현재 영업점에 고시한 예금과목별 기본이율 적용",
+       "src": [
+        3157
+       ]
+      }
+     ],
+     "as_of": "2025.12.05.",
+     "source_section_ids": [
+      3157
+     ]
+    },
+    {
+     "key": "interest_payment",
+     "summary": "보통예금은 매년 6, 12월 둘째 금요일, 저축예금은 매년 2, 5, 8, 11월 둘째 금요일에 결산하여 다음날 원금에 가산",
+     "exceptions": [
+      {
+       "text": "예금의 이자는 최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다.",
+       "src": [
+        3158
+       ]
+      }
+     ],
+     "source_section_ids": [
+      3158
+     ]
+    },
+    {
+     "key": "termination_method",
+     "summary": "영업점, 개인인터넷뱅킹, KB 스타뱅킹을 통해 해지 가능",
+     "conditions": [
+      {
+       "text": "개인인터넷뱅킹, KB 스타뱅뱅킹을 통한 해지 시 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다.",
+       "src": [
+        3166
+       ]
+      }
+     ],
+     "source_section_ids": [
+      3166
+     ]
+    },
+    {
+     "key": "tax",
+     "summary": "비과세종합저축으로 가입가능",
+     "conditions": [
+      {
+       "text": "관련세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있음",
+       "src": [
+        3164
+       ]
+      }
+     ],
+     "source_section_ids": [
+      3164
+     ]
+    },
+    {
+     "key": "transaction_restriction",
+     "summary": "잔액 및 거래 기간에 따라 입출금, 잔액조회, 이관 등의 거래 제한",
+     "conditions": [
+      {
+       "text": "예금잔액이 10,000원 미만이며, 1년이상 입출금거래가 없는 계좌",
+       "src": [
+        3170
+       ]
+      },
+      {
+       "text": "예금잔액이 10,000원 이상 50,000원 미만이며, 2년이상 입출금거래가 없는 계좌",
+       "src": [
+        3170
+       ]
+      },
+      {
+       "text": "예금잔액이 50,000원 이상 100,000원 미만이며, 3년이상 입출금거래가 없는 계좌",
+       "src": [
+        3170
+       ]
+      },
+      {
+       "text": "무거래기간 산정기준 : 입출금 거래 또는 명의변경 거래 최종 발생일로 부터 산정",
+       "src": [
+        3170
+       ]
+      },
+      {
+       "text": "편입시기 : 연2회(매년 6월, 12월 셋째 금요일 기준으로 익일인 토요일에 편입)",
+       "src": [
+        3170
+       ]
+      },
+      {
+       "text": "거래를 다시 시작하고자 하는 경우에는 본인 확인 및 금융거래 목적을 확인 한 후 가능",
+       "src": [
+        3170
+       ]
+      }
+     ],
+     "source_section_ids": [
+      3170
+     ]
+    },
+    {
+     "key": "fee",
+     "summary": "특정 조건 충족 시 인터넷/폰/모바일뱅킹 타행 이체수수료, 납부자 자동이체 수수료, 자동화기기 타행 이체/시간외 출금수수료, 타행 자동화기기 출금수수료 면제",
+     "benefit": "수수료 면제",
+     "conditions": [
+      {
+       "text": "전월(1일~말일) 중 합산 50만원 이상 입금 이력이 있는 경우",
+       "exceptions": [
+        {
+         "text": "당행 본인 명의 계좌에서 이체된 건 및 본인의 주민등록번호로 입금된 건 제외",
+         "src": [
+          1153
+         ]
+        }
+       ],
+       "src": [
+        1153
+       ]
+      },
+      {
+       "text": "KB 리브 모바일(KB Liiv M) 자동이체 출금 이력이 있는 경우",
+       "exceptions": [
+        {
+         "text": "체크카드 및 신용카드를 통해 출금된 건 제외",
+         "src": [
+          1153
+         ]
+        }
+       ],
+       "src": [
+        1153
+       ]
+      },
+      {
+       "text": "전월(1일~말일) 중 아래 실적 중 1가지 이상 충족한 경우",
+       "src": [
+        3160
+       ]
+      },
+      {
+       "text": "합산 50만원 이상 입금 이력이 있는 경우",
+       "exceptions": [
+        {
+         "text": "당행 본인 명의 계좌에서 이체된 건 및 본인의 주민등록번호로 입금된 건 제외",
+         "src": [
+          3160
+         ]
+        },
+        {
+         "text": "당행 오픈뱅킹을 통해 타금융기관에서 이체된 건 제외",
+         "src": [
+          3160
+         ]
+        },
+        {
+         "text": "결산이자 입금 건 제외",
+         "src": [
+          3160
+         ]
+        }
+       ],
+       "src": [
+        3160
+       ]
+      },
+      {
+       "text": "KB 리브 모바일(KB Liiv M) 자동이체 출금 이력이 있는 경우",
+       "exceptions": [
+        {
+         "text": "체크카드 및 신용카드를 통해 출금된 건 제외",
+         "src": [
+          3160
+         ]
+        }
+       ],
+       "src": [
+        3160
+       ]
+      }
+     ],
+     "condition_logic": "하나만 충족",
+     "exceptions": [
+      {
+       "text": "이번달 11일 ~ 다음달 10일",
+       "src": [
+        1154
+       ]
+      },
+      {
+       "text": "이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제",
+       "src": [
+        1154
+       ]
+      },
+      {
+       "text": "다른은행 자동화기기의 경우 제휴 ATM 및 VAN사(효성·나이스·한네트 등) 자동화기기 제외",
+       "src": [
+        1156
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "special": {
+      "text": "면제 횟수: 제한없음",
+      "src": [
+       1155
+      ]
+     },
+     "source_section_ids": [
+      1153,
+      1154,
+      1155,
+      1156,
+      3160
+     ]
+    },
+    {
+     "key": "assignment_collateral",
+     "summary": "양도 가능, 담보제공 불가능",
+     "source_section_ids": [
+      3167,
+      3168
+     ]
+    },
+    {
+     "key": "partner_benefit",
+     "summary": "인컴박스 서비스: 다양한 출처의 불규칙한 입금 거래를 한 눈에 확인할 수 있는 입금관리 서비스",
+     "conditions": [
+      {
+       "text": "인컴박스별로 입금 적요(보낸 사람)을 키워드로 설정 (박스 별 키워드는 3개까지 설정 가능)",
+       "src": [
+        3161
+       ]
+      },
+      {
+       "text": "계좌별 인컴박스는 3개까지 설정 가능.",
+       "src": [
+        3161
+       ]
+      }
+     ],
+     "special": {
+      "text": "이용 경로 : KB스타뱅킹 앱 > 전체계좌조회 > KB스타통장 계좌 하단 [인컴박스]",
+      "src": [
+       3161
+      ]
+     },
+     "source_section_ids": [
+      3161
+     ]
+    },
+    {
+     "key": "transaction_restriction",
+     "summary": "피해의심 거래계좌 및 사기이용 계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치 가능",
+     "source_section_ids": [
+      3174
+     ]
+    }
+   ],
+   "repaired": null,
+   "name": "Gemma 4 12B · 4비트 · 요약입력 조항",
+   "model": "Gemma 4 12B · 4비트",
+   "input": "요약입력 조항",
+   "review": {
+    "good": [
+     "fee 조건 논리 «하나만 충족» — 15개 key 중 이것만 붙였고 뜻이 맞음",
+     "fee 에서 오픈뱅킹 · 결산이자 제외를 상품설명서 쪽 조건 아래에 옮김",
+     "가입대상의 «개인사업자 · 임의단체 포함», «공동명의 불가»에 «상품설명서에만» 표시"
+    ],
+    "bad": [
+     [
+      "뜻 오류",
+      "거래중지 세 구간(잔액 · 무거래 기간)이 통째로 빠짐 — 사기이용계좌 제한만 남음"
+     ],
+     [
+      "자리 틀림",
+      "면제 기간 · 신규 특례를 예외 칸에 넣음 · 예외를 조건 안에 중첩(형식 밖)"
+     ],
+     [
+      "못 함",
+      "doc_diff 0/2 · user_input 0/5 · 상품·계좌 전환 key 비움"
+     ],
+     [
+      "덜 나눔",
+      "양도·질권에서 «질권설정 불가» 빠짐"
+     ]
+    ]
+   }
+  },
+  {
+   "nlines": 8,
+   "blob": 0,
+   "score": {
+    "filled": 13,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 6,
+    "src_ok": 6,
+    "ui_need": 5,
+    "ui_hit": 2,
+    "only_need": 2,
+    "only_hit": 0,
+    "only_false": 8,
+    "diff_need": 2,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 1,
+    "asof_hit": 0
+   },
+   "gen_tokens": 2409,
+   "sec": 240.8,
+   "items": [
+    {
+     "key": "product_name",
+     "summary": "KB스타통장은 실명 확인된 개인이 개설할 수 있는 통장으로, 보통예금과 저축예금 유형을 지원합니다.",
+     "benefit": "다양한 수수료 면제 혜택과 인컴박스 서비스를 제공합니다.",
+     "conditions": [],
+     "condition_logic": "",
+     "exceptions": [],
+     "special": {
+      "text": "개인사업자 및 관련 서류 미제출 임의 단체는 가입이 제한되며, 공동명의 가입은 불가능합니다.",
+      "src": [
+       "§1150",
+       "§3154"
+      ]
+     },
+     "as_of": "",
+     "doc_diff": "",
+     "note": "",
+     "source_section_ids": [
+      "§3151",
+      "§3152"
+     ]
+    },
+    {
+     "key": "product_type",
+     "summary": "KB스타통장은 입출금이 자유로운 보통예금과 저축예금 유형을 지원합니다.",
+     "benefit": "",
+     "conditions": [],
+     "condition_logic": "",
+     "exceptions": [],
+     "special": {
+      "text": "동일 예금과목 상품으로의 전환은 가능하지만, 개별 상품의 기준에 따라 제한될 수 있습니다.",
+      "src": [
+       "§3156"
+      ]
+     },
+     "as_of": "",
+     "doc_diff": "",
+     "note": "",
+     "source_section_ids": [
+      "§3156"
+     ]
+    },
+    {
+     "key": "eligibility_target",
+     "summary": "실명 확인된 개인만 가입 가능하며, 1인당 1개의 계좌만 개설 가능합니다.",
+     "benefit": "",
+     "conditions": [
+      {
+       "text": "실명 확인된 개인만 가입 가능합니다. 공동명의 가입은 불가능합니다.",
+       "user_input": "",
+       "src": [
+        "§1150",
+        "§3154"
+       ],
+       "only_in": "특약"
+      }
+     ],
+     "condition_logic": "",
+     "exceptions": [],
+     "special": {},
+     "as_of": "",
+     "doc_diff": "",
+     "note": "",
+     "source_section_ids": [
+      "§1150",
+      "§3154"
+     ]
+    },
+    {
+     "key": "eligibility_restriction",
+     "summary": "개인사업자 및 관련 서류 미제출 임의 단체는 가입이 제한되며, 공동명의 가입은 불가능합니다.",
+     "benefit": "",
+     "conditions": [
+      {
+       "text": "개인사업자 및 관련 서류 미제출 임의 단체는 가입이 제한되며, 공동명의 가입은 불가능합니다.",
+       "user_input": "",
+       "src": [
+        "§1150",
+        "§3154"
+       ],
+       "only_in": "특약"
+      }
+     ],
+     "condition_logic": "",
+     "exceptions": [],
+     "special": {},
+     "as_of": "",
+     "doc_diff": "",
+     "note": "",
+     "source_section_ids": [
+      "§1150",
+      "§3154"
+     ]
+    },
+    {
+     "key": "account_limit",
+     "summary": "1인당 1개의 계좌만 개설 가능합니다.",
+     "benefit": "",
+     "conditions": [
+      {
+       "text": "1인당 1개의 계좌만 개설 가능합니다. 공동명의 가입은 불가능합니다.",
+       "user_input": "",
+       "src": [
+        "§1150",
+        "§3154"
+       ],
+       "only_in": "특약"
+      }
+     ],
+     "condition_logic": "",
+     "exceptions": [],
+     "special": {},
+     "as_of": "",
+     "doc_diff": "",
+     "note": "",
+     "source_section_ids": [
+      "§1150",
+      "§3154"
+     ]
+    },
+    {
+     "key": "deposit_amount",
+     "summary": "신규 개설 시 예치 금액 제한은 없습니다.",
+     "benefit": "",
+     "conditions": [
+      {
+       "text": "신규 개설 시 예치 금액 제한이 없습니다.",
+       "user_input": "",
+       "src": [
+        "§3155"
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "",
+     "exceptions": [],
+     "special": {},
+     "as_of": "",
+     "doc_diff": "",
+     "note": "",
+     "source_section_ids": [
+      "§3155"
+     ]
+    },
+    {
+     "key": "base_rate",
+     "summary": "기본 이율은 연 0.10%이며, 세금 공제 전 기준입니다.",
+     "benefit": "",
+     "conditions": [],
+     "condition_logic": "",
+     "exceptions": [],
+     "special": {},
+     "as_of": "(2025년 12월 5일 기준)",
+     "doc_diff": "",
+     "note": "",
+     "source_section_ids": [
+      "§3157"
+     ]
+    },
+    {
+     "key": "interest_payment",
+     "summary": "이자 지급은 보통예금은 매년 6월, 12월 둘째 금요일에, 저축예금은 2월, 5월, 8월, 11월 둘째 금요일에 이루어집니다.",
+     "benefit": "",
+     "conditions": [],
+     "condition_logic": "",
+     "exceptions": [],
+     "special": {},
+     "as_of": "",
+     "doc_diff": "",
+     "note": "",
+     "source_section_ids": [
+      "§3158"
+     ]
+    },
+    {
+     "key": "termination_method",
+     "summary": "계약 해지는 영업점, 개인인터넷뱅킹, KB 스타뱅킹을 통해 가능합니다. 해지 시 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다.",
+     "benefit": "",
+     "conditions": [],
+     "condition_logic": "",
+     "exceptions": [],
+     "special": {},
+     "as_of": "",
+     "doc_diff": "",
+     "note": "",
+     "source_section_ids": [
+      "§3166"
+     ]
+    },
+    {
+     "key": "tax",
+     "summary": "비과세종합저축으로 가입 가능하며, 세법 개정 시 세율 변경 가능성이 있습니다.",
+     "benefit": "",
+     "conditions": [],
+     "condition_logic": "",
+     "exceptions": [],
+     "special": {},
+     "as_of": "",
+     "doc_diff": "",
+     "note": "",
+     "source_section_ids": [
+      "§3164"
+     ]
+    },
+    {
+     "key": "transaction_restriction",
+     "summary": "예금 잔액이 일정 기준 미만이거나 일정 기간 동안 거래가 없을 경우 거래가 제한될 수 있습니다.",
+     "benefit": "",
+     "conditions": [
+      {
+       "text": "예금 잔액이 10,000원 미만이거나 1년 이상 거래가 없는 경우 입출금 등 거래가 제한됩니다.",
+       "user_input": "",
+       "src": [
+        "§3170"
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "",
+     "exceptions": [],
+     "special": {},
+     "as_of": "",
+     "doc_diff": "",
+     "note": "",
+     "source_section_ids": [
+      "§3170"
+     ]
+    },
+    {
+     "key": "fee",
+     "summary": "전월 중 특정 거래 실적을 충족하면 수수료가 면제됩니다. 면제 기간은 이번달 11일부터 다음달 10일까지이며, 면제 횟수는 제한 없습니다.",
+     "benefit": "",
+     "conditions": [
+      {
+       "text": "전월 중 합산 50만원 이상 입금 또는 KB 리브 모바일 자동이체 출금 실적이 있으면 수수료가 면제됩니다. 면제 기간은 이번달 11일부터 다음달 10일까지입니다.",
+       "user_input": "전월 입금 금액과 KB 리브 모바일 자동이체 출금 여부 확인 필요",
+       "src": [
+        "§1153",
+        "§1154"
+       ],
+       "only_in": "특약"
+      }
+     ],
+     "condition_logic": "조건 중 하나만 충족하면 됨",
+     "exceptions": [],
+     "special": {},
+     "as_of": "",
+     "doc_diff": "",
+     "note": "",
+     "source_section_ids": [
+      "§1153",
+      "§1154"
+     ]
+    },
+    {
+     "key": "assignment_collateral",
+     "summary": "양도는 가능하지만 질권 설정 및 담보 제공은 불가능합니다.",
+     "benefit": "",
+     "conditions": [],
+     "condition_logic": "",
+     "exceptions": [
+      {
+       "text": "질권 설정은 불가능합니다.",
+       "src": [
+        "§3167"
+       ],
+       "only_in": "상품설명서"
+      },
+      {
+       "text": "담보 제공은 불가능합니다.",
+       "src": [
+        "§3168"
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "special": {},
+     "as_of": "",
+     "doc_diff": "",
+     "note": "",
+     "source_section_ids": [
+      "§3167",
+      "§3168"
+     ]
+    }
+   ],
+   "repaired": null,
+   "name": "EXAONE 3.5 7.8B · 4비트 · 요약입력 조항",
+   "model": "EXAONE 3.5 7.8B · 4비트",
+   "input": "요약입력 조항",
+   "review": {
+    "good": [
+     "fee 조건 논리 «조건 중 하나만 충족하면 됨» 맞음",
+     "물을 입력에 «전월 입금 금액 · 리브 모바일 자동이체 출금 여부»",
+     "양도 가능 · 질권 불가 · 담보 불가 셋 다 맞음"
+    ],
+    "bad": [
+     [
+      "뜻 오류",
+      "거래중지 «잔액 1만원 미만이며 1년 무거래»를 «미만이거나 1년 이상 거래 없음»으로 — 그리고를 또는으로 바꿈. 2 · 3번째 구간 빠짐"
+     ],
+     [
+      "못 함",
+      "fee 예외(제외 조건) 5개 전부 빠짐"
+     ],
+     [
+      "못 함",
+      "key 13/16 · 기준일 놓침 · doc_diff 0/2"
+     ]
+    ]
+   }
+  },
+  {
+   "nlines": 19,
+   "blob": 0,
+   "score": {
+    "filled": 16,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 17,
+    "src_ok": 17,
+    "ui_need": 5,
+    "ui_hit": 2,
+    "only_need": 2,
+    "only_hit": 2,
+    "only_false": 0,
+    "diff_need": 2,
+    "diff_hit": 1,
+    "diff_false": 0,
+    "asof_need": 1,
+    "asof_hit": 1
+   },
+   "gen_tokens": 2740,
+   "sec": 634.1,
+   "items": [
+    {
+     "key": "product_name",
+     "summary": "KB스타통장",
+     "source_section_ids": [
+      3151
+     ]
+    },
+    {
+     "key": "product_type",
+     "summary": "입출금이 자유로운 예금(보통예금, 저축예금)",
+     "source_section_ids": [
+      1151,
+      3156
+     ]
+    },
+    {
+     "key": "product_feature",
+     "summary": "소득이 있는 누구나 혜택을 받을 수 있는 통장",
+     "source_section_ids": [
+      3152
+     ]
+    },
+    {
+     "key": "eligibility_target",
+     "summary": "금융실명거래 및 비밀보장에 관한 법률에 따라 실명이 확인된 개인(개인사업자 및 관련서류 미제출 임의단체 포함)",
+     "conditions": [
+      {
+       "text": "실명의 개인",
+       "src": [
+        1150,
+        3154
+       ]
+      }
+     ],
+     "source_section_ids": [
+      1150,
+      3154
+     ]
+    },
+    {
+     "key": "eligibility_restriction",
+     "summary": "공동명의 가입이 불가하며, 사기이용 계좌 등으로 이용될 경우 금융거래가 제한될 수 있음",
+     "exceptions": [
+      {
+       "text": "공동명의 가입 불가",
+       "src": [
+        3154,
+        3174
+       ]
+      }
+     ],
+     "special": {
+      "text": "전기통신금융사기 피해의심 거래계좌 및 사기이용 계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치 가능",
+      "src": [
+       3174
+      ]
+     },
+     "source_section_ids": [
+      3154,
+      3174
+     ]
+    },
+    {
+     "key": "account_limit",
+     "summary": "1인 당 1개의 통장만 개설 가능",
+     "conditions": [
+      {
+       "text": "1인 1계좌",
+       "src": [
+        1150,
+        3154,
+        3174
+       ]
+      }
+     ],
+     "source_section_ids": [
+      3154,
+      3174
+     ]
+    },
+    {
+     "key": "deposit_amount",
+     "summary": "신규 가입 금액에 제한 없음",
+     "source_section_ids": [
+      3155
+     ]
+    },
+    {
+     "key": "base_rate",
+     "summary": "연 0.10% (2025.12.05. 기준, 세금공제 전)",
+     "conditions": [
+      {
+       "text": "결산일 현재 영업점에 고시한 예금과목별 기본이율 적용",
+       "src": [
+        3157
+       ]
+      }
+     ],
+     "as_of": "2025.12.05.",
+     "source_section_ids": [
+      3157
+     ]
+    },
+    {
+     "key": "interest_payment",
+     "summary": "보통예금은 매년 6, 12월의 둘째 금요일, 저축예금은 매년 2, 5, 8, 11월의 둘째 금요일에 결산하여 다음날 원금에 가산함",
+     "exceptions": [
+      {
+       "text": "최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있음",
+       "src": [
+        3158
+       ]
+      }
+     ],
+     "source_section_ids": [
+      3158
+     ]
+    },
+    {
+     "key": "termination_method",
+     "summary": "영업점, 개인인터넷뱅킹, KB스타뱅킹을 통해 해지 가능",
+     "conditions": [
+      {
+       "text": "개인인터넷뱅킹 및 KB스타뱅킹 해지 시 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌 필요",
+       "src": [
+        3166
+       ]
+      }
+     ],
+     "source_section_ids": [
+      3166
+     ]
+    },
+    {
+     "key": "tax",
+     "summary": "비과세종합저축으로 가입 가능",
+     "exceptions": [
+      {
+       "text": "관련세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있음",
+       "src": [
+        3164
+       ]
+      }
+     ],
+     "source_section_ids": [
+      3164
+     ]
+    },
+    {
+     "key": "transaction_restriction",
+     "summary": "잔액 및 무거래 기간에 따라 입출금, 잔액조회, 이관 등의 거래가 제한될 수 있음",
+     "conditions": [
+      {
+       "text": "예금잔액 10,000원 미만이며 1년 이상 입출금거래 없는 계좌",
+       "src": [
+        3170
+       ]
+      },
+      {
+       "text": "예금잔액 10,000원 이상 50,000원 미만이며 2년 이상 입출금거래 없는 계좌",
+       "src": [
+        3170
+       ]
+      },
+      {
+       "text": "예금잔액 50,000원 이상 100,000원 미만이며 3년 이상 입출금거래 없는 계좌",
+       "src": [
+        3170
+       ]
+      }
+     ],
+     "condition_logic": "OR",
+     "special": {
+      "text": "무거래기간은 입출금 또는 명의변경 거래 최종 발생일로부터 산정하며, 매년 6월/12월 셋째 금요일 기준 익일 토요일에 편입됨. 거래 재개 시 본인 확인 및 금융거래 목적 확인 필요",
+      "src": [
+       3170
+      ]
+     },
+     "source_section_ids": [
+      3170,
+      3174
+     ]
+    },
+    {
+     "key": "fee",
+     "summary": "전월 실적 충족 시 전자금융 타행 이체, 자동이체, ATM 타행 이체 및 시간외 출금 수수료 등을 면제함",
+     "benefit": "전자금융/ATM 타행 이체수수료, 납부자 자동이체 수수료, ATM 시간외 출금 및 타행 출금수수료 면제",
+     "conditions": [
+      {
+       "text": "전월(1일~말일) 중 합산 50만원 이상 입금 이력 발생",
+       "user_input": "전월 입금 합산 금액",
+       "src": [
+        1153,
+        3160
+       ]
+      },
+      {
+       "text": "KB 리브 모바일(KB Liiv M) 자동이체 출금 이력 발생",
+       "user_input": "리브모바일 자동이체 여부",
+       "src": [
+        1153,
+        3160
+       ]
+      }
+     ],
+     "condition_logic": "OR",
+     "exceptions": [
+      {
+       "text": "입금 실적에서 당행 본인 명의 계좌 이체 건, 본인 주민등록번호 입금 건, 당행 오픈뱅킹 타금융기관 이체 건, 결산이자 입금 건 제외",
+       "src": [
+        1153,
+        3160
+       ],
+       "only_in": "상품설명서"
+      },
+      {
+       "text": "리브모바일 출금 실적에서 체크카드 및 신용카드를 통해 출금된 건 제외",
+       "src": [
+        1153,
+        3160
+       ]
+      },
+      {
+       "text": "타행 ATM의 경우 제휴 ATM 및 VAN사(효성·나이스·한네트 등) 자동화기기 제외",
+       "src": [
+        1156,
+        3160
+       ]
+      }
+     ],
+     "special": {
+      "text": "면제 기간은 이번달 11일부터 다음달 10일까지이며, 신규(전환)일부터 다음 다음 달 10일까지는 실적 관계없이 면제됨. 면제 횟수 제한 없음",
+      "src": [
+       1154,
+       1155,
+       3160
+      ]
+     },
+     "doc_diff": "입금 실적 제외 항목 중 '오픈뱅킹 이체 건'과 '결산이자 입금 건'이 상품설명서에만 명시됨",
+     "source_section_ids": [
+      1153,
+      1154,
+      1155,
+      1156,
+      3160
+     ]
+    },
+    {
+     "key": "assignment_collateral",
+     "summary": "양도는 가능하나, 질권설정 및 담보제공은 불가능함",
+     "conditions": [
+      {
+       "text": "양도 가능",
+       "src": [
+        3168
+       ]
+      }
+     ],
+     "exceptions": [
+      {
+       "text": "질권설정 불가",
+       "src": [
+        3167
+       ]
+      },
+      {
+       "text": "담보제공 불가능",
+       "src": [
+        3168
+       ]
+      }
+     ],
+     "source_section_ids": [
+      3167,
+      3168
+     ]
+    },
+    {
+     "key": "partner_benefit",
+     "summary": "입금 적요 키워드 설정을 통해 입금 정보를 관리하는 인컴박스 서비스를 제공함",
+     "special": {
+      "text": "계좌별 최대 3개 인컴박스 설정 가능(박스당 키워드 3개까지). KB스타뱅킹 앱 내 전체계좌조회 메뉴에서 이용 가능",
+      "src": [
+       3161
+      ]
+     },
+     "source_section_ids": [
+      3161
+     ]
+    },
+    {
+     "key": "product_conversion",
+     "summary": "동일 예금과목 상품으로 전환 가능함",
+     "exceptions": [
+      {
+       "text": "개별상품에서 정한 기준에 의해 전환신규가 불가한 상품은 제외",
+       "src": [
+        3156
+       ]
+      }
+     ],
+     "source_section_ids": [
+      3156
+     ]
+    }
+   ],
+   "repaired": null,
+   "model": "Gemma 4 31B · 4비트",
+   "input": "요약입력 조항",
+   "name": "Gemma 4 31B · 4비트 · 요약입력 조항",
+   "review": {
+    "good": [
+     "수수료 면제 문서 차이를 정확히 짚음 — «오픈뱅킹 이체 · 결산이자 입금 제외는 상품설명서에만» (일곱 판 중 처음)",
+     "조건 논리 OR (수수료 면제 · 거래중지) · 물을 입력 «전월 입금 합산 금액 · 리브모바일 자동이체 여부»",
+     "거래중지 세 구간 · 편입 시기 · 재개 절차, 양도/질권/담보 셋 다 맞음 · 16/16 key"
+    ],
+    "bad": [
+     [
+      "덜 나눔",
+      "제외 조건 4개를 한 줄로 묶고 «상품설명서에만»을 붙임 — 본인 계좌 · 주민번호 제외는 특약에도 있어 반만 맞음"
+     ],
+     [
+      "못 함",
+      "가입대상 «공동명의 불가» 빠짐 · 가입대상 문서 차이(개인사업자 포함) 못 짚음 · 거래중지 물을 입력 없음"
+     ]
+    ]
+   }
+  },
+  {
+   "nlines": 22,
+   "blob": 0,
+   "score": {
+    "filled": 16,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 7,
+    "src_ok": 2,
+    "ui_need": 5,
+    "ui_hit": 0,
+    "only_need": 2,
+    "only_hit": 0,
+    "only_false": 21,
+    "diff_need": 2,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 1,
+    "asof_hit": 1
+   },
+   "gen_tokens": 2775,
+   "sec": 376.0,
+   "items": [
+    {
+     "key": "product_name",
+     "summary": "KB스타통장은 소득이 있는 누구나 혜택을 받을 수 있는 통장입니다.",
+     "source_section_ids": [
+      1
+     ]
+    },
+    {
+     "key": "product_type",
+     "summary": "입출금이 자유로운 예금으로, 보통예금 및 저축예금으로 분류됩니다.",
+     "source_section_ids": [
+      2
+     ]
+    },
+    {
+     "key": "product_feature",
+     "summary": "소득이 있는 누구나 혜택을 받을 수 있으며, 수수료 면제 혜택과 인컴박스 서비스를 제공합니다.",
+     "source_section_ids": [
+      1,
+      2
+     ]
+    },
+    {
+     "key": "eligibility_target",
+     "summary": "실명의 개인이며, 1인당 1개의 통장만 개설할 수 있습니다.",
+     "conditions": [
+      {
+       "text": "실명의 개인이며, 1인당 1개의 통장만 개설할 수 있습니다.",
+       "src": [
+        "§1150",
+        "상품설명서:가입대상"
+       ],
+       "only_in": "특약"
+      },
+      {
+       "text": "개인사업자 및 관련서류 미제출 임의단체 포함",
+       "src": [
+        "상품설명서:가입대상"
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족해야 함",
+     "source_section_ids": [
+      1,
+      2
+     ]
+    },
+    {
+     "key": "eligibility_restriction",
+     "summary": "공동명의 가입은 불가능하며, 피해의심거래계좌로 이용될 경우 거래제한이 있을 수 있습니다.",
+     "conditions": [
+      {
+       "text": "공동명의 가입 불가",
+       "src": [
+        "§1150",
+        "상품설명서:가입대상"
+       ],
+       "only_in": "특약"
+      },
+      {
+       "text": "통장이 피해의심거래계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치가 가능합니다.",
+       "src": [
+        "상품설명서:거래중지"
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족해야 함",
+     "source_section_ids": [
+      1,
+      2
+     ]
+    },
+    {
+     "key": "account_limit",
+     "summary": "1인당 1개의 통장만 개설할 수 있으며, 공동명의 가입은 불가능합니다.",
+     "conditions": [
+      {
+       "text": "1인당 1개의 통장만 개설할 수 있습니다.",
+       "src": [
+        "§1150",
+        "상품설명서:가입대상"
+       ],
+       "only_in": "특약"
+      },
+      {
+       "text": "공동명의 가입 불가",
+       "src": [
+        "상품설명서:가입대상"
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족해야 함",
+     "source_section_ids": [
+      1,
+      2
+     ]
+    },
+    {
+     "key": "deposit_amount",
+     "summary": "신규 가입금액은 제한이 없습니다.",
+     "conditions": [
+      {
+       "text": "신규금액은 제한이 없습니다.",
+       "src": [
+        "상품설명서:신규금액"
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족해야 함",
+     "source_section_ids": [
+      2
+     ]
+    },
+    {
+     "key": "base_rate",
+     "summary": "기본금리는 연 0.10%로, 결산일 현재 영업점에 고시한 예금과목별 기본이율이 적용됩니다.",
+     "as_of": "2025.12.05",
+     "source_section_ids": [
+      2
+     ]
+    },
+    {
+     "key": "interest_payment",
+     "summary": "보통예금은 매년 6월, 12월의 둘째 금요일에 결산하며, 저축예금은 매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산됩니다.",
+     "conditions": [
+      {
+       "text": "예금의 이자는 최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다.",
+       "src": [
+        "상품설명서:이자 지급시기"
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족해야 함",
+     "source_section_ids": [
+      2
+     ]
+    },
+    {
+     "key": "termination_method",
+     "summary": "계약해지는 영업점, 개인인터넷뱅킹, KB스타뱅킹을 통해 가능하며, 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다.",
+     "conditions": [
+      {
+       "text": "해지 시 본인명의의 입출금이자유로운예금 계좌가 필요합니다.",
+       "src": [
+        "상품설명서:계약해지방법"
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족해야 함",
+     "source_section_ids": [
+      2
+     ]
+    },
+    {
+     "key": "tax",
+     "summary": "비과세종합저축으로 가입 가능하며, 관련세법 개정 시 세율이 변경되거나 세금이 부과될 수 있습니다.",
+     "source_section_ids": [
+      2
+     ]
+    },
+    {
+     "key": "transaction_restriction",
+     "summary": "예금잔액이 10,000원 미만이며 1년 이상 입출금거래가 없는 계좌, 10,000원 이상 50,000원 미만이며 2년 이상 입출금거래가 없는 계좌, 50,000원 이상 100,000원 미만이며 3년 이상 입출금거래가 없는 계좌는 거래제한이 있을 수 있습니다.",
+     "conditions": [
+      {
+       "text": "예금잔액이 10,000원 미만이며, 1년 이상 입출금거래가 없는 계좌",
+       "src": [
+        "상품설명서:거래중지"
+       ],
+       "only_in": "상품설명서"
+      },
+      {
+       "text": "예금잔액이 10,000원 이상 50,000원 미만이며, 2년 이상 입출금거래가 없는 계좌",
+       "src": [
+        "상품설명서:거래중지"
+       ],
+       "only_in": "상품설명서"
+      },
+      {
+       "text": "예금잔액이 50,000원 이상 100,000원 미만이며, 3년 이상 입출금거래가 없는 계좌",
+       "src": [
+        "상품설명서:거래중지"
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족해야 함",
+     "source_section_ids": [
+      2
+     ]
+    },
+    {
+     "key": "fee",
+     "summary": "수수료 면제 혜택이 있으며, 면제 조건 및 기간이 정의되어 있습니다.",
+     "conditions": [
+      {
+       "text": "면제 조건: 전월 중 50만원 이상 입금 이력 또는 KB 리브 모바일 자동이체 출금 이력이 있는 경우",
+       "src": [
+        "§1153",
+        "상품설명서:수수료 면제 혜택"
+       ],
+       "only_in": "특약"
+      },
+      {
+       "text": "면제 기간: 이번달 11일 ~ 다음달 10일",
+       "src": [
+        "§1154",
+        "상품설명서:수수료 면제 혜택"
+       ],
+       "only_in": "특약"
+      },
+      {
+       "text": "면제 대상 수수료: KB국민은행 인터넷·폰·모바일뱅킹 다른은행 이체수수료, 납부자 자동이체 수수료 등",
+       "src": [
+        "§1156",
+        "상품설명서:수수료 면제 혜택"
+       ],
+       "only_in": "특약"
+      }
+     ],
+     "condition_logic": "모두 충족해야 함",
+     "source_section_ids": [
+      1,
+      2
+     ]
+    },
+    {
+     "key": "assignment_collateral",
+     "summary": "양도는 가능하지만, 담보제공은 불가능합니다.",
+     "conditions": [
+      {
+       "text": "양도 가능",
+       "src": [
+        "상품설명서:양도 및 담보제공"
+       ],
+       "only_in": "상품설명서"
+      },
+      {
+       "text": "담보제공 불가능",
+       "src": [
+        "상품설명서:양도 및 담보제공"
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족해야 함",
+     "source_section_ids": [
+      2
+     ]
+    },
+    {
+     "key": "partner_benefit",
+     "summary": "인컴박스 서비스를 통해 다양한 입금 거래를 한눈에 확인할 수 있으며, 수수료 면제 혜택을 제공합니다.",
+     "conditions": [
+      {
+       "text": "인컴박스 서비스를 통해 입금 거래를 한눈에 확인할 수 있습니다.",
+       "src": [
+        "상품설명서:인컴박스 서비스"
+       ],
+       "only_in": "상품설명서"
+      },
+      {
+       "text": "수수료 면제 혜택 제공",
+       "src": [
+        "§1153",
+        "상품설명서:수수료 면제 혜택"
+       ],
+       "only_in": "특약"
+      }
+     ],
+     "condition_logic": "모두 충족해야 함",
+     "source_section_ids": [
+      1,
+      2
+     ]
+    },
+    {
+     "key": "product_conversion",
+     "summary": "동일 예금과목 상품 전환 가능하며, 개별상품에서 정한 기준에 따라 전환신규가 불가한 상품은 제외됩니다.",
+     "conditions": [
+      {
+       "text": "동일 예금과목 상품 전환 가능",
+       "src": [
+        "상품설명서:상품유형"
+       ],
+       "only_in": "상품설명서"
+      },
+      {
+       "text": "개별상품에서 정한 기준에 따라 전환신규가 불가한 상품은 제외됩니다.",
+       "src": [
+        "상품설명서:상품유형"
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족해야 함",
+     "source_section_ids": [
+      2
+     ]
+    },
+    {
+     "key": "other_important",
+     "summary": "예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지 보호됩니다.",
+     "conditions": [
+      {
+       "text": "예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지 보호됩니다.",
+       "src": [
+        "상품설명서:예금자보호 여부"
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족해야 함",
+     "source_section_ids": [
+      2
+     ]
+    }
+   ],
+   "repaired": null,
+   "name": "Qwen3-8B · 4비트 · 원문 전체",
+   "model": "Qwen3-8B · 4비트",
+   "input": "원문 전체",
+   "review": {
+    "good": [
+     "16/16 key · 거래중지 세 구간을 조건으로 나눔",
+     "예금자보호 1억원을 other_important 에 옮김 · 기준일 잡음"
+    ],
+    "bad": [
+     [
+      "뜻 오류",
+      "fee 조건 논리 «모두 충족해야 함» (원문: 하나 이상) — 17개 key 전부 같은 말"
+     ],
+     [
+      "못 함",
+      "fee 제외 조건 5개 전부 빠짐 · 질권설정 불가 빠짐"
+     ],
+     [
+      "헛표시",
+      "only_in 을 거의 모든 줄에 붙임 (헛표시 21)"
+     ]
+    ]
+   }
+  },
+  {
+   "nlines": 48,
+   "blob": 0,
+   "score": {
+    "filled": 16,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 15,
+    "src_ok": 5,
+    "ui_need": 5,
+    "ui_hit": 0,
+    "only_need": 2,
+    "only_hit": 0,
+    "only_false": 0,
+    "diff_need": 2,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 1,
+    "asof_hit": 0
+   },
+   "gen_tokens": 3168,
+   "sec": 615.4,
+   "items": [
+    {
+     "key": "product_name",
+     "summary": "KB스타통장"
+    },
+    {
+     "key": "product_type",
+     "summary": "입출금이 자유로운 예금(보통예금, 저축예금)"
+    },
+    {
+     "key": "product_feature",
+     "summary": "‘소득이 있는 누구나’ 혜택을 받을 수 있는 통장"
+    },
+    {
+     "key": "eligibility_target",
+     "summary": "금융실명거래 및 비밀보장에 관한 법률에 따라 실명이 확인된 개인 / 실명의 개인",
+     "conditions": [
+      {
+       "text": "금융실명거래 및 비밀보장에 관한 법률에 따라 실명이 확인된 개인",
+       "src": [
+        "§1150"
+       ]
+      },
+      {
+       "text": "실명의 개인",
+       "src": [
+        "설명서:가입대상"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "eligibility_restriction",
+     "summary": "1인 당 1개의 통장만 개설할 수 있습니다. / 개인사업자 및 관련서류 미제출 임의단체 포함 / 공동명의 가입 불가",
+     "conditions": [
+      {
+       "text": "1인 당 1개의 통장만 개설할 수 있습니다.",
+       "src": [
+        "§1150"
+       ]
+      },
+      {
+       "text": "개인사업자 및 관련서류 미제출 임의단체 포함",
+       "src": [
+        "설명서:가입대상"
+       ]
+      },
+      {
+       "text": "공동명의 가입 불가",
+       "src": [
+        "설명서:가입대상",
+        "설명서:이용제한 사항"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "account_limit",
+     "summary": "1인 1계좌만 가입 가능",
+     "conditions": [
+      {
+       "text": "1인 1계좌만 가입 가능",
+       "src": [
+        "설명서:이용제한 사항"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "deposit_amount",
+     "summary": "제한없음",
+     "conditions": [
+      {
+       "text": "제한없음",
+       "src": [
+        "설명서:신규금액"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "base_rate",
+     "summary": "연 0.10% / 결산일 현재 영업점에 고시한 예금과목별 기본이율 적용",
+     "conditions": [
+      {
+       "text": "연 0.10%",
+       "src": [
+        "설명서:기본이율"
+       ]
+      },
+      {
+       "text": "결산일 현재 영업점에 고시한 예금과목별 기본이율 적용",
+       "src": [
+        "설명서:기본이율"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "interest_payment",
+     "summary": "보통예금 : 이자는 매년 6, 12월의 둘째 금요일에 결산하여 다음날 원금에 더함 / 저축예금 : 이자는 매년 2, 5, 8, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함 / 예금의 이자는 최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다.",
+     "conditions": [
+      {
+       "text": "보통예금 : 이자는 매년 6, 12월의 둘째 금요일에 결산하여 다음날 원금에 더함",
+       "src": [
+        "설명서:이자 지급시기"
+       ]
+      },
+      {
+       "text": "저축예금 : 이자는 매년 2, 5, 8, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함",
+       "src": [
+        "설명서:이자 지급시기"
+       ]
+      },
+      {
+       "text": "예금의 이자는 최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다.",
+       "src": [
+        "설명서:이자 지급시기"
+       ]
+      },
+      {
+       "text": "예금이자는 예금일부터 지급일 전일까지(결산시에는 지난 원가일부터 원가일 전일까지)를 이자계산 기간으로 하고, 매일의 최종잔액을 평균하여 결산일 현재 영업점에 고시하는 이율로 계산함",
+       "src": [
+        "설명서:이자 계산방법"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "termination_method",
+     "summary": "영업점 또는 KB스타뱅킹 이용 / 영업점, 개인인터넷뱅킹, KB스타뱅킹을 통해 해지 가능 / 개인인터넷뱅킹, KB스타뱅킹을 통한 해지 시 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다.",
+     "conditions": [
+      {
+       "text": "영업점 또는 KB스타뱅킹 이용",
+       "src": [
+        "설명서:거래방법"
+       ]
+      },
+      {
+       "text": "영업점, 개인인터넷뱅킹, KB스타뱅킹을 통해 해지 가능",
+       "src": [
+        "설명서:계약해지방법"
+       ]
+      },
+      {
+       "text": "개인인터넷뱅킹, KB스타뱅킹을 통한 해지 시 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다.",
+       "src": [
+        "설명서:계약해지방법"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "tax",
+     "summary": "비과세종합저축으로 가입가능 / 관련세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있음",
+     "conditions": [
+      {
+       "text": "비과세종합저축으로 가입가능",
+       "src": [
+        "설명서:세제관련"
+       ]
+      },
+      {
+       "text": "관련세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있음",
+       "src": [
+        "설명서:세제관련"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "transaction_restriction",
+     "summary": "예금잔액이 10,000원 미만이며, 1년이상 입출금거래가 없는 계좌 / 예금잔액이 10,000원 이상 50,000원 미만이며, 2년이상 입출금거래가 없는 계좌 / 예금잔액이 50,000원 이상 100,000원 미만이며, 3년이상 입출금거래가 없는 계좌",
+     "conditions": [
+      {
+       "text": "예금잔액이 10,000원 미만이며, 1년이상 입출금거래가 없는 계좌",
+       "src": [
+        "설명서:거래중지"
+       ]
+      },
+      {
+       "text": "예금잔액이 10,000원 이상 50,000원 미만이며, 2년이상 입출금거래가 없는 계좌",
+       "src": [
+        "설명서:거래중지"
+       ]
+      },
+      {
+       "text": "예금잔액이 50,000원 이상 100,000원 미만이며, 3년이상 입출금거래가 없는 계좌",
+       "src": [
+        "설명서:거래중지"
+       ]
+      },
+      {
+       "text": "피해의심거래계좌 및 사기이용계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 금융거래 제한조치를 할 수 있음",
+       "src": [
+        "설명서:원금 및 이자지급 제한",
+        "설명서:이용제한 사항"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "fee",
+     "summary": "전자금융(인터넷∙폰∙모바일뱅킹)을 통한 다른은행 이체수수료 / 납부자 자동이체 (타행 자동이체 포함)수수료 / KB국민은행 자동화기기 다른은행 이체수수료",
+     "conditions": [
+      {
+       "text": "전자금융(인터넷∙폰∙모바일뱅킹)을 통한 다른은행 이체수수료",
+       "src": [
+        "특약:§1156"
+       ]
+      },
+      {
+       "text": "납부자 자동이체 (타행 자동이체 포함)수수료",
+       "src": [
+        "특약:§1156"
+       ]
+      },
+      {
+       "text": "KB국민은행 자동화기기 다른은행 이체수수료",
+       "src": [
+        "특약:§1156"
+       ]
+      },
+      {
+       "text": "KB국민은행 자동화기기 시간외 출금수수료",
+       "src": [
+        "특약:§1156"
+       ]
+      },
+      {
+       "text": "다른은행 자동화기기 출금수수료",
+       "src": [
+        "특약:§1156"
+       ]
+      },
+      {
+       "text": "다른은행 자동화기기의 경우 제휴 ATM 및 VAN사(효성·나이스·한네트 등) 자동화기기 제외",
+       "src": [
+        "특약:§1156"
+       ]
+      },
+      {
+       "text": "수수료 면제조건 충족시 이 통장 거래에서 발생한 아래의 수수료를 면제",
+       "src": [
+        "설명서:수수료 면제 혜택"
+       ]
+      },
+      {
+       "text": "이번달 11일 ~ 다음달 10일",
+       "src": [
+        "특약:§1154",
+        "설명서:수수료 면제 혜택"
+       ]
+      },
+      {
+       "text": "이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제",
+       "src": [
+        "특약:§1154"
+       ]
+      },
+      {
+       "text": "면제 횟수 : 제한없음",
+       "src": [
+        "특약:§1155",
+        "설명서:수수료 면제 혜택"
+       ]
+      },
+      {
+       "text": "합산 50만원 이상 입금 이력이 있는 경우",
+       "src": [
+        "특약:§1153",
+        "설명서:수수료 면제 혜택"
+       ]
+      },
+      {
+       "text": "당행 본인 명의 계좌에서 이체된 건 및 본인의 주민등록번호로 입금된 건 제외",
+       "src": [
+        "특약:§1153"
+       ]
+      },
+      {
+       "text": "당행 오픈뱅킹을 통해 타금융기관에서 이체된 건 제외",
+       "src": [
+        "설명서:수수료 면제 혜택"
+       ]
+      },
+      {
+       "text": "결산이자 입금 건 제외",
+       "src": [
+        "설명서:수수료 면제 혜택"
+       ]
+      },
+      {
+       "text": "KB 리브 모바일(KB Liiv M) 자동이체 출금 이력이 있는 경우",
+       "src": [
+        "특약:§1153",
+        "설명서:수수료 면제 혜택"
+       ]
+      },
+      {
+       "text": "체크카드 및 신용카드를 통해 출금된 건 제외",
+       "src": [
+        "특약:§1153"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "assignment_collateral",
+     "summary": "질권설정 불가 / 양도 가능 / 담보제공 불가능",
+     "conditions": [
+      {
+       "text": "질권설정 불가",
+       "src": [
+        "설명서:질권설정"
+       ]
+      },
+      {
+       "text": "양도 가능",
+       "src": [
+        "설명서:양도 및 담보제공"
+       ]
+      },
+      {
+       "text": "담보제공 불가능",
+       "src": [
+        "설명서:양도 및 담보제공"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "partner_benefit",
+     "summary": "인컴박스 서비스: 다양한 출처의 불규칙한 입금 거래를 한 눈에 확인할 수 있는 입금관리 서비스",
+     "conditions": [
+      {
+       "text": "인컴박스 서비스: 다양한 출처의 불규칙한 입금 거래를 한 눈에 확인할 수 있는 입금관리 서비스",
+       "src": [
+        "설명서:인컴박스 서비스"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "product_conversion",
+     "summary": "동일 예금과목 상품 전환가능 / 개별상품에서 정한 기준에 의해 전환신규가 불가한 상품은 제외",
+     "conditions": [
+      {
+       "text": "동일 예금과목 상품 전환가능",
+       "src": [
+        "설명서:상품유형"
+       ]
+      },
+      {
+       "text": "개별상품에서 정한 기준에 의해 전환신규가 불가한 상품은 제외",
+       "src": [
+        "설명서:상품유형"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "other_important",
+     "summary": "예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지(본 은행의 여타 보호상품과 합산) 보호됩니다. / 예금잔액증명서 발급 당일에는 입금·출금·이체 등 잔액 변동 불가 / 예금 만기일 또는 이자지급을 포함한 최종거래일 이후 5 년 이내 계좌를 해지하지 않을 경우 휴면예금으로 출연될 수 있음",
+     "conditions": [
+      {
+       "text": "예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 1억원까지(본 은행의 여타 보호상품과 합산) 보호됩니다.",
+       "src": [
+        "설명서:예금자보호 여부"
+       ]
+      },
+      {
+       "text": "예금잔액증명서 발급 당일에는 입금·출금·이체 등 잔액 변동 불가",
+       "src": [
+        "설명서:원금 및 이자지급 제한"
+       ]
+      },
+      {
+       "text": "예금 만기일 또는 이자지급을 포함한 최종거래일 이후 5 년 이내 계좌를 해지하지 않을 경우 휴면예금으로 출연될 수 있음",
+       "src": [
+        "설명서:휴면예금 출연"
+       ]
+      },
+      {
+       "text": "압류 또는 가압류가 등록될 경우 원금 및 이자 지급이 제한될 수 있음",
+       "src": [
+        "설명서:원금 및 이자지급 제한"
+       ]
+      }
+     ]
+    }
+   ],
+   "repaired": "298행 여분의 } 하나 지움 · key 를 맨 위에 늘어놓은 형식을 items 로 옮김",
+   "name": "Gemma 4 12B · 4비트 · 원문 전체",
+   "model": "Gemma 4 12B · 4비트",
+   "input": "원문 전체",
+   "review": {
+    "good": [
+     "내용은 일곱 판 중 가장 빠짐없음 — fee 제외 조건 5개 · 거래중지 세 구간 · 양도/질권/담보 · 예금자보호 · 휴면예금 · 압류"
+    ],
+    "bad": [
+     [
+      "형식 깨짐",
+      "JSON 이 안 읽힘(298행 여분의 }) · items 배열 대신 key 를 맨 위에 늘어놓음 — 채점은 그 한 줄을 지우고 옮겨서 함"
+     ],
+     [
+      "못 함",
+      "원문 문장을 줄줄이 옮기기만 함 — 요약 문장 · 조건/예외 구분 · 조건 논리 · 물을 입력 · 문서 차이 없음"
+     ]
+    ]
+   }
+  },
+  {
+   "nlines": 12,
+   "blob": 0,
+   "score": {
+    "filled": 9,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 4,
+    "src_ok": 3,
+    "ui_need": 5,
+    "ui_hit": 2,
+    "only_need": 2,
+    "only_hit": 0,
+    "only_false": 3,
+    "diff_need": 2,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 1,
+    "asof_hit": 0
+   },
+   "gen_tokens": 1301,
+   "sec": 129.9,
+   "items": [
+    {
+     "key": "product_type",
+     "summary": "입출입이 자유로운 예금 (보통예금, 저축예금)",
+     "special": {
+      "text": "동일 예금과목 상품 전환 가능 (단, 전환신규가 불가한 상품은 제외)",
+      "src": "특약 조항 §1151"
+     }
+    },
+    {
+     "key": "eligibility_target",
+     "summary": "실명 확인된 개인 (개인사업자 포함 가능하나 서류 미제출 시 제외 가능)",
+     "conditions": [
+      {
+       "text": "1인 당 1개의 통장만 개설 가능",
+       "src": "특약 조항 §1150",
+       "condition_logic": "필수 조건"
+      }
+     ]
+    },
+    {
+     "key": "eligibility_restriction",
+     "summary": "공동명의 가입 불가",
+     "conditions": [
+      {
+       "text": "공동명의 가입 불가",
+       "src": "특약 조항 §1150",
+       "condition_logic": "필수 조건"
+      }
+     ]
+    },
+    {
+     "key": "deposit_amount",
+     "summary": "신규 가입 시 금액 제한 없음",
+     "conditions": [
+      {
+       "text": "신규 가입 시 금액 제한 없음",
+       "src": "상품설명서",
+       "condition_logic": "필수 조건"
+      }
+     ]
+    },
+    {
+     "key": "base_rate",
+     "summary": "기본 이율 연 0.10% (세금 공제 전)",
+     "conditions": [
+      {
+       "text": "기본 이율 연 0.10% (결산일 현재 영업점 고시 이율 적용)",
+       "src": "상품설명서",
+       "condition_logic": "필수 조건"
+      }
+     ]
+    },
+    {
+     "key": "interest_payment",
+     "summary": "보통예금: 매년 6, 12월 둘째 금요일에 이자 지급, 저축예금: 매년 2, 5, 8, 11월 둘째 금요일에 이자 지급",
+     "conditions": [
+      {
+       "text": "이자 지급 시기 및 방법",
+       "src": "상품설명서",
+       "condition_logic": "필수 조건"
+      }
+     ]
+    },
+    {
+     "key": "fee",
+     "summary": "수수료 면제 조건 충족 시 특정 수수료 면제 (면제 기간: 이번달 11일 ~ 다음달 10일, 제한 없음)",
+     "conditions": [
+      {
+       "text": "전월 중 합산 50만원 이상 입금 또는 KB 리브 모바일 자동이체 출금 이력이 있으면 수수료 면제",
+       "user_input": "전월 입금 금액과 KB 리브 모바일 자동이체 출금 이력 확인 필요",
+       "src": [
+        "특약 조항 §1153",
+        "상품설명서"
+       ],
+       "only_in": "특약 조항 및 상품설명서"
+      },
+      {
+       "text": "면제 기간: 신규 또는 전환 계좌 개설 후 다음 다음 달 10일까지 은행 거래 실적에 관계없이 면제",
+       "src": [
+        "특약 조항 §1154"
+       ],
+       "only_in": "특약 조항"
+      }
+     ]
+    },
+    {
+     "key": "tax",
+     "summary": "비과세종합저축으로 가입 가능 (세법 개정 시 세금 부과 가능성 있음)",
+     "conditions": [
+      {
+       "text": "비과세종합저축으로 가입 가능 (세법 개정 시 세금 부과 가능)",
+       "src": "상품설명서",
+       "condition_logic": "선택 사항"
+      }
+     ]
+    },
+    {
+     "key": "transaction_restriction",
+     "summary": "전기통신금융사기 피해 의심 시 금융거래 제한 가능",
+     "conditions": [
+      {
+       "text": "전기통신금융사기 피해 의심 시 이체, 송금지연, 지급정지 등의 제한 가능",
+       "src": [
+        "특약 조항 §1156",
+        "상품설명서"
+       ],
+       "only_in": "특약 조항 및 상품설명서"
+      }
+     ]
+    },
+    {
+     "key": "other_important",
+     "summary": "원금 및 이자 지급 제한: 압류 또는 가압류 등록 시 제한 가능, 예금자보호법에 따라 1인당 최대 1억원 보호, 자료열람요구권 존재",
+     "conditions": [
+      {
+       "text": "계좌 압류 또는 가압류 시 원금 및 이자 지급 제한 가능",
+       "src": [
+        "특약 조항 §1156",
+        "상품설명서"
+       ],
+       "only_in": "특약 조항 및 상품설명서"
+      },
+      {
+       "text": "예금자보호법에 따라 1인당 최대 1억원 보호",
+       "src": "상품설명서",
+       "only_in": "상품설명서"
+      },
+      {
+       "text": "금융소비자 자료 열람 요구권 존재",
+       "src": "상품설명서",
+       "only_in": "상품설명서"
+      }
+     ]
+    }
+   ],
+   "repaired": null,
+   "name": "EXAONE 3.5 7.8B · 4비트 · 원문 전체",
+   "model": "EXAONE 3.5 7.8B · 4비트",
+   "input": "원문 전체",
+   "review": {
+    "good": [
+     "other_important 에 예금자보호 · 압류 제한 · 자료열람요구권을 모음",
+     "fee 물을 입력 표시"
+    ],
+    "bad": [
+     [
+      "못 함",
+      "1,301토큰으로 짧게 끝나 key 9/16 · 양도/질권/담보 key 없음"
+     ],
+     [
+      "못 함",
+      "fee 제외 조건 전부 빠짐"
+     ],
+     [
+      "자리 틀림",
+      "거래중지 세 구간 대신 사기이용계좌 제한만 · 출처를 §1156(수수료 조항)으로 잘못 적음"
+     ]
+    ]
+   }
+  },
+  {
+   "nlines": 35,
+   "blob": 0,
+   "score": {
+    "filled": 16,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 14,
+    "src_ok": 5,
+    "ui_need": 5,
+    "ui_hit": 2,
+    "only_need": 2,
+    "only_hit": 2,
+    "only_false": 2,
+    "diff_need": 2,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 1,
+    "asof_hit": 1
+   },
+   "gen_tokens": 3540,
+   "sec": 826.2,
+   "items": [
+    {
+     "key": "product_name",
+     "summary": "KB스타통장",
+     "source_section_ids": [
+      1150
+     ]
+    },
+    {
+     "key": "product_type",
+     "summary": "입출금이 자유로운 보통예금 및 저축예금",
+     "conditions": [
+      {
+       "text": "보통예금, 저축예금으로 함",
+       "src": [
+        1151,
+        "설명서:상품유형"
+       ]
+      }
+     ],
+     "source_section_ids": [
+      1151
+     ]
+    },
+    {
+     "key": "product_feature",
+     "summary": "소득이 있는 누구나 혜택을 받을 수 있는 통장",
+     "conditions": [
+      {
+       "text": "‘소득이 있는 누구나’ 혜택을 받을 수 있는 통장",
+       "src": [
+        "설명서:상품특징"
+       ]
+      }
+     ],
+     "source_section_ids": []
+    },
+    {
+     "key": "eligibility_target",
+     "summary": "실명이 확인된 개인(개인사업자 및 관련서류 미제출 임의단체 포함)",
+     "conditions": [
+      {
+       "text": "금융실명거래 및 비밀보장에 관한 법률에 따라 실명이 확인된 개인",
+       "src": [
+        1150,
+        "설명서:가입대상"
+       ]
+      },
+      {
+       "text": "개인사업자 및 관련서류 미제출 임의단체 포함",
+       "src": [
+        "설명서:가입대상"
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "condition_logic": "모두 충족",
+     "source_section_ids": [
+      1150
+     ]
+    },
+    {
+     "key": "eligibility_restriction",
+     "summary": "공동명의 가입 불가",
+     "exceptions": [
+      {
+       "text": "공동명의 가입 불가",
+       "src": [
+        "설명서:가입대상"
+       ],
+       "only_in": "상품설명서"
+      }
+     ],
+     "source_section_ids": []
+    },
+    {
+     "key": "account_limit",
+     "summary": "1인당 1개의 계좌만 개설 가능",
+     "conditions": [
+      {
+       "text": "1인 당 1개의 통장만 개설 가능",
+       "src": [
+        1150,
+        "설명서:가입대상"
+       ]
+      }
+     ],
+     "source_section_ids": [
+      1150
+     ]
+    },
+    {
+     "key": "deposit_amount",
+     "summary": "신규 가입 금액에 제한 없음",
+     "conditions": [
+      {
+       "text": "제한없음",
+       "src": [
+        "설명서:신규금액"
+       ]
+      }
+     ],
+     "source_section_ids": []
+    },
+    {
+     "key": "base_rate",
+     "summary": "연 0.10% (2025.12.05. 기준)",
+     "conditions": [
+      {
+       "text": "연 0.10% (세금공제 전)",
+       "src": [
+        "설명서:기본이율"
+       ]
+      }
+     ],
+     "special": {
+      "text": "결산일 현재 영업점에 고시한 예금과목별 기본이율 적용",
+      "src": "설명서:기본이율"
+     },
+     "as_of": "2025.12.05.",
+     "source_section_ids": []
+    },
+    {
+     "key": "interest_payment",
+     "summary": "예금과목(보통/저축)에 따라 정해진 결산일에 지급",
+     "conditions": [
+      {
+       "text": "보통예금: 매년 6, 12월의 둘째 금요일 결산 후 다음날 원금 가산",
+       "src": [
+        "설명서:이자 지급시기"
+       ]
+      },
+      {
+       "text": "저축예금: 매년 2, 5, 8, 11월의 둘째 금요일 결산 후 다음날 원금 가산",
+       "src": [
+        "설명서:이자 지급시기"
+       ]
+      }
+     ],
+     "condition_logic": "예금과목에 따라 선택 적용",
+     "exceptions": [
+      {
+       "text": "최종거래일로부터 5년 경과 시 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급 가능",
+       "src": [
+        "설명서:이자 지급시기"
+       ]
+      }
+     ],
+     "source_section_ids": []
+    },
+    {
+     "key": "termination_method",
+     "summary": "영업점, 개인인터넷뱅킹, KB스타뱅킹을 통해 해지 가능",
+     "conditions": [
+      {
+       "text": "영업점, 개인인터넷뱅킹, KB스타뱅킹 이용",
+       "src": [
+        "설명서:거래방법",
+        "설명서:계약해지방법"
+       ]
+      }
+     ],
+     "exceptions": [
+      {
+       "text": "개인인터넷뱅킹, KB스타뱅킹 해지 시 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요함",
+       "src": [
+        "설명서:계약해지방법"
+       ]
+      }
+     ],
+     "source_section_ids": []
+    },
+    {
+     "key": "tax",
+     "summary": "비과세종합저축으로 가입 가능",
+     "conditions": [
+      {
+       "text": "비과세종합저축으로 가입 가능",
+       "src": [
+        "설명서:세제관련"
+       ]
+      }
+     ],
+     "exceptions": [
+      {
+       "text": "관련세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있음",
+       "src": [
+        "설명서:세제관련"
+       ]
+      }
+     ],
+     "source_section_ids": []
+    },
+    {
+     "key": "transaction_restriction",
+     "summary": "압류, 가압류, 사기이용계좌 등록 시 또는 무거래 기간 경과 시 거래 제한",
+     "conditions": [
+      {
+       "text": "계좌에 압류, 가압류 등이 등록될 경우 원금 및 이자 지급 제한",
+       "src": [
+        "설명서:원금 및 이자지급 제한"
+       ]
+      },
+      {
+       "text": "예금잔액증명서 발급 당일 입금·출금·이체 등 잔액 변동 불가",
+       "src": [
+        "설명서:원금 및 이자지급 제한"
+       ]
+      },
+      {
+       "text": "피해의심거래계좌 및 사기이용계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 제한",
+       "src": [
+        "설명서:원금 및 이자지급 제한",
+        "설명서:이용제한 사항"
+       ]
+      },
+      {
+       "text": "잔액 1만원 미만 & 1년 이상 무거래",
+       "src": [
+        "설명서:거래중지"
+       ]
+      },
+      {
+       "text": "잔액 1만원 이상 5만원 미만 & 2년 이상 무거래",
+       "src": [
+        "설명서:거래중지"
+       ]
+      },
+      {
+       "text": "잔액 5만원 이상 10만원 미만 & 3년 이상 무거래",
+       "src": [
+        "설명서:거래중지"
+       ]
+      }
+     ],
+     "condition_logic": "하나라도 해당 시 거래 제한",
+     "exceptions": [
+      {
+       "text": "민사집행법에 따라 최저생계비 이하 등 압류금지채권 해당 시 법원에 범위 변경 신청을 통해 압류 취소 가능",
+       "src": [
+        "설명서:원금 및 이자지급 제한"
+       ]
+      }
+     ],
+     "source_section_ids": []
+    },
+    {
+     "key": "fee",
+     "summary": "특정 실적 충족 시 전자금융 이체, 자동이체, ATM 출금 수수료 면제",
+     "benefit": "전자금융 타행 이체, 납부자 자동이체, KB ATM 타행 이체/시간외 출금, 타행 ATM 출금 수수료 면제",
+     "conditions": [
+      {
+       "text": "전월(1일~말일) 중 합산 50만원 이상 입금 이력 발생",
+       "user_input": "전월 입금 합산 금액",
+       "src": [
+        1153,
+        "설명서:수수료 면제 혜택"
+       ]
+      },
+      {
+       "text": "KB 리브 모바일(KB Liiv M) 자동이체 출금 이력 발생",
+       "user_input": "리브모바일 자동이체 여부",
+       "src": [
+        1153,
+        "설명서:수수료 면제 혜택"
+       ]
+      }
+     ],
+     "condition_logic": "둘 중 하나 이상 충족 시 면제",
+     "exceptions": [
+      {
+       "text": "입금 실적에서 당행 본인 명의 계좌 이체 건, 본인 주민번호 입금 건 제외",
+       "src": [
+        1153,
+        "설명서:수수료 면제 혜택"
+       ]
+      },
+      {
+       "text": "입금 실적에서 당행 오픈뱅킹 타금융기관 이체 건 및 결산이자 입금 건 제외",
+       "src": [
+        "설명서:수수료 면제 혜택"
+       ],
+       "only_in": "상품설명서"
+      },
+      {
+       "text": "리브모바일 출금 실적에서 체크카드 및 신용카드를 통해 출금된 건 제외",
+       "src": [
+        1153,
+        "설명서:수수료 면제 혜택"
+       ]
+      },
+      {
+       "text": "타행 ATM의 경우 제휴 ATM 및 VAN사(효성·나이스·한네트 등) 자동화기기 제외",
+       "src": [
+        1156,
+        "설명서:수수료 면제 혜택"
+       ]
+      }
+     ],
+     "special": {
+      "text": "면제 기간은 이번달 11일 ~ 다음달 10일까지이며, 신규(전환)일부터 다음 다음 달 10일까지는 실적 관계없이 면제. 면제 횟수 제한 없음.",
+      "src": "1154, 1155, 설명서:수수료 면제 혜택"
+     },
+     "source_section_ids": [
+      1153,
+      1154,
+      1155,
+      1156
+     ]
+    },
+    {
+     "key": "assignment_collateral",
+     "summary": "양도는 가능하나 질권설정 및 담보제공은 불가",
+     "conditions": [
+      {
+       "text": "양도 가능",
+       "src": [
+        "설명서:양도 및 담보제공"
+       ]
+      }
+     ],
+     "exceptions": [
+      {
+       "text": "질권설정 불가",
+       "src": [
+        "설명서:질권설정"
+       ]
+      },
+      {
+       "text": "담보제공 불가능",
+       "src": [
+        "설명서:양도 및 담보제공"
+       ]
+      }
+     ],
+     "source_section_ids": []
+    },
+    {
+     "key": "partner_benefit",
+     "summary": "입금 관리 서비스 '인컴박스' 제공",
+     "benefit": "다양한 출처의 불규칙한 입금 거래를 카드형/달력형으로 확인 가능",
+     "special": {
+      "text": "인컴박스별 입금 적요 키워드 설정 가능(박스당 최대 3개), 계좌별 인컴박스 최대 3개 설정 가능. KB스타뱅킹 앱을 통해 이용.",
+      "src": "설명서:인컴박스 서비스"
+     },
+     "source_section_ids": []
+    },
+    {
+     "key": "product_conversion",
+     "summary": "동일 예금과목 상품으로 전환 가능",
+     "conditions": [
+      {
+       "text": "동일 예금과목 상품 전환 가능",
+       "src": [
+        "설명서:상품유형"
+       ]
+      }
+     ],
+     "exceptions": [
+      {
+       "text": "개별상품에서 정한 기준에 의해 전환신규가 불가한 상품은 제외",
+       "src": [
+        "설명서:상품유형"
+       ]
+      }
+     ],
+     "source_section_ids": []
+    },
+    {
+     "key": "other_important",
+     "summary": null,
+     "conditions": [
+      {
+       "text": "예금자보호법에 따라 원금과 이자 합하여 1인당 최고 1억원까지 보호",
+       "src": [
+        "설명서:예금자보호 여부"
+       ]
+      }
+     ],
+     "exceptions": [
+      {
+       "text": "최종거래일 이후 5년 이내 해지하지 않을 경우 서민금융진흥원에 출연될 수 있음",
+       "src": [
+        "설명서:휴면예금 출연"
+       ]
+      }
+     ],
+     "source_section_ids": []
+    }
+   ],
+   "repaired": null,
+   "model": "Gemma 4 31B · 4비트",
+   "input": "원문 전체",
+   "name": "Gemma 4 31B · 4비트 · 원문 전체",
+   "review": {
+    "good": [
+     "수수료 면제 제외 조건을 넷으로 나누고 «오픈뱅킹 · 결산이자» 줄에만 «상품설명서에만» 표시 — 목표와 같은 구분",
+     "조건 논리 «둘 중 하나 이상 충족 시 면제» · 물을 입력 2개 · 16/16 key + other_important",
+     "원문 전체를 넣고도 JSON · 지시 구조를 지킴 (12B 는 여기서 깨짐)"
+    ],
+    "bad": [
+     [
+      "못 함",
+      "doc_diff 칸은 비움 (only_in 으로만 표시)"
+     ],
+     [
+      "덜 나눔",
+      "other_important 에 예금자보호 · 휴면예금만 — 압류 시 지급 제한 · 자료열람요구권 빠짐"
+     ],
+     [
+      "메모리",
+      "GPU 최대 26.9GB — 한도(30)에 가까움. 이보다 긴 원문은 OOM 위험"
+     ]
+    ]
+   }
+  }
+ ],
+ "exaone": "EXAONE 3.5 7.8B 는 원격 코드(modeling_exaone.py)가 설치된 transformers 5.18 과 맞지 않아 한 줄을 고친 사본으로 돌렸다. 원문 전체 Qwen 은 기본 메모리 한도(24GiB)에서 OOM 이 나 한도만 30 으로 올려 다시 돌렸다(입력 · 출력 한도는 그대로). Gemma 4 31B 는 compare_terms.py 에 gemma31 로 추가해 같은 조건(메모리 한도 30)으로 돌렸다. 26B-A4B(MoE)는 전문가 가중치가 bitsandbytes 4비트로 줄지 않아 V100 32GB 에 올리지 못한다고 보고 돌리지 않았다.",
+ "note": "4비트 모델은 M3 compare_terms.py(NF4 · fp16 연산 · greedy · 입력 8192 / 출력 6144), fp16 Qwen 은 M2-2 러너로 돌렸다. «요약입력 조항»은 팀 요약입력의 특약 6 + 상품설명서 15조항, «원문 전체»는 상품설명서 txt 전체(약 8,600자) + 특약 6조항이며 key 밖 내용은 other_important 로 모으게 했다. 원문 전체 판은 상품설명서 출처가 문자열이라 출처 채점이 낮게 나온다.",
+ "verdict": "Gemma 4 31B 가 두 입력 모두에서 가장 목표에 가까웠습니다. 수수료 면제의 «하나 이상» 조건 논리, 물을 입력, 제외 조건, «오픈뱅킹 · 결산이자는 상품설명서에만»이라는 문서 차이를 짚은 판은 31B 뿐입니다. 나머지 일곱 판(Qwen3-8B · Gemma 4 12B · EXAONE 3.5)은 문서 차이와 물을 입력을 거의 못 했고, Gemma 12B 와 원문을 덩어리째 복사한 fp16 Qwen 을 빼면 수수료 제외 조건을 전부 또는 일부 빠뜨렸습니다. 다만 31B 도 가입대상의 문서 차이 · 공동명의 불가 · 압류 제한을 놓쳤고, V100 에서 한 판에 11~14분 · GPU 최대 26.9GB 라 원문이 더 길면 OOM 위험이 있습니다. 상품 하나 · 한 번씩 돌린 결과입니다."
+};
+function renderModels(){
+  if(!MODELS) return;
+  document.getElementById("mnote").textContent="KB스타통장을 목표 형식 지시문과 함께 넣고 key별 JSON을 받았습니다. "+MODELS.note;
+  document.getElementById("mfail").textContent=MODELS.exaone;
+  if(MODELS.verdict) document.getElementById("mverdict").textContent=MODELS.verdict;
+  const R=MODELS.runs, t=document.getElementById("mtable");
+  const cols=[
+    ["key 채움", r=>`${r.score.filled}/${r.score.keys}`],
+    ["조건·예외 줄 (기계)", r=>`${r.score.lines_hit}/${r.score.lines}`],
+    ["원문 통째 복사", r=>`${r.blob}/${r.nlines}`],
+    ["문서 차이 (헛표시)", r=>`${r.score.diff_hit}/${r.score.diff_need} (${r.score.diff_false})`],
+    ["물을 입력", r=>`${r.score.ui_hit}/${r.score.ui_need}`],
+    ["뜻 오류", r=>String(r.review.bad.filter(b=>b[0]==="뜻 오류").length)],
+    ["형식", r=>r.repaired?"깨짐":"읽힘"],
+    ["생성", r=>`${r.gen_tokens}토큰 · ${Math.round(r.sec)}초`],
+  ];
+  const head=el("tr",{},el("th",{text:"모델"})); cols.forEach(c=>head.append(el("th",{text:c[0]}))); t.append(el("thead",{},head));
+  const tb=el("tbody");
+  [...new Set(R.map(r=>r.input))].forEach(inp=>{
+    tb.append(el("tr",{},el("th",{colspan:String(cols.length+1),class:"grp",text:"입력: "+inp})));
+    R.filter(r=>r.input===inp).forEach(r=>{ const tr=el("tr",{},el("th",{text:r.model}));
+      cols.forEach(c=>tr.append(el("td",{class:"n",text:c[1](r)}))); tb.append(tr); });
+  });
+  t.append(tb);
+  const cards=document.getElementById("mcards");
+  R.forEach(r=>{ const c=el("div",{class:"panel"},el("h3",{text:r.name}));
+    c.append(el("div",{class:"note",text:"잘한 것"})); const g=el("ul"); r.review.good.forEach(x=>g.append(el("li",{text:x}))); c.append(g);
+    c.append(el("div",{class:"note",text:"문제"})); const b=el("ul"); r.review.bad.forEach(([sev,x])=>{ const li=el("li");
+      li.append(el("span",{class:"sev "+(sev==="뜻 오류"?"s1":sev==="못 함"||sev==="헛표시"?"s2":""),text:sev})); li.append(document.createTextNode(x)); b.append(li); });
+    c.append(b); cards.append(c); });
+  const raw=document.getElementById("mraw");
+  R.forEach(r=>{ const d=el("details",{class:"raw"},el("summary",{text:r.name+" 원본 출력 (JSON)"})); const pre=el("pre"); pre.textContent=JSON.stringify({items:r.items},null,1); d.append(pre); raw.append(d); });
+}
+const MULTI = {
+ "rows": [
+  {
+   "product": "KB스타통장",
+   "model": "Gemma 4 31B",
+   "parsed": true,
+   "gen_tokens": 2740,
+   "sec": 634.1,
+   "review": [
+    [
+     "잘함",
+     "fee 조건 논리 OR · 물을 입력 · 제외 조건 · «오픈뱅킹 · 결산이자는 설명서에만» 문서 차이"
+    ],
+    [
+     "못 함",
+     "가입대상 공동명의 불가 · 가입대상 문서 차이"
+    ]
+   ],
+   "before": {
+    "filled": 16,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 17,
+    "src_ok": 17,
+    "ui_need": 5,
+    "ui_hit": 2,
+    "only_need": 2,
+    "only_hit": 2,
+    "only_false": 0,
+    "diff_need": 2,
+    "diff_hit": 1,
+    "diff_false": 0,
+    "asof_need": 1,
+    "asof_hit": 1
+   },
+   "after": {
+    "filled": 16,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 17,
+    "src_ok": 17,
+    "ui_need": 5,
+    "ui_hit": 5,
+    "only_need": 2,
+    "only_hit": 2,
+    "only_false": 0,
+    "diff_need": 2,
+    "diff_hit": 2,
+    "diff_false": 1,
+    "asof_need": 1,
+    "asof_hit": 1
+   },
+   "missing_flags": 2,
+   "diff_found": [
+    "product_type",
+    "eligibility_target",
+    "fee"
+   ]
+  },
+  {
+   "product": "KB스타통장",
+   "model": "Gemma 4 12B",
+   "parsed": true,
+   "gen_tokens": 2879,
+   "sec": 576.8,
+   "review": [
+    [
+     "잘함",
+     "fee 조건 논리 · 제외 조건 다 옮김"
+    ],
+    [
+     "뜻 오류",
+     "거래중지 세 구간 통째로 빠짐"
+    ]
+   ],
+   "before": {
+    "filled": 15,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 13,
+    "src_ok": 13,
+    "ui_need": 5,
+    "ui_hit": 0,
+    "only_need": 2,
+    "only_hit": 0,
+    "only_false": 6,
+    "diff_need": 2,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 1,
+    "asof_hit": 1
+   },
+   "after": {
+    "filled": 15,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 13,
+    "src_ok": 13,
+    "ui_need": 5,
+    "ui_hit": 2,
+    "only_need": 2,
+    "only_hit": 0,
+    "only_false": 2,
+    "diff_need": 2,
+    "diff_hit": 2,
+    "diff_false": 1,
+    "asof_need": 1,
+    "asof_hit": 1
+   },
+   "missing_flags": 2,
+   "diff_found": [
+    "product_type",
+    "eligibility_target",
+    "fee"
+   ]
+  },
+  {
+   "product": "KB스타통장",
+   "model": "Qwen3-8B 4비트",
+   "parsed": true,
+   "gen_tokens": 3782,
+   "sec": 467.9,
+   "review": [
+    [
+     "뜻 오류",
+     "fee 조건에 50만원 · 리브모바일 빠짐 · «모두 충족»"
+    ],
+    [
+     "헛표시",
+     "doc_diff 를 거의 모든 key 에"
+    ]
+   ],
+   "before": {
+    "filled": 15,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 10,
+    "src_ok": 10,
+    "ui_need": 5,
+    "ui_hit": 3,
+    "only_need": 2,
+    "only_hit": 1,
+    "only_false": 21,
+    "diff_need": 2,
+    "diff_hit": 2,
+    "diff_false": 13,
+    "asof_need": 1,
+    "asof_hit": 1
+   },
+   "after": {
+    "filled": 15,
+    "keys": 16,
+    "lines": 20,
+    "lines_hit": 10,
+    "src_ok": 10,
+    "ui_need": 5,
+    "ui_hit": 3,
+    "only_need": 2,
+    "only_hit": 0,
+    "only_false": 0,
+    "diff_need": 2,
+    "diff_hit": 2,
+    "diff_false": 1,
+    "asof_need": 1,
+    "asof_hit": 1
+   },
+   "missing_flags": 5,
+   "diff_found": [
+    "product_type",
+    "eligibility_target",
+    "fee"
+   ]
+  },
+  {
+   "product": "KB 프리N통장",
+   "model": "Gemma 4 31B",
+   "parsed": true,
+   "gen_tokens": 3087,
+   "sec": 757.4,
+   "review": [
+    [
+     "잘함",
+     "fee 제외 조건 4개 · 특별금리 «인정단어» 조건 · 예금과목별 조건 논리 모두 맞음 · 문서 차이 헛표시 없음"
+    ],
+    [
+     "덜 나눔",
+     "제외 조건을 조건 문장 안 괄호로 묶음 (기계 점수가 낮게 나온 까닭)"
+    ]
+   ],
+   "before": {
+    "filled": 17,
+    "keys": 17,
+    "lines": 27,
+    "lines_hit": 16,
+    "src_ok": 16,
+    "ui_need": 7,
+    "ui_hit": 4,
+    "only_need": 0,
+    "only_hit": 0,
+    "only_false": 0,
+    "diff_need": 0,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 3,
+    "asof_hit": 3
+   },
+   "after": {
+    "filled": 17,
+    "keys": 17,
+    "lines": 27,
+    "lines_hit": 16,
+    "src_ok": 16,
+    "ui_need": 7,
+    "ui_hit": 5,
+    "only_need": 0,
+    "only_hit": 0,
+    "only_false": 0,
+    "diff_need": 0,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 3,
+    "asof_hit": 3
+   },
+   "missing_flags": 7,
+   "diff_found": []
+  },
+  {
+   "product": "KB 프리N통장",
+   "model": "Gemma 4 12B",
+   "parsed": false,
+   "gen_tokens": 3140,
+   "sec": 609.6,
+   "review": [
+    [
+     "형식 깨짐",
+     "JSON 이 안 읽힘(콤마 빠짐) — 입력이 길어지면 12B 는 형식을 놓친다 (KB스타통장 원문 전체와 같은 증상)"
+    ]
+   ]
+  },
+  {
+   "product": "KB 프리N통장",
+   "model": "Qwen3-8B 4비트",
+   "parsed": true,
+   "gen_tokens": 2593,
+   "sec": 328.8,
+   "review": [
+    [
+     "뜻 오류",
+     "특별금리 조건에서 «인정단어»가 빠짐 — 아무 입금이나 50만원이면 되는 것처럼 읽힘"
+    ],
+    [
+     "못 함",
+     "fee 제외 조건 전부 빠짐 · 조건 논리 없음"
+    ]
+   ],
+   "before": {
+    "filled": 17,
+    "keys": 17,
+    "lines": 27,
+    "lines_hit": 9,
+    "src_ok": 9,
+    "ui_need": 7,
+    "ui_hit": 0,
+    "only_need": 0,
+    "only_hit": 0,
+    "only_false": 18,
+    "diff_need": 0,
+    "diff_hit": 0,
+    "diff_false": 1,
+    "asof_need": 3,
+    "asof_hit": 1
+   },
+   "after": {
+    "filled": 17,
+    "keys": 17,
+    "lines": 27,
+    "lines_hit": 9,
+    "src_ok": 9,
+    "ui_need": 7,
+    "ui_hit": 7,
+    "only_need": 0,
+    "only_hit": 0,
+    "only_false": 0,
+    "diff_need": 0,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 3,
+    "asof_hit": 1
+   },
+   "missing_flags": 12,
+   "diff_found": []
+  },
+  {
+   "product": "KB 별별통장2",
+   "model": "Gemma 4 31B",
+   "parsed": true,
+   "gen_tokens": 2883,
+   "sec": 649.3,
+   "review": [
+    [
+     "잘함",
+     "양도 · 담보 · 질권 모두 불가(KB스타통장과 반대)를 맞게 · fee 는 실적 조건 없는 면제로 맞게 · 외국인 조건에 «설명서에만»"
+    ],
+    [
+     "못 함",
+     "쿠폰의 입금 인정 제외(오픈뱅킹 · 결산이자 등) · 출금 인정 기준(기업 · 선불카드 제외) 빠짐 — 설명서에만 있는 핵심 차이 · 문서 차이 0/3"
+    ]
+   ],
+   "before": {
+    "filled": 17,
+    "keys": 17,
+    "lines": 22,
+    "lines_hit": 10,
+    "src_ok": 10,
+    "ui_need": 5,
+    "ui_hit": 2,
+    "only_need": 6,
+    "only_hit": 1,
+    "only_false": 0,
+    "diff_need": 3,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 3,
+    "asof_hit": 2
+   },
+   "after": {
+    "filled": 17,
+    "keys": 17,
+    "lines": 22,
+    "lines_hit": 10,
+    "src_ok": 10,
+    "ui_need": 5,
+    "ui_hit": 3,
+    "only_need": 6,
+    "only_hit": 1,
+    "only_false": 3,
+    "diff_need": 3,
+    "diff_hit": 3,
+    "diff_false": 1,
+    "asof_need": 3,
+    "asof_hit": 2
+   },
+   "missing_flags": 20,
+   "diff_found": [
+    "eligibility_target",
+    "preferential_rate",
+    "transaction_restriction",
+    "partner_benefit"
+   ]
+  },
+  {
+   "product": "KB 별별통장2",
+   "model": "Gemma 4 12B",
+   "parsed": true,
+   "gen_tokens": 2339,
+   "sec": 409.5,
+   "review": [
+    [
+     "잘함",
+     "양도 · 담보 · 질권 불가, 무조건 면제 맞게"
+    ],
+    [
+     "덜 나눔",
+     "제외 조건을 조건 칸에 · 쿠폰 입금 · 출금 인정 기준 빠짐 · 물을 입력 0"
+    ]
+   ],
+   "before": {
+    "filled": 17,
+    "keys": 17,
+    "lines": 22,
+    "lines_hit": 7,
+    "src_ok": 0,
+    "ui_need": 5,
+    "ui_hit": 0,
+    "only_need": 6,
+    "only_hit": 1,
+    "only_false": 0,
+    "diff_need": 3,
+    "diff_hit": 0,
+    "diff_false": 0,
+    "asof_need": 3,
+    "asof_hit": 3
+   },
+   "after": {
+    "filled": 17,
+    "keys": 17,
+    "lines": 22,
+    "lines_hit": 7,
+    "src_ok": 7,
+    "ui_need": 5,
+    "ui_hit": 3,
+    "only_need": 6,
+    "only_hit": 1,
+    "only_false": 1,
+    "diff_need": 3,
+    "diff_hit": 3,
+    "diff_false": 1,
+    "asof_need": 3,
+    "asof_hit": 3
+   },
+   "missing_flags": 15,
+   "diff_found": [
+    "eligibility_target",
+    "preferential_rate",
+    "transaction_restriction",
+    "partner_benefit"
+   ]
+  },
+  {
+   "product": "KB 별별통장2",
+   "model": "Qwen3-8B 4비트",
+   "missing": true,
+   "review": [
+    [
+     "실패",
+     "입력 9,013토큰에서 OOM — 어텐션 한 번에 9.7GiB 필요. V100 에 긴 입력용 효율 커널이 없어서다. 비교 조건을 지키려고 입력을 줄이지 않았다"
+    ]
+   ]
+  }
+ ],
+ "diffacc": [
+  "세 상품의 목표 문서 차이 key 5개를 모두 찾음 (KB스타통장 2 · 프리N통장 0 · 별별통장2 3)",
+  "헛표시 2 key — KB스타통장 상품유형(«개별상품 기준 전환 불가 제외»는 실제로 설명서에만 있음, 목표에서는 다른 key 에 둠) · 별별통장2 우대금리(«300만원 초과분은 기본금리»는 특약에 암묵적으로만)",
+  "프리N통장(차이 없음)에서 헛표시 0",
+  "문턱은 이 세 상품으로 맞췄다 — 다른 상품에서는 따로 확인해야 한다"
+ ],
+ "verdict": "상품을 셋으로 늘려도 Gemma 4 31B 가 가장 나았습니다 — 프리N통장의 «인정단어» 조건과 제외 조건, 별별통장2의 «양도 · 담보 · 질권 모두 불가»와 «무조건 면제»를 맞게 옮겼습니다. 그래도 31B 역시 별별통장2에서 설명서에만 있는 쿠폰 인정 기준을 빠뜨려 문서 차이를 못 짚었습니다. Qwen3-8B(4비트)는 프리N통장에서 «인정단어»를 빠뜨리는 뜻 오류를 냈고 별별통장2는 OOM, Gemma 4 12B 는 입력이 길면 JSON 이 깨졌습니다. 후처리를 붙이면 모델과 상관없이 문서 차이는 목표대로 표시되고(헛표시 0~1) 물을 입력도 대부분 채워집니다. 모델이 빠뜨린 줄은 후처리가 «누락 의심»으로 알려 줄 뿐 대신 채우지는 않으니, 재시도나 사람 검토로 이어 붙여야 합니다."
+};
+function renderMulti(){
+  if(!MULTI) return;
+  if(MULTI.verdict) document.getElementById("multiverdict").textContent=MULTI.verdict;
+  const t=document.getElementById("multitable");
+  const cols=["모델","형식","key 채움","조건·예외 줄 (기계)","문서 차이 (헛표시)","물을 입력","누락 의심","생성"];
+  const hr=el("tr"); cols.forEach(c=>hr.append(el("th",{text:c}))); t.append(el("thead",{},hr));
+  const tb=el("tbody"); let prod=null;
+  MULTI.rows.forEach(r=>{
+    if(r.product!==prod){ prod=r.product; tb.append(el("tr",{},el("th",{colspan:String(cols.length),class:"grp",text:prod}))); }
+    const tr=el("tr",{},el("th",{text:r.model}));
+    if(!r.before){ tr.append(el("td",{class:"n",text:r.missing?"결과 없음":"JSON 깨짐"})); for(let i=0;i<cols.length-3;i++) tr.append(el("td",{class:"n",text:"—"}));
+      tr.append(el("td",{class:"n",text:r.gen_tokens?`${r.gen_tokens}토큰 · ${Math.round(r.sec)}초`:"—"})); tb.append(tr); return; }
+    const b=r.before,a=r.after;
+    [["읽힘"],[`${b.filled}/${b.keys}`],[`${b.lines_hit}/${b.lines}`],
+     [`${b.diff_hit}/${b.diff_need} (${b.diff_false}) → ${a.diff_hit}/${a.diff_need} (${a.diff_false})`],
+     [`${b.ui_hit} → ${a.ui_hit} / ${b.ui_need}`],[String(r.missing_flags)],[`${r.gen_tokens}토큰 · ${Math.round(r.sec)}초`]]
+     .forEach(([v])=>tr.append(el("td",{class:"n",text:v})));
+    tb.append(tr);
+  });
+  t.append(tb);
+  const acc=document.getElementById("diffacc");
+  if(MULTI.diffacc){ const ul=el("ul"); MULTI.diffacc.forEach(x=>ul.append(el("li",{text:x}))); acc.append(ul); }
+  const cards=document.getElementById("multicards");
+  MULTI.rows.filter(r=>r.review&&r.review.length).forEach(r=>{
+    const c=el("div",{class:"panel"},el("h3",{text:`${r.product} · ${r.model}`})); const ul=el("ul");
+    r.review.forEach(([sev,x])=>{ const li=el("li"); li.append(el("span",{class:"sev "+(sev==="뜻 오류"?"s1":sev==="못 함"||sev==="형식 깨짐"?"s2":""),text:sev})); li.append(document.createTextNode(x)); ul.append(li); });
+    c.append(ul); cards.append(c); });
+}
+const THEMES=[["system","시스템"],["light","라이트"],["dark","다크"]];
+let theme="system"; try{ theme=localStorage.getItem("docsab-theme")||"system"; }catch(e){}
+function applyTheme(){
+  if(theme==="system") document.documentElement.removeAttribute("data-theme");
+  else document.documentElement.setAttribute("data-theme",theme);
+  document.getElementById("theme").textContent="테마: "+THEMES.find(t=>t[0]===theme)[1];
+}
+document.getElementById("theme").onclick=()=>{
+  const i=THEMES.findIndex(t=>t[0]===theme); theme=THEMES[(i+1)%THEMES.length][0];
+  try{ localStorage.setItem("docsab-theme",theme); }catch(e){} applyTheme();
+};
+if(!THEMES.some(t=>t[0]===theme)) theme="system";
+applyTheme(); stats(); render(); renderFinal(); renderQwen(); renderModels(); renderMulti();
+</script>

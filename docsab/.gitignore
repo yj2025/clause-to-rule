@@ -1,0 +1,4 @@
+*.post.json
+*.score.json
+__pycache__/
+run.log
