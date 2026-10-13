@@ -1,0 +1,20 @@
+# 상품: {product}
+# 고객이 알고 싶은 것: {purpose}
+
+## user_input
+{user_input_json}
+
+## candidate_facts
+{candidate_facts_json}
+
+## judgment_results
+{judgment_results_json}
+
+## must_include_fact_ids
+{must_include_json}
+
+## dependencies
+{dependencies_json}
+
+## section_order
+{section_order_json}
