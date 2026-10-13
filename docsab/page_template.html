@@ -118,6 +118,8 @@ details.raw pre{overflow-x:auto;font-family:var(--mono);font-size:.76rem;line-he
 .mtbl .best{font-weight:700}
 .mtbl th.grp{background:var(--chip);font-size:.8rem;color:var(--fg)}
 .mtbl tbody th{font-weight:500;white-space:nowrap}
+#rvtable td{vertical-align:top}
+#rvtable td:nth-child(3){min-width:260px;text-align:left}
 .mcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
 .mcards ul{margin:0;padding-left:1.1em;display:grid;gap:4px;font-size:.88rem}
 .fail{background:var(--warn-soft);color:var(--warn);border-radius:8px;padding:10px 14px;font-size:.9rem}
@@ -243,6 +245,19 @@ details.raw pre{overflow-x:auto;font-family:var(--mono);font-size:.76rem;line-he
       <div class="panel"><h3>문서 차이 찾기 정확도 (원문만, 세 상품 목표 기준)</h3><div id="diffacc"></div></div>
     </div>
     <div class="mcards" id="multicards"></div>
+  </section>
+
+
+  <section class="qwen" id="review" aria-labelledby="review-h">
+    <div class="eyebrow">독립 검토</div>
+    <h2 id="review-h">목표 결과물을 다른 눈으로 다시 보면</h2>
+    <p class="lede" id="rvintro"></p>
+    <div class="mtbl"><table id="rvtable"></table></div>
+    <div class="verdict" id="rvq11"></div>
+    <div class="grid2">
+      <div class="panel"><h3>고친 곳</h3><ul id="rvfixed" style="margin:0;padding-left:1.1em;display:grid;gap:4px;font-size:.9rem"></ul></div>
+      <div class="panel"><h3>사람이 정할 것</h3><ol id="rvdecide"></ol></div>
+    </div>
   </section>
 
   <p class="foot">원본 출력은 <code>model/M2-2/docsab/out.jsonl</code>, key 분류는 <code>compare.json</code>에 있습니다. «숫자 서로 다름»은 요약 문장에서 숫자와 단위를 뽑아 견준 기계 분류입니다. 원문을 대조하지 않은 key는 판단을 붙이지 않았습니다.</p>
@@ -441,6 +456,20 @@ function renderMulti(){
     r.review.forEach(([sev,x])=>{ const li=el("li"); li.append(el("span",{class:"sev "+(sev==="뜻 오류"?"s1":sev==="못 함"||sev==="형식 깨짐"?"s2":""),text:sev})); li.append(document.createTextNode(x)); ul.append(li); });
     c.append(ul); cards.append(c); });
 }
+const REVIEW = /*__REVIEW__*/null;
+function renderReview(){
+  if(!REVIEW) return;
+  document.getElementById("rvintro").textContent=REVIEW.intro;
+  document.getElementById("rvq11").textContent="두 문서가 다르면 어느 쪽이 우선인가 — "+REVIEW.q11;
+  const t=document.getElementById("rvtable"); const hr=el("tr");
+  ["#","항목","에이전트 결론","목표 결과물","확신도"].forEach(h=>hr.append(el("th",{text:h}))); t.append(el("thead",{},hr));
+  const tb=el("tbody");
+  REVIEW.items.forEach(([n,k,c,st,cf])=>{ const tr=el("tr",{},el("td",{class:"n",text:n}),el("th",{text:k}),el("td",{text:c}));
+    tr.append(el("td",{},el("span",{class:"sev "+(st.startsWith("고침")?"s1":""),text:st}))); tr.append(el("td",{text:cf})); tb.append(tr); });
+  t.append(tb);
+  const f=document.getElementById("rvfixed"); REVIEW.fixed.forEach(x=>f.append(el("li",{text:x})));
+  const d=document.getElementById("rvdecide"); REVIEW.decide.forEach(x=>d.append(el("li",{text:x})));
+}
 const THEMES=[["system","시스템"],["light","라이트"],["dark","다크"]];
 let theme="system"; try{ theme=localStorage.getItem("docsab-theme")||"system"; }catch(e){}
 function applyTheme(){
@@ -453,5 +482,5 @@ document.getElementById("theme").onclick=()=>{
   try{ localStorage.setItem("docsab-theme",theme); }catch(e){} applyTheme();
 };
 if(!THEMES.some(t=>t[0]===theme)) theme="system";
-applyTheme(); stats(); render(); renderFinal(); renderQwen(); renderModels(); renderMulti();
+applyTheme(); stats(); render(); renderFinal(); renderQwen(); renderModels(); renderMulti(); renderReview();
 </script>
