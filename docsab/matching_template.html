@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KB스타통장 원문 정보유형 매칭</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@400;600&display=swap">
+<style>
+/* Layout: review desk — the clause text on the left like a marked-up printout, the type checklist with team decisions pinned on the right */
+:root{
+  --bg:#F4F6F8; --paper:#FFFFFF; --ink:#18212B; --muted:#5D6B78; --line:#DCE2E8;
+  --accent:#1D5F7A; --accent-soft:#E2EEF3; --mark:#FFE58A; --mark-ink:#3A2E00;
+  --miss:#9AA6B2; --warn:#B4541A; --warn-soft:#FBEDE3; --hold:#9A3B1E; --hold-soft:#F8E4DC; --ok:#2E6F48; --ok-soft:#E1F0E6;
+  --f-ui:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-doc:"Noto Serif KR","AppleMyungjo","Batang",serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11161C; --paper:#181F27; --ink:#E5EAF0; --muted:#97A4B1; --line:#2A3440;
+  --accent:#6FB6D3; --accent-soft:#1C3340; --mark:#6B5A12; --mark-ink:#FFF4C2;
+  --miss:#5F6B77; --warn:#F0A06B; --warn-soft:#3A2618; --hold:#F0A07E; --hold-soft:#3A2219; --ok:#7FCF9F; --ok-soft:#1B2F24; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11161C; --paper:#181F27; --ink:#E5EAF0; --muted:#97A4B1; --line:#2A3440;
+  --accent:#6FB6D3; --accent-soft:#1C3340; --mark:#6B5A12; --mark-ink:#FFF4C2;
+  --miss:#5F6B77; --warn:#F0A06B; --warn-soft:#3A2618; --hold:#F0A07E; --hold-soft:#3A2219; --ok:#7FCF9F; --ok-soft:#1B2F24; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:14px;line-height:1.6}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:20px;padding-block:28px 64px}
+header .top{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:baseline}
+header h1{font-size:1.5rem;margin:0 0 4px;text-wrap:balance;letter-spacing:-.01em}
+header p{margin:0;color:var(--muted);max-width:76ch}
+.meta{font-family:var(--f-mono);font-size:12px;color:var(--muted);margin-top:6px}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 8px}
+.stat{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:10px 14px;min-width:120px}
+.stat b{display:block;font-size:1.35rem;font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--muted)}
+details.points{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:12px 16px;margin:12px 0}
+details.points summary{cursor:pointer;font-weight:600}
+details.points ol{margin:10px 0 0;padding-left:1.3em;display:grid;gap:8px}
+details.points b{display:block}
+details.points span{color:var(--muted)}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0 18px}
+.bar button,.tool{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer}
+.bar button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.bar .now{font-size:13px;color:var(--muted)}
+.bar .now b{color:var(--ink)}
+button:focus-visible,.chip:focus-visible,.type:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:20px;align-items:start}
+@media (max-width:960px){.grid{grid-template-columns:minmax(0,1fr)}.side{position:static!important;max-height:none!important;order:-1}}
+.doc{display:flex;flex-direction:column;gap:12px;min-width:0}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 16px}
+.sec h2{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin:0 0 8px;font-size:15px}
+.sec h2 code{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);font-weight:400}
+.sec h2 .nodb{font-size:11px;font-weight:600;color:var(--warn);background:var(--warn-soft);border-radius:4px;padding:0 6px}
+.seg{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;padding:7px 8px;margin:0 -8px;border-radius:4px;transition:background .15s}
+.seg + .seg{border-top:1px dashed var(--line)}
+.seg .txt{font-family:var(--f-doc);font-size:14.5px;line-height:1.75;min-width:0;overflow-wrap:anywhere}
+.seg .tags{display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end;align-content:flex-start;max-width:250px}
+@media (max-width:560px){.seg{grid-template-columns:minmax(0,1fr)}.seg .tags{justify-content:flex-start;max-width:none}}
+.chip{font:inherit;font-size:11.5px;border:1px solid var(--accent);color:var(--accent);background:var(--accent-soft);border-radius:4px;padding:1px 7px;cursor:pointer;white-space:nowrap}
+.chip.hold{border-color:var(--hold);color:var(--hold);background:var(--hold-soft)}
+.chip.noise{border-color:var(--miss);color:var(--muted);background:transparent;cursor:default}
+.seg.hit{background:var(--mark)} .seg.hit .txt{color:var(--mark-ink)}
+.seg.dim{opacity:.32}
+.note{font-size:12.5px;color:var(--warn);background:var(--warn-soft);border-radius:4px;padding:4px 8px;grid-column:1/-1}
+.side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);max-height:calc(100vh - 24px);overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px}
+.side h3{font-size:13px;margin:0 0 4px;letter-spacing:.02em}
+.side .sub{font-size:12px;color:var(--muted);margin:0 0 10px}
+.area{margin-bottom:12px}
+.area h4{font-size:11.5px;letter-spacing:.06em;color:var(--muted);margin:0 0 4px}
+.trow{border-radius:4px;padding:3px 0}
+.trow.isHold{background:var(--hold-soft)}
+.type{display:grid;grid-template-columns:18px minmax(0,1fr) auto;gap:6px;align-items:baseline;width:100%;text-align:left;font:inherit;font-size:13px;background:none;border:0;border-radius:4px;padding:4px 6px;color:var(--ink);cursor:pointer}
+.type:hover{background:var(--accent-soft)}
+.type.sel{background:var(--accent);color:var(--paper)}
+.type.off{color:var(--miss);cursor:default}
+.type small{display:block;font-family:var(--f-mono);font-size:10.5px;color:var(--muted)}
+.type.sel small{color:var(--paper)}
+.type .n{font-variant-numeric:tabular-nums;font-size:12px}
+.type .why{grid-column:2/-1;font-size:11.5px;color:var(--muted)}
+.dec{display:flex;flex-wrap:wrap;gap:4px 6px;align-items:center;padding:0 6px 4px 30px;font-size:11.5px}
+.pill{border-radius:999px;padding:0 7px;background:var(--line);color:var(--muted);white-space:nowrap}
+.pill.hold{background:var(--hold);color:var(--paper)} .pill.live{background:var(--ok-soft);color:var(--ok)}
+.dec select{font:inherit;font-size:11.5px;padding:1px 4px;border:1px solid var(--hold);border-radius:4px;background:var(--paper);color:var(--ink)}
+.dec input{font:inherit;font-size:11.5px;padding:1px 6px;border:1px solid var(--line);border-radius:4px;background:var(--paper);color:var(--ink);flex:1 1 140px;min-width:0}
+.foot{font-size:12px;color:var(--muted);margin-top:24px;max-width:90ch}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="top"><h1>KB스타통장 원문 정보유형 매칭</h1><button class="tool" id="theme" type="button">테마: 시스템</button></div>
+  <p>KB스타통장 상품설명서 × 정보유형 사전 v0.2 × 정보배치 의사결정표. 상품설명서 원문을 문장 묶음으로 나누고 각 묶음에 정보유형을 붙였습니다. 오른쪽 유형을 누르면 해당 원문이 형광펜으로 표시되고, 유형마다 팀 결정과 «프론트 제외한 내용 프롬프트 입력»이 함께 보입니다. 보류 유형은 프롬프트 입력을 빈칸으로 두었으니 원문을 보고 고르세요.</p>
+  <div class="meta">원문 docs/021_KB스타통장 상품설명서.txt · 항목별 본문 22개 조항 · 앞쪽 «거래 조건» 표는 같은 내용이라 제외 · 수작업 분류(검수 전) · 2026-10-13</div>
+</header>
+<div class="stats" id="stats"></div>
+<details class="points" open><summary>이 문서로 본 검토 포인트 (보류 결정 중심)</summary><ol id="points"></ol></details>
+<div class="bar">
+  <button type="button" id="b-all" aria-pressed="true">전체 원문</button>
+  <button type="button" id="b-hold" aria-pressed="false">보류 유형만</button>
+  <button type="button" id="b-noise" aria-pressed="false">미분류만</button>
+  <button type="button" id="b-note" aria-pressed="false">검토 메모 있는 곳</button>
+  <button type="button" id="b-nodb" aria-pressed="false">요약입력에 없는 조항</button>
+  <span class="now" id="now"></span>
+  <span style="flex:1"></span>
+  <button type="button" class="tool" id="csv">보류 결정 CSV 내려받기</button>
+</div>
+<div class="grid">
+  <main class="doc" id="doc"></main>
+  <aside class="side" aria-label="정보유형 목록">
+    <h3>정보유형 49개 · 이 문서에서 확인된 유형</h3>
+    <p class="sub">● 원문 있음 ○ 없음 · 숫자는 묶음 수 · 아래 줄은 의사결정표의 팀 결정 / 프롬프트 입력. 보류(붉은 배경)는 프롬프트 입력을 골라 주세요 — 브라우저에 저장됩니다.</p>
+    <div id="types"></div>
+  </aside>
+</div>
+<p class="foot">원문 출처: KB스타통장 상품설명서(2025.12.05 기준). 유형 사전과 화면 구성은 «골든라이프 원문 정보유형 매칭.html»을 따랐습니다. 의사결정표: 예금요약_서비스_정보배치_의사결정표.xlsx «기획_배치결정표»(«서비스 상태» = 사전의 «특수 규제·서비스 상태»). «요약입력에 없음»은 팀 요약입력(요약입력_상품별.json)에 조항이 없다는 뜻입니다. 문서 차이 메모는 10-13 독립 검토 결과입니다.</p>
+</div>
+<script>
+const D = /*__DATA__*/null;
+const N = "NOISE";
+const TYPES = D.types;              // [영역, id, 이름, 팀결정, 프롬프트입력, 최초출력, 뜻]
+const NAME = Object.fromEntries(TYPES.map(t => [t[1], t[2]]));
+const INFO = Object.fromEntries(TYPES.map(t => [t[1], {dec: t[3], prompt: t[4], first: t[5], mean: t[6]}]));
+const HOLD = new Set(TYPES.filter(t => t[3] === "보류").map(t => t[1]));
+const KEY = "kbstar-matching-hold";
+let picks = {}; try { picks = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { picks = {}; }
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(picks)); } catch (e) {} };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+
+const segs = []; D.doc.forEach((s, si) => s[3].forEach((g, i) => segs.push({si, sid: s[0], i, txt: g[0], tags: g[1], note: g[2] || ""})));
+const count = {}; segs.forEach(g => g.tags.forEach(t => { if (t !== N) count[t] = (count[t] || 0) + 1; }));
+const found = TYPES.filter(t => count[t[1]]).length;
+
+document.getElementById("stats").innerHTML = [
+  [found + " / " + TYPES.length, "원문에서 확인된 정보유형"],
+  [segs.length, "분류한 원문 묶음"],
+  [segs.filter(g => g.tags.includes(N)).length, "미분류(NOISE)"],
+  [segs.filter(g => g.note).length, "검토 메모"],
+  [[...HOLD].filter(t => count[t]).length + " / " + HOLD.size, "보류 유형 중 원문 있음"],
+  [D.doc.filter(s => !s[0]).length, "요약입력에 없는 조항"]
+].map(([b, s]) => `<div class="stat"><b>${b}</b><span>${s}</span></div>`).join("");
+
+document.getElementById("points").innerHTML = D.points.map(([b, s]) => `<li><b>${esc(b)}</b><span>${esc(s)}</span></li>`).join("");
+
+const docEl = document.getElementById("doc");
+docEl.innerHTML = D.doc.map((s, si) => `<section class="sec" data-si="${si}"><h2>${esc(s[2])} <code>${esc(s[1])}${s[0] ? " · section_id " + s[0] : ""}</code>${s[0] ? "" : '<span class="nodb">요약입력에 없음</span>'}</h2>${
+  s[3].map((g, i) => `<div class="seg" data-k="${si}-${i}"><div class="txt">${esc(g[0])}</div><div class="tags">${
+    g[1].map(t => t === N ? `<span class="chip noise">미분류</span>` : `<button type="button" class="chip${HOLD.has(t) ? " hold" : ""}" data-t="${t}" title="${t} · 팀 결정 ${esc(INFO[t].dec)}">${esc(NAME[t])}</button>`).join("")
+  }</div>${g[2] ? `<div class="note">${esc(g[2])}</div>` : ""}</div>`).join("")}</section>`).join("");
+
+const areas = [...new Set(TYPES.map(t => t[0]))];
+const typesEl = document.getElementById("types");
+typesEl.innerHTML = areas.map(a => `<div class="area"><h4>${esc(a)}</h4>${
+  TYPES.filter(t => t[0] === a).map(t => { const n = count[t[1]] || 0, I = INFO[t[1]], h = HOLD.has(t[1]);
+    const prompt = h ? `<select data-hold="${t[1]}" aria-label="${esc(t[2])} 프롬프트 입력"><option value="">— 프롬프트 입력 —</option><option>생존</option><option>죽어</option></select><input data-memo="${t[1]}" placeholder="메모" aria-label="${esc(t[2])} 메모"><span class="pill" title="엑셀에 적힌 현재 값">표: ${esc(I.prompt.split("\n")[0] || "빈칸")}</span>`
+                     : `<span class="pill ${I.prompt.startsWith("생존") ? "live" : ""}">프롬프트 ${esc(I.prompt.split("\n")[0] || "—")}</span>`;
+    return `<div class="trow${h ? " isHold" : ""}"><button type="button" class="type${n ? "" : " off"}" data-t="${t[1]}" ${n ? "" : 'aria-disabled="true"'} title="${esc(I.mean)}"><span class="dot">${n ? "●" : "○"}</span><span>${esc(t[2])}<small>${t[1]}</small></span><span class="n">${n || "–"}</span>${!n && D.near[t[1]] ? `<span class="why">${esc(D.near[t[1]])}</span>` : ""}</button>
+      <div class="dec"><span class="pill ${h ? "hold" : ""}">${esc(I.dec || "—")}</span>${prompt}</div></div>`; }).join("")
+}</div>`).join("");
+typesEl.querySelectorAll("select[data-hold]").forEach(s => { s.value = (picks[s.dataset.hold] || {}).prompt || "";
+  s.onchange = () => { picks[s.dataset.hold] = {...(picks[s.dataset.hold] || {}), prompt: s.value}; save(); }; });
+typesEl.querySelectorAll("input[data-memo]").forEach(s => { s.value = (picks[s.dataset.memo] || {}).memo || "";
+  s.oninput = () => { picks[s.dataset.memo] = {...(picks[s.dataset.memo] || {}), memo: s.value}; save(); }; });
+
+const segEls = [...docEl.querySelectorAll(".seg")];
+const segOf = el => segs.find(g => `${g.si}-${g.i}` === el.dataset.k);
+const btns = {all: "b-all", hold: "b-hold", noise: "b-noise", note: "b-note", nodb: "b-nodb"};
+Object.keys(btns).forEach(k => btns[k] = document.getElementById(btns[k]));
+const now = document.getElementById("now");
+let sel = null;
+function apply(mode, t){
+  sel = mode === "type" ? t : null;
+  Object.entries(btns).forEach(([k, b]) => b.setAttribute("aria-pressed", String(k === mode)));
+  document.querySelectorAll(".type").forEach(b => b.classList.toggle("sel", b.dataset.t === sel));
+  let first = null;
+  segEls.forEach(el => { const g = segOf(el);
+    const on = mode === "all" ? null : mode === "type" ? g.tags.includes(t) : mode === "hold" ? g.tags.some(x => HOLD.has(x))
+      : mode === "noise" ? g.tags.includes(N) : mode === "nodb" ? !g.sid : !!g.note;
+    el.classList.toggle("hit", on === true); el.classList.toggle("dim", on === false);
+    if (on && !first) first = el; });
+  now.innerHTML = mode === "type" ? `선택: <b>${esc(NAME[t])}</b> · ${count[t]}곳 · 팀 결정 ${esc(INFO[t].dec || "—")}` : mode === "hold" ? `보류 유형 ${HOLD.size}개의 원문` : "";
+  if (first && mode !== "all") first.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center"});
+}
+document.addEventListener("click", e => { const c = e.target.closest("[data-t]");
+  if (c && !c.classList.contains("off")) { const t = c.dataset.t; apply(sel === t ? "all" : "type", t); } });
+btns.all.onclick = () => apply("all"); btns.hold.onclick = () => apply("hold"); btns.noise.onclick = () => apply("noise");
+btns.note.onclick = () => apply("note"); btns.nodb.onclick = () => apply("nodb");
+
+document.getElementById("csv").onclick = () => {
+  const q = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  const rows = [["영역", "정보유형", "id", "팀 결정", "원문 묶음 수", "프롬프트 입력(검토)", "메모"].map(q).join(",")];
+  TYPES.filter(t => HOLD.has(t[1])).forEach(t => rows.push([t[0], t[2], t[1], t[3], count[t[1]] || 0, (picks[t[1]] || {}).prompt || "", (picks[t[1]] || {}).memo || ""].map(q).join(",")));
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["﻿" + rows.join("\r\n")], {type: "text/csv;charset=utf-8"}));
+  a.download = "KB스타통장_보류유형_프롬프트입력_검토.csv"; document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+};
+
+const THEMES = [["system", "시스템"], ["light", "라이트"], ["dark", "다크"]];
+let theme = "system"; try { theme = localStorage.getItem("matching-theme") || "system"; } catch (e) {}
+function applyTheme(){ if (theme === "system") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme", theme);
+  document.getElementById("theme").textContent = "테마: " + THEMES.find(x => x[0] === theme)[1]; }
+document.getElementById("theme").onclick = () => { const i = THEMES.findIndex(x => x[0] === theme); theme = THEMES[(i + 1) % 3][0]; try { localStorage.setItem("matching-theme", theme); } catch (e) {} applyTheme(); };
+applyTheme();
+</script>
+</body>
+</html>
