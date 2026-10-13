@@ -85,6 +85,8 @@ button.chip:focus-visible{outline:2px solid var(--tos);outline-offset:2px}
 .screen .tag{font-size:.72rem;color:var(--muted)}
 .screen .big{font-size:1.05rem;font-weight:600}
 .screen .ask{display:flex;flex-wrap:wrap;gap:6px}
+.gcard .ask{display:flex;flex-wrap:wrap;gap:6px}
+.gcard .ask span{font-size:.76rem;border:1px dashed var(--muted);border-radius:6px;padding:1px 7px;color:var(--muted)}
 .screen .ask span{font-size:.8rem;border:1px dashed var(--muted);border-radius:6px;padding:2px 8px;color:var(--muted)}
 .screen .q{font-size:.8rem;color:var(--muted)}
 .fitems{display:grid;gap:10px}
@@ -134,6 +136,14 @@ details.raw pre{overflow-x:auto;font-family:var(--mono);font-size:.76rem;line-he
 .scr .ask span{font-size:.76rem;border:1px dashed var(--muted);border-radius:6px;padding:1px 7px;color:var(--muted)}
 .scr .miss{font-size:.8rem;background:var(--man-soft);color:var(--man);border-radius:6px;padding:6px 9px}
 .scr .miss ul{font-size:.8rem}
+.glance{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.gcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:10px;align-content:start;min-width:0}
+.gcard h3{margin:0;font-size:1.1rem}
+.gcard .one{font-weight:600;line-height:1.5}
+.gcard dl{margin:0;display:grid;gap:8px}
+.gcard dt{font-size:.74rem;color:var(--muted);font-weight:600;letter-spacing:.03em}
+.gcard dd{margin:0;font-size:.9rem;line-height:1.55}
+.gcard .keys{font-family:var(--mono);font-size:.68rem;color:var(--muted)}
 @media (max-width:720px){.cols{grid-template-columns:1fr}.col+.col{border-left:0;border-top:1px solid var(--line)}}
 @media (prefers-reduced-motion:no-preference){.key{transition:border-color .15s}}
 </style>
@@ -210,6 +220,14 @@ details.raw pre{overflow-x:auto;font-family:var(--mono);font-size:.76rem;line-he
   </section>
 
 
+
+
+  <section class="qwen" id="glance" aria-labelledby="gl-h">
+    <div class="eyebrow">상품 한눈 요약 · 예시</div>
+    <h2 id="gl-h">key별 결과물을 고객용 한눈 요약으로</h2>
+    <p class="lede" id="glintro"></p>
+    <div class="glance" id="glgrid"></div>
+  </section>
 
   <section class="qwen" id="screens" aria-labelledby="scr-h">
     <div class="eyebrow">상품별 최종 화면</div>
@@ -4690,9 +4708,9 @@ function renderScreens(){
   if(!SCREENS) return;
   const prods=Object.keys(SCREENS);
   const pr=document.getElementById("scrprod"); pr.replaceChildren(el("span",{class:"lab",text:"상품"}));
-  prods.forEach((n,i)=>{ const b=el("button",{class:"chip",type:"button","aria-pressed":String(i===scr.p),text:n}); b.onclick=()=>{scr.p=i;renderScreens();}; pr.append(b); });
+  prods.forEach((n,i)=>{ const b=el("button",{class:"chip",type:"button","aria-pressed":String(i===scr.p),text:n}); b.onclick=()=>{scr.p=i;renderScreens(); renderGlance();}; pr.append(b); });
   const sr=document.getElementById("scrsrc"); sr.replaceChildren(el("span",{class:"lab",text:"출처"}));
-  [["target","목표 결과물"],["g31","Gemma 31B + 후처리"]].forEach(([id,lab])=>{ const b=el("button",{class:"chip",type:"button","aria-pressed":String(id===scr.s),text:lab}); b.onclick=()=>{scr.s=id;renderScreens();}; sr.append(b); });
+  [["target","목표 결과물"],["g31","Gemma 31B + 후처리"]].forEach(([id,lab])=>{ const b=el("button",{class:"chip",type:"button","aria-pressed":String(id===scr.s),text:lab}); b.onclick=()=>{scr.s=id;renderScreens(); renderGlance();}; sr.append(b); });
   const P=SCREENS[prods[scr.p]]; const items=P[scr.s]||[]; const g=document.getElementById("scrgrid"); g.replaceChildren();
   if(!items.length){ g.append(el("p",{class:"note",text:"이 상품의 결과가 없습니다."})); return; }
   items.forEach(it=>{
@@ -4717,6 +4735,200 @@ function renderScreens(){
     g.append(c);
   });
 }
+const GLANCE = {
+ "intro": "key별 목표 결과물(독립 검토 반영)에서 고객이 먼저 알아야 할 것만 골라 사람이 쓴 예시입니다. 숫자는 원문 그대로이고, 줄 끝의 key 는 근거가 된 요약 항목입니다. 실제 서비스에서는 이 형식을 다음 단계 모델이나 화면 규칙으로 만들게 됩니다.",
+ "products": [
+  {
+   "name": "KB스타통장",
+   "one": "소득이 있는 누구나 쓰는 입출금통장. 실적이 있으면 다른은행 이체 · ATM 수수료를 면제해 줍니다.",
+   "lines": [
+    [
+     "금리",
+     "기본금리 연 0.10% (세전, 2025.12.05 기준). 우대금리는 없습니다.",
+     [
+      "base_rate"
+     ],
+     false
+    ],
+    [
+     "수수료",
+     "전월 입금 합계 50만원 이상이거나 KB 리브 모바일 자동이체 출금이 있으면, 이번달 11일 ~ 다음달 10일 다른은행 이체 · 자동이체 · ATM 수수료를 횟수 제한 없이 면제합니다. 가입 후 다음 다음 달 10일까지는 실적이 없어도 면제됩니다.",
+     [
+      "fee"
+     ],
+     false
+    ],
+    [
+     "주의",
+     "본인 계좌 이체와 본인 주민번호 입금은 입금 실적에서 빠집니다. 오픈뱅킹 이체와 결산이자 입금도 빠지는데, 이 두 가지는 상품설명서에만 있습니다.",
+     [
+      "fee"
+     ],
+     true
+    ],
+    [
+     "가입",
+     "실명 개인, 1인 1계좌, 공동명의 불가. 개인사업자 · 임의단체 가입 가능 여부는 두 문서가 다르게 씁니다(설명서는 가능).",
+     [
+      "eligibility_target"
+     ],
+     true
+    ],
+    [
+     "기타",
+     "비과세종합저축 가입 가능. 양도 가능, 질권 · 담보 불가. 잔액이 적고 오래 거래가 없으면 거래중지 계좌가 됩니다.",
+     [
+      "tax",
+      "assignment_collateral",
+      "transaction_restriction"
+     ],
+     false
+    ]
+   ],
+   "ask": [
+    "전월 입금 합계",
+    "KB 리브 모바일 자동이체 여부"
+   ]
+  },
+  {
+   "name": "KB 프리N통장",
+   "one": "배달 · 택배 · 플랫폼 소득 입금에 특별금리를 주는 입출금통장.",
+   "lines": [
+    [
+     "금리",
+     "기본 연 0.1% + 조건 충족 시 특별금리 연 1.4%로 최고 연 1.5%입니다 (세전, 2026.07.01 기준). 특별금리는 평균잔액 200만원까지, 가입 후 1년이 지나 처음 오는 결산일까지 적용됩니다.",
+     [
+      "base_rate",
+      "event_special_rate",
+      "final_rate"
+     ],
+     false
+    ],
+    [
+     "특별금리 조건",
+     "'인정단어'(쿠팡 · 배달의민족 · 카카오 · 택배 · 보험 · 정산 등 27개)가 들어간 입금이 월 50만원 이상인 달이 있어야 합니다. 보통예금은 최근 6개월 중 2개월, 저축예금은 최근 3개월 중 1개월입니다. 가입 후 첫 결산일은 조건 없이 적용됩니다.",
+     [
+      "event_special_rate"
+     ],
+     false
+    ],
+    [
+     "주의",
+     "적요나 보낸 사람 이름이 없는 입금, 본인 계좌 · 본인 주민번호 입금, 오픈뱅킹 입금은 합산에서 빠집니다. 다른 통장에서 전환한 계좌는 첫 결산기에 전환 전 금리를 받습니다.",
+     [
+      "event_special_rate",
+      "product_conversion"
+     ],
+     false
+    ],
+    [
+     "수수료",
+     "전월 입금 합계 50만원 이상이거나 KB 리브모바일 자동이체 출금이 있으면 다른은행 이체 · ATM 수수료를 면제합니다(KB스타통장과 같은 조건).",
+     [
+      "fee"
+     ],
+     false
+    ],
+    [
+     "가입",
+     "실명 개인(개인사업자 · 임의단체 가능), 1인 1계좌. 공동명의 · 비거주자 불가. 같은 예금과목 상품으로만 전환할 수 있습니다(설명서에만).",
+     [
+      "eligibility_target",
+      "product_conversion"
+     ],
+     true
+    ]
+   ],
+   "ask": [
+    "예금과목(보통 / 저축)",
+    "월별 인정단어 입금 합계",
+    "전월 입금 합계",
+    "자동이체 여부"
+   ]
+  },
+  {
+   "name": "KB 별별통장2",
+   "one": "스타벅스 제휴 통장. 계좌간편결제로 별을 적립하고, 최초 가입자에게 우대금리와 쿠폰을 줍니다.",
+   "lines": [
+    [
+     "금리",
+     "기본 연 0.1% + 최초 가입 시 우대 연 1.9%p로 최고 연 2.0%입니다 (세전, 2026.09.03 기준). 평균잔액 300만원까지, 가입 후 1년이 지나 처음 오는 결산일까지 적용됩니다. 해지 후 재가입하면 우대가 없습니다.",
+     [
+      "base_rate",
+      "preferential_rate",
+      "final_rate"
+     ],
+     false
+    ],
+    [
+     "스타벅스 혜택",
+     "스타벅스 앱 계좌간편결제 월 최대 5회로 별을 최대 15개 적립합니다(2027.12.31까지). 최초 가입자는 쿠폰을 월 최대 2매, 13개월간 최대 24매 받습니다. 입금쿠폰은 2026년 2~7월에 KB국민은행 급여를 받은 적 없는 고객이 월 50만원 이상 입금할 때, 출금쿠폰은 KB카드 결제대금이 월 10만원 이상일 때입니다.",
+     [
+      "partner_benefit"
+     ],
+     false
+    ],
+    [
+     "주의",
+     "쿠폰 입금 실적에서 본인 계좌 · 주민번호 · 오픈뱅킹 · 결산이자 입금이 빠지고, 기업 · 선불카드 결제는 출금 실적이 아닙니다. 해지한 달에는 쿠폰이 없습니다. 이 기준들은 상품설명서에만 있습니다.",
+     [
+      "partner_benefit"
+     ],
+     true
+    ],
+    [
+     "수수료",
+     "실적 조건 없이 다른은행 이체 · 자동이체 · ATM 수수료를 면제합니다(다른은행 ATM은 시간외 출금만).",
+     [
+      "fee"
+     ],
+     false
+    ],
+    [
+     "자동전환",
+     "2028년 11월 1일에 KB스타통장(이미 있으면 KB종합통장)으로 자동전환됩니다. KB스타통장으로 바뀌면 수수료 면제가 실적 조건부가 되고, KB종합통장으로 바뀌면 면제가 없습니다.",
+     [
+      "product_conversion",
+      "fee"
+     ],
+     false
+    ],
+    [
+     "가입 · 제한",
+     "만 14세 이상 실명 개인, 1인 1계좌. 개인사업자 · 공동명의 불가, KB 별별통장 보유 시 불가. 양도 · 담보 · 질권 모두 불가, 비과세 불가.",
+     [
+      "eligibility_target",
+      "eligibility_restriction",
+      "assignment_collateral",
+      "tax"
+     ],
+     false
+    ]
+   ],
+   "ask": [
+    "최초 가입 여부",
+    "월 스타벅스 결제 횟수",
+    "급여 수령 여부",
+    "월 입금 합계",
+    "월 KB카드 결제대금"
+   ]
+  }
+ ]
+};
+function renderGlance(){
+  if(!GLANCE) return;
+  document.getElementById("glintro").textContent=GLANCE.intro;
+  const g=document.getElementById("glgrid");
+  GLANCE.products.forEach(p=>{
+    const c=el("article",{class:"gcard"},el("h3",{text:p.name}),el("div",{class:"one",text:p.one}));
+    const dl=el("dl");
+    p.lines.forEach(([lab,txt,keys,only])=>{ const dt=el("dt",{text:lab}); if(only) dt.append(el("span",{class:"only",text:"설명서에만 있는 내용 포함"}));
+      const dd=el("dd",{text:txt}); dd.append(el("div",{class:"keys",text:keys.join(" · ")})); dl.append(dt,dd); });
+    c.append(dl);
+    const a=el("div",{class:"ask"}); p.ask.forEach(q=>a.append(el("span",{text:"물어볼 입력: "+q}))); c.append(a);
+    g.append(c);
+  });
+}
 const THEMES=[["system","시스템"],["light","라이트"],["dark","다크"]];
 let theme="system"; try{ theme=localStorage.getItem("docsab-theme")||"system"; }catch(e){}
 function applyTheme(){
@@ -4729,5 +4941,5 @@ document.getElementById("theme").onclick=()=>{
   try{ localStorage.setItem("docsab-theme",theme); }catch(e){} applyTheme();
 };
 if(!THEMES.some(t=>t[0]===theme)) theme="system";
-applyTheme(); stats(); render(); renderFinal(); renderQwen(); renderModels(); renderMulti(); renderReview(); renderScreens();
+applyTheme(); stats(); render(); renderFinal(); renderQwen(); renderModels(); renderMulti(); renderReview(); renderScreens(); renderGlance();
 </script>
