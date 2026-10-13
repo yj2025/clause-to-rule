@@ -123,6 +123,17 @@ details.raw pre{overflow-x:auto;font-family:var(--mono);font-size:.76rem;line-he
 .mcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
 .mcards ul{margin:0;padding-left:1.1em;display:grid;gap:4px;font-size:.88rem}
 .fail{background:var(--warn-soft);color:var(--warn);border-radius:8px;padding:10px 14px;font-size:.9rem}
+.scrgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.scr{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:8px;align-content:start;min-width:0}
+.scr .top2{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline;justify-content:space-between}
+.scr .tag{font-size:.75rem;color:var(--muted);font-weight:600}
+.scr .big{font-size:.98rem;font-weight:600;line-height:1.5}
+.scr ul{margin:0;padding-left:1.1em;display:grid;gap:3px;font-size:.86rem}
+.scr .lbl{font-size:.72rem;color:var(--muted)}
+.scr .ask{display:flex;flex-wrap:wrap;gap:6px}
+.scr .ask span{font-size:.76rem;border:1px dashed var(--muted);border-radius:6px;padding:1px 7px;color:var(--muted)}
+.scr .miss{font-size:.8rem;background:var(--man-soft);color:var(--man);border-radius:6px;padding:6px 9px}
+.scr .miss ul{font-size:.8rem}
 @media (max-width:720px){.cols{grid-template-columns:1fr}.col+.col{border-left:0;border-top:1px solid var(--line)}}
 @media (prefers-reduced-motion:no-preference){.key{transition:border-color .15s}}
 </style>
@@ -177,7 +188,7 @@ details.raw pre{overflow-x:auto;font-family:var(--mono);font-size:.76rem;line-he
         </tbody></table></div></div>
     </div>
     <div class="grid2">
-      <div class="panel"><h3>화면에서는 이렇게 보입니다</h3>
+      <div class="panel"><h3>화면에서는 이렇게 보입니다 <span class="note">(고정 예시 · KB스타통장 수수료 면제 하나 — 상품별 전체는 아래 «상품별 최종 화면»)</span></h3>
         <div class="screen" aria-label="수수료 면제 표시 예">
           <div class="tag">수수료 면제 · 조건부</div>
           <div class="big">전월 입금 합계 50만원 이상이거나 KB 리브 모바일 자동이체 출금이 있으면, 이번달 11일 ~ 다음달 10일 다른은행 이체 · ATM 수수료가 면제됩니다.</div>
@@ -198,6 +209,16 @@ details.raw pre{overflow-x:auto;font-family:var(--mono);font-size:.76rem;line-he
       <pre id="rawjson"></pre></details>
   </section>
 
+
+
+  <section class="qwen" id="screens" aria-labelledby="scr-h">
+    <div class="eyebrow">상품별 최종 화면</div>
+    <h2 id="scr-h">상품마다 key 전체를 화면 문장으로</h2>
+    <p class="lede">JSON 결과물을 코드로 조립해 고객 화면처럼 보여 줍니다. 문장을 모델이 다시 쓰지는 않습니다 — 요약 · 조건 · 예외 · 물을 입력 · «설명서에만» 표시를 그대로 붙입니다. «목표»는 원문으로 만들고 독립 검토를 거친 정답, «Gemma 31B + 후처리»는 실제 모델 출력에 postcheck 를 붙인 것입니다.</p>
+    <div class="row" id="scrprod" role="group" aria-label="상품"></div>
+    <div class="row" id="scrsrc" role="group" aria-label="출처"></div>
+    <div class="scrgrid" id="scrgrid"></div>
+  </section>
 
   <section class="qwen" id="qwen" aria-labelledby="qwen-h">
     <div class="eyebrow">시험 결과</div>
@@ -470,6 +491,39 @@ function renderReview(){
   const f=document.getElementById("rvfixed"); REVIEW.fixed.forEach(x=>f.append(el("li",{text:x})));
   const d=document.getElementById("rvdecide"); REVIEW.decide.forEach(x=>d.append(el("li",{text:x})));
 }
+const SCREENS = /*__SCREENS__*/null;
+let scr={p:0,s:"target"};
+function renderScreens(){
+  if(!SCREENS) return;
+  const prods=Object.keys(SCREENS);
+  const pr=document.getElementById("scrprod"); pr.replaceChildren(el("span",{class:"lab",text:"상품"}));
+  prods.forEach((n,i)=>{ const b=el("button",{class:"chip",type:"button","aria-pressed":String(i===scr.p),text:n}); b.onclick=()=>{scr.p=i;renderScreens();}; pr.append(b); });
+  const sr=document.getElementById("scrsrc"); sr.replaceChildren(el("span",{class:"lab",text:"출처"}));
+  [["target","목표 결과물"],["g31","Gemma 31B + 후처리"]].forEach(([id,lab])=>{ const b=el("button",{class:"chip",type:"button","aria-pressed":String(id===scr.s),text:lab}); b.onclick=()=>{scr.s=id;renderScreens();}; sr.append(b); });
+  const P=SCREENS[prods[scr.p]]; const items=P[scr.s]||[]; const g=document.getElementById("scrgrid"); g.replaceChildren();
+  if(!items.length){ g.append(el("p",{class:"note",text:"이 상품의 결과가 없습니다."})); return; }
+  items.forEach(it=>{
+    const c=el("article",{class:"scr"});
+    c.append(el("div",{class:"top2"},el("span",{class:"tag",text:P.names[it.key]||it.key}), it.as_of?el("span",{class:"pill",text:"기준일 "+it.as_of}):null));
+    c.append(el("div",{class:"big",text:it.summary||"(원문에 근거 없음)"}));
+    if(it.benefit) c.append(el("div",{class:"q note",text:"혜택: "+it.benefit}));
+    const L=(a)=>(a||[]).filter(x=>x&&typeof x==="object");
+    const conds=L(it.conditions);
+    if(conds.length){ c.append(el("div",{class:"lbl",text:"조건"+(it.condition_logic?" — "+it.condition_logic:"")}));
+      const ul=el("ul"); conds.forEach(x=>{ const li=el("li",{text:x.text}); if(x.only_in) li.append(el("span",{class:"only",text:x.only_in+"에만"})); ul.append(li);
+        L(x.exceptions).forEach(y=>ul.append(el("li",{text:"└ 제외: "+y.text}))); }); c.append(ul); }
+    const ex=L(it.exceptions);
+    if(ex.length){ c.append(el("div",{class:"lbl",text:"예외 · 제한"})); const ul=el("ul");
+      ex.forEach(x=>{ const li=el("li",{text:x.text}); if(x.only_in) li.append(el("span",{class:"only",text:x.only_in+"에만"})); ul.append(li); }); c.append(ul); }
+    const sp=it.special; if(sp) c.append(el("div",{class:"q note",text:"참고: "+(typeof sp==="string"?sp:sp.text||"")}));
+    const asks=[...new Set(conds.map(x=>x.user_input).filter(Boolean))];
+    if(asks.length){ const a=el("div",{class:"ask"}); asks.forEach(q=>a.append(el("span",{text:"물어볼 입력: "+q}))); c.append(a); }
+    if(it.doc_diff) c.append(el("div",{class:"diffbox",text:"문서 차이 — "+it.doc_diff}));
+    const miss=it._check&&it._check.missing;
+    if(miss&&miss.length){ const m=el("div",{class:"miss"},el("div",{text:`누락 의심 ${miss.length} — 원문에 있는데 출력에 안 보이는 제외 · 불가 문장`})); const ul=el("ul"); miss.slice(0,5).forEach(x=>ul.append(el("li",{text:x.text.slice(0,90)}))); m.append(ul); c.append(m); }
+    g.append(c);
+  });
+}
 const THEMES=[["system","시스템"],["light","라이트"],["dark","다크"]];
 let theme="system"; try{ theme=localStorage.getItem("docsab-theme")||"system"; }catch(e){}
 function applyTheme(){
@@ -482,5 +536,5 @@ document.getElementById("theme").onclick=()=>{
   try{ localStorage.setItem("docsab-theme",theme); }catch(e){} applyTheme();
 };
 if(!THEMES.some(t=>t[0]===theme)) theme="system";
-applyTheme(); stats(); render(); renderFinal(); renderQwen(); renderModels(); renderMulti(); renderReview();
+applyTheme(); stats(); render(); renderFinal(); renderQwen(); renderModels(); renderMulti(); renderReview(); renderScreens();
 </script>

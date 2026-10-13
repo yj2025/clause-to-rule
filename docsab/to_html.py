@@ -34,6 +34,17 @@ for name, d in by.items():
                      "a": slim(A.get(k)), "b": slim(B.get(k)), "verified": VERIFIED.get((name, k))})
     products.append({"name": name, "na": d["특약"]["n_sections"], "nb": d["상품설명서"]["n_sections"], "keys": keys})
 
+M3 = HERE.parent.parent / "M3"
+SCR = {"KB스타통장": ("target_kbstar.json", "results_kbstar_03_gemma31"), "KB 프리N통장": ("target_freen.json", "results_freen_01"),
+       "KB 별별통장2": ("target_byul2.json", "results_byul2_01")}
+screens = {}
+for prod, (tf, rd) in SCR.items():
+    pk = next(p for p in src["packets"] if p["product_name"] == prod)
+    post = M3 / rd / "gemma31_scored_input.post.json"
+    screens[prod] = {"names": {k["key"]: k["name"] for k in pk["keys"]},
+                     "target": json.loads((HERE / tf).read_text("utf-8"))["items"],
+                     "g31": json.loads(post.read_text("utf-8"))["parsed"]["items"] if post.exists() else []}
+screens_js = json.dumps(screens, ensure_ascii=False).replace("</", "<\\/")
 data = json.dumps(products, ensure_ascii=False).replace("</", "<\\/")
 mr = json.loads((HERE / "merged_KB스타통장.json").read_text("utf-8"))
 sc = json.loads((HERE / "merged_KB스타통장.score.json").read_text("utf-8"))
@@ -44,6 +55,6 @@ qwen = json.dumps({"items": qitems, "score": sc["totals"], "nlines": len(qlines)
                    "blob": sum(isblob(x["text"]) for x in qlines),
                    "review": json.loads((HERE / "qwen_review.json").read_text("utf-8"))}, ensure_ascii=False).replace("</", "<\\/")
 target = (HERE / "target_kbstar.json").read_text("utf-8").replace("</", "<\\/")
-html = (HERE / "page_template.html").read_text("utf-8").replace("/*__DATA__*/[]", data).replace("/*__TARGET__*/null", target).replace("/*__QWEN__*/null", qwen).replace("/*__REVIEW__*/null", (HERE / "review_agent.json").read_text("utf-8").replace("</", "<\\/")).replace("/*__MULTI__*/null", (HERE / "multi_products.json").read_text("utf-8").replace("</", "<\\/") if (HERE / "multi_products.json").exists() else "null").replace("/*__MODELS__*/null", (HERE / "models_kbstar.json").read_text("utf-8").replace("</", "<\\/"))
+html = (HERE / "page_template.html").read_text("utf-8").replace("/*__DATA__*/[]", data).replace("/*__TARGET__*/null", target).replace("/*__QWEN__*/null", qwen).replace("/*__SCREENS__*/null", screens_js).replace("/*__REVIEW__*/null", (HERE / "review_agent.json").read_text("utf-8").replace("</", "<\\/")).replace("/*__MULTI__*/null", (HERE / "multi_products.json").read_text("utf-8").replace("</", "<\\/") if (HERE / "multi_products.json").exists() else "null").replace("/*__MODELS__*/null", (HERE / "models_kbstar.json").read_text("utf-8").replace("</", "<\\/"))
 (HERE / "summaries_10.html").write_text(html, "utf-8")
 print("ok", len(html) // 1024, "KB")
