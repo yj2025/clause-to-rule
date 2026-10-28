@@ -35,8 +35,8 @@ for name, d in by.items():
     products.append({"name": name, "na": d["특약"]["n_sections"], "nb": d["상품설명서"]["n_sections"], "keys": keys})
 
 M3 = HERE.parent.parent / "M3"
-SCR = {"KB스타통장": ("target_kbstar.json", "results_kbstar_03_gemma31"), "KB 프리N통장": ("target_freen.json", "results_freen_01"),
-       "KB 별별통장2": ("target_byul2.json", "results_byul2_01")}
+SCR = {"KB스타통장": ("target_kbstar.json", "results/kbstar_03_gemma31"), "KB 프리N통장": ("target_freen.json", "results/freen_01"),
+       "KB 별별통장2": ("target_byul2.json", "results/byul2_01")}
 screens = {}
 for prod, (tf, rd) in SCR.items():
     pk = next(p for p in src["packets"] if p["product_name"] == prod)

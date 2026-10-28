@@ -11,9 +11,9 @@ import postcheck as P  # noqa: E402
 import score_target as S  # noqa: E402
 
 M3 = HERE.parent.parent / "M3"
-RUNS = [("KB스타통장", {"Gemma 4 31B": "results_kbstar_03_gemma31/gemma31", "Gemma 4 12B": "results_kbstar_01/gemma", "Qwen3-8B 4비트": "results_kbstar_01/qwen"}),
-        ("KB 프리N통장", {"Gemma 4 31B": "results_freen_01/gemma31", "Gemma 4 12B": "results_freen_01/gemma", "Qwen3-8B 4비트": "results_freen_01/qwen"}),
-        ("KB 별별통장2", {"Gemma 4 31B": "results_byul2_01/gemma31", "Gemma 4 12B": "results_byul2_01/gemma", "Qwen3-8B 4비트": "results_byul2_01/qwen"})]
+RUNS = [("KB스타통장", {"Gemma 4 31B": "results/kbstar_03_gemma31/gemma31", "Gemma 4 12B": "results/kbstar_01/gemma", "Qwen3-8B 4비트": "results/kbstar_01/qwen"}),
+        ("KB 프리N통장", {"Gemma 4 31B": "results/freen_01/gemma31", "Gemma 4 12B": "results/freen_01/gemma", "Qwen3-8B 4비트": "results/freen_01/qwen"}),
+        ("KB 별별통장2", {"Gemma 4 31B": "results/byul2_01/gemma31", "Gemma 4 12B": "results/byul2_01/gemma", "Qwen3-8B 4비트": "results/byul2_01/qwen"})]
 
 
 def score(p):

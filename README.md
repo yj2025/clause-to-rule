@@ -26,7 +26,7 @@
 | 팀이 정해야 할 것 | **`CATALOG_PROPOSAL.md`** |
 | gold 를 어떤 기준으로 판정했나 | `DECISIONS.md` |
 | 날짜별로 무엇을 했나 | `worklog/` |
-| 원래 프로젝트의 서술 | `../model-2/qwen3-8B.ipynb` |
+| 원래 프로젝트의 서술 | `history/qwen3-8B.ipynb` |
 
 ## 30초 요약
 
