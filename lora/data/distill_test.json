@@ -1,0 +1,250 @@
+[
+ {
+  "clause_id": "P049-S2-R01",
+  "run": 0,
+  "n_attempts": 2,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "cf93f4add010"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "P049-S2-R01",
+     "status": "UNSUPPORTED",
+     "label": "가입 대상 - 외국인",
+     "source": {
+      "quote": "▪ 외국인"
+     }
+    }
+   ]
+  },
+  "raw_first": "```json\n{\n \"rules\": [\n  {\n   \"rule_id\": \"P049-S2-R01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"가입 대상 - 외국인\",\n   \"source\": {\n    \"quote\": \"▪ 외국인\"\n   },\n   \"condition\": {},\n   \"effect\": {\n    \"type\": \"UNSUPPORTED\"\n   }\n  }\n ]\n}\n```",
+  "raw_last": "```json\n{\n \"rules\": [\n  {\n   \"rule_id\": \"P049-S2-R01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"가입 대상 - 외국인\",\n   \"source\": {\n    \"quote\": \"▪ 외국인\"\n   }\n  }\n ]\n}\n```",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "teacher": "google/gemma-4-31B-it"
+ },
+ {
+  "clause_id": "P070-S2-R02",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "cf93f4add010"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "PRODUCT_SETTING"
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "```json\n{\n \"rules\": []\n}\n```",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "teacher": "google/gemma-4-31B-it"
+ },
+ {
+  "clause_id": "P021-S2-R02",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "cf93f4add010"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "PRODUCT_SETTING"
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "```json\n{\n \"rules\": []\n}\n```",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "teacher": "google/gemma-4-31B-it"
+ },
+ {
+  "clause_id": "P049-S2-R02",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "cf93f4add010"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "PRODUCT_SETTING"
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "```json\n{\n \"rules\": []\n}\n```",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "teacher": "google/gemma-4-31B-it"
+ },
+ {
+  "clause_id": "P055-S2-R01",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "cf93f4add010"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "```json\n{\n \"rules\": []\n}\n```",
+  "raw_last": "```json\n{\n \"rules\": []\n}\n```",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "teacher": "google/gemma-4-31B-it"
+ }
+]

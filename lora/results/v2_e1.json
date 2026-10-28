@@ -1,0 +1,2681 @@
+[
+ {
+  "clause_id": "HNSAL-S1-P01",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "SUMMARY"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\"rules\": []}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 7.5
+ },
+ {
+  "clause_id": "HNSAL-S2-R01",
+  "run": 0,
+  "n_attempts": 2,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R01-01",
+     "status": "UNSUPPORTED",
+     "label": "가입 대상 명의 유형",
+     "source": {
+      "quote": "실명의개인또는개인사업자(1인1계좌)"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R01-02",
+     "status": "UNSUPPORTED",
+     "label": "중복 가입 불가",
+     "source": {
+      "quote": "※”연금하나월복리적금“ 또는“주거래하나월복리적금”과중복가입이불가합니다."
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R01-01\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의개인또는개인사업자(1인1계좌)\"}}, {\"rule_id\": \"R-HNSAL-S2-R01-02\", \"status\": \"UNSUPPORTED\", \"label\": \"중복 가입 불가\", \"source\": {\"quote\": \"※”연금하나월복리적금“ 또는“주거래하나월복리적금”과중복가입이불가합니다.\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R01-01\", \"status\": \"UNSUPPORTED\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의개인또는개인사업자(1인1계좌)\"}}, {\"rule_id\": \"R-HNSAL-S2-R01-02\", \"status\": \"UNSUPPORTED\", \"label\": \"중복 가입 불가\", \"source\": {\"quote\": \"※”연금하나월복리적금“ 또는“주거래하나월복리적금”과중복가입이불가합니다.\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 41.7
+ },
+ {
+  "clause_id": "HNSAL-S2-R04",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R04-01",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 및 만기후금리 단리 계산",
+     "source": {
+      "quote": "단, 중도해지금리및만기후금리는단리로 계산하여이자를지급함"
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R04-01\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 및 만기후금리 단리 계산\", \"source\": {\"quote\": \"단, 중도해지금리및만기후금리는단리로 계산하여이자를지급함\"}, \"condition\": {}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R04-01\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 및 만기후금리 단리 계산\", \"source\": {\"quote\": \"단, 중도해지금리및만기후금리는단리로 계산하여이자를지급함\"}, \"condition\": {}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 13.3
+ },
+ {
+  "clause_id": "HNSAL-S2-R06",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 10
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 10
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R06-01",
+     "status": "OK",
+     "label": "가입금액 범위",
+     "source": {
+      "quote": "1만원 이상 300만원 이하 (원단위)"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.amount"
+         },
+         10000
+        ]
+       },
+       {
+        "<=": [
+         {
+          "var": "contract.amount"
+         },
+         3000000
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R06-02",
+     "status": "UNSUPPORTED",
+     "label": "청년응원 특별금리등록 가입금액 범위",
+     "source": {
+      "quote": "(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R06-03",
+     "status": "UNSUPPORTED",
+     "label": "청년응원 특별금리등록 가입금액 범위",
+     "source": {
+      "quote": "(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R06-04",
+     "status": "UNSUPPORTED",
+     "label": "청년응원 특별금리등록 가입금액 범위",
+     "source": {
+      "quote": "(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R06-05",
+     "status": "UNSUPPORTED",
+     "label": "청년응원 특별금리등록 가입금액 범위",
+     "source": {
+      "quote": "(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R06-06",
+     "status": "UNSUPPORTED",
+     "label": "청년응원 특별금리등록 가입금액 범위",
+     "source": {
+      "quote": "(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R06-07",
+     "status": "UNSUPPORTED",
+     "label": "청년응원 특별금리등록 가입금액 범위",
+     "source": {
+      "quote": "(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R06-08",
+     "status": "UNSUPPORTED",
+     "label": "청년응원 특별금리등록 가입금액 범위",
+     "source": {
+      "quote": "(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R06-09",
+     "status": "UNSUPPORTED",
+     "label": "청년응원 특별금리등록 가입금액 범위",
+     "source": {
+      "quote": "(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R06-10",
+     "status": "UNSUPPORTED",
+     "label": "청년응원 특별금리등록 가입금액 범위",
+     "source": {
+      "quote": "(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R06-01\", \"status\": \"OK\", \"label\": \"가입금액 범위\", \"source\": {\"quote\": \"1만원 이상 300만원 이하 (원단위)\"}, \"condition\": {\"and\": [{\">=\": [{\"var\": \"contract.amount\"}, 10000]}, {\"<=\": [{\"var\": \"contract.amount\"}, 3000000]}]}, \"effect\": {\"type\": \"DISQUALIFY\"}}, {\"rule_id\": \"R-HNSAL-S2-R06-02\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리등록 가입금액 범위\", \"source\": {\"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"}}, {\"rule_id\": \"R-HNSAL-S2-R06-03\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리등록 가입금액 범위\", \"source\": {\"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"}}, {\"rule_id\": \"R-HNSAL-S2-R06-04\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리등록 가입금액 범위\", \"source\": {\"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"}}, {\"rule_id\": \"R-HNSAL-S2-R06-05\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리등록 가입금액 범위\", \"source\": {\"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"}}, {\"rule_id\": \"R-HNSAL-S2-R06-06\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리등록 가입금액 범위\", \"source\": {\"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"}}, {\"rule_id\": \"R-HNSAL-S2-R06-07\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리등록 가입금액 범위\", \"source\": {\"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"}}, {\"rule_id\": \"R-HNSAL-S2-R06-08\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리등록 가입금액 범위\", \"source\": {\"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"}}, {\"rule_id\": \"R-HNSAL-S2-R06-09\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리등록 가입금액 범위\", \"source\": {\"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"}}, {\"rule_id\": \"R-HNSAL-S2-R06-10\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리등록 가입금액 범위\", \"source\": {\"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R06-01\", \"status\": \"OK\", \"label\": \"가입금액 범위\", \"source\": {\"quote\": \"1만원 이상 300만원 이하 (원단위)\"}, \"condition\": {\"and\": [{\">=\": [{\"var\": \"contract.amount\"}, 10000]}, {\"<=\": [{\"var\": \"contract.amount\"}, 3000000]}]}, \"effect\": {\"type\": \"DISQUALIFY\"}}, {\"rule_id\": \"R-HNSAL-S2-R06-02\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리등록 가입금액 범위\", \"source\": {\"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"}}, {\"rule_id\": \"R-HNSAL-S2-R06-03\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리등록 가입금액 범위\", \"source\": {\"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"}}, {\"rule_id\": \"R-HNSAL-S2-R06-04\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리등록 가입금액 범위\", \"source\": {\"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"}}, {\"rule_id\": \"R-HNSAL-S2-R06-05\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리등록 가입금액 범위\", \"source\": {\"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"}}, {\"rule_id\": \"R-HNSAL-S2-R06-06\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리등록 가입금액 범위\", \"source\": {\"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"}}, {\"rule_id\": \"R-HNSAL-S2-R06-07\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리등록 가입금액 범위\", \"source\": {\"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"}}, {\"rule_id\": \"R-HNSAL-S2-R06-08\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리등록 가입금액 범위\", \"source\": {\"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"}}, {\"rule_id\": \"R-HNSAL-S2-R06-09\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리등록 가입금액 범위\", \"source\": {\"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"}}, {\"rule_id\": \"R-HNSAL-S2-R06-10\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리등록 가입금액 범위\", \"source\": {\"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 124.4
+ },
+ {
+  "clause_id": "HNSAL-S2-R07",
+  "run": 0,
+  "n_attempts": 2,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R07-01",
+     "status": "UNSUPPORTED",
+     "label": "적립한도 일반",
+     "source": {
+      "quote": "분기당 1만원 이상 300만원 이하 (원단위)"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R07-02",
+     "status": "UNSUPPORTED",
+     "label": "청년응원 특별금리적용기간 적립한도",
+     "source": {
+      "quote": "청년응원 특별금리적용기간은분기당 1만원이상 150만원 이하"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R07-01\", \"status\": \"OK\", \"label\": \"적립한도 일반\", \"source\": {\"quote\": \"분기당 1만원 이상 300만원 이하 (원단위)\"}}, {\"rule_id\": \"R-HNSAL-S2-R07-02\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리적용기간 적립한도\", \"source\": {\"quote\": \"청년응원 특별금리적용기간은분기당 1만원이상 150만원 이하\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R07-01\", \"status\": \"UNSUPPORTED\", \"label\": \"적립한도 일반\", \"source\": {\"quote\": \"분기당 1만원 이상 300만원 이하 (원단위)\"}}, {\"rule_id\": \"R-HNSAL-S2-R07-02\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 특별금리적용기간 적립한도\", \"source\": {\"quote\": \"청년응원 특별금리적용기간은분기당 1만원이상 150만원 이하\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 47.8
+ },
+ {
+  "clause_id": "HNSAL-S2-R08",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": false,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 3
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": false,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 3
+  },
+  "errors": [
+   "quote 가 조문 원문에 없다: '가입기간 1년 기본금리 연 2.95%'. 요약하거나 바꿔 쓰지 말고 원문을 그대로 옮긴다",
+   "quote 가 조문 원문에 없다: '가입기간 2년 기본금리 연 3.00%'. 요약하거나 바꿔 쓰지 말고 원문을 그대로 옮긴다",
+   "quote 가 조문 원문에 없다: '가입기간 3년 기본금리 연 3.10%'. 요약하거나 바꿔 쓰지 말고 원문을 그대로 옮긴다"
+  ],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "PRODUCT_SETTING"
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R08-01\", \"status\": \"OK\", \"label\": \"가입기간 1년 기본금리\", \"source\": {\"quote\": \"가입기간 1년 기본금리 연 2.95%\"}, \"condition\": {\"==\": [{\"var\": \"contract.term_months\"}, 12]}, \"effect\": {\"type\": \"RATE_OVERRIDE\", \"value\": 2.95, \"unit\": \"%\"}}, {\"rule_id\": \"R-HNSAL-S2-R08-02\", \"status\": \"OK\", \"label\": \"가입기간 2년 기본금리\", \"source\": {\"quote\": \"가입기간 2년 기본금리 연 3.00%\"}, \"condition\": {\"==\": [{\"var\": \"contract.term_months\"}, 24]}, \"effect\": {\"type\": \"RATE_OVERRIDE\", \"value\": 3.0, \"unit\": \"%\"}}, {\"rule_id\": \"R-HNSAL-S2-R08-03\", \"status\": \"OK\", \"label\": \"가입기간 3년 기본금리\", \"source\": {\"quote\": \"가입기간 3년 기본금리 연 3.10%\"}, \"condition\": {\"==\": [{\"var\": \"contract.term_months\"}, 36]}, \"effect\": {\"type\": \"RATE_OVERRIDE\", \"value\": 3.1, \"unit\": \"%\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R08-01\", \"status\": \"OK\", \"label\": \"가입기간 1년 기본금리\", \"source\": {\"quote\": \"가입기간 1년 기본금리 연 2.95%\"}, \"condition\": {\"==\": [{\"var\": \"contract.term_months\"}, 12]}, \"effect\": {\"type\": \"RATE_OVERRIDE\", \"value\": 2.95, \"unit\": \"%\"}}, {\"rule_id\": \"R-HNSAL-S2-R08-02\", \"status\": \"OK\", \"label\": \"가입기간 2년 기본금리\", \"source\": {\"quote\": \"가입기간 2년 기본금리 연 3.00%\"}, \"condition\": {\"==\": [{\"var\": \"contract.term_months\"}, 24]}, \"effect\": {\"type\": \"RATE_OVERRIDE\", \"value\": 3.0, \"unit\": \"%\"}}, {\"rule_id\": \"R-HNSAL-S2-R08-03\", \"status\": \"OK\", \"label\": \"가입기간 3년 기본금리\", \"source\": {\"quote\": \"가입기간 3년 기본금리 연 3.10%\"}, \"condition\": {\"==\": [{\"var\": \"contract.term_months\"}, 36]}, \"effect\": {\"type\": \"RATE_OVERRIDE\", \"value\": 3.1, \"unit\": \"%\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R08-01",
+     "status": "OK",
+     "label": "가입기간 1년 기본금리",
+     "source": {
+      "quote": "가입기간 1년 기본금리 연 2.95%"
+     },
+     "condition": {
+      "==": [
+       {
+        "var": "contract.term_months"
+       },
+       12
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 2.95,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R08-02",
+     "status": "OK",
+     "label": "가입기간 2년 기본금리",
+     "source": {
+      "quote": "가입기간 2년 기본금리 연 3.00%"
+     },
+     "condition": {
+      "==": [
+       {
+        "var": "contract.term_months"
+       },
+       24
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 3.0,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R08-03",
+     "status": "OK",
+     "label": "가입기간 3년 기본금리",
+     "source": {
+      "quote": "가입기간 3년 기본금리 연 3.10%"
+     },
+     "condition": {
+      "==": [
+       {
+        "var": "contract.term_months"
+       },
+       36
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 3.1,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 143.2
+ },
+ {
+  "clause_id": "HNSAL-S2-R09",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": false,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 4
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": false,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 4
+  },
+  "errors": [
+   "quote 가 조문 원문에 없다: '재예치우대 예시) ’21.3월1년제가입(재예치신청)계좌: ’22.3월재예'. 요약하거나 바꿔 쓰지 말고 원문을 그대로 옮긴다"
+  ],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R09-01\", \"status\": \"UNSUPPORTED\", \"label\": \"급여하나우대\", \"source\": {\"quote\": \"급여하나우대 이예금만기전전월말기준, 계약기간의1/2 이상본인명의하나은행입출금통장을 (연0.90%) 통해급여입금실적(주1) 보유한경우(월1회이체)\"}, \"condition\": {}}, {\"rule_id\": \"R-HNSAL-S2-R09-02\", \"status\": \"UNSUPPORTED\", \"label\": \"온라인채널가입 우대\", \"source\": {\"quote\": \"온라인채널가입 이예금을온라인채널(스마트폰뱅킹/인터넷뱅킹)을통해가입또는만기재예치하는 또는 경우(단, 만기재예치우대는최초계약기간이후재예치된기간에대해적용)\"}, \"condition\": {}}, {\"rule_id\": \"R-HNSAL-S2-R09-03\", \"status\": \"UNSUPPORTED\", \"label\": \"재예치우대\", \"source\": {\"quote\": \"재예치우대 예시) ’21.3월1년제가입(재예치신청)계좌: ’22.3월재예치후만기해지시재예치우 (최대연0.10%) 대금리적용\"}}, {\"rule_id\": \"R-HNSAL-S2-R09-04\", \"status\": \"UNSUPPORTED\", \"label\": \"주1 급여입금 인정기준\", \"source\": {\"quote\": \"주1)급여입금 인정기준 ① 급여를 의미하는 문구가 포함된 적요*로 입금된 금액이 월 50만원 이상인 경우\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R09-01\", \"status\": \"UNSUPPORTED\", \"label\": \"급여하나우대\", \"source\": {\"quote\": \"급여하나우대 이예금만기전전월말기준, 계약기간의1/2 이상본인명의하나은행입출금통장을 (연0.90%) 통해급여입금실적(주1) 보유한경우(월1회이체)\"}}, {\"rule_id\": \"R-HNSAL-S2-R09-02\", \"status\": \"UNSUPPORTED\", \"label\": \"온라인채널가입 우대\", \"source\": {\"quote\": \"온라인채널가입 이예금을온라인채널(스마트폰뱅킹/인터넷뱅킹)을통해가입또는만기재예치하는 또는 경우(단, 만기재예치우대는최초계약기간이후재예치된기간에대해적용)\"}}, {\"rule_id\": \"R-HNSAL-S2-R09-03\", \"status\": \"UNSUPPORTED\", \"label\": \"재예치우대\", \"source\": {\"quote\": \"재예치우대 예시) ’21.3월1년제가입(재예치신청)계좌: ’22.3월재예치후만기해지시재예치우 (최대연0.10%) 대금리적용\"}}, {\"rule_id\": \"R-HNSAL-S2-R09-04\", \"status\": \"UNSUPPORTED\", \"label\": \"주1 급여입금 인정기준\", \"source\": {\"quote\": \"주1)급여입금 인정기준 ① 급여를 의미하는 문구가 포함된 적요*로 입금된 금액이 월 50만원 이상인 경우\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R09-01",
+     "status": "UNSUPPORTED",
+     "label": "급여하나우대",
+     "source": {
+      "quote": "급여하나우대 이예금만기전전월말기준, 계약기간의1/2 이상본인명의하나은행입출금통장을 (연0.90%) 통해급여입금실적(주1) 보유한경우(월1회이체)"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R09-02",
+     "status": "UNSUPPORTED",
+     "label": "온라인채널가입 우대",
+     "source": {
+      "quote": "온라인채널가입 이예금을온라인채널(스마트폰뱅킹/인터넷뱅킹)을통해가입또는만기재예치하는 또는 경우(단, 만기재예치우대는최초계약기간이후재예치된기간에대해적용)"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R09-03",
+     "status": "UNSUPPORTED",
+     "label": "재예치우대",
+     "source": {
+      "quote": "재예치우대 예시) ’21.3월1년제가입(재예치신청)계좌: ’22.3월재예치후만기해지시재예치우 (최대연0.10%) 대금리적용"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R09-04",
+     "status": "UNSUPPORTED",
+     "label": "주1 급여입금 인정기준",
+     "source": {
+      "quote": "주1)급여입금 인정기준 ① 급여를 의미하는 문구가 포함된 적요*로 입금된 금액이 월 50만원 이상인 경우"
+     }
+    }
+   ]
+  },
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 193.5
+ },
+ {
+  "clause_id": "HNSAL-S2-R10",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 5
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 5
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R10-01",
+     "status": "UNSUPPORTED",
+     "label": "만35세 이하 가입자 특별금리",
+     "source": {
+      "quote": "가입일기준 만35세이하만가능"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R10-02",
+     "status": "UNSUPPORTED",
+     "label": "1년제 가입자만 특별금리",
+     "source": {
+      "quote": "이 예금을 1년제로 가입하고"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R10-03",
+     "status": "UNSUPPORTED",
+     "label": "만기 전전월말 기준 6개월 이상 본인명의 하나은행 입출금통장 보유",
+     "source": {
+      "quote": "만기 전전월말 기준 6개월 이상 본인명의 하나은행 입출금통장을 통해"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R10-04",
+     "status": "UNSUPPORTED",
+     "label": "청년응원 급여 입금실적 보유",
+     "source": {
+      "quote": "청년응원 ① 급여 입금실적(주1) 보유한 경우(월 1회 인정)"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R10-05",
+     "status": "UNSUPPORTED",
+     "label": "하나카드 결제실적 월 30만원 이상 보유",
+     "source": {
+      "quote": "특별금리 ② 하나카드 결제실적(신용/체크)을 월 30만원 이상 보유한 경우"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R10-01\", \"status\": \"UNSUPPORTED\", \"label\": \"만35세 이하 가입자 특별금리\", \"source\": {\"quote\": \"가입일기준 만35세이하만가능\"}}, {\"rule_id\": \"R-HNSAL-S2-R10-02\", \"status\": \"UNSUPPORTED\", \"label\": \"1년제 가입자만 특별금리\", \"source\": {\"quote\": \"이 예금을 1년제로 가입하고\"}}, {\"rule_id\": \"R-HNSAL-S2-R10-03\", \"status\": \"UNSUPPORTED\", \"label\": \"만기 전전월말 기준 6개월 이상 본인명의 하나은행 입출금통장 보유\", \"source\": {\"quote\": \"만기 전전월말 기준 6개월 이상 본인명의 하나은행 입출금통장을 통해\"}}, {\"rule_id\": \"R-HNSAL-S2-R10-04\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 급여 입금실적 보유\", \"source\": {\"quote\": \"청년응원 ① 급여 입금실적(주1) 보유한 경우(월 1회 인정)\"}}, {\"rule_id\": \"R-HNSAL-S2-R10-05\", \"status\": \"UNSUPPORTED\", \"label\": \"하나카드 결제실적 월 30만원 이상 보유\", \"source\": {\"quote\": \"특별금리 ② 하나카드 결제실적(신용/체크)을 월 30만원 이상 보유한 경우\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R10-01\", \"status\": \"UNSUPPORTED\", \"label\": \"만35세 이하 가입자 특별금리\", \"source\": {\"quote\": \"가입일기준 만35세이하만가능\"}}, {\"rule_id\": \"R-HNSAL-S2-R10-02\", \"status\": \"UNSUPPORTED\", \"label\": \"1년제 가입자만 특별금리\", \"source\": {\"quote\": \"이 예금을 1년제로 가입하고\"}}, {\"rule_id\": \"R-HNSAL-S2-R10-03\", \"status\": \"UNSUPPORTED\", \"label\": \"만기 전전월말 기준 6개월 이상 본인명의 하나은행 입출금통장 보유\", \"source\": {\"quote\": \"만기 전전월말 기준 6개월 이상 본인명의 하나은행 입출금통장을 통해\"}}, {\"rule_id\": \"R-HNSAL-S2-R10-04\", \"status\": \"UNSUPPORTED\", \"label\": \"청년응원 급여 입금실적 보유\", \"source\": {\"quote\": \"청년응원 ① 급여 입금실적(주1) 보유한 경우(월 1회 인정)\"}}, {\"rule_id\": \"R-HNSAL-S2-R10-05\", \"status\": \"UNSUPPORTED\", \"label\": \"하나카드 결제실적 월 30만원 이상 보유\", \"source\": {\"quote\": \"특별금리 ② 하나카드 결제실적(신용/체크)을 월 30만원 이상 보유한 경우\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 57.0
+ },
+ {
+  "clause_id": "HNSAL-S2-R11",
+  "run": 0,
+  "n_attempts": 2,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": false,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R11-01",
+     "status": "UNSUPPORTED",
+     "label": "신규 가입 시 우대금리 쿠폰 사용 가능",
+     "source": {
+      "quote": "단, 신규 가입시에만 쿠폰 사용이 가능하며, 재예치 또는 중도해지시에는 적용되지 않습니다."
+     },
+     "condition": {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "NONE"
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R11-02",
+     "status": "UNSUPPORTED",
+     "label": "재예치 및 중도해지 시 우대금리 쿠폰 적용 불가",
+     "source": {
+      "quote": "단, 신규 가입시에만 쿠폰 사용이 가능하며, 재예치 또는 중도해지시에는 적용되지 않습니다."
+     },
+     "condition": {
+      "not": {
+       "==": [
+        {
+         "var": "contract.termination_type"
+        },
+        "NONE"
+       ]
+      }
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R11-01\", \"status\": \"UNSUPPORTED\", \"label\": \"신규 가입 시 우대금리 쿠폰 사용 가능\", \"source\": {\"quote\": \"단, 신규 가입시에만 쿠폰 사용이 가능하며, 재예치 또는 중도해지시에는 적용되지 않습니다.\"}, \"condition\": {\"==\": [{\"var\": \"contract.termination_type\"}, \"NONE\"]}}, {\"rule_id\": \"R-HNSAL-S2-R11-02\", \"status\": \"UNSUPPORTED\", \"label\": \"재예치 및 중도해지 시 우대금리 쿠폰 적용 불가\", \"source\": {\"quote\": \"단, 신규 가입시에만 쿠폰 사용이 가능하며, 재예치 또는 중도해지시에는 적용되지 않습니다.\"}, \"condition\": {\"not\": {\"==\": [{\"var\": \"contract.termination_type\"}, \"NONE\"]}}]}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R11-01\", \"status\": \"UNSUPPORTED\", \"label\": \"신규 가입 시 우대금리 쿠폰 사용 가능\", \"source\": {\"quote\": \"단, 신규 가입시에만 쿠폰 사용이 가능하며, 재예치 또는 중도해지시에는 적용되지 않습니다.\"}, \"condition\": {\"==\": [{\"var\": \"contract.termination_type\"}, \"NONE\"]}}, {\"rule_id\": \"R-HNSAL-S2-R11-02\", \"status\": \"UNSUPPORTED\", \"label\": \"재예치 및 중도해지 시 우대금리 쿠폰 적용 불가\", \"source\": {\"quote\": \"단, 신규 가입시에만 쿠폰 사용이 가능하며, 재예치 또는 중도해지시에는 적용되지 않습니다.\"}, \"condition\": {\"not\": {\"==\": [{\"var\": \"contract.termination_type\"}, \"NONE\"]}}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 67.6
+ },
+ {
+  "clause_id": "HNSAL-S2-R12",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 7
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 7
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R12-01",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 1개월 미만",
+     "source": {
+      "quote": "1개월미만 연0.10%"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R12-02",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 1개월 이상 3개월 미만",
+     "source": {
+      "quote": "1개월이상~ 3개월미만 연0.15%"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R12-03",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 3개월 이상 6개월 미만",
+     "source": {
+      "quote": "3개월이상~ 6개월미만 연0.20%"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R12-04",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 6개월 이상",
+     "source": {
+      "quote": "6개월이상"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R12-05",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 차등율 적용",
+     "source": {
+      "quote": "차등율: 기간(6개월 이상)에따른아래차등율참고"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R12-06",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 경과율 적용",
+     "source": {
+      "quote": "경과율: 경과일수/ 계약일수"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R12-07",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 연0.20% 미만 시 연0.20% 적용",
+     "source": {
+      "quote": "연0.20% 미만시연0.20% 적용"
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R12-01\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 1개월 미만\", \"source\": {\"quote\": \"1개월미만 연0.10%\"}, \"condition\": {}}, {\"rule_id\": \"R-HNSAL-S2-R12-02\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 1개월 이상 3개월 미만\", \"source\": {\"quote\": \"1개월이상~ 3개월미만 연0.15%\"}, \"condition\": {}}, {\"rule_id\": \"R-HNSAL-S2-R12-03\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 3개월 이상 6개월 미만\", \"source\": {\"quote\": \"3개월이상~ 6개월미만 연0.20%\"}, \"condition\": {}}, {\"rule_id\": \"R-HNSAL-S2-R12-04\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 6개월 이상\", \"source\": {\"quote\": \"6개월이상\"}, \"condition\": {}}, {\"rule_id\": \"R-HNSAL-S2-R12-05\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 차등율 적용\", \"source\": {\"quote\": \"차등율: 기간(6개월 이상)에따른아래차등율참고\"}, \"condition\": {}}, {\"rule_id\": \"R-HNSAL-S2-R12-06\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 경과율 적용\", \"source\": {\"quote\": \"경과율: 경과일수/ 계약일수\"}, \"condition\": {}}, {\"rule_id\": \"R-HNSAL-S2-R12-07\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 연0.20% 미만 시 연0.20% 적용\", \"source\": {\"quote\": \"연0.20% 미만시연0.20% 적용\"}, \"condition\": {}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R12-01\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 1개월 미만\", \"source\": {\"quote\": \"1개월미만 연0.10%\"}, \"condition\": {}}, {\"rule_id\": \"R-HNSAL-S2-R12-02\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 1개월 이상 3개월 미만\", \"source\": {\"quote\": \"1개월이상~ 3개월미만 연0.15%\"}, \"condition\": {}}, {\"rule_id\": \"R-HNSAL-S2-R12-03\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 3개월 이상 6개월 미만\", \"source\": {\"quote\": \"3개월이상~ 6개월미만 연0.20%\"}, \"condition\": {}}, {\"rule_id\": \"R-HNSAL-S2-R12-04\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 6개월 이상\", \"source\": {\"quote\": \"6개월이상\"}, \"condition\": {}}, {\"rule_id\": \"R-HNSAL-S2-R12-05\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 차등율 적용\", \"source\": {\"quote\": \"차등율: 기간(6개월 이상)에따른아래차등율참고\"}, \"condition\": {}}, {\"rule_id\": \"R-HNSAL-S2-R12-06\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 경과율 적용\", \"source\": {\"quote\": \"경과율: 경과일수/ 계약일수\"}, \"condition\": {}}, {\"rule_id\": \"R-HNSAL-S2-R12-07\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 연0.20% 미만 시 연0.20% 적용\", \"source\": {\"quote\": \"연0.20% 미만시연0.20% 적용\"}, \"condition\": {}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 75.3
+ },
+ {
+  "clause_id": "HNSAL-S2-R13",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R13-01",
+     "status": "UNSUPPORTED",
+     "label": "만기후 1개월 이내 금리",
+     "source": {
+      "quote": "1개월 이내 : 지급당시 해당기간별 정기적금 기본금리 ½"
+     },
+     "condition": {
+      "<=": [
+       {
+        "var": "contract.term_months"
+       },
+       1
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R13-02",
+     "status": "UNSUPPORTED",
+     "label": "만기후 1개월 초과 금리",
+     "source": {
+      "quote": "1개월 초과 : 지급당시 해당기간별 정기적금 기본금리 ¼"
+     },
+     "condition": {
+      ">": [
+       {
+        "var": "contract.term_months"
+       },
+       1
+      ]
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R13-01\", \"status\": \"UNSUPPORTED\", \"label\": \"만기후 1개월 이내 금리\", \"source\": {\"quote\": \"1개월 이내 : 지급당시 해당기간별 정기적금 기본금리 ½\"}, \"condition\": {\"<=\": [{\"var\": \"contract.term_months\"}, 1]}}, {\"rule_id\": \"R-HNSAL-S2-R13-02\", \"status\": \"UNSUPPORTED\", \"label\": \"만기후 1개월 초과 금리\", \"source\": {\"quote\": \"1개월 초과 : 지급당시 해당기간별 정기적금 기본금리 ¼\"}, \"condition\": {\">\": [{\"var\": \"contract.term_months\"}, 1]}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNSAL-S2-R13-01\", \"status\": \"UNSUPPORTED\", \"label\": \"만기후 1개월 이내 금리\", \"source\": {\"quote\": \"1개월 이내 : 지급당시 해당기간별 정기적금 기본금리 ½\"}, \"condition\": {\"<=\": [{\"var\": \"contract.term_months\"}, 1]}}, {\"rule_id\": \"R-HNSAL-S2-R13-02\", \"status\": \"UNSUPPORTED\", \"label\": \"만기후 1개월 초과 금리\", \"source\": {\"quote\": \"1개월 초과 : 지급당시 해당기간별 정기적금 기본금리 ¼\"}, \"condition\": {\">\": [{\"var\": \"contract.term_months\"}, 1]}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 28.0
+ },
+ {
+  "clause_id": "HNSAL-S2-R14",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\"rules\": []}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 6.8
+ },
+ {
+  "clause_id": "HNSAL-S2-R25",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\"rules\": []}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 8.2
+ },
+ {
+  "clause_id": "HNDRM-S1-P01",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNDRM-S1-P01-01",
+     "status": "UNSUPPORTED",
+     "label": "중도인출서비스 기본금리 제공",
+     "source": {
+      "quote": "중도인출서비스로 2회까지 기본금리가 제공되는 상품입니다."
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S1-P01-02",
+     "status": "UNSUPPORTED",
+     "label": "청소년 전용 적금",
+     "source": {
+      "quote": "어린이와 청소년 전용 적금으로"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNDRM-S1-P01-01\", \"status\": \"UNSUPPORTED\", \"label\": \"중도인출서비스 기본금리 제공\", \"source\": {\"quote\": \"중도인출서비스로 2회까지 기본금리가 제공되는 상품입니다.\"}}, {\"rule_id\": \"R-HNDRM-S1-P01-02\", \"status\": \"UNSUPPORTED\", \"label\": \"청소년 전용 적금\", \"source\": {\"quote\": \"어린이와 청소년 전용 적금으로\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNDRM-S1-P01-01\", \"status\": \"UNSUPPORTED\", \"label\": \"중도인출서비스 기본금리 제공\", \"source\": {\"quote\": \"중도인출서비스로 2회까지 기본금리가 제공되는 상품입니다.\"}}, {\"rule_id\": \"R-HNDRM-S1-P01-02\", \"status\": \"UNSUPPORTED\", \"label\": \"청소년 전용 적금\", \"source\": {\"quote\": \"어린이와 청소년 전용 적금으로\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 20.0
+ },
+ {
+  "clause_id": "HNDRM-S2-R01",
+  "run": 0,
+  "n_attempts": 2,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 3
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 3
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNDRM-S2-R01-01",
+     "status": "UNSUPPORTED",
+     "label": "가입 대상 연령 제한",
+     "source": {
+      "quote": "만 18세 이하 실명의 개인(1인 1계좌)"
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R01-02",
+     "status": "UNSUPPORTED",
+     "label": "가입 대상 명의 유형",
+     "source": {
+      "quote": "실명의 개인"
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R01-03",
+     "status": "UNSUPPORTED",
+     "label": "가입 대상 연령 제한",
+     "source": {
+      "quote": "만 18세 이하"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNDRM-S2-R01-01\", \"status\": \"OK\", \"label\": \"가입 대상 연령 제한\", \"source\": {\"quote\": \"만 18세 이하 실명의 개인(1인 1계좌)\"}}, {\"rule_id\": \"R-HNDRM-S2-R01-02\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인\"}}, {\"rule_id\": \"R-HNDRM-S2-R01-03\", \"status\": \"OK\", \"label\": \"가입 대상 연령 제한\", \"source\": {\"quote\": \"만 18세 이하\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNDRM-S2-R01-01\", \"status\": \"UNSUPPORTED\", \"label\": \"가입 대상 연령 제한\", \"source\": {\"quote\": \"만 18세 이하 실명의 개인(1인 1계좌)\"}}, {\"rule_id\": \"R-HNDRM-S2-R01-02\", \"status\": \"UNSUPPORTED\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인\"}}, {\"rule_id\": \"R-HNDRM-S2-R01-03\", \"status\": \"UNSUPPORTED\", \"label\": \"가입 대상 연령 제한\", \"source\": {\"quote\": \"만 18세 이하\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 52.2
+ },
+ {
+  "clause_id": "HNDRM-S2-R02",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "LABEL"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\"rules\": []}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 7.2
+ },
+ {
+  "clause_id": "HNDRM-S2-R09",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\"rules\": []}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 8.2
+ },
+ {
+  "clause_id": "HNDRM-S2-R10",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNDRM-S2-R10-01",
+     "status": "OK",
+     "label": "가입기간 1년 기본금리",
+     "source": {
+      "quote": "가입기간 기본금리"
+     },
+     "condition": {
+      "==": [
+       {
+        "var": "contract.term_months"
+       },
+       12
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 2.7,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNDRM-S2-R10-01\", \"status\": \"OK\", \"label\": \"가입기간 1년 기본금리\", \"source\": {\"quote\": \"가입기간 기본금리\"}, \"condition\": {\"==\": [{\"var\": \"contract.term_months\"}, 12]}, \"effect\": {\"type\": \"RATE_OVERRIDE\", \"value\": 2.7, \"unit\": \"%\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNDRM-S2-R10-01\", \"status\": \"OK\", \"label\": \"가입기간 1년 기본금리\", \"source\": {\"quote\": \"가입기간 기본금리\"}, \"condition\": {\"==\": [{\"var\": \"contract.term_months\"}, 12]}, \"effect\": {\"type\": \"RATE_OVERRIDE\", \"value\": 2.7, \"unit\": \"%\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 15.8
+ },
+ {
+  "clause_id": "HNDRM-S2-R11",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": false,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": false,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": null,
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNDRM-S2-R11-01\", \"status\": \"OK\", \"label\": \"가입우대\", \"source\": {\"quote\": \"가입우대 : 이 예금을 최초 가입한 경우 연 0.20%\"}, \"condition\": {\"and\": [{\"==\": [{\"var\": \"customer.is_first_deposit\"}, true]}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HN",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNDRM-S2-R11-01\", \"status\": \"OK\", \"label\": \"가입우대\", \"source\": {\"quote\": \"가입우대 : 이 예금을 최초 가입한 경우 연 0.20%\"}, \"condition\": {\"and\": [{\"==\": [{\"var\": \"customer.is_first_deposit\"}, true]}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HNDRM-S2-R11\"]]}}, {\"not\": {\"in\": [{\"var\": \"customer.held_products\"}, [\"HN",
+  "truncated": true,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 503.2
+ },
+ {
+  "clause_id": "HNDRM-S2-R12",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 4
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 4
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNDRM-S2-R12-01",
+     "status": "UNSUPPORTED",
+     "label": "출생 후 1년 이내, 만 7세, 만 13세, 만 16세에 해당하는 계약기간별 1년간 연 0.30%",
+     "source": {
+      "quote": "가. 이예금가입고객이출생후1 년이내, 만7 세, 만13 세, 만16 세가되는해당계약기간별1 년간연0.30%"
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R12-02",
+     "status": "UNSUPPORTED",
+     "label": "동일기관, 학교 등 단체 신규 10인 이상 가입 시, 가입 후 1년간 연 0.30%",
+     "source": {
+      "quote": "나. 이예금가입고객이동일기관, 학교등단체신규10 인이상가입한경우, 가입후1 년간연0.30%"
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R12-03",
+     "status": "UNSUPPORTED",
+     "label": "만 3세 이하 예금주가 대리인이 「(아이) 꿈하나적금」 신규 시 「(태아)사랑하나적금」 보유 또는 보유 이력이 있는 경우, 가입 후 1년간 연 1.00%",
+     "source": {
+      "quote": "다. 예금주가만3세이하이고대리인이「(아이) 꿈하나적금」을신규하는시점에「(태아)사랑하나적금」을보유하고있거나보유한적이있는경우, 가입후1 년간연1.00%"
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R12-04",
+     "status": "UNSUPPORTED",
+     "label": "만기 전 1년간 연 2.00% (만 14세까지 희망대학 등록 가능)",
+     "source": {
+      "quote": "②희망대학입학축하금리: 만기전1 년간연2.00%(만14 세까지희망대학등록가능)"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNDRM-S2-R12-01\", \"status\": \"UNSUPPORTED\", \"label\": \"출생 후 1년 이내, 만 7세, 만 13세, 만 16세에 해당하는 계약기간별 1년간 연 0.30%\", \"source\": {\"quote\": \"가. 이예금가입고객이출생후1 년이내, 만7 세, 만13 세, 만16 세가되는해당계약기간별1 년간연0.30%\"}}, {\"rule_id\": \"R-HNDRM-S2-R12-02\", \"status\": \"UNSUPPORTED\", \"label\": \"동일기관, 학교 등 단체 신규 10인 이상 가입 시, 가입 후 1년간 연 0.30%\", \"source\": {\"quote\": \"나. 이예금가입고객이동일기관, 학교등단체신규10 인이상가입한경우, 가입후1 년간연0.30%\"}}, {\"rule_id\": \"R-HNDRM-S2-R12-03\", \"status\": \"UNSUPPORTED\", \"label\": \"만 3세 이하 예금주가 대리인이 「(아이) 꿈하나적금」 신규 시 「(태아)사랑하나적금」 보유 또는 보유 이력이 있는 경우, 가입 후 1년간 연 1.00%\", \"source\": {\"quote\": \"다. 예금주가만3세이하이고대리인이「(아이) 꿈하나적금」을신규하는시점에「(태아)사랑하나적금」을보유하고있거나보유한적이있는경우, 가입후1 년간연1.00%\"}}, {\"rule_id\": \"R-HNDRM-S2-R12-04\", \"status\": \"UNSUPPORTED\", \"label\": \"만기 전 1년간 연 2.00% (만 14세까지 희망대학 등록 가능)\", \"source\": {\"quote\": \"②희망대학입학축하금리: 만기전1 년간연2.00%(만14 세까지희망대학등록가능)\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNDRM-S2-R12-01\", \"status\": \"UNSUPPORTED\", \"label\": \"출생 후 1년 이내, 만 7세, 만 13세, 만 16세에 해당하는 계약기간별 1년간 연 0.30%\", \"source\": {\"quote\": \"가. 이예금가입고객이출생후1 년이내, 만7 세, 만13 세, 만16 세가되는해당계약기간별1 년간연0.30%\"}}, {\"rule_id\": \"R-HNDRM-S2-R12-02\", \"status\": \"UNSUPPORTED\", \"label\": \"동일기관, 학교 등 단체 신규 10인 이상 가입 시, 가입 후 1년간 연 0.30%\", \"source\": {\"quote\": \"나. 이예금가입고객이동일기관, 학교등단체신규10 인이상가입한경우, 가입후1 년간연0.30%\"}}, {\"rule_id\": \"R-HNDRM-S2-R12-03\", \"status\": \"UNSUPPORTED\", \"label\": \"만 3세 이하 예금주가 대리인이 「(아이) 꿈하나적금」 신규 시 「(태아)사랑하나적금」 보유 또는 보유 이력이 있는 경우, 가입 후 1년간 연 1.00%\", \"source\": {\"quote\": \"다. 예금주가만3세이하이고대리인이「(아이) 꿈하나적금」을신규하는시점에「(태아)사랑하나적금」을보유하고있거나보유한적이있는경우, 가입후1 년간연1.00%\"}}, {\"rule_id\": \"R-HNDRM-S2-R12-04\", \"status\": \"UNSUPPORTED\", \"label\": \"만기 전 1년간 연 2.00% (만 14세까지 희망대학 등록 가능)\", \"source\": {\"quote\": \"②희망대학입학축하금리: 만기전1 년간연2.00%(만14 세까지희망대학등록가능)\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 102.3
+ },
+ {
+  "clause_id": "HNDRM-S2-R13",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 7
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 7
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNDRM-S2-R13-01",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 1개월 미만",
+     "source": {
+      "quote": "1개월미만 연0.10%"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R13-02",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 1개월 이상 3개월 미만",
+     "source": {
+      "quote": "1개월이상~ 3개월미만 연0.15%"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R13-03",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 3개월 이상 6개월 미만",
+     "source": {
+      "quote": "3개월이상~ 6개월미만 연0.20%"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R13-04",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 6개월 이상",
+     "source": {
+      "quote": "6개월이상"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R13-05",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 차등율 적용",
+     "source": {
+      "quote": "차등율: 기간(6개월이상)에 따른 아래 차등율 참고"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R13-06",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 경과율 적용",
+     "source": {
+      "quote": "경과율: 경과일수/ 계약일수"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R13-07",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 연0.20% 미만 시 연0.20% 적용",
+     "source": {
+      "quote": "단, 연0.20% 미만시 연0.20% 적용"
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNDRM-S2-R13-01\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 1개월 미만\", \"source\": {\"quote\": \"1개월미만 연0.10%\"}, \"condition\": {}}, {\"rule_id\": \"R-HNDRM-S2-R13-02\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 1개월 이상 3개월 미만\", \"source\": {\"quote\": \"1개월이상~ 3개월미만 연0.15%\"}, \"condition\": {}}, {\"rule_id\": \"R-HNDRM-S2-R13-03\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 3개월 이상 6개월 미만\", \"source\": {\"quote\": \"3개월이상~ 6개월미만 연0.20%\"}, \"condition\": {}}, {\"rule_id\": \"R-HNDRM-S2-R13-04\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 6개월 이상\", \"source\": {\"quote\": \"6개월이상\"}, \"condition\": {}}, {\"rule_id\": \"R-HNDRM-S2-R13-05\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 차등율 적용\", \"source\": {\"quote\": \"차등율: 기간(6개월이상)에 따른 아래 차등율 참고\"}, \"condition\": {}}, {\"rule_id\": \"R-HNDRM-S2-R13-06\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 경과율 적용\", \"source\": {\"quote\": \"경과율: 경과일수/ 계약일수\"}, \"condition\": {}}, {\"rule_id\": \"R-HNDRM-S2-R13-07\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 연0.20% 미만 시 연0.20% 적용\", \"source\": {\"quote\": \"단, 연0.20% 미만시 연0.20% 적용\"}, \"condition\": {}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNDRM-S2-R13-01\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 1개월 미만\", \"source\": {\"quote\": \"1개월미만 연0.10%\"}, \"condition\": {}}, {\"rule_id\": \"R-HNDRM-S2-R13-02\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 1개월 이상 3개월 미만\", \"source\": {\"quote\": \"1개월이상~ 3개월미만 연0.15%\"}, \"condition\": {}}, {\"rule_id\": \"R-HNDRM-S2-R13-03\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 3개월 이상 6개월 미만\", \"source\": {\"quote\": \"3개월이상~ 6개월미만 연0.20%\"}, \"condition\": {}}, {\"rule_id\": \"R-HNDRM-S2-R13-04\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 6개월 이상\", \"source\": {\"quote\": \"6개월이상\"}, \"condition\": {}}, {\"rule_id\": \"R-HNDRM-S2-R13-05\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 차등율 적용\", \"source\": {\"quote\": \"차등율: 기간(6개월이상)에 따른 아래 차등율 참고\"}, \"condition\": {}}, {\"rule_id\": \"R-HNDRM-S2-R13-06\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 경과율 적용\", \"source\": {\"quote\": \"경과율: 경과일수/ 계약일수\"}, \"condition\": {}}, {\"rule_id\": \"R-HNDRM-S2-R13-07\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 연0.20% 미만 시 연0.20% 적용\", \"source\": {\"quote\": \"단, 연0.20% 미만시 연0.20% 적용\"}, \"condition\": {}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 98.8
+ },
+ {
+  "clause_id": "HNDRM-S2-R14",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNDRM-S2-R14-01",
+     "status": "UNSUPPORTED",
+     "label": "만기후 1개월 이내 금리",
+     "source": {
+      "quote": "1개월이내: 지급당시해당기간별정기적금기본금리½"
+     },
+     "condition": {
+      "<=": [
+       {
+        "var": "contract.term_months"
+       },
+       1
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R14-02",
+     "status": "UNSUPPORTED",
+     "label": "만기후 1개월 초과 금리",
+     "source": {
+      "quote": "1개월초과: 지급당시해당기간별정기적금기본금리¼"
+     },
+     "condition": {
+      ">": [
+       {
+        "var": "contract.term_months"
+       },
+       1
+      ]
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNDRM-S2-R14-01\", \"status\": \"UNSUPPORTED\", \"label\": \"만기후 1개월 이내 금리\", \"source\": {\"quote\": \"1개월이내: 지급당시해당기간별정기적금기본금리½\"}, \"condition\": {\"<=\": [{\"var\": \"contract.term_months\"}, 1]}}, {\"rule_id\": \"R-HNDRM-S2-R14-02\", \"status\": \"UNSUPPORTED\", \"label\": \"만기후 1개월 초과 금리\", \"source\": {\"quote\": \"1개월초과: 지급당시해당기간별정기적금기본금리¼\"}, \"condition\": {\">\": [{\"var\": \"contract.term_months\"}, 1]}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNDRM-S2-R14-01\", \"status\": \"UNSUPPORTED\", \"label\": \"만기후 1개월 이내 금리\", \"source\": {\"quote\": \"1개월이내: 지급당시해당기간별정기적금기본금리½\"}, \"condition\": {\"<=\": [{\"var\": \"contract.term_months\"}, 1]}}, {\"rule_id\": \"R-HNDRM-S2-R14-02\", \"status\": \"UNSUPPORTED\", \"label\": \"만기후 1개월 초과 금리\", \"source\": {\"quote\": \"1개월초과: 지급당시해당기간별정기적금기본금리¼\"}, \"condition\": {\">\": [{\"var\": \"contract.term_months\"}, 1]}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 36.8
+ },
+ {
+  "clause_id": "HNDRM-S2-R15",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\"rules\": []}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 7.4
+ },
+ {
+  "clause_id": "HNDRM-S2-R24",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\"rules\": []}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 8.9
+ },
+ {
+  "clause_id": "HNWSH-S1-P01",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "SUMMARY"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\"rules\": []}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 7.2
+ },
+ {
+  "clause_id": "HNWSH-S2-R01",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNWSH-S2-R01-01",
+     "status": "OK",
+     "label": "가입 대상 명의 유형",
+     "source": {
+      "quote": "실명의 개인"
+     },
+     "condition": {
+      "not": {
+       "in": [
+        {
+         "var": "customer.holder_type"
+        },
+        [
+         "INDIVIDUAL"
+        ]
+       ]
+      }
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNWSH-S2-R01-01\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인\"}, \"condition\": {\"not\": {\"in\": [{\"var\": \"customer.holder_type\"}, [\"INDIVIDUAL\"]]}}, \"effect\": {\"type\": \"DISQUALIFY\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNWSH-S2-R01-01\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인\"}, \"condition\": {\"not\": {\"in\": [{\"var\": \"customer.holder_type\"}, [\"INDIVIDUAL\"]]}}, \"effect\": {\"type\": \"DISQUALIFY\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 18.5
+ },
+ {
+  "clause_id": "HNWSH-S2-R03",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "LABEL"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\"rules\": []}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 7.9
+ },
+ {
+  "clause_id": "HNWSH-S2-R06",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNWSH-S2-R06-01",
+     "status": "UNSUPPORTED",
+     "label": "소비 재테크 서비스 신청 필수",
+     "source": {
+      "quote": "하나체크카드 사용에 따른 자동 적립을 원하는 경우 “소비 재테크 서비스”를 신청하여야"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNWSH-S2-R06-01\", \"status\": \"UNSUPPORTED\", \"label\": \"소비 재테크 서비스 신청 필수\", \"source\": {\"quote\": \"하나체크카드 사용에 따른 자동 적립을 원하는 경우 “소비 재테크 서비스”를 신청하여야\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNWSH-S2-R06-01\", \"status\": \"UNSUPPORTED\", \"label\": \"소비 재테크 서비스 신청 필수\", \"source\": {\"quote\": \"하나체크카드 사용에 따른 자동 적립을 원하는 경우 “소비 재테크 서비스”를 신청하여야\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 16.4
+ },
+ {
+  "clause_id": "HNWSH-S2-R09",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": false,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": false,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": null,
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNWSH-S2-R09-01\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-02\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-03\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-04\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-05\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-06\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-07\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-08\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-09\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-10\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-11\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-12\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-13\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-14\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-15\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-16\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-17\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-18\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-19\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-20\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-21\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-22\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-23\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-24\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-25\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNWSH-S2-R09-01\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-02\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-03\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-04\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-05\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-06\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-07\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-08\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-09\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-10\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-11\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-12\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-13\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-14\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-15\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-16\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-17\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-18\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-19\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-20\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-21\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-22\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-23\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-24\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"}}, {\"rule_id\": \"R-HNWSH-S2-R09-25\", \"status\": \"UNSUPPORTED\", \"label\": \"기본금리 적용\", \"source\": {\"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금",
+  "truncated": true,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 440.4
+ },
+ {
+  "clause_id": "HNWSH-S2-R10",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 3
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 3
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNWSH-S2-R10-01",
+     "status": "UNSUPPORTED",
+     "label": "목표 불입금액 달성 우대",
+     "source": {
+      "quote": "① 목표 불입금액 달성 우대 (연 0.2%)"
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R10-02",
+     "status": "UNSUPPORTED",
+     "label": "소비 재테크 자동 적립 우대",
+     "source": {
+      "quote": "② 소비 재테크 자동 적립 우대 (최대 연 0.4%)"
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R10-03",
+     "status": "UNSUPPORTED",
+     "label": "추천인 우대",
+     "source": {
+      "quote": "③ 추천인 우대 (최대 연 0.2%)"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNWSH-S2-R10-01\", \"status\": \"UNSUPPORTED\", \"label\": \"목표 불입금액 달성 우대\", \"source\": {\"quote\": \"① 목표 불입금액 달성 우대 (연 0.2%)\"}}, {\"rule_id\": \"R-HNWSH-S2-R10-02\", \"status\": \"UNSUPPORTED\", \"label\": \"소비 재테크 자동 적립 우대\", \"source\": {\"quote\": \"② 소비 재테크 자동 적립 우대 (최대 연 0.4%)\"}}, {\"rule_id\": \"R-HNWSH-S2-R10-03\", \"status\": \"UNSUPPORTED\", \"label\": \"추천인 우대\", \"source\": {\"quote\": \"③ 추천인 우대 (최대 연 0.2%)\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNWSH-S2-R10-01\", \"status\": \"UNSUPPORTED\", \"label\": \"목표 불입금액 달성 우대\", \"source\": {\"quote\": \"① 목표 불입금액 달성 우대 (연 0.2%)\"}}, {\"rule_id\": \"R-HNWSH-S2-R10-02\", \"status\": \"UNSUPPORTED\", \"label\": \"소비 재테크 자동 적립 우대\", \"source\": {\"quote\": \"② 소비 재테크 자동 적립 우대 (최대 연 0.4%)\"}}, {\"rule_id\": \"R-HNWSH-S2-R10-03\", \"status\": \"UNSUPPORTED\", \"label\": \"추천인 우대\", \"source\": {\"quote\": \"③ 추천인 우대 (최대 연 0.2%)\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 30.0
+ },
+ {
+  "clause_id": "HNWSH-S2-R11",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 3
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 3
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNWSH-S2-R11-01",
+     "status": "UNSUPPORTED",
+     "label": "소비재테크 서비스 신청 조건",
+     "source": {
+      "quote": "본 서비스는 신청 고객에 한하여 제공"
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R11-02",
+     "status": "UNSUPPORTED",
+     "label": "적립금액 설정 방식",
+     "source": {
+      "quote": "적립금액 설정 방식 : 아래 2가지 중 선택"
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R11-03",
+     "status": "UNSUPPORTED",
+     "label": "자동적립금액 한도",
+     "source": {
+      "quote": "1일 자동적립금액은 최소 1천원에서 최대 10만원까지 1천원 단위"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNWSH-S2-R11-01\", \"status\": \"UNSUPPORTED\", \"label\": \"소비재테크 서비스 신청 조건\", \"source\": {\"quote\": \"본 서비스는 신청 고객에 한하여 제공\"}}, {\"rule_id\": \"R-HNWSH-S2-R11-02\", \"status\": \"UNSUPPORTED\", \"label\": \"적립금액 설정 방식\", \"source\": {\"quote\": \"적립금액 설정 방식 : 아래 2가지 중 선택\"}}, {\"rule_id\": \"R-HNWSH-S2-R11-03\", \"status\": \"UNSUPPORTED\", \"label\": \"자동적립금액 한도\", \"source\": {\"quote\": \"1일 자동적립금액은 최소 1천원에서 최대 10만원까지 1천원 단위\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNWSH-S2-R11-01\", \"status\": \"UNSUPPORTED\", \"label\": \"소비재테크 서비스 신청 조건\", \"source\": {\"quote\": \"본 서비스는 신청 고객에 한하여 제공\"}}, {\"rule_id\": \"R-HNWSH-S2-R11-02\", \"status\": \"UNSUPPORTED\", \"label\": \"적립금액 설정 방식\", \"source\": {\"quote\": \"적립금액 설정 방식 : 아래 2가지 중 선택\"}}, {\"rule_id\": \"R-HNWSH-S2-R11-03\", \"status\": \"UNSUPPORTED\", \"label\": \"자동적립금액 한도\", \"source\": {\"quote\": \"1일 자동적립금액은 최소 1천원에서 최대 10만원까지 1천원 단위\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 29.3
+ },
+ {
+  "clause_id": "HNWSH-S2-R12",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 6
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 6
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNWSH-S2-R12-01",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 1개월 미만",
+     "source": {
+      "quote": "1개월 미만 연 0.1%"
+     },
+     "condition": {
+      "<": [
+       {
+        "var": "contract.term_months"
+       },
+       1
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R12-02",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 1개월 이상 3개월 미만",
+     "source": {
+      "quote": "1개월 이상 ~ 3개월 미만 연 0.15%"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         1
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         3
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R12-03",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 3개월 이상 6개월 미만",
+     "source": {
+      "quote": "3개월 이상 ~ 6개월 미만 연 0.2%"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         3
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         6
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R12-04",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 6개월 이상 9개월 미만",
+     "source": {
+      "quote": "6개월 이상"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         6
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         9
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R12-05",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 9개월 이상 11개월 미만",
+     "source": {
+      "quote": "9개월 이상 ~ 11개월 미만"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         9
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         11
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R12-06",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 - 11개월 이상",
+     "source": {
+      "quote": "11개월 이상"
+     },
+     "condition": {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       11
+      ]
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNWSH-S2-R12-01\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 1개월 미만\", \"source\": {\"quote\": \"1개월 미만 연 0.1%\"}, \"condition\": {\"<\": [{\"var\": \"contract.term_months\"}, 1]}}, {\"rule_id\": \"R-HNWSH-S2-R12-02\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 1개월 이상 3개월 미만\", \"source\": {\"quote\": \"1개월 이상 ~ 3개월 미만 연 0.15%\"}, \"condition\": {\"and\": [{\">=\": [{\"var\": \"contract.term_months\"}, 1]}, {\"<\": [{\"var\": \"contract.term_months\"}, 3]}]}}, {\"rule_id\": \"R-HNWSH-S2-R12-03\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 3개월 이상 6개월 미만\", \"source\": {\"quote\": \"3개월 이상 ~ 6개월 미만 연 0.2%\"}, \"condition\": {\"and\": [{\">=\": [{\"var\": \"contract.term_months\"}, 3]}, {\"<\": [{\"var\": \"contract.term_months\"}, 6]}]}}, {\"rule_id\": \"R-HNWSH-S2-R12-04\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 6개월 이상 9개월 미만\", \"source\": {\"quote\": \"6개월 이상\"}, \"condition\": {\"and\": [{\">=\": [{\"var\": \"contract.term_months\"}, 6]}, {\"<\": [{\"var\": \"contract.term_months\"}, 9]}]}}, {\"rule_id\": \"R-HNWSH-S2-R12-05\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 9개월 이상 11개월 미만\", \"source\": {\"quote\": \"9개월 이상 ~ 11개월 미만\"}, \"condition\": {\"and\": [{\">=\": [{\"var\": \"contract.term_months\"}, 9]}, {\"<\": [{\"var\": \"contract.term_months\"}, 11]}]}}, {\"rule_id\": \"R-HNWSH-S2-R12-06\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 11개월 이상\", \"source\": {\"quote\": \"11개월 이상\"}, \"condition\": {\">=\": [{\"var\": \"contract.term_months\"}, 11]}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNWSH-S2-R12-01\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 1개월 미만\", \"source\": {\"quote\": \"1개월 미만 연 0.1%\"}, \"condition\": {\"<\": [{\"var\": \"contract.term_months\"}, 1]}}, {\"rule_id\": \"R-HNWSH-S2-R12-02\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 1개월 이상 3개월 미만\", \"source\": {\"quote\": \"1개월 이상 ~ 3개월 미만 연 0.15%\"}, \"condition\": {\"and\": [{\">=\": [{\"var\": \"contract.term_months\"}, 1]}, {\"<\": [{\"var\": \"contract.term_months\"}, 3]}]}}, {\"rule_id\": \"R-HNWSH-S2-R12-03\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 3개월 이상 6개월 미만\", \"source\": {\"quote\": \"3개월 이상 ~ 6개월 미만 연 0.2%\"}, \"condition\": {\"and\": [{\">=\": [{\"var\": \"contract.term_months\"}, 3]}, {\"<\": [{\"var\": \"contract.term_months\"}, 6]}]}}, {\"rule_id\": \"R-HNWSH-S2-R12-04\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 6개월 이상 9개월 미만\", \"source\": {\"quote\": \"6개월 이상\"}, \"condition\": {\"and\": [{\">=\": [{\"var\": \"contract.term_months\"}, 6]}, {\"<\": [{\"var\": \"contract.term_months\"}, 9]}]}}, {\"rule_id\": \"R-HNWSH-S2-R12-05\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 9개월 이상 11개월 미만\", \"source\": {\"quote\": \"9개월 이상 ~ 11개월 미만\"}, \"condition\": {\"and\": [{\">=\": [{\"var\": \"contract.term_months\"}, 9]}, {\"<\": [{\"var\": \"contract.term_months\"}, 11]}]}}, {\"rule_id\": \"R-HNWSH-S2-R12-06\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지금리 - 11개월 이상\", \"source\": {\"quote\": \"11개월 이상\"}, \"condition\": {\">=\": [{\"var\": \"contract.term_months\"}, 11]}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 81.4
+ },
+ {
+  "clause_id": "HNWSH-S2-R13",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNWSH-S2-R13-01",
+     "status": "UNSUPPORTED",
+     "label": "만기 후 1개월 이내 금리",
+     "source": {
+      "quote": "1개월 이내 : 지급 당시 해당기간별 상호부금 기본금리의1/2"
+     },
+     "condition": {
+      "<=": [
+       {
+        "var": "contract.term_months"
+       },
+       1
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R13-02",
+     "status": "UNSUPPORTED",
+     "label": "만기 후 1개월 초과 금리",
+     "source": {
+      "quote": "1개월 초과 : 지급 당시 해당기간별 상호부금 기본금리의 1/4"
+     },
+     "condition": {
+      ">": [
+       {
+        "var": "contract.term_months"
+       },
+       1
+      ]
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-HNWSH-S2-R13-01\", \"status\": \"UNSUPPORTED\", \"label\": \"만기 후 1개월 이내 금리\", \"source\": {\"quote\": \"1개월 이내 : 지급 당시 해당기간별 상호부금 기본금리의1/2\"}, \"condition\": {\"<=\": [{\"var\": \"contract.term_months\"}, 1]}}, {\"rule_id\": \"R-HNWSH-S2-R13-02\", \"status\": \"UNSUPPORTED\", \"label\": \"만기 후 1개월 초과 금리\", \"source\": {\"quote\": \"1개월 초과 : 지급 당시 해당기간별 상호부금 기본금리의 1/4\"}, \"condition\": {\">\": [{\"var\": \"contract.term_months\"}, 1]}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-HNWSH-S2-R13-01\", \"status\": \"UNSUPPORTED\", \"label\": \"만기 후 1개월 이내 금리\", \"source\": {\"quote\": \"1개월 이내 : 지급 당시 해당기간별 상호부금 기본금리의1/2\"}, \"condition\": {\"<=\": [{\"var\": \"contract.term_months\"}, 1]}}, {\"rule_id\": \"R-HNWSH-S2-R13-02\", \"status\": \"UNSUPPORTED\", \"label\": \"만기 후 1개월 초과 금리\", \"source\": {\"quote\": \"1개월 초과 : 지급 당시 해당기간별 상호부금 기본금리의 1/4\"}, \"condition\": {\">\": [{\"var\": \"contract.term_months\"}, 1]}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 27.3
+ },
+ {
+  "clause_id": "HNWSH-S2-R14",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\"rules\": []}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 6.9
+ },
+ {
+  "clause_id": "HNWSH-S2-R23",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\"rules\": []}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 8.2
+ }
+]

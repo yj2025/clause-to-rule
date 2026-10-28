@@ -1,0 +1,1453 @@
+[
+ {
+  "clause_id": "KBNR-S1-P01",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBNR-S1-P01-01",
+     "status": "UNSUPPORTED",
+     "label": "국군 장병 우대이율",
+     "source": {
+      "quote": "급여이체 실적이 있는 국군 장병(將兵)에게 우대이율을 제공하는"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"KBNR-S1-P01-01\", \"status\": \"UNSUPPORTED\", \"label\": \"국군 장병 우대이율\", \"source\": {\"quote\": \"급여이체 실적이 있는 국군 장병(將兵)에게 우대이율을 제공하는\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"KBNR-S1-P01-01\", \"status\": \"UNSUPPORTED\", \"label\": \"국군 장병 우대이율\", \"source\": {\"quote\": \"급여이체 실적이 있는 국군 장병(將兵)에게 우대이율을 제공하는\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBNR-S2-R01",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": false,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": false,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": null,
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-KBNR-S2-R01-01\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-02\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-03\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-04\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-05\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-06\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-07\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-08\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-09\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-10\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-11\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-12\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-13\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-14\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-15\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-16\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-17\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-18\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-19\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-20\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-21\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-22\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-23\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-24\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-25\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-26\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-27\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-28\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-29\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-30\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-31\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-32\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-33\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-34\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-35\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-36\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-37\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-38\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-39\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-40\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-41\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-42\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-43\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-44\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-45\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-46\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-47\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-48\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-49\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-50\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-51\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-52\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-53\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-54\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-55\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-KBNR-S2-R01-01\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-02\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-03\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-04\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-05\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-06\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-07\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-08\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-09\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-10\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-11\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-12\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-13\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-14\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-15\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-16\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-17\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-18\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-19\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-20\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-21\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-22\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-23\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-24\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-25\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-26\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-27\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-28\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-29\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-30\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-31\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-32\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-33\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-34\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-35\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-36\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-37\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-38\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-39\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-40\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-41\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-42\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-43\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-44\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-45\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-46\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-47\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-48\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-49\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-50\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-51\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-52\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-53\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-54\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명의 개인 (1인1계좌)\"}}, {\"rule_id\": \"R-KBNR-S2-R01-55\", \"status\": \"OK\", \"label\": \"가입 대상 명의 유형\", \"source\": {\"quote\": \"실명",
+  "truncated": true,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBNR-S2-R02",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "PRODUCT_SETTING"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\"rules\": []}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBNR-S2-R03",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBNR-S2-R03-01",
+     "status": "UNSUPPORTED",
+     "label": "동일 예금과목 전환 가능",
+     "source": {
+      "quote": "동일 예금과목 전환 가능"
+     }
+    },
+    {
+     "rule_id": "R-KBNR-S2-R03-02",
+     "status": "UNSUPPORTED",
+     "label": "전환신규 불가 상품 제외",
+     "source": {
+      "quote": "개별상품에서 정한 기준에 의해 전환신규가 불가한 상품은 제외"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-KBNR-S2-R03-01\", \"status\": \"UNSUPPORTED\", \"label\": \"동일 예금과목 전환 가능\", \"source\": {\"quote\": \"동일 예금과목 전환 가능\"}}, {\"rule_id\": \"R-KBNR-S2-R03-02\", \"status\": \"UNSUPPORTED\", \"label\": \"전환신규 불가 상품 제외\", \"source\": {\"quote\": \"개별상품에서 정한 기준에 의해 전환신규가 불가한 상품은 제외\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-KBNR-S2-R03-01\", \"status\": \"UNSUPPORTED\", \"label\": \"동일 예금과목 전환 가능\", \"source\": {\"quote\": \"동일 예금과목 전환 가능\"}}, {\"rule_id\": \"R-KBNR-S2-R03-02\", \"status\": \"UNSUPPORTED\", \"label\": \"전환신규 불가 상품 제외\", \"source\": {\"quote\": \"개별상품에서 정한 기준에 의해 전환신규가 불가한 상품은 제외\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBNR-S2-R04",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBNR-S2-R04-01",
+     "status": "OK",
+     "label": "기본이율 적용",
+     "source": {
+      "quote": "기본이율 : 연 0.1%"
+     },
+     "condition": {},
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 0.1,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-KBNR-S2-R04-01\", \"status\": \"OK\", \"label\": \"기본이율 적용\", \"source\": {\"quote\": \"기본이율 : 연 0.1%\"}, \"condition\": {}, \"effect\": {\"type\": \"RATE_OVERRIDE\", \"value\": 0.1, \"unit\": \"%\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-KBNR-S2-R04-01\", \"status\": \"OK\", \"label\": \"기본이율 적용\", \"source\": {\"quote\": \"기본이율 : 연 0.1%\"}, \"condition\": {}, \"effect\": {\"type\": \"RATE_OVERRIDE\", \"value\": 0.1, \"unit\": \"%\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBNR-S2-R05",
+  "run": 0,
+  "n_attempts": 2,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBNR-S2-R05-01",
+     "status": "UNSUPPORTED",
+     "label": "우대이율 적용 조건",
+     "source": {
+      "quote": "결산일의 전월 말일을 기준으로 직전 3개월 동안 2개월 이상 이 통장으로 아래 한 항목 이상에 해당하는 급여이체 실적이 있는 경우"
+     }
+    },
+    {
+     "rule_id": "R-KBNR-S2-R05-02",
+     "status": "UNSUPPORTED",
+     "label": "우대이율 적용 한도",
+     "source": {
+      "quote": "이 통장의 결산기 평균잔액 중 100만원 이하의 금액까지는 기본이율과 우대이율을 합산하여 적용하며, 100만원을 초과하는 금액은 기본이율만 적용"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-KBNR-S2-R05-01\", \"status\": \"UNSUPPORTED\", \"label\": \"우대이율 적용 조건\", \"source\": {\"quote\": \"결산일의 전월 말일을 기준으로 직전 3개월 동안 2개월 이상 이 통장으로 아래 한 항목 이상에 해당하는 급여이체 실적이 있는 경우\"}, \"condition\": {\"and\": [{\"exists\": {\"event\": \"SALARY_TRANSFER\", \"within\": {\"month_range\": {\"from\": {\"anchor\": \"contract.reference_date\", \"offset_months\": -3, \"day\": \"first\"}, \"to\": {\"anchor\": \"contract.reference_date\", \"offset_months\": -1, \"day\": \"last\"}}}, \"where\": {\"min_amount\": 0}}}, {\"exists\": {\"event\": \"SALARY_TRANSFER\", \"within\": {\"month_range\": {\"from\": {\"anchor\": \"contract.reference_date\", \"offset_months\": -3, \"day\": \"first\"}, \"to\": {\"anchor\": \"contract.reference_date\", \"offset_months\": -1, \"day\": \"last\"}}}, \"where\": {\"min_amount\": 0}}}]}, \"effect\": {\"type\": \"RATE_ADD\", \"value\": 1.9, \"unit\": \"%p\"}}, {\"rule_id\": \"R-KBNR-S2-R05-02\", \"status\": \"UNSUPPORTED\", \"label\": \"우대이율 적용 한도\", \"source\": {\"quote\": \"이 통장의 결산기 평균잔액 중 100만원 이하의 금액까지는 기본이율과 우대이율을 합산하여 적용하며, 100만원을 초과하는 금액은 기본이율만 적용\"}, \"condition\": {}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-KBNR-S2-R05-01\", \"status\": \"UNSUPPORTED\", \"label\": \"우대이율 적용 조건\", \"source\": {\"quote\": \"결산일의 전월 말일을 기준으로 직전 3개월 동안 2개월 이상 이 통장으로 아래 한 항목 이상에 해당하는 급여이체 실적이 있는 경우\"}}, {\"rule_id\": \"R-KBNR-S2-R05-02\", \"status\": \"UNSUPPORTED\", \"label\": \"우대이율 적용 한도\", \"source\": {\"quote\": \"이 통장의 결산기 평균잔액 중 100만원 이하의 금액까지는 기본이율과 우대이율을 합산하여 적용하며, 100만원을 초과하는 금액은 기본이율만 적용\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBNR-S2-R06",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 4
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 4
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBNR-S2-R06-01",
+     "status": "UNSUPPORTED",
+     "label": "결산기 평균잔액 100만원 이하 우대이율",
+     "source": {
+      "quote": "결산기 평균잔액 100만원 이하의 금액에 대하여 적용 가능한 최고 금리 연2.0%"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-KBNR-S2-R06-02",
+     "status": "UNSUPPORTED",
+     "label": "결산기 평균잔액 100만원 초과 기본이율",
+     "source": {
+      "quote": "100만원 초과 / 연0.1%(기본이율 적용)"
+     }
+    },
+    {
+     "rule_id": "R-KBNR-S2-R06-03",
+     "status": "UNSUPPORTED",
+     "label": "우대이율 적용 구조표 및 그래프",
+     "source": {
+      "quote": "우대이율 적용 구조표 및 그래프 [이미지: 「우대이율 적용조건 충족 시」 구조표 및 그래프. 표 - 결산기 평균잔액 / 최종이율. 0원 ~ 100만원 까지 / 연2.0%(기본이율＋우대이율 적용). 100만원 초과 / 연0.1%(기본이율 적용). 그래프 - 가로축 결산기 평균잔액, 세로축 적용이율. 결산기 평균잔액 100만원 이하에 대하여만 우대이율 적용, 100만원 초과금액은 기본이율 적용]"
+     }
+    },
+    {
+     "rule_id": "R-KBNR-S2-R06-04",
+     "status": "UNSUPPORTED",
+     "label": "최저 연 0.1% ~ 최고 연 2.0% 적용이율",
+     "source": {
+      "quote": "이 통장의 적용이율은 최저 연 0.1% ~ 최고 연 2.0%(우대이율 포함 시)"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-KBNR-S2-R06-01\", \"status\": \"UNSUPPORTED\", \"label\": \"결산기 평균잔액 100만원 이하 우대이율\", \"source\": {\"quote\": \"결산기 평균잔액 100만원 이하의 금액에 대하여 적용 가능한 최고 금리 연2.0%\"}, \"condition\": {}}, {\"rule_id\": \"R-KBNR-S2-R06-02\", \"status\": \"UNSUPPORTED\", \"label\": \"결산기 평균잔액 100만원 초과 기본이율\", \"source\": {\"quote\": \"100만원 초과 / 연0.1%(기본이율 적용)\"}}, {\"rule_id\": \"R-KBNR-S2-R06-03\", \"status\": \"UNSUPPORTED\", \"label\": \"우대이율 적용 구조표 및 그래프\", \"source\": {\"quote\": \"우대이율 적용 구조표 및 그래프 [이미지: 「우대이율 적용조건 충족 시」 구조표 및 그래프. 표 - 결산기 평균잔액 / 최종이율. 0원 ~ 100만원 까지 / 연2.0%(기본이율＋우대이율 적용). 100만원 초과 / 연0.1%(기본이율 적용). 그래프 - 가로축 결산기 평균잔액, 세로축 적용이율. 결산기 평균잔액 100만원 이하에 대하여만 우대이율 적용, 100만원 초과금액은 기본이율 적용]\"}}, {\"rule_id\": \"R-KBNR-S2-R06-04\", \"status\": \"UNSUPPORTED\", \"label\": \"최저 연 0.1% ~ 최고 연 2.0% 적용이율\", \"source\": {\"quote\": \"이 통장의 적용이율은 최저 연 0.1% ~ 최고 연 2.0%(우대이율 포함 시)\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-KBNR-S2-R06-01\", \"status\": \"UNSUPPORTED\", \"label\": \"결산기 평균잔액 100만원 이하 우대이율\", \"source\": {\"quote\": \"결산기 평균잔액 100만원 이하의 금액에 대하여 적용 가능한 최고 금리 연2.0%\"}, \"condition\": {}}, {\"rule_id\": \"R-KBNR-S2-R06-02\", \"status\": \"UNSUPPORTED\", \"label\": \"결산기 평균잔액 100만원 초과 기본이율\", \"source\": {\"quote\": \"100만원 초과 / 연0.1%(기본이율 적용)\"}}, {\"rule_id\": \"R-KBNR-S2-R06-03\", \"status\": \"UNSUPPORTED\", \"label\": \"우대이율 적용 구조표 및 그래프\", \"source\": {\"quote\": \"우대이율 적용 구조표 및 그래프 [이미지: 「우대이율 적용조건 충족 시」 구조표 및 그래프. 표 - 결산기 평균잔액 / 최종이율. 0원 ~ 100만원 까지 / 연2.0%(기본이율＋우대이율 적용). 100만원 초과 / 연0.1%(기본이율 적용). 그래프 - 가로축 결산기 평균잔액, 세로축 적용이율. 결산기 평균잔액 100만원 이하에 대하여만 우대이율 적용, 100만원 초과금액은 기본이율 적용]\"}}, {\"rule_id\": \"R-KBNR-S2-R06-04\", \"status\": \"UNSUPPORTED\", \"label\": \"최저 연 0.1% ~ 최고 연 2.0% 적용이율\", \"source\": {\"quote\": \"이 통장의 적용이율은 최저 연 0.1% ~ 최고 연 2.0%(우대이율 포함 시)\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBNR-S2-R07",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBNR-S2-R07-01",
+     "status": "UNSUPPORTED",
+     "label": "정기 결산 및 원금 가산",
+     "source": {
+      "quote": "매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함"
+     }
+    },
+    {
+     "rule_id": "R-KBNR-S2-R07-02",
+     "status": "UNSUPPORTED",
+     "label": "장기 무거래 시 이자 지급 방식 변경",
+     "source": {
+      "quote": "예금의 이자는 최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌 해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다."
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-KBNR-S2-R07-01\", \"status\": \"UNSUPPORTED\", \"label\": \"정기 결산 및 원금 가산\", \"source\": {\"quote\": \"매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함\"}}, {\"rule_id\": \"R-KBNR-S2-R07-02\", \"status\": \"UNSUPPORTED\", \"label\": \"장기 무거래 시 이자 지급 방식 변경\", \"source\": {\"quote\": \"예금의 이자는 최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌 해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다.\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-KBNR-S2-R07-01\", \"status\": \"UNSUPPORTED\", \"label\": \"정기 결산 및 원금 가산\", \"source\": {\"quote\": \"매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함\"}}, {\"rule_id\": \"R-KBNR-S2-R07-02\", \"status\": \"UNSUPPORTED\", \"label\": \"장기 무거래 시 이자 지급 방식 변경\", \"source\": {\"quote\": \"예금의 이자는 최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌 해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있습니다.\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBNR-S2-R08",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\"rules\": []}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBNR-S2-R09",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 3
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 3
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBNR-S2-R09-01",
+     "status": "OK",
+     "label": "전자금융 이체수수료 면제",
+     "source": {
+      "quote": "전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼 때)(※납부자자동이체 제외) 및 KB국민은행 자동화기기 시간외출금수수료"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "or": [
+       {
+        "exists": {
+         "event": "AUTO_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "CARD_USAGE",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "EBANK_TRANSFER",
+      "value": "UNLIMITED"
+     }
+    },
+    {
+     "rule_id": "R-KBNR-S2-R09-02",
+     "status": "OK",
+     "label": "자동화기기 시간외출금수수료 면제",
+     "source": {
+      "quote": "전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼 때)(※납부자자동이체 제외) 및 KB국민은행 자동화기기 시간외출금수수료"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "or": [
+       {
+        "exists": {
+         "event": "AUTO_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "CARD_USAGE",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "ATM_WITHDRAW_AFTER_HOURS",
+      "value": "UNLIMITED"
+     }
+    },
+    {
+     "rule_id": "R-KBNR-S2-R09-03",
+     "status": "UNSUPPORTED",
+     "label": "신규/전환일로부터 면제",
+     "source": {
+      "quote": "이 통장의 신규 또는 전환일로부터 다음 다음달 10일까지는 은행거래실적에 관계없이 수수료 면제"
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"R-KBNR-S2-R09-01\", \"status\": \"OK\", \"label\": \"전자금융 이체수수료 면제\", \"source\": {\"quote\": \"전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼 때)(※납부자자동이체 제외) 및 KB국민은행 자동화기기 시간외출금수수료\"}, \"let\": {\"window\": {\"month_range\": {\"from\": {\"anchor\": \"contract.reference_date\", \"offset_months\": -1, \"day\": \"first\"}, \"to\": {\"anchor\": \"contract.reference_date\", \"offset_months\": -1, \"day\": \"last\"}}}}, \"condition\": {\"or\": [{\"exists\": {\"event\": \"AUTO_TRANSFER\", \"within\": {\"ref\": \"$window\"}}}, {\"exists\": {\"event\": \"CARD_USAGE\", \"within\": {\"ref\": \"$window\"}}}]}, \"effect\": {\"type\": \"FEE_WAIVE\", \"target\": \"EBANK_TRANSFER\", \"value\": \"UNLIMITED\"}}, {\"rule_id\": \"R-KBNR-S2-R09-02\", \"status\": \"OK\", \"label\": \"자동화기기 시간외출금수수료 면제\", \"source\": {\"quote\": \"전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼 때)(※납부자자동이체 제외) 및 KB국민은행 자동화기기 시간외출금수수료\"}, \"let\": {\"window\": {\"month_range\": {\"from\": {\"anchor\": \"contract.reference_date\", \"offset_months\": -1, \"day\": \"first\"}, \"to\": {\"anchor\": \"contract.reference_date\", \"offset_months\": -1, \"day\": \"last\"}}}}, \"condition\": {\"or\": [{\"exists\": {\"event\": \"AUTO_TRANSFER\", \"within\": {\"ref\": \"$window\"}}}, {\"exists\": {\"event\": \"CARD_USAGE\", \"within\": {\"ref\": \"$window\"}}}]}, \"effect\": {\"type\": \"FEE_WAIVE\", \"target\": \"ATM_WITHDRAW_AFTER_HOURS\", \"value\": \"UNLIMITED\"}}, {\"rule_id\": \"R-KBNR-S2-R09-03\", \"status\": \"UNSUPPORTED\", \"label\": \"신규/전환일로부터 면제\", \"source\": {\"quote\": \"이 통장의 신규 또는 전환일로부터 다음 다음달 10일까지는 은행거래실적에 관계없이 수수료 면제\"}, \"condition\": {}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"R-KBNR-S2-R09-01\", \"status\": \"OK\", \"label\": \"전자금융 이체수수료 면제\", \"source\": {\"quote\": \"전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼 때)(※납부자자동이체 제외) 및 KB국민은행 자동화기기 시간외출금수수료\"}, \"let\": {\"window\": {\"month_range\": {\"from\": {\"anchor\": \"contract.reference_date\", \"offset_months\": -1, \"day\": \"first\"}, \"to\": {\"anchor\": \"contract.reference_date\", \"offset_months\": -1, \"day\": \"last\"}}}}, \"condition\": {\"or\": [{\"exists\": {\"event\": \"AUTO_TRANSFER\", \"within\": {\"ref\": \"$window\"}}}, {\"exists\": {\"event\": \"CARD_USAGE\", \"within\": {\"ref\": \"$window\"}}}]}, \"effect\": {\"type\": \"FEE_WAIVE\", \"target\": \"EBANK_TRANSFER\", \"value\": \"UNLIMITED\"}}, {\"rule_id\": \"R-KBNR-S2-R09-02\", \"status\": \"OK\", \"label\": \"자동화기기 시간외출금수수료 면제\", \"source\": {\"quote\": \"전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼 때)(※납부자자동이체 제외) 및 KB국민은행 자동화기기 시간외출금수수료\"}, \"let\": {\"window\": {\"month_range\": {\"from\": {\"anchor\": \"contract.reference_date\", \"offset_months\": -1, \"day\": \"first\"}, \"to\": {\"anchor\": \"contract.reference_date\", \"offset_months\": -1, \"day\": \"last\"}}}}, \"condition\": {\"or\": [{\"exists\": {\"event\": \"AUTO_TRANSFER\", \"within\": {\"ref\": \"$window\"}}}, {\"exists\": {\"event\": \"CARD_USAGE\", \"within\": {\"ref\": \"$window\"}}}]}, \"effect\": {\"type\": \"FEE_WAIVE\", \"target\": \"ATM_WITHDRAW_AFTER_HOURS\", \"value\": \"UNLIMITED\"}}, {\"rule_id\": \"R-KBNR-S2-R09-03\", \"status\": \"UNSUPPORTED\", \"label\": \"신규/전환일로부터 면제\", \"source\": {\"quote\": \"이 통장의 신규 또는 전환일로부터 다음 다음달 10일까지는 은행거래실적에 관계없이 수수료 면제\"}, \"condition\": {}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBHAP-S1-P01",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBHAP-S1-P01-01",
+     "status": "UNSUPPORTED",
+     "label": "특별중도해지서비스",
+     "source": {
+      "quote": "주택구입, 입원 등의 사유발생시 특별중도해지서비스를 제공하고"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "KBHAP-S1-P01-02",
+     "status": "UNSUPPORTED",
+     "label": "만기 해지시 우대금리",
+     "source": {
+      "quote": "만기 해지시 우대금리를 제공하는 적립식상품"
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"KBHAP-S1-P01-01\", \"status\": \"UNSUPPORTED\", \"label\": \"특별중도해지서비스\", \"source\": {\"quote\": \"주택구입, 입원 등의 사유발생시 특별중도해지서비스를 제공하고\"}, \"condition\": {}}, {\"rule_id\": \"KBHAP-S1-P01-02\", \"status\": \"UNSUPPORTED\", \"label\": \"만기 해지시 우대금리\", \"source\": {\"quote\": \"만기 해지시 우대금리를 제공하는 적립식상품\"}, \"condition\": {}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"KBHAP-S1-P01-01\", \"status\": \"UNSUPPORTED\", \"label\": \"특별중도해지서비스\", \"source\": {\"quote\": \"주택구입, 입원 등의 사유발생시 특별중도해지서비스를 제공하고\"}, \"condition\": {}}, {\"rule_id\": \"KBHAP-S1-P01-02\", \"status\": \"UNSUPPORTED\", \"label\": \"만기 해지시 우대금리\", \"source\": {\"quote\": \"만기 해지시 우대금리를 제공하는 적립식상품\"}, \"condition\": {}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBHAP-S2-R01",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBHAP-S2-R01-01",
+     "status": "UNSUPPORTED",
+     "label": "기초생활수급자 가입 조건",
+     "source": {
+      "quote": "기초생활수급자(소년소녀가장 포함), 북한이탈주민, 결혼이민자, 근로장려금수급자, 한부모가족지원 보호대상자, 만65세 이상 차상위계층, 생계곤란 보훈대상자(생활조정수당, 생활지원금, 생계지원금 수급자)"
+     }
+    },
+    {
+     "rule_id": "KBHAP-S2-R01-02",
+     "status": "UNSUPPORTED",
+     "label": "증빙서류 제출 조건",
+     "source": {
+      "quote": "증빙서류 제출 후 가입 가능"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"KBHAP-S2-R01-01\", \"status\": \"UNSUPPORTED\", \"label\": \"기초생활수급자 가입 조건\", \"source\": {\"quote\": \"기초생활수급자(소년소녀가장 포함), 북한이탈주민, 결혼이민자, 근로장려금수급자, 한부모가족지원 보호대상자, 만65세 이상 차상위계층, 생계곤란 보훈대상자(생활조정수당, 생활지원금, 생계지원금 수급자)\"}}, {\"rule_id\": \"KBHAP-S2-R01-02\", \"status\": \"UNSUPPORTED\", \"label\": \"증빙서류 제출 조건\", \"source\": {\"quote\": \"증빙서류 제출 후 가입 가능\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"KBHAP-S2-R01-01\", \"status\": \"UNSUPPORTED\", \"label\": \"기초생활수급자 가입 조건\", \"source\": {\"quote\": \"기초생활수급자(소년소녀가장 포함), 북한이탈주민, 결혼이민자, 근로장려금수급자, 한부모가족지원 보호대상자, 만65세 이상 차상위계층, 생계곤란 보훈대상자(생활조정수당, 생활지원금, 생계지원금 수급자)\"}}, {\"rule_id\": \"KBHAP-S2-R01-02\", \"status\": \"UNSUPPORTED\", \"label\": \"증빙서류 제출 조건\", \"source\": {\"quote\": \"증빙서류 제출 후 가입 가능\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBHAP-S2-R03",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "LABEL"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\"rules\": []}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBHAP-S2-R08",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBHAP-S2-R08-01",
+     "status": "OK",
+     "label": "기본이율 적용",
+     "source": {
+      "quote": "기본이율: 연 3.70%"
+     },
+     "condition": {},
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 3.7,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"KBHAP-S2-R08-01\", \"status\": \"OK\", \"label\": \"기본이율 적용\", \"source\": {\"quote\": \"기본이율: 연 3.70%\"}, \"condition\": {}, \"effect\": {\"type\": \"RATE_OVERRIDE\", \"value\": 3.7, \"unit\": \"%\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"KBHAP-S2-R08-01\", \"status\": \"OK\", \"label\": \"기본이율 적용\", \"source\": {\"quote\": \"기본이율: 연 3.70%\"}, \"condition\": {}, \"effect\": {\"type\": \"RATE_OVERRIDE\", \"value\": 3.7, \"unit\": \"%\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBHAP-S2-R09",
+  "run": 0,
+  "n_attempts": 2,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBHAP-S2-R09-01",
+     "status": "UNSUPPORTED",
+     "label": "정액적립식 우대이율",
+     "source": {
+      "quote": "정액적립식: 연2.0%p"
+     },
+     "condition": {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "MATURITY"
+      ]
+     }
+    },
+    {
+     "rule_id": "KBHAP-S2-R09-02",
+     "status": "UNSUPPORTED",
+     "label": "자유적립식 우대이율",
+     "source": {
+      "quote": "자유적립식: 연1.0%p"
+     },
+     "condition": {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "MATURITY"
+      ]
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"KBHAP-S2-R09-01\", \"status\": \"OK\", \"label\": \"정액적립식 우대이율\", \"source\": {\"quote\": \"정액적립식: 연2.0%p\"}, \"condition\": {\"==\": [{\"var\": \"contract.termination_type\"}, \"MATURITY\"]}, \"effect\": {\"type\": \"RATE_ADD\", \"value\": 2.0, \"unit\": \"%p\"}}, {\"rule_id\": \"KBHAP-S2-R09-02\", \"status\": \"OK\", \"label\": \"자유적립식 우대이율\", \"source\": {\"quote\": \"자유적립식: 연1.0%p\"}, \"condition\": {\"==\": [{\"var\": \"contract.termination_type\"}, \"MATURITY\"]}, \"effect\": {\"type\": \"RATE_ADD\", \"value\": 1.0, \"unit\": \"%p\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"KBHAP-S2-R09-01\", \"status\": \"UNSUPPORTED\", \"label\": \"정액적립식 우대이율\", \"source\": {\"quote\": \"정액적립식: 연2.0%p\"}, \"condition\": {\"==\": [{\"var\": \"contract.termination_type\"}, \"MATURITY\"]}}, {\"rule_id\": \"KBHAP-S2-R09-02\", \"status\": \"UNSUPPORTED\", \"label\": \"자유적립식 우대이율\", \"source\": {\"quote\": \"자유적립식: 연1.0%p\"}, \"condition\": {\"==\": [{\"var\": \"contract.termination_type\"}, \"MATURITY\"]}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBHAP-S2-R10",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBHAP-S2-R10-01",
+     "status": "UNSUPPORTED",
+     "label": "정액적립식 최종이율",
+     "source": {
+      "quote": "정액적립식은 전 회차 월 저축금을 납입하고 만기해지하는 경우 계약기간 동안 적용"
+     }
+    },
+    {
+     "rule_id": "KBHAP-S2-R10-02",
+     "status": "UNSUPPORTED",
+     "label": "자유적립식 최종이율",
+     "source": {
+      "quote": "자유적립식은 만기해지하는 경우 계약기간 동안 적용"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"KBHAP-S2-R10-01\", \"status\": \"UNSUPPORTED\", \"label\": \"정액적립식 최종이율\", \"source\": {\"quote\": \"정액적립식은 전 회차 월 저축금을 납입하고 만기해지하는 경우 계약기간 동안 적용\"}}, {\"rule_id\": \"KBHAP-S2-R10-02\", \"status\": \"UNSUPPORTED\", \"label\": \"자유적립식 최종이율\", \"source\": {\"quote\": \"자유적립식은 만기해지하는 경우 계약기간 동안 적용\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"KBHAP-S2-R10-01\", \"status\": \"UNSUPPORTED\", \"label\": \"정액적립식 최종이율\", \"source\": {\"quote\": \"정액적립식은 전 회차 월 저축금을 납입하고 만기해지하는 경우 계약기간 동안 적용\"}}, {\"rule_id\": \"KBHAP-S2-R10-02\", \"status\": \"UNSUPPORTED\", \"label\": \"자유적립식 최종이율\", \"source\": {\"quote\": \"자유적립식은 만기해지하는 경우 계약기간 동안 적용\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBHAP-S2-R11",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\"rules\": []}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBHAP-S2-R12",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 3
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 3
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBHAP-S2-R12-01",
+     "status": "UNSUPPORTED",
+     "label": "중도해지이율 적용",
+     "source": {
+      "quote": "신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시된 예치기간별 중도해지이율 적용 (단위: 연 %)"
+     }
+    },
+    {
+     "rule_id": "KBHAP-S2-R12-02",
+     "status": "UNSUPPORTED",
+     "label": "경과월수 및 계약월수 계산",
+     "source": {
+      "quote": "경과월수: 입금일 다음날로부터 해지월 입금해당일까지를 월수로 하고, 1개월 미만은 절상 2. 계약월수: 신규일 다음날로부터 만기월 신규해당일까지를 월수로 하고, 1개월미만은 절상"
+     }
+    },
+    {
+     "rule_id": "KBHAP-S2-R12-03",
+     "status": "UNSUPPORTED",
+     "label": "이율 소수점 처리",
+     "source": {
+      "quote": "이율은 소수점 둘째 자리까지 표시(소수점 셋째 자리에서 절사)"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"KBHAP-S2-R12-01\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지이율 적용\", \"source\": {\"quote\": \"신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시된 예치기간별 중도해지이율 적용 (단위: 연 %)\"}}, {\"rule_id\": \"KBHAP-S2-R12-02\", \"status\": \"UNSUPPORTED\", \"label\": \"경과월수 및 계약월수 계산\", \"source\": {\"quote\": \"경과월수: 입금일 다음날로부터 해지월 입금해당일까지를 월수로 하고, 1개월 미만은 절상 2. 계약월수: 신규일 다음날로부터 만기월 신규해당일까지를 월수로 하고, 1개월미만은 절상\"}}, {\"rule_id\": \"KBHAP-S2-R12-03\", \"status\": \"UNSUPPORTED\", \"label\": \"이율 소수점 처리\", \"source\": {\"quote\": \"이율은 소수점 둘째 자리까지 표시(소수점 셋째 자리에서 절사)\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"KBHAP-S2-R12-01\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지이율 적용\", \"source\": {\"quote\": \"신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시된 예치기간별 중도해지이율 적용 (단위: 연 %)\"}}, {\"rule_id\": \"KBHAP-S2-R12-02\", \"status\": \"UNSUPPORTED\", \"label\": \"경과월수 및 계약월수 계산\", \"source\": {\"quote\": \"경과월수: 입금일 다음날로부터 해지월 입금해당일까지를 월수로 하고, 1개월 미만은 절상 2. 계약월수: 신규일 다음날로부터 만기월 신규해당일까지를 월수로 하고, 1개월미만은 절상\"}}, {\"rule_id\": \"KBHAP-S2-R12-03\", \"status\": \"UNSUPPORTED\", \"label\": \"이율 소수점 처리\", \"source\": {\"quote\": \"이율은 소수점 둘째 자리까지 표시(소수점 셋째 자리에서 절사)\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBHAP-S2-R14",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBHAP-S2-R14-01",
+     "status": "UNSUPPORTED",
+     "label": "만기후이율 적용",
+     "source": {
+      "quote": "신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시된 경과기간별 만기후이율 적용 (단위: 연 %) (아래 표 참조)"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"KBHAP-S2-R14-01\", \"status\": \"UNSUPPORTED\", \"label\": \"만기후이율 적용\", \"source\": {\"quote\": \"신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시된 경과기간별 만기후이율 적용 (단위: 연 %) (아래 표 참조)\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"KBHAP-S2-R14-01\", \"status\": \"UNSUPPORTED\", \"label\": \"만기후이율 적용\", \"source\": {\"quote\": \"신규가입일 당시 영업점 및 KB국민은행 홈페이지에 게시된 경과기간별 만기후이율 적용 (단위: 연 %) (아래 표 참조)\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBGEN-S1-P01",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "SUMMARY"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\"rules\": []}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBGEN-S2-R02",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "LABEL"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\"rules\": []}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ },
+ {
+  "clause_id": "KBGEN-S2-R08",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBGEN-S2-R08-01",
+     "status": "UNSUPPORTED",
+     "label": "중도해지이율",
+     "source": {
+      "quote": "1개월미만 | 0.1\n1개월이상~3개월미만 | 만기이율 X 50% X 경과월수/계약월수 (단, 최저금리는 0.1)\n3개월이상~6개월미만 | 만기이율 X 50% X 경과월수/계약월수 (단, 최저금리는 0.1)\n6개월이상~8개월미만 | 만기이율 X 60% X 경과월수/계약월수 (단, 최저금리는 0.2)\n8개월이상~10개월미만 | 만기이율 X 70% X 경과월수/계약월수 (단, 최저금리는 0.2)\n10개월이상~11개월미만 | 만기이율 X 80% X 경과월수/계약월수 (단, 최저금리는 0.2)\n11개월이상 | 만기이율 X 90% X 경과월수/계약월수 (단, 최저금리는 0.2)"
+     }
+    },
+    {
+     "rule_id": "KBGEN-S2-R08-02",
+     "status": "UNSUPPORTED",
+     "label": "만기후이율",
+     "source": {
+      "quote": "만기후 1개월이내 | 만기이율 X 50%\n만기후 1개월초과~3개월이내 | 만기이율 X 30%\n만기후 3개월초과 | 0.1"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\"rules\": [{\"rule_id\": \"KBGEN-S2-R08-01\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지이율\", \"source\": {\"quote\": \"1개월미만 | 0.1\\n1개월이상~3개월미만 | 만기이율 X 50% X 경과월수/계약월수 (단, 최저금리는 0.1)\\n3개월이상~6개월미만 | 만기이율 X 50% X 경과월수/계약월수 (단, 최저금리는 0.1)\\n6개월이상~8개월미만 | 만기이율 X 60% X 경과월수/계약월수 (단, 최저금리는 0.2)\\n8개월이상~10개월미만 | 만기이율 X 70% X 경과월수/계약월수 (단, 최저금리는 0.2)\\n10개월이상~11개월미만 | 만기이율 X 80% X 경과월수/계약월수 (단, 최저금리는 0.2)\\n11개월이상 | 만기이율 X 90% X 경과월수/계약월수 (단, 최저금리는 0.2)\"}}, {\"rule_id\": \"KBGEN-S2-R08-02\", \"status\": \"UNSUPPORTED\", \"label\": \"만기후이율\", \"source\": {\"quote\": \"만기후 1개월이내 | 만기이율 X 50%\\n만기후 1개월초과~3개월이내 | 만기이율 X 30%\\n만기후 3개월초과 | 0.1\"}}]}",
+  "raw_last": "{\"rules\": [{\"rule_id\": \"KBGEN-S2-R08-01\", \"status\": \"UNSUPPORTED\", \"label\": \"중도해지이율\", \"source\": {\"quote\": \"1개월미만 | 0.1\\n1개월이상~3개월미만 | 만기이율 X 50% X 경과월수/계약월수 (단, 최저금리는 0.1)\\n3개월이상~6개월미만 | 만기이율 X 50% X 경과월수/계약월수 (단, 최저금리는 0.1)\\n6개월이상~8개월미만 | 만기이율 X 60% X 경과월수/계약월수 (단, 최저금리는 0.2)\\n8개월이상~10개월미만 | 만기이율 X 70% X 경과월수/계약월수 (단, 최저금리는 0.2)\\n10개월이상~11개월미만 | 만기이율 X 80% X 경과월수/계약월수 (단, 최저금리는 0.2)\\n11개월이상 | 만기이율 X 90% X 경과월수/계약월수 (단, 최저금리는 0.2)\"}}, {\"rule_id\": \"KBGEN-S2-R08-02\", \"status\": \"UNSUPPORTED\", \"label\": \"만기후이율\", \"source\": {\"quote\": \"만기후 1개월이내 | 만기이율 X 50%\\n만기후 1개월초과~3개월이내 | 만기이율 X 30%\\n만기후 3개월초과 | 0.1\"}}]}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": "lora/adapters/r16/checkpoint-52",
+  "constrain": true
+ }
+]

@@ -1,0 +1,538 @@
+[
+ {
+  "prefix": "P004",
+  "document_id": 4,
+  "products": [
+   "KB 별별통장2"
+  ],
+  "document": "KB 별별통장2 상품설명서",
+  "clauses_all": 24,
+  "clauses_key": 11
+ },
+ {
+  "prefix": "P005",
+  "document_id": 5,
+  "products": [
+   "KB 프리N통장"
+  ],
+  "document": "KB 프리N통장 상품설명서",
+  "clauses_all": 23,
+  "clauses_key": 9
+ },
+ {
+  "prefix": "P010",
+  "document_id": 10,
+  "products": [
+   "KB생계비계좌"
+  ],
+  "document": "KB생계비계좌 상품설명서",
+  "clauses_all": 21,
+  "clauses_key": 8
+ },
+ {
+  "prefix": "P013",
+  "document_id": 13,
+  "products": [
+   "KB GS Pay통장"
+  ],
+  "document": "KB GS Pay통장 상품설명서",
+  "clauses_all": 26,
+  "clauses_key": 13
+ },
+ {
+  "prefix": "P015",
+  "document_id": 15,
+  "products": [
+   "모니모 KB 매일이자 통장"
+  ],
+  "document": "모니모 KB 매일이자 통장 상품설명서",
+  "clauses_all": 27,
+  "clauses_key": 17
+ },
+ {
+  "prefix": "P017",
+  "document_id": 17,
+  "products": [
+   "KB모임금고"
+  ],
+  "document": "KB모임금고 상품설명서",
+  "clauses_all": 22,
+  "clauses_key": 9
+ },
+ {
+  "prefix": "P019",
+  "document_id": 19,
+  "products": [
+   "KB매일입금 결제전용 계좌"
+  ],
+  "document": "KB매일입금서비스 결제전용 계좌 상품설명서",
+  "clauses_all": 19,
+  "clauses_key": 7
+ },
+ {
+  "prefix": "P021",
+  "document_id": 21,
+  "products": [
+   "KB스타통장"
+  ],
+  "document": "KB스타통장 상품설명서",
+  "clauses_all": 22,
+  "clauses_key": 9
+ },
+ {
+  "prefix": "P022",
+  "document_id": 22,
+  "products": [
+   "KB주택연금지킴이통장"
+  ],
+  "document": "KB주택연금지킴이통장 상품설명서",
+  "clauses_all": 21,
+  "clauses_key": 10
+ },
+ {
+  "prefix": "P025",
+  "document_id": 25,
+  "products": [
+   "KB군인연금평생안심통장"
+  ],
+  "document": "KB군인연금평생안심통장 상품설명서",
+  "clauses_all": 20,
+  "clauses_key": 9
+ },
+ {
+  "prefix": "P029",
+  "document_id": 29,
+  "products": [
+   "KB able Plus통장"
+  ],
+  "document": "KB able Plus통장 상품설명서",
+  "clauses_all": 28,
+  "clauses_key": 12
+ },
+ {
+  "prefix": "P030",
+  "document_id": 30,
+  "products": [
+   "KB보육&복지시설우대통장"
+  ],
+  "document": "KB보육&복지시설우대통장 상품설명서",
+  "clauses_all": 18,
+  "clauses_key": 7
+ },
+ {
+  "prefix": "P033",
+  "document_id": 33,
+  "products": [
+   "KB부가세납부전용통장"
+  ],
+  "document": "KB부가세납부전용통장 상품설명서",
+  "clauses_all": 19,
+  "clauses_key": 7
+ },
+ {
+  "prefix": "P035",
+  "document_id": 35,
+  "products": [
+   "KB호국보훈지킴이통장"
+  ],
+  "document": "KB호국보훈지킴이통장 상품설명서",
+  "clauses_all": 20,
+  "clauses_key": 9
+ },
+ {
+  "prefix": "P037",
+  "document_id": 37,
+  "products": [
+   "KB공무원연금평생안심통장"
+  ],
+  "document": "KB공무원연금평생안심통장 상품설명서",
+  "clauses_all": 22,
+  "clauses_key": 11
+ },
+ {
+  "prefix": "P041",
+  "document_id": 41,
+  "products": [
+   "KB하도급지킴이통장"
+  ],
+  "document": "KB하도급지킴이통장 상품설명서",
+  "clauses_all": 20,
+  "clauses_key": 9
+ },
+ {
+  "prefix": "P045",
+  "document_id": 45,
+  "products": [
+   "KB사학연금평생안심통장"
+  ],
+  "document": "KB사학연금평생안심통장상품설명서",
+  "clauses_all": 22,
+  "clauses_key": 11
+ },
+ {
+  "prefix": "P047",
+  "document_id": 47,
+  "products": [
+   "KB주거행복 월세통장"
+  ],
+  "document": "KB주거행복 월세통장 상품설명서",
+  "clauses_all": 22,
+  "clauses_key": 10
+ },
+ {
+  "prefix": "P049",
+  "document_id": 49,
+  "products": [
+   "KB Global Star 통장"
+  ],
+  "document": "KB Global Star 통장 상품설명서",
+  "clauses_all": 20,
+  "clauses_key": 9
+ },
+ {
+  "prefix": "P053",
+  "document_id": 53,
+  "products": [
+   "KB우대저축통장 (개인 MMDA)"
+  ],
+  "document": "KB우대저축통장 상품설명서",
+  "clauses_all": 18,
+  "clauses_key": 7
+ },
+ {
+  "prefix": "P055",
+  "document_id": 55,
+  "products": [
+   "KB종합통장-저축예금",
+   "가계당좌예금",
+   "KB종합통장",
+   "기업자유예금"
+  ],
+  "document": "KB종합통장-저축예금 상품설명서",
+  "clauses_all": 18,
+  "clauses_key": 7
+ },
+ {
+  "prefix": "P057",
+  "document_id": 57,
+  "products": [
+   "KB행복지킴이통장"
+  ],
+  "document": "KB행복지킴이통장 상품설명서",
+  "clauses_all": 20,
+  "clauses_key": 9
+ },
+ {
+  "prefix": "P059",
+  "document_id": 59,
+  "products": [
+   "KB국민연금安心통장"
+  ],
+  "document": "KB국민연금安心통장 상품설명서",
+  "clauses_all": 20,
+  "clauses_key": 9
+ },
+ {
+  "prefix": "P061",
+  "document_id": 61,
+  "products": [
+   "KB중진공 정책자금 전용통장"
+  ],
+  "document": "KB중진공 정책자금 전용통장 상품설명서",
+  "clauses_all": 21,
+  "clauses_key": 8
+ },
+ {
+  "prefix": "P063",
+  "document_id": 63,
+  "products": [
+   "with KB 통장"
+  ],
+  "document": "with KB통장 상품설명서",
+  "clauses_all": 19,
+  "clauses_key": 6
+ },
+ {
+  "prefix": "P065",
+  "document_id": 65,
+  "products": [
+   "KB사장님 파킹통장"
+  ],
+  "document": "KB사장님 파킹통장 상품설명서",
+  "clauses_all": 24,
+  "clauses_key": 10
+ },
+ {
+  "prefix": "P068",
+  "document_id": 68,
+  "products": [
+   "KB사장님+통장"
+  ],
+  "document": "KB사장님+통장 상품설명서",
+  "clauses_all": 28,
+  "clauses_key": 12
+ },
+ {
+  "prefix": "P070",
+  "document_id": 70,
+  "products": [
+   "ONE KB 사업자통장"
+  ],
+  "document": "ONE KB 사업자통장 상품설명서",
+  "clauses_all": 20,
+  "clauses_key": 9
+ },
+ {
+  "prefix": "P072",
+  "document_id": 72,
+  "products": [
+   "KB e-Commerce 채권양도 전용계좌(통장)"
+  ],
+  "document": "KB e-Commerce 채권양도 전용계좌(통장) 상품설명서",
+  "clauses_all": 19,
+  "clauses_key": 9
+ },
+ {
+  "prefix": "P074",
+  "document_id": 74,
+  "products": [
+   "KB보증서 담보대출 입금전용통장"
+  ],
+  "document": "KB보증서 담보대출 입금전용통장 상품설명서",
+  "clauses_all": 22,
+  "clauses_key": 9
+ },
+ {
+  "prefix": "P076",
+  "document_id": 76,
+  "products": [
+   "KB우대기업통장 (법인 MMDA)"
+  ],
+  "document": "KB우대기업통장 상품설명서",
+  "clauses_all": 19,
+  "clauses_key": 7
+ },
+ {
+  "prefix": "P077",
+  "document_id": 77,
+  "products": [
+   "KB기업종합통장"
+  ],
+  "document": "KB기업종합통장 상품설명서",
+  "clauses_all": 18,
+  "clauses_key": 7
+ },
+ {
+  "prefix": "P082",
+  "document_id": 82,
+  "products": [
+   "KB맑은하늘적금"
+  ],
+  "document": "KB맑은하늘적금상품설명서",
+  "clauses_all": 33,
+  "clauses_key": 13
+ },
+ {
+  "prefix": "P084",
+  "document_id": 84,
+  "products": [
+   "KB 특★한 적금"
+  ],
+  "document": "KB 특★한 적금 상품설명서",
+  "clauses_all": 26,
+  "clauses_key": 7
+ },
+ {
+  "prefix": "P086",
+  "document_id": 86,
+  "products": [
+   "KB카드쓰담적금"
+  ],
+  "document": "KB카드쓰담적금 상품설명서",
+  "clauses_all": 28,
+  "clauses_key": 8
+ },
+ {
+  "prefix": "P088",
+  "document_id": 88,
+  "products": [
+   "KB장병내일준비적금"
+  ],
+  "document": "KB장병내일준비적금 상품설명서",
+  "clauses_all": 37,
+  "clauses_key": 11
+ },
+ {
+  "prefix": "P090",
+  "document_id": 90,
+  "products": [
+   "KB스타적금Ⅲ"
+  ],
+  "document": "KB스타적금Ⅲ 상품설명서",
+  "clauses_all": 28,
+  "clauses_key": 9
+ },
+ {
+  "prefix": "P092",
+  "document_id": 92,
+  "products": [
+   "KB Young Youth 적금"
+  ],
+  "document": "KB Young Youth 적금 상품설명서",
+  "clauses_all": 33,
+  "clauses_key": 12
+ },
+ {
+  "prefix": "P094",
+  "document_id": 94,
+  "products": [
+   "KB상호부금(정액적립식)",
+   "KB상호부금(정액적립식)(법인)"
+  ],
+  "document": "KB상호부금(정액적립식) 상품설명서",
+  "clauses_all": 27,
+  "clauses_key": 8
+ },
+ {
+  "prefix": "P096",
+  "document_id": 96,
+  "products": [
+   "KB나만의 적금"
+  ],
+  "document": "KB나만의 적금 상품설명서",
+  "clauses_all": 21,
+  "clauses_key": 6
+ },
+ {
+  "prefix": "P097",
+  "document_id": 97,
+  "products": [
+   "KB상호부금(자유적립식)",
+   "KB상호부금(자유적립식)(법인)"
+  ],
+  "document": "KB상호부금(자유적립식) 상품설명서",
+  "clauses_all": 27,
+  "clauses_key": 8
+ },
+ {
+  "prefix": "P099",
+  "document_id": 99,
+  "products": [
+   "KB아이사랑적금"
+  ],
+  "document": "KB아이사랑적금 상품설명서",
+  "clauses_all": 27,
+  "clauses_key": 8
+ },
+ {
+  "prefix": "P101",
+  "document_id": 101,
+  "products": [
+   "KB국민프리미엄적금 (정액적립식)",
+   "KB국민프리미엄적금 (자유적립식)"
+  ],
+  "document": "KB국민프리미엄적금 상품설명서",
+  "clauses_all": 27,
+  "clauses_key": 8
+ },
+ {
+  "prefix": "P103",
+  "document_id": 103,
+  "products": [
+   "KB달리자적금"
+  ],
+  "document": "KB달리자적금 상품설명서",
+  "clauses_all": 32,
+  "clauses_key": 12
+ },
+ {
+  "prefix": "P107",
+  "document_id": 107,
+  "products": [
+   "KB두근두근여행적금"
+  ],
+  "document": "KB두근두근여행적금 상품설명서",
+  "clauses_all": 27,
+  "clauses_key": 9
+ },
+ {
+  "prefix": "P111",
+  "document_id": 111,
+  "products": [
+   "KB 장기간부 도약적금"
+  ],
+  "document": "KB 장기간부 도약적금 상품설명서",
+  "clauses_all": 28,
+  "clauses_key": 7
+ },
+ {
+  "prefix": "P113",
+  "document_id": 113,
+  "products": [
+   "KB나라사랑적금(직업군인용)"
+  ],
+  "document": "KB나라사랑적금(직업군인용) 상품설명서",
+  "clauses_all": 27,
+  "clauses_key": 8
+ },
+ {
+  "prefix": "P114",
+  "document_id": 114,
+  "products": [
+   "일반정기적금"
+  ],
+  "document": "일반정기적금 상품설명서",
+  "clauses_all": 27,
+  "clauses_key": 8
+ },
+ {
+  "prefix": "P119",
+  "document_id": 119,
+  "products": [
+   "KB Global Star 적금"
+  ],
+  "document": "KB Global Star 적금 상품설명서",
+  "clauses_all": 26,
+  "clauses_key": 11
+ },
+ {
+  "prefix": "P121",
+  "document_id": 121,
+  "products": [
+   "쓱KB쇼핑적금"
+  ],
+  "document": "쓱 KB쇼핑적금 상품설명서",
+  "clauses_all": 27,
+  "clauses_key": 9
+ },
+ {
+  "prefix": "P123",
+  "document_id": 123,
+  "products": [
+   "KB미소드림적금"
+  ],
+  "document": "KB미소드림적금 상품설명서",
+  "clauses_all": 28,
+  "clauses_key": 8
+ },
+ {
+  "prefix": "P125",
+  "document_id": 125,
+  "products": [
+   "KB사장님+적금"
+  ],
+  "document": "KB사장님+적금 상품설명서",
+  "clauses_all": 24,
+  "clauses_key": 6
+ },
+ {
+  "prefix": "P127",
+  "document_id": 127,
+  "products": [
+   "KB기업더드림적금"
+  ],
+  "document": "KB기업더드림적금 상품설명서",
+  "clauses_all": 28,
+  "clauses_key": 9
+ }
+]

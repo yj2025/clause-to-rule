@@ -162,6 +162,52 @@ def _free_cache():
         pass
 
 
+# 2026-10-26 · LoRA 2단계 — 제약 디코딩. `set_constrain` 을 부르면 그 뒤 생성이 문법을 따른다.
+# 문법은 `lora/thin_schema.THIN` (이름 자리만 enum) — 카탈로그 밖 이름을 못 고르게 할 뿐, 형식 검사는 관문이 그대로 한다.
+# xgrammar 는 팀 venv 가 아니라 개인 폴더(PYTHONPATH)에 있다. 끄면(None) 전과 똑같다.
+_CONSTRAIN = None
+
+
+def set_constrain(tok, model, json_schema=None):
+    """json_schema(dict) 로 문법을 컴파일해 둔다. None 이면 끈다."""
+    global _CONSTRAIN
+    if json_schema is None:
+        _CONSTRAIN = None
+        return
+    import xgrammar as xgr
+    info = xgr.TokenizerInfo.from_huggingface(tok, vocab_size=model.config.get_text_config().vocab_size)
+    _CONSTRAIN = xgr.GrammarCompiler(info).compile_json_schema(
+        json.dumps(json_schema), strict_mode=False, any_whitespace=True)
+
+
+class _GrammarProcessor:
+    """xgrammar.contrib.hf.LogitsProcessor 의 배치 1 판. 그쪽은 CUDA 에서 triton 커널을 쓰는데
+    파드에 C 컴파일러가 없어 빌드가 안 된다 (10-26) — 마스크만 torch_native 로 씌운다."""
+
+    def __init__(self, compiled):
+        import xgrammar as xgr
+        self.xgr = xgr
+        self.matcher = xgr.GrammarMatcher(compiled)
+        self.bitmask = xgr.allocate_token_bitmask(1, compiled.tokenizer_info.vocab_size)
+        self.started = False
+
+    def __call__(self, input_ids, scores):
+        if self.started and not self.matcher.is_terminated():
+            assert self.matcher.accept_token(input_ids[0, -1].item())
+        self.started = True
+        if not self.matcher.is_terminated():
+            self.matcher.fill_next_token_bitmask(self.bitmask, 0)
+            self.xgr.apply_token_bitmask_inplace(scores, self.bitmask.to(scores.device), backend="torch_native")
+        return scores
+
+
+def _logits_processors():
+    """생성 한 번마다 새로 — 처리기는 상태를 가진다."""
+    if _CONSTRAIN is None:
+        return None
+    return [_GrammarProcessor(_CONSTRAIN)]
+
+
 def _generate(tok, model, user, temperature, max_new_tokens):
     import torch
     conv = [{"role": "system", "content": SYSTEM_PROMPT},
@@ -172,7 +218,7 @@ def _generate(tok, model, user, temperature, max_new_tokens):
     with torch.no_grad():
         out = model.generate(**ids, max_new_tokens=max_new_tokens,
                              do_sample=temperature > 0, temperature=temperature or None,
-                             pad_token_id=tok.eos_token_id)
+                             pad_token_id=tok.eos_token_id, logits_processor=_logits_processors())
     gen = out[0][ids["input_ids"].shape[1]:]
     truncated = len(gen) >= max_new_tokens
     return tok.decode(gen, skip_special_tokens=True), truncated
@@ -232,6 +278,13 @@ def _score_of(marks, semantic=None):
         return (0, 0, 0)
     return (sum(1 for k in GATES if marks[k]), -len(semantic or []),
             -len(marks.get("errors") or []))
+
+
+def drop_gate_failed(output, marks):
+    """관문 다섯을 다 못 넘은 비어 있지 않은 출력 → 빈 배열. (새 출력, 버린 원래 출력 또는 None)"""
+    if not isinstance(output, dict) or marks["empty"] or all(marks[k] for k in GATES):
+        return output, None
+    return {**output, "rules": []}, output
 
 
 def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
@@ -317,6 +370,11 @@ def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
                                       clause["id"])
 
         _, n_best, marks, output, errors, sem = best
+        # 2026-10-23 · LoRA P1 — 재시도 끝에도 관문을 다 못 넘은 출력은 통째 빈 배열로 낸다.
+        # 떨어진 출력은 대개 카탈로그 밖 이름을 지어낸 것이고, ⑥ 에서 조문째 0 이 된다.
+        # 기존 결과 6벌(v127a/b 105 · LoRA e1~e3 dev · e1 test)에 얹어 보니 손해 0 · 이득 21조문.
+        # 원래 출력은 `gate_dropped` 에 남긴다. `final` 표시는 고른 시도 그대로다.
+        output, gate_dropped = drop_gate_failed(output, marks)
         # v123 — 고른 출력에서 조문에 없는 수를 가진 OK rule 을 기권 꼴로 (grounding.abstain_ungrounded)
         output, ungrounded = grounding.abstain_ungrounded(output, clause["text"])
         # v127 — 빈 배열이면 조문 머리말로 이유를 붙인다 (reasons.tag_empty · 지문은 그대로)
@@ -328,7 +386,7 @@ def run_clause(tok, model, clause, runs=1, temperature=0.1, allow_retry=True,
                     "errors": errors, "semantic_errors": sem, "output": output,
                     "raw_first": raw_first, "raw_last": raw_last,
                     "truncated": truncated, "retry_oom": retry_oom,
-                    "ungrounded": ungrounded})
+                    "ungrounded": ungrounded, "gate_dropped": gate_dropped})
     return out
 
 

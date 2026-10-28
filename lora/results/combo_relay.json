@@ -1,0 +1,2965 @@
+[
+ {
+  "clause_id": "KBGEN-S1-P01",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBGEN-S2-R02",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBGEN-S2-R08",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBGL-S1-P01",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBGL-S2-R01",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBGL-S2-R01-01",
+     "status": "OK",
+     "label": "가입 대상 명의 유형",
+     "source": {
+      "quote": "실명의 개인(1인 1계좌)"
+     },
+     "condition": {
+      "not": {
+       "in": [
+        {
+         "var": "customer.holder_type"
+        },
+        [
+         "INDIVIDUAL"
+        ]
+       ]
+      }
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBGL-S2-R02",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBGL-S2-R03",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBGL-S2-R04",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBGL-S2-R04-01",
+     "status": "OK",
+     "label": "기본이율 적용",
+     "source": {
+      "quote": "▪ 연 0.10%"
+     },
+     "condition": {},
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 0.1,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBGL-S2-R05",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBGL-S2-R05-01",
+     "status": "OK",
+     "label": "연금입금 9건 이상 우대이율",
+     "source": {
+      "quote": "9건 이상 | 연1.5%"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.reference_date",
+         "offset_months": -3,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      ">=": [
+       {
+        "count_events": {
+         "event": "PENSION_RECEIPT",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       9
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 1.5,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "KBGL-S2-R05-02",
+     "status": "OK",
+     "label": "연금입금 6~8건 우대이율",
+     "source": {
+      "quote": "6건 이상 ~ 8건 이하 | 연1.0%"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.reference_date",
+         "offset_months": -3,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_events": {
+           "event": "PENSION_RECEIPT",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         6
+        ]
+       },
+       {
+        "<=": [
+         {
+          "count_events": {
+           "event": "PENSION_RECEIPT",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         8
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 1.0,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "KBGL-S2-R05-03",
+     "status": "OK",
+     "label": "연금입금 1~5건 우대이율",
+     "source": {
+      "quote": "1건 이상 ~ 5건 이하 | 연0.5%"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.reference_date",
+         "offset_months": -3,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_events": {
+           "event": "PENSION_RECEIPT",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        "<=": [
+         {
+          "count_events": {
+           "event": "PENSION_RECEIPT",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         5
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 0.5,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBGL-S2-R06",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBGL-S2-R06-01",
+     "status": "OK",
+     "label": "평균잔액에 따른 최고 금리 제한",
+     "source": {
+      "quote": "결산기 평균잔액 1백만원 이하의 금액에 대하여 적용 가능한 최고 금리는 연1.5%"
+     },
+     "condition": {
+      "<=": [
+       {
+        "var": "account.balance"
+       },
+       1000000
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 1.5,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBGL-S2-R07",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBGL-S2-R08",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBGL-S2-R09",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBGL-S2-R10",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBHAP-S1-P01",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBHAP-S2-R01",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBHAP-S2-R03",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBHAP-S2-R08",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBHAP-S2-R08-01",
+     "status": "OK",
+     "label": "기본이율 적용",
+     "source": {
+      "quote": "기본이율: 연 3.70%"
+     },
+     "condition": {},
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 3.7,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBHAP-S2-R09",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBHAP-S2-R10",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBHAP-S2-R11",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBHAP-S2-R12",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBHAP-S2-R14",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMER-S1-P01",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMER-S2-R01",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBMER-S2-R01-01",
+     "status": "OK",
+     "label": "가입 대상 연령 및 명의 유형",
+     "source": {
+      "quote": "만 14세 이상의 실명의 개인(개인사업자 포함), 법인, 임의단체 (단, 금융기관은 제외)"
+     },
+     "condition": {
+      "not": {
+       "in": [
+        {
+         "var": "customer.holder_type"
+        },
+        [
+         "INDIVIDUAL",
+         "SOLE_PROPRIETOR",
+         "CORPORATION",
+         "ORGANIZATION"
+        ]
+       ]
+      }
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMER-S2-R02",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMER-S2-R07",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBMER-S2-R07-01",
+     "status": "OK",
+     "label": "계약기간 6개월 이상 12개월 미만 기본이율",
+     "source": {
+      "quote": "6개월이상 ~ 12개월미만 | 연 1.95%"
+     },
+     "condition": {
+      "and": [
+       {
+        "==": [
+         {
+          "var": "contract.term_months"
+         },
+         6
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         12
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 1.95,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "KBMER-S2-R07-02",
+     "status": "OK",
+     "label": "계약기간 12개월 이상 24개월 미만 기본이율",
+     "source": {
+      "quote": "12개월이상 ~ 24개월미만 | 연 2.25%"
+     },
+     "condition": {
+      "and": [
+       {
+        "==": [
+         {
+          "var": "contract.term_months"
+         },
+         12
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         24
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 2.25,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "KBMER-S2-R07-03",
+     "status": "OK",
+     "label": "계약기간 24개월 이상 36개월 미만 기본이율",
+     "source": {
+      "quote": "24개월이상 ~ 36개월미만 | 연 2.60%"
+     },
+     "condition": {
+      "and": [
+       {
+        "==": [
+         {
+          "var": "contract.term_months"
+         },
+         24
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         36
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 2.6,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "KBMER-S2-R07-04",
+     "status": "OK",
+     "label": "계약기간 36개월 기본이율",
+     "source": {
+      "quote": "36개월 | 연 3.00%"
+     },
+     "condition": {
+      "==": [
+       {
+        "var": "contract.term_months"
+       },
+       36
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 3.0,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMER-S2-R08",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBMER-S2-R08-03",
+     "status": "OK",
+     "label": "사업성공우대이율",
+     "source": {
+      "quote": "만기해지 시 적립금액(이자금액 제외)이 1천만원 이상인 경우"
+     },
+     "condition": {
+      "and": [
+       {
+        "==": [
+         {
+          "var": "contract.termination_type"
+         },
+         "MATURITY"
+        ]
+       },
+       {
+        ">=": [
+         {
+          "var": "account.reserved_amount"
+         },
+         10000000
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_ADD",
+      "value": 0.1,
+      "unit": "%p"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMER-S2-R09",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMER-S2-R10",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMER-S2-R11",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMER-S2-R13",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMER-S2-R23",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMY-S1-P01",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBMY-S1-P01-01",
+     "status": "OK",
+     "label": "비대면채널 전용 가입 제한",
+     "source": {
+      "quote": "비대면채널 전용 DIY(Do-It-Yourself)형 상품"
+     },
+     "condition": {
+      "not": {
+       "in": [
+        {
+         "var": "contract.channel"
+        },
+        [
+         "ONLINE",
+         "INTERNET",
+         "MOBILE"
+        ]
+       ]
+      }
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMY-S2-R01",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBMY-S2-R01-01",
+     "status": "OK",
+     "label": "가입 대상 연령 및 명의",
+     "source": {
+      "quote": "만 14세 이상의 실명의 개인 (공동명의 불가)"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "customer.age"
+         },
+         14
+        ]
+       },
+       {
+        "not": {
+         "in": [
+          {
+           "var": "customer.holder_type"
+          },
+          [
+           "CORPORATION",
+           "ORGANIZATION",
+           "JOINT"
+          ]
+         ]
+        }
+       }
+      ]
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMY-S2-R02",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMY-S2-R07",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMY-S2-R08",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBMY-S2-R08-01",
+     "status": "OK",
+     "label": "급여이체 우대이율",
+     "source": {
+      "quote": "이 적금의 신규일이 포함된 달부터 3개월이 경과한 달까지 50만원 이상 급여이체 실적주1)이 발생한 월수가 1개월 이상인 경우"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.start_date",
+         "offset_months": 0,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.start_date",
+         "offset_months": 3,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      ">=": [
+       {
+        "count_distinct_months": {
+         "event": "SALARY_TRANSFER",
+         "within": {
+          "ref": "$window"
+         },
+         "where": {
+          "min_amount": 500000
+         }
+        }
+       },
+       1
+      ]
+     },
+     "effect": {
+      "type": "RATE_ADD",
+      "value": 0.1,
+      "unit": "%p"
+     }
+    },
+    {
+     "rule_id": "KBMY-S2-R08-04",
+     "status": "OK",
+     "label": "아파트관리비 이체 우대이율",
+     "source": {
+      "quote": "이 적금의 신규일이 포함된 달부터 3개월이 경과한 달까지 KB국민은행 입출금이자유로운예금을 통한 아파트관리비 자동이체 실적주2)이 있는 경우"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.start_date",
+         "offset_months": 0,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.start_date",
+         "offset_months": 3,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "exists": {
+       "event": "AUTO_TRANSFER",
+       "within": {
+        "ref": "$window"
+       },
+       "where": {
+        "route": "APARTMENT_FEE"
+       }
+      }
+     },
+     "effect": {
+      "type": "RATE_ADD",
+      "value": 0.1,
+      "unit": "%p"
+     }
+    },
+    {
+     "rule_id": "KBMY-S2-R08-07",
+     "status": "OK",
+     "label": "첫 거래 우대이율",
+     "source": {
+      "quote": "이 적금의 신규 시에 예∙적금(청약 관련상품 제외) 상품을 보유하지 않은 경우"
+     },
+     "condition": {
+      "==": [
+       {
+        "var": "customer.has_product"
+       },
+       false
+      ]
+     },
+     "effect": {
+      "type": "RATE_ADD",
+      "value": 0.1,
+      "unit": "%p"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMY-S2-R09",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMY-S2-R10",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMY-S2-R11",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMY-S2-R13",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMY-S2-R16",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBMY-S2-R16-03",
+     "status": "OK",
+     "label": "재예치 시 첫거래우대이율 미적용",
+     "source": {
+      "quote": "재예치 시 유의사항 ① 첫거래우대이율 미적용"
+     },
+     "condition": {
+      "exists": {
+       "event": "TERMINATION",
+       "within": {
+        "month_range": {
+         "from": {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": "first"
+         },
+         "to": {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": "last"
+         }
+        }
+       }
+      }
+     },
+     "effect": {
+      "type": "RATE_SUBTRACT",
+      "value": 0,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMY-S2-R17",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBMY-S2-R17-01",
+     "status": "OK",
+     "label": "일부인출 불가",
+     "source": {
+      "quote": "불가"
+     },
+     "condition": {},
+     "effect": {
+      "type": "RESTRICT",
+      "target": "PARTIAL_TERMINATION"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMY-S4-R01",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMY-S4-R02",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMY-S4-R03",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMY-S4-R04",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBMY-S4-R05",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBNR-S1-P01",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBNR-S2-R01",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBNR-S2-R01-01",
+     "status": "OK",
+     "label": "가입 대상 명의 유형",
+     "source": {
+      "quote": "실명의 개인"
+     },
+     "condition": {
+      "not": {
+       "in": [
+        {
+         "var": "customer.holder_type"
+        },
+        [
+         "INDIVIDUAL"
+        ]
+       ]
+      }
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBNR-S2-R02",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBNR-S2-R03",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBNR-S2-R04",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBNR-S2-R04-01",
+     "status": "OK",
+     "label": "기본이율 적용",
+     "source": {
+      "quote": "기본이율 : 연 0.1%"
+     },
+     "condition": {},
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 0.1,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBNR-S2-R05",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBNR-S2-R05-01",
+     "status": "OK",
+     "label": "급여이체 실적에 따른 우대이율",
+     "source": {
+      "quote": "결산일의 전월 말일을 기준으로 직전 3개월 동안 2개월 이상 이 통장으로 아래 한 항목 이상에 해당하는 급여이체 실적이 있는 경우"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.reference_date",
+         "offset_months": -3,
+         "day": "last"
+        },
+        "to": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      ">=": [
+       {
+        "count_distinct_months": {
+         "event": "SALARY_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       2
+      ]
+     },
+     "effect": {
+      "type": "RATE_ADD",
+      "value": 1.9,
+      "unit": "%p"
+     }
+    },
+    {
+     "rule_id": "KBNR-S2-R05-02",
+     "status": "OK",
+     "label": "우대이율 적용한도",
+     "source": {
+      "quote": "이 통장의 결산기 평균잔액 중 100만원 이하의 금액까지는 기본이율과 우대이율을 합산하여 적용하며, 100만원을 초과하는 금액은 기본이율만 적용"
+     },
+     "condition": {},
+     "effect": {
+      "type": "LIMIT_AMOUNT",
+      "value": 1000000
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBNR-S2-R06",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBNR-S2-R06-01",
+     "status": "OK",
+     "label": "평균잔액 100만원 이하 우대금리",
+     "source": {
+      "quote": "0원 ~ 100만원 까지 / 연2.0%(기본이율＋우대이율 적용)"
+     },
+     "condition": {
+      "<=": [
+       {
+        "var": "account.balance"
+       },
+       1000000
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 2.0,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "KBNR-S2-R06-02",
+     "status": "OK",
+     "label": "평균잔액 100만원 초과 기본금리",
+     "source": {
+      "quote": "100만원 초과 / 연0.1%(기본이율 적용)"
+     },
+     "condition": {
+      ">": [
+       {
+        "var": "account.balance"
+       },
+       1000000
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 0.1,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBNR-S2-R07",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBNR-S2-R08",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBNR-S2-R09",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBNR-S2-R09-01",
+     "status": "OK",
+     "label": "전자금융 이체수수료 면제",
+     "source": {
+      "quote": "전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼 때)(※납부자자동이체 제외) 및 KB국민은행 자동화기기 시간외출금수수료"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "or": [
+       {
+        "exists": {
+         "event": "AUTO_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "CARD_USAGE",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "EBANK_TRANSFER",
+      "value": "UNLIMITED"
+     }
+    },
+    {
+     "rule_id": "KBNR-S2-R09-02",
+     "status": "OK",
+     "label": "자동화기기 시간외출금수수료 면제",
+     "source": {
+      "quote": "전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른 은행으로 보낼 때)(※납부자자동이체 제외) 및 KB국민은행 자동화기기 시간외출금수수료"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "or": [
+       {
+        "exists": {
+         "event": "AUTO_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       {
+        "exists": {
+         "event": "CARD_USAGE",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       }
+      ]
+     },
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "ATM_WITHDRAW_AFTER_HOURS",
+      "value": "UNLIMITED"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSME-S1-P01",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSME-S2-R01",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBSME-S2-R01-01",
+     "status": "OK",
+     "label": "가입 대상 명의 유형",
+     "source": {
+      "quote": "개인사업자, 임의단체, 공동명의 가입 불가"
+     },
+     "condition": {
+      "not": {
+       "in": [
+        {
+         "var": "customer.holder_type"
+        },
+        [
+         "INDIVIDUAL"
+        ]
+       ]
+      }
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSME-S2-R02",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSME-S2-R04",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBSME-S2-R04-01",
+     "status": "OK",
+     "label": "월 납입금액 범위",
+     "source": {
+      "quote": "월 10만원 이상 50만원 이하로 만기일 전날까지 입금 가능"
+     },
+     "condition": {
+      "and": [
+       {
+        "==": [
+         {
+          "var": "contract.monthly_amount"
+         },
+         100000
+        ]
+       },
+       {
+        "==": [
+         {
+          "var": "contract.monthly_amount"
+         },
+         500000
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSME-S2-R06",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSME-S2-R07",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSME-S2-R08",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBSME-S2-R08-05",
+     "status": "OK",
+     "label": "기본금리 적용",
+     "source": {
+      "quote": "36개월 | 연 2.5%"
+     },
+     "condition": {
+      "==": [
+       {
+        "var": "contract.term_months"
+       },
+       36
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 2.5,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSME-S2-R09",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSME-S2-R10",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSME-S2-R11",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSME-S2-R12",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSME-S2-R22",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSME-S3-R02",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBSME-S3-R02-01",
+     "status": "OK",
+     "label": "제공기간 제한",
+     "source": {
+      "quote": "2026년 8월 21일로부터 2030년 12월 31일까지"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         "2026-08-21"
+        ]
+       },
+       {
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         "2030-12-31"
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSME-S3-R04",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSME-S4-R01",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSSG-S1-P01",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSSG-S2-R01",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBSSG-S2-R01-01",
+     "status": "OK",
+     "label": "가입 가능 연령",
+     "source": {
+      "quote": "만 17세 이상의 실명의 개인"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "customer.age"
+         },
+         17
+        ]
+       },
+       {
+        "==": [
+         {
+          "var": "customer.holder_type"
+         },
+         "INDIVIDUAL"
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     },
+     "guard": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "customer.age"
+         },
+         17
+        ]
+       },
+       {
+        "==": [
+         {
+          "var": "customer.holder_type"
+         },
+         "INDIVIDUAL"
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "rule_id": "KBSSG-S2-R01-02",
+     "status": "OK",
+     "label": "가입 불가 명의 유형",
+     "source": {
+      "quote": "관련서류 미제출 임의단체, 개인사업자 및 공동명의 가입 불가"
+     },
+     "condition": {
+      "in": [
+       {
+        "var": "customer.holder_type"
+       },
+       [
+        "ORGANIZATION",
+        "SOLE_PROPRIETOR",
+        "JOINT"
+       ]
+      ]
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSSG-S2-R03",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSSG-S2-R05",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSSG-S2-R06",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBSSG-S2-R06-01",
+     "status": "OK",
+     "label": "장기 미거래 계좌 이자 지급 방식 변경",
+     "source": {
+      "quote": "예금의 이자는 최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일의 다음 결산일에 일괄 계산하여 지급할 수 있습니다."
+     },
+     "let": {
+      "dormant_period": {
+       "month_range": {
+        "from": {
+         "anchor": "account.last_transaction_date",
+         "offset_months": 60,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.reference_date",
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "exists": {
+       "event": "WITHDRAWAL",
+       "within": {
+        "ref": "$dormant_period"
+       }
+      }
+     },
+     "effect": {
+      "type": "DORMANT_CONTRIBUTION"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSSG-S2-R07",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBSSG-S2-R07-01",
+     "status": "OK",
+     "label": "기본금리 적용",
+     "source": {
+      "quote": "▪ 연 0.10%"
+     },
+     "condition": {},
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 0.1,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSSG-S2-R08",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSSG-S2-R09",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSSG-S2-R10",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBSSG-S2-R10-01",
+     "status": "OK",
+     "label": "전자금융 이체수수료 면제",
+     "source": {
+      "quote": "① KB국민은행 개인인터넷뱅킹, KB스타뱅킹을 통한 다른은행 이체수수료"
+     },
+     "condition": {},
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "EBANK_TRANSFER",
+      "value": "UNLIMITED"
+     }
+    },
+    {
+     "rule_id": "KBSSG-S2-R10-02",
+     "status": "OK",
+     "label": "납부자 자동이체 수수료 면제",
+     "source": {
+      "quote": "② 납부자 자동이체(타행 자동이체 포함) 수수료"
+     },
+     "condition": {},
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "AUTO_DEBIT",
+      "value": "UNLIMITED"
+     }
+    },
+    {
+     "rule_id": "KBSSG-S2-R10-03",
+     "status": "OK",
+     "label": "자동화기기 이체수수료 면제",
+     "source": {
+      "quote": "③ KB국민은행 자동화기기(ATM) 다른은행 이체수수료"
+     },
+     "condition": {},
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "ATM_TRANSFER",
+      "value": "UNLIMITED"
+     }
+    },
+    {
+     "rule_id": "KBSSG-S2-R10-04",
+     "status": "OK",
+     "label": "자동화기기 시간외 출금수수료 면제",
+     "source": {
+      "quote": "④ KB국민은행 자동화기기(ATM) 시간외 출금수수료"
+     },
+     "condition": {},
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "ATM_WITHDRAW_AFTER_HOURS",
+      "value": "UNLIMITED"
+     }
+    },
+    {
+     "rule_id": "KBSSG-S2-R10-05",
+     "status": "OK",
+     "label": "타행 자동화기기 출금수수료 면제",
+     "source": {
+      "quote": "⑤ 다른은행 자동화기기(ATM) 출금수수료"
+     },
+     "condition": {},
+     "effect": {
+      "type": "FEE_WAIVE",
+      "target": "OTHER_BANK_ATM_WITHDRAW",
+      "value": "UNLIMITED"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSSG-S2-R12",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBSSG-S2-R12-01",
+     "status": "OK",
+     "label": "상품전환 불가",
+     "source": {
+      "quote": "다른 예금에서 이 예금으로 전환 또는 이 예금에서 다른 예금으로 전환 불가"
+     },
+     "condition": {},
+     "effect": {
+      "type": "RESTRICT",
+      "target": "SWITCH_IN"
+     }
+    },
+    {
+     "rule_id": "KBSSG-S2-R12-02",
+     "status": "OK",
+     "label": "상품전환 불가",
+     "source": {
+      "quote": "다른 예금에서 이 예금으로 전환 또는 이 예금에서 다른 예금으로 전환 불가"
+     },
+     "condition": {},
+     "effect": {
+      "type": "RESTRICT",
+      "target": "SWITCH_OUT"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSSG-S2-R13",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSSG-S3-R01",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSSG-S4-R01",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBSSG-S4-R01-01",
+     "status": "OK",
+     "label": "통장 해지 시 서비스 제공 중단",
+     "source": {
+      "quote": "통장 해지 시 해당 서비스를 제공하지 않음"
+     },
+     "condition": {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "EARLY"
+      ]
+     },
+     "effect": {
+      "type": "RESTRICT",
+      "target": "TERMINATION"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSSG-S4-R02",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSSG-S4-R03",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSSG-S4-R04",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSSG-S4-R05",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSTR-S1-P01",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBSTR-S1-P01-01",
+     "status": "OK",
+     "label": "가입 가능 채널 제한",
+     "source": {
+      "quote": "인터넷뱅킹 등 비대면채널을 통해서만 가입 가능한 온라인 전용 정기예금"
+     },
+     "condition": {
+      "not": {
+       "in": [
+        {
+         "var": "contract.channel"
+        },
+        [
+         "INTERNET",
+         "MOBILE"
+        ]
+       ]
+      }
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSTR-S2-R02",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSTR-S2-R07",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "KBSTR-S2-R07-01",
+     "status": "OK",
+     "label": "기본이율 1개월 이상 3개월 미만",
+     "source": {
+      "quote": "1개월 이상 3개월 미만 | 연 2.05%"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         1
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         3
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 2.05,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "KBSTR-S2-R07-02",
+     "status": "OK",
+     "label": "기본이율 3개월 이상 6개월 미만",
+     "source": {
+      "quote": "3개월 이상 6개월 미만 | 연 2.25%"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         3
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         6
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 2.25,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "KBSTR-S2-R07-03",
+     "status": "OK",
+     "label": "기본이율 6개월 이상 9개월 미만",
+     "source": {
+      "quote": "6개월 이상 9개월 미만 | 연 2.35%"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         6
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         9
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 2.35,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "KBSTR-S2-R07-04",
+     "status": "OK",
+     "label": "기본이율 9개월 이상 12개월 미만",
+     "source": {
+      "quote": "9개월 이상 12개월 미만 | 연 2.35%"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         9
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         12
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 2.35,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "KBSTR-S2-R07-05",
+     "status": "OK",
+     "label": "기본이율 12개월 이상 24개월 미만",
+     "source": {
+      "quote": "12개월 이상 24개월 미만 | 연 2.40%"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         12
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         24
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 2.4,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "KBSTR-S2-R07-06",
+     "status": "OK",
+     "label": "기본이율 24개월 이상 36개월 미만",
+     "source": {
+      "quote": "24개월 이상 36개월 미만 | 연 2.40%"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         24
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         36
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 2.4,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "KBSTR-S2-R07-07",
+     "status": "OK",
+     "label": "기본이율 36개월",
+     "source": {
+      "quote": "36개월 | 연 2.40%"
+     },
+     "condition": {
+      "==": [
+       {
+        "var": "contract.term_months"
+       },
+       36
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 2.4,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSTR-S2-R08",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSTR-S2-R09",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSTR-S2-R11",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSTR-S2-R12",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSTR-S2-R13",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSTR-S2-R17",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSUP-S1-P01",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSUP-S2-R02",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSUP-S2-R03",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSUP-S2-R04",
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-KBSUP-S2-R04-01",
+     "status": "OK",
+     "label": "가입금액 최소 한도",
+     "source": {
+      "quote": "1백만원 이상(원 단위. 신규계좌 포함 30회까지 추가입금 가능)"
+     },
+     "condition": {
+      "<": [
+       {
+        "var": "contract.amount"
+       },
+       1000000
+      ]
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    }
+   ]
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ },
+ {
+  "clause_id": "KBSUP-S2-R05",
+  "output": {
+   "rules": []
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true
+  },
+  "combo": "이어받기"
+ }
+]

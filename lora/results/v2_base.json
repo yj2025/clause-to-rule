@@ -1,0 +1,3446 @@
+[
+ {
+  "clause_id": "HNSAL-S1-P01",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "SUMMARY"
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 6.5
+ },
+ {
+  "clause_id": "HNSAL-S2-R01",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": false,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [
+   "quote 가 조문 원문에 없다: '※”연금하나월복리적금“ 또는\"주거래 하나월복리적금\"과중복가입이불가합니다.'. 요약하거나 바꿔 쓰지 말고 원문을 그대로 옮긴다"
+  ],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R01-01\",\n   \"status\": \"OK\",\n   \"label\": \"가입 대상 명의 유형\",\n   \"source\": {\n    \"quote\": \"실명의개인또는개인사업자(1인1계좌)\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"customer.holder_type\"\n     },\n     [\n      \"INDIVIDUAL\",\n      \"SOLE_PROPRIETOR\"\n     ]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R01-02\",\n   \"status\": \"OK\",\n   \"label\": \"중복 가입 금지\",\n   \"source\": {\n    \"quote\": \"※”연금하나월복리적금“ 또는\\\"주거래 하나월복리적금\\\"과중복가입이불가합니다.\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"ACCOUNT_OPENING\",\n     \"within\": {\n      \"ref\": \"$window\"\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R01-01\",\n   \"status\": \"OK\",\n   \"label\": \"가입 대상 명의 유형\",\n   \"source\": {\n    \"quote\": \"실명의개인또는개인사업자(1인1계좌)\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"customer.holder_type\"\n     },\n     [\n      \"INDIVIDUAL\",\n      \"SOLE_PROPRIETOR\"\n     ]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R01-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중복 가입 금지\",\n   \"source\": {\n    \"quote\": \"※”연금하나월복리적금“ 또는\\\"주거래 하나월복리적금\\\"과중복가입이불가합니다.\"\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R01-01",
+     "status": "OK",
+     "label": "가입 대상 명의 유형",
+     "source": {
+      "quote": "실명의개인또는개인사업자(1인1계좌)"
+     },
+     "condition": {
+      "in": [
+       {
+        "var": "customer.holder_type"
+       },
+       [
+        "INDIVIDUAL",
+        "SOLE_PROPRIETOR"
+       ]
+      ]
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R01-02",
+     "status": "UNSUPPORTED",
+     "label": "중복 가입 금지",
+     "source": {
+      "quote": "※”연금하나월복리적금“ 또는\"주거래 하나월복리적금\"과중복가입이불가합니다."
+     }
+    }
+   ]
+  },
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 65.2
+ },
+ {
+  "clause_id": "HNSAL-S2-R04",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R04-01",
+     "status": "UNSUPPORTED",
+     "label": "중도해지 시 이자 계산 방식",
+     "source": {
+      "quote": "단, 중도해지금리및만기후금리는단리로 계산하여이자를지급함"
+     },
+     "condition": {
+      "in": [
+       {
+        "var": "contract.termination_type"
+       },
+       [
+        "EARLY"
+       ]
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R04-02",
+     "status": "UNSUPPORTED",
+     "label": "만기 시 이자 계산 방식",
+     "source": {
+      "quote": "만기일시지급식(월복리식) : 만기(후)"
+     },
+     "condition": {
+      "in": [
+       {
+        "var": "contract.termination_type"
+       },
+       [
+        "MATURITY"
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R04-01\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지 시 이자 계산 방식\",\n   \"source\": {\n    \"quote\": \"단, 중도해지금리및만기후금리는단리로 계산하여이자를지급함\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.termination_type\"\n     },\n     [\n      \"EARLY\"\n     ]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": \"SIMPLE_INTEREST\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R04-02\",\n   \"status\": \"OK\",\n   \"label\": \"만기 시 이자 계산 방식\",\n   \"source\": {\n    \"quote\": \"만기일시지급식(월복리식) : 만기(후)\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.termination_type\"\n     },\n     [\n      \"MATURITY\"\n     ]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": \"COMPOUND_INTEREST\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R04-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지 시 이자 계산 방식\",\n   \"source\": {\n    \"quote\": \"단, 중도해지금리및만기후금리는단리로 계산하여이자를지급함\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.termination_type\"\n     },\n     [\n      \"EARLY\"\n     ]\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R04-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"만기 시 이자 계산 방식\",\n   \"source\": {\n    \"quote\": \"만기일시지급식(월복리식) : 만기(후)\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.termination_type\"\n     },\n     [\n      \"MATURITY\"\n     ]\n    ]\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 70.4
+ },
+ {
+  "clause_id": "HNSAL-S2-R06",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R06-01",
+     "status": "OK",
+     "label": "일반 가입금액 범위",
+     "source": {
+      "quote": "1만원 이상 300만원 이하 (원단위)"
+     },
+     "condition": {
+      ">=": [
+       {
+        "var": "contract.amount"
+       },
+       10000
+      ]
+     },
+     "guard": {
+      "<": [
+       {
+        "var": "contract.amount"
+       },
+       3000000
+      ]
+     },
+     "effect": {
+      "type": "REQUIRE",
+      "value": 10000
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R06-02",
+     "status": "UNSUPPORTED",
+     "label": "청년응원 특별금리 가입금액 범위",
+     "source": {
+      "quote": "(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R06-01\",\n   \"status\": \"OK\",\n   \"label\": \"일반 가입금액 범위\",\n   \"source\": {\n    \"quote\": \"1만원 이상 300만원 이하 (원단위)\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.amount\"\n     },\n     10000\n    ]\n   },\n   \"guard\": {\n    \"<\": [\n     {\n      \"var\": \"contract.amount\"\n     },\n     3000000\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"contract.amount\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R06-02\",\n   \"status\": \"OK\",\n   \"label\": \"청년응원 특별금리 가입금액 범위\",\n   \"source\": {\n    \"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.special_rate\"\n     },\n     [\n      \"YOUTH_SUPPORT\"\n     ]\n    ]\n   },\n   \"guard\": {\n    \">=\": [\n     {\n      \"var\": \"contract.amount\"\n     },\n     10000\n    ]\n   },\n   \"guard\": {\n    \"<\": [\n     {\n      \"var\": \"contract.amount\"\n     },\n     1500000\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"contract.amount\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R06-01\",\n   \"status\": \"OK\",\n   \"label\": \"일반 가입금액 범위\",\n   \"source\": {\n    \"quote\": \"1만원 이상 300만원 이하 (원단위)\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.amount\"\n     },\n     10000\n    ]\n   },\n   \"guard\": {\n    \"<\": [\n     {\n      \"var\": \"contract.amount\"\n     },\n     3000000\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": 10000\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R06-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"청년응원 특별금리 가입금액 범위\",\n   \"source\": {\n    \"quote\": \"(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)\"\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 81.6
+ },
+ {
+  "clause_id": "HNSAL-S2-R07",
+  "run": 0,
+  "n_attempts": 2,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R07-01",
+     "status": "OK",
+     "label": "적립한도 일반",
+     "source": {
+      "quote": "분기당 1만원 이상 300만원 이하 (원단위)"
+     },
+     "condition": {},
+     "effect": {
+      "type": "LIMIT_AMOUNT",
+      "value": 3000000
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R07-02",
+     "status": "UNSUPPORTED",
+     "label": "청년응원 특별금리적용기간 적립한도",
+     "source": {
+      "quote": "(단, 청년응원 특별금리적용기간은분기당 1만원이상 150만원 이하)"
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R07-01\",\n   \"status\": \"OK\",\n   \"label\": \"적립한도 일반\",\n   \"source\": {\n    \"quote\": \"분기당 1만원 이상 300만원 이하 (원단위)\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"account.reserved_amount\"\n     },\n     10000\n    ]\n   },\n   \"effect\": {\n    \"type\": \"LIMIT_AMOUNT\",\n    \"value\": 3000000\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R07-02\",\n   \"status\": \"OK\",\n   \"label\": \"청년응원 특별금리적용기간 적립한도\",\n   \"source\": {\n    \"quote\": \"(단, 청년응원 특별금리적용기간은분기당 1만원이상 150만원 이하)\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"var\": \"contract.special_rate_period\"\n     },\n     {\n      \">=\": [\n       {\n        \"var\": \"account.reserved_amount\"\n       },\n       10000\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"LIMIT_AMOUNT\",\n    \"value\": 1500000\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R07-01\",\n   \"status\": \"OK\",\n   \"label\": \"적립한도 일반\",\n   \"source\": {\n    \"quote\": \"분기당 1만원 이상 300만원 이하 (원단위)\"\n   },\n   \"condition\": {},\n   \"effect\": {\n    \"type\": \"LIMIT_AMOUNT\",\n    \"value\": 3000000\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R07-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"청년응원 특별금리적용기간 적립한도\",\n   \"source\": {\n    \"quote\": \"(단, 청년응원 특별금리적용기간은분기당 1만원이상 150만원 이하)\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 48.9
+ },
+ {
+  "clause_id": "HNSAL-S2-R08",
+  "run": 0,
+  "n_attempts": 2,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 3
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 3
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R08-01",
+     "status": "OK",
+     "label": "1년 기간 기본금리",
+     "source": {
+      "quote": "가입기간 1년 2년 3년\n기본금리 연 2.95% 연 3.00% 연 3.10%"
+     },
+     "condition": {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       12
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 2.95,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R08-02",
+     "status": "OK",
+     "label": "2년 기간 기본금리",
+     "source": {
+      "quote": "가입기간 1년 2년 3년\n기본금리 연 2.95% 연 3.00% 연 3.10%"
+     },
+     "condition": {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       24
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 3,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R08-03",
+     "status": "OK",
+     "label": "3년 기간 기본금리",
+     "source": {
+      "quote": "가입기간 1년 2년 3년\n기본금리 연 2.95% 연 3.00% 연 3.10%"
+     },
+     "condition": {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       36
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 3.1,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R08-01\",\n   \"status\": \"OK\",\n   \"label\": \"1년 기간 기본금리\",\n   \"source\": {\n    \"quote\": \"가입기간 1년 2년 3년\\n기본금리 연 2.95% 연 3.00% 연 3.10%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     12\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 2.95\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R08-02\",\n   \"status\": \"OK\",\n   \"label\": \"2년 기간 기본금리\",\n   \"source\": {\n    \"quote\": \"가입기간 1년 2년 3년\\n기본금리 연 2.95% 연 3.00% 연 3.10%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     24\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 3\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R08-03\",\n   \"status\": \"OK\",\n   \"label\": \"3년 기간 기본금리\",\n   \"source\": {\n    \"quote\": \"가입기간 1년 2년 3년\\n기본금리 연 2.95% 연 3.00% 연 3.10%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     36\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 3.1\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R08-01\",\n   \"status\": \"OK\",\n   \"label\": \"1년 기간 기본금리\",\n   \"source\": {\n    \"quote\": \"가입기간 1년 2년 3년\\n기본금리 연 2.95% 연 3.00% 연 3.10%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     12\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 2.95,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R08-02\",\n   \"status\": \"OK\",\n   \"label\": \"2년 기간 기본금리\",\n   \"source\": {\n    \"quote\": \"가입기간 1년 2년 3년\\n기본금리 연 2.95% 연 3.00% 연 3.10%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     24\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 3,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R08-03\",\n   \"status\": \"OK\",\n   \"label\": \"3년 기간 기본금리\",\n   \"source\": {\n    \"quote\": \"가입기간 1년 2년 3년\\n기본금리 연 2.95% 연 3.00% 연 3.10%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     36\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 3.1,\n    \"unit\": \"%\"\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 78.9
+ },
+ {
+  "clause_id": "HNSAL-S2-R09",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 3
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": false,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 3
+  },
+  "errors": [
+   "quote 가 조문 원문에 없다: '재예치우대 예시) ’21.3월1년제가입(재예치신청)계좌: ’22.3월재예'. 요약하거나 바꿔 쓰지 말고 원문을 그대로 옮긴다"
+  ],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R09-01\",\n   \"status\": \"OK\",\n   \"label\": \"급여하나우대\",\n   \"source\": {\n    \"quote\": \"급여하나우대 이예금만기전전월말기준, 계약기간의1/2 이상본인명의하나은행입출금통장을 (연0.90%) 통해급여입금실적(주1) 보유한경우(월1회이체)\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"SALARY_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \"not\": {\n       \"in\": [\n        {\n         \"var\": \"contract.termination_type\"\n        },\n        [\n         \"EARLY\"\n        ]\n       ]\n      }\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.9,\n    \"unit\": \"PERCENT\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R09-02\",\n   \"status\": \"OK\",\n   \"label\": \"온라인채널가입 우대\",\n   \"source\": {\n    \"quote\": \"온라인채널가입 이예금을온라인채널(스마트폰뱅킹/인터넷뱅킹)을통해가입또는만기재예치하는 또는 경우(단, 만기재예치우대는최초계약기간이후재예치된기간에대해적용)\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"in\": [\n       {\n        \"var\": \"contract.channel\"\n       },\n       [\n        \"ONLINE\",\n        \"INTERNET\"\n       ]\n      ]\n     },\n     {\n      \"not\": {\n       \"in\": [\n        {\n         \"var\": \"contract.termination_type\"\n        },\n        [\n         \"EARLY\"\n        ]\n       ]\n      }\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.1,\n    \"unit\": \"PERCENT\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R09-03\",\n   \"status\": \"OK\",\n   \"label\": \"재예치우대\",\n   \"source\": {\n    \"quote\": \"재예치우대 예시) ’21.3월1년제가입(재예치신청)계좌: ’22.3월재예치후만기해지시재예치우 대금리적용\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"in\": [\n       {\n        \"var\": \"contract.channel\"\n       },\n       [\n        \"ONLINE\",\n        \"INTERNET\"\n       ]\n      ]\n     },\n     {\n      \"not\": {\n       \"in\": [\n        {\n         \"var\": \"contract.termination_type\"\n        },\n        [\n         \"EARLY\"\n        ]\n       ]\n      }\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.1,\n    \"unit\": \"PERCENT\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R09-01\",\n   \"status\": \"OK\",\n   \"label\": \"급여하나우대\",\n   \"source\": {\n    \"quote\": \"급여하나우대 이예금만기전전월말기준, 계약기간의1/2 이상본인명의하나은행입출금통장을 (연0.90%) 통해급여입금실적(주1) 보유한경우(월1회이체)\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"SALARY_TRANSFER\",\n         \"within\": {\n          \"ref\": \"$window\"\n         }\n        }\n       },\n       1\n      ]\n     },\n     {\n      \"not\": {\n       \"in\": [\n        {\n         \"var\": \"contract.termination_type\"\n        },\n        [\n         \"EARLY\"\n        ]\n       ]\n      }\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.9,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R09-02\",\n   \"status\": \"OK\",\n   \"label\": \"온라인채널가입 우대\",\n   \"source\": {\n    \"quote\": \"온라인채널가입 이예금을온라인채널(스마트폰뱅킹/인터넷뱅킹)을통해가입또는만기재예치하는 또는 경우(단, 만기재예치우대는최초계약기간이후재예치된기간에대해적용)\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.reference_date\",\n       \"offset_months\": -1,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"in\": [\n       {\n        \"var\": \"contract.channel\"\n       },\n       [\n        \"ONLINE\",\n        \"INTERNET\"\n       ]\n      ]\n     },\n     {\n      \"not\": {\n       \"in\": [\n        {\n         \"var\": \"contract.termination_type\"\n        },\n        [\n         \"EARLY\"\n        ]\n       ]\n      }\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.1,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R09-03\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"재예치우대\",\n   \"source\": {\n    \"quote\": \"재예치우대 예시) ’21.3월1년제가입(재예치신청)계좌: ’22.3월재예치후만기해지시재예치우 대금리적용\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R09-01",
+     "status": "OK",
+     "label": "급여하나우대",
+     "source": {
+      "quote": "급여하나우대 이예금만기전전월말기준, 계약기간의1/2 이상본인명의하나은행입출금통장을 (연0.90%) 통해급여입금실적(주1) 보유한경우(월1회이체)"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "SALARY_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         1
+        ]
+       },
+       {
+        "not": {
+         "in": [
+          {
+           "var": "contract.termination_type"
+          },
+          [
+           "EARLY"
+          ]
+         ]
+        }
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_ADD",
+      "value": 0.9,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R09-02",
+     "status": "OK",
+     "label": "온라인채널가입 우대",
+     "source": {
+      "quote": "온라인채널가입 이예금을온라인채널(스마트폰뱅킹/인터넷뱅킹)을통해가입또는만기재예치하는 또는 경우(단, 만기재예치우대는최초계약기간이후재예치된기간에대해적용)"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.reference_date",
+         "offset_months": -1,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "and": [
+       {
+        "in": [
+         {
+          "var": "contract.channel"
+         },
+         [
+          "ONLINE",
+          "INTERNET"
+         ]
+        ]
+       },
+       {
+        "not": {
+         "in": [
+          {
+           "var": "contract.termination_type"
+          },
+          [
+           "EARLY"
+          ]
+         ]
+        }
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_ADD",
+      "value": 0.1,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R09-03",
+     "status": "UNSUPPORTED",
+     "label": "재예치우대",
+     "source": {
+      "quote": "재예치우대 예시) ’21.3월1년제가입(재예치신청)계좌: ’22.3월재예치후만기해지시재예치우 대금리적용"
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 272.1
+ },
+ {
+  "clause_id": "HNSAL-S2-R10",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R10-01",
+     "status": "UNSUPPORTED",
+     "label": "특별금리 조건 충족",
+     "source": {
+      "quote": "이 예금을 1년제로 가입하고, 아래 항목을 모두 충족하는 경우 만기해지시 추가 제공합니다"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "DEPOSIT",
+           "within": {
+            "month_range": {
+             "from": {
+              "anchor": "contract.reference_date",
+              "offset_months": -2,
+              "day": "first"
+             },
+             "to": {
+              "anchor": "contract.reference_date",
+              "offset_months": -1,
+              "day": "last"
+             }
+            }
+           }
+          }
+         },
+         6
+        ]
+       },
+       {
+        "exists": {
+         "event": "SALARY_TRANSFER",
+         "within": {
+          "month_range": {
+           "from": {
+            "anchor": "contract.reference_date",
+            "offset_months": -2,
+            "day": "first"
+           },
+           "to": {
+            "anchor": "contract.reference_date",
+            "offset_months": -1,
+            "day": "last"
+           }
+          }
+         }
+        }
+       },
+       {
+        ">=": [
+         {
+          "sum_events": {
+           "event": "CARD_USAGE",
+           "within": {
+            "month_range": {
+             "from": {
+              "anchor": "contract.reference_date",
+              "offset_months": -2,
+              "day": "first"
+             },
+             "to": {
+              "anchor": "contract.reference_date",
+              "offset_months": -1,
+              "day": "last"
+             }
+            }
+           }
+          }
+         },
+         300000
+        ]
+       }
+      ]
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R10-01\",\n   \"status\": \"OK\",\n   \"label\": \"특별금리 조건 충족\",\n   \"source\": {\n    \"quote\": \"이 예금을 1년제로 가입하고, 아래 항목을 모두 충족하는 경우 만기해지시 추가 제공합니다\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"DEPOSIT\",\n         \"within\": {\n          \"month_range\": {\n           \"from\": {\n            \"anchor\": \"contract.reference_date\",\n            \"offset_months\": -2,\n            \"day\": \"first\"\n           },\n           \"to\": {\n            \"anchor\": \"contract.reference_date\",\n            \"offset_months\": -1,\n            \"day\": \"last\"\n           }\n          }\n         }\n        }\n       },\n       6\n      ]\n     },\n     {\n      \"exists\": {\n       \"event\": \"SALARY_TRANSFER\",\n       \"within\": {\n        \"month_range\": {\n         \"from\": {\n          \"anchor\": \"contract.reference_date\",\n          \"offset_months\": -2,\n          \"day\": \"first\"\n         },\n         \"to\": {\n          \"anchor\": \"contract.reference_date\",\n          \"offset_months\": -1,\n          \"day\": \"last\"\n         }\n        }\n       }\n      }\n     },\n     {\n      \">=\": [\n       {\n        \"sum_events\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"month_range\": {\n           \"from\": {\n            \"anchor\": \"contract.reference_date\",\n            \"offset_months\": -2,\n            \"day\": \"first\"\n           },\n           \"to\": {\n            \"anchor\": \"contract.reference_date\",\n            \"offset_months\": -1,\n            \"day\": \"last\"\n           }\n          }\n         }\n        }\n       },\n       300000\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 1.3,\n    \"unit\": \"PERCENT\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R10-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"특별금리 조건 충족\",\n   \"source\": {\n    \"quote\": \"이 예금을 1년제로 가입하고, 아래 항목을 모두 충족하는 경우 만기해지시 추가 제공합니다\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"count_distinct_months\": {\n         \"event\": \"DEPOSIT\",\n         \"within\": {\n          \"month_range\": {\n           \"from\": {\n            \"anchor\": \"contract.reference_date\",\n            \"offset_months\": -2,\n            \"day\": \"first\"\n           },\n           \"to\": {\n            \"anchor\": \"contract.reference_date\",\n            \"offset_months\": -1,\n            \"day\": \"last\"\n           }\n          }\n         }\n        }\n       },\n       6\n      ]\n     },\n     {\n      \"exists\": {\n       \"event\": \"SALARY_TRANSFER\",\n       \"within\": {\n        \"month_range\": {\n         \"from\": {\n          \"anchor\": \"contract.reference_date\",\n          \"offset_months\": -2,\n          \"day\": \"first\"\n         },\n         \"to\": {\n          \"anchor\": \"contract.reference_date\",\n          \"offset_months\": -1,\n          \"day\": \"last\"\n         }\n        }\n       }\n      }\n     },\n     {\n      \">=\": [\n       {\n        \"sum_events\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"month_range\": {\n           \"from\": {\n            \"anchor\": \"contract.reference_date\",\n            \"offset_months\": -2,\n            \"day\": \"first\"\n           },\n           \"to\": {\n            \"anchor\": \"contract.reference_date\",\n            \"offset_months\": -1,\n            \"day\": \"last\"\n           }\n          }\n         }\n        }\n       },\n       300000\n      ]\n     }\n    ]\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 152.7
+ },
+ {
+  "clause_id": "HNSAL-S2-R11",
+  "run": 0,
+  "n_attempts": 2,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R11-01",
+     "status": "UNSUPPORTED",
+     "label": "금리우대쿠폰 사용 조건",
+     "source": {
+      "quote": "금리우대쿠폰을 발급받을 경우 기본금리에 가산하여 우대금리를 지급합니다."
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R11-01\",\n   \"status\": \"OK\",\n   \"label\": \"금리우대쿠폰 사용 조건\",\n   \"source\": {\n    \"quote\": \"금리우대쿠폰을 발급받을 경우 기본금리에 가산하여 우대금리를 지급합니다.\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"exists\": {\n       \"var\": \"coupon\"\n      }\n     },\n     {\n      \"not\": {\n       \"in\": [\n        {\n         \"var\": \"contract.termination_type\"\n        },\n        [\n         \"EARLY\",\n         \"PARTIAL\",\n         \"MID_TERM\"\n        ]\n       ]\n      }\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": \"coupon.rate\",\n    \"unit\": \"%\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R11-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"금리우대쿠폰 사용 조건\",\n   \"source\": {\n    \"quote\": \"금리우대쿠폰을 발급받을 경우 기본금리에 가산하여 우대금리를 지급합니다.\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 28.2
+ },
+ {
+  "clause_id": "HNSAL-S2-R12",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 9
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": false,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 9
+  },
+  "errors": [
+   "quote 가 조문 원문에 없다: '6개월이상~ 9개월미만경과시 60% 적용'. 요약하거나 바꿔 쓰지 말고 원문을 그대로 옮긴다",
+   "quote 가 조문 원문에 없다: '9개월이상~ 11개월미만경과시 70% 적용'. 요약하거나 바꿔 쓰지 말고 원문을 그대로 옮긴다",
+   "quote 가 조문 원문에 없다: '11개월이상경과시 90% 적용'. 요약하거나 바꿔 쓰지 말고 원문을 그대로 옮긴다"
+  ],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R12-01\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지금리 계산 - 1개월 미만\",\n   \"source\": {\n    \"quote\": \"1개월미만 연0.10%\"\n   },\n   \"condition\": {\n    \"<\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     1\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.10\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R12-02\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지금리 계산 - 1개월 이상 ~ 3개월 미만\",\n   \"source\": {\n    \"quote\": \"1개월이상~ 3개월미만 연0.15%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     1\n    ],\n    \"<\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     3\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.15\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R12-03\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지금리 계산 - 3개월 이상 ~ 6개월 미만\",\n   \"source\": {\n    \"quote\": \"3개월이상~ 6개월미만 연0.20%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     3\n    ],\n    \"<\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.20\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R12-04\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지금리 계산 - 6개월 이상\",\n   \"source\": {\n    \"quote\": \"6개월이상 (단, 연0.20% 미만시 연0.20% 적용)\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.20\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R12-05\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지금리 계산 - 차등율 적용\",\n   \"source\": {\n    \"quote\": \"가입(재예치)당시해당상품의기본금리x 차등율(주2)x 경과율(주3)\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 100,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R12-06\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지금리 계산 - 6개월 이상 ~ 9개월 미만\",\n   \"source\": {\n    \"quote\": \"6개월이상~ 9개월미만경과시 60% 적용\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ],\n    \"<\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     9\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 40,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R12-07\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지금리 계산 - 9개월 이상 ~ 11개월 미만\",\n   \"source\": {\n    \"quote\": \"9개월이상~ 11개월미만경과시 70% 적용\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     9\n    ],\n    \"<\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     11\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 30,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R12-08\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지금리 계산 - 11개월 이상\",\n   \"source\": {\n    \"quote\": \"11개월이상경과시 90% 적용\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     11\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 10,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R12-09\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지금리 계산 - 경과율 적용\",\n   \"source\": {\n    \"quote\": \"경과율: 경과일수/ 계약일수 (단, 경과일수는 계약일수를 초과할수없음)\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 100,\n    \"unit\": \"%\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R12-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지금리 계산 - 1개월 미만\",\n   \"source\": {\n    \"quote\": \"1개월미만 연0.10%\"\n   },\n   \"condition\": {\n    \"<\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     1\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R12-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지금리 계산 - 1개월 이상 ~ 3개월 미만\",\n   \"source\": {\n    \"quote\": \"1개월이상~ 3개월미만 연0.15%\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"contract.term_months\"\n       },\n       1\n      ]\n     },\n     {\n      \"<\": [\n       {\n        \"var\": \"contract.term_months\"\n       },\n       3\n      ]\n     }\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R12-03\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지금리 계산 - 3개월 이상 ~ 6개월 미만\",\n   \"source\": {\n    \"quote\": \"3개월이상~ 6개월미만 연0.20%\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"contract.term_months\"\n       },\n       3\n      ]\n     },\n     {\n      \"<\": [\n       {\n        \"var\": \"contract.term_months\"\n       },\n       6\n      ]\n     }\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R12-04\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지금리 계산 - 6개월 이상\",\n   \"source\": {\n    \"quote\": \"6개월이상 (단, 연0.20% 미만시 연0.20% 적용)\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R12-05\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지금리 계산 - 차등율 적용\",\n   \"source\": {\n    \"quote\": \"가입(재예치)당시해당상품의기본금리x 차등율(주2)x 경과율(주3)\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R12-06\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지금리 계산 - 6개월 이상 ~ 9개월 미만\",\n   \"source\": {\n    \"quote\": \"6개월이상~ 9개월미만경과시 60% 적용\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"contract.term_months\"\n       },\n       6\n      ]\n     },\n     {\n      \"<\": [\n       {\n        \"var\": \"contract.term_months\"\n       },\n       9\n      ]\n     }\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R12-07\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지금리 계산 - 9개월 이상 ~ 11개월 미만\",\n   \"source\": {\n    \"quote\": \"9개월이상~ 11개월미만경과시 70% 적용\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"contract.term_months\"\n       },\n       9\n      ]\n     },\n     {\n      \"<\": [\n       {\n        \"var\": \"contract.term_months\"\n       },\n       11\n      ]\n     }\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R12-08\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지금리 계산 - 11개월 이상\",\n   \"source\": {\n    \"quote\": \"11개월이상경과시 90% 적용\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     11\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R12-09\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지금리 계산 - 경과율 적용\",\n   \"source\": {\n    \"quote\": \"경과율: 경과일수/ 계약일수 (단, 경과일수는 계약일수를 초과할수없음)\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ]\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R12-01",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 계산 - 1개월 미만",
+     "source": {
+      "quote": "1개월미만 연0.10%"
+     },
+     "condition": {
+      "<": [
+       {
+        "var": "contract.term_months"
+       },
+       1
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R12-02",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 계산 - 1개월 이상 ~ 3개월 미만",
+     "source": {
+      "quote": "1개월이상~ 3개월미만 연0.15%"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         1
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         3
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R12-03",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 계산 - 3개월 이상 ~ 6개월 미만",
+     "source": {
+      "quote": "3개월이상~ 6개월미만 연0.20%"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         3
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         6
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R12-04",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 계산 - 6개월 이상",
+     "source": {
+      "quote": "6개월이상 (단, 연0.20% 미만시 연0.20% 적용)"
+     },
+     "condition": {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       6
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R12-05",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 계산 - 차등율 적용",
+     "source": {
+      "quote": "가입(재예치)당시해당상품의기본금리x 차등율(주2)x 경과율(주3)"
+     },
+     "condition": {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       6
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R12-06",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 계산 - 6개월 이상 ~ 9개월 미만",
+     "source": {
+      "quote": "6개월이상~ 9개월미만경과시 60% 적용"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         6
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         9
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R12-07",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 계산 - 9개월 이상 ~ 11개월 미만",
+     "source": {
+      "quote": "9개월이상~ 11개월미만경과시 70% 적용"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         9
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         11
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R12-08",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 계산 - 11개월 이상",
+     "source": {
+      "quote": "11개월이상경과시 90% 적용"
+     },
+     "condition": {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       11
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R12-09",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 계산 - 경과율 적용",
+     "source": {
+      "quote": "경과율: 경과일수/ 계약일수 (단, 경과일수는 계약일수를 초과할수없음)"
+     },
+     "condition": {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       6
+      ]
+     }
+    }
+   ]
+  },
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 330.8
+ },
+ {
+  "clause_id": "HNSAL-S2-R13",
+  "run": 0,
+  "n_attempts": 2,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R13-01",
+     "status": "UNSUPPORTED",
+     "label": "만기 후 1개월 이내 금리",
+     "source": {
+      "quote": "• 1개월 이내 : 지급당시 해당기간별 정기적금 기본금리 ½"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         1
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         2
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNSAL-S2-R13-02",
+     "status": "UNSUPPORTED",
+     "label": "만기 후 1개월 초과 금리",
+     "source": {
+      "quote": "• 1개월 초과 : 지급당시 해당기간별 정기적금 기본금리 ¼"
+     },
+     "condition": {
+      ">": [
+       {
+        "var": "contract.term_months"
+       },
+       1
+      ]
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R13-01\",\n   \"status\": \"OK\",\n   \"label\": \"만기 후 1개월 이내 금리\",\n   \"source\": {\n    \"quote\": \"• 1개월 이내 : 지급당시 해당기간별 정기적금 기본금리 ½\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     1\n    ],\n    \"<\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     2\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 50,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R13-02\",\n   \"status\": \"OK\",\n   \"label\": \"만기 후 1개월 초과 금리\",\n   \"source\": {\n    \"quote\": \"• 1개월 초과 : 지급당시 해당기간별 정기적금 기본금리 ¼\"\n   },\n   \"condition\": {\n    \">\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     1\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 75,\n    \"unit\": \"%\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R13-01\",\n   \"status\": \"OK\",\n   \"label\": \"만기 후 1개월 이내 금리\",\n   \"source\": {\n    \"quote\": \"• 1개월 이내 : 지급당시 해당기간별 정기적금 기본금리 ½\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"contract.term_months\"\n       },\n       1\n      ]\n     },\n     {\n      \"<\": [\n       {\n        \"var\": \"contract.term_months\"\n       },\n       2\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 50,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNSAL-S2-R13-02\",\n   \"status\": \"OK\",\n   \"label\": \"만기 후 1개월 초과 금리\",\n   \"source\": {\n    \"quote\": \"• 1개월 초과 : 지급당시 해당기간별 정기적금 기본금리 ¼\"\n   },\n   \"condition\": {\n    \">\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     1\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 75,\n    \"unit\": \"%\"\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [
+   "R-HNSAL-S2-R13-01",
+   "R-HNSAL-S2-R13-02"
+  ],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 57.2
+ },
+ {
+  "clause_id": "HNSAL-S2-R14",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNSAL-S2-R14-01",
+     "status": "UNSUPPORTED",
+     "label": "월복리 이자 계산",
+     "source": {
+      "quote": "• 저축금마다입금일로부터 만기일 전일까지 기간에 대하여 약정금리를 월복리로 계산하여 지급"
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R14-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"월복리 이자 계산\",\n   \"source\": {\n    \"quote\": \"• 저축금마다입금일로부터 만기일 전일까지 기간에 대하여 약정금리를 월복리로 계산하여 지급\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNSAL-S2-R14-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"월복리 이자 계산\",\n   \"source\": {\n    \"quote\": \"• 저축금마다입금일로부터 만기일 전일까지 기간에 대하여 약정금리를 월복리로 계산하여 지급\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 9.8
+ },
+ {
+  "clause_id": "HNSAL-S2-R25",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 6.9
+ },
+ {
+  "clause_id": "HNDRM-S1-P01",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNDRM-S1-P01-01",
+     "status": "OK",
+     "label": "중도인출 서비스",
+     "source": {
+      "quote": "중도인출서비스로 2회까지 기본금리가 제공되는 상품입니다"
+     },
+     "condition": {
+      "and": [
+       {
+        "==": [
+         {
+          "var": "contract.termination_type"
+         },
+         "EARLY"
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 0,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNDRM-S1-P01-01\",\n   \"status\": \"OK\",\n   \"label\": \"중도인출 서비스\",\n   \"source\": {\n    \"quote\": \"중도인출서비스로 2회까지 기본금리가 제공되는 상품입니다\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"var\": \"contract.termination_type\"\n     },\n     {\n      \"in\": [\n       \"EARLY\"\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": \"contract.base_rate\",\n    \"unit\": \"%\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNDRM-S1-P01-01\",\n   \"status\": \"OK\",\n   \"label\": \"중도인출 서비스\",\n   \"source\": {\n    \"quote\": \"중도인출서비스로 2회까지 기본금리가 제공되는 상품입니다\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"==\": [\n       {\n        \"var\": \"contract.termination_type\"\n       },\n       \"EARLY\"\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0,\n    \"unit\": \"%\"\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 42.4
+ },
+ {
+  "clause_id": "HNDRM-S2-R01",
+  "run": 0,
+  "n_attempts": 2,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNDRM-S2-R01-01",
+     "status": "OK",
+     "label": "만 18세 이하 실명의 개인 가입",
+     "source": {
+      "quote": "만 18세 이하 실명의 개인(1인 1계좌)"
+     },
+     "condition": {
+      "and": [
+       {
+        "<=": [
+         {
+          "var": "customer.age"
+         },
+         18
+        ]
+       },
+       {
+        "in": [
+         {
+          "var": "customer.holder_type"
+         },
+         [
+          "INDIVIDUAL"
+         ]
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNDRM-S2-R01-01\",\n   \"status\": \"OK\",\n   \"label\": \"만 18세 이하 실명의 개인 가입\",\n   \"source\": {\n    \"quote\": \"만 18세 이하 실명의 개인(1인 1계좌)\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"op\": \"<=\",\n      \"left\": {\n       \"var\": \"customer.age\"\n      },\n      \"right\": 18\n     },\n     {\n      \"in\": [\n       {\n        \"var\": \"customer.holder_type\"\n       },\n       [\n        \"INDIVIDUAL\"\n       ]\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNDRM-S2-R01-01\",\n   \"status\": \"OK\",\n   \"label\": \"만 18세 이하 실명의 개인 가입\",\n   \"source\": {\n    \"quote\": \"만 18세 이하 실명의 개인(1인 1계좌)\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"<=\": [\n       {\n        \"var\": \"customer.age\"\n       },\n       18\n      ]\n     },\n     {\n      \"in\": [\n       {\n        \"var\": \"customer.holder_type\"\n       },\n       [\n        \"INDIVIDUAL\"\n       ]\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 33.8
+ },
+ {
+  "clause_id": "HNDRM-S2-R02",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "LABEL"
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 6.0
+ },
+ {
+  "clause_id": "HNDRM-S2-R09",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 6.9
+ },
+ {
+  "clause_id": "HNDRM-S2-R10",
+  "run": 0,
+  "n_attempts": 2,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNDRM-S2-R10-01",
+     "status": "UNSUPPORTED",
+     "label": "1년 기간 기본금리",
+     "source": {
+      "quote": "가입기간 기본금리\n1년 연 2.70%"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNDRM-S2-R10-01\",\n   \"status\": \"OK\",\n   \"label\": \"1년 기간 기본금리\",\n   \"source\": {\n    \"quote\": \"가입기간 기본금리\\n1년 연 2.70%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     12\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 2.7,\n    \"unit\": \"PERCENT\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNDRM-S2-R10-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"1년 기간 기본금리\",\n   \"source\": {\n    \"quote\": \"가입기간 기본금리\\n1년 연 2.70%\"\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 21.7
+ },
+ {
+  "clause_id": "HNDRM-S2-R11",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 5
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 5
+  },
+  "errors": [
+   "실행 불가: DslError: 미바인딩 참조: $contract. let 에 먼저 묶어야 한다: {\"let\": {\"contract\": {...}}}"
+  ],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNDRM-S2-R11-01\",\n   \"status\": \"OK\",\n   \"label\": \"가입우대금리\",\n   \"source\": {\n    \"quote\": \"① 가입우대 : 이 예금을 최초 가입한 경우 연 0.20% (해지후 재가입하는 경우 제공하지 않음)\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"not\": {\n       \"in\": [\n        {\n         \"var\": \"customer.held_products\"\n        },\n        [\n         \"HNDRM-S2-R11\"\n        ]\n       ]\n      }\n     },\n     {\n      \"not\": {\n       \"exists\": {\n        \"event\": \"TERMINATION\",\n        \"within\": {\n          \"ref\": \"$contract\"\n        }\n       }\n      }\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.2,\n    \"unit\": \"PERCENT\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R11-02\",\n   \"status\": \"OK\",\n   \"label\": \"청약우대금리\",\n   \"source\": {\n    \"quote\": \"② 청약우대 : 가입일(또는 재예치일)에 본인명의 주택청약종합저축을 보유한 경우 연 0.40%\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"customer.held_products\"\n     },\n     [\n      \"HOUSE_PURCHASE_SAVINGS\"\n     ]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.4,\n    \"unit\": \"PERCENT\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R11-03\",\n   \"status\": \"OK\",\n   \"label\": \"자동이체우대금리\",\n   \"source\": {\n    \"quote\": \"③ 자동이체우대 : 계약기간중 하나은행 입출금통장을 통하여 6 회 이상 월 자동이체로 적립한 경우 연 0.20%(월 1 회만 인정)\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": 0,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.maturity_date\",\n       \"offset_months\": 0,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"count_distinct_months\": {\n       \"event\": \"AUTO_TRANSFER\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     },\n     6\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.2,\n    \"unit\": \"PERCENT\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R11-04\",\n   \"status\": \"OK\",\n   \"label\": \"카드우대금리\",\n   \"source\": {\n    \"quote\": \"④ 카드우대 : 가입후(또는 재예치후) 3개월이 되는 달의 말일까지 하나은행 본인명의 입출금통장에서 하나(현대)카드사의 체크카드 결제 실적 보유한 경우 연 0.20%\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": 0,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": {\n        \"var\": \"contract.start_date\"\n       },\n        \"offset_months\": 3,\n        \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"CARD_USAGE\",\n     \"within\": {\n      \"ref\": \"$window\"\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.2,\n    \"unit\": \"PERCENT\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R11-05\",\n   \"status\": \"OK\",\n   \"label\": \"아동수당우대금리\",\n   \"source\": {\n    \"quote\": \"⑤ 아동수당우대 : 가입후(또는 재예치후) 만기 전전월말 기준, 하나은행 계좌로 아동수당법에서 정한 아동수당을 1 회 이상 수령한 경우 연 0.20%\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": 0,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.maturity_date\",\n       \"offset_months\": -2,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"DEPOSIT\",\n     \"within\": {\n      \"ref\": \"$window\"\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.2,\n    \"unit\": \"PERCENT\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNDRM-S2-R11-01\",\n   \"status\": \"OK\",\n   \"label\": \"가입우대금리\",\n   \"source\": {\n    \"quote\": \"① 가입우대 : 이 예금을 최초 가입한 경우 연 0.20% (해지후 재가입하는 경우 제공하지 않음)\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"not\": {\n       \"in\": [\n        {\n         \"var\": \"customer.held_products\"\n        },\n        [\n         \"HNDRM-S2-R11\"\n        ]\n       ]\n      }\n     },\n     {\n      \"not\": {\n       \"exists\": {\n        \"event\": \"TERMINATION\",\n        \"within\": {\n         \"ref\": \"$contract\"\n        }\n       }\n      }\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.2,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R11-02\",\n   \"status\": \"OK\",\n   \"label\": \"청약우대금리\",\n   \"source\": {\n    \"quote\": \"② 청약우대 : 가입일(또는 재예치일)에 본인명의 주택청약종합저축을 보유한 경우 연 0.40%\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"customer.held_products\"\n     },\n     [\n      \"HOUSE_PURCHASE_SAVINGS\"\n     ]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.4,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R11-03\",\n   \"status\": \"OK\",\n   \"label\": \"자동이체우대금리\",\n   \"source\": {\n    \"quote\": \"③ 자동이체우대 : 계약기간중 하나은행 입출금통장을 통하여 6 회 이상 월 자동이체로 적립한 경우 연 0.20%(월 1 회만 인정)\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": 0,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.maturity_date\",\n       \"offset_months\": 0,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"count_distinct_months\": {\n       \"event\": \"AUTO_TRANSFER\",\n       \"within\": {\n        \"ref\": \"$window\"\n       }\n      }\n     },\n     6\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.2,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R11-04\",\n   \"status\": \"OK\",\n   \"label\": \"카드우대금리\",\n   \"source\": {\n    \"quote\": \"④ 카드우대 : 가입후(또는 재예치후) 3개월이 되는 달의 말일까지 하나은행 본인명의 입출금통장에서 하나(현대)카드사의 체크카드 결제 실적 보유한 경우 연 0.20%\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": 0,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": 3,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"CARD_USAGE\",\n     \"within\": {\n      \"ref\": \"$window\"\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.2,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R11-05\",\n   \"status\": \"OK\",\n   \"label\": \"아동수당우대금리\",\n   \"source\": {\n    \"quote\": \"⑤ 아동수당우대 : 가입후(또는 재예치후) 만기 전전월말 기준, 하나은행 계좌로 아동수당법에서 정한 아동수당을 1 회 이상 수령한 경우 연 0.20%\"\n   },\n   \"let\": {\n    \"window\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": 0,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.maturity_date\",\n       \"offset_months\": -2,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"DEPOSIT\",\n     \"within\": {\n      \"ref\": \"$window\"\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.2,\n    \"unit\": \"%\"\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": {
+   "rules": [
+    {
+     "rule_id": "R-HNDRM-S2-R11-01",
+     "status": "OK",
+     "label": "가입우대금리",
+     "source": {
+      "quote": "① 가입우대 : 이 예금을 최초 가입한 경우 연 0.20% (해지후 재가입하는 경우 제공하지 않음)"
+     },
+     "condition": {
+      "and": [
+       {
+        "not": {
+         "in": [
+          {
+           "var": "customer.held_products"
+          },
+          [
+           "HNDRM-S2-R11"
+          ]
+         ]
+        }
+       },
+       {
+        "not": {
+         "exists": {
+          "event": "TERMINATION",
+          "within": {
+           "ref": "$contract"
+          }
+         }
+        }
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_ADD",
+      "value": 0.2,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R11-02",
+     "status": "OK",
+     "label": "청약우대금리",
+     "source": {
+      "quote": "② 청약우대 : 가입일(또는 재예치일)에 본인명의 주택청약종합저축을 보유한 경우 연 0.40%"
+     },
+     "condition": {
+      "in": [
+       {
+        "var": "customer.held_products"
+       },
+       [
+        "HOUSE_PURCHASE_SAVINGS"
+       ]
+      ]
+     },
+     "effect": {
+      "type": "RATE_ADD",
+      "value": 0.4,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R11-03",
+     "status": "OK",
+     "label": "자동이체우대금리",
+     "source": {
+      "quote": "③ 자동이체우대 : 계약기간중 하나은행 입출금통장을 통하여 6 회 이상 월 자동이체로 적립한 경우 연 0.20%(월 1 회만 인정)"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.start_date",
+         "offset_months": 0,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.maturity_date",
+         "offset_months": 0,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      ">=": [
+       {
+        "count_distinct_months": {
+         "event": "AUTO_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       6
+      ]
+     },
+     "effect": {
+      "type": "RATE_ADD",
+      "value": 0.2,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R11-04",
+     "status": "OK",
+     "label": "카드우대금리",
+     "source": {
+      "quote": "④ 카드우대 : 가입후(또는 재예치후) 3개월이 되는 달의 말일까지 하나은행 본인명의 입출금통장에서 하나(현대)카드사의 체크카드 결제 실적 보유한 경우 연 0.20%"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.start_date",
+         "offset_months": 0,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.start_date",
+         "offset_months": 3,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "exists": {
+       "event": "CARD_USAGE",
+       "within": {
+        "ref": "$window"
+       }
+      }
+     },
+     "effect": {
+      "type": "RATE_ADD",
+      "value": 0.2,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R11-05",
+     "status": "OK",
+     "label": "아동수당우대금리",
+     "source": {
+      "quote": "⑤ 아동수당우대 : 가입후(또는 재예치후) 만기 전전월말 기준, 하나은행 계좌로 아동수당법에서 정한 아동수당을 1 회 이상 수령한 경우 연 0.20%"
+     },
+     "let": {
+      "window": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.start_date",
+         "offset_months": 0,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.maturity_date",
+         "offset_months": -2,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "exists": {
+       "event": "DEPOSIT",
+       "within": {
+        "ref": "$window"
+       }
+      }
+     },
+     "effect": {
+      "type": "RATE_ADD",
+      "value": 0.2,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 319.3
+ },
+ {
+  "clause_id": "HNDRM-S2-R12",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 4
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 4
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNDRM-S2-R12-01",
+     "status": "OK",
+     "label": "출생 후 1년 이내 및 연령별 특별금리",
+     "source": {
+      "quote": "가. 이예금가입고객이출생후1 년이내, 만7 세, 만13 세, 만16 세가되는해당계약기간별1 년간 연0.30%"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "customer.age"
+         },
+         0
+        ]
+       },
+       {
+        "not": {
+         "in": [
+          {
+           "var": "customer.age"
+          },
+          [
+           7,
+           13,
+           16
+          ]
+         ]
+        }
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_ADD",
+      "value": 0.3,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R12-02",
+     "status": "UNSUPPORTED",
+     "label": "단체 신규 가입 특별금리",
+     "source": {
+      "quote": "나. 이예금가입고객이동일기관, 학교등단체신규10 인이상가입한경우, 가입후1 년간연0.30%"
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R12-03",
+     "status": "UNSUPPORTED",
+     "label": "대리인 보유 시 특별금리",
+     "source": {
+      "quote": "다. 예금주가만3세이하이고대리인이「(아이) 꿈하나적금」을신규하는시점에「(태아)사랑하나적금」을 보유하고있거나보유한적이있는경우, 가입후1 년간연1.00%(단, 최초1 회에한함)"
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R12-04",
+     "status": "UNSUPPORTED",
+     "label": "희망대학입학축하금리",
+     "source": {
+      "quote": "②희망대학입학축하금리: 만기전1 년간연2.00%(만14 세까지희망대학등록가능)"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNDRM-S2-R12-01\",\n   \"status\": \"OK\",\n   \"label\": \"출생 후 1년 이내 및 연령별 특별금리\",\n   \"source\": {\n    \"quote\": \"가. 이예금가입고객이출생후1 년이내, 만7 세, 만13 세, 만16 세가되는해당계약기간별1 년간 연0.30%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"customer.age\"\n     },\n     0\n    ],\n    \"and\": [\n     {\n      \"not\": {\n       \"in\": [\n        {\n         \"var\": \"customer.age\"\n        },\n        [\n         7,\n         13,\n         16\n        ]\n       ]\n      }\n     },\n     {\n      \"not\": {\n       \"in\": [\n        {\n         \"var\": \"contract.start_date\"\n        },\n        {\n         \"var\": \"customer.birth_date\"\n        },\n        \"year\"\n       ]\n      }\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.3,\n    \"unit\": \"PERCENT\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R12-02\",\n   \"status\": \"OK\",\n   \"label\": \"단체 신규 가입 특별금리\",\n   \"source\": {\n    \"quote\": \"나. 이예금가입고객이동일기관, 학교등단체신규10 인이상가입한경우, 가입후1 년간연0.30%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.new_customers\"\n     },\n     10\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.3,\n    \"unit\": \"PERCENT\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R12-03\",\n   \"status\": \"OK\",\n   \"label\": \"대리인 보유 시 특별금리\",\n   \"source\": {\n    \"quote\": \"다. 예금주가만3세이하이고대리인이「(아이) 꿈하나적금」을신규하는시점에「(태아)사랑하나적금」을 보유하고있거나보유한적이있는경우, 가입후1 년간연1.00%(단, 최초1 회에한함)\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"var\": \"customer.age\"\n     },\n     {\n      \"var\": \"contract.new_customer\"\n     },\n     {\n      \"var\": \"customer.has_product\"\n     },\n     {\n      \"var\": \"customer.held_products\"\n     },\n     {\n      \"in\": [\n       {\n        \"var\": \"customer.held_products\"\n       },\n       [\n        \"LOVE_ONE_SAVING\"\n       ]\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 1,\n    \"unit\": \"PERCENT\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R12-04\",\n   \"status\": \"OK\",\n   \"label\": \"희망대학입학축하금리\",\n   \"source\": {\n    \"quote\": \"②희망대학입학축하금리: 만기전1 년간연2.00%(만14 세까지희망대학등록가능)\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"var\": \"customer.age\"\n     },\n     {\n      \"var\": \"contract.maturity_date\"\n     },\n     {\n      \"var\": \"contract.start_date\"\n     },\n     {\n      \"not\": {\n       \"in\": [\n        {\n         \"var\": \"customer.age\"\n        },\n        [\n         14\n        ]\n       ]\n      }\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 2,\n    \"unit\": \"PERCENT\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNDRM-S2-R12-01\",\n   \"status\": \"OK\",\n   \"label\": \"출생 후 1년 이내 및 연령별 특별금리\",\n   \"source\": {\n    \"quote\": \"가. 이예금가입고객이출생후1 년이내, 만7 세, 만13 세, 만16 세가되는해당계약기간별1 년간 연0.30%\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"customer.age\"\n       },\n       0\n      ]\n     },\n     {\n      \"not\": {\n       \"in\": [\n        {\n         \"var\": \"customer.age\"\n        },\n        [\n         7,\n         13,\n         16\n        ]\n       ]\n      }\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.3,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R12-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"단체 신규 가입 특별금리\",\n   \"source\": {\n    \"quote\": \"나. 이예금가입고객이동일기관, 학교등단체신규10 인이상가입한경우, 가입후1 년간연0.30%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R12-03\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"대리인 보유 시 특별금리\",\n   \"source\": {\n    \"quote\": \"다. 예금주가만3세이하이고대리인이「(아이) 꿈하나적금」을신규하는시점에「(태아)사랑하나적금」을 보유하고있거나보유한적이있는경우, 가입후1 년간연1.00%(단, 최초1 회에한함)\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R12-04\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"희망대학입학축하금리\",\n   \"source\": {\n    \"quote\": \"②희망대학입학축하금리: 만기전1 년간연2.00%(만14 세까지희망대학등록가능)\"\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 218.4
+ },
+ {
+  "clause_id": "HNDRM-S2-R13",
+  "run": 0,
+  "n_attempts": 2,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 7
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 7
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNDRM-S2-R13-01",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 계산 - 1개월 미만",
+     "source": {
+      "quote": "1개월미만 연0.10%"
+     },
+     "condition": {
+      "<": [
+       {
+        "var": "contract.term_months"
+       },
+       1
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R13-02",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 계산 - 1개월 이상 ~ 3개월 미만",
+     "source": {
+      "quote": "1개월이상~ 3개월미만 연0.15%"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         1
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         3
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R13-03",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 계산 - 3개월 이상 ~ 6개월 미만",
+     "source": {
+      "quote": "3개월이상~ 6개월미만 연0.20%"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         3
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         6
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R13-04",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 계산 - 6개월 이상",
+     "source": {
+      "quote": "6개월이상"
+     },
+     "condition": {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       6
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R13-05",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 계산 - 차등율 적용",
+     "source": {
+      "quote": "차등율: 기간(6개월이상)에 따른 아래 차등율 참고"
+     },
+     "condition": {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       6
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R13-06",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 계산 - 경과율 적용",
+     "source": {
+      "quote": "경과율: 경과일수/ 계약일수"
+     },
+     "condition": {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       6
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R13-07",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 계산 - 소수점 절사",
+     "source": {
+      "quote": "중도해지금리는 소수점세째자리까지 적용(소수점넷째짜리에서 절사)"
+     },
+     "condition": {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       6
+      ]
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNDRM-S2-R13-01\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지금리 계산 - 1개월 미만\",\n   \"source\": {\n    \"quote\": \"1개월미만 연0.10%\"\n   },\n   \"condition\": {\n    \"<\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     1\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.10\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R13-02\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지금리 계산 - 1개월 이상 ~ 3개월 미만\",\n   \"source\": {\n    \"quote\": \"1개월이상~ 3개월미만 연0.15%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     1\n    ],\n    \"<\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     3\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.15\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R13-03\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지금리 계산 - 3개월 이상 ~ 6개월 미만\",\n   \"source\": {\n    \"quote\": \"3개월이상~ 6개월미만 연0.20%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     3\n    ],\n    \"<\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.20\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R13-04\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지금리 계산 - 6개월 이상\",\n   \"source\": {\n    \"quote\": \"6개월이상\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.20\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R13-05\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지금리 계산 - 차등율 적용\",\n   \"source\": {\n    \"quote\": \"차등율: 기간(6개월이상)에 따른 아래 차등율 참고\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 0.20\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R13-06\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지금리 계산 - 경과율 적용\",\n   \"source\": {\n    \"quote\": \"경과율: 경과일수/ 계약일수\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 0.20\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R13-07\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지금리 계산 - 소수점 절사\",\n   \"source\": {\n    \"quote\": \"중도해지금리는 소수점세째자리까지 적용(소수점넷째짜리에서 절사)\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 0.20\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNDRM-S2-R13-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지금리 계산 - 1개월 미만\",\n   \"source\": {\n    \"quote\": \"1개월미만 연0.10%\"\n   },\n   \"condition\": {\n    \"<\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     1\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R13-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지금리 계산 - 1개월 이상 ~ 3개월 미만\",\n   \"source\": {\n    \"quote\": \"1개월이상~ 3개월미만 연0.15%\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"contract.term_months\"\n       },\n       1\n      ]\n     },\n     {\n      \"<\": [\n       {\n        \"var\": \"contract.term_months\"\n       },\n       3\n      ]\n     }\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R13-03\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지금리 계산 - 3개월 이상 ~ 6개월 미만\",\n   \"source\": {\n    \"quote\": \"3개월이상~ 6개월미만 연0.20%\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"contract.term_months\"\n       },\n       3\n      ]\n     },\n     {\n      \"<\": [\n       {\n        \"var\": \"contract.term_months\"\n       },\n       6\n      ]\n     }\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R13-04\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지금리 계산 - 6개월 이상\",\n   \"source\": {\n    \"quote\": \"6개월이상\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R13-05\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지금리 계산 - 차등율 적용\",\n   \"source\": {\n    \"quote\": \"차등율: 기간(6개월이상)에 따른 아래 차등율 참고\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R13-06\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지금리 계산 - 경과율 적용\",\n   \"source\": {\n    \"quote\": \"경과율: 경과일수/ 계약일수\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R13-07\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지금리 계산 - 소수점 절사\",\n   \"source\": {\n    \"quote\": \"중도해지금리는 소수점세째자리까지 적용(소수점넷째짜리에서 절사)\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ]\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 163.1
+ },
+ {
+  "clause_id": "HNDRM-S2-R14",
+  "run": 0,
+  "n_attempts": 2,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNDRM-S2-R14-01",
+     "status": "UNSUPPORTED",
+     "label": "만기 후 1개월 이내 금리",
+     "source": {
+      "quote": "• 1개월이내: 지급당시해당기간별정기적금기본금리½"
+     },
+     "condition": {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.term_months"
+         },
+         1
+        ]
+       },
+       {
+        "<": [
+         {
+          "var": "contract.term_months"
+         },
+         2
+        ]
+       }
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNDRM-S2-R14-02",
+     "status": "UNSUPPORTED",
+     "label": "만기 후 1개월 초과 금리",
+     "source": {
+      "quote": "• 1개월초과: 지급당시해당기간별정기적금기본금리¼"
+     },
+     "condition": {
+      ">": [
+       {
+        "var": "contract.term_months"
+       },
+       1
+      ]
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNDRM-S2-R14-01\",\n   \"status\": \"OK\",\n   \"label\": \"만기 후 1개월 이내 금리\",\n   \"source\": {\n    \"quote\": \"• 1개월이내: 지급당시해당기간별정기적금기본금리½\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     1\n    ],\n    \"<\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     2\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 50,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R14-02\",\n   \"status\": \"OK\",\n   \"label\": \"만기 후 1개월 초과 금리\",\n   \"source\": {\n    \"quote\": \"• 1개월초과: 지급당시해당기간별정기적금기본금리¼\"\n   },\n   \"condition\": {\n    \">\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     1\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 75,\n    \"unit\": \"%\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNDRM-S2-R14-01\",\n   \"status\": \"OK\",\n   \"label\": \"만기 후 1개월 이내 금리\",\n   \"source\": {\n    \"quote\": \"• 1개월이내: 지급당시해당기간별정기적금기본금리½\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \">=\": [\n       {\n        \"var\": \"contract.term_months\"\n       },\n       1\n      ]\n     },\n     {\n      \"<\": [\n       {\n        \"var\": \"contract.term_months\"\n       },\n       2\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 50,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNDRM-S2-R14-02\",\n   \"status\": \"OK\",\n   \"label\": \"만기 후 1개월 초과 금리\",\n   \"source\": {\n    \"quote\": \"• 1개월초과: 지급당시해당기간별정기적금기본금리¼\"\n   },\n   \"condition\": {\n    \">\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     1\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 75,\n    \"unit\": \"%\"\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [
+   "R-HNDRM-S2-R14-01",
+   "R-HNDRM-S2-R14-02"
+  ],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 58.3
+ },
+ {
+  "clause_id": "HNDRM-S2-R15",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNDRM-S2-R15-01",
+     "status": "UNSUPPORTED",
+     "label": "이자계산방법",
+     "source": {
+      "quote": "저축금마다입금일부터만기일전일까지기간에대하여약정금리로계산한이자를합계하여지급"
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNDRM-S2-R15-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"이자계산방법\",\n   \"source\": {\n    \"quote\": \"저축금마다입금일부터만기일전일까지기간에대하여약정금리로계산한이자를합계하여지급\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNDRM-S2-R15-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"이자계산방법\",\n   \"source\": {\n    \"quote\": \"저축금마다입금일부터만기일전일까지기간에대하여약정금리로계산한이자를합계하여지급\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 9.5
+ },
+ {
+  "clause_id": "HNDRM-S2-R24",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 6.8
+ },
+ {
+  "clause_id": "HNWSH-S1-P01",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "SUMMARY"
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 5.3
+ },
+ {
+  "clause_id": "HNWSH-S2-R01",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNWSH-S2-R01-01",
+     "status": "OK",
+     "label": "개인 명의 가입 제한",
+     "source": {
+      "quote": "실명의 개인 (1인 1계좌까지만 가능)"
+     },
+     "condition": {
+      "not": {
+       "in": [
+        {
+         "var": "customer.holder_type"
+        },
+        [
+         "INDIVIDUAL"
+        ]
+       ]
+      }
+     },
+     "effect": {
+      "type": "DISQUALIFY"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNWSH-S2-R01-01\",\n   \"status\": \"OK\",\n   \"label\": \"개인 명의 가입 제한\",\n   \"source\": {\n    \"quote\": \"실명의 개인 (1인 1계좌까지만 가능)\"\n   },\n   \"condition\": {\n    \"not\": {\n     \"in\": [\n      {\n       \"var\": \"customer.holder_type\"\n      },\n      [\n       \"INDIVIDUAL\"\n      ]\n     ]\n    }\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNWSH-S2-R01-01\",\n   \"status\": \"OK\",\n   \"label\": \"개인 명의 가입 제한\",\n   \"source\": {\n    \"quote\": \"실명의 개인 (1인 1계좌까지만 가능)\"\n   },\n   \"condition\": {\n    \"not\": {\n     \"in\": [\n      {\n       \"var\": \"customer.holder_type\"\n      },\n      [\n       \"INDIVIDUAL\"\n      ]\n     ]\n    }\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 12.6
+ },
+ {
+  "clause_id": "HNWSH-S2-R03",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "LABEL"
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 5.9
+ },
+ {
+  "clause_id": "HNWSH-S2-R06",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 1
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": false,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 1
+  },
+  "errors": [
+   "quote 가 조문 원문에 없다: '하나체크카드 사용에 따른 자동 적립을 원하는 경우 \"소비 재테크 서비스\"'. 요약하거나 바꿔 쓰지 말고 원문을 그대로 옮긴다"
+  ],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNWSH-S2-R06-01\",\n   \"status\": \"OK\",\n   \"label\": \"소비 재테크 서비스 신청 시 자동 적립 적용\",\n   \"source\": {\n    \"quote\": \"하나체크카드 사용에 따른 자동 적립을 원하는 경우 \\\"소비 재테크 서비스\\\"를 신청하여야 하고 서비스 신청 당일 체크카드 사용금액부터 다음 영업일에 자동 적립이 적용됩니다.\"\n   },\n   \"condition\": {\n    \"exists\": {\n     \"event\": \"CARD_USAGE\"\n    }\n   },\n   \"effect\": {\n    \"type\": \"SERVICE_PROVIDE\",\n    \"target\": \"AUTO_DEPOSIT\",\n    \"value\": \"APPLY\",\n    \"unit\": \"DAY\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNWSH-S2-R06-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"소비 재테크 서비스 신청 시 자동 적립 적용\",\n   \"source\": {\n    \"quote\": \"하나체크카드 사용에 따른 자동 적립을 원하는 경우 \\\"소비 재테크 서비스\\\"를 신청하여야 하고 서비스 신청 당일 체크카드 사용금액부터 다음 영업일에 자동 적립이 적용됩니다.\"\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": {
+   "rules": [
+    {
+     "rule_id": "R-HNWSH-S2-R06-01",
+     "status": "UNSUPPORTED",
+     "label": "소비 재테크 서비스 신청 시 자동 적립 적용",
+     "source": {
+      "quote": "하나체크카드 사용에 따른 자동 적립을 원하는 경우 \"소비 재테크 서비스\"를 신청하여야 하고 서비스 신청 당일 체크카드 사용금액부터 다음 영업일에 자동 적립이 적용됩니다."
+     }
+    }
+   ]
+  },
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 39.7
+ },
+ {
+  "clause_id": "HNWSH-S2-R09",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 4
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 4
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNWSH-S2-R09-01",
+     "status": "OK",
+     "label": "기본금리 적용",
+     "source": {
+      "quote": "6개월이상 12개월이상 24개월이상\n기간 36개월\n~12개월미만 ~24개월미만 ~36개월미만\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%"
+     },
+     "condition": {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       6
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 0.65,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R09-02",
+     "status": "OK",
+     "label": "기본금리 적용",
+     "source": {
+      "quote": "6개월이상 12개월이상 24개월이상\n기간 36개월\n~12개월미만 ~24개월미만 ~36개월미만\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%"
+     },
+     "condition": {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       12
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 0.75,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R09-03",
+     "status": "OK",
+     "label": "기본금리 적용",
+     "source": {
+      "quote": "6개월이상 12개월이상 24개월이상\n기간 36개월\n~12개월미만 ~24개월미만 ~36개월미만\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%"
+     },
+     "condition": {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       24
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 0.85,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R09-04",
+     "status": "OK",
+     "label": "기본금리 적용",
+     "source": {
+      "quote": "6개월이상 12개월이상 24개월이상\n기간 36개월\n~12개월미만 ~24개월미만 ~36개월미만\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%"
+     },
+     "condition": {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       36
+      ]
+     },
+     "effect": {
+      "type": "RATE_OVERRIDE",
+      "value": 0.95,
+      "unit": "%"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNWSH-S2-R09-01\",\n   \"status\": \"OK\",\n   \"label\": \"기본금리 적용\",\n   \"source\": {\n    \"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.65,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R09-02\",\n   \"status\": \"OK\",\n   \"label\": \"기본금리 적용\",\n   \"source\": {\n    \"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     12\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.75,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R09-03\",\n   \"status\": \"OK\",\n   \"label\": \"기본금리 적용\",\n   \"source\": {\n    \"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     24\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.85,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R09-04\",\n   \"status\": \"OK\",\n   \"label\": \"기본금리 적용\",\n   \"source\": {\n    \"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     36\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.95,\n    \"unit\": \"%\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNWSH-S2-R09-01\",\n   \"status\": \"OK\",\n   \"label\": \"기본금리 적용\",\n   \"source\": {\n    \"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     6\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.65,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R09-02\",\n   \"status\": \"OK\",\n   \"label\": \"기본금리 적용\",\n   \"source\": {\n    \"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     12\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.75,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R09-03\",\n   \"status\": \"OK\",\n   \"label\": \"기본금리 적용\",\n   \"source\": {\n    \"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     24\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.85,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R09-04\",\n   \"status\": \"OK\",\n   \"label\": \"기본금리 적용\",\n   \"source\": {\n    \"quote\": \"6개월이상 12개월이상 24개월이상\\n기간 36개월\\n~12개월미만 ~24개월미만 ~36개월미만\\n금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     36\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": 0.95,\n    \"unit\": \"%\"\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 64.7
+ },
+ {
+  "clause_id": "HNWSH-S2-R10",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 3
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 3
+  },
+  "errors": [
+   "조건식이 틀렸다: exists의 event 가 카탈로그에 없다: `RECOMMENDATION`. 쓸 수 있는 것: APP_LOGIN, AUTO_TRANSFER, CARD_USAGE, DEPOSIT, FX_TRANSACTION, NAME_CHANGE, PENSION_RECEIPT, PRODUCT_SWITCH, SALARY_TRANSFER, TERMINATION, TRANSACTION_CORRECTION, WITHDRAWAL (위치 rules/2/condition)",
+   "카탈로그에 없는 이벤트: RECOMMENDATION. 쓸 수 있는 것: APP_LOGIN, AUTO_TRANSFER, CARD_USAGE, DEPOSIT, FX_TRANSACTION, NAME_CHANGE, PENSION_RECEIPT, PRODUCT_SWITCH, SALARY_TRANSFER, TERMINATION, TRANSACTION_CORRECTION, WITHDRAWAL",
+   "실행 불가: DslError: 미바인딩 참조: $contract_term. let 에 먼저 묶어야 한다: {\"let\": {\"contract_term\": {...}}}",
+   "실행 불가: DslError: 카탈로그에 없는 이벤트: RECOMMENDATION. 쓸 수 있는 것: SALARY_TRANSFER, AUTO_TRANSFER, CARD_USAGE, DEPOSIT, WITHDRAWAL, PENSION_RECEIPT, FX_TRANSACTION, PRODUCT_SWITCH, TERMINATION, APP_LOGIN, TRANSACTION_CORRECTION, NAME_CHANGE"
+  ],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNWSH-S2-R10-01\",\n   \"status\": \"OK\",\n   \"label\": \"목표 불입금액 달성 우대금리\",\n   \"source\": {\n    \"quote\": \"① 목표 불입금액 달성 우대 (연 0.2%)\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"in\": [\n       {\n        \"var\": \"contract.termination_type\"\n       },\n       [\n        \"MATURITY\"\n       ]\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"var\": \"contract.amount\"\n       },\n       {\n        \"count_events\": {\n         \"event\": \"DEPOSIT\",\n         \"within\": {\n          \"ref\": \"$contract_term\"\n         }\n        }\n       }\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.2,\n    \"unit\": \"PERCENT\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R10-02\",\n   \"status\": \"OK\",\n   \"label\": \"소비 재테크 자동 적립 우대금리\",\n   \"source\": {\n    \"quote\": \"② 소비 재테크 자동 적립 우대 (최대 연 0.4%)\"\n   },\n   \"let\": {\n    \"contract_term\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": 0,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.maturity_date\",\n       \"offset_months\": 0,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"in\": [\n       {\n        \"var\": \"contract.termination_type\"\n       },\n       [\n        \"MATURITY\"\n       ]\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"var\": \"count_events\"\n       },\n       {\n        \"event\": \"CARD_USAGE\",\n        \"within\": {\n         \"ref\": \"$contract_term\"\n        }\n       }\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": {\n      \"switch\": {\n        \"case\": {\n          \">=\": [\n            {\n              \"var\": \"count_events\"\n            },\n            10\n          ],\n          \"value\": 0.1\n        },\n        \"case\": {\n          \">=\": [\n            {\n              \"var\": \"count_events\"\n            },\n            20\n          ],\n          \"value\": 0.2\n        },\n        \"case\": {\n          \">=\": [\n            {\n              \"var\": \"count_events\"\n            },\n            30\n          ],\n          \"value\": 0.3\n        },\n        \"case\": {\n          \">=\": [\n            {\n              \"var\": \"count_events\"\n            },\n            40\n          ],\n          \"value\": 0.4\n        },\n        \"default\": 0\n      }\n    },\n    \"unit\": \"PERCENT\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R10-03\",\n   \"status\": \"OK\",\n   \"label\": \"추천인 우대금리\",\n   \"source\": {\n    \"quote\": \"③ 추천인 우대 (최대 연 0.2%)\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"in\": [\n       {\n        \"var\": \"contract.termination_type\"\n       },\n       [\n        \"MATURITY\"\n       ]\n      ]\n     },\n     {\n      \"exists\": {\n       \"event\": \"RECOMMENDATION\"\n      }\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.2,\n    \"unit\": \"PERCENT\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNWSH-S2-R10-01\",\n   \"status\": \"OK\",\n   \"label\": \"목표 불입금액 달성 우대금리\",\n   \"source\": {\n    \"quote\": \"① 목표 불입금액 달성 우대 (연 0.2%)\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"in\": [\n       {\n        \"var\": \"contract.termination_type\"\n       },\n       [\n        \"MATURITY\"\n       ]\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"var\": \"contract.amount\"\n       },\n       {\n        \"count_events\": {\n         \"event\": \"DEPOSIT\",\n         \"within\": {\n          \"ref\": \"$contract_term\"\n         }\n        }\n       }\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.2,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R10-02\",\n   \"status\": \"OK\",\n   \"label\": \"소비 재테크 자동 적립 우대금리\",\n   \"source\": {\n    \"quote\": \"② 소비 재테크 자동 적립 우대 (최대 연 0.4%)\"\n   },\n   \"let\": {\n    \"contract_term\": {\n     \"month_range\": {\n      \"from\": {\n       \"anchor\": \"contract.start_date\",\n       \"offset_months\": 0,\n       \"day\": \"first\"\n      },\n      \"to\": {\n       \"anchor\": \"contract.maturity_date\",\n       \"offset_months\": 0,\n       \"day\": \"last\"\n      }\n     }\n    }\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"in\": [\n       {\n        \"var\": \"contract.termination_type\"\n       },\n       [\n        \"MATURITY\"\n       ]\n      ]\n     },\n     {\n      \">=\": [\n       {\n        \"count_events\": {\n         \"event\": \"CARD_USAGE\",\n         \"within\": {\n          \"ref\": \"$contract_term\"\n         }\n        }\n       },\n       40\n      ]\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_ADD\",\n    \"value\": 0.4,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R10-03\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"추천인 우대금리\",\n   \"source\": {\n    \"quote\": \"③ 추천인 우대 (최대 연 0.2%)\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"in\": [\n       {\n        \"var\": \"contract.termination_type\"\n       },\n       [\n        \"MATURITY\"\n       ]\n      ]\n     },\n     {\n      \"exists\": {\n       \"event\": \"RECOMMENDATION\"\n      }\n     }\n    ]\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": {
+   "rules": [
+    {
+     "rule_id": "R-HNWSH-S2-R10-01",
+     "status": "OK",
+     "label": "목표 불입금액 달성 우대금리",
+     "source": {
+      "quote": "① 목표 불입금액 달성 우대 (연 0.2%)"
+     },
+     "condition": {
+      "and": [
+       {
+        "in": [
+         {
+          "var": "contract.termination_type"
+         },
+         [
+          "MATURITY"
+         ]
+        ]
+       },
+       {
+        ">=": [
+         {
+          "var": "contract.amount"
+         },
+         {
+          "count_events": {
+           "event": "DEPOSIT",
+           "within": {
+            "ref": "$contract_term"
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_ADD",
+      "value": 0.2,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R10-02",
+     "status": "OK",
+     "label": "소비 재테크 자동 적립 우대금리",
+     "source": {
+      "quote": "② 소비 재테크 자동 적립 우대 (최대 연 0.4%)"
+     },
+     "let": {
+      "contract_term": {
+       "month_range": {
+        "from": {
+         "anchor": "contract.start_date",
+         "offset_months": 0,
+         "day": "first"
+        },
+        "to": {
+         "anchor": "contract.maturity_date",
+         "offset_months": 0,
+         "day": "last"
+        }
+       }
+      }
+     },
+     "condition": {
+      "and": [
+       {
+        "in": [
+         {
+          "var": "contract.termination_type"
+         },
+         [
+          "MATURITY"
+         ]
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_events": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$contract_term"
+           }
+          }
+         },
+         40
+        ]
+       }
+      ]
+     },
+     "effect": {
+      "type": "RATE_ADD",
+      "value": 0.4,
+      "unit": "%"
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R10-03",
+     "status": "UNSUPPORTED",
+     "label": "추천인 우대금리",
+     "source": {
+      "quote": "③ 추천인 우대 (최대 연 0.2%)"
+     },
+     "condition": {
+      "and": [
+       {
+        "in": [
+         {
+          "var": "contract.termination_type"
+         },
+         [
+          "MATURITY"
+         ]
+        ]
+       },
+       {
+        "exists": {
+         "event": "RECOMMENDATION"
+        }
+       }
+      ]
+     }
+    }
+   ]
+  },
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 188.4
+ },
+ {
+  "clause_id": "HNWSH-S2-R11",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 3,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": false,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 8
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 8
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNWSH-S2-R11-01",
+     "status": "UNSUPPORTED",
+     "label": "서비스 신청 대상",
+     "source": {
+      "quote": "※ 본 서비스는 신청 고객에 한하여 제공"
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R11-02",
+     "status": "UNSUPPORTED",
+     "label": "적립금액 설정 방식",
+     "source": {
+      "quote": "▶ 적립금액 설정 방식 : 아래 2가지 중 선택"
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R11-03",
+     "status": "OK",
+     "label": "적립금액 범위",
+     "source": {
+      "quote": "1일 자동적립금액은 최소 1천원에서 최대 10만원까지 1천원 단위 (1천원 미만 단위는 절사)"
+     },
+     "condition": {},
+     "effect": {
+      "type": "LIMIT_AMOUNT",
+      "value": 1000
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R11-04",
+     "status": "UNSUPPORTED",
+     "label": "적립금액 단위",
+     "source": {
+      "quote": "1일 자동적립금액은 최소 1천원에서 최대 10만원까지 1천원 단위 (1천원 미만 단위는 절사)"
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R11-05",
+     "status": "UNSUPPORTED",
+     "label": "적립일 처리",
+     "source": {
+      "quote": "단, 적립일이 은행영업일이 아닌 경우에는 다음 영업일에 합산하여 적립"
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R11-06",
+     "status": "UNSUPPORTED",
+     "label": "적립 실패 처리",
+     "source": {
+      "quote": "적립 당시 출금계좌의 잔액 부족 등의 사유로 처리 불능 시에는 재처리 하지 않으며, 그 이후에는 부족자금이 채워져도 적립 불가"
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R11-07",
+     "status": "UNSUPPORTED",
+     "label": "대출약정 출금 처리",
+     "source": {
+      "quote": "적립 당시 출금계좌에 통장대출약정이 체결되어 있는 경우 대출금액을 포함하여 자동 출금 후 적립 처리"
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R11-08",
+     "status": "UNSUPPORTED",
+     "label": "적립한도 제외",
+     "source": {
+      "quote": "하나체크카드 사용에 따른 자동적립금액은 1개월 적립한도에 포함되지 않음"
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNWSH-S2-R11-01\",\n   \"status\": \"OK\",\n   \"label\": \"서비스 신청 대상\",\n   \"source\": {\n    \"quote\": \"※ 본 서비스는 신청 고객에 한하여 제공\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"customer.eligibility\"\n     },\n     [\n      \"APPLIED\"\n     ]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"APPLIED\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R11-02\",\n   \"status\": \"OK\",\n   \"label\": \"적립금액 설정 방식\",\n   \"source\": {\n    \"quote\": \"▶ 적립금액 설정 방식 : 아래 2가지 중 선택\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"contract.contribution_type\"\n     },\n     [\n      \"RATIO\",\n      \"FIXED\"\n     ]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"RATIO_OR_FIXED\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R11-03\",\n   \"status\": \"OK\",\n   \"label\": \"적립금액 범위\",\n   \"source\": {\n    \"quote\": \"1일 자동적립금액은 최소 1천원에서 최대 10만원까지 1천원 단위 (1천원 미만 단위는 절사)\"\n   },\n   \"condition\": {\n    \">=\": [\n     {\n      \"var\": \"contract.contribution_amount\"\n     },\n     1000\n    ],\n    \"<=\": [\n     {\n      \"var\": \"contract.contribution_amount\"\n     },\n     100000\n    ]\n   },\n   \"effect\": {\n    \"type\": \"LIMIT_AMOUNT\",\n    \"value\": 1000\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R11-04\",\n   \"status\": \"OK\",\n   \"label\": \"적립금액 단위\",\n   \"source\": {\n    \"quote\": \"1일 자동적립금액은 최소 1천원에서 최대 10만원까지 1천원 단위 (1천원 미만 단위는 절사)\"\n   },\n   \"condition\": {\n    \"mod\": [\n     {\n      \"var\": \"contract.contribution_amount\"\n     },\n     1000\n    ],\n    \"value\": 0\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"MULTIPLE_OF_1000\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R11-05\",\n   \"status\": \"OK\",\n   \"label\": \"적립일 처리\",\n   \"source\": {\n    \"quote\": \"단, 적립일이 은행영업일이 아닌 경우에는 다음 영업일에 합산하여 적립\"\n   },\n   \"condition\": {\n    \"not\": {\n     \"in\": [\n      {\n       \"var\": \"contract.contribution_day\"\n      },\n      [\n       \"BUSINESS_DAY\"\n      ]\n     ]\n    }\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"NEXT_BUSINESS_DAY\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R11-06\",\n   \"status\": \"OK\",\n   \"label\": \"적립 실패 처리\",\n   \"source\": {\n    \"quote\": \"적립 당시 출금계좌의 잔액 부족 등의 사유로 처리 불능 시에는 재처리 하지 않으며, 그 이후에는 부족자금이 채워져도 적립 불가\"\n   },\n   \"condition\": {\n    \"not\": {\n     \"exists\": {\n      \"event\": \"CONTRIBUTION_SUCCESS\"\n     }\n    }\n   },\n   \"effect\": {\n    \"type\": \"DISQUALIFY\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R11-07\",\n   \"status\": \"OK\",\n   \"label\": \"대출약정 출금 처리\",\n   \"source\": {\n    \"quote\": \"적립 당시 출금계좌에 통장대출약정이 체결되어 있는 경우 대출금액을 포함하여 자동 출금 후 적립 처리\"\n   },\n   \"condition\": {\n    \"in\": [\n     {\n      \"var\": \"account.loan_agreement\"\n     },\n     [\n      \"YES\"\n     ]\n    ]\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"INCLUDE_LOAN_BALANCE\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R11-08\",\n   \"status\": \"OK\",\n   \"label\": \"적립한도 제외\",\n   \"source\": {\n    \"quote\": \"하나체크카드 사용에 따른 자동적립금액은 1개월 적립한도에 포함되지 않음\"\n   },\n   \"condition\": {\n    \"not\": {\n     \"in\": [\n      {\n       \"var\": \"contract.contribution_limit\"\n      },\n      [\n       \"INCLUDE\"\n      ]\n     ]\n    }\n   },\n   \"effect\": {\n    \"type\": \"REQUIRE\",\n    \"value\": \"EXCLUDE\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNWSH-S2-R11-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"서비스 신청 대상\",\n   \"source\": {\n    \"quote\": \"※ 본 서비스는 신청 고객에 한하여 제공\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R11-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"적립금액 설정 방식\",\n   \"source\": {\n    \"quote\": \"▶ 적립금액 설정 방식 : 아래 2가지 중 선택\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R11-03\",\n   \"status\": \"OK\",\n   \"label\": \"적립금액 범위\",\n   \"source\": {\n    \"quote\": \"1일 자동적립금액은 최소 1천원에서 최대 10만원까지 1천원 단위 (1천원 미만 단위는 절사)\"\n   },\n   \"condition\": {},\n   \"effect\": {\n    \"type\": \"LIMIT_AMOUNT\",\n    \"value\": 1000\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R11-04\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"적립금액 단위\",\n   \"source\": {\n    \"quote\": \"1일 자동적립금액은 최소 1천원에서 최대 10만원까지 1천원 단위 (1천원 미만 단위는 절사)\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R11-05\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"적립일 처리\",\n   \"source\": {\n    \"quote\": \"단, 적립일이 은행영업일이 아닌 경우에는 다음 영업일에 합산하여 적립\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R11-06\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"적립 실패 처리\",\n   \"source\": {\n    \"quote\": \"적립 당시 출금계좌의 잔액 부족 등의 사유로 처리 불능 시에는 재처리 하지 않으며, 그 이후에는 부족자금이 채워져도 적립 불가\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R11-07\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"대출약정 출금 처리\",\n   \"source\": {\n    \"quote\": \"적립 당시 출금계좌에 통장대출약정이 체결되어 있는 경우 대출금액을 포함하여 자동 출금 후 적립 처리\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R11-08\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"적립한도 제외\",\n   \"source\": {\n    \"quote\": \"하나체크카드 사용에 따른 자동적립금액은 1개월 적립한도에 포함되지 않음\"\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 238.9
+ },
+ {
+  "clause_id": "HNWSH-S2-R12",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 2,
+  "first": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 6
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": false,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": false,
+   "empty": false,
+   "n_rules": 6
+  },
+  "errors": [
+   "조건식이 틀렸다: `var` 단독은 조건식이 아니다. 비교로 감싼다: {\"==\": [{\"var\": \"…\"}, 값]} (위치 rules/0/condition)",
+   "조건식이 틀렸다: `var` 단독은 조건식이 아니다. 비교로 감싼다: {\"==\": [{\"var\": \"…\"}, 값]} (위치 rules/1/condition)",
+   "실행 불가: DslError: var 단독은 조건식이 아니다. 비교로 감싸야 한다: {\"==\": [ {\"var\": \"…\"}, 값 ]}",
+   "실행 불가: DslError: var 단독은 조건식이 아니다. 비교로 감싸야 한다: {\"==\": [ {\"var\": \"…\"}, 값 ]}"
+  ],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNWSH-S2-R12-01\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지금리 계산\",\n   \"source\": {\n    \"quote\": \"■ 입금 금액마다 입금일로부터 중도해지일 전일까지의 기간에 대하여 예치기간별 중도해지금리로 계산한 이자를 합계 (원미만 절사)\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"not\": {\n       \"in\": [\n        {\n         \"var\": \"contract.termination_type\"\n        },\n        [\n         \"MATURITY\",\n         \"NONE\"\n        ]\n       ]\n      }\n     },\n     {\n      \"var\": \"contract.termination_type\"\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": {\n      \"type\": \"CALCULATED\",\n      \"formula\": \"contract.base_rate * (if (contract.term_months >= 11, 0.9, if (contract.term_months >= 9, 0.7, if (contract.term_months >= 6, 0.6, 0))) * (count_distinct_months / contract.term_months))\"\n    }\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R12-02\",\n   \"status\": \"OK\",\n   \"label\": \"중도해지금리 기간별 적용\",\n   \"source\": {\n    \"quote\": \"기간 중도해지금리\\n1개월 미만 연 0.1%\\n1개월 이상 ~ 3개월 미만 연 0.15%\\n3개월 이상 ~ 6개월 미만 연 0.2%\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"not\": {\n       \"in\": [\n        {\n         \"var\": \"contract.termination_type\"\n        },\n        [\n         \"MATURITY\",\n         \"NONE\"\n        ]\n       ]\n      }\n     },\n     {\n      \"var\": \"contract.termination_type\"\n     }\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_OVERRIDE\",\n    \"value\": {\n      \"type\": \"CALCULATED\",\n      \"formula\": \"contract.base_rate * (if (contract.term_months >= 11, 0.9, if (contract.term_months >= 9, 0.7, if (contract.term_months >= 6, 0.6, 0))) * (count_distinct_months / contract.term_months))\"\n    }\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R12-03\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"차등률 적용\",\n   \"source\": {\n    \"quote\": \"가입(재예치)당시 해당상품의 기본금리ⅹ차등률(주1)ⅹ경과율(주2)\"\n   },\n   \"condition\": {}\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R12-04\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"경과율 적용\",\n   \"source\": {\n    \"quote\": \"경과율 : 경과일수/계약일수 (단, 경과일수는 계약일수를 초과할 수 없음)\"\n   },\n   \"condition\": {}\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R12-05\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"소수점 처리\",\n   \"source\": {\n    \"quote\": \"※ 중도해지금리는 소수점 셋째자리까지 적용(소수점 넷째자리에서 절사)\"\n   },\n   \"condition\": {}\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R12-06\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"예시 계산\",\n   \"source\": {\n    \"quote\": \"(예시) 중도해지금리가 1.564721%로 산출 시 1.564%로 적용\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNWSH-S2-R12-01\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지금리 계산\",\n   \"source\": {\n    \"quote\": \"■ 입금 금액마다 입금일로부터 중도해지일 전일까지의 기간에 대하여 예치기간별 중도해지금리로 계산한 이자를 합계 (원미만 절사)\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"not\": {\n       \"in\": [\n        {\n         \"var\": \"contract.termination_type\"\n        },\n        [\n         \"MATURITY\",\n         \"NONE\"\n        ]\n       ]\n      }\n     },\n     {\n      \"var\": \"contract.termination_type\"\n     }\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R12-02\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"중도해지금리 기간별 적용\",\n   \"source\": {\n    \"quote\": \"기간 중도해지금리\\n1개월 미만 연 0.1%\\n1개월 이상 ~ 3개월 미만 연 0.15%\\n3개월 이상 ~ 6개월 미만 연 0.2%\"\n   },\n   \"condition\": {\n    \"and\": [\n     {\n      \"not\": {\n       \"in\": [\n        {\n         \"var\": \"contract.termination_type\"\n        },\n        [\n         \"MATURITY\",\n         \"NONE\"\n        ]\n       ]\n      }\n     },\n     {\n      \"var\": \"contract.termination_type\"\n     }\n    ]\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R12-03\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"차등률 적용\",\n   \"source\": {\n    \"quote\": \"가입(재예치)당시 해당상품의 기본금리ⅹ차등률(주1)ⅹ경과율(주2)\"\n   },\n   \"condition\": {}\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R12-04\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"경과율 적용\",\n   \"source\": {\n    \"quote\": \"경과율 : 경과일수/계약일수 (단, 경과일수는 계약일수를 초과할 수 없음)\"\n   },\n   \"condition\": {}\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R12-05\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"소수점 처리\",\n   \"source\": {\n    \"quote\": \"※ 중도해지금리는 소수점 셋째자리까지 적용(소수점 넷째자리에서 절사)\"\n   },\n   \"condition\": {}\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R12-06\",\n   \"status\": \"UNSUPPORTED\",\n   \"label\": \"예시 계산\",\n   \"source\": {\n    \"quote\": \"(예시) 중도해지금리가 1.564721%로 산출 시 1.564%로 적용\"\n   },\n   \"condition\": {}\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": {
+   "rules": [
+    {
+     "rule_id": "R-HNWSH-S2-R12-01",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 계산",
+     "source": {
+      "quote": "■ 입금 금액마다 입금일로부터 중도해지일 전일까지의 기간에 대하여 예치기간별 중도해지금리로 계산한 이자를 합계 (원미만 절사)"
+     },
+     "condition": {
+      "and": [
+       {
+        "not": {
+         "in": [
+          {
+           "var": "contract.termination_type"
+          },
+          [
+           "MATURITY",
+           "NONE"
+          ]
+         ]
+        }
+       },
+       {
+        "var": "contract.termination_type"
+       }
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R12-02",
+     "status": "UNSUPPORTED",
+     "label": "중도해지금리 기간별 적용",
+     "source": {
+      "quote": "기간 중도해지금리\n1개월 미만 연 0.1%\n1개월 이상 ~ 3개월 미만 연 0.15%\n3개월 이상 ~ 6개월 미만 연 0.2%"
+     },
+     "condition": {
+      "and": [
+       {
+        "not": {
+         "in": [
+          {
+           "var": "contract.termination_type"
+          },
+          [
+           "MATURITY",
+           "NONE"
+          ]
+         ]
+        }
+       },
+       {
+        "var": "contract.termination_type"
+       }
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R12-03",
+     "status": "UNSUPPORTED",
+     "label": "차등률 적용",
+     "source": {
+      "quote": "가입(재예치)당시 해당상품의 기본금리ⅹ차등률(주1)ⅹ경과율(주2)"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R12-04",
+     "status": "UNSUPPORTED",
+     "label": "경과율 적용",
+     "source": {
+      "quote": "경과율 : 경과일수/계약일수 (단, 경과일수는 계약일수를 초과할 수 없음)"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R12-05",
+     "status": "UNSUPPORTED",
+     "label": "소수점 처리",
+     "source": {
+      "quote": "※ 중도해지금리는 소수점 셋째자리까지 적용(소수점 넷째자리에서 절사)"
+     },
+     "condition": {}
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R12-06",
+     "status": "UNSUPPORTED",
+     "label": "예시 계산",
+     "source": {
+      "quote": "(예시) 중도해지금리가 1.564721%로 산출 시 1.564%로 적용"
+     },
+     "condition": {}
+    }
+   ]
+  },
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 202.3
+ },
+ {
+  "clause_id": "HNWSH-S2-R13",
+  "run": 0,
+  "n_attempts": 1,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": true,
+   "quote_ok": true,
+   "exec_ok": true,
+   "empty": false,
+   "n_rules": 2
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [
+    {
+     "rule_id": "R-HNWSH-S2-R13-01",
+     "status": "UNSUPPORTED",
+     "label": "만기 후 1개월 이내 금리",
+     "source": {
+      "quote": "- 1개월 이내 : 지급 당시 해당기간별 상호부금 기본금리의1/2"
+     },
+     "condition": {
+      "<=": [
+       {
+        "var": "contract.term_months"
+       },
+       1
+      ]
+     }
+    },
+    {
+     "rule_id": "R-HNWSH-S2-R13-02",
+     "status": "UNSUPPORTED",
+     "label": "만기 후 1개월 초과 금리",
+     "source": {
+      "quote": "- 1개월 초과 : 지급 당시 해당기간별 상호부금 기본금리의 1/4"
+     },
+     "condition": {
+      ">": [
+       {
+        "var": "contract.term_months"
+       },
+       1
+      ]
+     }
+    }
+   ]
+  },
+  "raw_first": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNWSH-S2-R13-01\",\n   \"status\": \"OK\",\n   \"label\": \"만기 후 1개월 이내 금리\",\n   \"source\": {\n    \"quote\": \"- 1개월 이내 : 지급 당시 해당기간별 상호부금 기본금리의1/2\"\n   },\n   \"condition\": {\n    \"<=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     1\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 50,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R13-02\",\n   \"status\": \"OK\",\n   \"label\": \"만기 후 1개월 초과 금리\",\n   \"source\": {\n    \"quote\": \"- 1개월 초과 : 지급 당시 해당기간별 상호부금 기본금리의 1/4\"\n   },\n   \"condition\": {\n    \">\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     1\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 75,\n    \"unit\": \"%\"\n   }\n  }\n ]\n}",
+  "raw_last": "{\n \"rules\": [\n  {\n   \"rule_id\": \"R-HNWSH-S2-R13-01\",\n   \"status\": \"OK\",\n   \"label\": \"만기 후 1개월 이내 금리\",\n   \"source\": {\n    \"quote\": \"- 1개월 이내 : 지급 당시 해당기간별 상호부금 기본금리의1/2\"\n   },\n   \"condition\": {\n    \"<=\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     1\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 50,\n    \"unit\": \"%\"\n   }\n  },\n  {\n   \"rule_id\": \"R-HNWSH-S2-R13-02\",\n   \"status\": \"OK\",\n   \"label\": \"만기 후 1개월 초과 금리\",\n   \"source\": {\n    \"quote\": \"- 1개월 초과 : 지급 당시 해당기간별 상호부금 기본금리의 1/4\"\n   },\n   \"condition\": {\n    \">\": [\n     {\n      \"var\": \"contract.term_months\"\n     },\n     1\n    ]\n   },\n   \"effect\": {\n    \"type\": \"RATE_SUBTRACT\",\n    \"value\": 75,\n    \"unit\": \"%\"\n   }\n  }\n ]\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [
+   "R-HNWSH-S2-R13-01",
+   "R-HNWSH-S2-R13-02"
+  ],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 26.3
+ },
+ {
+  "clause_id": "HNWSH-S2-R14",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\n \"rules\": []\n}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 5.7
+ },
+ {
+  "clause_id": "HNWSH-S2-R23",
+  "run": 0,
+  "n_attempts": 3,
+  "prompt": {
+   "system": "81714df9c8c5",
+   "fewshots": "2d42e67c62d6",
+   "n_fewshots": 4,
+   "catalog": "a7e86a8330a4",
+   "schema": "2b3b2ed95bcf",
+   "vocab": "56c26f6bce43",
+   "validator": "6cc39393ee1e",
+   "retry": "3913c295808d",
+   "triggers": "1bf7650e15ec",
+   "runner": "96198089b086"
+  },
+  "n_best": 1,
+  "first": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "final": {
+   "json_ok": true,
+   "schema_ok": true,
+   "catalog_ok": false,
+   "quote_ok": false,
+   "exec_ok": false,
+   "empty": true,
+   "n_rules": 0
+  },
+  "errors": [],
+  "semantic_errors": [],
+  "output": {
+   "rules": [],
+   "no_rule_reason": "NOTE_ONLY"
+  },
+  "raw_first": "{\"rules\": []}",
+  "raw_last": "{\n \"rules\": []\n}",
+  "truncated": false,
+  "retry_oom": false,
+  "ungrounded": [],
+  "gate_dropped": null,
+  "adapter": null,
+  "constrain": false,
+  "temperature": 0.1,
+  "seconds": 6.8
+ }
+]

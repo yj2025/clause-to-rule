@@ -18,3 +18,9 @@ adapters/
 
 # 라운드가 도는 중에 쓰는 부분결과 — 합쳐지면 results_v<n>.json 이 된다
 results/.*_part_*.json
+
+# 새 평가셋 v2 정답(10-27, NEXT_PLAN 5-4 봉인) — 서버 밖으로 안 나가게 커밋하지 않는다.
+# 원본은 data/gold_v2/ 에만, lora/eval_v2/ 의 정답 사본 · 판정자 초안도 뺀다.
+data/gold_v2/
+lora/eval_v2/gold/
+lora/eval_v2/judges/
