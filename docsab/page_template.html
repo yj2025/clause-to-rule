@@ -322,6 +322,17 @@ details.raw pre{overflow-x:auto;font-family:var(--mono);font-size:.76rem;line-he
     <div class="mcards" id="psouts"></div>
   </section>
 
+
+  <section class="qwen" id="allprod" aria-labelledby="all-h">
+    <div class="eyebrow">전 상품 · Gemma 4 31B + 후처리</div>
+    <h2 id="all-h">요약입력 58개 상품 전체</h2>
+    <p class="lede">팀 요약입력의 모든 상품을 Gemma 4 31B(NF4)로 key별 요약하고 후처리를 붙였습니다. 31B 가 GPU 메모리를 넘은 상품은 Gemma 4 12B 로 다시 돌렸습니다. 정답(목표 결과물)이 있는 세 상품 말고는 정확도를 채점할 수 없어, 형식 · 후처리 표시로 상태를 보여 줍니다. «누락 의심»은 원문의 제외 · 불가 문장이 출력에 안 보인다는 신호이고, 꼭 오류는 아닙니다(묶어 쓴 경우도 잡힙니다).</p>
+    <div class="stats" id="allstats"></div>
+    <div class="mtbl"><table id="alltable"></table></div>
+    <div class="row" style="margin-top:6px"><label class="lab" for="allsel">상품 보기</label><select id="allsel" style="font:inherit;padding:4px 8px;max-width:100%"></select></div>
+    <div class="scrgrid" id="allgrid"></div>
+  </section>
+
   <p class="foot">원본 출력은 <code>model/M2-2/docsab/out.jsonl</code>, key 분류는 <code>compare.json</code>에 있습니다. «숫자 서로 다름»은 요약 문장에서 숫자와 단위를 뽑아 견준 기계 분류입니다. 원문을 대조하지 않은 key는 판단을 붙이지 않았습니다.</p>
 </div>
 
@@ -538,9 +549,9 @@ function renderScreens(){
   if(!SCREENS) return;
   const prods=Object.keys(SCREENS);
   const pr=document.getElementById("scrprod"); pr.replaceChildren(el("span",{class:"lab",text:"상품"}));
-  prods.forEach((n,i)=>{ const b=el("button",{class:"chip",type:"button","aria-pressed":String(i===scr.p),text:n}); b.onclick=()=>{scr.p=i;renderScreens(); renderGlance(); renderPersonal();}; pr.append(b); });
+  prods.forEach((n,i)=>{ const b=el("button",{class:"chip",type:"button","aria-pressed":String(i===scr.p),text:n}); b.onclick=()=>{scr.p=i;renderScreens(); renderGlance(); renderPersonal(); renderAll();}; pr.append(b); });
   const sr=document.getElementById("scrsrc"); sr.replaceChildren(el("span",{class:"lab",text:"출처"}));
-  [["target","목표 결과물"],["g31","Gemma 31B + 후처리"]].forEach(([id,lab])=>{ const b=el("button",{class:"chip",type:"button","aria-pressed":String(id===scr.s),text:lab}); b.onclick=()=>{scr.s=id;renderScreens(); renderGlance(); renderPersonal();}; sr.append(b); });
+  [["target","목표 결과물"],["g31","Gemma 31B + 후처리"]].forEach(([id,lab])=>{ const b=el("button",{class:"chip",type:"button","aria-pressed":String(id===scr.s),text:lab}); b.onclick=()=>{scr.s=id;renderScreens(); renderGlance(); renderPersonal(); renderAll();}; sr.append(b); });
   const P=SCREENS[prods[scr.p]]; const items=P[scr.s]||[]; const g=document.getElementById("scrgrid"); g.replaceChildren();
   if(!items.length){ g.append(el("p",{class:"note",text:"이 상품의 결과가 없습니다."})); return; }
   items.forEach(it=>{
@@ -596,6 +607,47 @@ function renderPersonal(){
     c.append(el("div",{class:"note",text:"직접 확인"})); const ul=el("ul"); r.notes.forEach(([sev,x])=>{ const li=el("li"); li.append(el("span",{class:"sev "+(sev.includes("오류")?"s1":sev==="아쉬움"?"s2":""),text:sev})); li.append(document.createTextNode(x)); ul.append(li); }); c.append(ul);
     box.append(c); });
 }
+const ALL = /*__ALL__*/null;
+function scrCard(it,names){
+  const c=el("article",{class:"scr"});
+  c.append(el("div",{class:"top2"},el("span",{class:"tag",text:names[it.key]||it.key}), it.as_of?el("span",{class:"pill",text:"기준일 "+it.as_of}):null));
+  c.append(el("div",{class:"big",text:it.summary||"(원문에 근거 없음)"}));
+  if(it.benefit) c.append(el("div",{class:"q note",text:"혜택: "+it.benefit}));
+  const L=a=>(a||[]).filter(x=>x&&typeof x==="object");
+  const conds=L(it.conditions);
+  if(conds.length){ c.append(el("div",{class:"lbl",text:"조건"+(it.condition_logic?" — "+it.condition_logic:"")})); const ul=el("ul");
+    conds.forEach(x=>{ const li=el("li",{text:x.text||""}); if(x.only_in) li.append(el("span",{class:"only",text:x.only_in+"에만"})); ul.append(li); }); c.append(ul); }
+  const ex=L(it.exceptions);
+  if(ex.length){ c.append(el("div",{class:"lbl",text:"예외 · 제한"})); const ul=el("ul");
+    ex.forEach(x=>{ const li=el("li",{text:x.text||""}); if(x.only_in) li.append(el("span",{class:"only",text:x.only_in+"에만"})); ul.append(li); }); c.append(ul); }
+  const sp=it.special; if(sp) c.append(el("div",{class:"q note",text:"참고: "+(typeof sp==="string"?sp:sp.text||"")}));
+  const asks=[...new Set(conds.map(x=>x.user_input).filter(Boolean))];
+  if(asks.length){ const a=el("div",{class:"ask"}); asks.forEach(q=>a.append(el("span",{text:"물어볼 입력: "+q}))); c.append(a); }
+  if(it.doc_diff) c.append(el("div",{class:"diffbox",text:"문서 차이 — "+it.doc_diff}));
+  const miss=it._check&&it._check.missing;
+  if(miss&&miss.length){ const m=el("div",{class:"miss"},el("div",{text:`누락 의심 ${miss.length}`})); const ul=el("ul"); miss.slice(0,4).forEach(x=>ul.append(el("li",{text:x.text.slice(0,90)}))); m.append(ul); c.append(m); }
+  return c;
+}
+function renderAll(){
+  if(!ALL) return;
+  const S=ALL.summary, st=document.getElementById("allstats");
+  [[`${S.done}/${S.total}`,"완료 상품"],[String(S.pending),"아직 안 돈 상품"],[String(S.failed.length),"실패"],[String(S.fallback.length),"12B 로 다시 돌린 상품"],[`${S.gen_hours}시간`,"생성 시간 합"]]
+    .forEach(([b,t])=>st.append(el("div",{class:"stat"},el("b",{text:b}),el("span",{text:t}))));
+  const t=document.getElementById("alltable"); const cols=["상품","상태","모델","key 채움","문서 차이 key","누락 의심","입력 · 생성 토큰","시간"];
+  const hr=el("tr"); cols.forEach(c=>hr.append(el("th",{text:c}))); t.append(el("thead",{},hr));
+  const tb=el("tbody");
+  ALL.rows.forEach(r=>{ const tr=el("tr",{},el("th",{text:r.product}));
+    const stx=r.status+(r.fallback_from?` (31B ${r.fallback_from} → 12B)`:"");
+    tr.append(el("td",{},el("span",{class:"sev "+(r.status==="완료"?"":r.status==="아직"?"":"s1"),text:stx})));
+    [r.model||"—", r.filled!=null?`${r.filled}/${r.keys}`:"—", (r.diff_keys||[]).join(", ")||(r.status==="완료"?"없음":"—"),
+     r.missing!=null?String(r.missing):"—", r.in_tokens?`${r.in_tokens} · ${r.gen_tokens||0}`:"—", r.sec?`${Math.round(r.sec)}초`:"—"]
+     .forEach(v=>tr.append(el("td",{class:"n",text:v}))); tb.append(tr); });
+  t.append(tb);
+  const sel=document.getElementById("allsel"); const names=Object.keys(ALL.screens);
+  names.forEach(n=>sel.append(el("option",{value:n,text:n})));
+  const draw=()=>{ const g=document.getElementById("allgrid"); g.replaceChildren(); const P=ALL.screens[sel.value]; if(!P) return; P.items.forEach(it=>g.append(scrCard(it,P.names))); };
+  sel.onchange=draw; draw();
+}
 const THEMES=[["system","시스템"],["light","라이트"],["dark","다크"]];
 let theme="system"; try{ theme=localStorage.getItem("docsab-theme")||"system"; }catch(e){}
 function applyTheme(){
@@ -608,5 +660,5 @@ document.getElementById("theme").onclick=()=>{
   try{ localStorage.setItem("docsab-theme",theme); }catch(e){} applyTheme();
 };
 if(!THEMES.some(t=>t[0]===theme)) theme="system";
-applyTheme(); stats(); render(); renderFinal(); renderQwen(); renderModels(); renderMulti(); renderReview(); renderScreens(); renderGlance(); renderPersonal();
+applyTheme(); stats(); render(); renderFinal(); renderQwen(); renderModels(); renderMulti(); renderReview(); renderScreens(); renderGlance(); renderPersonal(); renderAll();
 </script>
