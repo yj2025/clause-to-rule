@@ -17,9 +17,9 @@ import postcheck as P  # noqa: E402
 import score_target as S  # noqa: E402
 
 M3 = HERE.parent.parent / "M3"
-EARLIER = {"KB스타통장": M3 / "results_kbstar_03_gemma31/gemma31_scored_input.json",
-           "KB 프리N통장": M3 / "results_freen_01/gemma31_scored_input.json",
-           "KB 별별통장2": M3 / "results_byul2_01/gemma31_scored_input.json"}
+EARLIER = {"KB스타통장": M3 / "results/kbstar_03_gemma31/gemma31_scored_input.json",
+           "KB 프리N통장": M3 / "results/freen_01/gemma31_scored_input.json",
+           "KB 별별통장2": M3 / "results/byul2_01/gemma31_scored_input.json"}
 
 
 def records():
@@ -30,8 +30,8 @@ def records():
             r = json.loads(EARLIER[name].read_text("utf-8"))
             yield p, dict(r, product_id=pid, source="10-12~13 개별 실행", model="google/gemma-4-31B-it"), EARLIER[name]
             continue
-        main = M3 / "results_all_gemma31" / f"{pid}.json"
-        fb = M3 / "results_all_gemma12_fallback" / f"{pid}.json"
+        main = M3 / "results/all_gemma31" / f"{pid}.json"
+        fb = M3 / "results/all_gemma12_fallback" / f"{pid}.json"
         if not main.exists():
             yield p, None, None
             continue
