@@ -1,0 +1,73 @@
+{
+ "clause_id": "HNSAL-S2-R12",
+ "label": "중도해지금리",
+ "verdict": "규칙",
+ "note": "rule 4개 · OK 1 · UNSUPPORTED 3. 적립식이라 중도해지금리는 «입금금액마다» 그 입금일부터 해지일 전일까지의 예치기간으로 정해진다. 01 「1개월미만 | 연0.10%」: 중도해지(termination_type EARLY)이고 해지일 < 가입일 + 1개월이면 RATE_OVERRIDE 0.1 — 계좌가 1개월이 안 됐으면 모든 입금 건이 1개월 미만이라 입금 건별로 읽어도 정확하다(kb10 KBMY-S2-R11-01 · KBSME-S2-R12-01 과 같은 판단). 02 「1개월이상~3개월미만 연0.15%」· 03 「3개월이상~6개월미만 연0.20%」: 값은 수지만 구간이 입금 건마다 달라(같은 해지일에 오래된 입금은 0.15·0.20, 최근 입금은 0.10) 계좌 단위 날짜 조건으로 세우면 다른 입금 건의 이율까지 덮는다 → UNSUPPORTED, 조건 {} (kb10 KBMY-S2-R11 의 적금 관례). 04 「6개월이상 | 기본금리 × 차등율(60·70·90%) × 경과율(경과일수/계약일수), 최저 연0.20%」: 비율식이라 수가 아니다 → UNSUPPORTED. 표의 행이 하나라 rule 하나로 두고 차등율 세 구간은 같은 rule 의 매개변수로 봤다. 차등율·경과율 정의, 소수점 절사, (예시), 아래 도해 문자열은 산출 세부라 rule 이 아니다.",
+ "rules": [
+  {
+   "rule_id": "HNSAL-S2-R12-01",
+   "status": "OK",
+   "label": "예치 1개월 미만 중도해지 → 중도해지금리 연 0.10%",
+   "source": {
+    "quote": "1개월미만 연0.10%"
+   },
+   "condition": {
+    "and": [
+     {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "EARLY"
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 1
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 0.1,
+    "unit": "%"
+   }
+  },
+  {
+   "rule_id": "HNSAL-S2-R12-02",
+   "status": "UNSUPPORTED",
+   "label": "예치 1개월 이상~3개월 미만 연 0.15% — 적립식이라 입금 건별 예치기간 필요",
+   "source": {
+    "quote": "1개월이상~ 3개월미만 연0.15%"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "HNSAL-S2-R12-03",
+   "status": "UNSUPPORTED",
+   "label": "예치 3개월 이상~6개월 미만 연 0.20% — 적립식이라 입금 건별 예치기간 필요",
+   "source": {
+    "quote": "3개월이상~ 6개월미만 연0.20%"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "HNSAL-S2-R12-04",
+   "status": "UNSUPPORTED",
+   "label": "예치 6개월 이상 — 기본금리 × 차등율 × 경과율 (최저 연 0.20%) · 비율식 없음",
+   "source": {
+    "quote": "가입(재예치)당시해당상품의기본금리x 차등율(주2)x 경과율(주3)\n6개월이상\n(단, 연0.20% 미만시연0.20% 적용)"
+   },
+   "condition": {}
+  }
+ ],
+ "reviewed": true,
+ "source": "2026-10-27 · 독립 판정자(Claude Opus · Sonnet · Fable) 다수 + 갈린 곳 사용자 결정 · 판단 만장일치(3/3) · 조건식 작성 3명 비교 «일치» · 채택본 gold_opus"
+}

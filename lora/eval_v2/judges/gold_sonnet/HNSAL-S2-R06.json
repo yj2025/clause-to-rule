@@ -1,0 +1,55 @@
+{
+  "clause_id": "HNSAL-S2-R06",
+  "label": "가입금액",
+  "verdict": "규칙",
+  "note": "「가입금액 1만원 이상 300만원 이하」→ contract.amount 가 1만원 미만(경계 1만원은 가입 가능) 또는 300만원 초과(경계 300만원은 가능)면 DISQUALIFY 두 rule. 변수는 가입금액(contract.amount)을 썼다(적금이라 월납입액(monthly_amount)으로 읽을 여지가 있다 — 불확실). 03 「단, 청년응원 특별금리 등록 시 150만원 이하」는 상한이 더 낮아지는 단서인데 특별금리 등록 여부를 담을 변수가 없다 → UNSUPPORTED. 그 단서를 빼면 150만~300만원 사이의 청년응원 등록 고객을 통과시키는 쪽(고객에게 유리한 오차)이라 01·02 는 OK. 이견: 이 조문을 표현불가로 보는 시각(계약금액 변수 해석·단서 때문)도 있으나 판정(규칙)을 따랐다.",
+  "rules": [
+    {
+      "rule_id": "HNSAL-S2-R06-01",
+      "status": "OK",
+      "label": "가입금액 1만원 미만이면 가입 불가",
+      "source": {
+        "quote": "1만원 이상 300만원 이하 (원단위)"
+      },
+      "condition": {
+        "<": [
+          {
+            "var": "contract.amount"
+          },
+          10000
+        ]
+      },
+      "effect": {
+        "type": "DISQUALIFY"
+      }
+    },
+    {
+      "rule_id": "HNSAL-S2-R06-02",
+      "status": "OK",
+      "label": "가입금액 300만원 초과면 가입 불가",
+      "source": {
+        "quote": "1만원 이상 300만원 이하 (원단위)"
+      },
+      "condition": {
+        ">": [
+          {
+            "var": "contract.amount"
+          },
+          3000000
+        ]
+      },
+      "effect": {
+        "type": "DISQUALIFY"
+      }
+    },
+    {
+      "rule_id": "HNSAL-S2-R06-03",
+      "status": "UNSUPPORTED",
+      "label": "청년응원 특별금리 등록 시 가입금액 150만원 이하 — 특별금리 등록 여부 변수 없음",
+      "source": {
+        "quote": "(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)"
+      },
+      "condition": {}
+    }
+  ]
+}

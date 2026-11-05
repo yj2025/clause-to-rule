@@ -1,0 +1,17 @@
+{
+ "clause_id": "HNWSH-S2-R14",
+ "label": "이자계산방법",
+ "verdict": "표현불가",
+ "note": "rule 1개 · UNSUPPORTED. 「저축금마다 입금일부터 만기일 전일까지 약정금리로 계산」은 이자 금액 산출이라 판별 범위 밖이다 — kb10 KBSME-S2-R10 · KBMY-S2-R10 관례대로 UNSUPPORTED 하나로 둔다. 회차별 계산식 줄은 같은 내용의 도해다.",
+ "rules": [
+  {
+   "rule_id": "HNWSH-S2-R14-01",
+   "status": "UNSUPPORTED",
+   "label": "만기이자 계산방법 — 이자 산출은 판별 범위 밖",
+   "source": {
+    "quote": "저축금 마다 입금일부터 만기일 전일까지의 기간에 대하여 약정금리로 이자 계산"
+   },
+   "condition": {}
+  }
+ ]
+}

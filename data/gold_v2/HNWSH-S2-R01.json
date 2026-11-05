@@ -1,0 +1,50 @@
+{
+ "clause_id": "HNWSH-S2-R01",
+ "label": "가입대상",
+ "verdict": "규칙",
+ "note": "rule 2개 · 전부 OK. 01: 「1인 1계좌까지만 가능」→ has_product 참이면 DISQUALIFY. 02: 「실명의 개인」에서 확실한 탈락은 법인뿐이라 CORPORATION 만 DISQUALIFY (kb10 KBGL-S2-R01 결정 — 개인사업자·임의단체·공동명의는 조문이 말하지 않아 넣지 않았다 · 덜 탈락시키는 쪽).",
+ "rules": [
+  {
+   "rule_id": "HNWSH-S2-R01-01",
+   "status": "OK",
+   "label": "이미 이 상품을 보유하면 가입 불가 (1인 1계좌)",
+   "source": {
+    "quote": "실명의 개인 (1인 1계좌까지만 가능)"
+   },
+   "condition": {
+    "==": [
+     {
+      "var": "customer.has_product"
+     },
+     true
+    ]
+   },
+   "effect": {
+    "type": "DISQUALIFY"
+   }
+  },
+  {
+   "rule_id": "HNWSH-S2-R01-02",
+   "status": "OK",
+   "label": "법인은 가입 불가 (실명의 개인)",
+   "source": {
+    "quote": "실명의 개인 (1인 1계좌까지만 가능)"
+   },
+   "condition": {
+    "in": [
+     {
+      "var": "customer.holder_type"
+     },
+     [
+      "CORPORATION"
+     ]
+    ]
+   },
+   "effect": {
+    "type": "DISQUALIFY"
+   }
+  }
+ ],
+ "reviewed": true,
+ "source": "2026-10-27 · 독립 판정자(Claude Opus · Sonnet · Fable) 다수 + 갈린 곳 사용자 결정 · 판단 만장일치(3/3) · 조건식 작성 3명 비교 «일치» · 채택본 gold_opus"
+}

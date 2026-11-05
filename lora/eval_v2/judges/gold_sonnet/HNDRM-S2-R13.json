@@ -1,0 +1,71 @@
+{
+  "clause_id": "HNDRM-S2-R13",
+  "label": "중도해지금리",
+  "verdict": "규칙",
+  "note": "01 「1개월 미만」은 고정 금리 행이고, 계좌가 1개월이 안 됐으면 모든 입금 건이 1개월 미만이라 계좌 단위 날짜 조건(해지유형 EARLY · 해지일 < 가입일+1개월)으로 정확히 선다 → OK RATE_OVERRIDE. 02·03 은 값이 고정이지만 이 상품은 「입금금액마다 입금일부터」 예치기간을 재서(적금) 계좌 나이 하나로는 구간을 못 정한다 — 중도해지금리를 내리는 쪽 오차라 근사하지 않고 UNSUPPORTED(조건 {}). 04 는 기본금리 × 차등율 × 경과율 비율식이라 effect 가 없다(차등율 60/70/90% 구간은 이 한 행의 매개변수라 따로 나누지 않음). 「소수점 절사」·「원미만 절사」·합계·예시·도해 줄은 규칙이 아니라 계산 안내.",
+  "rules": [
+    {
+      "rule_id": "HNDRM-S2-R13-01",
+      "status": "OK",
+      "label": "중도해지 시 예치 1개월 미만이면 중도해지금리 연 0.10%",
+      "source": {
+        "quote": "1개월미만 연0.10%"
+      },
+      "condition": {
+        "and": [
+          {
+            "==": [
+              {
+                "var": "contract.termination_type"
+              },
+              "EARLY"
+            ]
+          },
+          {
+            "<": [
+              {
+                "var": "contract.termination_date"
+              },
+              {
+                "anchor": "contract.start_date",
+                "offset_months": 1
+              }
+            ]
+          }
+        ]
+      },
+      "effect": {
+        "type": "RATE_OVERRIDE",
+        "value": 0.1,
+        "unit": "%"
+      }
+    },
+    {
+      "rule_id": "HNDRM-S2-R13-02",
+      "status": "UNSUPPORTED",
+      "label": "중도해지금리 1개월 이상~3개월 미만 연 0.15% — 입금 건마다 예치기간이 달라 계좌 단위 날짜 조건으로 못 세움",
+      "source": {
+        "quote": "1개월이상~ 3개월미만 연0.15%"
+      },
+      "condition": {}
+    },
+    {
+      "rule_id": "HNDRM-S2-R13-03",
+      "status": "UNSUPPORTED",
+      "label": "중도해지금리 3개월 이상~6개월 미만 연 0.20% — 입금 건마다 예치기간이 달라 계좌 단위 날짜 조건으로 못 세움",
+      "source": {
+        "quote": "3개월이상~ 6개월미만 연0.20%"
+      },
+      "condition": {}
+    },
+    {
+      "rule_id": "HNDRM-S2-R13-04",
+      "status": "UNSUPPORTED",
+      "label": "중도해지금리 6개월 이상 — 기본금리 × 차등율(60/70/90%) × 경과일수/계약일수 (최저 연 0.20%): 비율식 없음",
+      "source": {
+        "quote": "가입(재예치)당시해당상품의기본금리x 차등율(주1)x 경과율(주2)"
+      },
+      "condition": {}
+    }
+  ]
+}

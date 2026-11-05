@@ -1,0 +1,67 @@
+{
+ "clause_id": "HNDRM-S2-R01",
+ "label": "가입대상",
+ "verdict": "규칙",
+ "note": "rule 3개 · 전부 OK. 01 「만 18세 이하」→ customer.age > 18 이면 DISQUALIFY (경계: 만 18세는 가입 가능). 02 「1인 1계좌」→ has_product 참이면 DISQUALIFY. 03 「실명의 개인」→ 확실히 밖인 법인만 탈락 — kb10 KBGL-S2-R01 (같은 문구) 관례. 어린이 상품이라 개인사업자 · 임의단체도 사실상 밖이지만 조문이 말하지 않아 좁은 쪽을 택했다(원칙 1 · 결정 9).",
+ "rules": [
+  {
+   "rule_id": "HNDRM-S2-R01-01",
+   "status": "OK",
+   "label": "만 18세 초과면 가입 불가",
+   "source": {
+    "quote": "만 18세 이하 실명의 개인(1인 1계좌)"
+   },
+   "condition": {
+    ">": [
+     {
+      "var": "customer.age"
+     },
+     18
+    ]
+   },
+   "effect": {
+    "type": "DISQUALIFY"
+   }
+  },
+  {
+   "rule_id": "HNDRM-S2-R01-02",
+   "status": "OK",
+   "label": "이미 이 상품을 보유하면 가입 불가 (1인 1계좌)",
+   "source": {
+    "quote": "만 18세 이하 실명의 개인(1인 1계좌)"
+   },
+   "condition": {
+    "==": [
+     {
+      "var": "customer.has_product"
+     },
+     true
+    ]
+   },
+   "effect": {
+    "type": "DISQUALIFY"
+   }
+  },
+  {
+   "rule_id": "HNDRM-S2-R01-03",
+   "status": "OK",
+   "label": "법인은 가입 불가 (실명의 개인)",
+   "source": {
+    "quote": "만 18세 이하 실명의 개인(1인 1계좌)"
+   },
+   "condition": {
+    "in": [
+     {
+      "var": "customer.holder_type"
+     },
+     [
+      "CORPORATION"
+     ]
+    ]
+   },
+   "effect": {
+    "type": "DISQUALIFY"
+   }
+  }
+ ]
+}

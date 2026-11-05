@@ -1,0 +1,128 @@
+{
+  "clause_id": "HNWSH-S2-R09",
+  "label": "기본금리",
+  "verdict": "규칙",
+  "note": "가입기간별 기본금리 표 네 행을 행마다 RATE_OVERRIDE: 6개월 이상 12개월 미만 0.65 · 12~24 미만 0.75 · 24~36 미만 0.85 · 36개월 0.95 (경계: 이상 >=, 미만 <, 36개월 == 36). 표가 열 단위로 깨져 quote 는 금리 행 한 줄을 네 rule 이 같이 쓴다. 「가입일에 고시한 금리 적용」은 출처 안내.",
+  "rules": [
+    {
+      "rule_id": "HNWSH-S2-R09-01",
+      "status": "OK",
+      "label": "가입기간 6개월 이상 12개월 미만 기본금리 연 0.65%",
+      "source": {
+        "quote": "금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%"
+      },
+      "condition": {
+        "and": [
+          {
+            ">=": [
+              {
+                "var": "contract.term_months"
+              },
+              6
+            ]
+          },
+          {
+            "<": [
+              {
+                "var": "contract.term_months"
+              },
+              12
+            ]
+          }
+        ]
+      },
+      "effect": {
+        "type": "RATE_OVERRIDE",
+        "value": 0.65,
+        "unit": "%"
+      }
+    },
+    {
+      "rule_id": "HNWSH-S2-R09-02",
+      "status": "OK",
+      "label": "가입기간 12개월 이상 24개월 미만 기본금리 연 0.75%",
+      "source": {
+        "quote": "금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%"
+      },
+      "condition": {
+        "and": [
+          {
+            ">=": [
+              {
+                "var": "contract.term_months"
+              },
+              12
+            ]
+          },
+          {
+            "<": [
+              {
+                "var": "contract.term_months"
+              },
+              24
+            ]
+          }
+        ]
+      },
+      "effect": {
+        "type": "RATE_OVERRIDE",
+        "value": 0.75,
+        "unit": "%"
+      }
+    },
+    {
+      "rule_id": "HNWSH-S2-R09-03",
+      "status": "OK",
+      "label": "가입기간 24개월 이상 36개월 미만 기본금리 연 0.85%",
+      "source": {
+        "quote": "금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%"
+      },
+      "condition": {
+        "and": [
+          {
+            ">=": [
+              {
+                "var": "contract.term_months"
+              },
+              24
+            ]
+          },
+          {
+            "<": [
+              {
+                "var": "contract.term_months"
+              },
+              36
+            ]
+          }
+        ]
+      },
+      "effect": {
+        "type": "RATE_OVERRIDE",
+        "value": 0.85,
+        "unit": "%"
+      }
+    },
+    {
+      "rule_id": "HNWSH-S2-R09-04",
+      "status": "OK",
+      "label": "가입기간 36개월 기본금리 연 0.95%",
+      "source": {
+        "quote": "금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%"
+      },
+      "condition": {
+        "==": [
+          {
+            "var": "contract.term_months"
+          },
+          36
+        ]
+      },
+      "effect": {
+        "type": "RATE_OVERRIDE",
+        "value": 0.95,
+        "unit": "%"
+      }
+    }
+  ]
+}

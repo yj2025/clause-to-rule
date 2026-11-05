@@ -1,0 +1,60 @@
+{
+ "clause_id": "HNSAL-S2-R13",
+ "label": "만기후 금리",
+ "verdict": "표현불가",
+ "note": "rule 2개 · 전부 UNSUPPORTED. 만기후 금리 두 구간 — 값이 「지급당시 해당기간별 정기적금 기본금리의 ½ · ¼」라 수가 아니고(다른 상품의 기본금리에 대한 비율식) 만기 이후 기간에만 붙는 이율을 담을 자리도 없다(RATE_OVERRIDE 는 계좌 이율 전체를 덮는다) → UNSUPPORTED. kb10 KBSTR-S2-R13 · KBSME-S2-R12-08/09 관례대로 구간 조건은 계좌 단위 날짜 비교로 온전히 서므로 남겼다: 01 만기일 < 해지일 <= 만기일 + 1개월, 02 해지일 > 만기일 + 1개월. 「지급당시」를 지급청구일(payout_request_date)로 볼 여지가 있으나 kb10 관례대로 해지일로 적었다. 아래 도해 문자열은 같은 표의 반복이다.",
+ "rules": [
+  {
+   "rule_id": "HNSAL-S2-R13-01",
+   "status": "UNSUPPORTED",
+   "label": "만기후 1개월 이내 — 정기적금 기본금리 ½ (비율식 없음)",
+   "source": {
+    "quote": "• 1개월 이내 : 지급당시 해당기간별 정기적금 기본금리 ½"
+   },
+   "condition": {
+    "and": [
+     {
+      ">": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "var": "contract.maturity_date"
+       }
+      ]
+     },
+     {
+      "<=": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.maturity_date",
+        "offset_months": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "rule_id": "HNSAL-S2-R13-02",
+   "status": "UNSUPPORTED",
+   "label": "만기후 1개월 초과 — 정기적금 기본금리 ¼ (비율식 없음)",
+   "source": {
+    "quote": "• 1개월 초과 : 지급당시 해당기간별 정기적금 기본금리 ¼"
+   },
+   "condition": {
+    ">": [
+     {
+      "var": "contract.termination_date"
+     },
+     {
+      "anchor": "contract.maturity_date",
+      "offset_months": 1
+     }
+    ]
+   }
+  }
+ ]
+}

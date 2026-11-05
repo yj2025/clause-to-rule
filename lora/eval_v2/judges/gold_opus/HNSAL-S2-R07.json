@@ -1,0 +1,26 @@
+{
+ "clause_id": "HNSAL-S2-R07",
+ "label": "적립한도",
+ "verdict": "표현불가",
+ "note": "rule 2개 · 전부 UNSUPPORTED. 01: 「분기당 1만원 이상 300만원 이하」는 분기마다의 적립 합계에 걸리는 거래 제약(건별·기간별 입금 검증)이다 — 입금을 막거나 거르는 effect 가 없다(LIMIT_AMOUNT 는 분기 단위를 못 담아 총액 한도로 읽힌다) → UNSUPPORTED. 02: 「청년응원 특별금리 적용기간은 분기당 1만원 이상 150만원 이하」— 같은 이유에 특별금리 적용기간 여부 변수도 없다 → UNSUPPORTED. 조건은 {}.",
+ "rules": [
+  {
+   "rule_id": "HNSAL-S2-R07-01",
+   "status": "UNSUPPORTED",
+   "label": "분기당 적립한도 1만원~300만원 — 분기 단위 입금 한도 effect 없음",
+   "source": {
+    "quote": "분기당 1만원 이상 300만원 이하 (원단위)"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "HNSAL-S2-R07-02",
+   "status": "UNSUPPORTED",
+   "label": "청년응원 특별금리 적용기간 분기당 1만원~150만원 — 특별금리 적용기간 변수·분기 한도 effect 없음",
+   "source": {
+    "quote": "(단, 청년응원 특별금리적용기간은분기당 1만원이상 150만원 이하)"
+   },
+   "condition": {}
+  }
+ ]
+}

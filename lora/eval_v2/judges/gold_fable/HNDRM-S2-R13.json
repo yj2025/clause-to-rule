@@ -1,0 +1,71 @@
+{
+ "clause_id": "HNDRM-S2-R13",
+ "label": "중도해지금리",
+ "verdict": "규칙",
+ "note": "rule 4개 · OK 1 · UNSUPPORTED 3. 01 「1개월미만 | 연0.10%」: 중도해지(termination_type EARLY)이고 해지일 < 가입일+1개월이면 RATE_OVERRIDE 0.1% — 적금은 예치기간이 입금 건별이지만 계좌가 1개월이 안 됐으면 모든 입금 건이 1개월 미만이라 어느 읽기에서도 맞다(kb10 KBMY-S2-R11-01 과 같은 판단). 02·03 「1~3개월 0.15% · 3~6개월 0.20%」: 값은 수인데 행을 가르는 것이 «입금 건별 예치기간»이다 — 계좌 단위 날짜(해지일-가입일)로 적으면 늦게 넣은 입금 건에 더 높은 이율을 주는 유리한 근사이긴 하나, 행의 유일한 조건을 다른 개념(계좌 경과기간)으로 바꾸는 것이라 UNSUPPORTED 로 두고 조건도 비웠다 (KBMY-S2-R11 이 적금 행의 조건을 {} 로 둔 것과 같다). 가장 자신 없는 자리 — OK(유리한 근사)로 볼 여지가 있다. 04 「6개월 이상 | 기본금리 × 차등율 × 경과율 (최저 0.20%)」: 비율식 · 경과일수 어휘 없음 → UNSUPPORTED. (주) 차등율 · 경과율 정의, 소수점 절사, 아래 도해 줄은 산출 세부라 rule 이 아니다.",
+ "rules": [
+  {
+   "rule_id": "HNDRM-S2-R13-01",
+   "status": "OK",
+   "label": "예치 1개월 미만 중도해지 → 중도해지금리 연 0.1%",
+   "source": {
+    "quote": "1개월미만 연0.10%"
+   },
+   "condition": {
+    "and": [
+     {
+      "==": [
+       {
+        "var": "contract.termination_type"
+       },
+       "EARLY"
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.start_date",
+        "offset_months": 1
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 0.1,
+    "unit": "%"
+   }
+  },
+  {
+   "rule_id": "HNDRM-S2-R13-02",
+   "status": "UNSUPPORTED",
+   "label": "중도해지금리 1개월 이상~3개월 미만 연 0.15% — 입금 건별 예치기간을 담을 변수 없음",
+   "source": {
+    "quote": "1개월이상~ 3개월미만 연0.15%"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "HNDRM-S2-R13-03",
+   "status": "UNSUPPORTED",
+   "label": "중도해지금리 3개월 이상~6개월 미만 연 0.20% — 입금 건별 예치기간을 담을 변수 없음",
+   "source": {
+    "quote": "3개월이상~ 6개월미만 연0.20%"
+   },
+   "condition": {}
+  },
+  {
+   "rule_id": "HNDRM-S2-R13-04",
+   "status": "UNSUPPORTED",
+   "label": "중도해지금리 6개월 이상 — 기본금리 × 차등율 × 경과율 (최저 0.20%) 비율식 없음",
+   "source": {
+    "quote": "가입(재예치)당시해당상품의기본금리x 차등율(주1)x 경과율(주2) 6개월이상 (단, 연0.20% 미만시연0.20% 적용)"
+   },
+   "condition": {}
+  }
+ ]
+}

@@ -1,0 +1,168 @@
+{
+ "clause_id": "HNSAL-S2-R09",
+ "label": "우대금리 (최대연 1.00%)",
+ "verdict": "규칙",
+ "note": "rule 3개 · OK 2 · UNSUPPORTED 1. 머리말 「최대 연 1.00% … 만기해지시 추가 제공 · 중도해지 시 미적용」→ 합산 상한은 규칙이 아니고(결정 1-5), 만기해지 한정은 guard termination_type == MATURITY. 01 급여하나우대 0.90%: 창 = 가입월 1일 ~ 만기 전전월 말일, 「계약기간의 1/2 이상」은 1·2·3년제라 term_months 12/24/36 → 6/12/18개월로 갈라 count_distinct_months(SALARY_TRANSFER) 로 옮겼다(kb10 KBSME-S2-R08-01 꼴). 주1) 급여 인정기준 ①②는 «월 50만원 이상»(월 합계)이고 ③만 건당 50만원이라 셋 공통의 건별 하한이 없다 — where.min_amount 를 걸면 소액 여러 건으로 월 50만원을 채운 고객을 놓치므로(불리) 금액 조건을 뺐다. 급여 적요·급여코드·급여일 지정 요건과 ※ 제외 항목도 못 담았다 — 전부 넓게 인정하는 우대 쪽 오차(원칙 1). 02 온라인채널 가입 0.10%: 「스마트폰뱅킹/인터넷뱅킹」→ contract.channel in [MOBILE, INTERNET, ONLINE] (ONLINE 은 열거에 있는 비대면 값이라 넣었다 · 넓은 쪽). 03 「만기재예치 우대(최초 계약기간 이후 재예치된 기간에 적용)」는 재예치 여부 변수가 없다(kb10 KBMY-S2-R16 과 같다) → UNSUPPORTED. 예시 줄 · 주1) · ※ 줄은 인정기준 안내라 rule 이 아니다.",
+ "rules": [
+  {
+   "rule_id": "HNSAL-S2-R09-01",
+   "status": "OK",
+   "label": "급여 입금 개월수가 계약기간의 1/2 이상이면 우대금리 연 0.90%p (만기해지 계좌)",
+   "source": {
+    "quote": "급여하나우대 이예금만기전전월말기준, 계약기간의1/2 이상본인명의하나은행입출금통장을 (연0.90%) 통해급여입금실적(주1) 보유한경우(월1회이체)"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.start_date",
+       "offset_months": 0,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.maturity_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "guard": {
+    "==": [
+     {
+      "var": "contract.termination_type"
+     },
+     "MATURITY"
+    ]
+   },
+   "condition": {
+    "or": [
+     {
+      "and": [
+       {
+        "==": [
+         {
+          "var": "contract.term_months"
+         },
+         12
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "SALARY_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         6
+        ]
+       }
+      ]
+     },
+     {
+      "and": [
+       {
+        "==": [
+         {
+          "var": "contract.term_months"
+         },
+         24
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "SALARY_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         12
+        ]
+       }
+      ]
+     },
+     {
+      "and": [
+       {
+        "==": [
+         {
+          "var": "contract.term_months"
+         },
+         36
+        ]
+       },
+       {
+        ">=": [
+         {
+          "count_distinct_months": {
+           "event": "SALARY_TRANSFER",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         18
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "RATE_ADD",
+    "value": 0.9,
+    "unit": "%p",
+    "applies_to": "BASE_RATE"
+   }
+  },
+  {
+   "rule_id": "HNSAL-S2-R09-02",
+   "status": "OK",
+   "label": "온라인채널(스마트폰뱅킹·인터넷뱅킹) 가입 시 우대금리 연 0.10%p (만기해지 계좌)",
+   "source": {
+    "quote": "온라인채널가입 이예금을온라인채널(스마트폰뱅킹/인터넷뱅킹)을통해가입또는만기재예치하는"
+   },
+   "guard": {
+    "==": [
+     {
+      "var": "contract.termination_type"
+     },
+     "MATURITY"
+    ]
+   },
+   "condition": {
+    "in": [
+     {
+      "var": "contract.channel"
+     },
+     [
+      "MOBILE",
+      "INTERNET",
+      "ONLINE"
+     ]
+    ]
+   },
+   "effect": {
+    "type": "RATE_ADD",
+    "value": 0.1,
+    "unit": "%p",
+    "applies_to": "BASE_RATE"
+   }
+  },
+  {
+   "rule_id": "HNSAL-S2-R09-03",
+   "status": "UNSUPPORTED",
+   "label": "만기재예치 우대 연 0.10% — 재예치 여부 변수 없음",
+   "source": {
+    "quote": "만기재예치우대는최초계약기간이후재예치된기간에대해적용"
+   },
+   "condition": {}
+  }
+ ]
+}

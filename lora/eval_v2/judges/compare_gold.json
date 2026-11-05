@@ -1,0 +1,1574 @@
+[
+ {
+  "id": "HNSAL-S2-R01",
+  "verdict": "규칙",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ],
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ]
+   ],
+   "sonnet": [
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ],
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ]
+   ],
+   "fable": [
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ],
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ]
+   ]
+  },
+  "n_rules": {
+   "opus": [
+    3,
+    2
+   ],
+   "sonnet": [
+    3,
+    2
+   ],
+   "fable": [
+    3,
+    2
+   ]
+  }
+ },
+ {
+  "id": "HNSAL-S2-R04",
+  "verdict": "표현불가",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [],
+   "sonnet": [],
+   "fable": []
+  },
+  "n_rules": {
+   "opus": [
+    2,
+    0
+   ],
+   "sonnet": [
+    3,
+    0
+   ],
+   "fable": [
+    2,
+    0
+   ]
+  }
+ },
+ {
+  "id": "HNSAL-S2-R06",
+  "verdict": "규칙",
+  "result": "갈림",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": false,
+    "rate": 0.0,
+    "mismatch": [
+     {
+      "profile": "age=17 balance=0 basic=0 channel=BRANCH epoch=NOW extra=0 has_product=False reserved=0 term=6 termination=MATURITY",
+      "gold": [
+       "2.95",
+       "2.95",
+       false,
+       true,
+       "frozenset({('MET', 'LIMIT_AMOUNT', None, '3000000', None, None)})"
+      ],
+      "gen": [
+       "2.95",
+       "2.95",
+       false,
+       true,
+       "frozenset()"
+      ]
+     },
+     {
+      "profile": "age=17 balance=0 basic=0 channel=BRANCH epoch=NOW extra=0 has_product=False reserved=0 term=6 termination=EARLY",
+      "gold": [
+       "2.95",
+       "2.95",
+       false,
+       true,
+       "frozenset({('MET', 'LIMIT_AMOUNT', None, '3000000', None, None)})"
+      ],
+      "gen": [
+       "2.95",
+       "2.95",
+       false,
+       true,
+       "frozenset()"
+      ]
+     }
+    ]
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": false,
+    "rate": 0.0,
+    "mismatch": [
+     {
+      "profile": "age=17 balance=0 basic=0 channel=BRANCH epoch=NOW extra=0 has_product=False reserved=0 term=6 termination=MATURITY",
+      "gold": [
+       "2.95",
+       "2.95",
+       false,
+       true,
+       "frozenset()"
+      ],
+      "gen": [
+       "2.95",
+       "2.95",
+       false,
+       true,
+       "frozenset({('MET', 'LIMIT_AMOUNT', None, '3000000', None, None)})"
+      ]
+     },
+     {
+      "profile": "age=17 balance=0 basic=0 channel=BRANCH epoch=NOW extra=0 has_product=False reserved=0 term=6 termination=EARLY",
+      "gold": [
+       "2.95",
+       "2.95",
+       false,
+       true,
+       "frozenset()"
+      ],
+      "gen": [
+       "2.95",
+       "2.95",
+       false,
+       true,
+       "frozenset({('MET', 'LIMIT_AMOUNT', None, '3000000', None, None)})"
+      ]
+     }
+    ]
+   }
+  },
+  "shapes": {
+   "opus": [
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ],
+    [
+     "LIMIT_AMOUNT",
+     "3000000",
+     null,
+     null
+    ]
+   ],
+   "sonnet": [
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ],
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ]
+   ],
+   "fable": [
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ],
+    [
+     "LIMIT_AMOUNT",
+     "3000000",
+     null,
+     null
+    ]
+   ]
+  },
+  "n_rules": {
+   "opus": [
+    3,
+    2
+   ],
+   "sonnet": [
+    3,
+    2
+   ],
+   "fable": [
+    3,
+    2
+   ]
+  }
+ },
+ {
+  "id": "HNSAL-S2-R07",
+  "verdict": "표현불가",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [],
+   "sonnet": [],
+   "fable": []
+  },
+  "n_rules": {
+   "opus": [
+    2,
+    0
+   ],
+   "sonnet": [
+    3,
+    0
+   ],
+   "fable": [
+    2,
+    0
+   ]
+  }
+ },
+ {
+  "id": "HNSAL-S2-R08",
+  "verdict": "규칙",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [
+    [
+     "RATE_OVERRIDE",
+     "2.95",
+     "%",
+     null
+    ],
+    [
+     "RATE_OVERRIDE",
+     "3.0",
+     "%",
+     null
+    ],
+    [
+     "RATE_OVERRIDE",
+     "3.1",
+     "%",
+     null
+    ]
+   ],
+   "sonnet": [
+    [
+     "RATE_OVERRIDE",
+     "2.95",
+     "%",
+     null
+    ],
+    [
+     "RATE_OVERRIDE",
+     "3.0",
+     "%",
+     null
+    ],
+    [
+     "RATE_OVERRIDE",
+     "3.1",
+     "%",
+     null
+    ]
+   ],
+   "fable": [
+    [
+     "RATE_OVERRIDE",
+     "2.95",
+     "%",
+     null
+    ],
+    [
+     "RATE_OVERRIDE",
+     "3.0",
+     "%",
+     null
+    ],
+    [
+     "RATE_OVERRIDE",
+     "3.1",
+     "%",
+     null
+    ]
+   ]
+  },
+  "n_rules": {
+   "opus": [
+    3,
+    3
+   ],
+   "sonnet": [
+    3,
+    3
+   ],
+   "fable": [
+    3,
+    3
+   ]
+  }
+ },
+ {
+  "id": "HNSAL-S2-R09",
+  "verdict": "규칙",
+  "result": "갈림",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": false,
+    "rate": 81.2,
+    "mismatch": [
+     {
+      "profile": "age=17 balance=0 basic=0 channel=BRANCH epoch=NOW extra=1 has_product=False reserved=0 term=6 termination=MATURITY",
+      "gold": [
+       "2.95",
+       "2.95",
+       false,
+       false,
+       "frozenset()"
+      ],
+      "gen": [
+       "3.85",
+       "3.85",
+       false,
+       false,
+       "frozenset()"
+      ]
+     },
+     {
+      "profile": "age=17 balance=0 basic=0 channel=BRANCH epoch=NOW extra=1 has_product=False reserved=0 term=24 termination=MATURITY",
+      "gold": [
+       "2.95",
+       "2.95",
+       false,
+       false,
+       "frozenset()"
+      ],
+      "gen": [
+       "3.85",
+       "3.85",
+       false,
+       false,
+       "frozenset()"
+      ]
+     }
+    ]
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": false,
+    "rate": 81.2,
+    "mismatch": [
+     {
+      "profile": "age=17 balance=0 basic=0 channel=BRANCH epoch=NOW extra=1 has_product=False reserved=0 term=6 termination=MATURITY",
+      "gold": [
+       "3.85",
+       "3.85",
+       false,
+       false,
+       "frozenset()"
+      ],
+      "gen": [
+       "2.95",
+       "2.95",
+       false,
+       false,
+       "frozenset()"
+      ]
+     },
+     {
+      "profile": "age=17 balance=0 basic=0 channel=BRANCH epoch=NOW extra=1 has_product=False reserved=0 term=24 termination=MATURITY",
+      "gold": [
+       "3.85",
+       "3.85",
+       false,
+       false,
+       "frozenset()"
+      ],
+      "gen": [
+       "2.95",
+       "2.95",
+       false,
+       false,
+       "frozenset()"
+      ]
+     }
+    ]
+   }
+  },
+  "shapes": {
+   "opus": [
+    [
+     "RATE_ADD",
+     "0.1",
+     "%p",
+     null
+    ],
+    [
+     "RATE_ADD",
+     "0.9",
+     "%p",
+     null
+    ]
+   ],
+   "sonnet": [
+    [
+     "RATE_ADD",
+     "0.1",
+     "%p",
+     null
+    ],
+    [
+     "RATE_ADD",
+     "0.9",
+     "%p",
+     null
+    ]
+   ],
+   "fable": [
+    [
+     "RATE_ADD",
+     "0.1",
+     "%p",
+     null
+    ],
+    [
+     "RATE_ADD",
+     "0.9",
+     "%p",
+     null
+    ]
+   ]
+  },
+  "n_rules": {
+   "opus": [
+    3,
+    2
+   ],
+   "sonnet": [
+    3,
+    2
+   ],
+   "fable": [
+    3,
+    2
+   ]
+  }
+ },
+ {
+  "id": "HNSAL-S2-R10",
+  "verdict": "규칙",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [
+    [
+     "RATE_ADD",
+     "1.3",
+     "%p",
+     null
+    ]
+   ],
+   "sonnet": [
+    [
+     "RATE_ADD",
+     "1.3",
+     "%p",
+     null
+    ]
+   ],
+   "fable": [
+    [
+     "RATE_ADD",
+     "1.3",
+     "%p",
+     null
+    ]
+   ]
+  },
+  "n_rules": {
+   "opus": [
+    2,
+    1
+   ],
+   "sonnet": [
+    2,
+    1
+   ],
+   "fable": [
+    2,
+    1
+   ]
+  }
+ },
+ {
+  "id": "HNSAL-S2-R11",
+  "verdict": "표현불가",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [],
+   "sonnet": [],
+   "fable": []
+  },
+  "n_rules": {
+   "opus": [
+    2,
+    0
+   ],
+   "sonnet": [
+    3,
+    0
+   ],
+   "fable": [
+    2,
+    0
+   ]
+  }
+ },
+ {
+  "id": "HNSAL-S2-R12",
+  "verdict": "규칙",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [
+    [
+     "RATE_OVERRIDE",
+     "0.1",
+     "%",
+     null
+    ]
+   ],
+   "sonnet": [
+    [
+     "RATE_OVERRIDE",
+     "0.1",
+     "%",
+     null
+    ]
+   ],
+   "fable": [
+    [
+     "RATE_OVERRIDE",
+     "0.1",
+     "%",
+     null
+    ]
+   ]
+  },
+  "n_rules": {
+   "opus": [
+    4,
+    1
+   ],
+   "sonnet": [
+    4,
+    1
+   ],
+   "fable": [
+    4,
+    1
+   ]
+  }
+ },
+ {
+  "id": "HNSAL-S2-R13",
+  "verdict": "표현불가",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [],
+   "sonnet": [],
+   "fable": []
+  },
+  "n_rules": {
+   "opus": [
+    2,
+    0
+   ],
+   "sonnet": [
+    2,
+    0
+   ],
+   "fable": [
+    2,
+    0
+   ]
+  }
+ },
+ {
+  "id": "HNSAL-S2-R14",
+  "verdict": "표현불가",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [],
+   "sonnet": [],
+   "fable": []
+  },
+  "n_rules": {
+   "opus": [
+    1,
+    0
+   ],
+   "sonnet": [
+    2,
+    0
+   ],
+   "fable": [
+    1,
+    0
+   ]
+  }
+ },
+ {
+  "id": "HNDRM-S2-R01",
+  "verdict": "규칙",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ],
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ],
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ]
+   ],
+   "sonnet": [
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ],
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ],
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ]
+   ],
+   "fable": [
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ],
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ],
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ]
+   ]
+  },
+  "n_rules": {
+   "opus": [
+    3,
+    3
+   ],
+   "sonnet": [
+    3,
+    3
+   ],
+   "fable": [
+    3,
+    3
+   ]
+  }
+ },
+ {
+  "id": "HNDRM-S2-R11",
+  "verdict": "규칙",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [
+    [
+     "RATE_ADD",
+     "0.2",
+     "%p",
+     null
+    ],
+    [
+     "RATE_ADD",
+     "0.2",
+     "%p",
+     null
+    ]
+   ],
+   "sonnet": [
+    [
+     "RATE_ADD",
+     "0.2",
+     "%p",
+     null
+    ],
+    [
+     "RATE_ADD",
+     "0.2",
+     "%p",
+     null
+    ]
+   ],
+   "fable": [
+    [
+     "RATE_ADD",
+     "0.2",
+     "%p",
+     null
+    ],
+    [
+     "RATE_ADD",
+     "0.2",
+     "%p",
+     null
+    ]
+   ]
+  },
+  "n_rules": {
+   "opus": [
+    5,
+    2
+   ],
+   "sonnet": [
+    5,
+    2
+   ],
+   "fable": [
+    5,
+    2
+   ]
+  }
+ },
+ {
+  "id": "HNDRM-S2-R12",
+  "verdict": "규칙",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [
+    [
+     "RATE_ADD",
+     "0.3",
+     "%p",
+     null
+    ]
+   ],
+   "sonnet": [
+    [
+     "RATE_ADD",
+     "0.3",
+     "%p",
+     null
+    ]
+   ],
+   "fable": [
+    [
+     "RATE_ADD",
+     "0.3",
+     "%p",
+     null
+    ]
+   ]
+  },
+  "n_rules": {
+   "opus": [
+    5,
+    1
+   ],
+   "sonnet": [
+    4,
+    1
+   ],
+   "fable": [
+    4,
+    1
+   ]
+  }
+ },
+ {
+  "id": "HNDRM-S2-R13",
+  "verdict": "규칙",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [
+    [
+     "RATE_OVERRIDE",
+     "0.1",
+     "%",
+     null
+    ]
+   ],
+   "sonnet": [
+    [
+     "RATE_OVERRIDE",
+     "0.1",
+     "%",
+     null
+    ]
+   ],
+   "fable": [
+    [
+     "RATE_OVERRIDE",
+     "0.1",
+     "%",
+     null
+    ]
+   ]
+  },
+  "n_rules": {
+   "opus": [
+    4,
+    1
+   ],
+   "sonnet": [
+    4,
+    1
+   ],
+   "fable": [
+    4,
+    1
+   ]
+  }
+ },
+ {
+  "id": "HNDRM-S2-R14",
+  "verdict": "표현불가",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [],
+   "sonnet": [],
+   "fable": []
+  },
+  "n_rules": {
+   "opus": [
+    2,
+    0
+   ],
+   "sonnet": [
+    2,
+    0
+   ],
+   "fable": [
+    2,
+    0
+   ]
+  }
+ },
+ {
+  "id": "HNDRM-S2-R15",
+  "verdict": "표현불가",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [],
+   "sonnet": [],
+   "fable": []
+  },
+  "n_rules": {
+   "opus": [
+    1,
+    0
+   ],
+   "sonnet": [
+    2,
+    0
+   ],
+   "fable": [
+    1,
+    0
+   ]
+  }
+ },
+ {
+  "id": "HNWSH-S2-R01",
+  "verdict": "규칙",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ],
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ]
+   ],
+   "sonnet": [
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ],
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ]
+   ],
+   "fable": [
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ],
+    [
+     "DISQUALIFY",
+     "null",
+     null,
+     null
+    ]
+   ]
+  },
+  "n_rules": {
+   "opus": [
+    2,
+    2
+   ],
+   "sonnet": [
+    2,
+    2
+   ],
+   "fable": [
+    2,
+    2
+   ]
+  }
+ },
+ {
+  "id": "HNWSH-S2-R09",
+  "verdict": "규칙",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [
+    [
+     "RATE_OVERRIDE",
+     "0.65",
+     "%",
+     null
+    ],
+    [
+     "RATE_OVERRIDE",
+     "0.75",
+     "%",
+     null
+    ],
+    [
+     "RATE_OVERRIDE",
+     "0.85",
+     "%",
+     null
+    ],
+    [
+     "RATE_OVERRIDE",
+     "0.95",
+     "%",
+     null
+    ]
+   ],
+   "sonnet": [
+    [
+     "RATE_OVERRIDE",
+     "0.65",
+     "%",
+     null
+    ],
+    [
+     "RATE_OVERRIDE",
+     "0.75",
+     "%",
+     null
+    ],
+    [
+     "RATE_OVERRIDE",
+     "0.85",
+     "%",
+     null
+    ],
+    [
+     "RATE_OVERRIDE",
+     "0.95",
+     "%",
+     null
+    ]
+   ],
+   "fable": [
+    [
+     "RATE_OVERRIDE",
+     "0.65",
+     "%",
+     null
+    ],
+    [
+     "RATE_OVERRIDE",
+     "0.75",
+     "%",
+     null
+    ],
+    [
+     "RATE_OVERRIDE",
+     "0.85",
+     "%",
+     null
+    ],
+    [
+     "RATE_OVERRIDE",
+     "0.95",
+     "%",
+     null
+    ]
+   ]
+  },
+  "n_rules": {
+   "opus": [
+    4,
+    4
+   ],
+   "sonnet": [
+    4,
+    4
+   ],
+   "fable": [
+    4,
+    4
+   ]
+  }
+ },
+ {
+  "id": "HNWSH-S2-R10",
+  "verdict": "표현불가",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [],
+   "sonnet": [],
+   "fable": []
+  },
+  "n_rules": {
+   "opus": [
+    6,
+    0
+   ],
+   "sonnet": [
+    7,
+    0
+   ],
+   "fable": [
+    6,
+    0
+   ]
+  }
+ },
+ {
+  "id": "HNWSH-S2-R12",
+  "verdict": "규칙",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [
+    [
+     "RATE_OVERRIDE",
+     "0.1",
+     "%",
+     null
+    ]
+   ],
+   "sonnet": [
+    [
+     "RATE_OVERRIDE",
+     "0.1",
+     "%",
+     null
+    ]
+   ],
+   "fable": [
+    [
+     "RATE_OVERRIDE",
+     "0.1",
+     "%",
+     null
+    ]
+   ]
+  },
+  "n_rules": {
+   "opus": [
+    4,
+    1
+   ],
+   "sonnet": [
+    4,
+    1
+   ],
+   "fable": [
+    4,
+    1
+   ]
+  }
+ },
+ {
+  "id": "HNWSH-S2-R13",
+  "verdict": "표현불가",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [],
+   "sonnet": [],
+   "fable": []
+  },
+  "n_rules": {
+   "opus": [
+    2,
+    0
+   ],
+   "sonnet": [
+    2,
+    0
+   ],
+   "fable": [
+    2,
+    0
+   ]
+  }
+ },
+ {
+  "id": "HNWSH-S2-R14",
+  "verdict": "표현불가",
+  "result": "일치",
+  "pairs": {
+   "opus-sonnet": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "opus-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   },
+   "sonnet-fable": {
+    "same_meaning": true,
+    "rate": 100.0,
+    "mismatch": []
+   }
+  },
+  "shapes": {
+   "opus": [],
+   "sonnet": [],
+   "fable": []
+  },
+  "n_rules": {
+   "opus": [
+    1,
+    0
+   ],
+   "sonnet": [
+    2,
+    0
+   ],
+   "fable": [
+    1,
+    0
+   ]
+  }
+ }
+]

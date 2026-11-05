@@ -1,0 +1,49 @@
+{
+ "clause_id": "HNSAL-S2-R06",
+ "label": "가입금액",
+ "verdict": "규칙",
+ "note": "rule 3개 · OK 2 · UNSUPPORTED 1. 01 「1만원 이상」→ contract.amount < 10,000 이면 DISQUALIFY (kb10 KBSUP-S2-R04-01 「1백만원 이상」과 같은 꼴 · 경계: 1만원은 가입 가능). 02 「300만원 이하」는 상한 — 지문의 「최대 N까지는 상한 · LIMIT_AMOUNT · 조건 없음」 대로 LIMIT_AMOUNT 3,000,000 (한도를 넘는다고 자격을 잃는 것이 아니다). 03 「청년응원 특별금리 등록 시 150만원 이하」는 등록 여부 변수가 없다 — 나이(만35세 이하)로 바꾸면 등록하지 않은 고객의 한도를 낮추는 다른 개념이라 UNSUPPORTED. 자유적립식이라 「가입금액」이 초입금인지 매 입금 건인지 조문이 말하지 않는다 — contract.amount(가입금액)로 읽었다. Sonnet 판정이 표현불가였던 자리인데, 01·02 는 조문 그대로라 규칙이 맞다고 본다.",
+ "rules": [
+  {
+   "rule_id": "HNSAL-S2-R06-01",
+   "status": "OK",
+   "label": "가입금액 1만원 미만이면 가입 불가",
+   "source": {
+    "quote": "1만원 이상 300만원 이하 (원단위)"
+   },
+   "condition": {
+    "<": [
+     {
+      "var": "contract.amount"
+     },
+     10000
+    ]
+   },
+   "effect": {
+    "type": "DISQUALIFY"
+   }
+  },
+  {
+   "rule_id": "HNSAL-S2-R06-02",
+   "status": "OK",
+   "label": "가입금액 상한 300만원",
+   "source": {
+    "quote": "1만원 이상 300만원 이하 (원단위)"
+   },
+   "condition": {},
+   "effect": {
+    "type": "LIMIT_AMOUNT",
+    "value": 3000000
+   }
+  },
+  {
+   "rule_id": "HNSAL-S2-R06-03",
+   "status": "UNSUPPORTED",
+   "label": "청년응원 특별금리 등록 시 가입금액 상한 150만원 — 특별금리 등록 여부 변수 없음",
+   "source": {
+    "quote": "(단, 청년응원 특별금리등록시 1만원이상 150만원 이하)"
+   },
+   "condition": {}
+  }
+ ]
+}

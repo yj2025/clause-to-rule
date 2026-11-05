@@ -1,0 +1,71 @@
+{
+  "clause_id": "HNSAL-S2-R08",
+  "label": "기본금리",
+  "verdict": "규칙",
+  "note": "계약기간별 기본금리 표: 1년 2.95 · 2년 3.00 · 3년 3.10 을 행마다 RATE_OVERRIDE(가입기간 개월 수 == 12/24/36). 고객의 계약기간에 따라 값이 갈리므로 판별이다 (단일 기본금리 조문이 빈 배열인 것과 다름). 「신규일 당시 … 고시한 … 적용」은 출처 안내라 rule 이 아니다. 표가 열 단위로 깨져 quote 는 금리 행 한 줄을 세 rule 이 같이 쓴다.",
+  "rules": [
+    {
+      "rule_id": "HNSAL-S2-R08-01",
+      "status": "OK",
+      "label": "계약기간 1년 기본금리 연 2.95%",
+      "source": {
+        "quote": "기본금리 연 2.95% 연 3.00% 연 3.10%"
+      },
+      "condition": {
+        "==": [
+          {
+            "var": "contract.term_months"
+          },
+          12
+        ]
+      },
+      "effect": {
+        "type": "RATE_OVERRIDE",
+        "value": 2.95,
+        "unit": "%"
+      }
+    },
+    {
+      "rule_id": "HNSAL-S2-R08-02",
+      "status": "OK",
+      "label": "계약기간 2년 기본금리 연 3.00%",
+      "source": {
+        "quote": "기본금리 연 2.95% 연 3.00% 연 3.10%"
+      },
+      "condition": {
+        "==": [
+          {
+            "var": "contract.term_months"
+          },
+          24
+        ]
+      },
+      "effect": {
+        "type": "RATE_OVERRIDE",
+        "value": 3.0,
+        "unit": "%"
+      }
+    },
+    {
+      "rule_id": "HNSAL-S2-R08-03",
+      "status": "OK",
+      "label": "계약기간 3년 기본금리 연 3.10%",
+      "source": {
+        "quote": "기본금리 연 2.95% 연 3.00% 연 3.10%"
+      },
+      "condition": {
+        "==": [
+          {
+            "var": "contract.term_months"
+          },
+          36
+        ]
+      },
+      "effect": {
+        "type": "RATE_OVERRIDE",
+        "value": 3.1,
+        "unit": "%"
+      }
+    }
+  ]
+}

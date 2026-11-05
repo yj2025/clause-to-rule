@@ -1,0 +1,60 @@
+{
+  "clause_id": "HNDRM-S2-R14",
+  "label": "만기후 금리",
+  "verdict": "표현불가",
+  "note": "만기 후 해지 시 정기적금 기본금리의 1/2(1개월 이내)·1/4(1개월 초과) — 비율식이라 effect 가 없어 둘 다 UNSUPPORTED. 구간은 날짜 비교로 서므로 조건은 남겼다(해지일 > 만기일; 1개월 경계는 만기일+1개월, 「이내」=이하, 「초과」=초과).",
+  "rules": [
+    {
+      "rule_id": "HNDRM-S2-R14-01",
+      "status": "UNSUPPORTED",
+      "label": "만기후 1개월 이내 해지 — 지급당시 해당기간별 정기적금 기본금리의 1/2: 비율식 없음",
+      "source": {
+        "quote": "1개월이내: 지급당시해당기간별정기적금기본금리½"
+      },
+      "condition": {
+        "and": [
+          {
+            ">": [
+              {
+                "var": "contract.termination_date"
+              },
+              {
+                "var": "contract.maturity_date"
+              }
+            ]
+          },
+          {
+            "<=": [
+              {
+                "var": "contract.termination_date"
+              },
+              {
+                "anchor": "contract.maturity_date",
+                "offset_months": 1
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "rule_id": "HNDRM-S2-R14-02",
+      "status": "UNSUPPORTED",
+      "label": "만기후 1개월 초과 해지 — 지급당시 해당기간별 정기적금 기본금리의 1/4: 비율식 없음",
+      "source": {
+        "quote": "1개월초과: 지급당시해당기간별정기적금기본금리¼"
+      },
+      "condition": {
+        ">": [
+          {
+            "var": "contract.termination_date"
+          },
+          {
+            "anchor": "contract.maturity_date",
+            "offset_months": 1
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+ "clause_id": "HNWSH-S2-R09",
+ "label": "기본금리",
+ "verdict": "규칙",
+ "note": "rule 4개 · 전부 OK. 계약기간별 기본금리 표 네 열(6~12개월 0.65 · 12~24개월 0.75 · 24~36개월 0.85 · 36개월 0.95)을 열마다 contract.term_months 구간 → RATE_OVERRIDE 로 옮겼다(kb10 KBMER-S2-R07 과 같은 꼴 · 이상 >= · 미만 < · 36개월 ==). 표가 가로로 찍혀 열별 인용이 안 되므로 네 rule 이 같은 표 블록을 인용한다. 「실제 예금 가입일에 … 고시한 금리 적용 (’21.03.25 현재, 세전)」은 출처 안내라 rule 이 아니다.",
+ "rules": [
+  {
+   "rule_id": "HNWSH-S2-R09-01",
+   "status": "OK",
+   "label": "계약기간 6개월 이상 12개월 미만 기본금리 연 0.65%",
+   "source": {
+    "quote": "6개월이상 12개월이상 24개월이상 기간 36개월 ~12개월미만 ~24개월미만 ~36개월미만 금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%"
+   },
+   "condition": {
+    "and": [
+     {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       6
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.term_months"
+       },
+       12
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 0.65,
+    "unit": "%"
+   }
+  },
+  {
+   "rule_id": "HNWSH-S2-R09-02",
+   "status": "OK",
+   "label": "계약기간 12개월 이상 24개월 미만 기본금리 연 0.75%",
+   "source": {
+    "quote": "6개월이상 12개월이상 24개월이상 기간 36개월 ~12개월미만 ~24개월미만 ~36개월미만 금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%"
+   },
+   "condition": {
+    "and": [
+     {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       12
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.term_months"
+       },
+       24
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 0.75,
+    "unit": "%"
+   }
+  },
+  {
+   "rule_id": "HNWSH-S2-R09-03",
+   "status": "OK",
+   "label": "계약기간 24개월 이상 36개월 미만 기본금리 연 0.85%",
+   "source": {
+    "quote": "6개월이상 12개월이상 24개월이상 기간 36개월 ~12개월미만 ~24개월미만 ~36개월미만 금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%"
+   },
+   "condition": {
+    "and": [
+     {
+      ">=": [
+       {
+        "var": "contract.term_months"
+       },
+       24
+      ]
+     },
+     {
+      "<": [
+       {
+        "var": "contract.term_months"
+       },
+       36
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 0.85,
+    "unit": "%"
+   }
+  },
+  {
+   "rule_id": "HNWSH-S2-R09-04",
+   "status": "OK",
+   "label": "계약기간 36개월 기본금리 연 0.95%",
+   "source": {
+    "quote": "6개월이상 12개월이상 24개월이상 기간 36개월 ~12개월미만 ~24개월미만 ~36개월미만 금리(세전) 연0.65% 연0.75% 연0.85% 연0.95%"
+   },
+   "condition": {
+    "==": [
+     {
+      "var": "contract.term_months"
+     },
+     36
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 0.95,
+    "unit": "%"
+   }
+  }
+ ]
+}

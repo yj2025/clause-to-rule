@@ -1,0 +1,51 @@
+{
+  "clause_id": "HNSAL-S2-R04",
+  "label": "이자지급 방식",
+  "verdict": "표현불가",
+  "note": "표현불가 3건. 01 만기일시지급식(월복리식)으로 만기(후) 해지 시 이자를 지급 — 이자 지급 방식·복리 계산이라 effect 없음. 02 중도해지금리는 단리로 계산 — 이자 계산 방식, 조건(해지유형 EARLY)은 남겼다. 03 만기후금리는 단리로 계산 — 조건(해지일 > 만기일)은 남겼다. 02·03 은 한 문장에 묶여 있으나 조건이 달라 둘로 나눴다(quote 는 같은 문장).",
+  "rules": [
+    {
+      "rule_id": "HNSAL-S2-R04-01",
+      "status": "UNSUPPORTED",
+      "label": "만기일시지급식(월복리식) — 만기(후) 해지 시 이자 지급: 이자 지급·복리 방식을 담을 effect 없음",
+      "source": {
+        "quote": "만기일시지급식(월복리식) : 만기(후)해지시이자를지급"
+      },
+      "condition": {}
+    },
+    {
+      "rule_id": "HNSAL-S2-R04-02",
+      "status": "UNSUPPORTED",
+      "label": "중도해지금리는 단리로 계산하여 지급 — 단리/복리 계산 방식 effect 없음",
+      "source": {
+        "quote": "단, 중도해지금리및만기후금리는단리로계산하여이자를지급함"
+      },
+      "condition": {
+        "==": [
+          {
+            "var": "contract.termination_type"
+          },
+          "EARLY"
+        ]
+      }
+    },
+    {
+      "rule_id": "HNSAL-S2-R04-03",
+      "status": "UNSUPPORTED",
+      "label": "만기후금리는 단리로 계산하여 지급 — 단리/복리 계산 방식 effect 없음",
+      "source": {
+        "quote": "단, 중도해지금리및만기후금리는단리로계산하여이자를지급함"
+      },
+      "condition": {
+        ">": [
+          {
+            "var": "contract.termination_date"
+          },
+          {
+            "var": "contract.maturity_date"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+ "clause_id": "HNSAL-S2-R10",
+ "label": "특별금리 (연1.30%) ※ 가입일기준 만35세이하만가능",
+ "verdict": "규칙",
+ "note": "rule 2개 · OK 1 · UNSUPPORTED 1. 01 청년응원 특별금리 1.30%p: 조건 넷을 and 로 묶었다 — (가) 「가입일기준 만35세 이하」→ customer.age <= 35 (판별 시점 나이로 근사 · 가입 뒤 생일이 지난 고객은 불리할 수 있으나 가입대상 조문들과 같은 관례), (나) 「1년제」→ term_months == 12, (다)(라) 「만기 전전월말 기준 6개월 이상」 급여 입금실적 · 하나카드 결제실적 → 창(가입월 1일 ~ 만기 전전월 말일) 안 count_distinct_months(SALARY_TRANSFER) >= 6 와 count_distinct_months(CARD_USAGE) >= 6 (「모두 충족」). 카드 「월 30만원 이상」은 월 합계라 where.min_amount(건별)로 담을 수 없어 뺐고, 하나카드 한정 · 하나머니 충전 제외 · 급여 인정기준(주1)도 못 담았다 — 전부 넓게 인정하는 우대 쪽 오차(원칙 1). 「만기해지시」→ guard MATURITY(※ 중도해지 미적용도 여기서 받는다). 02 ※ 「고객별 1회에 한해 · 재예치기간 미적용」은 특별금리 수령 이력 · 재예치 여부 변수가 없다 → UNSUPPORTED. 가입금액 150만원 한도는 R06 소관이라 여기 없다.",
+ "rules": [
+  {
+   "rule_id": "HNSAL-S2-R10-01",
+   "status": "OK",
+   "label": "만35세 이하 · 1년제 · 6개월 이상 급여입금+하나카드 결제 → 특별금리 연 1.30%p (만기해지 계좌)",
+   "source": {
+    "quote": "[특별금리 (연1.30%) ※ 가입일기준 만35세이하만가능] 이 예금을 1년제로 가입하고, 아래 항목을 모두 충족하는 경우 만기해지시 추가 제공합니다"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.start_date",
+       "offset_months": 0,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.maturity_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "guard": {
+    "==": [
+     {
+      "var": "contract.termination_type"
+     },
+     "MATURITY"
+    ]
+   },
+   "condition": {
+    "and": [
+     {
+      "<=": [
+       {
+        "var": "customer.age"
+       },
+       35
+      ]
+     },
+     {
+      "==": [
+       {
+        "var": "contract.term_months"
+       },
+       12
+      ]
+     },
+     {
+      ">=": [
+       {
+        "count_distinct_months": {
+         "event": "SALARY_TRANSFER",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       6
+      ]
+     },
+     {
+      ">=": [
+       {
+        "count_distinct_months": {
+         "event": "CARD_USAGE",
+         "within": {
+          "ref": "$window"
+         }
+        }
+       },
+       6
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "RATE_ADD",
+    "value": 1.3,
+    "unit": "%p",
+    "applies_to": "BASE_RATE"
+   }
+  },
+  {
+   "rule_id": "HNSAL-S2-R10-02",
+   "status": "UNSUPPORTED",
+   "label": "고객별 1회 한정 · 재예치기간 미적용 — 특별금리 수령 이력 · 재예치 여부 변수 없음",
+   "source": {
+    "quote": "※ 고객별1회에한해제공되는 특별금리로, 중도해지 및재예치기간은미적용."
+   },
+   "condition": {}
+  }
+ ]
+}

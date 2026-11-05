@@ -1,0 +1,60 @@
+{
+ "clause_id": "HNDRM-S2-R14",
+ "label": "만기후 금리",
+ "verdict": "표현불가",
+ "note": "rule 2개 · 전부 UNSUPPORTED. 만기후 금리 두 행이 모두 「지급당시 고시 정기적금(상호부금) 기본금리의 ½ · ¼」이라 값이 수가 아니고(비율식 · 지급당시 고시금리 변수 없음), 만기후 이율을 RATE_OVERRIDE 로 두면 만기 전 약정이율까지 지운다(kb10 KBSTR-S2-R13 · KBGEN-S2-R08-08~10 과 같은 판단). 구간 조건(만기일 < 해지일 ≤ 만기일+1개월 · 해지일 > 만기일+1개월)은 날짜 비교로 온전히 표현되므로 남겼다 — 지급청구일 대신 해지일(termination_date)을 예치기간의 끝으로 봤다(kb10 관례). 아래 도해 줄은 표의 되풀이라 rule 이 아니다.",
+ "rules": [
+  {
+   "rule_id": "HNDRM-S2-R14-01",
+   "status": "UNSUPPORTED",
+   "label": "만기후 1개월 이내 — 지급당시 기본금리 ½ (비율식 없음)",
+   "source": {
+    "quote": "• 1개월이내: 지급당시해당기간별정기적금기본금리½"
+   },
+   "condition": {
+    "and": [
+     {
+      ">": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "var": "contract.maturity_date"
+       }
+      ]
+     },
+     {
+      "<=": [
+       {
+        "var": "contract.termination_date"
+       },
+       {
+        "anchor": "contract.maturity_date",
+        "offset_months": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "rule_id": "HNDRM-S2-R14-02",
+   "status": "UNSUPPORTED",
+   "label": "만기후 1개월 초과 — 지급당시 기본금리 ¼ (비율식 없음)",
+   "source": {
+    "quote": "• 1개월초과: 지급당시해당기간별정기적금기본금리¼"
+   },
+   "condition": {
+    ">": [
+     {
+      "var": "contract.termination_date"
+     },
+     {
+      "anchor": "contract.maturity_date",
+      "offset_months": 1
+     }
+    ]
+   }
+  }
+ ]
+}

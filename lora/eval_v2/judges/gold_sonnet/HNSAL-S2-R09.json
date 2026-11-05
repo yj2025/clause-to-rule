@@ -1,0 +1,102 @@
+{
+  "clause_id": "HNSAL-S2-R09",
+  "label": "우대금리 (최대연 1.00%)",
+  "verdict": "규칙",
+  "note": "우대 항목별 rule, 전부 만기해지 계좌에만(guard MATURITY — 「중도해지 시에는 적용하지 않습니다」). 01 급여하나우대 0.90%p: 가입월 1일~만기 전전월 말일 창에서 급여이체가 발생한 월 수를 센다. 「계약기간의 1/2 이상」은 계약기간에 비례한 개월 수인데 나눗셈을 담을 수단이 없어 6개월 이상으로 근사했다(계약기간 1년 이상을 가정 — 1년제에는 정확, 2·3년제에는 요구를 낮추는 유리한 쪽 오차). 「월 50만원 이상」 급여 인정기준·「본인명의 하나은행」은 못 담아 급여이체 이벤트 전체를 인정(넓게 인정 · 유리한 오차). 02 온라인채널 가입 0.10%p: contract.channel 이 ONLINE/INTERNET/MOBILE 이면(가입 채널로 읽음). 03 만기재예치 우대는 재예치 여부 변수가 없다 → UNSUPPORTED. 「최대 연 1.00%」는 합산 상한(0.90+0.10)이라 규칙이 아니다.",
+  "rules": [
+    {
+      "rule_id": "HNSAL-S2-R09-01",
+      "status": "OK",
+      "label": "계약기간 1/2(6개월로 근사) 이상 급여이체 → 급여하나우대 0.90%p (만기해지)",
+      "source": {
+        "quote": "급여하나우대 이예금만기전전월말기준, 계약기간의1/2 이상본인명의하나은행입출금통장을"
+      },
+      "let": {
+        "window": {
+          "month_range": {
+            "from": {
+              "anchor": "contract.start_date",
+              "offset_months": 0,
+              "day": "first"
+            },
+            "to": {
+              "anchor": "contract.maturity_date",
+              "offset_months": -2,
+              "day": "last"
+            }
+          }
+        }
+      },
+      "guard": {
+        "==": [
+          {
+            "var": "contract.termination_type"
+          },
+          "MATURITY"
+        ]
+      },
+      "condition": {
+        ">=": [
+          {
+            "count_distinct_months": {
+              "event": "SALARY_TRANSFER",
+              "within": {
+                "ref": "$window"
+              }
+            }
+          },
+          6
+        ]
+      },
+      "effect": {
+        "type": "RATE_ADD",
+        "value": 0.9,
+        "unit": "%p",
+        "applies_to": "BASE_RATE"
+      }
+    },
+    {
+      "rule_id": "HNSAL-S2-R09-02",
+      "status": "OK",
+      "label": "온라인채널(스마트폰뱅킹/인터넷뱅킹)로 가입 → 온라인채널가입우대 0.10%p (만기해지)",
+      "source": {
+        "quote": "온라인채널가입 이예금을온라인채널(스마트폰뱅킹/인터넷뱅킹)을통해가입또는만기재예치하는"
+      },
+      "guard": {
+        "==": [
+          {
+            "var": "contract.termination_type"
+          },
+          "MATURITY"
+        ]
+      },
+      "condition": {
+        "in": [
+          {
+            "var": "contract.channel"
+          },
+          [
+            "ONLINE",
+            "INTERNET",
+            "MOBILE"
+          ]
+        ]
+      },
+      "effect": {
+        "type": "RATE_ADD",
+        "value": 0.1,
+        "unit": "%p",
+        "applies_to": "BASE_RATE"
+      }
+    },
+    {
+      "rule_id": "HNSAL-S2-R09-03",
+      "status": "UNSUPPORTED",
+      "label": "만기 재예치 우대(최대 0.10%p) — 재예치 여부·재예치 기간 변수 없음",
+      "source": {
+        "quote": "단, 만기재예치우대는최초계약기간이후재예치된기간에대해적용"
+      },
+      "condition": {}
+    }
+  ]
+}

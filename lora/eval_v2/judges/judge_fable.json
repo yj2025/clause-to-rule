@@ -1,0 +1,247 @@
+[
+ {
+  "id": "HNSAL-S1-P01",
+  "verdict": "없음",
+  "confidence": "high",
+  "reason": "상품 개요 — 우대금리·월복리·분기 적립한도·긴급자금 인출을 말로만 소개하고 기준과 값은 다른 조문에 있다. 「직장인 전용」도 가입대상 조문(개인·개인사업자)이 따로 정하므로 홍보 문구다 (kb10 SUMMARY 관례).",
+  "effects": []
+ },
+ {
+  "id": "HNSAL-S2-R01",
+  "verdict": "규칙",
+  "confidence": "high",
+  "reason": "「1인 1계좌」→ customer.has_product 참이면 DISQUALIFY, 「실명의 개인 또는 개인사업자」→ 법인(CORPORATION) 등은 DISQUALIFY. 「연금하나월복리적금·주거래하나월복리적금 중복가입 불가」는 상품 키가 KB 상품만 있어 UNSUPPORTED 로 섞인다.",
+  "effects": ["DISQUALIFY"]
+ },
+ {
+  "id": "HNSAL-S2-R04",
+  "verdict": "표현불가",
+  "confidence": "medium",
+  "reason": "만기일시지급식(월복리)·중도해지/만기후는 단리 — 이자 지급 시기와 복리/단리 계산 방식이라 effect 가 없다. kb10 이자지급방법(KBSME-S2-R06) 관례대로 UNSUPPORTED. 고객을 가르지 않아 빈 배열로 볼 여지도 있다.",
+  "effects": []
+ },
+ {
+  "id": "HNSAL-S2-R06",
+  "verdict": "규칙",
+  "confidence": "low",
+  "reason": "「1만원 이상 300만원 이하」→ contract.amount < 10000 이면 DISQUALIFY, 상한 300만원은 LIMIT_AMOUNT 로 적을 수 있다 (KBSUP-S2-R04 「1백만원 이상」 전례). 단서 「청년응원 특별금리 등록시 150만원」은 등록 여부 변수가 없어 UNSUPPORTED. 적금의 건별 입금액 제약으로 보면 범위 밖이라 표현불가로 갈릴 수 있다.",
+  "effects": ["DISQUALIFY", "LIMIT_AMOUNT"]
+ },
+ {
+  "id": "HNSAL-S2-R07",
+  "verdict": "표현불가",
+  "confidence": "low",
+  "reason": "「분기당 1만원 이상 300만원 이하」는 기간(분기) 단위 입금 한도인데 LIMIT_AMOUNT 에는 기간 단위가 없어 총액 한도로 읽히고(다른 개념), 청년응원 특별금리 적용기간의 150만원 단서도 변수가 없다. 한도라는 조건·효과는 있으나 옮길 수단이 없다.",
+  "effects": []
+ },
+ {
+  "id": "HNSAL-S2-R08",
+  "verdict": "규칙",
+  "confidence": "high",
+  "reason": "계약기간별 기본금리 표(1년 2.95% · 2년 3.00% · 3년 3.10%) — 행마다 contract.term_months 조건으로 RATE_OVERRIDE (KBMER-S2-R07 · KBSTR-S2-R07 전례). 「신규일 당시 고시한 … 적용」은 출처 안내다.",
+  "effects": ["RATE_OVERRIDE"]
+ },
+ {
+  "id": "HNSAL-S2-R09",
+  "verdict": "규칙",
+  "confidence": "high",
+  "reason": "급여하나우대 0.90% → 가입~만기 전전월말 창에서 SALARY_TRANSFER(건별 50만원) 발생 월수가 계약기간의 1/2 이상이면 RATE_ADD, 온라인채널가입 0.10% → contract.channel 이 비대면이면 RATE_ADD, guard 만기해지(중도해지 미적용). 재예치 우대는 재예치 변수가 없어 UNSUPPORTED 로 섞인다.",
+  "effects": ["RATE_ADD"]
+ },
+ {
+  "id": "HNSAL-S2-R10",
+  "verdict": "규칙",
+  "confidence": "high",
+  "reason": "만 35세 이하(customer.age) · 1년제(term_months 12) · 급여입금 6개월 이상(count_distinct_months SALARY_TRANSFER) · 하나카드 결제실적(CARD_USAGE, 월 30만원은 근사) 을 모두 충족하면 만기해지 시 RATE_ADD 1.30%. 「고객별 1회」· 재예치기간 미적용은 상위 제약이라 근사 안에 든다.",
+  "effects": ["RATE_ADD"]
+ },
+ {
+  "id": "HNSAL-S2-R11",
+  "verdict": "표현불가",
+  "confidence": "high",
+  "reason": "금리우대쿠폰 — 쿠폰 적용 여부도 쿠폰 금리 값도 카탈로그·조문에 없다(값이 문서 밖). 「재예치·중도해지 시 미적용」은 본체가 표현 불가라 같이 UNSUPPORTED (KBSTR-S2-R08 과 같은 꼴).",
+  "effects": []
+ },
+ {
+  "id": "HNSAL-S2-R12",
+  "verdict": "규칙",
+  "confidence": "medium",
+  "reason": "고정 행 「1개월 미만 연 0.10%」은 중도해지(termination_type EARLY)이고 해지일 < 가입일+1개월이면 RATE_OVERRIDE 0.1 로 정확히 선다(KBMY-S2-R11 · KBSTR-S2-R12 전례). 「기본금리×차등율×경과율」 행과 입금 건별 1~6개월 구간은 비율식·건별 경과기간이 없어 UNSUPPORTED 로 섞인다.",
+  "effects": ["RATE_OVERRIDE"]
+ },
+ {
+  "id": "HNSAL-S2-R13",
+  "verdict": "표현불가",
+  "confidence": "high",
+  "reason": "만기후 1개월 이내 기본금리 ½ · 1개월 초과 ¼ — 두 행 모두 값이 기본금리의 비율식이고 고정 수가 없다. 조건(해지일 > 만기일)은 서지만 effect 를 적을 수단이 없어 전부 UNSUPPORTED (KBSTR-S2-R13 비율 행과 같다).",
+  "effects": []
+ },
+ {
+  "id": "HNSAL-S2-R14",
+  "verdict": "표현불가",
+  "confidence": "medium",
+  "reason": "저축금마다 약정금리를 월복리로 계산하는 이자 산식(납입금액×약정금리×일수/365 합산) — 이자 금액 산출은 판별 범위 밖이라 UNSUPPORTED 하나 (KBSTR-S2-R11 · KBMER-S2-R10 관례). 빈 배열로 볼 여지도 있다.",
+  "effects": []
+ },
+ {
+  "id": "HNSAL-S2-R25",
+  "verdict": "없음",
+  "confidence": "high",
+  "reason": "「해당사항 없음」— 아무 고객에게도 걸리는 조건·효과가 없다 (「제한없음」과 같은 자리).",
+  "effects": []
+ },
+ {
+  "id": "HNDRM-S1-P01",
+  "verdict": "없음",
+  "confidence": "low",
+  "reason": "상품 개요 — 자동재예치·Happy Year 특별금리·중도인출 2회를 말로만 언급하고 기준과 값은 다른 조문에 있다(SUMMARY). 「어린이와 청소년 전용」은 나이 기준이 가입대상 조문(만 18세 이하)에 따로 있어 여기선 서술로 봤으나, KBMY-S1-P01 「비대면채널 전용」처럼 DISQUALIFY 규칙으로 볼 여지가 있다.",
+  "effects": []
+ },
+ {
+  "id": "HNDRM-S2-R01",
+  "verdict": "규칙",
+  "confidence": "high",
+  "reason": "「만 18세 이하」→ customer.age > 18 이면 DISQUALIFY, 「1인 1계좌」→ has_product 참이면 DISQUALIFY, 「실명의 개인」→ 법인은 DISQUALIFY.",
+  "effects": ["DISQUALIFY"]
+ },
+ {
+  "id": "HNDRM-S2-R02",
+  "verdict": "없음",
+  "confidence": "high",
+  "reason": "「적립식예금」— 상품유형 분류 라벨이다 (LABEL). 조건도 효과도 없다.",
+  "effects": []
+ },
+ {
+  "id": "HNDRM-S2-R09",
+  "verdict": "없음",
+  "confidence": "low",
+  "reason": "예금주명·별칭을 상품명에 인자하는 서비스 안내 — 금리·수수료·한도·자격·제한 어느 것도 바꾸지 않는 통장 표기 편의다 (KBSTR-S2-R17 통장 발행과 같은 자리). 「글자수에 따라 미제공」을 조건→서비스 효과로 보면 SERVICE_PROVIDE 대상이 없어 표현불가로 갈릴 수 있다.",
+  "effects": []
+ },
+ {
+  "id": "HNDRM-S2-R10",
+  "verdict": "없음",
+  "confidence": "high",
+  "reason": "기본금리 단일 값(1년 연 2.70%)은 상품 설정 base_rate 다. RATE_OVERRIDE 로 적으면 우대금리를 지우고 RATE_ADD 면 두 번 더해진다 (KBGL-S2-R04 · KBHAP-S2-R08 관례, PRODUCT_SETTING). 「고시한 기본금리 적용」은 출처 안내다.",
+  "effects": []
+ },
+ {
+  "id": "HNDRM-S2-R11",
+  "verdict": "규칙",
+  "confidence": "high",
+  "reason": "③ 자동이체우대 → 계약기간 중 AUTO_TRANSFER 발생 월수 6 이상이면 RATE_ADD 0.20%, ④ 카드우대 → 가입 후 3개월째 달 말일까지 CARD_USAGE 가 있으면 RATE_ADD 0.20%, guard 만기해지. ① 최초 가입(과거 가입 이력) · ② 주택청약종합저축 보유(상품 키 없음) · ⑤ 아동수당 수령(이벤트 없음)은 UNSUPPORTED 로 섞인다.",
+  "effects": ["RATE_ADD"]
+ },
+ {
+  "id": "HNDRM-S2-R12",
+  "verdict": "규칙",
+  "confidence": "low",
+  "reason": "가항 「출생후 1년 이내·만 7세·만 13세·만 16세가 되는 계약기간」은 customer.age 로 (우대 쪽 근사로) 적어 RATE_ADD 0.30% 가 가능하다. 나항 단체 10인 이상 신규, 다항 대리인의 (태아)사랑하나적금 보유(상품 키 없음), ② 희망대학 등록 축하금리 2.00% 는 변수가 없어 UNSUPPORTED. 가항의 나이 근사를 인정하지 않으면 표현불가로 갈린다.",
+  "effects": ["RATE_ADD"]
+ },
+ {
+  "id": "HNDRM-S2-R13",
+  "verdict": "규칙",
+  "confidence": "medium",
+  "reason": "「1개월 미만 연 0.10%」 고정 행은 중도해지이고 해지일 < 가입일+1개월이면 RATE_OVERRIDE 0.1 로 정확히 선다(HNSAL-S2-R12 와 같은 표). 「기본금리×차등율×경과율」 행은 비율식이 없어 UNSUPPORTED 로 섞인다.",
+  "effects": ["RATE_OVERRIDE"]
+ },
+ {
+  "id": "HNDRM-S2-R14",
+  "verdict": "표현불가",
+  "confidence": "high",
+  "reason": "만기후 1개월 이내 기본금리 ½ · 초과 ¼ — 전부 비율식이고 고정 수가 없어 effect 를 적을 수 없다. 조건은 서지만 전 행 UNSUPPORTED.",
+  "effects": []
+ },
+ {
+  "id": "HNDRM-S2-R15",
+  "verdict": "표현불가",
+  "confidence": "medium",
+  "reason": "저축금마다 약정금리로 계산한 이자를 합산하는 산식 — 이자 금액 산출은 판별 범위 밖이라 UNSUPPORTED 하나 (kb10 이자계산방법 관례). 빈 배열로 볼 여지도 있다.",
+  "effects": []
+ },
+ {
+  "id": "HNDRM-S2-R24",
+  "verdict": "없음",
+  "confidence": "high",
+  "reason": "「해당사항없음」— 걸리는 고객이 없다. 조건·효과 없음.",
+  "effects": []
+ },
+ {
+  "id": "HNWSH-S1-P01",
+  "verdict": "없음",
+  "confidence": "high",
+  "reason": "상품 개요 — 목표 불입금액 달성 우대·체크카드 자동 적립·추천인 우대를 말로만 소개하고 기준과 값은 우대금리·소비재테크 조문에 있다 (SUMMARY).",
+  "effects": []
+ },
+ {
+  "id": "HNWSH-S2-R01",
+  "verdict": "규칙",
+  "confidence": "high",
+  "reason": "「1인 1계좌까지만 가능」→ customer.has_product 참이면 DISQUALIFY, 「실명의 개인」→ 법인은 DISQUALIFY (KBNR-S2-R01 과 같은 꼴).",
+  "effects": ["DISQUALIFY"]
+ },
+ {
+  "id": "HNWSH-S2-R03",
+  "verdict": "없음",
+  "confidence": "high",
+  "reason": "「적립식 예금(자유적립식)」— 상품유형 분류 라벨 (LABEL).",
+  "effects": []
+ },
+ {
+  "id": "HNWSH-S2-R06",
+  "verdict": "없음",
+  "confidence": "medium",
+  "reason": "자동 적립을 원하면 소비 재테크 서비스를 신청해야 하고 신청 당일 사용분부터 다음 영업일에 적립된다 — 서비스 신청 절차와 처리 시점 안내다(NOTE_ONLY). 금리·수수료·한도·자격·제한을 바꾸지 않는다 (KBMER-S2-R23 자동이체 안내와 같은 판단).",
+  "effects": []
+ },
+ {
+  "id": "HNWSH-S2-R09",
+  "verdict": "규칙",
+  "confidence": "high",
+  "reason": "계약기간별 기본금리 표(6~12개월 0.65% · 12~24개월 0.75% · 24~36개월 0.85% · 36개월 0.95%) — 행마다 contract.term_months 조건으로 RATE_OVERRIDE (KBMER-S2-R07 전례). 「가입일에 고시한 금리 적용」은 출처 안내다.",
+  "effects": ["RATE_OVERRIDE"]
+ },
+ {
+  "id": "HNWSH-S2-R10",
+  "verdict": "규칙",
+  "confidence": "low",
+  "reason": "② 소비 재테크 자동 적립 횟수 10/20/30/40회 이상 → 계약기간 중 자동 적립 입금(AUTO_TRANSFER 또는 DEPOSIT) count_events 비교로 RATE_ADD 0.1~0.4%, guard 만기해지 — 모든 입금을 세는 넓은 근사다. ① 목표 불입금액 달성(목표액 변수 없음) · ③ 추천인 번호(변수 없음)는 UNSUPPORTED. ② 의 근사를 인정하지 않으면 표현불가로 갈린다.",
+  "effects": ["RATE_ADD"]
+ },
+ {
+  "id": "HNWSH-S2-R11",
+  "verdict": "없음",
+  "confidence": "low",
+  "reason": "소비재테크 서비스의 개념·신청방법·적립금액 설정 방식(비율형/금액형)·처리 유의사항 — 자동 적립 서비스를 등록하고 처리하는 절차다(KBMER-S2-R23 「내맘대로 자동이체」와 같은 판단). 「1일 최소 1천원 최대 10만원」· 「잔액 부족 시 재처리 안 함」을 건별 제약으로 보면 UNSUPPORTED 로 갈릴 수 있다.",
+  "effects": []
+ },
+ {
+  "id": "HNWSH-S2-R12",
+  "verdict": "규칙",
+  "confidence": "medium",
+  "reason": "「1개월 미만 연 0.1%」 고정 행은 중도해지이고 해지일 < 가입일+1개월이면 RATE_OVERRIDE 0.1 로 정확히 선다. 「기본금리×차등률×경과율」 행은 비율식이 없어 UNSUPPORTED 로 섞인다 (HNSAL-S2-R12 와 같은 표).",
+  "effects": ["RATE_OVERRIDE"]
+ },
+ {
+  "id": "HNWSH-S2-R13",
+  "verdict": "표현불가",
+  "confidence": "high",
+  "reason": "만기 후 1개월 이내 상호부금 기본금리 1/2 · 초과 1/4 — 값이 다른 상품(상호부금) 기본금리의 비율식이고 고정 수가 없어 effect 를 적을 수 없다. 전 행 UNSUPPORTED.",
+  "effects": []
+ },
+ {
+  "id": "HNWSH-S2-R14",
+  "verdict": "표현불가",
+  "confidence": "medium",
+  "reason": "저축금마다 약정금리로 이자를 계산하는 산식(납입금액×약정금리×일수/365) — 이자 금액 산출은 판별 범위 밖이라 UNSUPPORTED 하나 (kb10 관례). 빈 배열로 볼 여지도 있다.",
+  "effects": []
+ },
+ {
+  "id": "HNWSH-S2-R23",
+  "verdict": "없음",
+  "confidence": "high",
+  "reason": "「해당 없음」— 걸리는 고객이 없다. 조건·효과 없음.",
+  "effects": []
+ }
+]

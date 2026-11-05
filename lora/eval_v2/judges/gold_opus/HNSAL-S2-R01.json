@@ -1,0 +1,57 @@
+{
+ "clause_id": "HNSAL-S2-R01",
+ "label": "가입대상",
+ "verdict": "규칙",
+ "note": "rule 3개 · OK 2 · UNSUPPORTED 1. 01: 「(1인1계좌)」→ customer.has_product 참이면 DISQUALIFY (kb10 KBGL-S2-R01-01 과 같은 꼴). 02: 「실명의개인또는개인사업자」→ 명의 유형으로 확실히 탈락하는 것은 법인(CORPORATION)뿐이라 그것만 DISQUALIFY. 임의단체(ORGANIZATION)는 조문이 말하지 않고(관련서류 미제출 임의단체는 개인으로 취급되는 경우가 있다), 공동명의(JOINT)도 말하지 않아 넣지 않았다 — 탈락을 넓히면 고객에게 불리한 오차라 kb10 결정(가장 좁은 탈락만 · KBGL/KBMY)을 따랐다. 덜 탈락시키는 쪽 근사. 03: 「연금하나월복리적금 또는 주거래하나월복리적금과 중복가입 불가」는 다른 상품 보유 여부(customer.held_products)로 옮길 자리인데 두 상품이 상품 키 목록에 없다 → 탈락 쪽이라 근사 금지, UNSUPPORTED.",
+ "rules": [
+  {
+   "rule_id": "HNSAL-S2-R01-01",
+   "status": "OK",
+   "label": "이미 이 상품을 보유하면 가입 불가 (1인1계좌)",
+   "source": {
+    "quote": "실명의개인또는개인사업자(1인1계좌)"
+   },
+   "condition": {
+    "==": [
+     {
+      "var": "customer.has_product"
+     },
+     true
+    ]
+   },
+   "effect": {
+    "type": "DISQUALIFY"
+   }
+  },
+  {
+   "rule_id": "HNSAL-S2-R01-02",
+   "status": "OK",
+   "label": "법인은 가입 불가 (실명의 개인 또는 개인사업자)",
+   "source": {
+    "quote": "실명의개인또는개인사업자(1인1계좌)"
+   },
+   "condition": {
+    "in": [
+     {
+      "var": "customer.holder_type"
+     },
+     [
+      "CORPORATION"
+     ]
+    ]
+   },
+   "effect": {
+    "type": "DISQUALIFY"
+   }
+  },
+  {
+   "rule_id": "HNSAL-S2-R01-03",
+   "status": "UNSUPPORTED",
+   "label": "연금하나월복리적금·주거래하나월복리적금과 중복가입 불가 — 두 상품의 상품 키가 없음",
+   "source": {
+    "quote": "(※”연금하나월복리적금“ 또는“주거래\n하나월복리적금”과중복가입이불가합니다.)"
+   },
+   "condition": {}
+  }
+ ]
+}

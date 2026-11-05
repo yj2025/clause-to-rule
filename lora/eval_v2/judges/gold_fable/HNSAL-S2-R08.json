@@ -1,0 +1,71 @@
+{
+ "clause_id": "HNSAL-S2-R08",
+ "label": "기본금리",
+ "verdict": "규칙",
+ "note": "rule 3개 · 전부 OK. 계약기간별 기본금리 표(1년 2.95 · 2년 3.00 · 3년 3.10)를 행마다 contract.term_months == 12/24/36 → RATE_OVERRIDE 로 옮겼다 (kb10 KBMER-S2-R07 과 같은 꼴 · 기간이 셋뿐이라 == 로 적었다). 표가 가로로 찍혀 행별 인용이 안 되므로 세 rule 이 같은 두 줄을 인용한다. 「신규일 당시 … 고시한 계약기간별 기본금리 적용」은 출처 안내라 rule 이 아니다.",
+ "rules": [
+  {
+   "rule_id": "HNSAL-S2-R08-01",
+   "status": "OK",
+   "label": "계약기간 1년 기본금리 연 2.95%",
+   "source": {
+    "quote": "가입기간 1년 2년 3년 기본금리 연 2.95% 연 3.00% 연 3.10%"
+   },
+   "condition": {
+    "==": [
+     {
+      "var": "contract.term_months"
+     },
+     12
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 2.95,
+    "unit": "%"
+   }
+  },
+  {
+   "rule_id": "HNSAL-S2-R08-02",
+   "status": "OK",
+   "label": "계약기간 2년 기본금리 연 3.0%",
+   "source": {
+    "quote": "가입기간 1년 2년 3년 기본금리 연 2.95% 연 3.00% 연 3.10%"
+   },
+   "condition": {
+    "==": [
+     {
+      "var": "contract.term_months"
+     },
+     24
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 3.0,
+    "unit": "%"
+   }
+  },
+  {
+   "rule_id": "HNSAL-S2-R08-03",
+   "status": "OK",
+   "label": "계약기간 3년 기본금리 연 3.1%",
+   "source": {
+    "quote": "가입기간 1년 2년 3년 기본금리 연 2.95% 연 3.00% 연 3.10%"
+   },
+   "condition": {
+    "==": [
+     {
+      "var": "contract.term_months"
+     },
+     36
+    ]
+   },
+   "effect": {
+    "type": "RATE_OVERRIDE",
+    "value": 3.1,
+    "unit": "%"
+   }
+  }
+ ]
+}

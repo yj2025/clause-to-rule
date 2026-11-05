@@ -1,0 +1,403 @@
+{
+ "_meta": {
+  "date": "2026-10-27",
+  "method": "독립 판정 3명(Claude Opus · Sonnet · Fable, 서로 · 사람 답 · 모델 출력 안 봄) → 만장일치는 채택, 갈린 4조문은 사용자가 결정",
+  "agreement": {
+   "unanimous": "31/35",
+   "pairwise": "32~33/35"
+  },
+  "human_spot_check": "사용자 사전 판정 6조문 — «조건 있음/없음» 수준에서 6/6 일치 (사용자는 규칙·표현불가를 «조건»으로 묶어 적음)",
+  "counts": {
+   "없음": 12,
+   "규칙": 13,
+   "표현불가": 10
+  }
+ },
+ "items": [
+  {
+   "id": "HNSAL-S1-P01",
+   "label": "상품 개요",
+   "verdict": "없음",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "없음",
+    "sonnet": "없음",
+    "fable": "없음"
+   }
+  },
+  {
+   "id": "HNSAL-S2-R01",
+   "label": "가입대상",
+   "verdict": "규칙",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "규칙",
+    "sonnet": "규칙",
+    "fable": "규칙"
+   }
+  },
+  {
+   "id": "HNSAL-S2-R04",
+   "label": "이자지급 방식",
+   "verdict": "표현불가",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "표현불가",
+    "sonnet": "표현불가",
+    "fable": "표현불가"
+   }
+  },
+  {
+   "id": "HNSAL-S2-R06",
+   "label": "가입금액",
+   "verdict": "규칙",
+   "decided_by": "사용자(갈림 2:1 → 다수 채택)",
+   "votes": {
+    "opus": "규칙",
+    "sonnet": "표현불가",
+    "fable": "규칙"
+   }
+  },
+  {
+   "id": "HNSAL-S2-R07",
+   "label": "적립한도",
+   "verdict": "표현불가",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "표현불가",
+    "sonnet": "표현불가",
+    "fable": "표현불가"
+   }
+  },
+  {
+   "id": "HNSAL-S2-R08",
+   "label": "기본금리",
+   "verdict": "규칙",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "규칙",
+    "sonnet": "규칙",
+    "fable": "규칙"
+   }
+  },
+  {
+   "id": "HNSAL-S2-R09",
+   "label": "우대금리 (최대연 1.00%)",
+   "verdict": "규칙",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "규칙",
+    "sonnet": "규칙",
+    "fable": "규칙"
+   }
+  },
+  {
+   "id": "HNSAL-S2-R10",
+   "label": "특별금리 (연1.30%) ※ 가입일기준 만35세이하만가능",
+   "verdict": "규칙",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "규칙",
+    "sonnet": "규칙",
+    "fable": "규칙"
+   }
+  },
+  {
+   "id": "HNSAL-S2-R11",
+   "label": "우대금리 (쿠폰)",
+   "verdict": "표현불가",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "표현불가",
+    "sonnet": "표현불가",
+    "fable": "표현불가"
+   }
+  },
+  {
+   "id": "HNSAL-S2-R12",
+   "label": "중도해지금리",
+   "verdict": "규칙",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "규칙",
+    "sonnet": "규칙",
+    "fable": "규칙"
+   }
+  },
+  {
+   "id": "HNSAL-S2-R13",
+   "label": "만기후 금리",
+   "verdict": "표현불가",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "표현불가",
+    "sonnet": "표현불가",
+    "fable": "표현불가"
+   }
+  },
+  {
+   "id": "HNSAL-S2-R14",
+   "label": "이자계산방법",
+   "verdict": "표현불가",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "표현불가",
+    "sonnet": "표현불가",
+    "fable": "표현불가"
+   }
+  },
+  {
+   "id": "HNSAL-S2-R25",
+   "label": "연계·제휴서비스",
+   "verdict": "없음",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "없음",
+    "sonnet": "없음",
+    "fable": "없음"
+   }
+  },
+  {
+   "id": "HNDRM-S1-P01",
+   "label": "상품 개요",
+   "verdict": "없음",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "없음",
+    "sonnet": "없음",
+    "fable": "없음"
+   }
+  },
+  {
+   "id": "HNDRM-S2-R01",
+   "label": "가입대상",
+   "verdict": "규칙",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "규칙",
+    "sonnet": "규칙",
+    "fable": "규칙"
+   }
+  },
+  {
+   "id": "HNDRM-S2-R02",
+   "label": "상품유형",
+   "verdict": "없음",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "없음",
+    "sonnet": "없음",
+    "fable": "없음"
+   }
+  },
+  {
+   "id": "HNDRM-S2-R09",
+   "label": "상품명인자",
+   "verdict": "없음",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "없음",
+    "sonnet": "없음",
+    "fable": "없음"
+   }
+  },
+  {
+   "id": "HNDRM-S2-R10",
+   "label": "기본금리",
+   "verdict": "없음",
+   "decided_by": "사용자(갈림 2:1 → 다수 채택)",
+   "votes": {
+    "opus": "없음",
+    "sonnet": "규칙",
+    "fable": "없음"
+   }
+  },
+  {
+   "id": "HNDRM-S2-R11",
+   "label": "우대금리 (최대0.80%)",
+   "verdict": "규칙",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "규칙",
+    "sonnet": "규칙",
+    "fable": "규칙"
+   }
+  },
+  {
+   "id": "HNDRM-S2-R12",
+   "label": "HAPPY YEAR 특별금리",
+   "verdict": "규칙",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "규칙",
+    "sonnet": "규칙",
+    "fable": "규칙"
+   }
+  },
+  {
+   "id": "HNDRM-S2-R13",
+   "label": "중도해지금리",
+   "verdict": "규칙",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "규칙",
+    "sonnet": "규칙",
+    "fable": "규칙"
+   }
+  },
+  {
+   "id": "HNDRM-S2-R14",
+   "label": "만기후 금리",
+   "verdict": "표현불가",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "표현불가",
+    "sonnet": "표현불가",
+    "fable": "표현불가"
+   }
+  },
+  {
+   "id": "HNDRM-S2-R15",
+   "label": "이자계산방법",
+   "verdict": "표현불가",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "표현불가",
+    "sonnet": "표현불가",
+    "fable": "표현불가"
+   }
+  },
+  {
+   "id": "HNDRM-S2-R24",
+   "label": "연계·제휴서비스",
+   "verdict": "없음",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "없음",
+    "sonnet": "없음",
+    "fable": "없음"
+   }
+  },
+  {
+   "id": "HNWSH-S1-P01",
+   "label": "상품 개요",
+   "verdict": "없음",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "없음",
+    "sonnet": "없음",
+    "fable": "없음"
+   }
+  },
+  {
+   "id": "HNWSH-S2-R01",
+   "label": "가입대상",
+   "verdict": "규칙",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "규칙",
+    "sonnet": "규칙",
+    "fable": "규칙"
+   }
+  },
+  {
+   "id": "HNWSH-S2-R03",
+   "label": "상품유형",
+   "verdict": "없음",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "없음",
+    "sonnet": "없음",
+    "fable": "없음"
+   }
+  },
+  {
+   "id": "HNWSH-S2-R06",
+   "label": "적립방법",
+   "verdict": "없음",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "없음",
+    "sonnet": "없음",
+    "fable": "없음"
+   }
+  },
+  {
+   "id": "HNWSH-S2-R09",
+   "label": "기본금리",
+   "verdict": "규칙",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "규칙",
+    "sonnet": "규칙",
+    "fable": "규칙"
+   }
+  },
+  {
+   "id": "HNWSH-S2-R10",
+   "label": "우대금리 (최대 연0.4%)",
+   "verdict": "표현불가",
+   "decided_by": "사용자(갈림 2:1 → 다수 채택)",
+   "votes": {
+    "opus": "표현불가",
+    "sonnet": "표현불가",
+    "fable": "규칙"
+   }
+  },
+  {
+   "id": "HNWSH-S2-R11",
+   "label": "소비재테크 서비스",
+   "verdict": "없음",
+   "decided_by": "사용자(갈림 2:1 → 다수 채택)",
+   "votes": {
+    "opus": "표현불가",
+    "sonnet": "없음",
+    "fable": "없음"
+   }
+  },
+  {
+   "id": "HNWSH-S2-R12",
+   "label": "중도해지금리",
+   "verdict": "규칙",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "규칙",
+    "sonnet": "규칙",
+    "fable": "규칙"
+   }
+  },
+  {
+   "id": "HNWSH-S2-R13",
+   "label": "만기 후 금리",
+   "verdict": "표현불가",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "표현불가",
+    "sonnet": "표현불가",
+    "fable": "표현불가"
+   }
+  },
+  {
+   "id": "HNWSH-S2-R14",
+   "label": "이자계산방법",
+   "verdict": "표현불가",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "표현불가",
+    "sonnet": "표현불가",
+    "fable": "표현불가"
+   }
+  },
+  {
+   "id": "HNWSH-S2-R23",
+   "label": "연계·제휴서비스",
+   "verdict": "없음",
+   "decided_by": "만장일치(3/3)",
+   "votes": {
+    "opus": "없음",
+    "sonnet": "없음",
+    "fable": "없음"
+   }
+  }
+ ]
+}
