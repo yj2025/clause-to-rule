@@ -104,7 +104,9 @@ def test_blockers_opened_and_the_reviewed_approximation_is_kept(root):
     assert left["KBONE-S2-R20"] == {"KBONE-S2-R20-04": {"계좌지정"}}
     assert all("이벤트속성" not in b for rs in left.values() for b in rs.values())
     # 사람 검토가 '고객에게 유리한 근사라 유지' 로 확정한 자리 — 필터를 넣지 않았다
-    r03 = json.dumps([r["condition"] for r in _rules("KBYY-S5-R03") if r["status"] == "OK"])
+    # KBYY-S5-R03 은 2026-11-05 정답 세트에서 뺐다(ONE통장 안내) — 파일은 out_of_scope 에 남아 있다
+    r03 = json.dumps([r["condition"] for r in json.loads((GOLD / "out_of_scope" / "KBYY-S5-R03.json")
+                      .read_text("utf-8"))["rules"] if r["status"] == "OK"])
     assert "min_amount" not in r03
 
 

@@ -561,8 +561,8 @@ def meaning(recs):
         rest = [v for cid, ms in mixed.items() if cid not in noise.COINS
                 for v in [sum(ms) / len(ms) * 100]]
         print(f"  ● 동전 조문 {len(hit)}개 — 처방과 무관하게 프로세스마다 뒤집힌다. "
-              f"여덟이 같이 뒤집히면 ⑥ 이 17p 움직인다")
-        print(f"     그 여덟을 빼면 ⑥ {sum(rest) / len(rest):.1f}% "
+              f"{len(hit)}개가 같이 뒤집히면 ⑥ 이 {len(hit) * 100 / len(mixed):.0f}p 움직인다")
+        print(f"     그 {len(hit)}개를 빼면 ⑥ {sum(rest) / len(rest):.1f}% "
               f"(전체 ⑥ 의 판정선은 ±{noise.FLOORS['⑥']:.1f}p · 뺀 값에는 판정선을 "
               f"못 붙인다 — 같은 표본으로 빼고 재면 0 이 나오는 순환이다) — "
               f"**읽는 보조선이지 지표가 아니다.** 겨냥한 조문이 동전이면 이 값도 못 쓴다")

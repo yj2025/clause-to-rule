@@ -86,6 +86,25 @@ def test_the_sweep_date_is_the_saturday_after_the_third_friday():
     assert got.weekday() == 5                      # 토요일
 
 
+# 2026-11-05 사람 검토(KBONE-S2-R16)로 찾은 버그의 회귀 시험. 옛 `_anchor` 는 셋째 금요일을
+# 기준일 «이하» 에서 찾은 **뒤에** 하루를 더해, 기준일이 셋째 금요일 당일이면 다음 날(아직 안 온
+# 편입일)을 돌려줬다 — 06-19 → 06-20, 12-18 → 12-19. 편입 전 계좌를 편입된 것으로 본다.
+@pytest.mark.parametrize("ref,want", [
+    ("2026-06-18", "2025-12-20"),   # 목 — 직전 편입일
+    ("2026-06-19", "2025-12-20"),   # 셋째 금요일 당일 — 옛 구현은 2026-06-20
+    ("2026-06-20", "2026-06-20"),   # 편입일 당일
+    ("2026-12-18", "2026-06-20"),   # 셋째 금요일 당일 — 옛 구현은 2026-12-19
+    ("2026-12-19", "2026-12-19"),
+])
+def test_the_sweep_date_is_never_after_the_reference_date(ref, want):
+    from engine import _anchor
+    got = _anchor({"anchor": "contract.reference_date", "month_of": [6, 12],
+                   "day": {"weekday": "FRI", "nth": 3}, "offset_days": 1},
+                  {"contract": {"reference_date": ref}})
+    assert got.isoformat() == want
+    assert got.isoformat() <= ref
+
+
 @pytest.mark.parametrize("cid", DORMANCY)
 # 기준일 2026-09-11 일 때 **편입일은 2026-06-20** 이다 (6월 셋째 금요일 19일의 다음날).
 # 그래서 창의 시작은 오늘이 아니라 그날에서 뒤로 잡히고, 끝은 오늘이다 (2026-11-05).

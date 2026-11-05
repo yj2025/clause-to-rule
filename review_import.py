@@ -123,6 +123,9 @@ def main():
             g["reviewed"] = True
             # 검토 완료 조문은 `review` 에 검토자를 남긴다 — tests/test_goldaudit.py 가 본다 (2026-11-05)
             g["review"] = {"by": hr["by"], "at": hr["at"][:10], "verdict": "승인", "note": hr["comment"]}
+        # 다시 검토하면 앞 판정 · 반영 기록을 이력으로 남긴다 — 덮어쓰면 무엇을 왜 고쳤는지 사라진다
+        if g.get("human_review") and g["human_review"] != hr:
+            g.setdefault("human_review_history", []).append(g["human_review"])
         g["human_review"] = hr
         p.write_text(json.dumps(g, ensure_ascii=False, indent=1) + "\n", "utf-8")
     for kind, key, hr in ok:

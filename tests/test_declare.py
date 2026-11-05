@@ -73,6 +73,9 @@ def test_overgeneration_no_longer_dominates_after_the_catalog_grew(root):
     KBYY-S2-R04 자동전환이 UNSUPPORTED 로(불이익 · 첫 영업일 미반영) — v6 은 정상 rule 이라 과생성 +1.
     KBYY-S5-R02 가 빈 배열로(ONE통장 안내) — v6 은 정상 rule 이라 과생성 +1.
     KBYY-S5-R01 이 빈 배열로 — v6 도 빈 배열이라 과소생성 −1 (이제 맞힌 자리).
+
+    같은 날 2차 검토로 **10 대 9** — KBYY-S5-R01~R03(ONE통장 안내)을 정답 세트에서 뺐다(`data/gold/out_of_scope/`).
+    S5-R02 의 과생성 하나와 S5-R03 의 과소생성 하나가 셈에서 빠졌다.
     """
     import json, os
     os.chdir(root)
@@ -82,4 +85,4 @@ def test_overgeneration_no_longer_dominates_after_the_catalog_grew(root):
                if w in (D.EMPTY, D.UNSUP) and g in (D.OK, D.MIXED))
     under = sum(n for (w, g), n in conf.items()
                 if w in (D.OK, D.MIXED) and g in (D.EMPTY, D.UNSUP))
-    assert (over, under) == (11, 10), (over, under)
+    assert (over, under) == (10, 9), (over, under)

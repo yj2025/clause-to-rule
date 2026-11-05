@@ -61,7 +61,7 @@ def test_coin_free_floor_respects_resolution():
     읽으면 조문 하나보다 작은 차이를 판정하는 것이다.
     """
     import noise
-    rest = 46 - len(noise.COINS)
+    rest = 43 - len(noise.COINS)   # 11-05 부터 43조문
     assert noise.FLOOR_NO_COIN >= 100 / rest, "동전 뺀 값이 해상도보다 가늘다"
     assert noise.FLOOR_NO_COIN < noise.FLOORS["⑥"]
     assert not hasattr(noise, "GROUP_FLOORS_NO_COIN"), (
@@ -84,7 +84,7 @@ def test_no_floor_is_finer_than_one_clause():
     import noise
     for sym in "①②③④⑤⑥⑦⑫":
         v = noise.FLOORS[sym]
-        assert v >= 100 / 46 - 0.05, f"{sym} 판정선 {v}p 가 조문 하나보다 가늘다"
+        assert v >= 100 / 43 - 0.05, f"{sym} 판정선 {v}p 가 조문 하나보다 가늘다"   # 11-05 부터 43조문
     n = {}
     for f in sorted((pathlib.Path(__file__).resolve().parent.parent
                      / "data" / "gold").glob("*.json")):

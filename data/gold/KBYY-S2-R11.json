@@ -1,7 +1,7 @@
 {
  "clause_id": "KBYY-S2-R11",
  "label": "저금통 기능",
- "reviewed": false,
+ "reviewed": true,
  "note": "복원 초안. 사람 검토 필요. 다섯 조항 모두 효과를 옮길 수단이 카탈로그에 없어 UNSUPPORTED 다. ① 특별금리의 '적용 기준 금액'(저금통 설정액에만 금리 적용) effect 가 카탈로그에 없고, 이 조문에는 금리 숫자도 적혀 있지 않다(연 1.9% 는 KBYY-S2-R07 소관이므로 여기서 끌어오지 않았다). ② 출금 이벤트·상품 전환 effect 도 확장 대기 항목이다. 표현 가능한 조건(account.reserved_amount vs account.balance)은 condition 에 남겨 두었다. '설정·해제는 횟수 제한 없이 지점 및 인터넷뱅킹, KB스타뱅킹을 통해 거래 가능' 은 조건도 효과도 없는 안내문이라 rule 로 만들지 않았다. [수정 2026-09-14] v17 에서 카탈로그에 WITHDRAWAL(출금)을 넣었으므로 '출금 이벤트 없음' 은 더 이상 걸림돌이 아니다. 라벨에서 뺐다. 남은 걸림돌만 적는다 — 판정(UNSUPPORTED)은 그대로다. [카탈로그 확장 2026-09-15] RESTRICT 가 생겼지만 02 는 UNSUPPORTED 로 둔다. 막는 것은 출금 전체가 아니라 저금통 설정금액만큼이라 적용 기준 금액이 있어야 한다. 조건 없이 출금을 막으면 뜻이 뒤집힌다. 라벨의 걸림돌을 고쳤다. [상품 코드 체계 2026-09-20 · Claude] `STATE_CHANGE`(RESERVE_OFF)와 전환 방향 속성이 생겨 03 이 열렸다. 「다른 예금 상품으로」 는 방향 OUT 이다 — 이 상품에서 나가는 전환. [사람 검토 반영 2026-11-05] 03 「저금통 자동 해제」는 **불이익**이다 — 해제되면 특별금리를 잃는다. 조건(다른 예금 상품으로 전환하는 이벤트)은 조문 그대로라 완전하므로 OK 를 유지하고, STATE_CHANGE · PRODUCT_SWITCH_TO 를 불이익 effect 로 분류했다(review_data._HARM · tests/test_goldaudit.py).",
  "rules": [
   {
@@ -114,15 +114,30 @@
   "at": "2026-09-18"
  },
  "human_review": {
-  "verdict": "수정",
-  "comment": "R11-03 \"저금통 자동 해제\"의 방향이 **”혜택\"**이에요. 해제되면 특별금리를 잃으니 불이익이에요",
+  "verdict": "승인",
+  "comment": "",
   "by": "CYJ",
-  "at": "2026-11-05T06:30:12.638Z",
-  "wrong_rules": [],
-  "fix": {
-   "at": "2026-11-05",
-   "what": "STATE_CHANGE(RESERVE_OFF)를 불이익으로 분류. 조건은 완전해 OK 유지",
-   "status": "반영함 · 재확인 전"
+  "at": "2026-11-05T07:26:46.719Z",
+  "wrong_rules": []
+ },
+ "review": {
+  "by": "CYJ",
+  "at": "2026-11-05",
+  "verdict": "승인",
+  "note": ""
+ },
+ "human_review_history": [
+  {
+   "verdict": "수정",
+   "comment": "R11-03 \"저금통 자동 해제\"의 방향이 **”혜택\"**이에요. 해제되면 특별금리를 잃으니 불이익이에요",
+   "by": "CYJ",
+   "at": "2026-11-05T06:30:12.638Z",
+   "wrong_rules": [],
+   "fix": {
+    "at": "2026-11-05",
+    "what": "STATE_CHANGE(RESERVE_OFF)를 불이익으로 분류. 조건은 완전해 OK 유지",
+    "status": "반영함 · 재확인 전"
+   }
   }
- }
+ ]
 }
