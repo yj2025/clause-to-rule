@@ -1,0 +1,193 @@
+{
+ "totals": {
+  "filled": 17,
+  "keys": 17,
+  "lines": 23,
+  "lines_hit": 10,
+  "src_ok": 10,
+  "ui_need": 5,
+  "ui_hit": 2,
+  "only_need": 6,
+  "only_hit": 1,
+  "only_false": 0,
+  "diff_need": 3,
+  "diff_hit": 0,
+  "diff_false": 0,
+  "asof_need": 3,
+  "asof_hit": 2
+ },
+ "rows": [
+  {
+   "key": "product_name",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 0,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "product_type",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 0,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "product_feature",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 0,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "eligibility_target",
+   "filled": true,
+   "target_lines": 2,
+   "model_lines": 3,
+   "missed": [
+    "개인사업자 · 공동명의 가입 불가"
+   ],
+   "doc_diff_model": null,
+   "doc_diff_target": "외국인 가입 조건(비대면 입출금통장 가입이 가능한 경우에 한함)은 상품설명서에만 있다"
+  },
+  {
+   "key": "eligibility_restriction",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 2,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "account_limit",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 1,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "deposit_amount",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 0,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "base_rate",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 0,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "preferential_rate",
+   "filled": true,
+   "target_lines": 3,
+   "model_lines": 5,
+   "missed": [
+    "이 통장을 최초로 가입한 경우만 (해지 후 재가입하면 제공하지 않음)",
+    "결산일은 2 · 5 · 8 · 11월 둘째 금요일. 예) 최초 가입일 2026.9.1 → 적용 기간 2026.9.1 ~ 2027.11.12"
+   ],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "interest_payment",
+   "filled": true,
+   "target_lines": 1,
+   "model_lines": 1,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "final_rate",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 1,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "tax",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 0,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "transaction_restriction",
+   "filled": true,
+   "target_lines": 3,
+   "model_lines": 2,
+   "missed": [
+    "자동전환 후 수수료 면제 · 금리 · 거래중지계좌 편입 여부는 KB스타통장(또는 KB종합통장) 기준"
+   ],
+   "doc_diff_model": null,
+   "doc_diff_target": "사기이용 계좌 거래 제한은 상품설명서에만 있다"
+  },
+  {
+   "key": "fee",
+   "filled": true,
+   "target_lines": 1,
+   "model_lines": 1,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "assignment_collateral",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 0,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "partner_benefit",
+   "filled": true,
+   "target_lines": 11,
+   "model_lines": 8,
+   "missed": [
+    "별 적립: 스타벅스 앱 계좌간편결제(방문별 적립 대상) 1일 1회 · 월 최대 5회, 1회당 1~5개 차등 (월 최대 15개)",
+    "입금 인정: KB 본인 명의 계좌 이체 · 본인 주민번호 입금 · 오픈뱅킹 타기관 이체 · 결산이자 입금 제외",
+    "출금 인정: 신용카드 결제일 · 선결제 출금, 체크카드 즉시결제만 (기업카드 · 선불카드 결제 등 제외)",
+    "급여 인정 기준(급여이체 전산 · 20만원 이상 대량이체 · 급여일 50만원 이상 · 급여 적요 50만원 이상, 본인 계좌 이체 제외)",
+    "재가입 시 쿠폰 불가 · 해지한 달에는 쿠폰 미제공 · 미사용 쿠폰 재발행 불가 · 미충족 입금액 다음 달 이월 안 됨",
+    "별 적립 건 결제를 취소하면 그 회차 별은 회수될 수 있고, 같은 달 안에 다음 정상 결제가 있어야만 복원",
+    "제공기간: 별 적립은 가입일 ~ 2027.12.31, 쿠폰은 최초 가입 다음 달부터 13개월(매월 5일 이내 발행). 제휴서비스 축소 · 변경 시 6개월 전부터 2가지 이상 방법으로 매월 고지"
+   ],
+   "doc_diff_model": null,
+   "doc_diff_target": "입금 · 출금 · 급여 인정 기준과 쿠폰 확인사항은 상품설명서에만 있다. 특약만 따르면 본인 명의 계좌 이체 · 본인 주민번호 입금 · 오픈뱅킹 · 결산이자 입금, 기업 · 선불카드 결제, 해지한 달의 실적까지 쿠폰 실적으로 보인다"
+  },
+  {
+   "key": "product_conversion",
+   "filled": true,
+   "target_lines": 2,
+   "model_lines": 1,
+   "missed": [
+    "자동전환 외에 다른 통장과의 전환은 불가",
+    "자동전환일 전 영업일까지 고객이 신청한 방법으로 자동전환일에 통지. 전환 후 혜택(수수료 면제 등)은 전환 상품 기준이며 축소 · 변경될 수 있음 · KB종합통장은 수수료 면제 없음"
+   ],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  }
+ ],
+ "extra_keys": []
+}

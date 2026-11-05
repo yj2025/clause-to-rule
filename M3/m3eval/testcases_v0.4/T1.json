@@ -1,0 +1,174 @@
+{
+ "scenario": "가입전",
+ "product": "가상은행 한걸음 자유적금",
+ "purpose": "금리가 얼마인지",
+ "user_input": {
+  "monthly_deposit": "50만원",
+  "term_months": 12,
+  "salary_transfer_monthly": 500000
+ },
+ "section_order": [
+  {
+   "section_id": "s1",
+   "title": "금리"
+  },
+  {
+   "section_id": "s2",
+   "title": "우대금리"
+  },
+  {
+   "section_id": "s3",
+   "title": "납입"
+  },
+  {
+   "section_id": "s4",
+   "title": "해지"
+  }
+ ],
+ "candidate_facts": [
+  {
+   "fact_id": "F101",
+   "section_id": "s1",
+   "key": "최고금리",
+   "polarity": "혜택",
+   "text": "최고 연 4.00%(세전, 12개월, 기본금리 연 2.50% + 우대금리 최대 연 1.50%p)",
+   "value": 4.0,
+   "unit": "%",
+   "tax_basis": "세전",
+   "condition": "우대금리 조건을 모두 충족한 경우",
+   "exceptions": [],
+   "only_in": null,
+   "as_of": "2026-10-01",
+   "judgment": null
+  },
+  {
+   "fact_id": "F102",
+   "section_id": "s1",
+   "key": "기본금리",
+   "polarity": "혜택",
+   "text": "12개월 기본금리 연 2.50%(세전)",
+   "value": 2.5,
+   "unit": "%",
+   "tax_basis": "세전",
+   "condition": "가입기간 12개월",
+   "exceptions": [],
+   "only_in": null,
+   "as_of": "2026-10-01",
+   "judgment": null
+  },
+  {
+   "fact_id": "F103",
+   "section_id": "s2",
+   "key": "우대금리_급여이체",
+   "polarity": "혜택",
+   "text": "가입기간 중 6개월 이상 이 적금의 출금계좌로 월 50만원 이상 급여이체 실적이 있으면 연 1.00%p 우대",
+   "value": 1.0,
+   "unit": "%p",
+   "tax_basis": null,
+   "condition": "가입기간 중 6개월 이상, 월 50만원 이상 급여이체",
+   "exceptions": [
+    "만기 전 해지 시 우대금리 미적용"
+   ],
+   "only_in": null,
+   "as_of": null,
+   "judgment": {
+    "state": "SATISFIED",
+    "unmet_conditions": [],
+    "missing_fields": [],
+    "confirm_items": []
+   }
+  },
+  {
+   "fact_id": "F104",
+   "section_id": "s2",
+   "key": "우대금리_카드실적",
+   "polarity": "혜택",
+   "text": "당행 신용·체크카드 결제실적이 월 30만원 초과인 달이 6개월 이상이면 연 0.50%p 우대",
+   "value": 0.5,
+   "unit": "%p",
+   "tax_basis": null,
+   "condition": "당행 카드 결제실적 월 30만원 초과인 달 6개월 이상",
+   "exceptions": [
+    "만기 전 해지 시 우대금리 미적용"
+   ],
+   "only_in": null,
+   "as_of": null,
+   "judgment": {
+    "state": "INFO_MISSING",
+    "unmet_conditions": [],
+    "missing_fields": [
+     {
+      "field": "card_spend_monthly",
+      "question": "당행 신용·체크카드로 한 달에 얼마 정도 결제하시나요?"
+     }
+    ],
+    "confirm_items": []
+   }
+  },
+  {
+   "fact_id": "F105",
+   "section_id": "s3",
+   "key": "월납입한도",
+   "polarity": "제한",
+   "text": "매월 1만원 이상 50만원 이하 자유적립(1천원 단위)",
+   "value": 500000,
+   "unit": "원",
+   "tax_basis": null,
+   "condition": null,
+   "exceptions": [],
+   "only_in": null,
+   "as_of": null,
+   "judgment": {
+    "state": "SATISFIED",
+    "unmet_conditions": [],
+    "missing_fields": [],
+    "confirm_items": []
+   }
+  },
+  {
+   "fact_id": "F106",
+   "section_id": "s4",
+   "key": "중도해지이율",
+   "polarity": "불이익",
+   "text": "만기 전 해지 시 가입기간에 따라 1개월 미만 연 0.10%, 1개월 이상 3개월 미만 기본금리×30%, 3개월 이상 기본금리×50% 적용",
+   "value": 0.1,
+   "unit": "%",
+   "tax_basis": null,
+   "condition": "만기 전 해지",
+   "exceptions": [],
+   "only_in": null,
+   "as_of": null,
+   "judgment": null
+  },
+  {
+   "fact_id": "F107",
+   "section_id": "s3",
+   "key": "가입기간",
+   "polarity": "일반",
+   "text": "가입기간 12개월",
+   "value": 12,
+   "unit": "개월",
+   "tax_basis": null,
+   "condition": null,
+   "exceptions": [],
+   "only_in": null,
+   "as_of": null,
+   "judgment": null
+  }
+ ],
+ "must_include_fact_ids": [
+  "F101",
+  "F105",
+  "F106"
+ ],
+ "dependencies": [
+  [
+   "F101",
+   "F103"
+  ],
+  [
+   "F101",
+   "F104"
+  ]
+ ]
+}

@@ -1,0 +1,245 @@
+# 금융상품 약관 요약 비교
+
+모든 모델에 같은 원문 구간과 지시문을 사용했습니다.
+분할 실행이면 각 구간의 요약을 비교합니다. 통합 요약은 생성하지 않습니다.
+
+## exaone_local
+
+### 원문 구간 1
+
+```json
+{
+  "product_id": 9,
+  "product_name": "KB스타통장",
+  "items": [
+    {
+      "key": "product_name",
+      "summary": "KB스타통장은 실명 확인된 개인이 개설할 수 있는 통장으로, 보통예금과 저축예금 유형을 지원합니다.",
+      "benefit": "다양한 수수료 면제 혜택과 인컴박스 서비스를 제공합니다.",
+      "conditions": [],
+      "condition_logic": "",
+      "exceptions": [],
+      "special": {
+        "text": "개인사업자 및 관련 서류 미제출 임의 단체는 가입이 제한되며, 공동명의 가입은 불가능합니다.",
+        "src": ["§1150", "§3154"]
+      },
+      "as_of": "",
+      "doc_diff": "",
+      "note": "",
+      "source_section_ids": ["§3151", "§3152"]
+    },
+    {
+      "key": "product_type",
+      "summary": "KB스타통장은 입출금이 자유로운 보통예금과 저축예금 유형을 지원합니다.",
+      "benefit": "",
+      "conditions": [],
+      "condition_logic": "",
+      "exceptions": [],
+      "special": {
+        "text": "동일 예금과목 상품으로의 전환은 가능하지만, 개별 상품의 기준에 따라 제한될 수 있습니다.",
+        "src": ["§3156"]
+      },
+      "as_of": "",
+      "doc_diff": "",
+      "note": "",
+      "source_section_ids": ["§3156"]
+    },
+    {
+      "key": "eligibility_target",
+      "summary": "실명 확인된 개인만 가입 가능하며, 1인당 1개의 계좌만 개설 가능합니다.",
+      "benefit": "",
+      "conditions": [
+        {
+          "text": "실명 확인된 개인만 가입 가능합니다. 공동명의 가입은 불가능합니다.",
+          "user_input": "",
+          "src": ["§1150", "§3154"],
+          "only_in": "특약"
+        }
+      ],
+      "condition_logic": "",
+      "exceptions": [],
+      "special": {},
+      "as_of": "",
+      "doc_diff": "",
+      "note": "",
+      "source_section_ids": ["§1150", "§3154"]
+    },
+    {
+      "key": "eligibility_restriction",
+      "summary": "개인사업자 및 관련 서류 미제출 임의 단체는 가입이 제한되며, 공동명의 가입은 불가능합니다.",
+      "benefit": "",
+      "conditions": [
+        {
+          "text": "개인사업자 및 관련 서류 미제출 임의 단체는 가입이 제한되며, 공동명의 가입은 불가능합니다.",
+          "user_input": "",
+          "src": ["§1150", "§3154"],
+          "only_in": "특약"
+        }
+      ],
+      "condition_logic": "",
+      "exceptions": [],
+      "special": {},
+      "as_of": "",
+      "doc_diff": "",
+      "note": "",
+      "source_section_ids": ["§1150", "§3154"]
+    },
+    {
+      "key": "account_limit",
+      "summary": "1인당 1개의 계좌만 개설 가능합니다.",
+      "benefit": "",
+      "conditions": [
+        {
+          "text": "1인당 1개의 계좌만 개설 가능합니다. 공동명의 가입은 불가능합니다.",
+          "user_input": "",
+          "src": ["§1150", "§3154"],
+          "only_in": "특약"
+        }
+      ],
+      "condition_logic": "",
+      "exceptions": [],
+      "special": {},
+      "as_of": "",
+      "doc_diff": "",
+      "note": "",
+      "source_section_ids": ["§1150", "§3154"]
+    },
+    {
+      "key": "deposit_amount",
+      "summary": "신규 개설 시 예치 금액 제한은 없습니다.",
+      "benefit": "",
+      "conditions": [
+        {
+          "text": "신규 개설 시 예치 금액 제한이 없습니다.",
+          "user_input": "",
+          "src": ["§3155"],
+          "only_in": "상품설명서"
+        }
+      ],
+      "condition_logic": "",
+      "exceptions": [],
+      "special": {},
+      "as_of": "",
+      "doc_diff": "",
+      "note": "",
+      "source_section_ids": ["§3155"]
+    },
+    {
+      "key": "base_rate",
+      "summary": "기본 이율은 연 0.10%이며, 세금 공제 전 기준입니다.",
+      "benefit": "",
+      "conditions": [],
+      "condition_logic": "",
+      "exceptions": [],
+      "special": {},
+      "as_of": "(2025년 12월 5일 기준)",
+      "doc_diff": "",
+      "note": "",
+      "source_section_ids": ["§3157"]
+    },
+    {
+      "key": "interest_payment",
+      "summary": "이자 지급은 보통예금은 매년 6월, 12월 둘째 금요일에, 저축예금은 2월, 5월, 8월, 11월 둘째 금요일에 이루어집니다.",
+      "benefit": "",
+      "conditions": [],
+      "condition_logic": "",
+      "exceptions": [],
+      "special": {},
+      "as_of": "",
+      "doc_diff": "",
+      "note": "",
+      "source_section_ids": ["§3158"]
+    },
+    {
+      "key": "termination_method",
+      "summary": "계약 해지는 영업점, 개인인터넷뱅킹, KB 스타뱅킹을 통해 가능합니다. 해지 시 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다.",
+      "benefit": "",
+      "conditions": [],
+      "condition_logic": "",
+      "exceptions": [],
+      "special": {},
+      "as_of": "",
+      "doc_diff": "",
+      "note": "",
+      "source_section_ids": ["§3166"]
+    },
+    {
+      "key": "tax",
+      "summary": "비과세종합저축으로 가입 가능하며, 세법 개정 시 세율 변경 가능성이 있습니다.",
+      "benefit": "",
+      "conditions": [],
+      "condition_logic": "",
+      "exceptions": [],
+      "special": {},
+      "as_of": "",
+      "doc_diff": "",
+      "note": "",
+      "source_section_ids": ["§3164"]
+    },
+    {
+      "key": "transaction_restriction",
+      "summary": "예금 잔액이 일정 기준 미만이거나 일정 기간 동안 거래가 없을 경우 거래가 제한될 수 있습니다.",
+      "benefit": "",
+      "conditions": [
+        {
+          "text": "예금 잔액이 10,000원 미만이거나 1년 이상 거래가 없는 경우 입출금 등 거래가 제한됩니다.",
+          "user_input": "",
+          "src": ["§3170"],
+          "only_in": "상품설명서"
+        }
+      ],
+      "condition_logic": "",
+      "exceptions": [],
+      "special": {},
+      "as_of": "",
+      "doc_diff": "",
+      "note": "",
+      "source_section_ids": ["§3170"]
+    },
+    {
+      "key": "fee",
+      "summary": "전월 중 특정 거래 실적을 충족하면 수수료가 면제됩니다. 면제 기간은 이번달 11일부터 다음달 10일까지이며, 면제 횟수는 제한 없습니다.",
+      "benefit": "",
+      "conditions": [
+        {
+          "text": "전월 중 합산 50만원 이상 입금 또는 KB 리브 모바일 자동이체 출금 실적이 있으면 수수료가 면제됩니다. 면제 기간은 이번달 11일부터 다음달 10일까지입니다.",
+          "user_input": "전월 입금 금액과 KB 리브 모바일 자동이체 출금 여부 확인 필요",
+          "src": ["§1153", "§1154"],
+          "only_in": "특약"
+        }
+      ],
+      "condition_logic": "조건 중 하나만 충족하면 됨",
+      "exceptions": [],
+      "special": {},
+      "as_of": "",
+      "doc_diff": "",
+      "note": "",
+      "source_section_ids": ["§1153", "§1154"]
+    },
+    {
+      "key": "assignment_collateral",
+      "summary": "양도는 가능하지만 질권 설정 및 담보 제공은 불가능합니다.",
+      "benefit": "",
+      "conditions": [],
+      "condition_logic": "",
+      "exceptions": [
+        {
+          "text": "질권 설정은 불가능합니다.",
+          "src": ["§3167"],
+          "only_in": "상품설명서"
+        },
+        {
+          "text": "담보 제공은 불가능합니다.",
+          "src": ["§3168"],
+          "only_in": "상품설명서"
+        }
+      ],
+      "special": {},
+      "as_of": "",
+      "doc_diff": "",
+      "note": "",
+      "source_section_ids": ["§3167", "§3168"]
+    }
+  ]
+}
+```

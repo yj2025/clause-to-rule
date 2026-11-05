@@ -1,0 +1,19 @@
+{
+ "model": "Qwen/Qwen3-8B",
+ "gen_tokens": 1841,
+ "sec": 227,
+ "truncated": false,
+ "parsed": true,
+ "대상 key 채움": "13/14",
+ "빠진 대상 key": [
+  "account_limit"
+ ],
+ "원문 없음 key 출력": [],
+ "대상 밖 key 출력": [],
+ "keys_in 밖 key 출력": [],
+ "중복 key": [],
+ "최종금리 «우대 조건 충족 시»": false,
+ "특별중도해지 한 줄": true,
+ "질문 · 개인화 문장": [],
+ "원문에 없는 숫자": []
+}

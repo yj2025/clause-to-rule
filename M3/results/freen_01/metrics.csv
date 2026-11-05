@@ -1,0 +1,4 @@
+﻿model,part,input_tokens,output_tokens,generation_seconds,output_tokens_per_second,peak_allocated_gb,peak_reserved_gb,hit_output_limit
+google/gemma-4-31B-it,1,6818,3087,757.3651592191309,4.07597307906638,26.043720704,26.921140224,False
+google/gemma-4-12B-it,1,6818,3140,609.6172003429383,5.15077330205513,10.984886784,11.328815104,False
+Qwen/Qwen3-8B,1,7552,2593,328.77173934318125,7.886930930195777,24.657846784,24.989663232,False

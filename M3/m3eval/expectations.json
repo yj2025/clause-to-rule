@@ -1,0 +1,63 @@
+{
+ "_설명": "케이스별 고정 단언. level: 필수=점수에 반영 / 기획=의사결정표 의도(v0.3 에선 실패 예상) / 참고=팀 결정 전이라 점수 제외. 문자열 목록의 원소는 문자열, [대안 중 하나], {\"re\": 정규식} 셋 중 하나.",
+ "T1": [
+  {"id": "T1-01", "level": "필수", "desc": "필수·의존 Fact 모두 사용", "type": "used_includes", "ids": ["F101", "F103", "F104", "F105", "F106"]},
+  {"id": "T1-02a", "level": "필수", "desc": "급여이체 우대 = SATISFIED", "type": "state_is", "fact": "F103", "state": "SATISFIED"},
+  {"id": "T1-02b", "level": "필수", "desc": "카드실적 우대 = INFO_MISSING", "type": "state_is", "fact": "F104", "state": "INFO_MISSING"},
+  {"id": "T1-02c", "level": "필수", "desc": "납입한도 = SATISFIED", "type": "state_is", "fact": "F105", "state": "SATISFIED"},
+  {"id": "T1-03", "level": "필수", "desc": "금리 수치·%p·세전·기준일 보존", "type": "text", "all": [["1.00%p", "1.0%p"], ["0.50%p", "0.5%p"], ["4.00%", "4.0%"], "세전", "2026-10-01"]},
+  {"id": "T1-04a", "level": "필수", "desc": "급여이체 경계 '50만원 이상'", "type": "fact_text", "facts": ["F103"], "all": ["50만원 이상"]},
+  {"id": "T1-04b", "level": "필수", "desc": "카드실적 경계 '30만원 초과'", "type": "fact_text", "facts": ["F104"], "all": ["30만원 초과"]},
+  {"id": "T1-04c", "level": "필수", "desc": "납입한도 경계 '50만원 이하'", "type": "fact_text", "facts": ["F105"], "all": ["50만원 이하"]},
+  {"id": "T1-04d", "level": "필수", "desc": "경계 바꿔치기 없음", "type": "text", "none": [{"re": "30만원\\s?이상"}]},
+  {"id": "T1-05", "level": "필수", "desc": "계산해서 만든 수치 없음", "type": "text", "none": [{"re": "3\\.50?%"}, {"re": "1\\.25%"}, {"re": "0\\.75%"}, {"re": "4\\.0+%p"}]},
+  {"id": "T1-06", "level": "필수", "desc": "중도해지이율 구간 전체 인용", "type": "fact_text", "facts": ["F106"], "all": ["1개월 미만", "3개월 이상"]},
+  {"id": "T1-07", "level": "필수", "desc": "우대금리 예외(만기 전 해지 시 미적용) 언급", "type": "fact_text", "facts": ["F103", "F104"], "all": ["만기 전", "우대금리", ["적용되지 않", "미적용"]]},
+  {"id": "T1-08", "level": "필수", "desc": "카드 결제실적을 묻는 질문", "type": "questions", "mention": [["card_spend_monthly", "카드"]]},
+  {"id": "T1-09", "level": "기획", "desc": "최고금리보다 기본금리(2.50%)를 먼저 또는 같은 문장에", "type": "order_text_before", "text": "2.50%", "fact": "F101", "allow_same": true}
+ ],
+ "T2": [
+  {"id": "T2-01a", "level": "필수", "desc": "비과세 자격 = BANK_CONFIRM_NEEDED", "type": "state_is", "fact": "F204", "state": "BANK_CONFIRM_NEEDED"},
+  {"id": "T2-01b", "level": "필수", "desc": "비과세를 SATISFIED 로 단정하지 않음", "type": "state_never", "fact": "F204", "states": ["SATISFIED"]},
+  {"id": "T2-02", "level": "필수", "desc": "은행 확인 문장 밖에서 비과세·나이 적용을 단정하지 않음", "type": "text", "exclude_states": ["BANK_CONFIRM_NEEDED"], "none": [{"re": "비과세(가|를)?\\s?(적용|받으실 수)"}, {"re": "3,000만원.*(한도|이내|내에서)"}, {"re": "67세.*(대상|해당)"}]},
+  {"id": "T2-03", "level": "필수", "desc": "only_in 예외에 '(상품설명서 기준)'", "type": "fact_text", "facts": ["F205"], "if_used": true, "all": ["(상품설명서 기준)"]},
+  {"id": "T2-04", "level": "필수", "desc": "자동재예치를 말하면 비과세 예외도", "type": "implies_used", "pair": ["F202", "F205"]},
+  {"id": "T2-05", "level": "필수", "desc": "기본금리 수치·세전·기준일", "type": "fact_text", "facts": ["F201"], "all": [["3.10%", "3.1%"], "세전", "2026-10-01"]},
+  {"id": "T2-06a", "level": "필수", "desc": "만기앞당김 조건·횟수", "type": "fact_text", "facts": ["F203"], "if_used": true, "all": ["7일 이내", "1회"]},
+  {"id": "T2-06b", "level": "필수", "desc": "자동재예치 신청 조건·5회 제한", "type": "fact_text", "facts": ["F202"], "if_used": true, "all": ["최대 5회", "신청"]},
+  {"id": "T2-06c", "level": "기획", "desc": "purpose(만기 때 받는 방법)에 맞는 Fact 사용", "type": "used_includes", "ids": ["F202", "F203"]},
+  {"id": "T2-07", "level": "필수", "desc": "INFO_MISSING 이 없으니 질문 없음", "type": "questions", "count": 0},
+  {"id": "T2-08", "level": "참고", "desc": "만기 후 이율은 표에서 '죽어'(만기 직전 시나리오용) → 빼는 게 정답?", "type": "used_excludes", "ids": ["F207"]}
+ ],
+ "T3": [
+  {"id": "T3-01a", "level": "필수", "desc": "수수료면제 = UNSATISFIED", "type": "state_is", "fact": "F301", "state": "UNSATISFIED"},
+  {"id": "T3-01b", "level": "필수", "desc": "수수료면제를 SATISFIED 로 뒤집지 않음", "type": "state_never", "fact": "F301", "states": ["SATISFIED"]},
+  {"id": "T3-02", "level": "필수", "desc": "'또는' 조건 보존, '모두'로 바꾸지 않음", "type": "fact_text", "facts": ["F301"], "all": ["또는", "50만원 이상", "30만원 이상"], "none": [{"re": "모두 충족"}, {"re": "및 전월"}]},
+  {"id": "T3-03", "level": "필수", "desc": "UNSATISFIED 이유에 고객 입력 원값(30만원, 0)", "type": "fact_text", "facts": ["F301"], "states": ["UNSATISFIED"], "all": ["30만원", {"re": "(?<![\\d.,])0(?![\\d.,])"}]},
+  {"id": "T3-04", "level": "필수", "desc": "혜택의 제외 조건(타행 자동화기기) 언급", "type": "text", "all": ["타행 자동화기기", ["면제하지 않", "면제 대상이 아", "면제되지 않"]]},
+  {"id": "T3-05a", "level": "필수", "desc": "면제를 말하면 수수료 금액도", "type": "implies_used", "pair": ["F301", "F302"]},
+  {"id": "T3-05b", "level": "필수", "desc": "수수료 금액 보존", "type": "text", "all": ["건당 500원"]},
+  {"id": "T3-06a", "level": "필수", "desc": "거래한도 제한 = INFO_MISSING", "type": "state_is", "fact": "F304", "state": "INFO_MISSING"},
+  {"id": "T3-06b", "level": "필수", "desc": "연결계좌 = INFO_MISSING", "type": "state_is", "fact": "F305", "state": "INFO_MISSING"},
+  {"id": "T3-06c", "level": "필수", "desc": "질문 2개, 두 필드에 대응", "type": "questions", "count": 2, "mention": [["purpose_doc_submitted", "거래목적", "금융거래목적"], ["has_other_bank_account", "다른 금융기관", "타 금융기관", "연결계좌", "다른 은행"]]},
+  {"id": "T3-07a", "level": "필수", "desc": "신규 특례(only_in)에 '(상품설명서 기준)'", "type": "fact_text", "facts": ["F303"], "if_used": true, "all": ["(상품설명서 기준)"]},
+  {"id": "T3-07b", "level": "필수", "desc": "판정 없는 신규 특례를 SATISFIED 로 쓰지 않음", "type": "state_never", "fact": "F303", "states": ["SATISFIED"]},
+  {"id": "T3-08", "level": "참고", "desc": "purpose 와 무관한 기본금리는 빼는 게 정답?", "type": "used_excludes", "ids": ["F306"]}
+ ],
+ "T4": [
+  {"id": "T4-01a", "level": "필수", "desc": "가입대상 제한 사용", "type": "used_includes", "ids": ["F401"]},
+  {"id": "T4-01b", "level": "필수", "desc": "가입대상 = UNSATISFIED", "type": "state_is", "fact": "F401", "state": "UNSATISFIED"},
+  {"id": "T4-02", "level": "기획", "desc": "가입 불가를 금리·혜택보다 먼저", "type": "order_before", "fact": "F401", "before": ["F402", "F403", "F404", "F406"]},
+  {"id": "T4-03", "level": "필수", "desc": "나이 조건과 입력값 36 인용, '가입 가능' 표현 없음", "type": "fact_text", "facts": ["F401"], "states": ["UNSATISFIED"], "all": ["34세 이하", {"re": "(?<!\\d)36(?!\\d)"}], "none": [{"re": "가입(하실 수 있|가능)"}]},
+  {"id": "T4-04", "level": "필수", "desc": "계산·합산한 금리 없음", "type": "text", "none": [{"re": "4\\.50?%"}, {"re": "3\\.50%"}, {"re": "4\\.00%"}, {"re": "1\\.50%p"}]},
+  {"id": "T4-05", "level": "필수", "desc": "'하나 이상' 보존", "type": "fact_text", "facts": ["F403"], "if_used": true, "all": ["하나 이상"], "none": [{"re": "모두"}]},
+  {"id": "T4-06a", "level": "필수", "desc": "정부기여금에 고객 소득을 대어 판정하지 않음", "type": "fact_text", "facts": ["F406"], "none": [{"re": "3,000만원"}]},
+  {"id": "T4-06b", "level": "필수", "desc": "판정 없는 정부기여금 = INFO", "type": "state_is", "fact": "F406", "state": "INFO"},
+  {"id": "T4-07a", "level": "필수", "desc": "특별금리 조건·수치·예외", "type": "fact_text", "facts": ["F404"], "if_used": true, "all": ["20만원 이상", ["1.00%p", "1.0%p"], "중도해지"]},
+  {"id": "T4-07b", "level": "필수", "desc": "우대금리와 특별금리를 한 문장에 묶지 않음", "type": "not_cocited", "pair": ["F403", "F404"]},
+  {"id": "T4-08a", "level": "필수", "desc": "중도해지(필수) 사용 또는 누락 사유 보고", "type": "used_or_omitted", "ids": ["F405"]},
+  {"id": "T4-08b", "level": "필수", "desc": "값이 null 인 중도해지에 숫자 날조 없음", "type": "no_digits", "fact": "F405"},
+  {"id": "T4-09", "level": "필수", "desc": "기본금리를 말하면 우대금리도", "type": "implies_used", "pair": ["F402", "F403"]},
+  {"id": "T4-10", "level": "필수", "desc": "누락 필드 4개 모두 질문", "type": "questions", "mention": [["marketing_consent", "마케팅"], ["no_deposit_history_1y", "예금 보유", "보유 이력"], ["salary_transfer", "급여이체"], ["auto_transfer", "자동이체"]]}
+ ]
+}

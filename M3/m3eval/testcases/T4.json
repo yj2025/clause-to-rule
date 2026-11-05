@@ -1,0 +1,134 @@
+{
+  "product": "가상은행 다모아 청년적금",
+  "purpose": "금리가 얼마인지",
+  "user_input": {
+    "age": 36,
+    "annual_income": "3,000만원",
+    "monthly_deposit": 200000,
+    "term_months": 24
+  },
+  "candidate_facts": [
+    {
+      "fact_id": "F401",
+      "key": "가입대상_제한",
+      "text": "가입일 현재 만 19세 이상 만 34세 이하 개인만 가입할 수 있으며, 직전 과세기간 총급여 7,500만원 초과자는 가입할 수 없다",
+      "value": null,
+      "unit": null,
+      "condition": "만 19세 이상 만 34세 이하, 직전 과세기간 총급여 7,500만원 이하",
+      "exceptions": [],
+      "only_in": null,
+      "as_of": null
+    },
+    {
+      "fact_id": "F402",
+      "key": "기본금리",
+      "text": "24개월 기본금리 연 3.00%",
+      "value": 3.0,
+      "unit": "%",
+      "condition": "가입기간 24개월",
+      "exceptions": [],
+      "only_in": null,
+      "as_of": "2026-10-01"
+    },
+    {
+      "fact_id": "F403",
+      "key": "우대금리",
+      "text": "다음 조건 중 하나 이상을 충족하면 연 0.50%p 우대",
+      "value": 0.5,
+      "unit": "%p",
+      "condition": "다음 중 하나 이상 충족: ① 마케팅 수신 동의 ② 가입일 기준 최근 1년간 당행 예금 보유 이력 없음 ③ 이 적금 출금계좌로 급여이체",
+      "exceptions": [],
+      "only_in": null,
+      "as_of": null
+    },
+    {
+      "fact_id": "F404",
+      "key": "특별금리_이벤트",
+      "text": "2026년 12월 31일까지 가입하고 월 20만원 이상을 자동이체로 납입하면 연 1.00%p 특별금리",
+      "value": 1.0,
+      "unit": "%p",
+      "condition": "2026-12-31까지 가입 및 월 20만원 이상 자동이체 납입",
+      "exceptions": [
+        "중도해지 시 특별금리 미적용"
+      ],
+      "only_in": null,
+      "as_of": null
+    },
+    {
+      "fact_id": "F405",
+      "key": "중도해지이율",
+      "text": "중도해지 시 가입기간별 중도해지이율을 적용한다",
+      "value": null,
+      "unit": null,
+      "condition": "만기 전 해지",
+      "exceptions": [],
+      "only_in": null,
+      "as_of": null
+    },
+    {
+      "fact_id": "F406",
+      "key": "정부기여금",
+      "text": "정부가 정한 소득 요건을 충족하면 가입기간 중 월 납입액의 일정 비율을 정부기여금으로 적립한다",
+      "value": null,
+      "unit": null,
+      "condition": "직전 과세기간 총급여 5,000만원 이하 등 정부 고시 요건",
+      "exceptions": [],
+      "only_in": null,
+      "as_of": null
+    },
+    {
+      "fact_id": "F407",
+      "key": "계좌수제한",
+      "text": "전 금융기관 1인 1계좌",
+      "value": 1,
+      "unit": "계좌",
+      "condition": null,
+      "exceptions": [],
+      "only_in": null,
+      "as_of": null
+    }
+  ],
+  "judgment_results": [
+    {
+      "fact_id": "F401",
+      "state": "UNSATISFIED",
+      "missing_fields": [],
+      "reason": "age=36 > 34"
+    },
+    {
+      "fact_id": "F403",
+      "state": "INFO_MISSING",
+      "missing_fields": [
+        "marketing_consent",
+        "no_deposit_history_1y",
+        "salary_transfer"
+      ],
+      "reason": "세 조건 모두 미입력"
+    },
+    {
+      "fact_id": "F404",
+      "state": "INFO_MISSING",
+      "missing_fields": [
+        "auto_transfer"
+      ],
+      "reason": "monthly_deposit=200000 >= 200000 충족, 자동이체 여부 미입력"
+    }
+  ],
+  "must_include_fact_ids": [
+    "F402",
+    "F405",
+    "F406"
+  ],
+  "dependencies": [
+    [
+      "F402",
+      "F403"
+    ]
+  ],
+  "section_order": [
+    "금리",
+    "혜택",
+    "가입 조건",
+    "유의사항"
+  ]
+}

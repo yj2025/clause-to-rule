@@ -1,0 +1,195 @@
+{
+ "totals": {
+  "filled": 17,
+  "keys": 17,
+  "lines": 29,
+  "lines_hit": 15,
+  "src_ok": 15,
+  "ui_need": 8,
+  "ui_hit": 5,
+  "only_need": 1,
+  "only_hit": 0,
+  "only_false": 0,
+  "diff_need": 1,
+  "diff_hit": 0,
+  "diff_false": 0,
+  "asof_need": 3,
+  "asof_hit": 3
+ },
+ "rows": [
+  {
+   "key": "product_name",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 0,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "product_type",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 0,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "product_feature",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 0,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "eligibility_target",
+   "filled": true,
+   "target_lines": 2,
+   "model_lines": 1,
+   "missed": [
+    "공동명의 가입 불가",
+    "비거주자 가입 불가"
+   ],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "eligibility_restriction",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 2,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "account_limit",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 1,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "deposit_amount",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 0,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "base_rate",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 0,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "event_special_rate",
+   "filled": true,
+   "target_lines": 9,
+   "model_lines": 4,
+   "missed": [
+    "계좌의 예금과목(보통예금 / 저축예금)에 따라 아래 조건 중 하나가 정해짐",
+    "특별금리 적용한도(평균잔액 200만원)를 넘는 금액에는 기본금리만 적용",
+    "다른 상품에서 전환한 계좌는 전환 후 첫 결산기에 전환 전 상품의 금리를 적용하고(첫 결산일 무조건 특별금리 아님), 특별금리 기간은 최초 전환일 기준 1년 경과 후 첫 결산일까지",
+    "신규 가입 후 처음 도래하는 결산일에는 조건과 관계없이 특별금리 적용. 최근 기간은 예금과목별 이자지급월 전월 말일 기준. 인정단어: 쿠팡 · 배달의민족 · 요기요 · 카카오 · 네이버 · GOOGLE · 배달 · 대리 · 택배 · 보험 · 정산 등 27개"
+   ],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "interest_payment",
+   "filled": true,
+   "target_lines": 1,
+   "model_lines": 1,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "final_rate",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 1,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "tax",
+   "filled": true,
+   "target_lines": 1,
+   "model_lines": 1,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "transaction_restriction",
+   "filled": true,
+   "target_lines": 4,
+   "model_lines": 4,
+   "missed": [
+    "잔액 10,000원 미만 + 1년 이상 입출금 거래 없음",
+    "잔액 10,000원 이상 50,000원 미만 + 2년 이상 입출금 거래 없음"
+   ],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "fee",
+   "filled": true,
+   "target_lines": 8,
+   "model_lines": 4,
+   "missed": [
+    "KB국민은행 본인 명의 계좌에서 이체된 건 · 본인 주민등록번호로 입금된 건은 입금 실적에서 제외",
+    "KB국민은행 오픈뱅킹으로 타금융기관에서 이체된 건은 입금 실적에서 제외",
+    "결산이자 입금 건은 입금 실적에서 제외",
+    "체크카드 · 신용카드로 출금된 건은 자동이체 실적에서 제외"
+   ],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "assignment_collateral",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 0,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "partner_benefit",
+   "filled": true,
+   "target_lines": 2,
+   "model_lines": 1,
+   "missed": [
+    "이용 경로: KB스타뱅킹 앱 > 전체계좌조회 > KB 프리N통장 계좌 하단 [인컴박스]"
+   ],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "product_conversion",
+   "filled": true,
+   "target_lines": 2,
+   "model_lines": 2,
+   "missed": [
+    "같은 예금과목 상품으로만 전환 가능 · 개별상품 기준으로 전환이 불가한 상품은 제외"
+   ],
+   "doc_diff_model": null,
+   "doc_diff_target": "전환 범위 제한(동일 예금과목만 · 전환 불가 상품 제외)은 상품설명서 §2936 에만 있다 — 특약 §882 는 전환 계좌의 금리 적용만 규정"
+  }
+ ],
+ "extra_keys": []
+}

@@ -1,0 +1,418 @@
+# 금융상품 약관 요약 비교
+
+모든 모델에 같은 원문 구간과 지시문을 사용했습니다.
+분할 실행이면 각 구간의 요약을 비교합니다. 통합 요약은 생성하지 않습니다.
+
+## google/gemma-4-31B-it
+
+### 원문 구간 1
+
+```json
+{
+  "product_id": 1,
+  "product_name": "KB 별별통장2",
+  "items": [
+    {
+      "key": "product_name",
+      "summary": "KB 별별통장2",
+      "source_section_ids": [2343]
+    },
+    {
+      "key": "product_type",
+      "summary": "입출금이 자유로운 예금(저축예금)",
+      "source_section_ids": [490, 2348]
+    },
+    {
+      "key": "product_feature",
+      "summary": "스타벅스 앱 계좌간편 결제 및 통장 입출금 거래 실적에 따라 혜택을 받을 수 있는 제휴전용 통장",
+      "source_section_ids": [2344]
+    },
+    {
+      "key": "eligibility_target",
+      "summary": "실명이 확인된 만 14세 이상의 개인",
+      "conditions": [
+        {
+          "text": "금융실명거래 및 비밀보장에 관한 법률에 따라 실명이 확인되어야 함",
+          "src": [491]
+        },
+        {
+          "text": "만 14세 이상이어야 함",
+          "src": [491, 2346]
+        },
+        {
+          "text": "외국인의 경우 비대면으로 입출금통장 가입이 가능한 경우에 한함",
+          "src": [2346],
+          "only_in": "상품설명서"
+        }
+      ],
+      "condition_logic": "모두 충족",
+      "source_section_ids": [491, 2346]
+    },
+    {
+      "key": "eligibility_restriction",
+      "summary": "개인사업자, 공동명의자 및 KB 별별통장 보유자는 가입할 수 없음",
+      "conditions": [
+        {
+          "text": "개인사업자 및 공동명의 가입 불가",
+          "src": [494, 2346]
+        },
+        {
+          "text": "「KB 별별통장」 보유 상태에서는 가입 불가 (단, 해지 후 가입 가능)",
+          "src": [512, 2365]
+        }
+      ],
+      "condition_logic": "하나라도 해당 시 제한",
+      "source_section_ids": [494, 512, 2346, 2365]
+    },
+    {
+      "key": "account_limit",
+      "summary": "1인 1계좌만 보유 가능",
+      "conditions": [
+        {
+          "text": "1인 1계좌 제한",
+          "src": [493, 2346, 2365]
+        }
+      ],
+      "source_section_ids": [493, 2346, 2365]
+    },
+    {
+      "key": "deposit_amount",
+      "summary": "가입 금액에 제한 없음",
+      "source_section_ids": [2347]
+    },
+    {
+      "key": "base_rate",
+      "summary": "결산일 현재 지점 및 홈페이지에 게시한 기본금리를 적용하며, 2026.09.03 기준 연 0.1%임",
+      "as_of": "2026.09.03",
+      "source_section_ids": [497, 2351]
+    },
+    {
+      "key": "preferential_rate",
+      "summary": "최초 가입 시에만 연 1.9%p의 우대금리를 제공하며, 평균잔액 3백만원 이하 금액에 대해 적용함",
+      "benefit": "연 1.9%p 우대금리",
+      "conditions": [
+        {
+          "text": "이 통장을 최초로 가입한 경우에만 제공",
+          "src": [499, 2352, 2365]
+        },
+        {
+          "text": "최초 가입일로부터 1년 경과 후 최초로 도래하는 결산일까지 적용",
+          "src": [500, 2352]
+        }
+      ],
+      "condition_logic": "모두 충족",
+      "exceptions": [
+        {
+          "text": "해지 후 재가입한 경우는 제공 제외",
+          "src": [499, 2352, 2365]
+        },
+        {
+          "text": "결산기 평균잔액 중 3백만원을 초과하는 금액은 기본금리만 적용",
+          "src": [500, 2352]
+        }
+      ],
+      "special": {
+        "text": "결산일은 2, 5, 8, 11월의 둘째 금요일임",
+        "src": [2352]
+      },
+      "source_section_ids": [499, 500, 2352, 2365]
+    },
+    {
+      "key": "interest_payment",
+      "summary": "매년 2, 5, 8, 11월의 둘째 금요일에 결산하여 다음날 원금에 가산함",
+      "exceptions": [
+        {
+          "text": "최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있음",
+          "src": [2354]
+        }
+      ],
+      "source_section_ids": [2354]
+    },
+    {
+      "key": "final_rate",
+      "summary": "최저 연 0.1%에서 최고 연 2.0%까지 적용됨",
+      "as_of": "2026.09.03",
+      "special": {
+        "text": "최고금리는 신규가입일 당시 지점 및 홈페이지에 게시한 우대금리 적용 시 기준임",
+        "src": [2353]
+      },
+      "source_section_ids": [2353]
+    },
+    {
+      "key": "tax",
+      "summary": "비과세종합저축으로 가입할 수 없음",
+      "source_section_ids": [2358, 514]
+    },
+    {
+      "key": "transaction_restriction",
+      "summary": "타 통장 간 전환이 불가하며, 사기이용 계좌 등으로 이용될 경우 금융거래 제한조치를 할 수 있음",
+      "conditions": [
+        {
+          "text": "다른 통장에서 이 통장으로 전환 또는 이 통장에서 다른 통장으로 전환(자동전환 제외) 불가",
+          "src": [513, 2365]
+        }
+      ],
+      "special": {
+        "text": "피해의심 거래계좌 및 사기이용 계좌로 이용될 경우 이체, 송금지연, 지급정지 등의 조치 가능",
+        "src": [2365]
+      },
+      "source_section_ids": [511, 512, 513, 514, 2365]
+    },
+    {
+      "key": "fee",
+      "summary": "인터넷/폰/스타뱅킹 타행 이체, 자동이체, ATM 타행 이체 및 시간외 출금 수수료를 횟수 제한 없이 면제함",
+      "benefit": "주요 이체 및 출금 수수료 면제",
+      "exceptions": [
+        {
+          "text": "다른은행 ATM 시간외 출금 수수료 중 제휴 ATM 및 VAN사(효성·나이스·한네트 등) ATM은 제외",
+          "src": [501, 2356]
+        }
+      ],
+      "source_section_ids": [501, 2356, 511, 2365, 2371]
+    },
+    {
+      "key": "assignment_collateral",
+      "summary": "양도, 담보제공 및 질권설정이 모두 불가함",
+      "source_section_ids": [2359, 2360]
+    },
+    {
+      "key": "partner_benefit",
+      "summary": "스타벅스 앱 계좌 간편결제 이용 시 별 적립 및 조건 충족 시 스타벅스 쿠폰을 제공함",
+      "benefit": "스타벅스 별 적립(최대 월 15개) 및 쿠폰(최대 24매) 제공",
+      "conditions": [
+        {
+          "text": "별 적립: 스타벅스 앱에서 「계좌 간편결제」 이용 및 방문별 적립 대상인 경우",
+          "src": [503, 2368]
+        },
+        {
+          "text": "쿠폰 공통: 최초 가입자로서 개인정보수집이용 동의 및 스타벅스 앱 내 계좌 간편결제서비스 등록",
+          "src": [503, 2368]
+        },
+        {
+          "text": "입금쿠폰: 2026.02.01~2026.07.31까지 KB국민은행 급여 수령 이력이 없는 고객이 매월 합산 50만원 이상 입금",
+          "user_input": "급여 수령 이력 및 월 입금액",
+          "src": [503, 2368]
+        },
+        {
+          "text": "출금쿠폰: KB 신용/체크카드 결제대금 출금액이 매월 누적 10만원 이상",
+          "user_input": "카드 결제대금 출금액",
+          "src": [503, 2368]
+        }
+      ],
+      "condition_logic": "혜택별 조건 상이",
+      "exceptions": [
+        {
+          "text": "별 적립: 계좌 간편결제 횟수는 1일 1회, 월 최대 5회로 한정하며 이월되지 않음",
+          "src": [503, 2368]
+        },
+        {
+          "text": "입금쿠폰: 2025년 4월 출시한 KB 별별통장 혜택분과 합산하여 최대 12매로 제한",
+          "src": [503, 2368]
+        },
+        {
+          "text": "쿠폰 혜택은 최초 가입자에게만 제공되며 재가입 시 제공 불가",
+          "src": [2368]
+        }
+      ],
+      "special": {
+        "text": "별 적립 기간은 가입일부터 2027.12.31까지, 쿠폰은 최초 가입 다음 월부터 13개월간 제공됨",
+        "src": [504, 2368]
+      },
+      "source_section_ids": [503, 504, 505, 506, 2368, 2369, 2370]
+    },
+    {
+      "key": "product_conversion",
+      "summary": "2028년 11월 1일에 「KB스타통장」으로 자동전환되며, 이미 보유 중인 경우 「KB종합통장」으로 전환됨",
+      "special": {
+        "text": "자동전환일 전 영업일까지 고객이 신청한 방법으로 자동전환일에 통지됨",
+        "src": [2350]
+      },
+      "source_section_ids": [496, 2350, 511, 513, 2365, 2371]
+    }
+  ]
+}
+```
+
+## google/gemma-4-12B-it
+
+### 원문 구간 1
+
+```json
+{
+  "product_id": 1,
+  "product_name": "KB 별별통장2",
+  "items": [
+    {
+      "key": "product_name",
+      "summary": "KB 별별통장2"
+    },
+    {
+      "key": "product_type",
+      "summary": "저축예금",
+      "source_section_ids": [490, 2348]
+    },
+    {
+      "key": "product_feature",
+      "summary": "스타벅스 앱 계좌간편 결제 및 통장 입출금 거래 실적에 따라 혜택을 받을 수 있는 제휴전용 통장",
+      "source_section_ids": [2344]
+    },
+    {
+      "key": "eligibility_target",
+      "summary": "실명이 확인된 만 14세 이상의 개인",
+      "conditions": [
+        {
+          "text": "외국인은 비대면으로 입출금통장 가입이 가능한 경우에 한함",
+          "only_in": "상품설명서"
+        }
+      ],
+      "source_section_ids": [491, 2346]
+    },
+    {
+      "key": "eligibility_restriction",
+      "summary": "개인사업자 및 공동명의로 가입 불가",
+      "conditions": [
+        {
+          "text": "「KB 별별통장」 보유 상태에서는 가입 불가 (해지 후 가입 가능)",
+          "source_section_ids": [2365]
+        }
+      ],
+      "source_section_ids": [494, 2365]
+    },
+    {
+      "key": "account_limit",
+      "summary": "1인 1계좌만 보유 가능",
+      "source_section_ids": [493, 2365]
+    },
+    {
+      "key": "deposit_amount",
+      "summary": "제한없음",
+      "source_section_ids": [2347]
+    },
+    {
+      "key": "base_rate",
+      "summary": "결산일 현재 지점 및 KB국민은행 홈페이지에 게시한 기본금리 적용",
+      "as_of": "2026.09.03",
+      "conditions": [
+        {
+          "text": "연 0.1% (세금공제 전)",
+          "source_section_ids": [2351]
+        }
+      ],
+      "source_section_ids": [497, 2351]
+    },
+    {
+      "key": "preferential_rate",
+      "summary": "최초 가입 시 연 1.9%p 우대금리 제공 (최초 가입일로부터 1년 경과 후 최초로 도래하는 결산일까지)",
+      "conditions": [
+        {
+          "text": "해지 후 재 가입한 경우는 제공하지 않음",
+          "source_section_ids": [499, 2352]
+        },
+        {
+          "text": "결산기 평균잔액 중 3백만원 이하 금액에 대하여 적용",
+          "source_section_ids": [500, 2352]
+        }
+      ],
+      "as_of": "2026.09.03",
+      "source_section_ids": [499, 500, 2352, 2365]
+    },
+    {
+      "key": "interest_payment",
+      "summary": "매년 2, 5, 8, 11월의 둘째 금요일에 결산하여 다음날 원금에 더함",
+      "exceptions": [
+        {
+          "text": "예금의 이자는 최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있음",
+          "source_section_ids": [2354]
+        }
+      ],
+      "source_section_ids": [2354]
+    },
+    {
+      "key": "final_rate",
+      "summary": "최저 연 0.1% ~ 최고 연 2.0%",
+      "as_of": "2026.09.03",
+      "conditions": [
+        {
+          "text": "최고금리는 신규가입일 당시 지점 및 KB국민은행 홈페이지에 게시한 우대금리 적용 시",
+          "source_section_ids": [2353]
+        }
+      ],
+      "source_section_ids": [2353]
+    },
+    {
+      "key": "tax",
+      "summary": "비과세종합저축으로 가입 불가",
+      "source_section_ids": [2358]
+    },
+    {
+      "key": "transaction_restriction",
+      "summary": "다른 통장에서 이 통장으로 전환 또는 이 통장에서 다른 통장으로 전환(자동전환 제외) 불가. 비과세종합저축으로 가입 불가.",
+      "conditions": [
+        {
+          "text": "「KB 별별통장」 보유 상태에서는 가입 불가",
+          "source_section_ids": [512, 2365]
+        },
+        {
+          "text": "피해의심 거래계좌 및 사기이용 계좌로 이용될 경우 금융거래 제한조치 가능",
+          "source_section_ids": [2365]
+        }
+      ],
+      "source_section_ids": [511, 512, 513, 514, 2365]
+    },
+    {
+      "key": "fee",
+      "summary": "인터넷·폰·KB스타뱅킹을 통한 타행 이체, 납부자 자동이체, ATM 타행 이체, ATM 시간외 출금, 타행 ATM 시간외 출금 수수료 횟수 제한 없이 면제",
+      "conditions": [
+        {
+          "text": "타행 ATM의 경우 제휴 ATM 및 VAN사(효성·나이스·한네트 등) ATM 제외",
+          "source_section_ids": [501, 2356]
+        }
+      ],
+      "source_section_ids": [501, 2356, 511, 2365, 2371]
+    },
+    {
+      "key": "assignment_collateral",
+      "summary": "양도 불가, 담보제공 불가, 질권설정 불가",
+      "source_section_ids": [2359, 2360]
+    },
+    {
+      "key": "partner_benefit",
+      "summary": "스타벅스 앱 계좌 간편결제 시 횟수에 따라 스타벅스 별 최대 월 15개까지 제공. 최초 가입 시 스타벅스 쿠폰(입금/출금) 최대 24매 제공.",
+      "conditions": [
+        {
+          "text": "계좌 간편결제 횟수는 1일 1회, 월 최대 5회로 한정, 다음 월로 이월되지 않음",
+          "source_section_ids": [503, 2368]
+        },
+        {
+          "text": "입금쿠폰: 2026년 2월 1일부터 2026년 7월 31일까지 KB국민은행으로 급여를 받은 적 없는 고객이, 이 통장으로 매월 합산 50만원 이상 입금한 경우 월 1매씩 총 13개월 동안 최대 12매 제공",
+          "source_section_ids": [503, 2368]
+        },
+        {
+          "text": "입금쿠폰은 2025년도 4월 출시한 KB 별별통장에서 혜택 받은 쿠폰 매수와 합산하여 최대 12매로 제한",
+          "source_section_ids": [503, 2368]
+        },
+        {
+          "text": "출금쿠폰: 이 통장으로 KB 신용/체크카드 결제대금 출금액이 매월 누적액 10만원 이상인 경우, 월 1매씩 총 13개월 동안 최대 12매 제공",
+          "source_section_ids": [503, 2368]
+        }
+      ],
+      "special": {
+        "text": "별 적립은 가입일로부터 2027년 12월 31일까지 제공. 스타벅스 쿠폰은 최초 가입 다음 월부터 총 13개월까지 제공.",
+        "source_section_ids": [504, 2368]
+      },
+      "source_section_ids": [503, 504, 505, 506, 2368, 2369, 2370]
+    },
+    {
+      "key": "product_conversion",
+      "summary": "2028년 11월 1일에 「KB스타통장」으로 자동전환 (단, 「KB스타통장」 보유 시 「KB종합통장」으로 자동전환)",
+      "conditions": [
+        {
+          "text": "자동전환일 전 영업일까지 고객이 신청한 방법으로 자동전환일에 통지",
+          "source_section_ids": [2350]
+        }
+      ],
+      "source_section_ids": [496, 2350, 2371, 511, 513, 2365]
+    }
+  ]
+}
+```

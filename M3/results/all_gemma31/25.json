@@ -1,0 +1,253 @@
+{
+ "product_id": 25,
+ "product_name": "KB우대저축통장 (개인 MMDA)",
+ "model": "google/gemma-4-31B-it",
+ "in_tokens": 2726,
+ "gen_tokens": 2065,
+ "raw": "```json\n{\n  \"product_id\": 25,\n  \"product_name\": \"KB우대저축통장\",\n  \"items\": [\n    {\n      \"key\": \"product_name\",\n      \"summary\": \"KB우대저축통장\",\n      \"source_section_ids\": [\n        2681\n      ]\n    },\n    {\n      \"key\": \"product_type\",\n      \"summary\": \"입출금이 자유로운 예금(저축예금)\",\n      \"source_section_ids\": [\n        1168,\n        2686\n      ]\n    },\n    {\n      \"key\": \"product_feature\",\n      \"summary\": \"거래금액에 따라 차등금리가 적용되는 수시입출금식예금(MMDA: Money Market Deposit Account)\",\n      \"source_section_ids\": [\n        2682\n      ]\n    },\n    {\n      \"key\": \"eligibility_target\",\n      \"summary\": \"실명의 개인\",\n      \"source_section_ids\": [\n        1167,\n        2684\n      ]\n    },\n    {\n      \"key\": \"deposit_amount\",\n      \"summary\": \"최소 5백만원 이상으로 신규 가입하며, 개설 후 잔액이 5백만원 미만이어도 거래가 가능합니다.\",\n      \"conditions\": [\n        {\n          \"text\": \"최소 5백만원 이상\",\n          \"src\": [\n            2685\n          ]\n        }\n      ],\n      \"special\": {\n        \"text\": \"신규개설 후 잔액 5백만원 미만 거래 가능\",\n        \"src\": [\n          2685\n        ]\n      },\n      \"source_section_ids\": [\n        2685\n      ]\n    },\n    {\n      \"key\": \"base_rate\",\n      \"summary\": \"매일의 최종 잔액에 따라 차등 금리를 적용하여 이자를 계산합니다.\",\n      \"conditions\": [\n        {\n          \"text\": \"5백만원 미만: 연 0.10%\",\n          \"user_input\": \"잔액\",\n          \"src\": [\n            2688\n          ]\n        },\n        {\n          \"text\": \"5백만원 ~ 1천만원 미만: 연 0.15%\",\n          \"user_input\": \"잔액\",\n          \"src\": [\n            2688\n          ]\n        },\n        {\n          \"text\": \"1천만원 ~ 3천만원 미만: 연 0.20%\",\n          \"user_input\": \"잔액\",\n          \"src\": [\n            2688\n          ]\n        },\n        {\n          \"text\": \"3천만원 ~ 5천만원 미만: 연 0.30%\",\n          \"user_input\": \"잔액\",\n          \"src\": [\n            2688\n          ]\n        },\n        {\n          \"text\": \"5천만원 ~ 1억원 미만: 연 0.35%\",\n          \"user_input\": \"잔액\",\n          \"src\": [\n            2688\n          ]\n        },\n        {\n          \"text\": \"1억원 이상: 연 0.35%\",\n          \"user_input\": \"잔액\",\n          \"src\": [\n            2688\n          ]\n        }\n      ],\n      \"condition_logic\": \"잔액 구간별 차등 적용\",\n      \"special\": {\n        \"text\": \"이율 변경 시 변경된 날로부터 적용\",\n        \"src\": [\n          2688\n        ]\n      },\n      \"as_of\": \"2025.01.13\",\n      \"source_section_ids\": [\n        2688\n      ]\n    },\n    {\n      \"key\": \"interest_payment\",\n      \"summary\": \"매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 가산합니다.\",\n      \"exceptions\": [\n        {\n          \"text\": \"최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있음\",\n          \"src\": [\n            2689\n          ]\n        }\n      ],\n      \"source_section_ids\": [\n        2689\n      ]\n    },\n    {\n      \"key\": \"termination_method\",\n      \"summary\": \"영업점, 개인인터넷뱅킹, KB 스타뱅킹을 통해 해지할 수 있습니다.\",\n      \"conditions\": [\n        {\n          \"text\": \"개인인터넷뱅킹 및 KB 스타뱅킹 해지 시 본인명의의 입출금이자유로운예금 계좌 필요\",\n          \"src\": [\n            2693\n          ]\n        }\n      ],\n      \"source_section_ids\": [\n        2693\n      ]\n    },\n    {\n      \"key\": \"tax\",\n      \"summary\": \"비과세종합저축으로 가입이 가능합니다.\",\n      \"exceptions\": [\n        {\n          \"text\": \"관련세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있음\",\n          \"src\": [\n            2691\n          ]\n        }\n      ],\n      \"source_section_ids\": [\n        2691\n      ]\n    },\n    {\n      \"key\": \"transaction_restriction\",\n      \"summary\": \"잔액 및 무거래 기간에 따라 입출금, 잔액조회, 이관 등의 거래가 제한될 수 있으며, 사기이용 계좌인 경우 금융거래 제한조치가 가능합니다.\",\n      \"conditions\": [\n        {\n          \"text\": \"예금잔액 10,000원 미만이며 1년 이상 입출금거래가 없는 계좌\",\n          \"user_input\": \"잔액, 무거래기간\",\n          \"src\": [\n            2697\n          ]\n        },\n        {\n          \"text\": \"예금잔액 10,000원 이상 50,000원 미만이며 2년 이상 입출금거래가 없는 계좌\",\n          \"user_input\": \"잔액, 무거래기간\",\n          \"src\": [\n            2697\n          ]\n        },\n        {\n          \"text\": \"예금잔액 50,000원 이상 100,000원 미만이며 3년 이상 입출금거래가 없는 계좌\",\n          \"user_input\": \"잔액, 무거래기간\",\n          \"src\": [\n            2697\n          ]\n        },\n        {\n          \"text\": \"피해의심 거래계좌 및 사기이용 계좌로 이용될 경우\",\n          \"src\": [\n            2701\n          ]\n        }\n      ],\n      \"condition_logic\": \"위 조건 중 하나라도 해당 시 제한\",\n      \"special\": {\n        \"text\": \"무거래기간 산정기준: 입출금 또는 명의변경 거래 최종 발생일로부터 산정 / 편입시기: 연 2회(매년 6월, 12월 셋째 금요일 기준 익일 토요일) / 거래 재개 시 본인 확인 및 금융거래 목적 확인 필요\",\n        \"src\": [\n          2697\n        ]\n      },\n      \"source_section_ids\": [\n        2697,\n        2701\n      ]\n    },\n    {\n      \"key\": \"assignment_collateral\",\n      \"summary\": \"양도는 가능하나, 질권설정 및 담보제공은 불가능합니다.\",\n      \"conditions\": [\n        {\n          \"text\": \"양도 가능\",\n          \"src\": [\n            2695\n          ]\n        }\n      ],\n      \"exceptions\": [\n        {\n          \"text\": \"질권설정 불가\",\n          \"src\": [\n            2694\n          ]\n        },\n        {\n          \"text\": \"담보제공 불가능\",\n          \"src\": [\n            2695\n          ]\n        }\n      ],\n      \"source_section_ids\": [\n        2694,\n        2695\n      ]\n    },\n    {\n      \"key\": \"product_conversion\",\n      \"summary\": \"다른 입출금이 자유로운 예금에서 이 통장으로의 전환 및 이 통장에서 다른 입출금이 자유로운 예금으로의 전환이 모두 불가능합니다.\",\n      \"source_section_ids\": [\n        2687,\n        2701\n      ]\n    }\n  ]\n}\n```",
+ "parsed": {
+  "product_id": 25,
+  "product_name": "KB우대저축통장",
+  "items": [
+   {
+    "key": "product_name",
+    "summary": "KB우대저축통장",
+    "source_section_ids": [
+     2681
+    ]
+   },
+   {
+    "key": "product_type",
+    "summary": "입출금이 자유로운 예금(저축예금)",
+    "source_section_ids": [
+     1168,
+     2686
+    ]
+   },
+   {
+    "key": "product_feature",
+    "summary": "거래금액에 따라 차등금리가 적용되는 수시입출금식예금(MMDA: Money Market Deposit Account)",
+    "source_section_ids": [
+     2682
+    ]
+   },
+   {
+    "key": "eligibility_target",
+    "summary": "실명의 개인",
+    "source_section_ids": [
+     1167,
+     2684
+    ]
+   },
+   {
+    "key": "deposit_amount",
+    "summary": "최소 5백만원 이상으로 신규 가입하며, 개설 후 잔액이 5백만원 미만이어도 거래가 가능합니다.",
+    "conditions": [
+     {
+      "text": "최소 5백만원 이상",
+      "src": [
+       2685
+      ]
+     }
+    ],
+    "special": {
+     "text": "신규개설 후 잔액 5백만원 미만 거래 가능",
+     "src": [
+      2685
+     ]
+    },
+    "source_section_ids": [
+     2685
+    ]
+   },
+   {
+    "key": "base_rate",
+    "summary": "매일의 최종 잔액에 따라 차등 금리를 적용하여 이자를 계산합니다.",
+    "conditions": [
+     {
+      "text": "5백만원 미만: 연 0.10%",
+      "user_input": "잔액",
+      "src": [
+       2688
+      ]
+     },
+     {
+      "text": "5백만원 ~ 1천만원 미만: 연 0.15%",
+      "user_input": "잔액",
+      "src": [
+       2688
+      ]
+     },
+     {
+      "text": "1천만원 ~ 3천만원 미만: 연 0.20%",
+      "user_input": "잔액",
+      "src": [
+       2688
+      ]
+     },
+     {
+      "text": "3천만원 ~ 5천만원 미만: 연 0.30%",
+      "user_input": "잔액",
+      "src": [
+       2688
+      ]
+     },
+     {
+      "text": "5천만원 ~ 1억원 미만: 연 0.35%",
+      "user_input": "잔액",
+      "src": [
+       2688
+      ]
+     },
+     {
+      "text": "1억원 이상: 연 0.35%",
+      "user_input": "잔액",
+      "src": [
+       2688
+      ]
+     }
+    ],
+    "condition_logic": "잔액 구간별 차등 적용",
+    "special": {
+     "text": "이율 변경 시 변경된 날로부터 적용",
+     "src": [
+      2688
+     ]
+    },
+    "as_of": "2025.01.13",
+    "source_section_ids": [
+     2688
+    ]
+   },
+   {
+    "key": "interest_payment",
+    "summary": "매년 2월, 5월, 8월, 11월의 둘째 금요일에 결산하여 다음날 원금에 가산합니다.",
+    "exceptions": [
+     {
+      "text": "최종거래일로부터 5년이 경과한 날부터는 이자를 원금에 더하지 않고, 계좌해지 또는 추가 입출금 거래 발생일에 일괄 계산하여 지급할 수 있음",
+      "src": [
+       2689
+      ]
+     }
+    ],
+    "source_section_ids": [
+     2689
+    ]
+   },
+   {
+    "key": "termination_method",
+    "summary": "영업점, 개인인터넷뱅킹, KB 스타뱅킹을 통해 해지할 수 있습니다.",
+    "conditions": [
+     {
+      "text": "개인인터넷뱅킹 및 KB 스타뱅킹 해지 시 본인명의의 입출금이자유로운예금 계좌 필요",
+      "src": [
+       2693
+      ]
+     }
+    ],
+    "source_section_ids": [
+     2693
+    ]
+   },
+   {
+    "key": "tax",
+    "summary": "비과세종합저축으로 가입이 가능합니다.",
+    "exceptions": [
+     {
+      "text": "관련세법이 개정될 경우 세율이 변경되거나 세금이 부과될 수 있음",
+      "src": [
+       2691
+      ]
+     }
+    ],
+    "source_section_ids": [
+     2691
+    ]
+   },
+   {
+    "key": "transaction_restriction",
+    "summary": "잔액 및 무거래 기간에 따라 입출금, 잔액조회, 이관 등의 거래가 제한될 수 있으며, 사기이용 계좌인 경우 금융거래 제한조치가 가능합니다.",
+    "conditions": [
+     {
+      "text": "예금잔액 10,000원 미만이며 1년 이상 입출금거래가 없는 계좌",
+      "user_input": "잔액, 무거래기간",
+      "src": [
+       2697
+      ]
+     },
+     {
+      "text": "예금잔액 10,000원 이상 50,000원 미만이며 2년 이상 입출금거래가 없는 계좌",
+      "user_input": "잔액, 무거래기간",
+      "src": [
+       2697
+      ]
+     },
+     {
+      "text": "예금잔액 50,000원 이상 100,000원 미만이며 3년 이상 입출금거래가 없는 계좌",
+      "user_input": "잔액, 무거래기간",
+      "src": [
+       2697
+      ]
+     },
+     {
+      "text": "피해의심 거래계좌 및 사기이용 계좌로 이용될 경우",
+      "src": [
+       2701
+      ]
+     }
+    ],
+    "condition_logic": "위 조건 중 하나라도 해당 시 제한",
+    "special": {
+     "text": "무거래기간 산정기준: 입출금 또는 명의변경 거래 최종 발생일로부터 산정 / 편입시기: 연 2회(매년 6월, 12월 셋째 금요일 기준 익일 토요일) / 거래 재개 시 본인 확인 및 금융거래 목적 확인 필요",
+     "src": [
+      2697
+     ]
+    },
+    "source_section_ids": [
+     2697,
+     2701
+    ]
+   },
+   {
+    "key": "assignment_collateral",
+    "summary": "양도는 가능하나, 질권설정 및 담보제공은 불가능합니다.",
+    "conditions": [
+     {
+      "text": "양도 가능",
+      "src": [
+       2695
+      ]
+     }
+    ],
+    "exceptions": [
+     {
+      "text": "질권설정 불가",
+      "src": [
+       2694
+      ]
+     },
+     {
+      "text": "담보제공 불가능",
+      "src": [
+       2695
+      ]
+     }
+    ],
+    "source_section_ids": [
+     2694,
+     2695
+    ]
+   },
+   {
+    "key": "product_conversion",
+    "summary": "다른 입출금이 자유로운 예금에서 이 통장으로의 전환 및 이 통장에서 다른 입출금이 자유로운 예금으로의 전환이 모두 불가능합니다.",
+    "source_section_ids": [
+     2687,
+     2701
+    ]
+   }
+  ]
+ },
+ "truncated": false,
+ "sec": 458.4
+}

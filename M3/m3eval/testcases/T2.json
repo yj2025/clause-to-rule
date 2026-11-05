@@ -1,0 +1,119 @@
+{
+  "product": "가상은행 든든 정기예금",
+  "purpose": "만기 때 돈을 어떻게 받는지와 세금 혜택이 있는지",
+  "user_input": {
+    "deposit_amount": "3,000만원",
+    "term_months": 12,
+    "age": 67
+  },
+  "candidate_facts": [
+    {
+      "fact_id": "F201",
+      "key": "기본금리",
+      "text": "12개월 약정이율 연 3.10%(세전)",
+      "value": 3.1,
+      "unit": "%",
+      "condition": "가입기간 12개월",
+      "exceptions": [],
+      "only_in": null,
+      "as_of": "2026-10-01"
+    },
+    {
+      "fact_id": "F202",
+      "key": "자동재예치",
+      "text": "만기일에 원리금을 같은 기간으로 자동 재예치할 수 있으며, 재예치 시에는 재예치일 당시 고시이율을 적용한다",
+      "value": null,
+      "unit": null,
+      "condition": "가입 시 자동재예치를 신청한 경우",
+      "exceptions": [
+        "자동재예치는 최대 5회까지"
+      ],
+      "only_in": null,
+      "as_of": null
+    },
+    {
+      "fact_id": "F203",
+      "key": "만기앞당김지급",
+      "text": "만기일 전 7일 이내에 만기앞당김 지급을 청구할 수 있으며, 앞당긴 기간에 해당하는 약정이자는 차감하여 지급한다",
+      "value": 7,
+      "unit": "일",
+      "condition": "만기일 전 7일 이내 청구",
+      "exceptions": [
+        "만기앞당김 지급은 계약기간 중 1회에 한함"
+      ],
+      "only_in": null,
+      "as_of": null
+    },
+    {
+      "fact_id": "F204",
+      "key": "세제_비과세종합저축",
+      "text": "비과세종합저축으로 가입하면 1인당 저축원금 5,000만원 한도에서 이자소득세가 부과되지 않는다",
+      "value": 50000000,
+      "unit": "원",
+      "condition": "만 65세 이상 거주자 등 조세특례제한법 제88조의2에서 정한 대상자",
+      "exceptions": [
+        "전 금융기관 비과세종합저축 원금 합계가 한도를 넘는 부분은 과세"
+      ],
+      "only_in": null,
+      "as_of": null
+    },
+    {
+      "fact_id": "F205",
+      "key": "자동재예치_비과세예외",
+      "text": "비과세종합저축으로 가입한 계좌는 자동재예치 시 비과세 한도 잔여액 범위에서만 비과세가 유지된다",
+      "value": null,
+      "unit": null,
+      "condition": "비과세종합저축 계좌의 자동재예치",
+      "exceptions": [],
+      "only_in": "상품설명서",
+      "as_of": null
+    },
+    {
+      "fact_id": "F206",
+      "key": "중도해지이율",
+      "text": "만기 전 해지 시 예치기간에 따라 연 0.10%~연 1.55%의 중도해지이율 적용",
+      "value": null,
+      "unit": "%",
+      "condition": "만기 전 해지",
+      "exceptions": [],
+      "only_in": null,
+      "as_of": "2026-10-01"
+    },
+    {
+      "fact_id": "F207",
+      "key": "만기후이율",
+      "text": "만기 후 1개월 이내 연 1.55%, 1개월 초과 연 0.20%",
+      "value": null,
+      "unit": "%",
+      "condition": "만기 후 미해지",
+      "exceptions": [],
+      "only_in": null,
+      "as_of": "2026-10-01"
+    }
+  ],
+  "judgment_results": [
+    {
+      "fact_id": "F204",
+      "state": "BANK_CONFIRM_NEEDED",
+      "missing_fields": [],
+      "reason": "age=67 >= 65 이나 전 금융기관 비과세종합저축 한도 잔여액은 은행 조회로만 확인 가능"
+    }
+  ],
+  "must_include_fact_ids": [
+    "F201",
+    "F204",
+    "F206"
+  ],
+  "dependencies": [
+    [
+      "F202",
+      "F205"
+    ]
+  ],
+  "section_order": [
+    "금리",
+    "만기",
+    "세금",
+    "해지"
+  ]
+}

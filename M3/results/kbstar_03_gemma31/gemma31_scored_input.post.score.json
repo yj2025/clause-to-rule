@@ -1,0 +1,173 @@
+{
+ "totals": {
+  "filled": 16,
+  "keys": 16,
+  "lines": 21,
+  "lines_hit": 17,
+  "src_ok": 17,
+  "ui_need": 5,
+  "ui_hit": 5,
+  "only_need": 4,
+  "only_hit": 2,
+  "only_false": 0,
+  "diff_need": 2,
+  "diff_hit": 2,
+  "diff_false": 1,
+  "asof_need": 1,
+  "asof_hit": 1
+ },
+ "rows": [
+  {
+   "key": "product_name",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 0,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "product_type",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 0,
+   "missed": [],
+   "doc_diff_model": "상품설명서에만: 개별상품에서 정한 기준에 의해 전환신규가 불가한 상품은 제외",
+   "doc_diff_target": null
+  },
+  {
+   "key": "product_feature",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 0,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "eligibility_target",
+   "filled": true,
+   "target_lines": 2,
+   "model_lines": 1,
+   "missed": [
+    "개인사업자 · 관련서류 미제출 임의단체도 가입 가능",
+    "공동명의 가입 불가"
+   ],
+   "doc_diff_model": "상품설명서에만: 개인사업자 및 관련서류 미제출 임의단체 포함 / 상품설명서에만: 공동명의 가입 불가",
+   "doc_diff_target": "가입대상 범위가 다르다 — 상품설명서는 개인사업자 · 서류 미제출 임의단체 포함(가입 가능), 공동명의 불가를 적고, 특약 §1150 은 '실명이 확인된 개인'만 적는다"
+  },
+  {
+   "key": "eligibility_restriction",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 2,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "account_limit",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 1,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "deposit_amount",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 0,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "base_rate",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 1,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "interest_payment",
+   "filled": true,
+   "target_lines": 1,
+   "model_lines": 1,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "termination_method",
+   "filled": true,
+   "target_lines": 1,
+   "model_lines": 1,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "tax",
+   "filled": true,
+   "target_lines": 1,
+   "model_lines": 1,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "transaction_restriction",
+   "filled": true,
+   "target_lines": 5,
+   "model_lines": 4,
+   "missed": [
+    "전기통신금융사기 피해방지법상 피해의심 거래계좌 · 사기이용계좌로 이용된 경우 이체 · 송금지연 · 지급정지 등 제한"
+   ],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "fee",
+   "filled": true,
+   "target_lines": 8,
+   "model_lines": 6,
+   "missed": [],
+   "doc_diff_model": "상품설명서에만: 당행 오픈뱅킹을 통해 타금융기관에서 이체된 건 제외",
+   "doc_diff_target": "오픈뱅킹 이체 · 결산이자 입금 제외는 상품설명서에만 있다. 특약만 따르면 면제를 실제보다 넓게 보여 준다. 기준 문서는 팀 결정 대기"
+  },
+  {
+   "key": "assignment_collateral",
+   "filled": true,
+   "target_lines": 0,
+   "model_lines": 3,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "partner_benefit",
+   "filled": true,
+   "target_lines": 2,
+   "model_lines": 1,
+   "missed": [
+    "박스마다 입금 적요(보낸 사람) 키워드 3개까지, 계좌마다 인컴박스 3개까지 설정"
+   ],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  },
+  {
+   "key": "product_conversion",
+   "filled": true,
+   "target_lines": 1,
+   "model_lines": 1,
+   "missed": [],
+   "doc_diff_model": null,
+   "doc_diff_target": null
+  }
+ ],
+ "extra_keys": []
+}

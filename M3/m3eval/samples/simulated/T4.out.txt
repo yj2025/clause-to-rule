@@ -1,0 +1,30 @@
+{
+ "product": "가상은행 다모아 청년적금",
+ "sections": [
+  {"title": "금리", "sentences": [
+   {"text": "24개월 기본금리는 연 3.00%(2026-10-01 기준)입니다.", "fact_ids": ["F402"], "state": "INFO"},
+   {"text": "① 마케팅 수신 동의 ② 가입일 기준 최근 1년간 당행 예금 보유 이력 없음 ③ 이 적금 출금계좌로 급여이체 중 하나 이상을 충족하면 연 0.50%p 우대금리가 붙습니다.", "fact_ids": ["F403"], "state": "INFO_MISSING"},
+   {"text": "마케팅 수신 동의 여부(marketing_consent), 최근 1년간 당행 예금 보유 이력 여부(no_deposit_history_1y), 급여이체 여부(salary_transfer)를 알려 주시면 우대금리 적용 여부를 확인할 수 있습니다.", "fact_ids": ["F403"], "state": "INFO_MISSING"}
+  ]},
+  {"title": "혜택", "sentences": [
+   {"text": "2026년 12월 31일까지 가입하고 월 20만원 이상을 자동이체로 납입하면 연 1.00%p 특별금리가 붙으며, 중도해지하면 특별금리는 적용되지 않습니다.", "fact_ids": ["F404"], "state": "INFO_MISSING"},
+   {"text": "자동이체 납입 여부(auto_transfer)를 알려 주시면 특별금리 적용 여부를 확인할 수 있습니다.", "fact_ids": ["F404"], "state": "INFO_MISSING"},
+   {"text": "직전 과세기간 총급여 5,000만원 이하 등 정부 고시 요건을 충족하면 가입기간 중 월 납입액의 일정 비율을 정부기여금으로 적립합니다.", "fact_ids": ["F406"], "state": "INFO"}
+  ]},
+  {"title": "가입 조건", "sentences": [
+   {"text": "이 적금은 가입일 현재 만 19세 이상 만 34세 이하 개인만 가입할 수 있으며, 직전 과세기간 총급여 7,500만원 초과자는 가입할 수 없습니다.", "fact_ids": ["F401"], "state": "INFO"},
+   {"text": "입력하신 내용 기준으로는 적용되지 않습니다. 입력하신 나이 36은 만 34세 이하 조건에 맞지 않습니다.", "fact_ids": ["F401"], "state": "UNSATISFIED"}
+  ]},
+  {"title": "유의사항", "sentences": [
+   {"text": "중도해지하면 가입기간별 중도해지이율이 적용됩니다.", "fact_ids": ["F405"], "state": "INFO"}
+  ]}
+ ],
+ "questions_for_user": [
+  "마케팅 수신 동의 여부(marketing_consent)를 알려 주세요.",
+  "최근 1년간 당행 예금 보유 이력이 있는지(no_deposit_history_1y) 알려 주세요.",
+  "이 적금 출금계좌로 급여이체를 하시는지(salary_transfer) 알려 주세요.",
+  "월 납입액을 자동이체로 납입하실지(auto_transfer) 알려 주세요."
+ ],
+ "used_fact_ids": ["F402", "F403", "F404", "F406", "F401", "F405"],
+ "omitted_must_include": []
+}

@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+# 실행 로그는 진행 표시가 대부분이라 추적하지 않는다 (logs/ 의 chain_*.sh · memguard.sh 는 추적)
+*.log

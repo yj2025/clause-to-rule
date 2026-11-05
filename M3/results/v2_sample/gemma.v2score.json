@@ -1,0 +1,22 @@
+{
+ "model": "google/gemma-4-12B-it",
+ "gen_tokens": 1708,
+ "sec": 387,
+ "truncated": false,
+ "parsed": true,
+ "대상 key 채움": "10/14",
+ "빠진 대상 key": [
+  "account_limit",
+  "application_selection",
+  "auto_termination",
+  "loan_linkage"
+ ],
+ "원문 없음 key 출력": [],
+ "대상 밖 key 출력": [],
+ "keys_in 밖 key 출력": [],
+ "중복 key": [],
+ "최종금리 «우대 조건 충족 시»": true,
+ "특별중도해지 한 줄": true,
+ "질문 · 개인화 문장": [],
+ "원문에 없는 숫자": []
+}

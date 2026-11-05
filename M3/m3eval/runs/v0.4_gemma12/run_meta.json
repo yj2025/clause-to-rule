@@ -1,0 +1,47 @@
+{
+ "system": "prompts/personalized_summary_v0.4.system.txt",
+ "cases": "testcases_v0.4",
+ "experts_nf4": false,
+ "model": "/workspace/personal_workplace_CHO/.hf_cache/hub/models--google--gemma-4-12B-it/snapshots/707f0a3b8a3c7ad586ed01e27eafbad8a27dd0f7",
+ "reminder": true,
+ "gen_kwargs": {
+  "max_new_tokens": 2560,
+  "repetition_penalty": 1.0,
+  "do_sample": false
+ },
+ "system_tokens": 2413,
+ "runs": [
+  {
+   "case": "T1",
+   "file": "T1.out.txt",
+   "input_tokens": 4109,
+   "output_tokens": 898,
+   "hit_max_new_tokens": false,
+   "seconds": 128.4
+  },
+  {
+   "case": "T2",
+   "file": "T2.out.txt",
+   "input_tokens": 4075,
+   "output_tokens": 736,
+   "hit_max_new_tokens": false,
+   "seconds": 99.2
+  },
+  {
+   "case": "T3",
+   "file": "T3.out.txt",
+   "input_tokens": 3956,
+   "output_tokens": 865,
+   "hit_max_new_tokens": false,
+   "seconds": 112.0
+  },
+  {
+   "case": "T4",
+   "file": "T4.out.txt",
+   "input_tokens": 4227,
+   "output_tokens": 943,
+   "hit_max_new_tokens": false,
+   "seconds": 120.9
+  }
+ ]
+}

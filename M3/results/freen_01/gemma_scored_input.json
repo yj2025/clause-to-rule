@@ -1,0 +1,9 @@
+{
+ "product_name": "KB 프리N통장",
+ "model": "google/gemma-4-12B-it",
+ "parsed": null,
+ "in_tokens": 6818,
+ "gen_tokens": 3140,
+ "sec": 609.6,
+ "truncated": false
+}

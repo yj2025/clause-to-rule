@@ -1,0 +1,155 @@
+{
+ "scenario": "가입전",
+ "product": "가상은행 편한하루 통장",
+ "purpose": "수수료 면제를 받을 수 있는지",
+ "user_input": {
+  "salary_transfer_prev_month": "30만원",
+  "card_spend_prev_month": 0
+ },
+ "section_order": [
+  {
+   "section_id": "s1",
+   "title": "수수료"
+  },
+  {
+   "section_id": "s2",
+   "title": "이용 제한"
+  },
+  {
+   "section_id": "s3",
+   "title": "가입 조건"
+  }
+ ],
+ "candidate_facts": [
+  {
+   "fact_id": "F301",
+   "section_id": "s1",
+   "key": "수수료면제",
+   "polarity": "혜택",
+   "text": "전월 이 통장으로 급여이체 50만원 이상 또는 전월 당행 카드 결제실적 30만원 이상인 경우 당월 전자금융 타행이체수수료와 당행 자동화기기 출금수수료를 합산 월 최대 10회 면제한다",
+   "value": 10,
+   "unit": "회",
+   "tax_basis": null,
+   "condition": "전월 급여이체 50만원 이상 또는 전월 당행 카드 결제실적 30만원 이상",
+   "exceptions": [
+    "타행 자동화기기 이용 수수료는 면제하지 않음"
+   ],
+   "only_in": null,
+   "as_of": null,
+   "judgment": {
+    "state": "UNSATISFIED",
+    "unmet_conditions": [
+     "전월 급여이체 50만원 이상",
+     "전월 당행 카드 결제실적 30만원 이상"
+    ],
+    "missing_fields": [],
+    "confirm_items": []
+   }
+  },
+  {
+   "fact_id": "F302",
+   "section_id": "s1",
+   "key": "수수료",
+   "polarity": "불이익",
+   "text": "전자금융 타행이체수수료 건당 500원, 영업시간 외 당행 자동화기기 출금수수료 건당 500원",
+   "value": 500,
+   "unit": "원",
+   "tax_basis": null,
+   "condition": null,
+   "exceptions": [],
+   "only_in": null,
+   "as_of": "2026-10-01",
+   "judgment": null
+  },
+  {
+   "fact_id": "F303",
+   "section_id": "s1",
+   "key": "수수료면제_신규특례",
+   "polarity": "혜택",
+   "text": "신규 가입월과 그다음 달까지 2개월 동안은 실적과 관계없이 수수료 면제를 적용한다",
+   "value": 2,
+   "unit": "개월",
+   "tax_basis": null,
+   "condition": "신규 가입 후 가입월 포함 2개월",
+   "exceptions": [],
+   "only_in": "상품설명서",
+   "as_of": null,
+   "judgment": null
+  },
+  {
+   "fact_id": "F304",
+   "section_id": "s2",
+   "key": "거래한도제한",
+   "polarity": "제한",
+   "text": "금융거래목적 확인 전에는 1일 출금·이체 한도가 창구 100만원, 전자금융 30만원으로 제한된다",
+   "value": null,
+   "unit": "원",
+   "tax_basis": null,
+   "condition": "금융거래목적 확인 서류를 제출하지 않은 경우",
+   "exceptions": [],
+   "only_in": null,
+   "as_of": null,
+   "judgment": {
+    "state": "INFO_MISSING",
+    "unmet_conditions": [],
+    "missing_fields": [
+     {
+      "field": "purpose_doc_submitted",
+      "question": "금융거래목적 확인 서류를 제출하셨나요?"
+     }
+    ],
+    "confirm_items": []
+   }
+  },
+  {
+   "fact_id": "F305",
+   "section_id": "s3",
+   "key": "연결계좌",
+   "polarity": "제한",
+   "text": "모바일 가입 시 본인 명의 다른 금융기관 계좌를 연결계좌로 등록해야 한다",
+   "value": null,
+   "unit": null,
+   "tax_basis": null,
+   "condition": "모바일 가입 시 필수",
+   "exceptions": [],
+   "only_in": null,
+   "as_of": null,
+   "judgment": {
+    "state": "INFO_MISSING",
+    "unmet_conditions": [],
+    "missing_fields": [
+     {
+      "field": "has_other_bank_account",
+      "question": "본인 명의의 다른 금융기관 계좌가 있으신가요?"
+     }
+    ],
+    "confirm_items": []
+   }
+  },
+  {
+   "fact_id": "F306",
+   "section_id": "s1",
+   "key": "기본금리",
+   "polarity": "혜택",
+   "text": "연 0.10%(세전)",
+   "value": 0.1,
+   "unit": "%",
+   "tax_basis": "세전",
+   "condition": null,
+   "exceptions": [],
+   "only_in": null,
+   "as_of": "2026-10-01",
+   "judgment": null
+  }
+ ],
+ "must_include_fact_ids": [
+  "F301",
+  "F304"
+ ],
+ "dependencies": [
+  [
+   "F301",
+   "F302"
+  ]
+ ]
+}

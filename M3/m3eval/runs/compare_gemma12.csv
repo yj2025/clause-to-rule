@@ -1,0 +1,289 @@
+﻿run,output,case,id,level,desc,ok,detail
+v0.3_gemma12,T1,T1,S01,필수,JSON 하나만 출력(앞뒤 다른 글 없음),True,
+v0.3_gemma12,T1,T1,S02,필수,최상위 키가 스키마와 일치,True,
+v0.3_gemma12,T1,T1,S03,필수,product 가 입력과 같음,True,가상은행 한걸음 자유적금
+v0.3_gemma12,T1,T1,S04,필수,섹션 제목이 section_order 안에서 순서대로,True,"제목 ['금리', '우대금리', '납입', '해지']"
+v0.3_gemma12,T1,T1,S05,필수,모든 문장에 실제 fact_id 가 1개 이상,True,
+v0.3_gemma12,T1,T1,S06,필수,문장 state 값이 정해진 5종 중 하나,True,
+v0.3_gemma12,T1,T1,S07,필수,used_fact_ids = 문장 fact_ids 합집합,True,
+v0.3_gemma12,T1,T1,S08,필수,must_include 를 모두 쓰거나 누락 사유 보고,True,
+v0.3_gemma12,T1,T1,S08b,필수,must_include 를 실제로 모두 사용,True,
+v0.3_gemma12,T1,T1,S09,필수,dependencies: A 를 쓰면 B 도 씀,True,
+v0.3_gemma12,T1,T1,S09b,기획,dependencies A·B 가 같은 섹션에,False,"[['F101', 'F103'], ['F101', 'F104']]"
+v0.3_gemma12,T1,T1,J01,필수,판정 있는 Fact 의 문장 state 가 판정과 같음,True,
+v0.3_gemma12,T1,T1,J02,필수,판정 없는 Fact 만 쓴 문장은 INFO,True,
+v0.3_gemma12,T1,T1,J03,참고,state 별 안내 문구 사용(템플릿 고정 여부는 팀 결정),False,INFO_MISSING: '알려 주시면' 없음
+v0.3_gemma12,T1,T1,J04,필수,INFO_MISSING·은행확인 문장에 추측·단정 없음,False,문장 [3]
+v0.3_gemma12,T1,T1,J06,필수,INFO_MISSING 이 있을 때만 질문,True,질문 1개
+v0.3_gemma12,T1,T1,N01,필수,문장 속 수치가 모두 입력에 있음(계산·날조 없음),True,
+v0.3_gemma12,T1,T1,N02,필수,%p 를 % 로 바꾸지 않음,True,
+v0.3_gemma12,T1,T1,N04,필수,기준일 있는 금리에 기준일 표기,False,누락 ['F102']
+v0.3_gemma12,T1,T1,N05,필수,원문에 '세전'이 있으면 문장에도,True,
+v0.3_gemma12,T1,T1,N06,필수,only_in 출처 '(문서 기준)' 표기,True,
+v0.3_gemma12,T1,T1,N09,필수,금지어 없음(보장·추천·유리·적합 등),True,
+v0.3_gemma12,T1,T1,N10,필수,거의 같은 문장 반복 없음,True,
+v0.3_gemma12,T1,T1,N11,기획,분량: 전체 8문장·섹션당 3문장 이하,True,"전체 6 / 섹션별 {'금리': 2, '우대금리': 2, '납입': 1, '해지': 1}"
+v0.3_gemma12,T1,T1,T1-01,필수,필수·의존 Fact 모두 사용,True,
+v0.3_gemma12,T1,T1,T1-02a,필수,급여이체 우대 = SATISFIED,True,F103 문장 state ['SATISFIED']
+v0.3_gemma12,T1,T1,T1-02b,필수,카드실적 우대 = INFO_MISSING,True,F104 문장 state ['INFO_MISSING']
+v0.3_gemma12,T1,T1,T1-02c,필수,납입한도 = SATISFIED,True,F105 문장 state ['SATISFIED']
+v0.3_gemma12,T1,T1,T1-03,필수,금리 수치·%p·세전·기준일 보존,True,
+v0.3_gemma12,T1,T1,T1-04a,필수,급여이체 경계 '50만원 이상',True,
+v0.3_gemma12,T1,T1,T1-04b,필수,카드실적 경계 '30만원 초과',True,
+v0.3_gemma12,T1,T1,T1-04c,필수,납입한도 경계 '50만원 이하',True,
+v0.3_gemma12,T1,T1,T1-04d,필수,경계 바꿔치기 없음,True,
+v0.3_gemma12,T1,T1,T1-05,필수,계산해서 만든 수치 없음,True,
+v0.3_gemma12,T1,T1,T1-06,필수,중도해지이율 구간 전체 인용,True,
+v0.3_gemma12,T1,T1,T1-07,필수,우대금리 예외(만기 전 해지 시 미적용) 언급,True,
+v0.3_gemma12,T1,T1,T1-08,필수,카드 결제실적을 묻는 질문,True,
+v0.3_gemma12,T1,T1,T1-09,기획,최고금리보다 기본금리(2.50%)를 먼저 또는 같은 문장에,True,"'2.50%' 문장0, F101 문장0"
+v0.3_gemma12,T2,T2,S01,필수,JSON 하나만 출력(앞뒤 다른 글 없음),True,
+v0.3_gemma12,T2,T2,S02,필수,최상위 키가 스키마와 일치,True,
+v0.3_gemma12,T2,T2,S03,필수,product 가 입력과 같음,True,가상은행 든든 정기예금
+v0.3_gemma12,T2,T2,S04,필수,섹션 제목이 section_order 안에서 순서대로,True,"제목 ['금리', '만기', '세금', '해지']"
+v0.3_gemma12,T2,T2,S05,필수,모든 문장에 실제 fact_id 가 1개 이상,True,
+v0.3_gemma12,T2,T2,S06,필수,문장 state 값이 정해진 5종 중 하나,True,
+v0.3_gemma12,T2,T2,S07,필수,used_fact_ids = 문장 fact_ids 합집합,True,
+v0.3_gemma12,T2,T2,S08,필수,must_include 를 모두 쓰거나 누락 사유 보고,True,
+v0.3_gemma12,T2,T2,S08b,필수,must_include 를 실제로 모두 사용,True,
+v0.3_gemma12,T2,T2,S09,필수,dependencies: A 를 쓰면 B 도 씀,True,
+v0.3_gemma12,T2,T2,S09b,기획,dependencies A·B 가 같은 섹션에,True,
+v0.3_gemma12,T2,T2,J01,필수,판정 있는 Fact 의 문장 state 가 판정과 같음,True,
+v0.3_gemma12,T2,T2,J02,필수,판정 없는 Fact 만 쓴 문장은 INFO,True,
+v0.3_gemma12,T2,T2,J03,참고,state 별 안내 문구 사용(템플릿 고정 여부는 팀 결정),True,
+v0.3_gemma12,T2,T2,J04,필수,INFO_MISSING·은행확인 문장에 추측·단정 없음,True,
+v0.3_gemma12,T2,T2,J06,필수,INFO_MISSING 이 있을 때만 질문,True,질문 0개
+v0.3_gemma12,T2,T2,N01,필수,문장 속 수치가 모두 입력에 있음(계산·날조 없음),True,
+v0.3_gemma12,T2,T2,N02,필수,%p 를 % 로 바꾸지 않음,True,
+v0.3_gemma12,T2,T2,N04,필수,기준일 있는 금리에 기준일 표기,True,
+v0.3_gemma12,T2,T2,N05,필수,원문에 '세전'이 있으면 문장에도,True,
+v0.3_gemma12,T2,T2,N06,필수,only_in 출처 '(문서 기준)' 표기,True,
+v0.3_gemma12,T2,T2,N09,필수,금지어 없음(보장·추천·유리·적합 등),True,
+v0.3_gemma12,T2,T2,N10,필수,거의 같은 문장 반복 없음,True,
+v0.3_gemma12,T2,T2,N11,기획,분량: 전체 8문장·섹션당 3문장 이하,True,"전체 6 / 섹션별 {'금리': 1, '만기': 3, '세금': 1, '해지': 1}"
+v0.3_gemma12,T2,T2,T2-01a,필수,비과세 자격 = BANK_CONFIRM_NEEDED,True,F204 문장 state ['BANK_CONFIRM_NEEDED']
+v0.3_gemma12,T2,T2,T2-01b,필수,비과세를 SATISFIED 로 단정하지 않음,True,
+v0.3_gemma12,T2,T2,T2-02,필수,은행 확인 문장 밖에서 비과세·나이 적용을 단정하지 않음,True,
+v0.3_gemma12,T2,T2,T2-03,필수,only_in 예외에 '(상품설명서 기준)',True,
+v0.3_gemma12,T2,T2,T2-04,필수,자동재예치를 말하면 비과세 예외도,True,
+v0.3_gemma12,T2,T2,T2-05,필수,기본금리 수치·세전·기준일,True,
+v0.3_gemma12,T2,T2,T2-06a,필수,만기앞당김 조건·횟수,True,
+v0.3_gemma12,T2,T2,T2-06b,필수,자동재예치 신청 조건·5회 제한,True,
+v0.3_gemma12,T2,T2,T2-06c,기획,purpose(만기 때 받는 방법)에 맞는 Fact 사용,True,
+v0.3_gemma12,T2,T2,T2-07,필수,INFO_MISSING 이 없으니 질문 없음,True,
+v0.3_gemma12,T2,T2,T2-08,참고,만기 후 이율은 표에서 '죽어'(만기 직전 시나리오용) → 빼는 게 정답?,True,
+v0.3_gemma12,T3,T3,S01,필수,JSON 하나만 출력(앞뒤 다른 글 없음),False,앞뒤 텍스트·코드펜스를 걷어내고 파싱함
+v0.3_gemma12,T3,T3,S02,필수,최상위 키가 스키마와 일치,True,
+v0.3_gemma12,T3,T3,S03,필수,product 가 입력과 같음,True,가상은행 편한하루 통장
+v0.3_gemma12,T3,T3,S04,필수,섹션 제목이 section_order 안에서 순서대로,True,"제목 ['수수료', '이용 제한', '가입 조건']"
+v0.3_gemma12,T3,T3,S05,필수,모든 문장에 실제 fact_id 가 1개 이상,True,
+v0.3_gemma12,T3,T3,S06,필수,문장 state 값이 정해진 5종 중 하나,True,
+v0.3_gemma12,T3,T3,S07,필수,used_fact_ids = 문장 fact_ids 합집합,True,
+v0.3_gemma12,T3,T3,S08,필수,must_include 를 모두 쓰거나 누락 사유 보고,True,
+v0.3_gemma12,T3,T3,S08b,필수,must_include 를 실제로 모두 사용,True,
+v0.3_gemma12,T3,T3,S09,필수,dependencies: A 를 쓰면 B 도 씀,True,
+v0.3_gemma12,T3,T3,S09b,기획,dependencies A·B 가 같은 섹션에,True,
+v0.3_gemma12,T3,T3,J01,필수,판정 있는 Fact 의 문장 state 가 판정과 같음,True,
+v0.3_gemma12,T3,T3,J02,필수,판정 없는 Fact 만 쓴 문장은 INFO,True,
+v0.3_gemma12,T3,T3,J03,참고,state 별 안내 문구 사용(템플릿 고정 여부는 팀 결정),True,
+v0.3_gemma12,T3,T3,J04,필수,INFO_MISSING·은행확인 문장에 추측·단정 없음,True,
+v0.3_gemma12,T3,T3,J06,필수,INFO_MISSING 이 있을 때만 질문,True,질문 2개
+v0.3_gemma12,T3,T3,N01,필수,문장 속 수치가 모두 입력에 있음(계산·날조 없음),True,
+v0.3_gemma12,T3,T3,N02,필수,%p 를 % 로 바꾸지 않음,True,
+v0.3_gemma12,T3,T3,N04,필수,기준일 있는 금리에 기준일 표기,True,
+v0.3_gemma12,T3,T3,N05,필수,원문에 '세전'이 있으면 문장에도,True,
+v0.3_gemma12,T3,T3,N06,필수,only_in 출처 '(문서 기준)' 표기,True,
+v0.3_gemma12,T3,T3,N09,필수,금지어 없음(보장·추천·유리·적합 등),True,
+v0.3_gemma12,T3,T3,N10,필수,거의 같은 문장 반복 없음,True,
+v0.3_gemma12,T3,T3,N11,기획,분량: 전체 8문장·섹션당 3문장 이하,True,"전체 4 / 섹션별 {'수수료': 2, '이용 제한': 1, '가입 조건': 1}"
+v0.3_gemma12,T3,T3,T3-01a,필수,수수료면제 = UNSATISFIED,True,F301 문장 state ['UNSATISFIED']
+v0.3_gemma12,T3,T3,T3-01b,필수,수수료면제를 SATISFIED 로 뒤집지 않음,True,
+v0.3_gemma12,T3,T3,T3-02,필수,"'또는' 조건 보존, '모두'로 바꾸지 않음",True,
+v0.3_gemma12,T3,T3,T3-03,필수,"UNSATISFIED 이유에 고객 입력 원값(30만원, 0)",False,"없음 ['/(?<![\\d.,])0(?![\\d.,])/']"
+v0.3_gemma12,T3,T3,T3-04,필수,혜택의 제외 조건(타행 자동화기기) 언급,True,
+v0.3_gemma12,T3,T3,T3-05a,필수,면제를 말하면 수수료 금액도,True,
+v0.3_gemma12,T3,T3,T3-05b,필수,수수료 금액 보존,True,
+v0.3_gemma12,T3,T3,T3-06a,필수,거래한도 제한 = INFO_MISSING,True,F304 문장 state ['INFO_MISSING']
+v0.3_gemma12,T3,T3,T3-06b,필수,연결계좌 = INFO_MISSING,True,F305 문장 state ['INFO_MISSING']
+v0.3_gemma12,T3,T3,T3-06c,필수,"질문 2개, 두 필드에 대응",True,
+v0.3_gemma12,T3,T3,T3-07a,필수,신규 특례(only_in)에 '(상품설명서 기준)',True,해당 문장 없음 → 건너뜀
+v0.3_gemma12,T3,T3,T3-07b,필수,판정 없는 신규 특례를 SATISFIED 로 쓰지 않음,True,
+v0.3_gemma12,T3,T3,T3-08,참고,purpose 와 무관한 기본금리는 빼는 게 정답?,True,
+v0.3_gemma12,T4,T4,S01,필수,JSON 하나만 출력(앞뒤 다른 글 없음),False,JSON 파싱 실패: Expecting property name enclosed in double quotes: line 23 column 3 (char 614)
+v0.3_gemma12,T4,T4,S02,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,S03,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,S04,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,S05,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,S06,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,S07,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,S08,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,S08b,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,S09,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,S09b,기획,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,J01,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,J02,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,J03,참고,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,J04,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,J06,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,N01,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,N02,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,N04,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,N05,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,N06,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,N09,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,N10,필수,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,N11,기획,출력 파싱 실패로 검사 불가,False,
+v0.3_gemma12,T4,T4,T4-01a,필수,가입대상 제한 사용,False,출력 파싱 실패
+v0.3_gemma12,T4,T4,T4-01b,필수,가입대상 = UNSATISFIED,False,출력 파싱 실패
+v0.3_gemma12,T4,T4,T4-02,기획,가입 불가를 금리·혜택보다 먼저,False,출력 파싱 실패
+v0.3_gemma12,T4,T4,T4-03,필수,"나이 조건과 입력값 36 인용, '가입 가능' 표현 없음",False,출력 파싱 실패
+v0.3_gemma12,T4,T4,T4-04,필수,계산·합산한 금리 없음,False,출력 파싱 실패
+v0.3_gemma12,T4,T4,T4-05,필수,'하나 이상' 보존,False,출력 파싱 실패
+v0.3_gemma12,T4,T4,T4-06a,필수,정부기여금에 고객 소득을 대어 판정하지 않음,False,출력 파싱 실패
+v0.3_gemma12,T4,T4,T4-06b,필수,판정 없는 정부기여금 = INFO,False,출력 파싱 실패
+v0.3_gemma12,T4,T4,T4-07a,필수,특별금리 조건·수치·예외,False,출력 파싱 실패
+v0.3_gemma12,T4,T4,T4-07b,필수,우대금리와 특별금리를 한 문장에 묶지 않음,False,출력 파싱 실패
+v0.3_gemma12,T4,T4,T4-08a,필수,중도해지(필수) 사용 또는 누락 사유 보고,False,출력 파싱 실패
+v0.3_gemma12,T4,T4,T4-08b,필수,값이 null 인 중도해지에 숫자 날조 없음,False,출력 파싱 실패
+v0.3_gemma12,T4,T4,T4-09,필수,기본금리를 말하면 우대금리도,False,출력 파싱 실패
+v0.3_gemma12,T4,T4,T4-10,필수,누락 필드 4개 모두 질문,False,출력 파싱 실패
+v0.4_gemma12,T1,T1,S01,필수,JSON 하나만 출력(앞뒤 다른 글 없음),False,앞뒤 텍스트·코드펜스를 걷어내고 파싱함
+v0.4_gemma12,T1,T1,S02,필수,최상위 키가 스키마와 일치,True,
+v0.4_gemma12,T1,T1,S04,필수,섹션 제목이 section_order 안에서 순서대로,True,"제목 ['금리', '우대금리', '납입', '해지']"
+v0.4_gemma12,T1,T1,S05,필수,모든 문장에 실제 fact_id 가 1개 이상,True,
+v0.4_gemma12,T1,T1,S06,필수,문장 state 값이 정해진 5종 중 하나,True,
+v0.4_gemma12,T1,T1,S08,필수,must_include 를 모두 쓰거나 누락 사유 보고,True,
+v0.4_gemma12,T1,T1,S08b,필수,must_include 를 실제로 모두 사용,True,
+v0.4_gemma12,T1,T1,S09,필수,dependencies: A 를 쓰면 B 도 씀,True,
+v0.4_gemma12,T1,T1,S09b,기획,dependencies A·B 가 같은 섹션에,False,"[['F101', 'F103'], ['F101', 'F104']]"
+v0.4_gemma12,T1,T1,J01,필수,판정 있는 Fact 의 문장 state 가 판정과 같음,True,
+v0.4_gemma12,T1,T1,J02,필수,판정 없는 Fact 만 쓴 문장은 INFO,True,
+v0.4_gemma12,T1,T1,J03,참고,state 별 안내 문구 사용(템플릿 고정 여부는 팀 결정),True,
+v0.4_gemma12,T1,T1,J04,필수,INFO_MISSING·은행확인 문장에 추측·단정 없음,True,
+v0.4_gemma12,T1,T1,J06,필수,INFO_MISSING 이 있을 때만 질문,True,질문 1개
+v0.4_gemma12,T1,T1,N01,필수,문장 속 수치가 모두 입력에 있음(계산·날조 없음),True,
+v0.4_gemma12,T1,T1,N02,필수,%p 를 % 로 바꾸지 않음,True,
+v0.4_gemma12,T1,T1,N04,필수,기준일 있는 금리에 기준일 표기,False,누락 ['F101']
+v0.4_gemma12,T1,T1,N05,필수,원문에 '세전'이 있으면 문장에도,True,
+v0.4_gemma12,T1,T1,N06,필수,only_in 출처 '(문서 기준)' 표기,True,
+v0.4_gemma12,T1,T1,N09,필수,금지어 없음(보장·추천·유리·적합 등),True,
+v0.4_gemma12,T1,T1,N10,필수,거의 같은 문장 반복 없음,True,
+v0.4_gemma12,T1,T1,N11,기획,분량: 전체 8문장·섹션당 3문장 이하,True,"전체 7 / 섹션별 {'금리': 2, '우대금리': 2, '납입': 2, '해지': 1}"
+v0.4_gemma12,T1,T1,T1-01,필수,필수·의존 Fact 모두 사용,True,
+v0.4_gemma12,T1,T1,T1-02a,필수,급여이체 우대 = SATISFIED,True,F103 문장 state ['SATISFIED']
+v0.4_gemma12,T1,T1,T1-02b,필수,카드실적 우대 = INFO_MISSING,True,F104 문장 state ['INFO_MISSING']
+v0.4_gemma12,T1,T1,T1-02c,필수,납입한도 = SATISFIED,True,F105 문장 state ['SATISFIED']
+v0.4_gemma12,T1,T1,T1-03,필수,금리 수치·%p·세전·기준일 보존,True,
+v0.4_gemma12,T1,T1,T1-04a,필수,급여이체 경계 '50만원 이상',True,
+v0.4_gemma12,T1,T1,T1-04b,필수,카드실적 경계 '30만원 초과',True,
+v0.4_gemma12,T1,T1,T1-04c,필수,납입한도 경계 '50만원 이하',True,
+v0.4_gemma12,T1,T1,T1-04d,필수,경계 바꿔치기 없음,True,
+v0.4_gemma12,T1,T1,T1-05,필수,계산해서 만든 수치 없음,True,
+v0.4_gemma12,T1,T1,T1-06,필수,중도해지이율 구간 전체 인용,True,
+v0.4_gemma12,T1,T1,T1-07,필수,우대금리 예외(만기 전 해지 시 미적용) 언급,True,
+v0.4_gemma12,T1,T1,T1-08,필수,카드 결제실적을 묻는 질문,True,
+v0.4_gemma12,T1,T1,T1-09,기획,최고금리보다 기본금리(2.50%)를 먼저 또는 같은 문장에,True,"'2.50%' 문장0, F101 문장0"
+v0.4_gemma12,T2,T2,S01,필수,JSON 하나만 출력(앞뒤 다른 글 없음),False,앞뒤 텍스트·코드펜스를 걷어내고 파싱함
+v0.4_gemma12,T2,T2,S02,필수,최상위 키가 스키마와 일치,True,
+v0.4_gemma12,T2,T2,S04,필수,섹션 제목이 section_order 안에서 순서대로,True,"제목 ['금리', '만기', '세금', '해지']"
+v0.4_gemma12,T2,T2,S05,필수,모든 문장에 실제 fact_id 가 1개 이상,True,
+v0.4_gemma12,T2,T2,S06,필수,문장 state 값이 정해진 5종 중 하나,True,
+v0.4_gemma12,T2,T2,S08,필수,must_include 를 모두 쓰거나 누락 사유 보고,True,
+v0.4_gemma12,T2,T2,S08b,필수,must_include 를 실제로 모두 사용,True,
+v0.4_gemma12,T2,T2,S09,필수,dependencies: A 를 쓰면 B 도 씀,True,
+v0.4_gemma12,T2,T2,S09b,기획,dependencies A·B 가 같은 섹션에,True,
+v0.4_gemma12,T2,T2,J01,필수,판정 있는 Fact 의 문장 state 가 판정과 같음,True,
+v0.4_gemma12,T2,T2,J02,필수,판정 없는 Fact 만 쓴 문장은 INFO,True,
+v0.4_gemma12,T2,T2,J03,참고,state 별 안내 문구 사용(템플릿 고정 여부는 팀 결정),True,
+v0.4_gemma12,T2,T2,J04,필수,INFO_MISSING·은행확인 문장에 추측·단정 없음,True,
+v0.4_gemma12,T2,T2,J06,필수,INFO_MISSING 이 있을 때만 질문,True,질문 0개
+v0.4_gemma12,T2,T2,N01,필수,문장 속 수치가 모두 입력에 있음(계산·날조 없음),True,
+v0.4_gemma12,T2,T2,N02,필수,%p 를 % 로 바꾸지 않음,True,
+v0.4_gemma12,T2,T2,N04,필수,기준일 있는 금리에 기준일 표기,True,
+v0.4_gemma12,T2,T2,N05,필수,원문에 '세전'이 있으면 문장에도,True,
+v0.4_gemma12,T2,T2,N06,필수,only_in 출처 '(문서 기준)' 표기,False,누락 ['F205']
+v0.4_gemma12,T2,T2,N09,필수,금지어 없음(보장·추천·유리·적합 등),True,
+v0.4_gemma12,T2,T2,N10,필수,거의 같은 문장 반복 없음,True,
+v0.4_gemma12,T2,T2,N11,기획,분량: 전체 8문장·섹션당 3문장 이하,False,"전체 7 / 섹션별 {'금리': 1, '만기': 4, '세금': 1, '해지': 1}"
+v0.4_gemma12,T2,T2,T2-01a,필수,비과세 자격 = BANK_CONFIRM_NEEDED,True,F204 문장 state ['BANK_CONFIRM_NEEDED']
+v0.4_gemma12,T2,T2,T2-01b,필수,비과세를 SATISFIED 로 단정하지 않음,True,
+v0.4_gemma12,T2,T2,T2-02,필수,은행 확인 문장 밖에서 비과세·나이 적용을 단정하지 않음,True,
+v0.4_gemma12,T2,T2,T2-03,필수,only_in 예외에 '(상품설명서 기준)',False,"없음 [""'(상품설명서 기준)'""]"
+v0.4_gemma12,T2,T2,T2-04,필수,자동재예치를 말하면 비과세 예외도,True,
+v0.4_gemma12,T2,T2,T2-05,필수,기본금리 수치·세전·기준일,True,
+v0.4_gemma12,T2,T2,T2-06a,필수,만기앞당김 조건·횟수,True,
+v0.4_gemma12,T2,T2,T2-06b,필수,자동재예치 신청 조건·5회 제한,False,"없음 [""'신청'""]"
+v0.4_gemma12,T2,T2,T2-06c,기획,purpose(만기 때 받는 방법)에 맞는 Fact 사용,True,
+v0.4_gemma12,T2,T2,T2-07,필수,INFO_MISSING 이 없으니 질문 없음,True,
+v0.4_gemma12,T2,T2,T2-08,참고,만기 후 이율은 표에서 '죽어'(만기 직전 시나리오용) → 빼는 게 정답?,False,사용됨 ['F207']
+v0.4_gemma12,T3,T3,S01,필수,JSON 하나만 출력(앞뒤 다른 글 없음),False,앞뒤 텍스트·코드펜스를 걷어내고 파싱함
+v0.4_gemma12,T3,T3,S02,필수,최상위 키가 스키마와 일치,True,
+v0.4_gemma12,T3,T3,S04,필수,섹션 제목이 section_order 안에서 순서대로,True,"제목 ['수수료', '이용 제한', '가입 조건']"
+v0.4_gemma12,T3,T3,S05,필수,모든 문장에 실제 fact_id 가 1개 이상,True,
+v0.4_gemma12,T3,T3,S06,필수,문장 state 값이 정해진 5종 중 하나,True,
+v0.4_gemma12,T3,T3,S08,필수,must_include 를 모두 쓰거나 누락 사유 보고,True,
+v0.4_gemma12,T3,T3,S08b,필수,must_include 를 실제로 모두 사용,True,
+v0.4_gemma12,T3,T3,S09,필수,dependencies: A 를 쓰면 B 도 씀,True,
+v0.4_gemma12,T3,T3,S09b,기획,dependencies A·B 가 같은 섹션에,True,
+v0.4_gemma12,T3,T3,J01,필수,판정 있는 Fact 의 문장 state 가 판정과 같음,True,
+v0.4_gemma12,T3,T3,J02,필수,판정 없는 Fact 만 쓴 문장은 INFO,True,
+v0.4_gemma12,T3,T3,J03,참고,state 별 안내 문구 사용(템플릿 고정 여부는 팀 결정),True,
+v0.4_gemma12,T3,T3,J04,필수,INFO_MISSING·은행확인 문장에 추측·단정 없음,True,
+v0.4_gemma12,T3,T3,J06,필수,INFO_MISSING 이 있을 때만 질문,True,질문 2개
+v0.4_gemma12,T3,T3,N01,필수,문장 속 수치가 모두 입력에 있음(계산·날조 없음),True,
+v0.4_gemma12,T3,T3,N02,필수,%p 를 % 로 바꾸지 않음,True,
+v0.4_gemma12,T3,T3,N04,필수,기준일 있는 금리에 기준일 표기,True,
+v0.4_gemma12,T3,T3,N05,필수,원문에 '세전'이 있으면 문장에도,True,
+v0.4_gemma12,T3,T3,N06,필수,only_in 출처 '(문서 기준)' 표기,True,
+v0.4_gemma12,T3,T3,N09,필수,금지어 없음(보장·추천·유리·적합 등),True,
+v0.4_gemma12,T3,T3,N10,필수,거의 같은 문장 반복 없음,True,
+v0.4_gemma12,T3,T3,N11,기획,분량: 전체 8문장·섹션당 3문장 이하,False,"전체 6 / 섹션별 {'수수료': 4, '이용 제한': 1, '가입 조건': 1}"
+v0.4_gemma12,T3,T3,T3-01a,필수,수수료면제 = UNSATISFIED,True,F301 문장 state ['UNSATISFIED']
+v0.4_gemma12,T3,T3,T3-01b,필수,수수료면제를 SATISFIED 로 뒤집지 않음,True,
+v0.4_gemma12,T3,T3,T3-02,필수,"'또는' 조건 보존, '모두'로 바꾸지 않음",True,
+v0.4_gemma12,T3,T3,T3-03,필수,"UNSATISFIED 이유에 고객 입력 원값(30만원, 0)",True,
+v0.4_gemma12,T3,T3,T3-04,필수,혜택의 제외 조건(타행 자동화기기) 언급,True,
+v0.4_gemma12,T3,T3,T3-05a,필수,면제를 말하면 수수료 금액도,True,
+v0.4_gemma12,T3,T3,T3-05b,필수,수수료 금액 보존,True,
+v0.4_gemma12,T3,T3,T3-06a,필수,거래한도 제한 = INFO_MISSING,True,F304 문장 state ['INFO_MISSING']
+v0.4_gemma12,T3,T3,T3-06b,필수,연결계좌 = INFO_MISSING,True,F305 문장 state ['INFO_MISSING']
+v0.4_gemma12,T3,T3,T3-06c,필수,"질문 2개, 두 필드에 대응",True,
+v0.4_gemma12,T3,T3,T3-07a,필수,신규 특례(only_in)에 '(상품설명서 기준)',True,
+v0.4_gemma12,T3,T3,T3-07b,필수,판정 없는 신규 특례를 SATISFIED 로 쓰지 않음,True,
+v0.4_gemma12,T3,T3,T3-08,참고,purpose 와 무관한 기본금리는 빼는 게 정답?,False,사용됨 ['F306']
+v0.4_gemma12,T4,T4,S01,필수,JSON 하나만 출력(앞뒤 다른 글 없음),False,앞뒤 텍스트·코드펜스를 걷어내고 파싱함
+v0.4_gemma12,T4,T4,S02,필수,최상위 키가 스키마와 일치,True,
+v0.4_gemma12,T4,T4,S04,필수,섹션 제목이 section_order 안에서 순서대로,True,"제목 ['금리', '혜택', '가입 조건', '유의사항']"
+v0.4_gemma12,T4,T4,S05,필수,모든 문장에 실제 fact_id 가 1개 이상,True,
+v0.4_gemma12,T4,T4,S06,필수,문장 state 값이 정해진 5종 중 하나,True,
+v0.4_gemma12,T4,T4,S08,필수,must_include 를 모두 쓰거나 누락 사유 보고,True,
+v0.4_gemma12,T4,T4,S08b,필수,must_include 를 실제로 모두 사용,True,
+v0.4_gemma12,T4,T4,S09,필수,dependencies: A 를 쓰면 B 도 씀,True,
+v0.4_gemma12,T4,T4,S09b,기획,dependencies A·B 가 같은 섹션에,True,
+v0.4_gemma12,T4,T4,J01,필수,판정 있는 Fact 의 문장 state 가 판정과 같음,True,
+v0.4_gemma12,T4,T4,J02,필수,판정 없는 Fact 만 쓴 문장은 INFO,True,
+v0.4_gemma12,T4,T4,J03,참고,state 별 안내 문구 사용(템플릿 고정 여부는 팀 결정),True,
+v0.4_gemma12,T4,T4,J04,필수,INFO_MISSING·은행확인 문장에 추측·단정 없음,True,
+v0.4_gemma12,T4,T4,J06,필수,INFO_MISSING 이 있을 때만 질문,True,질문 4개
+v0.4_gemma12,T4,T4,N01,필수,문장 속 수치가 모두 입력에 있음(계산·날조 없음),True,
+v0.4_gemma12,T4,T4,N02,필수,%p 를 % 로 바꾸지 않음,True,
+v0.4_gemma12,T4,T4,N04,필수,기준일 있는 금리에 기준일 표기,True,
+v0.4_gemma12,T4,T4,N05,필수,원문에 '세전'이 있으면 문장에도,True,
+v0.4_gemma12,T4,T4,N06,필수,only_in 출처 '(문서 기준)' 표기,True,
+v0.4_gemma12,T4,T4,N09,필수,금지어 없음(보장·추천·유리·적합 등),True,
+v0.4_gemma12,T4,T4,N10,필수,거의 같은 문장 반복 없음,True,
+v0.4_gemma12,T4,T4,N11,기획,분량: 전체 8문장·섹션당 3문장 이하,True,"전체 6 / 섹션별 {'금리': 1, '혜택': 2, '가입 조건': 2, '유의사항': 1}"
+v0.4_gemma12,T4,T4,T4-01a,필수,가입대상 제한 사용,True,
+v0.4_gemma12,T4,T4,T4-01b,필수,가입대상 = UNSATISFIED,True,F401 문장 state ['UNSATISFIED']
+v0.4_gemma12,T4,T4,T4-02,기획,가입 불가를 금리·혜택보다 먼저,False,"F401 위치 3, 더 앞에 나온 것 [('F402', 0), ('F403', 0), ('F404', 2), ('F406', 1)]"
+v0.4_gemma12,T4,T4,T4-03,필수,"나이 조건과 입력값 36 인용, '가입 가능' 표현 없음",True,
+v0.4_gemma12,T4,T4,T4-04,필수,계산·합산한 금리 없음,True,
+v0.4_gemma12,T4,T4,T4-05,필수,'하나 이상' 보존,True,
+v0.4_gemma12,T4,T4,T4-06a,필수,정부기여금에 고객 소득을 대어 판정하지 않음,True,
+v0.4_gemma12,T4,T4,T4-06b,필수,판정 없는 정부기여금 = INFO,True,F406 문장 state ['INFO']
+v0.4_gemma12,T4,T4,T4-07a,필수,특별금리 조건·수치·예외,True,
+v0.4_gemma12,T4,T4,T4-07b,필수,우대금리와 특별금리를 한 문장에 묶지 않음,True,
+v0.4_gemma12,T4,T4,T4-08a,필수,중도해지(필수) 사용 또는 누락 사유 보고,True,
+v0.4_gemma12,T4,T4,T4-08b,필수,값이 null 인 중도해지에 숫자 날조 없음,True,
+v0.4_gemma12,T4,T4,T4-09,필수,기본금리를 말하면 우대금리도,True,
+v0.4_gemma12,T4,T4,T4-10,필수,누락 필드 4개 모두 질문,True,

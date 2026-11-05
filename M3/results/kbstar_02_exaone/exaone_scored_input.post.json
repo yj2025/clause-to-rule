@@ -1,0 +1,414 @@
+{
+ "product_name": "KB스타통장",
+ "model": "exaone_local",
+ "parsed": {
+  "items": [
+   {
+    "key": "product_name",
+    "summary": "KB스타통장은 실명 확인된 개인이 개설할 수 있는 통장으로, 보통예금과 저축예금 유형을 지원합니다.",
+    "benefit": "다양한 수수료 면제 혜택과 인컴박스 서비스를 제공합니다.",
+    "conditions": [],
+    "condition_logic": "",
+    "exceptions": [],
+    "special": {
+     "text": "개인사업자 및 관련 서류 미제출 임의 단체는 가입이 제한되며, 공동명의 가입은 불가능합니다.",
+     "src": [
+      "§1150",
+      "§3154"
+     ]
+    },
+    "as_of": "",
+    "note": "",
+    "source_section_ids": [
+     "§3151",
+     "§3152"
+    ],
+    "_check": {},
+    "_model_doc_diff": ""
+   },
+   {
+    "key": "product_type",
+    "summary": "KB스타통장은 입출금이 자유로운 보통예금과 저축예금 유형을 지원합니다.",
+    "benefit": "",
+    "conditions": [],
+    "condition_logic": "",
+    "exceptions": [],
+    "special": {
+     "text": "동일 예금과목 상품으로의 전환은 가능하지만, 개별 상품의 기준에 따라 제한될 수 있습니다.",
+     "src": [
+      "§3156"
+     ]
+    },
+    "as_of": "",
+    "note": "",
+    "source_section_ids": [
+     "§3156"
+    ],
+    "_check": {
+     "doc_diff": [
+      {
+       "text": "개별상품에서 정한 기준에 의해 전환신규가 불가한 상품은 제외",
+       "only_in": "상품설명서",
+       "src": [
+        3156
+       ]
+      }
+     ],
+     "missing": [
+      {
+       "text": "개별상품에서 정한 기준에 의해 전환신규가 불가한 상품은 제외",
+       "src": [
+        3156
+       ]
+      }
+     ]
+    },
+    "_model_doc_diff": "",
+    "doc_diff": "상품설명서에만: 개별상품에서 정한 기준에 의해 전환신규가 불가한 상품은 제외"
+   },
+   {
+    "key": "eligibility_target",
+    "summary": "실명 확인된 개인만 가입 가능하며, 1인당 1개의 계좌만 개설 가능합니다.",
+    "benefit": "",
+    "conditions": [
+     {
+      "text": "실명 확인된 개인만 가입 가능합니다. 공동명의 가입은 불가능합니다.",
+      "user_input": "",
+      "src": [
+       "§1150",
+       "§3154"
+      ],
+      "_model_only_in": "특약",
+      "only_in": "상품설명서"
+     }
+    ],
+    "condition_logic": "",
+    "exceptions": [],
+    "special": {},
+    "as_of": "",
+    "note": "",
+    "source_section_ids": [
+     "§1150",
+     "§3154"
+    ],
+    "_check": {
+     "doc_diff": [
+      {
+       "text": "개인사업자 및 관련서류 미제출 임의단체 포함",
+       "only_in": "상품설명서",
+       "src": [
+        3154
+       ]
+      },
+      {
+       "text": "공동명의 가입 불가",
+       "only_in": "상품설명서",
+       "src": [
+        3154
+       ]
+      }
+     ]
+    },
+    "_model_doc_diff": "",
+    "doc_diff": "상품설명서에만: 개인사업자 및 관련서류 미제출 임의단체 포함 / 상품설명서에만: 공동명의 가입 불가"
+   },
+   {
+    "key": "eligibility_restriction",
+    "summary": "개인사업자 및 관련 서류 미제출 임의 단체는 가입이 제한되며, 공동명의 가입은 불가능합니다.",
+    "benefit": "",
+    "conditions": [
+     {
+      "text": "개인사업자 및 관련 서류 미제출 임의 단체는 가입이 제한되며, 공동명의 가입은 불가능합니다.",
+      "user_input": "",
+      "src": [
+       "§1150",
+       "§3154"
+      ],
+      "_model_only_in": "특약"
+     }
+    ],
+    "condition_logic": "",
+    "exceptions": [],
+    "special": {},
+    "as_of": "",
+    "note": "",
+    "source_section_ids": [
+     "§1150",
+     "§3154"
+    ],
+    "_check": {},
+    "_model_doc_diff": ""
+   },
+   {
+    "key": "account_limit",
+    "summary": "1인당 1개의 계좌만 개설 가능합니다.",
+    "benefit": "",
+    "conditions": [
+     {
+      "text": "1인당 1개의 계좌만 개설 가능합니다. 공동명의 가입은 불가능합니다.",
+      "user_input": "",
+      "src": [
+       "§1150",
+       "§3154"
+      ],
+      "_model_only_in": "특약"
+     }
+    ],
+    "condition_logic": "",
+    "exceptions": [],
+    "special": {},
+    "as_of": "",
+    "note": "",
+    "source_section_ids": [
+     "§1150",
+     "§3154"
+    ],
+    "_check": {},
+    "_model_doc_diff": ""
+   },
+   {
+    "key": "deposit_amount",
+    "summary": "신규 개설 시 예치 금액 제한은 없습니다.",
+    "benefit": "",
+    "conditions": [
+     {
+      "text": "신규 개설 시 예치 금액 제한이 없습니다.",
+      "user_input": "",
+      "src": [
+       "§3155"
+      ],
+      "_model_only_in": "상품설명서"
+     }
+    ],
+    "condition_logic": "",
+    "exceptions": [],
+    "special": {},
+    "as_of": "",
+    "note": "",
+    "source_section_ids": [
+     "§3155"
+    ],
+    "_check": {},
+    "_model_doc_diff": ""
+   },
+   {
+    "key": "base_rate",
+    "summary": "기본 이율은 연 0.10%이며, 세금 공제 전 기준입니다.",
+    "benefit": "",
+    "conditions": [],
+    "condition_logic": "",
+    "exceptions": [],
+    "special": {},
+    "as_of": "(2025년 12월 5일 기준)",
+    "note": "",
+    "source_section_ids": [
+     "§3157"
+    ],
+    "_check": {},
+    "_model_doc_diff": ""
+   },
+   {
+    "key": "interest_payment",
+    "summary": "이자 지급은 보통예금은 매년 6월, 12월 둘째 금요일에, 저축예금은 2월, 5월, 8월, 11월 둘째 금요일에 이루어집니다.",
+    "benefit": "",
+    "conditions": [],
+    "condition_logic": "",
+    "exceptions": [],
+    "special": {},
+    "as_of": "",
+    "note": "",
+    "source_section_ids": [
+     "§3158"
+    ],
+    "_check": {},
+    "_model_doc_diff": ""
+   },
+   {
+    "key": "termination_method",
+    "summary": "계약 해지는 영업점, 개인인터넷뱅킹, KB 스타뱅킹을 통해 가능합니다. 해지 시 해지잔액을 입금할 수 있는 본인명의의 입출금이자유로운예금 계좌가 필요합니다.",
+    "benefit": "",
+    "conditions": [],
+    "condition_logic": "",
+    "exceptions": [],
+    "special": {},
+    "as_of": "",
+    "note": "",
+    "source_section_ids": [
+     "§3166"
+    ],
+    "_check": {},
+    "_model_doc_diff": ""
+   },
+   {
+    "key": "tax",
+    "summary": "비과세종합저축으로 가입 가능하며, 세법 개정 시 세율 변경 가능성이 있습니다.",
+    "benefit": "",
+    "conditions": [],
+    "condition_logic": "",
+    "exceptions": [],
+    "special": {},
+    "as_of": "",
+    "note": "",
+    "source_section_ids": [
+     "§3164"
+    ],
+    "_check": {},
+    "_model_doc_diff": ""
+   },
+   {
+    "key": "transaction_restriction",
+    "summary": "예금 잔액이 일정 기준 미만이거나 일정 기간 동안 거래가 없을 경우 거래가 제한될 수 있습니다.",
+    "benefit": "",
+    "conditions": [
+     {
+      "text": "예금 잔액이 10,000원 미만이거나 1년 이상 거래가 없는 경우 입출금 등 거래가 제한됩니다.",
+      "user_input": "잔액 · 최종 거래일",
+      "src": [
+       "§3170"
+      ],
+      "_model_only_in": "상품설명서"
+     }
+    ],
+    "condition_logic": "",
+    "exceptions": [],
+    "special": {},
+    "as_of": "",
+    "note": "",
+    "source_section_ids": [
+     "§3170"
+    ],
+    "_check": {
+     "user_input_added": [
+      "잔액 · 최종 거래일"
+     ]
+    },
+    "_model_doc_diff": ""
+   },
+   {
+    "key": "fee",
+    "summary": "전월 중 특정 거래 실적을 충족하면 수수료가 면제됩니다. 면제 기간은 이번달 11일부터 다음달 10일까지이며, 면제 횟수는 제한 없습니다.",
+    "benefit": "",
+    "conditions": [
+     {
+      "text": "전월 중 합산 50만원 이상 입금 또는 KB 리브 모바일 자동이체 출금 실적이 있으면 수수료가 면제됩니다. 면제 기간은 이번달 11일부터 다음달 10일까지입니다.",
+      "user_input": "전월 입금 금액과 KB 리브 모바일 자동이체 출금 여부 확인 필요",
+      "src": [
+       "§1153",
+       "§1154"
+      ],
+      "_model_only_in": "특약"
+     }
+    ],
+    "condition_logic": "조건 중 하나만 충족하면 됨",
+    "exceptions": [],
+    "special": {},
+    "as_of": "",
+    "note": "",
+    "source_section_ids": [
+     "§1153",
+     "§1154"
+    ],
+    "_check": {
+     "doc_diff": [
+      {
+       "text": "당행 오픈뱅킹을 통해 타금융기관에서 이체된 건 제외",
+       "only_in": "상품설명서",
+       "src": [
+        3160
+       ]
+      }
+     ],
+     "missing": [
+      {
+       "text": "당행 본인 명의 계좌에서 이체된 건 및 본인의 주민등록번호로 입금된 건 제외",
+       "src": [
+        1153
+       ]
+      },
+      {
+       "text": "체크카드 및 신용카드를 통해 출금된 건 제외",
+       "src": [
+        1153
+       ]
+      },
+      {
+       "text": "다른은행 자동화기기의 경우 제휴 ATM 및 VAN사(효성·나이스·한네트 등) 자동화기기 제외",
+       "src": [
+        1156
+       ]
+      },
+      {
+       "text": "다른은행 ATM의 경우 제휴 ATM 및 VAN사(효성·나이스·한네트 등) ATM 제외",
+       "src": [
+        3160
+       ]
+      },
+      {
+       "text": "당행 본인 명의 계좌에서 이체된 건 및 본인의 주민등록번호로 입금된 건 제외",
+       "src": [
+        3160
+       ]
+      },
+      {
+       "text": "당행 오픈뱅킹을 통해 타금융기관에서 이체된 건 제외",
+       "src": [
+        3160
+       ]
+      },
+      {
+       "text": "결산이자 입금 건 제외",
+       "src": [
+        3160
+       ]
+      },
+      {
+       "text": "체크카드 및 신용카드를 통해 출금된 건 제외",
+       "src": [
+        3160
+       ]
+      }
+     ]
+    },
+    "_model_doc_diff": "",
+    "doc_diff": "상품설명서에만: 당행 오픈뱅킹을 통해 타금융기관에서 이체된 건 제외"
+   },
+   {
+    "key": "assignment_collateral",
+    "summary": "양도는 가능하지만 질권 설정 및 담보 제공은 불가능합니다.",
+    "benefit": "",
+    "conditions": [],
+    "condition_logic": "",
+    "exceptions": [
+     {
+      "text": "질권 설정은 불가능합니다.",
+      "src": [
+       "§3167"
+      ],
+      "_model_only_in": "상품설명서"
+     },
+     {
+      "text": "담보 제공은 불가능합니다.",
+      "src": [
+       "§3168"
+      ],
+      "_model_only_in": "상품설명서"
+     }
+    ],
+    "special": {},
+    "as_of": "",
+    "note": "",
+    "source_section_ids": [
+     "§3167",
+     "§3168"
+    ],
+    "_check": {},
+    "_model_doc_diff": ""
+   }
+  ]
+ },
+ "in_tokens": 3438,
+ "gen_tokens": 2409,
+ "sec": 240.8,
+ "truncated": false,
+ "postcheck": true
+}

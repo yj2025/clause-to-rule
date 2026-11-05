@@ -1,0 +1,117 @@
+{
+  "product": "가상은행 편한하루 통장",
+  "purpose": "수수료 면제를 받을 수 있는지",
+  "user_input": {
+    "salary_transfer_prev_month": "30만원",
+    "card_spend_prev_month": 0
+  },
+  "candidate_facts": [
+    {
+      "fact_id": "F301",
+      "key": "수수료면제",
+      "text": "전월 이 통장으로 급여이체 50만원 이상 또는 전월 당행 카드 결제실적 30만원 이상인 경우 당월 전자금융 타행이체수수료와 당행 자동화기기 출금수수료를 합산 월 최대 10회 면제한다",
+      "value": 10,
+      "unit": "회",
+      "condition": "전월 급여이체 50만원 이상 또는 전월 당행 카드 결제실적 30만원 이상",
+      "exceptions": [
+        "타행 자동화기기 이용 수수료는 면제하지 않음"
+      ],
+      "only_in": null,
+      "as_of": null
+    },
+    {
+      "fact_id": "F302",
+      "key": "수수료",
+      "text": "전자금융 타행이체수수료 건당 500원, 영업시간 외 당행 자동화기기 출금수수료 건당 500원",
+      "value": 500,
+      "unit": "원",
+      "condition": null,
+      "exceptions": [],
+      "only_in": null,
+      "as_of": "2026-10-01"
+    },
+    {
+      "fact_id": "F303",
+      "key": "수수료면제_신규특례",
+      "text": "신규 가입월과 그다음 달까지 2개월 동안은 실적과 관계없이 수수료 면제를 적용한다",
+      "value": 2,
+      "unit": "개월",
+      "condition": "신규 가입 후 가입월 포함 2개월",
+      "exceptions": [],
+      "only_in": "상품설명서",
+      "as_of": null
+    },
+    {
+      "fact_id": "F304",
+      "key": "거래한도제한",
+      "text": "금융거래목적 확인 전에는 1일 출금·이체 한도가 창구 100만원, 전자금융 30만원으로 제한된다",
+      "value": null,
+      "unit": "원",
+      "condition": "금융거래목적 확인 서류를 제출하지 않은 경우",
+      "exceptions": [],
+      "only_in": null,
+      "as_of": null
+    },
+    {
+      "fact_id": "F305",
+      "key": "연결계좌",
+      "text": "모바일 가입 시 본인 명의 다른 금융기관 계좌를 연결계좌로 등록해야 한다",
+      "value": null,
+      "unit": null,
+      "condition": "모바일 가입 시 필수",
+      "exceptions": [],
+      "only_in": null,
+      "as_of": null
+    },
+    {
+      "fact_id": "F306",
+      "key": "기본금리",
+      "text": "연 0.10%(세전)",
+      "value": 0.1,
+      "unit": "%",
+      "condition": null,
+      "exceptions": [],
+      "only_in": null,
+      "as_of": "2026-10-01"
+    }
+  ],
+  "judgment_results": [
+    {
+      "fact_id": "F301",
+      "state": "UNSATISFIED",
+      "missing_fields": [],
+      "reason": "salary_transfer_prev_month=300000 < 500000 AND card_spend_prev_month=0 < 300000"
+    },
+    {
+      "fact_id": "F304",
+      "state": "INFO_MISSING",
+      "missing_fields": [
+        "purpose_doc_submitted"
+      ],
+      "reason": "금융거래목적 확인 서류 제출 여부 미입력"
+    },
+    {
+      "fact_id": "F305",
+      "state": "INFO_MISSING",
+      "missing_fields": [
+        "has_other_bank_account"
+      ],
+      "reason": "타 금융기관 본인 계좌 보유 여부 미입력"
+    }
+  ],
+  "must_include_fact_ids": [
+    "F301",
+    "F304"
+  ],
+  "dependencies": [
+    [
+      "F301",
+      "F302"
+    ]
+  ],
+  "section_order": [
+    "수수료",
+    "이용 제한",
+    "가입 조건"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+ "product": "가상은행 편한하루 통장",
+ "sections": [
+  {"title": "수수료", "sentences": [
+   {"text": "전월 이 통장으로 급여이체 50만원 이상 또는 전월 당행 카드 결제실적 30만원 이상인 경우 당월 전자금융 타행이체수수료와 당행 자동화기기 출금수수료를 합산 월 최대 10회 면제받을 수 있지만, 입력하신 내용 기준으로는 적용되지 않습니다.", "fact_ids": ["F301"], "state": "UNSATISFIED"},
+   {"text": "입력하신 전월 급여이체 30만원은 50만원 이상 조건에 미치지 못하고, 입력하신 전월 당행 카드 결제실적 0은 30만원 이상 조건에 미치지 못합니다.", "fact_ids": ["F301"], "state": "UNSATISFIED"},
+   {"text": "타행 자동화기기 이용 수수료는 면제 대상이 아닙니다.", "fact_ids": ["F301"], "state": "INFO"},
+   {"text": "수수료는 전자금융 타행이체수수료 건당 500원, 영업시간 외 당행 자동화기기 출금수수료 건당 500원입니다(2026-10-01 기준).", "fact_ids": ["F302"], "state": "INFO"},
+   {"text": "신규 가입월과 그다음 달까지 2개월 동안은 실적과 관계없이 수수료 면제가 적용됩니다(상품설명서 기준).", "fact_ids": ["F303"], "state": "INFO"}
+  ]},
+  {"title": "이용 제한", "sentences": [
+   {"text": "금융거래목적 확인 서류를 제출하지 않은 경우 1일 출금·이체 한도가 창구 100만원, 전자금융 30만원으로 제한됩니다.", "fact_ids": ["F304"], "state": "INFO_MISSING"},
+   {"text": "금융거래목적 확인 서류 제출 여부(purpose_doc_submitted)를 알려 주시면 이 제한이 적용되는지 확인할 수 있습니다.", "fact_ids": ["F304"], "state": "INFO_MISSING"}
+  ]},
+  {"title": "가입 조건", "sentences": [
+   {"text": "모바일로 가입하려면 본인 명의 다른 금융기관 계좌를 연결계좌로 등록해야 하며, 본인 명의 다른 금융기관 계좌 보유 여부(has_other_bank_account)를 알려 주시면 확인할 수 있습니다.", "fact_ids": ["F305"], "state": "INFO_MISSING"}
+  ]}
+ ],
+ "questions_for_user": [
+  "금융거래목적 확인 서류를 제출하셨나요? (purpose_doc_submitted)",
+  "본인 명의 다른 금융기관 계좌가 있으신가요? (has_other_bank_account)"
+ ],
+ "used_fact_ids": ["F301", "F302", "F303", "F304", "F305"],
+ "omitted_must_include": []
+}
