@@ -28,8 +28,9 @@ import semselect
 ROOT = Path(__file__).resolve().parent
 GOLD = ROOT / "data" / "gold"
 
+# 2026-11-05 사람 검토: 상품 전환 · 저금통 해제는 특별금리를 잃게 하므로 불이익이다
 _HARM = {"DISQUALIFY", "RESTRICT", "PENALTY_RATE", "RATE_SUBTRACT", "DORMANT_CONTRIBUTION",
-         "FEE_WAIVE_NO_CARRYOVER"}
+         "FEE_WAIVE_NO_CARRYOVER", "PRODUCT_SWITCH_TO", "STATE_CHANGE"}
 
 
 def entry_id(kind, key):

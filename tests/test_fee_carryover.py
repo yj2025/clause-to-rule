@@ -49,8 +49,8 @@ def test_keeps_the_waiver_and_the_rate():
 
 
 def test_gold_rules_are_ok():
-    for cid, rid in (("KBONE-S2-R07", "KBONE-S2-R07-01"), ("KBYY-S5-R01", "KBYY-S5-R01-01"),
-                     ("KBONE-S2-R20", "KBONE-S2-R20-02")):
+    # KBYY-S5-R01-01 은 2026-11-05 사람 검토로 지웠다 — ONE통장 안내라 Young Youth 상품 범위 밖
+    for cid, rid in (("KBONE-S2-R07", "KBONE-S2-R07-01"), ("KBONE-S2-R20", "KBONE-S2-R20-02")):
         rs = json.loads((GOLD / f"{cid}.json").read_text("utf-8"))["rules"]
         r = next(x for x in rs if x["rule_id"] == rid)
         assert r["status"] == "OK" and r["effect"]["type"] == "FEE_WAIVE_NO_CARRYOVER"

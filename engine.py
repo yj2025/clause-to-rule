@@ -135,6 +135,10 @@ def _anchor(spec, ctx):
     날을 찾는다. 기준일보다 뒤면 그 앞 것을 쓴다. 손잡이를 적게 둔 것은
     일부러다 — «가장 가까운 지난 것» 하나만 있으면 약관이 말하는 것을
     다 담고, 고를 것이 없으면 모델이 틀릴 자리도 없다.
+
+    «지난 것» 은 `offset_days` 를 **더한 뒤의 날**로 따진다 (2026-11-05 사람 검토).
+    옛 구현은 n째 요일만 기준일 이하로 찾고 나서 날짜를 더해, 기준일이 셋째 금요일
+    당일이면 다음 날(아직 안 온 편입일)을 돌려줬다 — 편입 전 계좌를 편입된 것으로 본다.
     """
     if not isinstance(spec, dict) or "anchor" not in spec:
         raise DslError('창의 from/to 에는 anchor 가 있어야 한다. 올바른 형태: '
@@ -155,7 +159,8 @@ def _anchor(spec, ctx):
         if not (isinstance(day, dict) and "weekday" in day):
             raise DslError('month_of 를 쓰면 day 는 n째 요일이어야 한다: '
                            '{"weekday": "FRI", "nth": 3}')
-        got = _backwards(base, sorted(set(months)), day)
+        off = int(spec.get("offset_days") or 0)
+        got = _backwards(base - _dt.timedelta(days=off), sorted(set(months)), day)
         if got is None:
             raise DslError(f"{sorted(set(months))}월에서 n째 요일을 못 찾았다")
         y, m, d = got.year, got.month, got.day

@@ -1,7 +1,7 @@
 {
  "clause_id": "KBYY-S2-R16",
  "label": "질권설정",
- "reviewed": false,
+ "reviewed": true,
  "note": "복원 초안. 사람 검토 필요. UNSUPPORTED — '불가'는 금지라는 효과가 분명히 있으나, 질권설정을 가리킬 변수·이벤트가 카탈로그에 없고 '특정 거래 금지'를 담을 effect 도 없다. DISQUALIFY 로 적으면 모든 고객이 자격상실이 되어 뜻이 뒤집힌다. [카탈로그 확장 2026-09-15] RESTRICT effect 와 금지 대상이 생겨 OK 로 바꿨다. 조문이 누구에게나 금지하므로 조건은 {} 다. 불이익 effect 지만 빠진 조건이 없어 원칙 1에 걸리지 않는다. 담보제공과 질권설정은 같은 대상 PLEDGE 로 옮겼다.",
  "rules": [
   {
@@ -37,5 +37,18 @@
   "agent": "승인",
   "reason": "\"불가\" → RESTRICT PLEDGE, 조건 {}. 무조건 금지라 조건이 완전하다. 인용 \"불가\" 는 짧은 조문 전체라 허용된다.",
   "at": "2026-09-18"
+ },
+ "human_review": {
+  "verdict": "승인",
+  "comment": "",
+  "by": "CYJ",
+  "at": "2026-11-05T06:35:43.647Z",
+  "wrong_rules": []
+ },
+ "review": {
+  "by": "CYJ",
+  "at": "2026-11-05",
+  "verdict": "승인",
+  "note": ""
  }
 }

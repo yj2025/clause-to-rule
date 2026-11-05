@@ -121,6 +121,8 @@ def main():
     for p, g, approved, hr in gold:
         if approved:
             g["reviewed"] = True
+            # 검토 완료 조문은 `review` 에 검토자를 남긴다 — tests/test_goldaudit.py 가 본다 (2026-11-05)
+            g["review"] = {"by": hr["by"], "at": hr["at"][:10], "verdict": "승인", "note": hr["comment"]}
         g["human_review"] = hr
         p.write_text(json.dumps(g, ensure_ascii=False, indent=1) + "\n", "utf-8")
     for kind, key, hr in ok:

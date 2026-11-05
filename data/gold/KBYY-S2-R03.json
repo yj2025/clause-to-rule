@@ -1,7 +1,7 @@
 {
  "clause_id": "KBYY-S2-R03",
  "label": "상품유형",
- "reviewed": false,
+ "reviewed": true,
  "note": "복원 초안. 사람 검토 필요. 빈 배열 — 상품을 '입출금이 자유로운 예금(저축예금)'으로 분류하는 사실 서술일 뿐, 판별할 조건도 적용할 효과도 없다(few-shot 예시 2 유형).",
  "rules": [],
  "principles_applied": {
@@ -25,5 +25,18 @@
   "at": "2026-09-18"
  },
  "no_rule_reason": "LABEL",
- "no_rule_reason_by": "Claude 초안 2026-10-06 (사용자 위임 「진행해」 · 사람 확인 전)"
+ "no_rule_reason_by": "Claude 초안 2026-10-06 (사용자 위임 「진행해」 · 사람 확인 전)",
+ "human_review": {
+  "verdict": "승인",
+  "comment": "",
+  "by": "CYJ",
+  "at": "2026-11-05T06:15:30.670Z",
+  "wrong_rules": []
+ },
+ "review": {
+  "by": "CYJ",
+  "at": "2026-11-05",
+  "verdict": "승인",
+  "note": ""
+ }
 }

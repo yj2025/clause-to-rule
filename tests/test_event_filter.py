@@ -24,6 +24,12 @@ def _rules(cid):
     return json.loads((GOLD / f"{cid}.json").read_text("utf-8"))["rules"]
 
 
+# 2026-11-05 사람 검토로 KBYY-S5-R02 정답이 빈 배열이 됐다(ONE통장 안내라 상품 범위 밖).
+# 경로 필터 · 신규 면제 기간이 실제 rule 에서 도는지는 지운 rule 을 예시로 남겨 본다.
+REMOVED_S5_R02 = json.loads((Path(__file__).resolve().parent / "fixture_kbyy_s5_r02_removed.json")
+                            .read_text("utf-8"))["rules"]
+
+
 def _ctx(ref="2026-09-11", start="2020-01-01", **events):
     ev = {k: [] for k in catalog.EVENTS}
     ev.update(events)
@@ -74,7 +80,7 @@ def test_bad_filters_are_dsl_errors_and_catalog_errors():
 
 
 def test_card_paid_utilities_do_not_earn_the_waiver():
-    rs = [r for r in _rules("KBYY-S5-R02") if r["rule_id"] in
+    rs = [r for r in REMOVED_S5_R02 if r["rule_id"] in
           ("KBYY-S5-R02-01", "KBYY-S5-R02-02", "KBYY-S5-R02-03")]
     card = resolve(evaluate_rules(rs, _ctx(AUTO_TRANSFER=[{"date": "2026-08-20", "route": "CARD"}])), "SUM")
     giro = resolve(evaluate_rules(rs, _ctx(AUTO_TRANSFER=[{"date": "2026-08-20", "route": "GIRO"}])), "SUM")
@@ -85,7 +91,8 @@ def test_card_paid_utilities_do_not_earn_the_waiver():
 @pytest.mark.parametrize("ref,want", [("2026-09-10", True), ("2026-09-11", False)])
 def test_new_account_waiver_lasts_to_the_tenth_two_months_on(cid, n, ref, want):
     """2026-07-15 가입 → 다음 다음 달 10일 = 2026-09-10 까지 실적 없이 면제."""
-    res = resolve(evaluate_rules(_rules(cid), _ctx(ref=ref, start="2026-07-15")), "SUM")
+    rules = REMOVED_S5_R02 if cid == "KBYY-S5-R02" else _rules(cid)
+    res = resolve(evaluate_rules(rules, _ctx(ref=ref, start="2026-07-15")), "SUM")
     assert len(res.other_effects) == (n if want else 0)
 
 

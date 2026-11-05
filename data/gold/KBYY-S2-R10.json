@@ -1,7 +1,7 @@
 {
  "clause_id": "KBYY-S2-R10",
  "label": "최종금리 (세금공제 전, 2026.08.04 기준)",
- "reviewed": false,
+ "reviewed": true,
  "note": "복원 초안. 사람 검토 필요. ADD/OVERRIDE 둘 다 아니다 — '최저 0.1% ~ 최고 2.0%' 는 기본금리(R06 · base_rate 0.1)와 특별금리(R07 · RATE_ADD 1.9)를 합산한 결과를 서술한 문장이다. 합산 방식은 _product.json 의 aggregation=SUM 이 이미 담고 있고, 2.0 은 max_rate 로 기록돼 있다. 여기에 RATE_ADD 2.0 을 적으면 같은 금리를 두 번 더하고, RATE_OVERRIDE 2.0/0.1 을 적으면 조건과 무관하게 금리를 고정해 버린다. 새로 옮길 규범 내용이 없으므로 UNSUPPORTED 가 아니라 빈 배열이다.",
  "rules": [],
  "principles_applied": {
@@ -32,5 +32,18 @@
   "at": "2026-09-18"
  },
  "no_rule_reason": "PRODUCT_SETTING",
- "no_rule_reason_by": "Claude 초안 2026-10-06 (사용자 위임 「진행해」 · 사람 확인 전)"
+ "no_rule_reason_by": "Claude 초안 2026-10-06 (사용자 위임 「진행해」 · 사람 확인 전)",
+ "human_review": {
+  "verdict": "승인",
+  "comment": "",
+  "by": "CYJ",
+  "at": "2026-11-05T06:16:39.172Z",
+  "wrong_rules": []
+ },
+ "review": {
+  "by": "CYJ",
+  "at": "2026-11-05",
+  "verdict": "승인",
+  "note": ""
+ }
 }

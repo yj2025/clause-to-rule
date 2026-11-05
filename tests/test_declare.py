@@ -68,6 +68,11 @@ def test_overgeneration_no_longer_dominates_after_the_catalog_grew(root):
     2026-09-21 에 날짜 계산으로 거래중지 두 조문을 열면서 **9 대 11** 이 됐다.
     v6 생성물은 한 글자도 안 바뀌었다 — **정답이 또 움직인 것**이다.
     이 수가 바뀌면 그때마다 무엇이 열렸는지 여기 적는다.
+
+    2026-11-05 사람 검토로 **11 대 10** 이 됐다. 이번에도 v6 생성물은 그대로고 정답이 움직였다.
+    KBYY-S2-R04 자동전환이 UNSUPPORTED 로(불이익 · 첫 영업일 미반영) — v6 은 정상 rule 이라 과생성 +1.
+    KBYY-S5-R02 가 빈 배열로(ONE통장 안내) — v6 은 정상 rule 이라 과생성 +1.
+    KBYY-S5-R01 이 빈 배열로 — v6 도 빈 배열이라 과소생성 −1 (이제 맞힌 자리).
     """
     import json, os
     os.chdir(root)
@@ -77,4 +82,4 @@ def test_overgeneration_no_longer_dominates_after_the_catalog_grew(root):
                if w in (D.EMPTY, D.UNSUP) and g in (D.OK, D.MIXED))
     under = sum(n for (w, g), n in conf.items()
                 if w in (D.OK, D.MIXED) and g in (D.EMPTY, D.UNSUP))
-    assert (over, under) == (9, 11), (over, under)
+    assert (over, under) == (11, 10), (over, under)

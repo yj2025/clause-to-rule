@@ -48,7 +48,7 @@ def test_detrimental_effects_never_approximate(gold):
         # FEE_WAIVE_NO_CARRYOVER 이월 불가 — 조문이 모든 면제에 건다. 조건 없음이 완전하다
         "KBONE-S2-R07-01",
         "KBONE-S2-R20-02",
-        "KBYY-S5-R01-01",
+        # (KBYY-S5-R01-01 은 2026-11-05 사람 검토로 지웠다 — ONE통장 안내라 상품 범위 밖)
         # DISQUALIFY 명의 유형 — 인용문이 나열한 유형을 그대로 옮겼다
         "KBONE-S2-R01-02",   # 개인 · 개인사업자 · 서류미제출 임의단체가 아니면 탈락
         "KBYY-S2-R01-02",    # 개인사업자 · 서류미제출 임의단체 · 공동명의면 탈락
@@ -64,15 +64,19 @@ def test_detrimental_effects_never_approximate(gold):
         "KBYY-S2-R17-02",    # 담보제공 불가
         # RESTRICT 거래중지 — 2026-09-21 에 날짜 계산이 생겨 되살렸다.
         # 조건이 완전하다: 잔액 세 구간과 무거래 기간을 **편입일 기준으로** 다 옮겼고,
-        # 무거래는 이벤트 전부가 없을 때만 참이라 넓게(=덜 제한하는 쪽으로) 센다
+        # 무거래는 이벤트 전부가 없을 때만 참이라 넓게(=덜 제한하는 쪽으로) 센다.
+        # 2026-11-05 사람 검토: 창의 끝을 편입일 → 기준일로 (편입 뒤 거래 재개 계좌를 막지 않게)
         "KBONE-S2-R16-01",
         "KBYY-S2-R19-01",
+        # STATE_CHANGE 저금통 자동 해제 — 「다른 예금 상품으로 전환하는 경우」 를 이벤트 그대로 옮겼다
+        "KBYY-S2-R11-03",
     }
     # 2026-09-20 TAX_EXEMPT_ELIGIBLE 을 더했다 — 「비과세로 가입 가능」 은 혜택이다
-    # PRODUCT_SWITCH_TO · STATE_CHANGE 는 혜택도 불이익도 아니다 — 안내에 가깝다.
-    # 근사(첫 영업일 미반영)는 시점만 옮기고 대상을 바꾸지 않는다 (2026-09-20)
+    # PRODUCT_SWITCH_TO · STATE_CHANGE 는 2026-09-20 에 «안내에 가깝다» 며 여기 넣었으나,
+    # 2026-11-05 사람 검토로 불이익으로 옮겼다 — 전환 · 저금통 해제는 특별금리를 잃게 한다.
+    # 그래서 첫 영업일을 뺀 자동전환 근사(KBYY-S2-R04)는 UNSUPPORTED 가 됐다
     BENEFIT = {"RATE_ADD", "RATE_OVERRIDE", "FEE_WAIVE", "SERVICE_PROVIDE",
-               "TAX_EXEMPT_ELIGIBLE", "PRODUCT_SWITCH_TO", "STATE_CHANGE"}
+               "TAX_EXEMPT_ELIGIBLE"}
     unlisted = []
     for cid, d in gold.items():
         for r in d.get("rules") or []:

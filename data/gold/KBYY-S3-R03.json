@@ -1,7 +1,7 @@
 {
  "clause_id": "KBYY-S3-R03",
  "label": "제공조건",
- "reviewed": false,
+ "reviewed": true,
  "note": "복원 초안. 사람 검토 필요. 빈 배열로 판정 — [제공조건]이라는 라벨과 달리 본문은 판별할 조건을 하나도 정하지 않는다. '교육서비스 이용쿠폰 발행 후 사용방법 및 유효기간 등 세부사항은 ㈜NE능률 운영기준에 준합니다'는 세부 내용을 제3자 기준으로 넘기는 위임문이고(few-shot 의 '※ 면제 내용은 영업점에 게시한 바에 따릅니다' 와 같은 자리), ※ 줄은 고객센터 전화번호 안내다. UNSUPPORTED 가 아닌 이유: UNSUPPORTED 는 '조건·효과는 있는데 카탈로그에 수단이 없다'는 뜻인데 여기엔 걸리는 조건도, 바뀌는 값도 적혀 있지 않다 — few-shot 의 '영업점장이 필요하다고 인정하는 경우'는 달리 정해지는 대상이 '한도'로 지정돼 있어 UNSUPPORTED 였고 이 조문에는 그 대상조차 없다(KBYY-S3-R02 와 같은 판단). 유효기간을 contract.start_date 창으로 옮기려 들면 붙일 effect 가 없어 억지 REQUIRE 가 붙는다 — KBYY-S3-R02 가 잡으려는 과생성이 그것이다. 조문에 적힌 수는 고객센터 전화번호뿐이고 어디에도 쓰지 않았다.",
  "rules": [],
  "principles_applied": {
@@ -25,5 +25,18 @@
   "at": "2026-09-18"
  },
  "no_rule_reason": "NOTE_ONLY",
- "no_rule_reason_by": "Claude 초안 2026-10-06 (사용자 위임 「진행해」 · 사람 확인 전)"
+ "no_rule_reason_by": "Claude 초안 2026-10-06 (사용자 위임 「진행해」 · 사람 확인 전)",
+ "human_review": {
+  "verdict": "승인",
+  "comment": "",
+  "by": "CYJ",
+  "at": "2026-11-05T06:17:11.118Z",
+  "wrong_rules": []
+ },
+ "review": {
+  "by": "CYJ",
+  "at": "2026-11-05",
+  "verdict": "승인",
+  "note": ""
+ }
 }

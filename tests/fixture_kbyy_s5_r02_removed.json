@@ -1,0 +1,485 @@
+{
+ "why": "2026-11-05 사람 검토로 KBYY-S5-R02 정답에서 지운 rule(ONE통장 안내라 Young Youth 상품 범위 밖). 공과금 경로 필터 · 신규 면제 기간 동작을 시험하는 예시로만 남긴다 — 정답이 아니다.",
+ "rules": [
+  {
+   "rule_id": "KBYY-S5-R02-01",
+   "status": "OK",
+   "label": "전자금융 이체수수료 면제(제한없음)",
+   "source": {
+    "quote": "전자금융(인터넷뱅킹, 폰뱅킹, 모바일뱅킹) 이체수수료(다른은행으로 보낼 때) | 제한없음"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "or": [
+     {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "and": [
+       {
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window2"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window2"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "EBANK_TRANSFER",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBYY-S5-R02-02",
+   "status": "OK",
+   "label": "자동화기기 시간외출금수수료 면제(제한없음)",
+   "source": {
+    "quote": "KB국민은행 자동화기기 시간외출금수수료"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "or": [
+     {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "and": [
+       {
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window2"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window2"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "ATM_WITHDRAW_AFTER_HOURS",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBYY-S5-R02-03",
+   "status": "OK",
+   "label": "납부자자동이체 수수료 면제(제한없음)",
+   "source": {
+    "quote": "납부자자동이체(타행자동이체포함)수수료"
+   },
+   "let": {
+    "window": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -1,
+       "day": "last"
+      }
+     }
+    },
+    "window2": {
+     "month_range": {
+      "from": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "first"
+      },
+      "to": {
+       "anchor": "contract.reference_date",
+       "offset_months": -2,
+       "day": "last"
+      }
+     }
+    }
+   },
+   "condition": {
+    "or": [
+     {
+      "and": [
+       {
+        ">=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 11
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "and": [
+       {
+        "<=": [
+         {
+          "var": "contract.reference_date"
+         },
+         {
+          "anchor": "contract.reference_date",
+          "offset_months": 0,
+          "day": 10
+         }
+        ]
+       },
+       {
+        "or": [
+         {
+          "exists": {
+           "event": "CARD_USAGE",
+           "within": {
+            "ref": "$window2"
+           }
+          }
+         },
+         {
+          "exists": {
+           "event": "AUTO_TRANSFER",
+           "within": {
+            "ref": "$window2"
+           },
+           "where": {
+            "route": [
+             "APARTMENT_FEE",
+             "GIRO",
+             "CMS",
+             "FIRM_BANKING"
+            ]
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "AUTO_DEBIT",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBYY-S5-R02-04",
+   "status": "OK",
+   "label": "신규(전환)일부터 다음 다음 달 10일까지 전자금융 이체수수료 면제(실적 무관)",
+   "source": {
+    "quote": "이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
+   },
+   "condition": {
+    "<=": [
+     {
+      "var": "contract.reference_date"
+     },
+     {
+      "anchor": "contract.start_date",
+      "offset_months": 2,
+      "day": 10
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "EBANK_TRANSFER",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBYY-S5-R02-06",
+   "status": "OK",
+   "label": "신규(전환)일부터 다음 다음 달 10일까지 자동화기기 시간외출금수수료 면제(실적 무관)",
+   "source": {
+    "quote": "이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
+   },
+   "condition": {
+    "<=": [
+     {
+      "var": "contract.reference_date"
+     },
+     {
+      "anchor": "contract.start_date",
+      "offset_months": 2,
+      "day": 10
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "ATM_WITHDRAW_AFTER_HOURS",
+    "value": "UNLIMITED"
+   }
+  },
+  {
+   "rule_id": "KBYY-S5-R02-07",
+   "status": "OK",
+   "label": "신규(전환)일부터 다음 다음 달 10일까지 납부자자동이체 수수료 면제(실적 무관)",
+   "source": {
+    "quote": "이 통장의 신규(또는 전환)일부터 다음 다음 달 10일까지는 은행 거래실적에 관계없이 면제"
+   },
+   "condition": {
+    "<=": [
+     {
+      "var": "contract.reference_date"
+     },
+     {
+      "anchor": "contract.start_date",
+      "offset_months": 2,
+      "day": 10
+     }
+    ]
+   },
+   "effect": {
+    "type": "FEE_WAIVE",
+    "target": "AUTO_DEBIT",
+    "value": "UNLIMITED"
+   }
+  }
+ ]
+}

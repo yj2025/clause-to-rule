@@ -45,10 +45,25 @@ def test_an_invented_product_name_is_refused():
     assert validate.check_catalog(r) != [] and validate.check_schema({"rules": [r]}) != []
 
 
-def test_the_two_switch_rules_do_not_fire_together():
-    """만 19세에 ONE 통장을 이미 가진 고객은 KB종합통장으로만 간다."""
+def test_the_two_switch_rules_wait_for_a_business_day_calendar():
+    """2026-11-05 사람 검토: 자동전환은 불이익이라(저금통 · 특별금리를 잃는다) 조건이 완전해야 한다.
+
+    「매년 첫 영업일에 만 19세」 를 `age == 19` 로 근사하면 올해 중간에 19세가 된 고객을
+    이미 전환된 것으로 본다. 첫 영업일은 영업일 달력이 있어야 옮길 수 있어 두 rule 은 UNSUPPORTED 다.
+    """
     rs = json.loads((GOLD / "KBYY-S2-R04.json").read_text("utf-8"))["rules"]
-    assert [r["status"] for r in rs] == ["OK", "OK"]
+    assert [r["status"] for r in rs] == ["UNSUPPORTED", "UNSUPPORTED"]
+    assert all("영업일" in blockers.blockers_of(r["label"]) for r in rs)
+
+
+def test_the_two_switch_targets_do_not_fire_together():
+    """만 19세에 ONE 통장을 이미 가진 고객은 KB종합통장으로만 간다 — 영업일 달력이 생기면 쓸 꼴."""
+    one = {"in": ["KB국민ONE통장", {"var": "customer.held_products"}]}
+    age = {"==": [{"var": "customer.age"}, 19]}
+    pairs = [({"not": one}, "KB국민ONE통장"), (one, "KB종합통장")]
+    rs = [{"rule_id": f"X-0{i}", "status": "OK", "label": "x", "source": {"quote": "x"},
+           "condition": {"and": [age, cond]}, "effect": {"type": "PRODUCT_SWITCH_TO", "target": target}}
+          for i, (cond, target) in enumerate(pairs, 1)]
     for held, want in (([], "KB국민ONE통장"), (["KB국민ONE통장"], "KB종합통장")):
         ctx = {"customer": {"age": 19, "held_products": held}}
         got = [e["target"] for e in resolve(evaluate_rules(rs, ctx), "SUM").other_effects]
