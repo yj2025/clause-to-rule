@@ -2,7 +2,7 @@
 
     python showcase/kb10six.py showcase/results_kb10v101a.json showcase/results_kb10v101b.json ...
 
-**정답은 초안이다** (사람 검토 전). 여기서 나온 ⑥ 은 «초안 기준» 이라고 적는다.
+정답은 에이전트 초안을 사람이 검토한 것이다 (10-06 · 11-05 로 105조문 모두 검토 완료).
 상품마다 기본금리가 다르다 — 접두어로 `BASE_RATE` 를 고른다. 합산 방식은 코퍼스와 같이 SUM.
 프로필은 코퍼스와 같은 `gold.profiles()` 다 (명의 유형은 INDIVIDUAL 로 고정 — 그 축은 ⑥ 이 못 본다).
 """
