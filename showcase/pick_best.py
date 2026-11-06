@@ -28,6 +28,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
+sys.path.insert(0, str(HERE.parent / "tools"))   # mismatch · vacuous 는 tools/ (2026-11-06)
 import mismatch  # noqa: E402
 import vacuous  # noqa: E402
 import validate  # noqa: E402

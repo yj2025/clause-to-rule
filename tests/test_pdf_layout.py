@@ -18,7 +18,7 @@ import pytest
 
 MM = 72 / 25.4
 RIGHT = 192.0          # 오른쪽 여백 190mm + 여유
-DOCS = ("brief.py", "decision_doc.py", "decision_catalog.py", "decision_scope.py")
+DOCS = ("tools/brief.py", "tools/decision_doc.py", "tools/decision_catalog.py", "tools/decision_scope.py")
 
 
 def _fonts_ready(root):
@@ -29,7 +29,7 @@ def _fonts_ready(root):
 @pytest.mark.parametrize("script", DOCS)
 def test_nothing_is_drawn_past_the_right_margin(root, script, tmp_path):
     if not _fonts_ready(root):
-        pytest.skip("글꼴이 없다 — brief.py 머리말 참고")
+        pytest.skip("글꼴이 없다 — tools/brief.py 머리말 참고")
     pytest.importorskip("pypdf")
     from pypdf import PdfReader
     out = subprocess.run([sys.executable, str(root / script)],

@@ -6,8 +6,8 @@
      ⑥ 100% 가 **일곱 번 이상**인 조문만 낸다. 한 번 맞은 것은 안 낸다 (`METHOD.md` 3절)
   2. **새 상품** — 정답이 없다. `showcase/review.json` 에서 사람 대조로 ✅ 인 것만 낸다
 
-**정답(`data/gold/`)은 싣지 않는다** — 블라인드 평가용이라 팀원에게 주지 않는다
-(`CLAUDE.md`). 「정답과 일치한 라운드 수」만 적는다.
+**정답(`data/gold/`)은 싣지 않는다** — 블라인드 평가용이라 팀원에게 주지 않는다.
+「정답과 일치한 라운드 수」만 적는다.
 
     python showcase/present.py      → showcase/out/presentation.md
 """

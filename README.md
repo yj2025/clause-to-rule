@@ -17,21 +17,37 @@
 `M3/` — 약관 · 상품설명서를 고객이 읽을 **요약문**으로 만드는 모델 시험 (2026-09 ~ 10).
 이 저장소(조건식)의 다음 단계인 «쉬운 말» 쪽이다. 자세한 것은 `M3/README.md`.
 
+## 폴더 지도
+
+| 어디 | 무엇 |
+|---|---|
+| 루트 `*.py` | **실행 경로** — 조문 분할(`doc_split.py` · `corpus.py`) → 지시문(`prompt.py`) → 모델 실행(`run_local_v2.py`) → 검사(`validate.py` · `schema.py` · `grounding.py` · `invent.py` · `vacuous.py`) → 판별(`engine.py` · `resolver.py` · `compose.py` · `explain.py` · `fields.py`) · 채점(`scoring.py` · `gold.py`) |
+| `run_round.sh` | 라운드 하나를 돌리는 유일한 입구 |
+| `tools/` | 채점 · 지표(`tools/report.py` · `tools/noise.py` · `tools/declare.py` …), 정답 관리(`tools/goldaudit.py` · `tools/blockers.py` · `tools/review_*.py`), 팀 문서 · 브리핑(`tools/brief.py` · `tools/decision_*.py`), 데이터 변환(`tools/semconv*.py` · `tools/products.py`) |
+| `experiments/` | 한 번 돌려 결론을 낸 시험 — 블라인드 평가, 체크포인트 비교, 후처리 · 기권 판단 시험(11-05) 등 |
+| `docs/` | 아래 «먼저 읽을 것» 의 문서 일곱 |
+| `data/` | 상품설명서 원문 · 조문 · 정답(`data/gold/`, 범위 밖은 `data/gold/out_of_scope/`) · 새 평가셋 정답(`data/gold_v2/`) |
+| `results/` · `showcase/` | 코퍼스 라운드 결과 · 다른 상품 열 종(kb10) 결과와 정답 |
+| `docsab/` · `lora/` · `bundle/` | 요약 입력 검사 · Qwen3-8B QLoRA · 조문 묶음 |
+| `tests/` · `worklog/` · `logs/` | 시험 1,072개 · 날짜별 일지 · 라운드 체인 스크립트 |
+| `M3/` | 요약 모델 시험 (별도 README) |
+
+스크립트는 **저장소 루트에서** 돌린다 — `python tools/report.py results/results_v127.json`.
+
 ## 먼저 읽을 것
 
-문서는 여덟 개다. 이것 말고 없다.
+문서는 여덟 개다(이 README + `docs/` 일곱). 이것 말고 없다.
 
 | 무엇이 궁금한가 | 어디를 볼까 |
 |---|---|
-| **어떻게 판정하나 — 규칙과 그것을 배운 실패** | **`METHOD.md`** ← 세션이 끊겼으면 여기부터 |
-| **지금 어디까지 왔나 · 팀에 뭘 말할까** | **`STATUS.md`** ← 발표용 |
-| 지금까지 무엇을 알아냈나 | **`ROUNDS.md`** ← 여기서 시작 |
-| 라운드마다 무엇을 바꿔 무엇이 나왔나 | `EXPERIMENTS.md` |
-| 이 변화가 노이즈인가 | **`NOISE.md`** |
-| 팀이 정해야 할 것 | **`CATALOG_PROPOSAL.md`** |
-| gold 를 어떤 기준으로 판정했나 | `DECISIONS.md` |
+| **어떻게 판정하나 — 규칙과 그것을 배운 실패** | **`docs/METHOD.md`** ← 세션이 끊겼으면 여기부터 |
+| **지금 어디까지 왔나 · 팀에 뭘 말할까** | **`docs/STATUS.md`** ← 발표용 |
+| 지금까지 무엇을 알아냈나 | **`docs/ROUNDS.md`** ← 여기서 시작 |
+| 라운드마다 무엇을 바꿔 무엇이 나왔나 | `docs/EXPERIMENTS.md` |
+| 이 변화가 노이즈인가 | **`docs/NOISE.md`** |
+| 팀이 정해야 할 것 | **`docs/CATALOG_PROPOSAL.md`** |
+| gold 를 어떤 기준으로 판정했나 | `docs/DECISIONS.md` |
 | 날짜별로 무엇을 했나 | `worklog/` |
-| 원래 프로젝트의 서술 | `history/qwen3-8B.ipynb` |
 
 ## 30초 요약
 
@@ -46,14 +62,15 @@
 - **코퍼스에서는 기권보다 낫다** — P1(관문 탈락 → 빈 배열)을 걸면 기준선 위 +12.3p (판정선 ±4.4p).
 - **처음 보는 상품(kb10 · v2)에서는 «아무것도 안 내는 쪽» 과 비긴다.** 프롬프트 처방(10-06 종료) · LoRA(10-28) ·
   후처리(11-05)로도 못 넘었다. 남은 손실은 지어낸 금리 · 상태 변경 · 자격 rule 이 여러 조문에 흩어진 것이다.
-- 다음은 팀 결정이다 — «rule 을 낼지 말지» 를 따로 판단하는 단계, 범위를 «확실한 조문만» 으로 좁히기, 카탈로그 확장.
-  자세한 것은 맨 아래 «어디까지 했나» · `STATUS.md` 맨 위.
+- 다음은 팀 결정이다 — 새 상품에서의 재현(생성) 개선, 범위를 «아는 상품» 으로 좁히기, 카탈로그 확장.
+  «낼지 말지» 판단 단계는 11-05 시험으로 가치가 작다고 나왔다.
+  자세한 것은 맨 아래 «어디까지 했나» · `docs/STATUS.md` 맨 위.
 
 **9월 중순 기록 (v14 까지)** — 아래는 그때 쓴 그대로다.
 
 2026-09-11 에 원본 저장소가 유실돼 노트북에 저장된 출력을 근거로 다시 세웠다.
 라운드를 **v1 부터 다시 셌다** — 유실 이전 실험과 번호가 이어지지 않는다
-(`EXPERIMENTS.md` 머리말). 카탈로그 이름의 복원 신뢰도는 `catalog.py` 머리말에 있다.
+(`docs/EXPERIMENTS.md` 머리말). 카탈로그 이름의 복원 신뢰도는 `catalog.py` 머리말에 있다.
 
 **형식은 크게 좋아졌고 뜻은 그렇지 않다.**
 
@@ -84,7 +101,7 @@
 | ③ | 카탈로그 준수 | `validate.check_catalog` |
 | ④ | quote 가 원문에 있나 | `validate.check_quote` |
 | ⑤ | 실행 가능 | `validate.check_executable` |
-| ⑦ | 빈 배열 (별도 축) | `report.py` |
+| ⑦ | 빈 배열 (별도 축) | `tools/report.py` |
 
 ### 뜻 (⑥, ⑧~⑫)
 
@@ -94,13 +111,13 @@
 | ⑧ | UNSUPPORTED 를 얼마나 쓰나 (회피 감시) | `report.unsupported_stats` |
 | ⑨ | 생성물의 수가 조문에 있나 | `grounding.py` |
 | ⑩ | 조문을 **합쳐** 낸 금리가 gold 와 같나 | `compose.py` |
-| ⑪ | 인용문이 그 rule 을 받치나 (**하한**) | `support.py` |
-| ⑫ | 빈 배열/UNSUPPORTED/정상 판정이 맞나 | `declare.py` |
+| ⑪ | 인용문이 그 rule 을 받치나 (**하한**) | `tools/support.py` |
+| ⑫ | 빈 배열/UNSUPPORTED/정상 판정이 맞나 | `tools/declare.py` |
 | ⑬ | 카탈로그에 없는 개념을 문자열에 담나 | `invent.py` |
 | ⑭ | 조건이 붙었는데 언제나 참인가 | `vacuous.py` |
 
 ⑭ 는 두 가지를 **갈라 센다.** 프로필 1024개 전부에서 참이라고 다 모델
-잘못이 아니다. 카탈로그 정의역을 훑는 문맥 400개(`_free.py`)에서 반례를 찾아
+잘못이 아니다. 카탈로그 정의역을 훑는 문맥 400개(`tools/_free.py`)에서 반례를 찾아
 **헛조건**(반례 없음 · 모델의 결함)과 **미가동**(반례 있음 · 프로필의 구멍)을
 나눈다. 안 가르면 수치가 여덟 배까지 부푼다.
 
@@ -120,10 +137,10 @@ export HF_HOME=/workspace/personal_workplace_CHO/.hf_cache
 setsid nohup ./run_round.sh v10 >/dev/null 2>&1 &
 tail -f logs/v10_run.log
 
-python report.py results/results_v10.json --baseline results/results_v9.json
-python judge.py  results/results_v10.json results/results_v9.json --watch <조문id>...
-python diagnose.py results/results_v10.json     # 다음 처방을 고르기 위한 브리핑
-python noise.py  results/results_v10.json       # 그 라운드의 판정선
+python tools/report.py results/results_v10.json --baseline results/results_v9.json
+python tools/judge.py  results/results_v10.json results/results_v9.json --watch <조문id>...
+python experiments/diagnose.py results/results_v10.json     # 다음 처방을 고르기 위한 브리핑
+python tools/noise.py  results/results_v10.json       # 그 라운드의 판정선
 python vacuous.py results/results_v10.json     # ⑭ 헛조건 · 미가동
 ```
 
@@ -134,10 +151,10 @@ python vacuous.py results/results_v10.json     # ⑭ 헛조건 · 미가동
 
 **판정선을 3회차 하나로 내지 마라.** 한 프로세스에서 연달아 돌린 회차는 서로 닮는다 —
 v38 세 회차만으로는 ⑥ 이 ±1.3p 인데 다른 프로세스의 v37 을 더하면 ±4.1p 다.
-잡음을 재려면 **프로세스를 나눠야** 한다 (`NOISE.md` 2026-09-23).
+잡음을 재려면 **프로세스를 나눠야** 한다 (`docs/NOISE.md` 2026-09-23).
 
 ```bash
-python blockers.py                             # 카탈로그 확장이 푸는 조문 수
+python tools/blockers.py                             # 카탈로그 확장이 푸는 조문 수
 ```
 
 테스트: `/workspace/.venv/bin/python -m pytest tests/ -q`
@@ -146,7 +163,7 @@ python blockers.py                             # 카탈로그 확장이 푸는 �
 
 1. **한 번에 하나만 바꾼다.** 둘을 같이 넣으면 어느 쪽이 먹었는지 못 가린다
 2. **가설과 되돌림 선을 결과 전에 적는다.** 숫자를 보고 고르면 무엇이든 설명된다
-3. **판정선은 축마다 다르다.** `NOISE.md` 에 실측값이 있다 —
+3. **판정선은 축마다 다르다.** `docs/NOISE.md` 에 실측값이 있다 —
    ⑫ 는 ±2.1p, ⑨ 는 **±23.5p** 다. 하나의 값을 모든 축에 쓰면 안 된다
 4. **조문별로 풀기 전에는 군 평균을 처방의 효과로 읽지 않는다**
 5. **탈출구를 열기 전에 그것을 세는 축을 먼저 세운다**
@@ -174,7 +191,7 @@ python blockers.py                             # 카탈로그 확장이 푸는 �
 | `*.py` · `tests/` · `*.md` | 예 | |
 | `data/gold/` · `data/corpus.json` | 예 | 정답과 입력이다 |
 | `results/*.json` | **예** | 라운드마다 GPU 한 시간 안팎(코퍼스 1회차 33~65분). `raw_first`/`raw_last` 에 모델 원문이 있어 **채점기를 고칠 때마다 전부 다시 잰다** |
-| `logs/` | 아니오 | 진행 표시가 대부분. 실행 시간만 `EXPERIMENTS.md` 에 옮겼다 |
+| `logs/` | 아니오 | 진행 표시가 대부분. 실행 시간만 `docs/EXPERIMENTS.md` 에 옮겼다 |
 | `__pycache__` · `.pytest_cache` | 아니오 | |
 
 결과 파일이 5MB 라 저장소가 무겁지만, 이것 없이는 과거 라운드를 다시 못 잰다.
@@ -193,12 +210,13 @@ LoRA 는 10-28 에 끝났고, 정답 검토는 11-05 에 끝났다. 옛 «아직
   정답 세트에서 뺐다 — `data/gold/out_of_scope/` 에 rule 과 함께 남아 있고 채점 · 감사 도구는 읽지 않는다.
 - **코퍼스에서는 기권보다 낫다.** 기준선 67.4% 에 마지막 코드 + P1(관문 탈락 → 빈 배열) 79.7% (+12.3p · 판정선 ±4.4p).
 - **카탈로그 확장 여섯 항목**(09-15)으로 표현 불가 rule 이 54개 · 30조문 → 29개 · 13조문.
-- **후처리 시험**(11-05 · `gate_experiment.py`) — «금리 표 조문을 기권시키면 된다» 는 틀렸다고 확인했다.
+- **후처리 시험**(11-05 · `experiments/gate_experiment.py`) — «금리 표 조문을 기권시키면 된다» 는 틀렸다고 확인했다.
 
 ### 알려진 한계
 
 - **처음 보는 상품에서는 «아무것도 안 내는 쪽» 과 비긴다** — kb10 87.1 대 87.4 · 새 평가셋 v2 e1 85.5 대 85.5.
-  프롬프트 처방 · LoRA · 후처리 어느 것도 넘지 못했다. 손실은 지어낸 금리 · 상태 변경 · 자격 rule 이 여러 조문에 흩어진 것이다.
+  프롬프트 처방 · LoRA · 후처리 · 기권 판단 어느 것도 넘지 못했다. v2 에서는 판단이 완벽해도 +1.4p 가 한계다 —
+  맞는 rule 을 낸 출력이 13조문 중 하나뿐이라, 병목은 «언제 낼지» 가 아니라 «맞는 rule 을 못 만드는 것» 이다.
 - **kb10 정답 105조문도 사람 검토를 마쳤다** (10-06 104조문 · 검토 뒤 바뀐 `KBSSG-S2-R08` 은 11-05 재확인 — 입금 유무 →
   전월 입금 합계 50만원 이상). 다만 kb10 은 처음 보는 상품의 일반화를 재는 셋이라 ⑥ 의 «빈 출력과 비김» 은 한계 그대로다.
 - **전환 계좌의 시작일은 근사다** (KBYY-S2-R12 등). 서비스 DB 에는 사용자가 넣는 `joined_date` 하나뿐이고 전환일 칸이 없다.
@@ -210,7 +228,8 @@ LoRA 는 10-28 에 끝났고, 정답 검토는 11-05 에 끝났다. 옛 «아직
 
 | 무엇 | 왜 | 근거 |
 |---|---|---|
-| «rule 을 낼지 말지» 를 먼저 가르는 단계, 또는 범위를 «확실한 조문만» 으로 | 처음 보는 상품에서 빈 출력을 넘는 길이 이것뿐으로 보인다 | `STATUS.md` 맨 위 · `showcase/kb10loss.py` |
-| 카탈로그: 계좌종류 · 계좌지정 · 서비스변경 · 영업일 달력 | 하나씩 넣으면 조문 하나씩 바로 열린다 | `python blockers.py` |
-| 카탈로그: 날짜 계산 구조 · 계좌 상태 · DB 칼럼 | 나머지 걸림돌 — 데이터 쪽 결정이 먼저다 | `CATALOG_PROPOSAL.md` «결정이 필요한 것» |
+| ~~«rule 을 낼지 말지» 를 먼저 가르는 단계~~ — **11-05 시험 끝: 가치가 작다** | v2 에서 판단이 완벽해도 +1.4p — 맞는 출력이 13조문 중 하나뿐이다 | `experiments/abstain_experiment.py` · `docs/STATUS.md` 맨 위 |
+| 새 상품에서 맞는 rule 을 만드는 것(재현), 또는 범위를 «아는 상품» 으로 좁히기 | 처음 보는 상품의 병목이 판단이 아니라 생성이다 | 같은 곳 |
+| 카탈로그: 계좌종류 · 계좌지정 · 서비스변경 · 영업일 달력 | 하나씩 넣으면 조문 하나씩 바로 열린다 | `python tools/blockers.py` |
+| 카탈로그: 날짜 계산 구조 · 계좌 상태 · DB 칼럼 | 나머지 걸림돌 — 데이터 쪽 결정이 먼저다 | `docs/CATALOG_PROPOSAL.md` «결정이 필요한 것» |
 | 전환 계좌 시작일 | 입력 화면 안내 · 전환일 칸 추가 · 근사 유지 중 하나 | `data/gold/KBYY-S2-R12.json` 메모 |

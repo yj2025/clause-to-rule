@@ -45,7 +45,7 @@ def test_withdrawal_is_no_longer_a_blocker_at_all(clauses):
 
     2026-09-14: 골드 라벨이 아직 '출금 이벤트 없음' 이라 적고 있었다.
     카탈로그에 있는 것을 걸림돌로 세면 확장 순위가 틀어진다 —
-    `goldaudit.py` 가 찾았다. 라벨에서 뺐고 이 시험이 지킨다.
+    `tools/goldaudit.py` 가 찾았다. 라벨에서 뺐고 이 시험이 지킨다.
     """
     import catalog
     assert "WITHDRAWAL" in catalog.EVENTS

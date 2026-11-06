@@ -121,11 +121,11 @@ def test_online_termination_needs_a_demand_deposit_account():
     assert hit("BRANCH", []) == []
 
 
-# ── 2026-09-21 · 스냅샷을 만드는 코드가 생겼다 (`products.py`) ──────────────
+# ── 2026-09-21 · 스냅샷을 만드는 코드가 생겼다 (`tools/products.py`) ──────────────
 def test_the_snapshot_still_matches_the_db(root):
     """DB 에 상품이 늘거나 줄면 이 시험이 먼저 운다.
 
-    `catalog.py` 가 «`products.py` 로 만든다» 고 적고 있었는데 **그 파일이
+    `catalog.py` 가 «`tools/products.py` 로 만든다» 고 적고 있었는데 **그 파일이
     없었다.** 스냅샷을 어떻게 떴는지가 코드로 안 남으면 다시 뜰 때 조용히
     달라진다. 이제 코드가 있고, 이 시험이 그것을 DB 와 맞댄다.
     """
@@ -141,7 +141,7 @@ def test_the_snapshot_still_matches_the_db(root):
     assert set(now) == set(have), (
         f"DB 와 어긋난다 — 새로 생김 {sorted(set(now) - set(have))[:5]} · "
         f"없어짐 {sorted(set(have) - set(now))[:5]}. "
-        "`python products.py --write` 로 다시 떠라")
+        "`python tools/products.py --write` 로 다시 떠라")
 
 
 def test_every_product_carries_a_db_id(root):

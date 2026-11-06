@@ -5,7 +5,8 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
+# 2026-11-06 폴더 정리 — 핵심은 루트, 도구는 tools/, 시험은 experiments/
+sys.path[:0] = [str(ROOT), str(ROOT / "tools"), str(ROOT / "experiments")]
 
 
 @pytest.fixture(scope="session")

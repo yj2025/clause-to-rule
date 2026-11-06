@@ -1,4 +1,4 @@
-"""블라인드 실행 · 채점 (`blind_run.py` · `blind_score.py`).
+"""블라인드 실행 · 채점 (`experiments/blind_run.py` · `experiments/blind_score.py`).
 
 팀원 노트북을 실행해 프롬프트와 평가 함수를 가져오므로, 노트북이 없는 곳에서는 그 시험을 건너뛴다.
 """

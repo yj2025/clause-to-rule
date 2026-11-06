@@ -1,4 +1,4 @@
-"""다음 pilot Dev 크기 (`devsize.py`). 검정력은 모든 경우를 직접 센 값과 맞춘다."""
+"""다음 pilot Dev 크기 (`experiments/devsize.py`). 검정력은 모든 경우를 직접 센 값과 맞춘다."""
 
 import math
 

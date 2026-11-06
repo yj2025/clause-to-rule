@@ -16,7 +16,7 @@ def test_no_stale_blocker_claims(gold):
     """카탈로그에 생긴 것을 '없다' 고 적고 있으면 안 된다.
 
     v17 이 WITHDRAWAL 을 넣었는데 골드 라벨 4개가 그대로 '출금 이벤트 없음'
-    이었다. `blockers.py` 가 출금을 살아 있는 걸림돌로 세서 확장 순위가
+    이었다. `tools/blockers.py` 가 출금을 살아 있는 걸림돌로 세서 확장 순위가
     틀어져 있었다. 카탈로그를 넓힐 때마다 이 시험이 골드를 같이 보게 한다.
     """
     stale, live = G.stale_claims(gold)

@@ -31,7 +31,7 @@ def test_no_rule_crashes_on_real_data(root):
     """진짜 데이터로 돌렸을 때 `DslError` 가 나오면 안 된다.
 
     합성 프로필에서만 돌려 보면 «데이터가 없을 때» 경로를 한 번도 안 밟는다.
-    DB 가 주지 않는 값이 실제로 얼마나 되는지는 `datacheck.py` 가 센다.
+    DB 가 주지 않는 값이 실제로 얼마나 되는지는 `tools/datacheck.py` 가 센다.
     """
     import os
     from engine import evaluate_rules

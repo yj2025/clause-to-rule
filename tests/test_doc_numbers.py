@@ -27,7 +27,7 @@ def test_clause_count_is_right(root):
     """「46조문」 — 조문이 늘거나 줄면 문서가 통째로 낡는다."""
     n = len(_gold(root))
     bad = []
-    for doc in ("STATUS.md", "README.md", "METHOD.md"):
+    for doc in ("docs/STATUS.md", "README.md", "docs/METHOD.md"):
         text = (root / doc).read_text("utf-8")
         for m in re.finditer(r"(\d+)\s*조문", text):
             k = int(m.group(1))
@@ -40,7 +40,7 @@ def test_clause_count_is_right(root):
 def test_reviewed_count_is_right(root):
     """「11조문 사람 검토 완료」 — 검토가 진행되면 이 값이 움직인다."""
     n = sum(1 for g in _gold(root).values() if g.get("reviewed"))
-    text = (root / "STATUS.md").read_text("utf-8")
+    text = (root / "docs/STATUS.md").read_text("utf-8")
     m = re.search(r"\*\*(\d+)조문 사람 검토 완료\*\*", text)
     assert m, "STATUS.md 에서 검토 완료 수를 못 찾았다 — 문구가 바뀌면 이 시험도 고친다"
     assert int(m.group(1)) == n, f"검토 완료는 {n}조문인데 STATUS.md 는 {m.group(1)}조문이라 한다"
@@ -69,7 +69,7 @@ def test_abstain_baseline_is_right(root):
         score(g.get("rules") or [], [], agg, P, base)["rate"] * 100
         for g in tpl.values())
     want = f"{now:.1f}"
-    missing = [doc for doc in ("STATUS.md", "METHOD.md", "brief.py")
+    missing = [doc for doc in ("docs/STATUS.md", "docs/METHOD.md", "tools/brief.py")
                if "기준선" in (root / doc).read_text("utf-8")
                and want not in (root / doc).read_text("utf-8")]
     assert not missing, (

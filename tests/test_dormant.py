@@ -1,7 +1,7 @@
 """account.last_transaction_date · DORMANT_CONTRIBUTION — 확장 여섯 항목의 넷째 (2026-09-15).
 
 최종거래일 변수만으로는 휴면예금 두 조문이 안 열린다. 라벨이 처음부터
-"최종거래일 변수와 출연 effect 없음" 이었는데 `blockers.py` 가 출연을 못 읽어
+"최종거래일 변수와 출연 effect 없음" 이었는데 `tools/blockers.py` 가 출연을 못 읽어
 "단독으로 2조문" 이라 셌다. 둘을 같이 넣었다.
 """
 
